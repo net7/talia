@@ -1,6 +1,6 @@
 =begin
   This is a sample file that explores the possible mechanisms to be used in the
-  Source class by giving concrete examples of sources
+  Source class by giving concrete examples of sources.
 =end
 
 class RelatesAsPerson < TaliaCore::RelatesAs
