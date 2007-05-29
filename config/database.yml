@@ -13,8 +13,8 @@
 development:
   adapter: mysql
   database: Talia_development
-  username: root
-  password:
+  username: rails
+  password: slilRuAmNep3
   host: localhost
 
 # Warning: The database defined as 'test' will be erased and
@@ -23,13 +23,13 @@ development:
 test:
   adapter: mysql
   database: Talia_test
-  username: root
-  password:
+  username: rails
+  password: slilRuAmNep3
   host: localhost
 
 production:
   adapter: mysql
   database: Talia_production
-  username: root
-  password: 
+  username: rails
+  password: slilRuAmNep3
   host: localhost
