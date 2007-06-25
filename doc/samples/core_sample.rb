@@ -19,6 +19,9 @@ source_type :Author do
   # defines the URI for the type. If nothing is given, the
   # URI defaults to <local_domain>/sourcetype/<name>
   uri "http://something/author"
+  
+  # alternative! :
+  namespace :foaf
 end
 
 source_type :Essay do
@@ -77,6 +80,3 @@ relation_type :Citation do
   subtype_of :Reference
 end
 
-class PathRelation < TaliaCore::Relation
-  # TODO: Mechanism for sorted relations
-end
