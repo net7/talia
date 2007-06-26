@@ -10,12 +10,19 @@ module TaliaCore
     # TODO: (Implementation hint) 
     # Getter and setter calls for these properties could
     # be passed directly to the @object_store
+    # 
+    # FIXME: There will be properties that will be stored
+    #        locally for ALL sources, and some will work
+    #        only for local sources!
     
     # The URI that idefifies the source
     object_property :uri
     
     # The work flow state
     object_property :workflow_state
+    
+    # This is the local name
+    object_property :name
   
   
     # Contains a reference to the RDF storage object
