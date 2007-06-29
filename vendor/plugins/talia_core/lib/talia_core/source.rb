@@ -5,29 +5,33 @@ module TaliaCore
   
   # This represents a Source in the Talia core system.
   class Source
-    # object_property defines the properties that are "owned"
-    # by this object (instead of being RDF properties)
-    # TODO: (Implementation hint) 
-    # Getter and setter calls for these properties could
-    # be passed directly to the @object_store
-    # 
-    # FIXME: There will be properties that will be stored
-    #        locally for ALL sources, and some will work
-    #        only for local sources!
+    # The elements tagged with object_property will be properties
+    # passed to the local database. These elements need to be
+    # in sync with the database schema
+    #
+    # TODO: We will need some validation for this
+    # IDEA: In future version, we could try to hook into the schema
+    #       to do this automatically
+    
+    # A list of types stored as URIs
+    object_property :types
+    
+    # The list of relations that are marked as "dirty"
+    # stored as URIs
+    object_property :dirty_uris
     
     # The URI that idefifies the source
     object_property :uri
     
+    # This a descriptive name
+    object_property :name
+    
+    # This indicates if the source is a primary source in this library
+    object_property :primary_source
+    
     # The work flow state
     object_property :workflow_state
-    
-    # This is the local name
-    object_property :name
   
-  
-    # Contains a reference to the RDF storage object
-    # for this source. Usually this will be an RDFS::Resource
-    @rdf_store 
     
     # Contains an object that represents the storage
     # this object itself. This may go to a SQL backend
@@ -35,25 +39,29 @@ module TaliaCore
     @object_store
     
     # Creates a new Source from a uri
-    def initialize(uri)
-      # TODO: Implementation missing
-      # 1. Check if local or remote, and create @object_store
-      # 2. Check if this Source already exists
-      # TODO: Behaviour if source exists?
-      # 3. Initialize @rdf_store
-      # 4. Check Type information
+    # If a source with the given URI already exists, this will throw an error
+    def initialize(uri, *types)
+      # First build a clean uri
+      my_uri = URI.new(uri)
+      
+      raise(DuplicateIdentifierError, "Source already exists:" + uri) if(SourceRecord.exists?(uri))
+      
+      # Contains the interface to the part of the data that is
+      # stored in the database
+      @source_record = SourceRecord.new(uri)
+      
+      # Contains the interface to the ActiveRDF 
+      @rdf_resource = RDFS::Resource.new(uri.to_s)
+      
+      # Insert the types
+      for type in types do
+        @source_record.types.push(type)
+      end
     end
     
     # Indicates if this source belongs to the local store
     def local
-      # TODO: Implementation
-      # Check if the uri is local
-    end
-    
-    # Returns a list of SourceType objects that identify
-    # the source's type
-    def source_types
-      # TODO: Implementation
+      uri.local?
     end
     
     # Check if this object is valid.
@@ -84,14 +92,14 @@ module TaliaCore
     
     # Find Sources in the system
     # TODO: Needs specification!
-    self.find(params)
+    def self.find(params)
       # TODO: Implementation. The following is just an example
       ObjectStore.find(params)
     end
     
     # Check if a Source exists in the system
     # TODO: See find
-    self.exists?(params)
+    def self.exists?(params)
       # TODO: Implementation. The following is just an example
       ObjectStore.exists?(params)
     end
@@ -112,5 +120,6 @@ module TaliaCore
       # TODO: Add permission checking for read access?
       @rdf_store.send(method_name, args)
     end
+    
   end
 end

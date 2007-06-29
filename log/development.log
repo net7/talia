@@ -1,0 +1,6 @@
+  [4;36;1mSQL (0.008522)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Table 'talia_development.schema_info' doesn't exist: SELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.001674)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.003674)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.517051)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.003554)[0m   [0mCREATE DATABASE `Talia_test`[0m
