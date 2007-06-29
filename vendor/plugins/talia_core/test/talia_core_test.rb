@@ -33,9 +33,6 @@ class TaliaCoreTest < Test::Unit::TestCase
     assert(!local_source.remote?)
     assert_equal("id-string", local_source.identifier)
     assert_equal(SourceType::Person, local_source.types[0])
-    # Check for duplicate
-    # TODO: This should really fail if the object is not yet saved, but how to do it?
-    assert_raises(TaliaError, TaliaCore::Source.new("id-string", SourceType::Person))
     
     local_source_2 = TaliaCore::Source.new(Namespace::Local::idstring2, SourceType::Person, SourceType::Essay)
     assert(local_source_2.local?)
@@ -73,6 +70,10 @@ class TaliaCoreTest < Test::Unit::TestCase
     assert_equal(2, @sources[:eve].friend.count)
     
     assert_equal("friend", @sources[:eve].relations[0])
+    
+    # It should
+    unsaved = TaliaCore::Source.new("unsaved", SourceType::Person)
+    assert_raise(@sources[:eve].friend = unsaved)
   end
   
   # Test property setting and getting
@@ -87,17 +88,9 @@ class TaliaCoreTest < Test::Unit::TestCase
   
   # Test saving 
   def test_save
-    my_source = TaliaCore::Source.new("myself", SourceType::Person)
-    your_source = TaliaCore::Source.new("yourself", SourceType::Person)
-    
-    my_source.friend = your_source
-    assert(!TaliaCore::Source.exists?("myself"))
-    
-    # Tricky case: Both sources should be saved, or there could be 
-    # a dangling relation
-    assert(my_source.save)
-    assert(TaliaCore::Source.exists?("myself"))
-    assert(TaliaCore::Source.exists?("yourself"))
+    solo_source = TaliaCore::Source.new("hansolo", SourceType::Person)
+    assert(solo_source.save)
+    assert(TaliaCore::Source.exists?("hansolo"))
   end
   
   
