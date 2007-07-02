@@ -4,7 +4,7 @@ require File.dirname(__FILE__) + "/../lib/talia_core"
 module TaliaCore
   
   # Test the SourceType class
-  class TaliaCoreTest < Test::Unit::TestCase
+  class SourceTypeTest < Test::Unit::TestCase
   
     def test_source_type
       uri_s = "http://mything.com/type"

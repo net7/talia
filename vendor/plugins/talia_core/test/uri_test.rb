@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + "/../lib/talia_core"
 module TaliaCore
   
   # Test the uri class
-  class TaliaCoreTest < Test::Unit::TestCase
+  class URITest < Test::Unit::TestCase
     
     def setup
       @@local_domain = "http://www.samplething.com/"
