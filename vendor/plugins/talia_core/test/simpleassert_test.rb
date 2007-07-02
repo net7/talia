@@ -2,7 +2,7 @@ require 'test/unit'
 require File.dirname(__FILE__) + "/../lib/talia_core"
 
 # Test the simple assert facility
-class TaliaCoreTest < Test::Unit::TestCase
+class SimpleAssertTest < Test::Unit::TestCase
   def setup
     @@debug_old = $DEBUG # save the debug mode
   end

@@ -1,4 +1,5 @@
 require 'objectproperties' # Includes the class methods for the object_properties
+require 'local_store/source_record'
 require 'active_rdf'
 
 module TaliaCore
@@ -90,6 +91,12 @@ module TaliaCore
       # TODO: Permission checks for some data types?
     end
     
+    
+    # Initializer for the database store
+    def self.storage_init
+      # FIXME: Implementation missing
+    end
+    
     # Find Sources in the system
     # TODO: Needs specification!
     def self.find(params)
@@ -120,6 +127,10 @@ module TaliaCore
       # TODO: Add permission checking for read access?
       @rdf_store.send(method_name, args)
     end
+    
+    # Create find parameters for SourceRecord.find() from
+    # the parameters that were passed to the find method of
+    # this class
     
   end
 end
