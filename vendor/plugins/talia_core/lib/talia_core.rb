@@ -20,7 +20,10 @@ end
 require 'simpleassert/simpleassert'
 
 require 'talia_core/errors'
-require 'talia_core/uri'
+require 'naming/uri'
+require 'naming/namespace'
+require 'naming/source_class'
+require 'naming/predicate'
 require 'talia_core/configuration'
-require 'talia_core/sourcetype'
-require 'talia_core/source'
+require 'talia_core/local_store/source_record'
+# require 'talia_core/source'

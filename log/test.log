@@ -67,3 +67,277 @@ Migrating to CreateSourceRecords (1)
   [4;35;1mSQL (0.000801)[0m   [0mBEGIN[0m
   [4;36;1mTaliaCore::SourceRecord Columns (0.006936)[0m   [0;1mSHOW FIELDS FROM source_records[0m
   [4;35;1mSQL (0.008920)[0m   [0mROLLBACK[0m
+  [4;36;1mSQL (0.000587)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000554)[0m   [0mROLLBACK[0m
+  [4;36;1mSQL (0.000523)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000414)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000608)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000641)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000443)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000651)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000741)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000431)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000560)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000521)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000413)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000664)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000666)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000437)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000542)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000528)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000415)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000543)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000691)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000486)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.010055)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.017871)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000413)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000738)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000934)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000468)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000566)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000634)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000407)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000556)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000729)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000444)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000991)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000773)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000859)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000561)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000663)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000456)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000425)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.036645)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000427)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000547)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000669)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000521)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000617)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000531)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000503)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.006332)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.014391)[0m   [0mSELECT * FROM source_records WHERE (source_records.`id` = 1) [0m
+  [4;36;1mSQL (0.000669)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000594)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001410)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.006238)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.008431)[0m   [0mSELECT * FROM source_records WHERE (source_records.`id` = 1) [0m
+  [4;36;1mTaliaCore::SrecordType Columns (0.005518)[0m   [0;1mSHOW FIELDS FROM srecord_types[0m
+  [4;35;1mSQL (0.005104)[0m   [0mSELECT count(*) AS count_all FROM srecord_types WHERE (srecord_types.source_record_id = 1) [0m
+  [4;36;1mSQL (0.000723)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000524)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000427)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.005391)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.004660)[0m   [0mSELECT * FROM source_records WHERE (source_records.`id` = 1) [0m
+  [4;36;1mTaliaCore::SrecordType Columns (0.006146)[0m   [0;1mSHOW FIELDS FROM srecord_types[0m
+  [4;35;1mSQL (0.005552)[0m   [0mSELECT count(*) AS count_all FROM srecord_types WHERE (srecord_types.source_record_id = 1) [0m
+  [4;36;1mSQL (0.001071)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000733)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001589)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.006191)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.013772)[0m   [0mSELECT * FROM source_records WHERE (source_records.`id` = 1) [0m
+  [4;36;1mTaliaCore::SrecordType Columns (0.018606)[0m   [0;1mSHOW FIELDS FROM srecord_types[0m
+  [4;35;1mSQL (0.004074)[0m   [0mSELECT count(*) AS count_all FROM srecord_types WHERE (srecord_types.source_record_id = 1) [0m
+  [4;36;1mSQL (0.000649)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.042561)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000462)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.125247)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.136614)[0m   [0mSELECT * FROM source_records WHERE (source_records.`id` = 1) [0m
+  [4;36;1mTaliaCore::SrecordType Columns (0.004734)[0m   [0;1mSHOW FIELDS FROM srecord_types[0m
+  [4;35;1mSQL (0.018015)[0m   [0mSELECT count(*) AS count_all FROM srecord_types WHERE (srecord_types.source_record_id = 1) [0m
+  [4;36;1mSQL (0.012679)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.252219)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000567)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.002893)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000736)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000479)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000628)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000676)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000916)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002500)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.010904)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.497625)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000810)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000475)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.014846)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mSQL (0.306930)[0m   [0mROLLBACK[0m
+  [4;36;1mSQL (0.004029)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000619)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002088)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.009519)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.005672)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000595)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000404)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.003041)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mSQL (0.000624)[0m   [0mROLLBACK[0m
+  [4;36;1mSQL (0.000645)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000511)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002641)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.008861)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.159660)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.002635)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000547)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.013147)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.038152)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.020958)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000918)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001249)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.003752)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.155905)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.000835)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000582)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.005769)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.046958)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.012108)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.052676)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000646)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.004255)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.019029)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.022687)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000870)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000552)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.015524)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.031105)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.014535)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000888)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000815)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.008626)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;36;1mSQL (0.000591)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000509)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.004296)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.006220)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.003379)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.001276)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000919)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.001420)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000570)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000498)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002195)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.009165)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mTaliaCore::SrecordType Columns (0.010943)[0m   [0;1mSHOW FIELDS FROM srecord_types[0m
+  [4;35;1mSQL (0.000807)[0m   [0mROLLBACK[0m
+  [4;36;1mSQL (0.000872)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000567)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002333)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.008948)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mTaliaCore::SrecordType Columns (0.040021)[0m   [0;1mSHOW FIELDS FROM srecord_types[0m
+  [4;35;1mSQL (0.004534)[0m   [0mROLLBACK[0m
+  [4;36;1mSQL (0.000620)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000594)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.004414)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.005939)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.020647)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.007541)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.003560)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000614)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000536)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.004704)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.007094)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.009796)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.009939)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.000762)[0m   [0;1mROLLBACK[0m
+  [4;35;1mSQL (0.001063)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.003074)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mSQL (0.002715)[0m   [0mROLLBACK[0m
+  [4;36;1mSQL (0.000533)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.003176)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.004320)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.011991)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.094891)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.005153)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.005583)[0m   [0;1mROLLBACK[0m
+  [4;35;1mSQL (0.000816)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.001983)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mSQL (0.000938)[0m   [0mROLLBACK[0m
+  [4;36;1mSQL (0.000639)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000637)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.004597)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.010780)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.228107)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.007746)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.004876)[0m   [0;1mROLLBACK[0m
+  [4;35;1mSQL (0.000557)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.006101)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mSQL (0.000735)[0m   [0mROLLBACK[0m
+  [4;36;1mSQL (0.000838)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.002803)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.004328)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.007009)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.037208)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.008380)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.006032)[0m   [0;1mROLLBACK[0m
+  [4;35;1mSQL (0.000683)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002194)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.004013)[0m   [0mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;36;1mSQL (0.000661)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.001298)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000760)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.003268)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.011893)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.354769)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.007258)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.003501)[0m   [0;1mROLLBACK[0m
+  [4;35;1mSQL (0.000759)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.003321)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.010708)[0m   [0mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;36;1mSQL (0.001760)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000971)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000622)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.005761)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.012275)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.227500)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.010461)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.011166)[0m   [0;1mROLLBACK[0m
+  [4;35;1mSQL (0.008317)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.006208)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.006202)[0m   [0mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;36;1mSQL (0.002623)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000739)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.003696)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.054432)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.118177)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.014787)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.003654)[0m   [0;1mROLLBACK[0m
+  [4;35;1mSQL (0.000721)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.005336)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.005677)[0m   [0mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;36;1mSQL (0.001009)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000692)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000417)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.004351)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.010878)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.035118)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.008092)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.007394)[0m   [0;1mROLLBACK[0m
+  [4;35;1mSQL (0.000489)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002190)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mSQL (0.000781)[0m   [0mROLLBACK[0m
+  [4;36;1mSQL (0.000507)[0m   [0;1mBEGIN[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002148)[0m   [0mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;36;1mSQL (0.001252)[0m   [0;1mROLLBACK[0m
+  [4;36;1mSQL (0.000778)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000603)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.006970)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.009520)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.038172)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.009891)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.004214)[0m   [0;1mROLLBACK[0m
+  [4;35;1mSQL (0.000699)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.003629)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mSQL (0.001012)[0m   [0mROLLBACK[0m
+  [4;36;1mSQL (0.000838)[0m   [0;1mBEGIN[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.042180)[0m   [0mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;36;1mSQL (0.000817)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000560)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002537)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Columns (0.009072)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.231173)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_first') LIMIT 1[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.005290)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.003637)[0m   [0;1mROLLBACK[0m
+  [4;35;1mSQL (0.002767)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.001902)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;35;1mSQL (0.000737)[0m   [0mROLLBACK[0m
+  [4;36;1mSQL (0.002704)[0m   [0;1mBEGIN[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002199)[0m   [0mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.test.org/test/') LIMIT 1[0m
+  [4;36;1mSQL (0.035463)[0m   [0;1mROLLBACK[0m

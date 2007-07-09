@@ -43,3 +43,539 @@ Migrating to CreateSourceRecords (1)
   [4;35;1mSQL (0.013427)[0m   [0mSHOW TABLES[0m
   [4;36;1mSQL (0.006022)[0m   [0;1mSHOW FIELDS FROM source_records[0m
   [4;35;1mSQL (0.015816)[0m   [0mSHOW KEYS FROM source_records[0m
+  [4;36;1mSQL (0.005802)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.034682)[0m   [0mCREATE TABLE schema_info (version int(11))[0m
+  [4;36;1mSQL (0.003114)[0m   [0;1mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S01Table 'schema_info' already exists: CREATE TABLE schema_info (version int(11))[0m
+  [4;36;1mSQL (0.002901)[0m   [0;1mSELECT version FROM schema_info[0m
+Migrating to CreateSourceRecords (1)
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.051862)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` bool NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.011932)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.001145)[0m   [0;1mUPDATE schema_info SET version = 1[0m
+  [4;35;1mSQL (0.001853)[0m   [0mSELECT version FROM schema_info[0m
+Migrating to CreateSrecordTypes (2)
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.004385)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.001058)[0m   [0;1mUPDATE schema_info SET version = 2[0m
+  [4;35;1mSQL (0.001115)[0m   [0mSELECT version FROM schema_info[0m
+Migrating to CreateSrecordDirtyRelations (3)
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.080612)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000989)[0m   [0;1mUPDATE schema_info SET version = 3[0m
+  [4;35;1mSQL (0.001225)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.002011)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.006012)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.006632)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;36;1mSQL (0.000988)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S01Table 'schema_info' already exists: CREATE TABLE schema_info (version int(11))[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S01Table 'schema_info' already exists: CREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.001528)[0m   [0mSELECT version FROM schema_info[0m
+  [4;36;1mSQL (0.001145)[0m   [0;1mSELECT version FROM schema_info[0m
+  [4;35;1mSQL (0.001757)[0m   [0mSELECT version FROM schema_info[0m
+  [4;36;1mSQL (0.001302)[0m   [0;1mSELECT * FROM schema_info[0m
+  [4;35;1mSQL (0.002064)[0m   [0mSHOW TABLES[0m
+  [4;36;1mSQL (0.006624)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mSQL (0.007224)[0m   [0mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.340729)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.007910)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.006136)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.007220)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;36;1mSQL (0.231575)[0m   [0;1mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.244634)[0m   [0mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.013448)[0m   [0;1mSHOW FIELDS FROM srecord_types[0m
+  [4;35;1mSQL (0.034905)[0m   [0mSHOW KEYS FROM srecord_types[0m
+  [4;36;1mSQL (0.001092)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001208)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.001927)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.005469)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.095499)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.005783)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.008027)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.009389)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.006086)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.001630)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.003432)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.002198)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000559)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.055549)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.015875)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.003928)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.004626)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.007235)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.003430)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.011330)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.003629)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000583)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001121)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.007503)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.006102)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.043944)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.014050)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.006504)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.006671)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.015437)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000655)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.251084)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.002106)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000623)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.007197)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.024951)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.007903)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.012070)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.016948)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.002822)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.011076)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.003491)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000598)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.010740)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.002137)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.005940)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.248240)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.008420)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.008016)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.013357)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.014849)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000663)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.107030)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.008584)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000570)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.004348)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.025622)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.012411)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.004626)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.006040)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.002823)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.013536)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.008554)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000580)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001695)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.001937)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.013969)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.043551)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.052839)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.008429)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.004993)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.011471)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000562)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.070502)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.002093)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000586)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.004173)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.020194)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.004224)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.004375)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.033328)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.004014)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.012571)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.003383)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000578)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001162)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.001920)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.007084)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.115706)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.009928)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.017962)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.092146)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.005912)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000553)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.050551)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.002165)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000846)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.042352)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.860025)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.004124)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.009960)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.005037)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.003211)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.016085)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.003448)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000700)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.002089)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.010164)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.005587)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.121961)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.015651)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.004515)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.026869)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.005636)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000672)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.056193)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.002199)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000593)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.013214)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.020700)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.007420)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.007161)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.025692)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.003016)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.009197)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.003615)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000967)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001461)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.002246)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.008969)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.023840)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.027322)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.006836)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.012543)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.006223)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000559)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.068002)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.002148)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000540)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.004558)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.011982)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.019663)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.026618)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.004999)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.008336)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.004613)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.003612)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.001014)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001149)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.002578)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.015092)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.063408)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.007807)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.008412)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.124993)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.008066)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000660)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.047528)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.007121)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000552)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.168486)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.012960)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.006928)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.003943)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.006617)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.011877)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.006107)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.003414)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000949)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001341)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.006385)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.017811)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.022563)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.095378)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.007731)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.200835)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.007484)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000558)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.074312)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.001950)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000554)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.008731)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.021053)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.017351)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.005640)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.015454)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.003754)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.004432)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.003563)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000655)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001286)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.001977)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.006315)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.006327)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.010633)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.004283)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.006817)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.004477)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000750)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.246940)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.003313)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000745)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.324041)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.012104)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.010774)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.003783)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.004682)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.002667)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.012201)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.003432)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000808)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001871)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.003904)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.289983)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.236566)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.005126)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.006384)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.012645)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.006414)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000600)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.057054)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.002265)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000590)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.017657)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.012339)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.003858)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.006784)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.006705)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.002832)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.004951)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.003531)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000594)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.009744)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.002035)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.005624)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.058832)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.008632)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.004441)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.017503)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.004250)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000791)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.018125)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.007390)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.001112)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.028556)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.014418)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.007455)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.003822)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.006862)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.010021)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.004603)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.006874)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000648)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001153)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.001920)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.048528)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.272587)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.008697)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.015320)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.005396)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.006489)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000615)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.080930)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.005283)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000670)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.030629)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.017755)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.006111)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.004544)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.005168)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.008972)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.004366)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.003919)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.001271)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001259)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.003783)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.006605)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.049365)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.005099)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.010003)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.013174)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.006112)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000550)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.072033)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.008715)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000562)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.004429)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.017158)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.006086)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.003957)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.011229)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.002982)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.004395)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.007501)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000688)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001271)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.002187)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.016861)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.046669)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.013354)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.006555)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.005206)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.012762)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000552)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.034405)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.002468)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000661)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.025671)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.016529)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.009041)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.008156)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.004986)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.002812)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.016462)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.003882)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000635)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001189)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.002691)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.005685)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.041099)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.005194)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.025264)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.008175)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.015389)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.001724)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.036414)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.001990)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000646)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.031421)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.157089)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.004327)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.003911)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.005187)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.005641)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.018854)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.259565)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.002857)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001927)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.002253)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.012276)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.039240)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.023918)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.011729)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.005740)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.011362)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000713)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.206386)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.002117)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000553)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.006369)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.018838)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.011482)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.004120)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.012909)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.003337)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.004899)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.005335)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000643)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.003707)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.009066)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.017187)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.022899)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.010231)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.013019)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.007103)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.021420)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000668)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.102637)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.013261)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000549)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.012326)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.014784)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.019145)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.005693)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.005500)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.003101)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.005744)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.003958)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000892)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001193)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.001946)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.006021)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.024639)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.006989)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.015698)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.006314)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.006853)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000607)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.065556)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.001952)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000639)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.004279)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.019271)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.003766)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.004019)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.005799)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.003333)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.004989)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.008761)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000615)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.001630)[0m   [0mSELECT * FROM schema_info[0m
+  [4;36;1mSQL (0.005166)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.005709)[0m   [0mSHOW FIELDS FROM source_records[0m
+  [4;36;1mSQL (0.139417)[0m   [0;1mSHOW KEYS FROM source_records[0m
+  [4;35;1mSQL (0.009923)[0m   [0mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.009655)[0m   [0;1mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.009031)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.006907)[0m   [0;1mSHOW KEYS FROM srecord_types[0m
+  [4;35;1mSQL (0.000547)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.129286)[0m   [0;1mDROP DATABASE IF EXISTS `Talia_test`[0m
+  [4;35;1mSQL (0.002807)[0m   [0mCREATE DATABASE `Talia_test`[0m
+  [4;36;1mSQL (0.000564)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S02Unknown table 'source_records': DROP TABLE source_records[0m
+  [4;36;1mSQL (0.006934)[0m   [0;1mCREATE TABLE source_records (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `uri` varchar(255) DEFAULT '' NOT NULL, `name` varchar(255) DEFAULT NULL, `workflow_state` int(11) NOT NULL, `primary_source` tinyint(1) NOT NULL) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.015286)[0m   [0mCREATE UNIQUE INDEX `index_source_records_on_uri` ON source_records (`uri`)[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_dirty_relations': DROP TABLE srecord_dirty_relations[0m
+  [4;35;1mSQL (0.047069)[0m   [0mCREATE TABLE srecord_dirty_relations (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `dirty_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S02Unknown table 'srecord_types': DROP TABLE srecord_types[0m
+  [4;35;1mSQL (0.276448)[0m   [0mCREATE TABLE srecord_types (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `source_record_id` int(11) NOT NULL, `type_uri` varchar(255) DEFAULT '' NOT NULL) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.005662)[0m   [0;1mCREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.002818)[0m   [0mINSERT INTO schema_info (version) VALUES(0)[0m
+  [4;36;1mSQL (0.004464)[0m   [0;1mSHOW FIELDS FROM schema_info[0m
+  [4;35;1mSQL (0.003916)[0m   [0mUPDATE schema_info SET version = 3[0m
+  [4;36;1mSQL (0.000901)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.000000)[0m   [0mMysql::Error: #42S01Table 'schema_info' already exists: CREATE TABLE schema_info (version int(11))[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mMysql::Error: #42S01Table 'schema_info' already exists: CREATE TABLE schema_info (version int(11))[0m
+  [4;35;1mSQL (0.107022)[0m   [0mSELECT version FROM schema_info[0m
+  [4;36;1mSQL (0.002678)[0m   [0;1mSELECT version FROM schema_info[0m
+  [4;35;1mSQL (0.001252)[0m   [0mSELECT version FROM schema_info[0m
+  [4;36;1mSQL (0.001863)[0m   [0;1mSELECT * FROM schema_info[0m
+  [4;35;1mSQL (0.002294)[0m   [0mSHOW TABLES[0m
+  [4;36;1mSQL (0.099828)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mSQL (0.089425)[0m   [0mSHOW KEYS FROM source_records[0m
+  [4;36;1mSQL (0.072549)[0m   [0;1mSHOW FIELDS FROM srecord_dirty_relations[0m
+  [4;35;1mSQL (0.071966)[0m   [0mSHOW KEYS FROM srecord_dirty_relations[0m
+  [4;36;1mSQL (0.035205)[0m   [0;1mSHOW FIELDS FROM srecord_types[0m
+  [4;35;1mSQL (0.048046)[0m   [0mSHOW KEYS FROM srecord_types[0m

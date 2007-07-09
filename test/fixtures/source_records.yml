@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+something:
+  id: 1
+  uri: http://somethingelse.org/something
+  name: Some source
+  workflow_state: 0
+  primary_source: false
+  
+otherthing:
+  id: 2
+  uri: http://somethingelse.org/otherthing
+  name: Some source
+  workflow_state: 0
+  primary_source: true
