@@ -5,9 +5,19 @@ module TaliaCore
   # At the moment this contains just a bunch of configuration variables
   class Configuration
     
-    # The name of the local node
-    @@local_node = URI.new('http://www.dummyhost.useless/')
-    cattr_accessor :local_node
+    # Set the local namespace
+    def self.local_name=(local_name)
+      N::Namespace.shortcut(:local, local_name)
+    end
+    
+    # return the local namespace
+    def self.local_name
+      if(N.const_defined?(:LOCAL))
+        N::LOCAL
+      else
+        nil
+      end
+    end
     
   end
   

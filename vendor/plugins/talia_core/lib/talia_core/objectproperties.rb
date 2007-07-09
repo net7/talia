@@ -16,12 +16,12 @@ module TaliaCore
       module_eval <<-"end_eval"
         # Passes the "read" call to the object store
         def #{id.id2name}
-          @object_store.#{id.id2name}
+          @source_record.#{id.id2name}
         end
         
         # Passes the "write" call to the object store
         def #{id.id2name}=(property)
-          @object_store.#{id.id2name} = property
+          @source_record.#{id.id2name} = property
         end
       end_eval
     end

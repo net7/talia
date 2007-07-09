@@ -14,13 +14,6 @@ module TaliaCore
     # IDEA: In future version, we could try to hook into the schema
     #       to do this automatically
     
-    # A list of types stored as URIs
-    object_property :types
-    
-    # The list of relations that are marked as "dirty"
-    # stored as URIs
-    object_property :dirty_uris
-    
     # The URI that idefifies the source
     object_property :uri
     
@@ -34,16 +27,11 @@ module TaliaCore
     object_property :workflow_state
   
     
-    # Contains an object that represents the storage
-    # this object itself. This may go to a SQL backend
-    # or a REST service, for example
-    @object_store
-    
     # Creates a new Source from a uri
     # If a source with the given URI already exists, this will throw an error
     def initialize(uri, *types)
       # First build a clean uri
-      my_uri = URI.new(uri)
+      my_uri = N::URI.new(uri)
       
       raise(DuplicateIdentifierError, "Source already exists:" + uri) if(SourceRecord.exists?(uri))
       
@@ -54,10 +42,22 @@ module TaliaCore
       # Contains the interface to the ActiveRDF 
       @rdf_resource = RDFS::Resource.new(uri.to_s)
       
+      # Contains the type objects for the source
+      @source_types = Array.new
+      
+      
       # Insert the types
       for type in types do
-        @source_record.types.push(type)
+        type_uri = N::SourceClass.new(type)
+        @source_record.types.push(SrecordType.new(type_uri))
+        @source_types.push(type_uri)
       end
+    end
+    
+    
+    # Tries to load the given source object
+    def load(uri)
+      
     end
     
     # Indicates if this source belongs to the local store
@@ -116,6 +116,19 @@ module TaliaCore
     # Missing methods: We assume that all calls that are not handled
     # explicitly are property requests that can be answered by
     # the RDF store.
+    # 
+    # There are 3 possibilities here, which are processed in that order:
+    # 
+    # 1. The method name is a shortcut for a PredicateType. In that
+    #    case, we use that predicate for the resource. We don't expect
+    #    any arguments.
+    # 2. The method name is the shortcut for a Namespace. In that case,
+    #    we expect an argument which can be appended to the Namespace
+    #    as a string
+    # 3. The method name is a shortcut for a generic URI, in which case we
+    #    use it with or without an argument
+    # 4. The method name is unknown, in which case we use it in the
+    #    default namespace.
     def method_missing(method_name, *args)
       # TODO: This is just a sample, we need special handling
       #       here for some cases
@@ -125,7 +138,7 @@ module TaliaCore
       #       raise errors?
       # TODO: Add permission checking for all updates to the model
       # TODO: Add permission checking for read access?
-      @rdf_store.send(method_name, args)
+      @rdf_resource.send(method_name, args)
     end
     
     # Create find parameters for SourceRecord.find() from
