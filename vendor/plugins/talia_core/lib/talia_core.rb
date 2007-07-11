@@ -15,8 +15,8 @@ unless defined?(ActiveSupport)
   end
 end
 
-$:.unshift(File.dirname(__FILE__) + "/../simpleassert/lib")
-$:.unshift(File.dirname(__FILE__) + "/../semantic_naming/lib") 
+$:.unshift(File.dirname(__FILE__) + "/../../simpleassert/lib")
+$:.unshift(File.dirname(__FILE__) + "/../../semantic_naming/lib") 
 require 'simpleassert'
 require 'semantic_naming'
 
@@ -25,4 +25,4 @@ require 'semantic_naming'
 require 'talia_core/errors'
 require 'talia_core/configuration'
 require 'talia_core/local_store/source_record'
-# require 'talia_core/source'
+require 'talia_core/source'

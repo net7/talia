@@ -1,5 +1,6 @@
 require 'test/unit'
 
+
 # Test the Talia core classes
 # TODO: These tests are based on loose specs so far
 class TaliaCoreTest < Test::Unit::TestCase
