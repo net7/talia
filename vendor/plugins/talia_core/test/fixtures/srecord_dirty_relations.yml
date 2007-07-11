@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+dirty_one:
+  id: 1
+  source_record_id: 1
+  dirty_uri: http://somedirtything.com/thing
+  
+dirty_two:
+  id: 2
+  source_record_id: 2
+  dirty_uri: http://somethingdirty.com/otherthing
