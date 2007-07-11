@@ -1,13 +1,14 @@
 require 'test/unit'
+
+# Load the helper class
+require 'test/test_helper'
+
 require File.dirname(__FILE__) + "/../lib/talia_core"
 
-# This is to include the main rails configuartion for the test
-# TODO: If packaged as a gem, this should work somehow different
-ENV["RAILS_ENV"] = "test"
-require File.expand_path(File.dirname(__FILE__) + "/../../../../test/test_helper")
-
-
 module TaliaCore
+  
+  # Establish the database connection for the test
+  TestHelper.db_connect
   
   # Test the SourceType class
   class SourceTest < Test::Unit::TestCase
@@ -32,6 +33,12 @@ module TaliaCore
       @test_source.name = "Foobar"
       assert_equal(2, @test_source.workflow_state)
       assert_equal("Foobar", @test_source.name)
+    end
+    
+    # Tests the database connection
+    def test_db_operation
+      source = Source.new("http://www.newstuff.org/my_first")
+      source.save
     end
     
     # Checks if the RDF properties work
