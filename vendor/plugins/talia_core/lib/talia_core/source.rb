@@ -1,6 +1,8 @@
 require 'objectproperties' # Includes the class methods for the object_properties
 require 'local_store/source_record'
 require 'active_rdf'
+require 'semantic_naming'
+require 'dummy_handler'
 
 module TaliaCore
   
@@ -60,17 +62,21 @@ module TaliaCore
     # This checks if the constraints for the Source are met.
     # Currently this only checks the constraints on the database
     # object.
-    def validates?
-      @object_store.validates? 
+    def valid?
+      @source_record.valid? 
     end
     
     # Saves the data for this resource
-    # TODO: Check if we need to do anything transaction-like!!!
     def save()
-      # TODO: Implementation mising, the following is just an example
       # TODO: Add permission checking
-      @object_store.save()
-      @rdf_store.save()
+      
+      # We wrap this in a transaction: If the RDF save fails,
+      # the database save will be rolled back
+      SourceRecord.transaction do
+        @source_record.save()
+        # FIXME: RDF connection isn't there yet
+        @rdf_resource.save()
+      end
     end
     
     # Returns a list of data objects, or nil if the Source has no data
@@ -82,6 +88,12 @@ module TaliaCore
       # TODO: Permission checks for some data types?
     end
     
+    # Accessor for the error messages (after validation)
+    # At the moment, these are only the object store messages
+    def errors
+      return @source_record.errors
+    end
+    
     # Find Sources in the system
     # TODO: Needs specification!
     def self.find(*params)
@@ -90,12 +102,14 @@ module TaliaCore
       # If we have one parameter, it will be the URL 
       # of the item to load
       if(params.size == 1)
-        find_result = @object_store.find_by_uri(params[0].to_s)
+        source_record = SourceRecord.find_by_uri(params[0].to_s)
+        find_result = Source.new(source_record.uri)
       else
         # FIXME: Complex find still missing
         sassert(false, "Find not yet implemented")
       end
       
+      sassert_type(find_result, Source)
       return find_result
     end
     
@@ -103,7 +117,7 @@ module TaliaCore
     def self.exists?(uri)
       # A source exists if the respective record exists in the
       # database store
-      return @object_store.exists_uri?(uri.to_s)
+      return SourceRecord.exists_uri?(uri.to_s)
     end
     
     protected
@@ -145,8 +159,8 @@ module TaliaCore
       @source_types = Array.new
       
       # Load the type information
-      for type in extisting_record.types
-        @source_types.push(N::SourceClass(type.type_uri))
+      for type in existing_record.types
+        @source_types.push(N::SourceClass.new(type.type_uri))
       end
       
     end
@@ -160,24 +174,56 @@ module TaliaCore
     # 1. The method name is a shortcut for a PredicateType. In that
     #    case, we use that predicate for the resource. We don't expect
     #    any arguments.
+    #    OR
+    #    The method name is a shortcut for a generic URI, in which case we
+    #    use it like a predicate
     # 2. The method name is the shortcut for a Namespace. In that case,
     #    we expect an argument which can be appended to the Namespace
     #    as a string
-    # 3. The method name is a shortcut for a generic URI, in which case we
-    #    use it with or without an argument
-    # 4. The method name is unknown, in which case we use it in the
+    # 3. The method name is unknown, in which case we use it in the
     #    default namespace.
     def method_missing(method_name, *args)
-      # TODO: This is just a sample, we need special handling
-      #       here for some cases
-      # TODO: ActiveRDF just returns "nil" if it finds nothing.
-      #       There is a reason for this, but it may not be so
-      #       good here. Maybe there's a way to intelligently 
-      #       raise errors?
       # TODO: Add permission checking for all updates to the model
       # TODO: Add permission checking for read access?
-      @rdf_resource.send(method_name, args)
+      
+      update = method_name.to_s[-1..-1] == '='
+      shortcut = if update 
+                     method_name.to_s[0..-2]
+                   else
+                     method_name.to_s
+                   end
+      
+      arg_count = update ? (args.size - 1) : args.size
+      
+      registered = N::URI[shortcut.to_s]
+      predicate = nil
+      
+      if(!registered)
+        # Possibility 4.
+        predicate = N::DEFAULT + shortcut.to_s
+      elsif(registered.kind_of?(N::Namespace))
+        # Possibility 2.
+        raise(SemanticNamingError, "Namespace invoked incorrectly") if(arg_count != 0)
+        # Return "dummy handler" that will catch the namespace::name invocation
+        return DummyHandler.new(registered, @rdf_resource)
+      elsif(registered.kind_of?(N::SourceClass))
+        raise(SemanticNamingError, "Can't use source class as a predicate.")
+      elsif(registered.kind_of?(N::URI))
+        # Possibility 1.: Predicate or generic URI
+        raise(SemanticNamingError, "No additional parameters can be given with predicate") if(arg_count != 0)
+        predicate = registered
+      else
+        # Error: Wrong type
+        raise(SemanticNamingError, "Unexpected type in semantic naming")
+      end
+      
+      if update
+        @rdf_resource[predicate.to_s] = args[-1]
+      else
+        @rdf_resource[predicate.to_s]
+      end
     end
+    
     
     # Create find parameters for SourceRecord.find() from
     # the parameters that were passed to the find method of
