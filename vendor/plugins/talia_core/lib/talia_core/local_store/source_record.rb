@@ -8,19 +8,31 @@ module TaliaCore
     has_many :types, :class_name => "TaliaCore::SrecordType", :foreign_key => "source_record_id"
     has_many :dirty_relations, :class_name => "TaliaCore::SrecordDirtyRelations", :foreign_key => "source_record_id"
     
+    # Validation
+    
+    # For the URIs we do a minimal check (String with no blanks and : char somewher)
+    validates_format_of :uri, :with => /\A\S*:\S*\Z/
+    validates_uniqueness_of :uri
+    validates_numericality_of :workflow_state
+    
+    # Custom validation
+    def validate
+      errors.add(:primary_source, "cannot be nil") if(self[:primary_source] == nil)
+    end
+    
     def initialize(uri)
       super(nil)
-      @uri = uri.to_s
+      self[:uri] = uri.to_s
     end
     
     # Return the URI as an URI object
     def uri
-      N::URI.new(@uri)
+      N::URI.new(self[:uri])
     end
     
     # Set the URI
     def uri=(uri)
-      @uri = uri.to_s
+      self[:uri] = uri.to_s
     end
     
     # Helper to get a record with the given URI

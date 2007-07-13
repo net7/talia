@@ -7,3 +7,11 @@
 # system.
 class DuplicateIdentifierError < RuntimeError
 end
+
+# Indicates an error during initialization
+class SystemInitializationError < RuntimeError
+end
+
+# Indicates an error with the predicate naming
+class SemanticNamingError < RuntimeError
+end
