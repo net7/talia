@@ -32,7 +32,6 @@ end
 require 'simpleassert'
 require 'semantic_naming'
 
-
 # Load local things
 require 'talia_core/errors'
 require 'talia_core/source'
