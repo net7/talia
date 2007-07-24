@@ -23,6 +23,10 @@ module TaliaCore
       @valid_source = Source.new("http://www.test.org/valid")
       @valid_source.workflow_state = 3
       @valid_source.primary_source = false
+      
+      @local_source = Source.new(N::LOCAL + "home_source")
+      @local_source.workflow_state = 42
+      @local_source.primary_source = false
     end
     
     # Test if a source object can be created correctly
@@ -142,6 +146,28 @@ module TaliaCore
       @valid_source.save
       loaded = Source.find(@valid_source.uri)
       assert_equal("napoleon", loaded.author)
+    end
+    
+    # Exists for local sources
+    def test_exists_local
+      @local_source.save()
+      assert(Source.exists?("home_source"))
+      assert(!Source.exists?("home_foo"))
+    end
+    
+    # Find for local sources
+    def test_find_local
+      @local_source.save()
+      source = Source.find("home_source")
+      assert_kind_of(Source, source)
+      assert_equal(42, source.workflow_state)
+    end
+    
+    # Test creation of local sources
+    def test_create_local
+      source = Source.new("dingens")
+      assert(source.uri.local?)
+      assert_equal(N::LOCAL + "dingens", source.uri)
     end
     
   end
