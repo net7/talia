@@ -64,6 +64,11 @@ module TaliaCore
         end
       end
       
+      # set the $ASSERT flag
+      if(config["assert"])
+        $ASSERT = true
+      end
+      
       @@initialized = true
       
       # Configuration will be frozen and stored
@@ -106,6 +111,9 @@ module TaliaCore
       # startup. If present, this is expected to be a Hash with 
       # :shortcut => URI pairs
       config["namespaces"] = nil
+      
+      # Whether to set the $ASSERT flag that activates the simple assertions
+      config["assert"] = true
       
       return config
     end

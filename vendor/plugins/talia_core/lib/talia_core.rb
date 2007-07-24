@@ -11,6 +11,9 @@ $: << this_dir + '/talia_core/'
 
 unless defined?(ActiveSupport)
   begin
+    # Try to add the vendor/rails directory to the path (e.g. for edge rails)
+    $:.unshift(File.dirname(__FILE__) + "/../../../rails/activesupport/lib") 
+    $:.unshift(File.dirname(__FILE__) + "/../../../rails/activerecord/lib") 
     require 'active_support'  
   rescue LoadError
     require 'rubygems'
@@ -22,11 +25,6 @@ if(LOCAL_DEPENDENCIES)
   $:.unshift(File.dirname(__FILE__) + "/../../simpleassert/lib")
   $:.unshift(File.dirname(__FILE__) + "/../../semantic_naming/lib") 
   $:.unshift(File.dirname(__FILE__) + "/../../ActiveRDF/lib")
-  # Add a loadpath for each of ActiveRDFs adapter directories
-  adapters = Dir.glob(File.join(File.dirname(__FILE__), '/../../ActiveRDF', 'activerdf-*'))
-  adapters.each do |adapter|
-    $:.unshift(adapter + "/lib")
-  end
 end
 
 require 'simpleassert'

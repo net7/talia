@@ -129,6 +129,13 @@ module TaliaCore
       assert_raise(SemanticNamingError) { @test_source.test_predicate("foo") }
     end
     
+    # Relation properties
+    def test_rdf_relations
+      @test_source.rel_it = Source.new("http://foobar.com/")
+      assert_kind_of(Source, @test_source.rel_it)
+      assert_equal("http://foobar.com/", @test_source.rel_it.to_s)
+    end
+    
     # RDF load and save
     def test_rdf_save_load
       @valid_source.author = "napoleon"
