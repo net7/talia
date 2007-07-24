@@ -36,12 +36,14 @@ module TaliaCore
       
       existing_record = nil
       
-      if(SourceRecord.exists_uri?(uri.to_s))
+      uri = Source.build_query_uri(uri)
+      
+      if(SourceRecord.exists_uri?(uri))
         if(types && types.size > 0)
           raise(DuplicateIdentifierError, 
             "Source already exists, cannot create with new type information: " + uri)
         end
-        existing_record = SourceRecord.find_by_uri(uri.to_s)
+        existing_record = SourceRecord.find_by_uri(uri)
       end
       
       if(existing_record)
@@ -95,6 +97,10 @@ module TaliaCore
     end
     
     # Find Sources in the system
+    # If just a single parameter is given, then we assume that this is
+    # the URI of a source. If the paramter is not an URI, we assume that
+    # it's the name of a local Source and prepend the local namespace.
+    #
     # TODO: Needs specification!
     def self.find(*params)
       find_result = nil
@@ -102,7 +108,9 @@ module TaliaCore
       # If we have one parameter, it will be the URL 
       # of the item to load
       if(params.size == 1)
-        source_record = SourceRecord.find_by_uri(params[0].to_s)
+        uri = build_query_uri(params[0].to_s)
+      
+        source_record = SourceRecord.find_by_uri(uri)
         find_result = Source.new(source_record.uri)
       else
         # FIXME: Complex find still missing
@@ -117,10 +125,26 @@ module TaliaCore
     def self.exists?(uri)
       # A source exists if the respective record exists in the
       # database store
-      return SourceRecord.exists_uri?(uri.to_s)
+      uri = build_query_uri(uri)
+      return SourceRecord.exists_uri?(uri)
     end
     
     protected
+    
+    
+    # Build an uri from a string that was given from a query.
+    # If this already is a uri, it will just be returned. 
+    # If this is not an URI, it will return a URI with the given name in the 
+    # local namespace
+    def self.build_query_uri(orig_string)
+      uri = orig_string.to_s
+      
+      if(!N::URI.is_uri?(uri))
+        uri = (N::LOCAL + uri).to_s
+      end
+      
+      return  uri
+    end
     
     # Creates a brand new Source object
     def create_record(uri, *types)
