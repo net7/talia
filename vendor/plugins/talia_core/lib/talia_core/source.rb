@@ -3,6 +3,7 @@ require 'local_store/source_record'
 require 'active_rdf'
 require 'semantic_naming'
 require 'dummy_handler'
+require 'rdf_resource_wrapper'
 
 module TaliaCore
   
@@ -154,7 +155,7 @@ module TaliaCore
       @source_record = SourceRecord.new(uri.to_s)
       
       # Contains the interface to the ActiveRDF 
-      @rdf_resource = RDFS::Resource.new(uri.to_s)
+      @rdf_resource = RdfResourceWrapper.new(uri.to_s)
       
       # Contains the type objects for the source
       @source_types = Array.new
@@ -177,7 +178,7 @@ module TaliaCore
       @source_record = existing_record
       
       # Create the RDF object
-      @rdf_resource = RDFS::Resource.new(existing_record.uri.to_s)
+      @rdf_resource = RdfResourceWrapper.new(existing_record.uri.to_s)
       
       # Create the type hash
       @source_types = Array.new
