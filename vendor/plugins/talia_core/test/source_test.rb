@@ -137,7 +137,7 @@ module TaliaCore
     def test_rdf_relations
       @test_source.rel_it = Source.new("http://foobar.com/")
       assert_kind_of(Source, @test_source.rel_it)
-      assert_equal("http://foobar.com/", @test_source.rel_it.to_s)
+      assert_equal("http://foobar.com/", @test_source.rel_it.uri.to_s)
     end
     
     # RDF load and save

@@ -16,7 +16,7 @@ module TaliaCore
     # Create the new handler
     def initialize(uri, rdf_resource)
       sassert_type(uri, N::URI)
-      sassert_type(rdf_resource, RDFS::Resource)
+      sassert_type(rdf_resource, RdfResourceWrapper)
       
       @uri = uri.to_s
       @rdf_resource = rdf_resource
