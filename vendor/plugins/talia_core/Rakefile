@@ -2,6 +2,9 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
 
+require 'rubygems'
+gem 'activerecord'
+
 require 'active_record'
 require 'active_record/fixtures'
 
