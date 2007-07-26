@@ -130,6 +130,18 @@ module TaliaCore
       return SourceRecord.exists_uri?(uri)
     end
     
+    
+    # Creates a sensible XML representation of the Source
+    # FXIME: This is just a dummy implementation to unblock the work on the REST interface
+    def to_xml
+      xml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>"
+      xml += "<source>"
+      xml += "<id>#{@source_record.id.to_s}</id>"
+      xml += "<uri>#{@source_record.uri.to_s}</uri>"
+      xml += "<name>#{name}</name>"
+      xml += "</source>"
+    end
+    
     protected
     
     
