@@ -52,3 +52,16 @@ end
 # end
 
 # Include your application configuration below
+TaliaCore::Initializer.run do |config|
+  # The name of the local node
+  config["local_uri"] = "http://localnode.org/"
+  
+  # The "default" namespace
+  config["default_namespace_uri"] = "http://default.talia.eu/"
+  
+  # Connect options for ActiveRDF
+  # Defaults to in-memory RDFLite
+  config["rdf_connection"] = {
+    :type => :rdflite # In memory, so we don't have to clean the database 
+  }
+end
