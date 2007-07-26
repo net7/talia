@@ -170,6 +170,12 @@ module TaliaCore
       assert_equal(N::LOCAL + "dingens", source.uri)
     end
     
+    # Test the xml create
+    def test_create_xml
+      print @local_source.to_xml
+      flunk("needs to be implemented properly")
+    end
+    
   end
 end
   
