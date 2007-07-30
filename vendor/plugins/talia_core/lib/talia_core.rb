@@ -1,7 +1,5 @@
 # TaliaCore loader
-
-# If true, we add the local directories to the load path
-LOCAL_DEPENDENCIES = true
+require 'loader_helper'
 
 # adding talia_core subdirectory to the ruby loadpath  
 file = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
@@ -9,26 +7,16 @@ this_dir = File.dirname(File.expand_path(file))
 $: << this_dir
 $: << this_dir + '/talia_core/'
 
-unless defined?(ActiveSupport)
-  begin
-    # Try to add the vendor/rails directory to the path (e.g. for edge rails)
-    $:.unshift(File.dirname(__FILE__) + "/../../../rails/activesupport/lib") 
-    $:.unshift(File.dirname(__FILE__) + "/../../../rails/activerecord/lib") 
-    require 'active_support'  
-  rescue LoadError
-    require 'rubygems'
-    gem 'activesupport'
-  end
-end
+# Stuff we may need to load from sources/uninstalled versions
+TLoad::require_module("activerecord", "active_record", "/../../../rails/activerecord") unless(defined?(ActiveRecord))
+TLoad::require_module("activesupport", "active_support", "/../../../rails/activesupport") unless(defined?(ActiveSupport))
+TLoad::require_module("simpleassert", "simpleassert", "/../../simpleassert") unless(defined?(sassert))
+TLoad::require_module("semantic_naming", "semantic_naming", "/../../semantic_naming")
+TLoad::require_module("activerdf", "active_rdf", "/../../ActiveRDF")
 
-if(LOCAL_DEPENDENCIES)
-  $:.unshift(File.dirname(__FILE__) + "/../../simpleassert/lib")
-  $:.unshift(File.dirname(__FILE__) + "/../../semantic_naming/lib") 
-  $:.unshift(File.dirname(__FILE__) + "/../../ActiveRDF/lib")
-end
-
-require 'simpleassert'
-require 'semantic_naming'
+# Stuff we just load from the gems
+gem "builder"
+require "builder"
 
 # Load local things
 require 'talia_core/errors'
