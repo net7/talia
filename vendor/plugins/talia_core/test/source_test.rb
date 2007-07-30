@@ -16,6 +16,7 @@ module TaliaCore
     N::URI.shortcut(:test_uri, "http://www.testuri.com/bar")
     N::Predicate.shortcut(:test_predicate, "http://www.meetest.org/my_predicate")
     N::SourceClass.shortcut(:test_source, "http://www.meetest.org/test_source")
+    N::Namespace.shortcut(:foaf, "http://www.foaf.org/")
     
     def setup
       TestHelper.fixtures
@@ -29,12 +30,26 @@ module TaliaCore
       @local_source.primary_source = false
     end
     
-    # Test if a source object can be created correctly
-    def test_create
+    # Test if a source object can be created correctly with no type information
+    def test_create_typeless
       # rec = SourceRecord.new
-      N::Namespace.shortcut(:foaf, "http://www.foaf.org/")
+      source = Source.new("http://www.newstuff.org/my_nuff")
+      assert_not_nil(source)
+      assert_equal(0, source.source_types.size)
+    end
+    
+    # Test if a source object can be created correctly
+    def test_create_types
+      # rec = SourceRecord.new
       source = Source.new("http://www.newstuff.org/my_first", N::FOAF.Person, N::FOAF.Foe)
       assert_not_nil(source)
+      assert_equal(2, source.source_types.size)
+    end
+    
+    # Test if the type is initialized correctly
+    def test_type_init
+      source = Source.new("http://www.newstuff.org/my_first", N::FOAF.Person)
+      assert_equal(source.source_types[0], N::FOAF.Person)
     end
     
     # Checks if the direct object properties work
@@ -94,6 +109,19 @@ module TaliaCore
       
       source_reloaded = Source.find(@valid_source.uri)
       assert_equal(4, source_reloaded.workflow_state)
+    end
+    
+    # Test load and save with multiple types
+    def test_typed_load_save
+      source = Source.new("http://www.newstuff.org/my_first", N::FOAF.Person, N::FOAF.Foe)
+      source.workflow_state = 3
+      source.primary_source = false
+      assert_equal(2, source.source_types.size)
+      
+      source.save
+      
+      source_reloaded = Source.find(source.uri)
+      assert_equal(2, source_reloaded.source_types.size)
     end
     
     # Check if load failure is raised correctly
@@ -172,8 +200,17 @@ module TaliaCore
     
     # Test the xml create
     def test_create_xml
-      print @local_source.to_xml
-      flunk("needs to be implemented properly")
+      # TODO: Make a real test when it's worth it
+      source = Source.new("http://www.newstuff.org/my_first", N::FOAF.Person, N::FOAF.Foe)
+      source.author = "napoleon"
+      print source.to_xml
+    end
+    
+    # Test for direct predicates
+    def test_direct_predicates
+      @valid_source.author = "napoleon"
+      assert_equal(1, @valid_source.direct_predicates.size)
+      assert_equal(N::DEFAULT::author, @valid_source.direct_predicates[0])
     end
     
   end

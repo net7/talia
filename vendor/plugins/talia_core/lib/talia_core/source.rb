@@ -20,9 +20,6 @@ module TaliaCore
     # The URI that idefifies the source
     object_property :uri
     
-    # This a descriptive name
-    object_property :name
-    
     # This indicates if the source is a primary source in this library
     object_property :primary_source
     
@@ -97,6 +94,11 @@ module TaliaCore
       return @source_record.errors
     end
     
+    # Returns the "source types" of the object
+    def source_types
+      return @source_types
+    end
+    
     # Find Sources in the system
     # If just a single parameter is given, then we assume that this is
     # the URI of a source. If the paramter is not an URI, we assume that
@@ -130,16 +132,42 @@ module TaliaCore
       return SourceRecord.exists_uri?(uri)
     end
     
+    # Returns an array of the predicates that are directly defined for this
+    # Source. This will return a list of URIs that will access valid 
+    # attributes on this Source.
+    def direct_predicates
+      @rdf_resource.direct_predicates
+    end
     
     # Creates a sensible XML representation of the Source
     # FXIME: This is just a dummy implementation to unblock the work on the REST interface
     def to_xml
-      xml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>"
-      xml += "<source>"
-      xml += "<id>#{@source_record.id.to_s}</id>"
-      xml += "<uri>#{@source_record.uri.to_s}</uri>"
-      xml += "<name>#{name}</name>"
-      xml += "</source>"
+      xml = String.new
+      builder = Builder::XmlMarkup.new(:target => xml, :indent => 2)
+      
+      # Xml instructions (version and charset)
+      builder.instruct!
+      
+      builder.source(:primary => primary_source) do
+        builder.id(@source_record.id)
+        builder.uri(uri.to_s)
+        
+        # Add the types to the XML
+        builder.types do
+          for type in @source_types do
+            builder.type(type.to_s)
+          end
+        end
+        
+        # Add the existing predicates to the XML
+        builder.activePredicates do
+          for predicate in direct_predicates do
+            builder.predicate(predicate.to_s)
+          end
+        end
+      end
+      
+      xml
     end
     
     protected
@@ -160,7 +188,7 @@ module TaliaCore
     end
     
     # Creates a brand new Source object
-    def create_record(uri, *types)
+    def create_record(uri, types)
       
       # Contains the interface to the part of the data that is
       # stored in the database
@@ -261,10 +289,6 @@ module TaliaCore
       end
     end
     
-    
-    # Create find parameters for SourceRecord.find() from
-    # the parameters that were passed to the find method of
-    # this class
     
   end
 end
