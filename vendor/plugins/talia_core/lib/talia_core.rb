@@ -1,5 +1,5 @@
 # TaliaCore loader
-require 'loader_helper'
+require File.dirname(__FILE__) + '/loader_helper'
 
 # adding talia_core subdirectory to the ruby loadpath  
 file = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
