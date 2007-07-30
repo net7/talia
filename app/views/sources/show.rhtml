@@ -1,0 +1,24 @@
+<h1>Show source</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <td><%=h @source.name %></td>
+  </tr>
+  <tr>
+    <th>Uri</th>
+    <td><%=h @source.uri %></td>
+  </tr>
+  <tr>
+    <th>Workflow Status</th>
+    <td><%=h @source.workflow_status %></td>
+  </tr>
+  <tr>
+    <th>Primary Source</th>
+    <td><%=h @source.primary_source %></td>
+  </tr>
+</table>
+<br />
+<br />
+<%= link_to "back", :action => "index" %> | 
+<%= link_to "edit", edit_source_path(@source) %>

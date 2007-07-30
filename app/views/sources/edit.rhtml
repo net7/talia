@@ -1,0 +1,9 @@
+<h1>Edit source</h1>
+
+<% form_tag :action => 'update', :html => {:method => :put} do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Update" %>
+<% end %>
+
+<%= link_to 'Back', :action => :index %> | 
+<%= link_to "Show", source_path(@source) %>
