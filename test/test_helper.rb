@@ -2,6 +2,12 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
+# Check for the tesly adapter, and load it if it's there
+if(File.exists?(File.dirname(__FILE__) + '/tesly_reporter.rb'))
+  printf("Continuing with tesly \n")
+  require File.dirname(__FILE__) + '/tesly_reporter'
+end
+
 class Test::Unit::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
