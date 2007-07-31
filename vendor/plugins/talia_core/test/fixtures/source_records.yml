@@ -3,13 +3,11 @@
 something:
   id: 1
   uri: http://localnode.org/something
-  name: Some source
   workflow_state: 0
   primary_source: false
   
 otherthing:
   id: 2
   uri: http://localnode.org/otherthing
-  name: Some source
   workflow_state: 0
   primary_source: true
