@@ -48,4 +48,4 @@ task :testdb_connect do
   ActiveRecord::Base.logger = Logger.new(File.open('test/database.log', 'a'))
 end
 
-task :cruise <= ['test', 'rdoc']
+task :cruise => ['test', 'rdoc']
