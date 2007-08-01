@@ -21,7 +21,7 @@ end
 
 desc 'Generate documentation for the talia_core plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
+  rdoc.rdoc_dir = ENV["CC_BUILD_ARTIFACTS"] ? ENV["CC_BUILD_ARTIFACTS"] + "/core_rdoc" : 'rdoc'
   rdoc.title    = 'TaliaCore'
   rdoc.options << '--line-numbers' << '--inline-source'
   rdoc.rdoc_files.include('README')
@@ -47,3 +47,5 @@ task :testdb_connect do
   ActiveRecord::Base.establish_connection(dbconfig["test"])
   ActiveRecord::Base.logger = Logger.new(File.open('test/database.log', 'a'))
 end
+
+task :cruise <= ['test', 'rdoc']
