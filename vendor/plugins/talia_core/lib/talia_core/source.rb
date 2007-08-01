@@ -53,6 +53,26 @@ module TaliaCore
     end
     
     
+    class A 
+      def a
+        printf "a\n"
+      end
+      
+      def b
+        printf "b\n"
+      end
+    end
+    
+    class B < A
+      
+      def a
+        super
+        printf " super\n"
+      end
+      
+      alias_method :b, :a
+    end
+    
     # Indicates if this source belongs to the local store
     def local
       uri.local?

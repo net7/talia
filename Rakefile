@@ -8,3 +8,12 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 
 require 'tasks/rails'
+
+Rake::RDocTask.new(:rdoc_cc) do |rdoc|
+  rdoc.rdoc_files.include("app/**/*rb")
+  rdoc.rdoc_dir = ENV['CC_BUILD_ARTIFACTS'] + '/rdoc_app' if(ENV['CC_BUILD_ARTIFACTS'])
+end
+
+task :cruise <= ['test', 'rdoc_cc']
+
+
