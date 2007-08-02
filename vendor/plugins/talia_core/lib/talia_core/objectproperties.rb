@@ -6,6 +6,9 @@ object itself (instead of the RDF)
 module TaliaCore
   class Source
     
+    # Contains all the database property name
+    @@db_properties = Array.new
+    
     # This creates a reader and writer for the given property.
     # Both calls are passed on to the @object_store
     # See the main Source class definition for a description
@@ -24,6 +27,9 @@ module TaliaCore
           @source_record.#{id.id2name} = property
         end
       end_eval
+      
+      @@db_properties.push(id.to_sym)
     end
+    
   end
 end

@@ -56,6 +56,7 @@ module TaliaCore
       uri.local_name
     end
     
+    # Alias for id, used by Rails magic
     alias_method :to_param, :id
     
     # Indicates if this source belongs to the local store
@@ -144,18 +145,29 @@ module TaliaCore
       @rdf_resource.direct_predicates
     end
     
-    # Array-type accessor, which will return the predicate value for the 
-    # predicate of the given URI. This can of course be used with URI shortcuts,
-    # such as source[N::FOAF::friend
-    #
-    # This ONLY works for RDF predicates, NOT for database fields!
-    def [](uri)
-      @rdf_resource[uri.to_s]
+    # Attribute reader, for compatibility with the ActiveRecord API
+    # If the given name is a database field, the called will be
+    # passed to the database. Otherwise, this will assume that 
+    # the parameter is the URI of a RDF property.
+    def [](attribute)
+      attr = nil
+      
+      if(@@db_properties.index(attribute.to_sym))
+        attr = @source_record[attribute.to_sym]
+      else
+        attr = @rdf_resource[attribute.to_s]
+      end
+      
+      attr
     end
     
     # Assignment to the the array-type accessor
-    def []=(uri,value)
-      @rdf_resource[uri.to_s] = value
+    def []=(attribute, value)
+      if(@@db_properties.index(attribute.to_sym))
+        @source_record[attribute.to_sym] = value
+      else
+        @rdf_resource[attribute.to_s] = value
+      end
     end
     
     # Accessor that allows to lookup a namespace/name combination
@@ -175,7 +187,6 @@ module TaliaCore
     end
     
     # Creates a sensible XML representation of the Source
-    # FXIME: This is just a dummy implementation to unblock the work on the REST interface
     def to_xml
       xml = String.new
       builder = Builder::XmlMarkup.new(:target => xml, :indent => 2)

@@ -221,6 +221,38 @@ module TaliaCore
       assert_equal("foo", @valid_source[N::MEETEST::array_test])
     end
     
+        # Read an db attribute by symbol
+    def test_read_access_db_symbol
+      source = Source.new('http://localnode.org/something') 
+      attribute_value = source[:uri]
+      assert_not_nil(attribute_value) 
+      assert_kind_of(String, attribute_value) 
+      assert_equal('http://localnode.org/something', attribute_value) 
+    end
+    
+    # Write an db attribute by symbol
+    def test_write_access_db_symbol
+      source = Source.new('http://localnode.org/something')
+      source[:uri] = "http://somethingelse.com/"
+      assert_equal(source.uri.to_s, "http://somethingelse.com/")
+    end
+    
+    # Read an db attribute by a given string
+    def test_access_db_string
+      source = Source.new('http://localnode.org/something') 
+      attribute_value = source['uri']
+      assert_not_nil(attribute_value) 
+      assert_kind_of(String, attribute_value) 
+      assert_equal('http://localnode.org/something', attribute_value) 
+    end
+    
+    # Write an db attribute by string
+    def test_write_access_db_symbol
+      source = Source.new('http://localnode.org/something')
+      source['uri'] = "http://somethingelse.com/"
+      assert_equal(source.uri.to_s, "http://somethingelse.com/")
+    end
+    
     # Test the predicate accessor
     def test_predicate_accessor
       assert(@valid_source.predicate_set(:meetest, "array_test_acc", "bla"))
@@ -239,7 +271,7 @@ module TaliaCore
       # to_param is an alias
       assert_equal("ihaveanid", Source.new("http://www.something_more.com/bla/ihaveanid").to_param)
     end
-    
+
   end
 end
   
