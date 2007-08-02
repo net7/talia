@@ -21,7 +21,6 @@ end
 
 desc 'Generate documentation for the talia_core plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = ENV["CC_BUILD_ARTIFACTS"] ? ENV["CC_BUILD_ARTIFACTS"] + "/core_rdoc" : 'rdoc'
   rdoc.title    = 'TaliaCore'
   rdoc.options << '--line-numbers' << '--inline-source'
   rdoc.rdoc_files.include('README')
