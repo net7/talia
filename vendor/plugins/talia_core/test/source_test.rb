@@ -208,9 +208,29 @@ module TaliaCore
     
     # Test for direct predicates
     def test_direct_predicates
-      @valid_source.author = "napoleon"
-      assert_equal(1, @valid_source.direct_predicates.size)
-      assert_equal(N::DEFAULT::author, @valid_source.direct_predicates[0])
+      my_source = Source.new("http://direct_predicate_haver/")
+      my_source.author = "napoleon"
+      assert_equal(1, my_source.direct_predicates.size)
+      assert_equal(N::DEFAULT::author, my_source.direct_predicates[0])
+    end
+    
+    # Test the Array accessor
+    def test_array_accessor
+      @valid_source[N::MEETEST::array_test] = "foo"
+      assert_equal(@valid_source[N::MEETEST::array_test], @valid_source.meetest::array_test)
+      assert_equal("foo", @valid_source[N::MEETEST::array_test])
+    end
+    
+    # Test the predicate accessor
+    def test_predicate_accessor
+      assert(@valid_source.predicate_set(:meetest, "array_test_acc", "bla"))
+      assert_equal(@valid_source.predicate(:meetest, "array_test_acc"), @valid_source.meetest::array_test_acc)
+      assert_equal("bla", @valid_source.predicate(:meetest, "array_test_acc"))
+    end
+    
+    # Test for non-existing predicates
+    def test_nonexistent_predicate
+      assert_nil(@valid_source.predicate(:idontexist, "something"))
     end
     
   end
