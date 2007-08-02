@@ -233,6 +233,11 @@ module TaliaCore
       assert_nil(@valid_source.predicate(:idontexist, "something"))
     end
     
+    # Test the id property
+    def test_id
+      assert_equal("ihaveanid", Source.new("http://www.something_more.com/bla/ihaveanid").id)
+    end
+    
   end
 end
   
