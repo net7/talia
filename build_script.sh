@@ -1,2 +1,2 @@
-rake test
-cd vendor/plugins/talia_core && rake test
+rake cruise
+cd vendor/plugins/talia_core && rake cruise
