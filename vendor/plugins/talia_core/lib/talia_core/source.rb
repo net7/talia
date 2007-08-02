@@ -56,6 +56,8 @@ module TaliaCore
       uri.local_name
     end
     
+    alias_method :to_param, :id
+    
     # Indicates if this source belongs to the local store
     def local
       uri.local?

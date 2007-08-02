@@ -236,6 +236,8 @@ module TaliaCore
     # Test the id property
     def test_id
       assert_equal("ihaveanid", Source.new("http://www.something_more.com/bla/ihaveanid").id)
+      # to_param is an alias
+      assert_equal("ihaveanid", Source.new("http://www.something_more.com/bla/ihaveanid").to_param)
     end
     
   end
