@@ -138,6 +138,36 @@ module TaliaCore
       @rdf_resource.direct_predicates
     end
     
+    # Array-type accessor, which will return the predicate value for the 
+    # predicate of the given URI. This can of course be used with URI shortcuts,
+    # such as source[N::FOAF::friend
+    #
+    # This ONLY works for RDF predicates, NOT for database fields!
+    def [](uri)
+      @rdf_resource[uri.to_s]
+    end
+    
+    # Assignment to the the array-type accessor
+    def []=(uri,value)
+      @rdf_resource[uri.to_s] = value
+    end
+    
+    # Accessor that allows to lookup a namespace/name combination
+    def predicate(namespace, name)
+      namesp_uri = N::Namespace[namespace]
+      
+      # Only return something if the namespace exits.
+      namesp_uri ? self[namesp_uri + name.to_s] : nil
+    end
+    
+    # Setter method for predicates by namespace/name combination
+    def predicate_set(namespace, name, value)
+      namesp_uri = N::Namespace[namespace]
+      
+      # Check if namespace exists
+      namesp_uri ? self[namesp_uri + name.to_s] = value : false
+    end
+    
     # Creates a sensible XML representation of the Source
     # FXIME: This is just a dummy implementation to unblock the work on the REST interface
     def to_xml
@@ -148,11 +178,11 @@ module TaliaCore
       builder.instruct!
       
       builder.source(:primary => primary_source) do
-        builder.id(@source_record.id)
+        builder.id(@source_record.id, :type => "integer")
         builder.uri(uri.to_s)
         
         # Add the types to the XML
-        builder.types do
+        builder.types() do
           for type in @source_types do
             builder.type(type.to_s)
           end
