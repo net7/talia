@@ -49,7 +49,11 @@ module TaliaCore
       else
         create_record(uri, types)
       end
-      
+    end
+    
+    # Get the id for this record (equals to it's local name)
+    def id
+      uri.local_name
     end
     
     # Indicates if this source belongs to the local store
