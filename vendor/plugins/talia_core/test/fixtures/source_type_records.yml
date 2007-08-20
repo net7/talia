@@ -3,9 +3,9 @@
 friend:
   id: 1
   source_record_id: 1
-  type_uri: http://interesingrelations.org/friend
+  uri: http://interesingrelations.org/friend
   
 foe:
   id: 2
   source_record_id: 1
-  type_uri: http://interesingrelations.org/foe
+  uri: http://interesingrelations.org/foe
