@@ -35,7 +35,7 @@ module TaliaCore
       # rec = SourceRecord.new
       source = Source.new("http://www.newstuff.org/my_nuff")
       assert_not_nil(source)
-      assert_equal(0, source.source_types.size)
+      assert_equal(nil, source.source_types_records)
     end
     
     # Test if a source object can be created correctly
@@ -43,13 +43,13 @@ module TaliaCore
       # rec = SourceRecord.new
       source = Source.new("http://www.newstuff.org/my_first", N::FOAF.Person, N::FOAF.Foe)
       assert_not_nil(source)
-      assert_equal(2, source.source_types.size)
+      assert_equal(2, source.source_type_records.size)
     end
     
     # Test if the type is initialized correctly
     def test_type_init
       source = Source.new("http://www.newstuff.org/my_first", N::FOAF.Person)
-      assert_equal(source.source_types[0], N::FOAF.Person)
+      assert_equal(source.source_type_records[0].uri, N::FOAF.Person)
     end
     
     # Checks if the direct object properties work
@@ -116,12 +116,12 @@ module TaliaCore
       source = Source.new("http://www.newstuff.org/my_first", N::FOAF.Person, N::FOAF.Foe)
       source.workflow_state = 3
       source.primary_source = false
-      assert_equal(2, source.source_types.size)
+      assert_equal(2, source.source_type_records.size)
       
       source.save
       
       source_reloaded = Source.find(source.uri)
-      assert_equal(2, source_reloaded.source_types.size)
+      assert_equal(2, source_reloaded.source_type_records.size)
     end
     
     # Check if load failure is raised correctly
@@ -226,8 +226,8 @@ module TaliaCore
       source = Source.new('http://localnode.org/something') 
       attribute_value = source[:uri]
       assert_not_nil(attribute_value) 
-      assert_kind_of(String, attribute_value) 
-      assert_equal('http://localnode.org/something', attribute_value) 
+      assert_kind_of(N::URI, attribute_value) 
+      assert_equal('http://localnode.org/something', attribute_value.to_s) 
     end
     
     # Write an db attribute by symbol
@@ -242,8 +242,8 @@ module TaliaCore
       source = Source.new('http://localnode.org/something') 
       attribute_value = source['uri']
       assert_not_nil(attribute_value) 
-      assert_kind_of(String, attribute_value) 
-      assert_equal('http://localnode.org/something', attribute_value) 
+      assert_kind_of(N::URI, attribute_value) 
+      assert_equal('http://localnode.org/something', attribute_value.to_s) 
     end
     
     # Write an db attribute by string

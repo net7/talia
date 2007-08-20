@@ -1,4 +1,4 @@
-require 'objectproperties' # Includes the class methods for the object_properties
+# require 'objectproperties' # Includes the class methods for the object_properties
 require 'local_store/source_record'
 require 'active_rdf'
 require 'semantic_naming'
@@ -9,23 +9,6 @@ module TaliaCore
   
   # This represents a Source in the Talia core system.
   class Source
-    # The elements tagged with object_property will be properties
-    # passed to the local database. These elements need to be
-    # in sync with the database schema
-    #
-    # TODO: We will need some validation for this
-    # IDEA: In future version, we could try to hook into the schema
-    #       to do this automatically
-    
-    # The URI that idefifies the source
-    object_property :uri
-    
-    # This indicates if the source is a primary source in this library
-    object_property :primary_source
-    
-    # The work flow state
-    object_property :workflow_state
-  
     
     # Creates a new Source from a uri
     # If a source with the given URI already exists, this will load the given
@@ -90,7 +73,7 @@ module TaliaCore
     #       but is not an object_property. This is because this is
     #       something that requires extra handling.
     def data
-      # TODO: Implementation missing
+      # FIXME: Implementation missing
       # TODO: Permission checks for some data types?
     end
     
@@ -100,10 +83,6 @@ module TaliaCore
       return @source_record.errors
     end
     
-    # Returns the "source types" of the object
-    def source_types
-      return @source_types
-    end
     
     # Find Sources in the system
     # If just a single parameter is given, then we assume that this is
@@ -152,8 +131,8 @@ module TaliaCore
     def [](attribute)
       attr = nil
       
-      if(@@db_properties.index(attribute.to_sym))
-        attr = @source_record[attribute.to_sym]
+      if(@source_record.attribute_names.index(attribute.to_s))
+        attr = @source_record[attribute.to_s]
       else
         attr = @rdf_resource[attribute.to_s]
       end
@@ -163,8 +142,8 @@ module TaliaCore
     
     # Assignment to the the array-type accessor
     def []=(attribute, value)
-      if(@@db_properties.index(attribute.to_sym))
-        @source_record[attribute.to_sym] = value
+      if(@source_record.attribute_names.index(attribute.to_s))
+        @source_record[attribute.to_s] = value
       else
         @rdf_resource[attribute.to_s] = value
       end
@@ -200,8 +179,8 @@ module TaliaCore
         
         # Add the types to the XML
         builder.types() do
-          for type in @source_types do
-            builder.type(type.to_s)
+          for type in @source_record.source_type_records do
+            builder.type(type.uri.to_s)
           end
         end
         
@@ -243,15 +222,9 @@ module TaliaCore
       # Contains the interface to the ActiveRDF 
       @rdf_resource = RdfResourceWrapper.new(uri.to_s)
       
-      # Contains the type objects for the source
-      @source_types = Array.new
-      
-      
       # Insert the types
       for type in types do
-        type_uri = N::SourceClass.new(type)
-        @source_record.types.push(SrecordType.new(type_uri))
-        @source_types.push(type_uri)
+        @source_record.source_type_records.push(SourceTypeRecord.new(type))
       end
     end
     
@@ -264,23 +237,16 @@ module TaliaCore
       @source_record = existing_record
       
       # Create the RDF object
-      @rdf_resource = RdfResourceWrapper.new(existing_record.uri.to_s)
-      
-      # Create the type hash
-      @source_types = Array.new
-      
-      # Load the type information
-      for type in existing_record.types
-        @source_types.push(N::SourceClass.new(type.type_uri))
-      end
-      
+      @rdf_resource = RdfResourceWrapper.new(existing_record.uri.to_s)  
     end
     
-    # Missing methods: We assume that all calls that are not handled
-    # explicitly are property requests that can be answered by
-    # the RDF store.
+    # Missing methods: This first checks if the method called 
+    # corresponds to a valid database attribute. In this case,
+    # the call will be passed to the database.
+    #
+    # Otherwise, the call goes to the RDF store, as explained below.
     # 
-    # There are 3 possibilities here, which are processed in that order:
+    # There are 3 possibilities for RDF, which are processed in that order:
     # 
     # 1. The method name is a shortcut for a PredicateType. In that
     #    case, we use that predicate for the resource. We don't expect
@@ -306,6 +272,35 @@ module TaliaCore
       
       arg_count = update ? (args.size - 1) : args.size
       
+      # Check if this call should go to the db
+      if(@source_record.attribute_names.index(shortcut.to_s))
+        if(update)
+          return @source_record[shortcut.to_s] = args[-1]
+        else
+          return @source_record[shortcut.to_s]
+        end
+      end
+      
+      # Check for associated database records
+      # This has to be checked/called "manually" because the
+      # associated types are not properties of the ActiveRecord
+      if(assoc = SourceRecord.reflect_on_association(shortcut.to_sym))
+        case assoc.macro
+        when :has_many
+          return @source_record.send(shortcut.to_s)
+        when :has_one
+          if(update)
+            return @source_record.send(method_name.to_s, args[0])
+          else
+            return @source_record.send(shortcut.to_s)
+          end
+        else
+          sassert(false, "Invalid association type")
+          return false
+        end
+      end
+      
+      # Otherwise, check for the RDF predicate
       registered = N::URI[shortcut.to_s]
       predicate = nil
       
