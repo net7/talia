@@ -29,6 +29,18 @@ class SourcesController < ApplicationController
     render :text => attribute.to_s, :status => status
   end
 
+  # GET /sources/1/foaf/friend
+  def show_rdf_predicate
+    headers['Content-Type'] = Mime::TEXT
+    predicates = TaliaCore::Source.find(params[:id]).predicates(params[:namespace], params[:predicate])
+    if predicates.nil?
+      # This is a workaround: when predicates is nil it tries to render a template with the name of this method.
+      predicates = ''
+      status = '404 Not Found'
+    end
+    render :text => predicates, :status => status
+  end
+
   # GET /sources/new
   # GET /sources/new.xml
   def new

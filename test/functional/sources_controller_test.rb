@@ -5,6 +5,7 @@ require 'sources_controller'
 class SourcesController; def rescue_action(e) raise e end; end
 
 class SourcesControllerTest < Test::Unit::TestCase
+  fixtures :source_records
   def setup
     @controller = SourcesController.new
     @request    = ActionController::TestRequest.new
@@ -12,6 +13,14 @@ class SourcesControllerTest < Test::Unit::TestCase
     
     @source_name      = 'something'
     @unexistent_name  = 'somewhat'
+    
+    N::Namespace.shortcut(:myns, "http://myns.org/")
+    N::Namespace.shortcut(:foaf, "http://www.foaf.org/")
+  end
+
+  def teardown
+    %w(registered_uris inverse_register).each {|var| N::URI.send(:class_variable_set, "@@#{var}".to_sym, Hash.new)}
+    %w(myns foaf).each {|const| N.send(:remove_const, const.upcase)}
   end
 
   def test_index
@@ -56,7 +65,6 @@ class SourcesControllerTest < Test::Unit::TestCase
     end
     
     assert_select "a[href=/sources]"
-    # FAILURE: support for edit_source_path(@source) needed.
     assert_select "a[href=/sources/#{@source_name}/edit]"
   end
   
@@ -85,6 +93,35 @@ class SourcesControllerTest < Test::Unit::TestCase
                     :id => 'something', :attribute => 'name'})
     get :show_attribute, {:id => @source_name, :attribute => 'name'}
     # FAILURE: support for @source.read_attribute needed.
+    assert_response :success
+  end
+  
+  # SHOW_RDF_PREDICATE
+  def test_show_rdf_predicate_with_wrong_params
+    # empty params
+    assert_raise(ActiveRecord::RecordNotFound) { get :show_rdf_predicate, {} }
+    
+    # unexistent source
+    params = {:id => @unexistent_name, :namespace => 'default', :predicate => 'pr'}
+    assert_raise(ActiveRecord::RecordNotFound) { get :show_rdf_predicate, params}
+    
+    # unexistent namespace
+    source = TaliaCore::Source.find(@source_name)
+    source.myns::predicate = 'some value'
+    params = params.merge(:id => @source_name, :namespace => 'foo')
+    get :show_rdf_predicate, params
+    
+    # unexistent predicate
+    params = params.merge(:namespace => 'myns')
+    get :show_rdf_predicate, params
+  end
+    
+  def test_show_rdf_predicate
+    source = TaliaCore::Source.find(@source_name)
+    source.foaf::friend = 'a friend'
+    params = {:id => @source_name, :namespace => 'foaf', :predicate => 'friend'}
+    get :show_rdf_predicate, params
+    #TODOFAILURE: add a valid predicate to fixtures.
     assert_response :success
   end
   
@@ -134,7 +171,6 @@ class SourcesControllerTest < Test::Unit::TestCase
       end
     end
     assert_select "a[href=/sources]"
-    # FAILURE: support for source_path(@source) needed.
     assert_select "a[href=/sources/#{@source_name}]"
   end
   
