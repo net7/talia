@@ -24,7 +24,7 @@ class SourcesController < ApplicationController
   # GET /sources/1/name
   def show_attribute
     headers['Content-Type'] = Mime::TEXT
-    attribute = TaliaCore::Source.find(params[:id]).read_attribute(params[:attribute])
+    attribute = TaliaCore::Source.find(params[:id])[params[:attribute]]
     status = '404 Not Found' if attribute.nil?
     render :text => attribute.to_s, :status => status
   end

@@ -79,7 +79,6 @@ class SourcesControllerTest < Test::Unit::TestCase
   
   def test_show_attribute_with_wrong_http_verbs
     post   :show_attribute, {:id => @source_name, :attribute => 'name'}
-    # FAILURE: support for @source.read_attribute needed.
     assert_response :success
     put    :show_attribute, {:id => @source_name, :attribute => 'name'}
     assert_response :success
@@ -92,7 +91,6 @@ class SourcesControllerTest < Test::Unit::TestCase
                   {:controller => 'sources', :action => 'show_attribute', 
                     :id => 'something', :attribute => 'name'})
     get :show_attribute, {:id => @source_name, :attribute => 'name'}
-    # FAILURE: support for @source.read_attribute needed.
     assert_response :success
   end
   
