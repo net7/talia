@@ -11,6 +11,9 @@ module TaliaCore
   # system, e.g. making the neccessary connections, setting up the
   # basic namespaces, etc.
   # The basic mechanism works like the Rails initializer
+  #
+  # The initializer will automatically configure the namespace shortcuts
+  # for rdf: and rdfs:
   class Initializer
     
     # The configuration hash that was used to initialize
@@ -55,6 +58,12 @@ module TaliaCore
       
       # Register the default name
       N::Namespace.shortcut(:default, config["default_namespace_uri"])
+      
+      # Register the RDF namespace
+      N::Namespace.shortcut(:rdf, "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+      
+      # Register the RDFS namespace
+      N::Namespace.shortcut(:rdfs, "http://www.w3.org/2000/01/rdf-schema#")
       
       # Register additional namespaces
       if(config["namespaces"])

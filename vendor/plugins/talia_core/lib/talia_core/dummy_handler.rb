@@ -27,7 +27,7 @@ module TaliaCore
       if method.to_s[-1..-1] == '='
         # set value
         raise(SemanticNamingError, "Wrong number of arguments") if(args.size != 1)
-        @rdf_resource[@uri + method.to_s[0..-2]] = args[0]
+        @rdf_resource[@uri + method.to_s[0..-2]] << args[0]
       else
         # read value
         raise(SemanticNamingError, "Wrong number of arguments") if(args.size != 0)

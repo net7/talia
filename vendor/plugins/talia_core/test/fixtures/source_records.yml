@@ -11,3 +11,21 @@ otherthing:
   uri: http://localnode.org/otherthing
   workflow_state: 0
   primary_source: true
+  
+first_book:
+  id: 3
+  uri: http://localnode.org/firstbook
+  workflow_state: 0
+  primary_source: false
+  
+second_book:
+  id: 4
+  uri: http://localnode.org/secondbook
+  workflow_state: 0
+  primary_source: false
+  
+third_book:
+  id: 5
+  uri: http://localnode.org/thirdbook
+  workflow_state: 0
+  primary_source: false

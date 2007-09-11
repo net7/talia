@@ -20,6 +20,9 @@ module TaliaCore
     
     def setup
       TestHelper.fixtures
+      TestHelper.flush_rdf
+      SourceRecord.delete_all
+      print RDFS::Resource.find_all
       @test_source = Source.new("http://www.test.org/test/")
       @valid_source = Source.new("http://www.test.org/valid")
       @valid_source.workflow_state = 3
@@ -28,6 +31,18 @@ module TaliaCore
       @local_source = Source.new(N::LOCAL + "home_source")
       @local_source.workflow_state = 42
       @local_source.primary_source = false
+      
+      (1..3).each do |n|
+        src = Source.new("http://www.typedthing.com/element#{n}")
+        src.workflow_state = 0
+        src.primary_source = false
+        src.types << "http://www.interestingrelations.org/book"
+        src.save!
+      end
+    end
+    
+    def test_created_helper
+      assert(Source.exists?("http://www.typedthing.com/element1"))
     end
     
     # Test if a source object can be created correctly with no type information
@@ -35,21 +50,22 @@ module TaliaCore
       # rec = SourceRecord.new
       source = Source.new("http://www.newstuff.org/my_nuff")
       assert_not_nil(source)
-      assert_equal(nil, source.source_types_records)
+      assert_equal(0, source.types.size)
     end
     
     # Test if a source object can be created correctly
     def test_create_types
       # rec = SourceRecord.new
-      source = Source.new("http://www.newstuff.org/my_first", N::FOAF.Person, N::FOAF.Foe)
+      source = Source.new("http://www.newstuff.org/createtypes", N::FOAF.Person, N::FOAF.Foe)
       assert_not_nil(source)
-      assert_equal(2, source.source_type_records.size)
+      assert_equal(2, source.types.size)
+      assert_not_nil(source.types.each { |type| type.to_s == N::FOAF.Person.to_s} )
     end
     
     # Test if the type is initialized correctly
     def test_type_init
-      source = Source.new("http://www.newstuff.org/my_first", N::FOAF.Person)
-      assert_equal(source.source_type_records[0].uri, N::FOAF.Person)
+      source = Source.new("http://www.newstuff.org/typeinit", N::FOAF.Person)
+      assert_equal(source.types[0], N::FOAF.Person)
     end
     
     # Checks if the direct object properties work
@@ -63,6 +79,7 @@ module TaliaCore
     # Tests if the ActiveRecord validation works
     def test_ar_validation
       source = Source.new("http://www.newstuff.org/my_first")
+      source.primary_source = nil
       assert(!source.valid?) # Nothing set, invalid
       source.workflow_state = 3
       source.primary_source = false
@@ -84,10 +101,12 @@ module TaliaCore
     
     # Test load/save for active record
     def test_save
-      assert(!Source.exists?(@valid_source.uri))
+      assert_equal(3, @valid_source.workflow_state)
+      @valid_source.workflow_state = 15
       @valid_source.save
       assert(Source.exists?(@valid_source.uri))
       assert(SourceRecord.exists_uri?(@valid_source.uri))
+      assert_equal(15, Source.new(@valid_source.uri).workflow_state)
     end
     
     # Check loading of Elements
@@ -113,15 +132,15 @@ module TaliaCore
     
     # Test load and save with multiple types
     def test_typed_load_save
-      source = Source.new("http://www.newstuff.org/my_first", N::FOAF.Person, N::FOAF.Foe)
+      source = Source.new("http://www.newstuff.org/load_save_typed", N::FOAF.Person, N::FOAF.Foe)
       source.workflow_state = 3
       source.primary_source = false
-      assert_equal(2, source.source_type_records.size)
+      assert_equal(2, source.types.size)
       
       source.save
       
       source_reloaded = Source.find(source.uri)
-      assert_equal(2, source_reloaded.source_type_records.size)
+      assert_equal(2, source_reloaded.types.size)
     end
     
     # Check if load failure is raised correctly
@@ -133,27 +152,27 @@ module TaliaCore
     # Default RDF property
     def test_rdf_default_property
       @test_source.author = "foobar"
-      assert_equal(@test_source.author, "foobar")
-      assert_equal(@test_source.default::author, "foobar")
+      assert_equal(@test_source.author[0], "foobar")
+      assert_equal(@test_source.default::author[0], "foobar")
     end
     
     # Direct RDF property
     def test_rdf_direct_property
       @test_source.test_predicate = "moofoo"
-      assert_equal(@test_source.test_predicate, "moofoo")
-      assert_nil(@test_source.default::test_predicate)
+      assert_equal(@test_source.test_predicate[0], "moofoo")
+      assert_equal(0, @test_source.default::test_predicate.size)
     end
     
     # Namespaced RDF property
     def test_rdf_namespace_property
       @test_source.meetest::something = "somefoo"
-      assert_equal(@test_source.meetest::something, "somefoo")
+      assert_equal(@test_source.meetest::something[0], "somefoo")
     end
     
     # Generic URI property
     def test_rdf_generic_uri
       @test_source.test_uri = "bar"
-      assert_equal("bar", @test_source.test_uri)
+      assert_equal("bar", @test_source.test_uri[0])
     end
     
     # Check disallowed cases for RDF
@@ -164,8 +183,9 @@ module TaliaCore
     # Relation properties
     def test_rdf_relations
       @test_source.rel_it = Source.new("http://foobar.com/")
-      assert_kind_of(Source, @test_source.rel_it)
-      assert_equal("http://foobar.com/", @test_source.rel_it.uri.to_s)
+      assert_kind_of(SourcePropertyList, @test_source.rel_it)
+      assert_kind_of(Source, @test_source.rel_it[0])
+      assert_equal("http://foobar.com/", @test_source.rel_it[0].uri.to_s)
     end
     
     # RDF load and save
@@ -173,7 +193,7 @@ module TaliaCore
       @valid_source.author = "napoleon"
       @valid_source.save
       loaded = Source.find(@valid_source.uri)
-      assert_equal("napoleon", loaded.author)
+      assert_equal("napoleon", loaded.author[0])
     end
     
     # Exists for local sources
@@ -216,9 +236,9 @@ module TaliaCore
     
     # Test the Array accessor
     def test_array_accessor
-      @valid_source[N::MEETEST::array_test] = "foo"
+      @valid_source[N::MEETEST::array_test] << "foo"
       assert_equal(@valid_source[N::MEETEST::array_test], @valid_source.meetest::array_test)
-      assert_equal("foo", @valid_source[N::MEETEST::array_test])
+      assert_equal("foo", @valid_source[N::MEETEST::array_test][0])
     end
     
         # Read an db attribute by symbol
@@ -257,7 +277,7 @@ module TaliaCore
     def test_predicate_accessor
       assert(@valid_source.predicate_set(:meetest, "array_test_acc", "bla"))
       assert_equal(@valid_source.predicate(:meetest, "array_test_acc"), @valid_source.meetest::array_test_acc)
-      assert_equal("bla", @valid_source.predicate(:meetest, "array_test_acc"))
+      assert_equal("bla", @valid_source.predicate(:meetest, "array_test_acc")[0])
     end
     
     # Test for non-existing predicates
@@ -271,7 +291,34 @@ module TaliaCore
       # to_param is an alias
       assert_equal("ihaveanid", Source.new("http://www.something_more.com/bla/ihaveanid").to_param)
     end
+    
+    # Test find :all
+    def test_find_all
+      sources = Source.find(:all)
+      assert_kind_of(Array, sources)
+      assert_equal(6, sources.size)
+    end
+    
+    # Test find :first
+    def test_find_first
+      source = Source.find(:first)
+      assert_kind_of(Source, source)
+    end
 
+    # Test find :all by type
+    def test_find_all_type
+      sources = Source.find(:all, :type => "http://www.interestingrelations.org/book")
+      assert_kind_of(Array, sources)
+      assert_equal(3, sources.size)
+    end
+
+    # Test find :first by type
+    def test_find_first_type
+      sources = Source.find(:first, :type => "http://www.interestingrelations.org/book")
+      assert_kind_of(Source, sources)
+    end
+   
+    
   end
 end
   
