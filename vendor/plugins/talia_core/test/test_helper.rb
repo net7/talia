@@ -62,6 +62,14 @@ module TaliaCore
       end 
     end
     
+    # Flush the RDF store
+    def self.flush_rdf
+      to_delete = Query.new.select(:s, :p, :o).where(:s, :p, :o).execute
+      to_delete.each do |s, p, o|
+        FederationManager.delete(s, p, o)
+      end
+    end
+    
   end
 
 end

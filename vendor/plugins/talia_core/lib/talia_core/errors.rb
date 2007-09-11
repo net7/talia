@@ -15,3 +15,7 @@ end
 # Indicates an error with the predicate naming
 class SemanticNamingError < RuntimeError
 end
+
+# Indicates an error in a query
+class QueryError < RuntimeError
+end
