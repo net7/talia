@@ -26,4 +26,4 @@ CREATE TABLE `source_type_records` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO schema_info (version) VALUES (3)
+INSERT INTO schema_info (version) VALUES (2)

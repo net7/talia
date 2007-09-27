@@ -21,4 +21,5 @@ require "builder"
 # Load local things
 require 'talia_core/errors'
 require 'talia_core/source'
+require 'talia_core/rails_ext'
 require 'talia_core/initializer'

@@ -1,6 +1,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'sources_controller'
 
+require 'ruby-debug'
+
 # Re-raise errors caught by the controller.
 class SourcesController; def rescue_action(e) raise e end; end
 
