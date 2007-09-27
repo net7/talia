@@ -26,7 +26,6 @@ class SourcesControllerTest < Test::Unit::TestCase
   end
 
   def test_index
-    # FAILURE: TaliaCore::Source.find(:all) needed.
     get :index, {}
     assert_response :success
   end
@@ -121,7 +120,6 @@ class SourcesControllerTest < Test::Unit::TestCase
     source.foaf::friend = 'a friend'
     params = {:id => @source_name, :namespace => 'foaf', :predicate => 'friend'}
     get :show_rdf_predicate, params
-    #TODOFAILURE: add a valid predicate to fixtures.
     assert_response :success
   end
   
@@ -185,11 +183,11 @@ class SourcesControllerTest < Test::Unit::TestCase
   
   def test_update_wrong_http_verbs
     get     :update, {:id => @source_name}
-    assert_response :success
+    assert_response :redirect
     post    :update, {:id => @source_name}
-    assert_response :success
+    assert_response :redirect
     delete  :update, {:id => @source_name}
-    assert_response :success
+    assert_response :redirect
   end
   
   def test_update
@@ -197,8 +195,7 @@ class SourcesControllerTest < Test::Unit::TestCase
     source.name = 'updated name'
     params = {:id => @source_name, :source => source}
     put :update, params
-    assert_response :success
-    # TODO implent tests for redirect to the index action
+    assert_response :redirect
   end
   
   # DESTROY
@@ -221,7 +218,6 @@ class SourcesControllerTest < Test::Unit::TestCase
   
   def test_destroy
     delete :destroy, {:id => @source_name}
-    assert_response 302
-    # TODO implent tests for redirect to the index action
+    assert_response :redirect
   end
 end
