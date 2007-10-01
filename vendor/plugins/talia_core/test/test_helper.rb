@@ -2,6 +2,8 @@ require File.dirname(__FILE__) + "/../lib/talia_core"
 
 require 'active_record/fixtures'
 
+@@fixtures = [ 'source_records', 'dirty_relation_records', 'type_records']
+
 # Check for the tesly adapter, and load it if it's there
 if(File.exists?(File.dirname(__FILE__) + '/tesly_reporter.rb'))
   printf("Continuing with tesly \n")
@@ -40,7 +42,7 @@ module TaliaCore
           config["standalone_db"] = true
           
           # Configuration for standalone database connection
-          dbconfig = YAML::load(File.open('config/database.yml')) 
+          dbconfig = YAML::load(File.open(File.dirname(__FILE__) + '/../config/database.yml')) 
           config["db_connection"] = dbconfig["test"]
           
           # Additional namespaces that will be registered at 
@@ -54,12 +56,18 @@ module TaliaCore
       end
     end
     
+    # Flush the database
+    def self.flush_db
+      @@fixtures.reverse.each { |f| ActiveRecord::Base.connection.execute "DELETE FROM #{f}" }
+    end
+    
     # Setup the fixtures
     def self.fixtures
-      fixtures = Dir.glob(File.join(File.dirname(__FILE__), 'fixtures', '*.{yml,csv}'))  
-      fixtures.each do |fixture_file|  
+      flush_db
+      fixture_files = @@fixtures.collect { |f| File.join(File.dirname(__FILE__), "#{f}.yml") }
+      fixture_files.each do |fixture_file|
         Fixtures.create_fixtures(File.dirname(__FILE__) + '/fixtures', File.basename(fixture_file, '.*'))  
-      end 
+      end  
     end
     
     # Flush the RDF store
@@ -68,6 +76,15 @@ module TaliaCore
       to_delete.each do |s, p, o|
         FederationManager.delete(s, p, o)
       end
+    end
+    
+    # Creates a dummy Source and saves it
+    def self.make_dummy_source(uri)
+      src = Source.new(uri)
+      src.workflow_state = 0
+      src.primary_source = 1
+      src.save!
+      return src
     end
     
   end
