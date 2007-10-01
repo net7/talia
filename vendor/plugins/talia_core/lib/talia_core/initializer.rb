@@ -65,6 +65,9 @@ module TaliaCore
       # Register the RDFS namespace
       N::Namespace.shortcut(:rdfs, "http://www.w3.org/2000/01/rdf-schema#")
       
+      # Register namespace for database dupes
+      N::Namespace.shortcut(:talia_db, "http://talia.discovery-project.eu/wiki/DatabaseDupes#")
+      
       # Register additional namespaces
       if(config["namespaces"])
         sassert_type(config["namespaces"], Hash)

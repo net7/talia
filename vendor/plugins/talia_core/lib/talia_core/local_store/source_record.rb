@@ -1,13 +1,15 @@
+require 'active_record'
+require 'talia_core/local_store/has_uri_field'
+require 'talia_core/local_store/dirty_relation_record'
+require 'talia_core/local_store/type_record'
+
 module TaliaCore
-  require 'active_record'
-  require 'talia_core/local_store/has_uri_field'
-  require 'talia_core/local_store/dirty_relation_record'
   
   # ActiveRecord interface to the source record in the database
   class SourceRecord < ActiveRecord::Base
      # Contains the "dirty relations" that are
-    has_many :dirty_relation_records, :foreign_key => "source_record_id"
-    
+    has_many :dirty_relation_records, :foreign_key => "source_record_id", :dependent => :destroy
+    has_many :type_records, :foreign_key => "source_record_id", :dependent => :destroy
     # Add the URI functionality
     has_uri_field N::URI
     
@@ -57,6 +59,11 @@ module TaliaCore
     # Helper to see if a record with the given uri exists
     def self.exists_uri?(uri)
       find(:first, :conditions => ['uri = ?', uri.to_s]) != nil
+    end
+    
+    # Opens the sanitize method from ActiveRecord::Base
+    def self.sanitize_sql(condition)
+      super(condition)
     end
     
     protected

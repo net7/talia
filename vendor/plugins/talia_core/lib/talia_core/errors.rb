@@ -16,6 +16,10 @@ end
 class SemanticNamingError < RuntimeError
 end
 
+# Indicates an attempt to save attributes on an unsaved source
+class UnsavedSourceError < RuntimeError 
+end
+
 # Indicates an error in a query
 class QueryError < RuntimeError
 end

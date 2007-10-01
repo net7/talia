@@ -11,9 +11,15 @@ module TaliaCore
     
     # Establish the database connection for the test
     TestHelper.startup
-    Namespace.register(:foo, "http://newfoo.com/xxx#")
+    Namespace.register(:foo, N::FOO.to_s)
     
     def setup
+      TestHelper.flush_db
+      TestHelper.flush_rdf
+      src = Source.new("http://foo/") # Must have a saved source with same name
+      src.workflow_state = 1
+      src.primary_source = false
+      src.save!
       @rdf_resource = RdfResourceWrapper.new("http://foo/")
       (1..10).each do |num|
         resource = RdfResourceWrapper.new("http://foo/xy#{num}")

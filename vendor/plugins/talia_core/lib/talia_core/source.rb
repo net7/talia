@@ -1,5 +1,6 @@
 # require 'objectproperties' # Includes the class methods for the object_properties
 require 'local_store/source_record'
+require 'query/source_query'
 require 'active_rdf'
 require 'semantic_naming'
 require 'dummy_handler'
@@ -71,28 +72,41 @@ module TaliaCore
       @source_record.valid? 
     end
     
-    # Saves the data for this resource
+    # Saves the data for this resource. On success, it will return the
+    # record itself, upon failure it will return nil.
     def save()
-      # TODO: Add permission checking
-      
-      # We wrap this in a transaction: If the RDF save fails,
-      # the database save will be rolled back
-      SourceRecord.transaction do
-        @source_record.save()
-        @rdf_resource.save()
+      retval = self
+      begin
+        save!
+      rescue
+        retval = nil
       end
+      
+      retval
     end
     
-    # Saves the data for this resource and raises error on Failure
+    # Saves the data for this resource and raises error on Failure.
+    # This will perform three actions:
+    # 
+    # * Remove the duplicated db entries from the RDF store
+    # * Write the database record
+    # * Write th duplicated db entries to the RDF store.
+    #
+    # If one of the operations fails, the database transaction will be rolled 
+    # back. The RDF transaction cannot be rolled back, but this guarantees that
+    # upon a successful save the "duplicate" values are written.
     def save!()
       # TODO: Add permission checking
       
       # We wrap this in a transaction: If the RDF save fails,
       # the database save will be rolled back
       SourceRecord.transaction do
+        remove_db_dupes!
         @source_record.save!()
-        @rdf_resource.save()
+        write_db_dupes!
       end
+      
+      @exists = true
     end
     
     # Returns a list of data objects, or nil if the Source has no data
@@ -112,16 +126,15 @@ module TaliaCore
     
     
     # Find Sources in the system
-    # If just a single parameter is given, then we assume that this is
-    # the URI of a source. If the paramter is not an URI, we assume that
+    # If just a single parameter (or a list of N::URI or String) is given, 
+    # then we assume that these are the URIs of the Source(s) to load.
+    # If one of those does not have the format of an URI, we assume that
     # it's the name of a local Source and prepend the local namespace.
     #
-    # The method checks if a query can be answered from the database alone, or if an
-    # RDF lookup is necessary. If an RDF lookup is neccesary *only* Sources that exist
-    # in the database are returned. This has an effect on the :limit and :offset paramemters:
-    # since they are passed on to the RDF store, they method may return less elements 
-    # if some of the Sources found in the RDF query are not in the database!
-    #
+    # If multiple conditions are given, they will be joined by a boolean AND.
+    # This uses the SourceQuery and related classes, which can also be used
+    # independetly to create more complex queries.
+    # 
     # The method can be used in a way similiar to the <tt>ActiveRecord::find</tt> method:
     #
     # * Find by url: You can give one or moren urls, and the method will either return a
@@ -138,7 +151,9 @@ module TaliaCore
     # * <tt>:limit</tt>: Limits the size of the result set to the given number of elements.
     # * <tt>:offset</tt>: The number of the first element that will be returned
     # * <tt>predicate</tt>: Returns only records where the "predicate" has the given value. The predicate
-    #   (hash key) may be either an URI string or an N::URI object.
+    #   (hash key) may be either a string or an N::URI object.
+    # * <tt>:force_rdf</tt>: If set to true, the query will be executed within the
+    #   RDF store completely.
     #
     # Examples for find by uri:
     #   Source.find("http://www.domain.org/thesource") # Finds one uri
@@ -154,45 +169,58 @@ module TaliaCore
     #   Source.find(:all) # Finds all Sources
     #   Source.find(:all, :type => N::DEFAULT::book) # Find all Sources of the given type
     def self.find(*params)
-      raise QueryError("No query string given") unless(params.size > 0)
-      
+      raise(QueryError, "No query string given") unless(params.size > 0)
+
       first_param = params.first
       find_result = nil
-      
+
       # If the first param is a String or URI, we query for the given URIs
       if(first_param.is_a?(String) || first_param.kind_of?(N::URI))
         uris = params.collect { |param| build_query_uri(param) }
-        return load_from_records(SourceRecord.find_by_uri(uris))
-      end
-      
-      # Check if there's an object Hash, otherwise use empty options
-      options = params.last.is_a?(Hash) ? params.pop : {}
-      
-      if(is_rdf_query(options))
-        # Do an RDF query
-        case(first_param)
-        when :first
-          options[:limit] = 1
-          options[:offset] = 0
-        when :all
-        else
-          raise QueryError("Illegal query parameters")
-        end
-        find_result = load_from_resources(RdfResourceWrapper.find_from_hash(options))
-        # For :first find, just return the first element instead of the array
-        find_result = find_result[0] if((first_param == :first) && (find_result.size == 1))
+        find_result = load_from_records(SourceRecord.find_by_uri(uris))
       else
-        # Do an database query
-        sources = SourceRecord.find_by_hash(first_param, options)
-        if(sources.kind_of?(SourceRecord))
-          find_result = Source.new(sources)
+        if(params.size == 1) # Check if it's just find :all or :first
+          # Just go to the database
+          if(first_param != :first && first_param != :all)
+            raise(QueryError, "Illegal find scope: #{params[0]}")
+          end
+          find_result = load_from_records(SourceRecord.find(params[0]))
         else
-          find_result = sources.collect{ |record| Source.new(record) }
+          # Builds a query for the given options
+          raise(QueryError, "Illegal parameters") unless(params.size == 2)
+          qry_opts = params[1]
+
+          if(first_param == :first)
+            qry_opts[:limit] = 1
+            qry_opts[:offset] = 0
+          elsif(first_param != :all)
+            raise(QueryError, "Illegal query scope #{first_param}")
+          end
+
+          options = {}
+          options[:limit] = qry_opts.delete(:limit) if(qry_opts[:limit])
+          options[:offset] = qry_opts.delete(:offset) if(qry_opts[:offset])
+          options[:force_rdf] = qry_opts.delete(:force_rdf) if(qry_opts[:force_rdf])
+          options[:conditions] = qry_opts
+
+          find_result = SourceQuery.new(options).execute
+          
+          if(first_param == :first)
+            sassert(find_result.size == 0 || find_result.size == 1, "Illegal result size for :first: #{find_result.size}")
+            find_result = find_result[0]
+          elsif(first_param != :all)
+            raise(QueryError, "Illegal find scope #{first_param}")
+          end
         end
       end
-            
-      sassert(find_result.is_a?(Source) || find_result.is_a?(Array))
+             
+      sassert(find_result.is_a?(Source) || find_result.is_a?(Array) || find_result == nil)
       find_result
+    end
+    
+    # Checks if the current record already exists in the database
+    def exists?
+      @exists = Source.exists?(uri)
     end
     
     # Checks if a source with the given uri exists in the system
@@ -212,8 +240,11 @@ module TaliaCore
     
     # Returns a TypeList with the types of this Source
     def types
-      @rdf_resource.types
+      TypeList.new(@source_record.type_records)
     end
+    
+    # Redirect the call to the :type_records
+    alias :type_records :types
     
     # Attribute reader, for compatibility with the ActiveRecord API
     # If the given name is a database field, the called will be
@@ -222,7 +253,7 @@ module TaliaCore
     def [](attribute)
       attr = nil
       
-      if(@source_record.attribute_names.index(attribute.to_s))
+      if(@source_record.attribute_names.include?(attribute.to_s))
         attr = @source_record[attribute.to_s]
       else
         attr = @rdf_resource[attribute.to_s]
@@ -233,10 +264,10 @@ module TaliaCore
     
     # Assignment to the the array-type accessor
     def []=(attribute, value)
-      if(@source_record.attribute_names.index(attribute.to_s))
+      if(@source_record.attribute_names.include?(attribute.to_s))
         @source_record[attribute.to_s] = value
       else
-        @rdf_resource[attribute.to_s] = value
+        raise(ArgumentError, "Set not available on RDF properties, use << instead.")
       end
     end
     
@@ -252,6 +283,8 @@ module TaliaCore
     # Setter method for predicates by namespace/name combination. This works like
     # the = operator for a property: *It will add a precdicate triple, not replace one!*
     def predicate_set(namespace, name, value)
+      raise_if_unsaved
+      
       namesp_uri = N::Namespace[namespace]
       
       # Check if namespace exists
@@ -272,7 +305,7 @@ module TaliaCore
         
         # Add the types to the XML
         builder.types() do
-          for type in @rdf_resource.types do
+          for type in types do
             builder.type(type.to_s)
           end
         end
@@ -294,24 +327,6 @@ module TaliaCore
     # Class methods
     class << self
       
-      # This examines a query hash for the find method, and returns true if the
-      # given query can be answered only from the RDF store
-      #
-      # If the method returns false, the query can be answered from the database
-      # alone
-      def is_rdf_query(query_options)
-        sassert_type(query_options, Hash)
-        
-        # Try to find a thing that is neither a special keyword (e.g. :limit)
-        # nor a database column
-        query_options.keys.detect do |property|
-          found = (property != :limit)
-          found &&= (property != :offset)
-          found &&= (SourceRecord.column_names.index(property.to_s) == nil)
-        end
-      end
-      
-      
       # Build an uri from a string that was given from a query.
       # If this already is a uri, it will just be returned. 
       # If this is not an URI, it will return a URI with the given name in the 
@@ -326,7 +341,16 @@ module TaliaCore
         return  uri
       end
       
-       # Loads a list of existing records into the system. This will
+      # Get the "RDF name" of a DB item
+      def db_item_to_rdf(item)
+        if(item == :type)
+          N::RDF::type
+        else
+          (N::TALIA_DB + item.to_s).to_s
+        end
+      end
+      
+      # Loads a list of existing records into the system. This will
       # return an Array of Source objects, the records can be given
       # as a list of SourceRecord objects, or as a single Array.
       def load_from_records(*existing_records)
@@ -337,21 +361,11 @@ module TaliaCore
         existing_records.size == 1 ? existing_records[0] : existing_records
       end
       
-      # Loads a list of Sources from a collection of RDFS::Resource object
-      # (or RdfResourceWrapper objects). If the corresponding database entry
-      # does not exist, the element will be discarded.
-      def load_from_resources(*existing_resources)
-        existing_resources = existing_resources[0] if(existing_resources[0].kind_of?(Array))
-        
-        existing_resources = existing_resources.find_all { |resource| SourceRecord.exists_uri?(resource.uri) }
-        existing_resources.collect {|resource| Source.new(resource.uri) }
-      end
-      
     end
     
     # End of class methods
   
-     # Loads an existing record into the system
+    # Loads an existing record into the system
     def load_record(existing_record)
       sassert_type(existing_record, SourceRecord)
       sassert_not_nil(existing_record.uri)
@@ -364,7 +378,7 @@ module TaliaCore
     end
   
     # Creates a brand new Source object
-    def create_record(uri, types)
+    def create_record(uri, new_types)
       
       # Contains the interface to the part of the data that is
       # stored in the database
@@ -374,18 +388,54 @@ module TaliaCore
       @rdf_resource = RdfResourceWrapper.new(uri.to_s)
       
       # Insert the types
-      for type in types do
-        @rdf_resource.types << type
+      for type in new_types do
+        types << N::SourceClass.new(type.to_s)
       end
-      
-      # Save blank record.
-      @source_record.primary_source = false
-      @source_record.workflow_state = -1
-      @source_record.save!
       
     end
     
-    # END OF CLASS METHODS
+    # Writes the duplicates for the database properties to the
+    # RDF store. Saves the rdf resource.
+    def write_db_dupes!
+      db_columns_each do |col|
+        @rdf_resource[Source::db_item_to_rdf(col)] << @source_record[col]
+      end
+      # Write the types
+      types.each { |type| @rdf_resource[N::RDF::type] << type}
+   
+      @rdf_resource.save
+    end
+    
+    # Removes the duplicates for the database properties from the
+    # RDF store. Saves the rdf resource.
+    def remove_db_dupes!
+      db_columns_each do |col|
+        db_dupe = @rdf_resource[Source::db_item_to_rdf(col)]
+        db_dupe.remove
+      end
+      
+      # Remove the types
+      @rdf_resource[N::RDF::type].remove
+      
+      @rdf_resource.save
+    end
+    
+    # Executes the given block for each database column, passing
+    # the name of the column as a parameter. 
+    #
+    # This gets the columns from ActiveRecord::Base#content_columns
+    def db_columns_each(&block)
+      SourceRecord.content_columns.each do |col|
+        block.call(col.name)
+      end
+    end
+    
+    # Raises an error if the underlying record is not saved yet
+    def raise_if_unsaved
+      if(!exists?)
+        raise(UnsavedSourceError, "Cannot set elements on unsaved Source #{uri.to_s}.")
+      end
+    end
     
     # Missing methods: This first checks if the method called 
     # corresponds to a valid database attribute. In this case,
@@ -411,16 +461,17 @@ module TaliaCore
       # TODO: Add permission checking for read access?
       
       update = method_name.to_s[-1..-1] == '='
+      
       shortcut = if update 
-                     method_name.to_s[0..-2]
-                   else
-                     method_name.to_s
-                   end
+        method_name.to_s[0..-2]
+      else
+        method_name.to_s
+      end
       
       arg_count = update ? (args.size - 1) : args.size
       
       # Check if this call should go to the db
-      if(@source_record.attribute_names.index(shortcut.to_s))
+      if(@source_record.attribute_names.include?(shortcut.to_s))
         if(update)
           return @source_record[shortcut.to_s] = args[-1]
         else
@@ -471,6 +522,7 @@ module TaliaCore
       end
       
       if update
+        raise_if_unsaved
         @rdf_resource[predicate.to_s] << args[-1]
       else
         @rdf_resource[predicate.to_s]
