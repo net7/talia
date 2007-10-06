@@ -375,7 +375,7 @@ module TaliaCore
     end
     
     # Test find on rdf of db elements
-    def test_find_on_db_first
+    def test_find_on_db_first_rdf
       add_src = TestHelper.make_dummy_source("http://fourtyfivedummy.one/")
       add_src.workflow_state = 45
       add_src.save
@@ -409,6 +409,60 @@ module TaliaCore
       source = Source.find(:first, N::FOO::foofoo => "two")
       assert(source.uri.to_s == "http://foofoo_two_dummy.one/" || source.uri.to_s == "http://foofoo_two_dummy.two/")
     end
+    
+    # Test limit and 
+    def test_find_on_rdf_limit_offset
+      add_src = TestHelper.make_dummy_source("http://foofoo_three_dummy.one/")
+      add_src.foo::foofoo << "three"
+      add_src.save
+      add_src = TestHelper.make_dummy_source("http://foofoo_three_dummy.two/")
+      add_src.foo::foofoo << "three"
+      add_src.save
+      source = Source.find(:first, N::FOO::foofoo => "three")
+      sources = Source.find(:all, N::FOO::foofoo => "three", :limit => 1)
+      assert_equal(1, sources.size)
+      assert_equal(source.uri, sources[0].uri)
+      sources2 = Source.find(:all, N::FOO::foofoo => "three", :limit => 1, :offset => 1)
+      assert_equal(1, sources2.size)
+      assert_not_equal(sources[0], sources2[0])
+    end
+    
+    # Test find on db with limit and offset 
+    def test_find_on_db_limit_offset
+      add_src = TestHelper.make_dummy_source("http://fourtysixdummy.one/")
+      add_src.workflow_state = 46
+      add_src.save
+      add_src = TestHelper.make_dummy_source("http://fourtysixdummy.two/")
+      add_src.workflow_state = 46
+      add_src.save
+      source = Source.find(:first, :workflow_state => 46)
+      sources = Source.find(:all, :workflow_state => 46, :limit => 1)
+      assert_equal(1, sources.size)
+      assert_equal(source.uri, sources[0].uri)
+      sources2 = Source.find(:all, :workflow_state => 46, :limit => 1, :offset => 1)
+      assert_equal(1, sources2.size)
+      assert_not_equal(sources[0], sources2[0])
+    end
+    
+    # Test the inverse accessor
+    def test_inverse
+      origin = TestHelper.make_dummy_source("http://inversetest.com/originating")
+      origin2 = TestHelper.make_dummy_source("http://inversetest.com/originating2")
+      target = TestHelper.make_dummy_source("http://inversetest.com/target")
+     
+      
+      origin.foo::my_friend = target
+      origin.foo::coworker = target
+      origin2.foo::my_friend = target
+      
+      inverted = target.inverse[N::FOO::coworker]
+      assert_equal(1, inverted.size)
+      assert_equal(origin.uri, inverted[0].uri)
+      
+      # Crosscheck
+      assert_equal(2, target.inverse[N::FOO::my_friend].size)
+    end
+    
     
   end
 end

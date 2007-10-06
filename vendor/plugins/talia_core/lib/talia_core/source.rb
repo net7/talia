@@ -5,6 +5,7 @@ require 'active_rdf'
 require 'semantic_naming'
 require 'dummy_handler'
 require 'rdf_resource_wrapper'
+require 'rdf_helper'
 require 'source_property_list'
 require 'type_list'
 
@@ -269,6 +270,30 @@ module TaliaCore
       else
         raise(ArgumentError, "Set not available on RDF properties, use << instead.")
       end
+    end
+    
+    # This returns a special object which collects the "inverse" properties 
+    # of the Source - these are all RDF properties which have the current
+    # Source as the object.
+    #
+    # The returned object supports the [] operator, which allows to fetch the
+    # "inverse" (the RDF subjects) for the given predicate.
+    #
+    # Example: <tt>person.inverse[N::FOO::creator]</tt> would return a list of
+    # all the elements of which the current person is the creator.
+    def inverse
+      my_inverse = Object.new
+      my_inverse.instance_variable_set(:@rdf_inverse, @rdf_resource.inverse)
+      
+      class << my_inverse
+        include RdfHelper
+        
+        def [](pred_uri)
+          to_sources(@rdf_inverse[pred_uri.to_s])
+        end
+      end
+      
+      return my_inverse
     end
     
     # Accessor that allows to lookup a namespace/name combination. This works like
