@@ -10,6 +10,7 @@ module TaliaCore
      # Contains the "dirty relations" that are
     has_many :dirty_relation_records, :foreign_key => "source_record_id", :dependent => :destroy
     has_many :type_records, :foreign_key => "source_record_id", :dependent => :destroy
+    has_many :data_records, :foreign_key => "source_record_id", :dependent => :destroy
     # Add the URI functionality
     has_uri_field N::URI
     
