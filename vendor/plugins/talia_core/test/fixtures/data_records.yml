@@ -1,0 +1,12 @@
+
+first:
+  id:                1
+  source_record_id:  1
+  type:              SimpleText
+  location:          temp1.txt
+  
+second:
+  id:                2
+  source_record_id:  1
+  type:              SimpleText
+  location:          temp2.txt

@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + "/../lib/talia_core"
 
 require 'active_record/fixtures'
 
-@@fixtures = [ 'source_records', 'dirty_relation_records', 'type_records']
+@@fixtures = [ 'source_records', 'dirty_relation_records', 'type_records', 'data_records']
 
 # Check for the tesly adapter, and load it if it's there
 if(File.exists?(File.dirname(__FILE__) + '/tesly_reporter.rb'))
@@ -52,6 +52,10 @@ module TaliaCore
             :test => "http://testnamespace.com/",
             :foo => "http://foo.com/"
           }
+          
+          # Where to find the data directory which will be contain the data (without "/" ending)
+          config["data_directory_location"] = File.dirname(__FILE__) + "/data_for_test"
+          
         end
       end
     end
