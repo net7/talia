@@ -127,6 +127,9 @@ module TaliaCore
       # Whether to set the $ASSERT flag that activates the simple assertions
       config["assert"] = true
       
+      # Where to find the data directory which will be contain the data
+      config["data_directory_location"] = "/var/www/talia/data"
+      
       return config
     end
     

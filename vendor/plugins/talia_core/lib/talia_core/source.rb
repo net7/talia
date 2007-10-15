@@ -1,5 +1,6 @@
 # require 'objectproperties' # Includes the class methods for the object_properties
 require 'local_store/source_record'
+require 'local_store/data_record'
 require 'query/source_query'
 require 'active_rdf'
 require 'semantic_naming'

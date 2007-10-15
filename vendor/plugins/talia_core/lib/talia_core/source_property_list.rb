@@ -42,7 +42,7 @@ module TaliaCore
       old_p_value = to_resource(old_p_value)
       new_p_value = to_resource(new_p_value)
       
-      @rdf_list[old_p_value] = new_p_value
+      @rdf_list.replace(old_p_value, new_p_value)
     end
     
     # Remove elements from the list. If no parameter is given,

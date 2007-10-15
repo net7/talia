@@ -30,7 +30,7 @@ end
 desc "Load fixtures into the current database.  Load specific fixtures using FIXTURES=x,y"  
 task :fixtures => :testdb_connect do  
   # fixtures = ENV['FIXTURES'] ? ENV['FIXTURES'].split(/,/) : Dir.glob(File.join(File.dirname(__FILE__), 'test', 'fixtures', '*.{yml,csv}'))  
-  fixtures = [ 'source_records', 'dirty_relation_records']
+  fixtures = [ 'source_records', 'dirty_relation_records', 'data_records']
   fixtures.reverse.each { |f| ActiveRecord::Base.connection.execute "DELETE FROM #{f}" }
   fixture_files = fixtures.collect { |f| File.join(File.dirname(__FILE__), "#{f}.yml") }
   fixtures.each do |fixture_file|

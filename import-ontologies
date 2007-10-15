@@ -9,7 +9,7 @@ task :default => :import
 
 task :import do
   # some useful constants
-  TITLE = "\nImporubuntu protected acct-Ontologies Rake file\nVersion: 1.0 by Michele Nucci (mik.nucci _at_ gmail.com) \n\n"
+  TITLE = "\nImport-Ontologies Rake file\nVersion: 1.0 by Michele Nucci (mik.nucci _at_ gmail.com) \n\n"
   
   # read the command line parameters
   # example: rake -f import-ontologies rdfdir=./rdf/ontologies/ [resetdb=1|0|y|n]
