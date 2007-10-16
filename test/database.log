@@ -1,0 +1,533 @@
+  [4;36;1mSQL (0.000765)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.011168)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.006285)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.005747)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.003125)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000434)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.001896)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mSQL (0.000613)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000481)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002102)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002210)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002044)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002085)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002082)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002133)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002069)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002982)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002201)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002045)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002093)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002324)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002271)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000552)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000386)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002125)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mSQL (0.000681)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000387)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002043)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000556)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000424)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002094)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000659)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000389)[0m   [0;1mCOMMIT[0m
+  [4;36;1mSQL (0.000649)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002106)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.013001)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.006381)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.002984)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000415)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002099)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mSQL (0.000549)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000351)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002234)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002945)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002070)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002204)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002193)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002115)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002167)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002148)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002110)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002261)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002061)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002069)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.003016)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000527)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000455)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002053)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mSQL (0.000518)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000402)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002229)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000541)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000966)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002153)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000602)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000414)[0m   [0;1mCOMMIT[0m
+  [4;36;1mSQL (0.000624)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.005045)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.006207)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.004840)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.002923)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000442)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002349)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mSQL (0.000583)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000391)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002149)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002302)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002295)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002280)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002417)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002218)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002216)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002156)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002226)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002493)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002454)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002213)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002284)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000634)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000506)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.015063)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mSQL (0.000644)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000551)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.009698)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000625)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000660)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.005589)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000630)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000474)[0m   [0;1mCOMMIT[0m
+  [4;36;1mSQL (0.000575)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.008402)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.071965)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.005133)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.002969)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000451)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002215)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000652)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000397)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002233)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;36;1mSQL (0.000546)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000423)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002275)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002220)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002227)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002216)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002164)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002307)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002195)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.003332)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002487)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002887)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.005054)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002190)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.003215)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.004868)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000438)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002072)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;36;1mSQL (0.000500)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000378)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002248)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000547)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000404)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002161)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000602)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000597)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.000602)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.010212)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.014110)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.007588)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.000705)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000511)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002246)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002455)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;36;1mSQL (0.000680)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000456)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002494)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002285)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mSQL (0.000604)[0m   [0;1mBEGIN[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002083)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002366)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mSQL (0.149667)[0m   [0mINSERT INTO source_records (`name`, `uri`, `primary_source`, `workflow_state`) VALUES(NULL, 'http://www.newstuff.org/my_first', 0, 3)[0m
+  [4;36;1mSQL (0.000925)[0m   [0;1mINSERT INTO srecord_types (`type_uri`, `source_record_id`) VALUES('', 3)[0m
+  [4;35;1mTaliaCore::SrecordType Update (0.000919)[0m   [0mUPDATE srecord_types SET `type_uri` = '', `source_record_id` = 3 WHERE `id` = 3[0m
+  [4;36;1mSQL (0.024104)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002158)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000636)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000492)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002236)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002270)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002214)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000608)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000429)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002210)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002066)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000593)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000425)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.001989)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000667)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000372)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.003695)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.008383)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.006667)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.006277)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.003102)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000489)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002314)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.003260)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000531)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000488)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002093)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002178)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002331)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000610)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000465)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002376)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002355)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000603)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000463)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002348)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000675)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000542)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.000653)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.011013)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.007293)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.005314)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.003038)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000461)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002223)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.001985)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;36;1mSQL (0.000613)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000365)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002153)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002295)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mSQL (0.000494)[0m   [0;1mBEGIN[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002110)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002144)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mSQL (0.000971)[0m   [0mINSERT INTO source_records (`name`, `uri`, `primary_source`, `workflow_state`) VALUES(NULL, 'http://www.newstuff.org/my_first', 0, 3)[0m
+  [4;36;1mSQL (0.001676)[0m   [0;1mINSERT INTO srecord_types (`type_uri`, `source_record_id`) VALUES('', 6)[0m
+  [4;35;1mTaliaCore::SrecordType Update (0.001051)[0m   [0mUPDATE srecord_types SET `type_uri` = '', `source_record_id` = 6 WHERE `id` = 6[0m
+  [4;36;1mSQL (0.001633)[0m   [0;1mROLLBACK[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002121)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000519)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000487)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002011)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mSQL (0.000552)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000345)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002513)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002166)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002414)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002445)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002189)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002280)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002227)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.024975)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002403)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.004239)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.004725)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002250)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.003489)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.004037)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000522)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002015)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mSQL (0.000507)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000370)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002556)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000528)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000346)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002158)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000612)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000355)[0m   [0;1mCOMMIT[0m
+  [4;36;1mSQL (0.000523)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.003129)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.030238)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.004668)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.003126)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000443)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002145)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002092)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;36;1mSQL (0.000611)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000419)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002292)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002166)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;36;1mSQL (0.000503)[0m   [0;1mBEGIN[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002123)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002539)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;35;1mSQL (0.001117)[0m   [0mINSERT INTO source_records (`name`, `uri`, `primary_source`, `workflow_state`) VALUES(NULL, 'http://www.newstuff.org/my_test', 0, 3)[0m
+  [4;36;1mSQL (0.000887)[0m   [0;1mINSERT INTO srecord_types (`type_uri`, `source_record_id`) VALUES('', 7)[0m
+  [4;35;1mTaliaCore::SrecordType Update (0.000986)[0m   [0mUPDATE srecord_types SET `type_uri` = '', `source_record_id` = 7 WHERE `id` = 7[0m
+  [4;36;1mSQL (0.002149)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002294)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002284)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002460)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000938)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000503)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002556)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mSQL (0.000612)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000484)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002389)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002284)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002809)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.003460)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002392)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.003255)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002351)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002493)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002414)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002316)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002413)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002316)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.003333)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.001597)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000610)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002362)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mSQL (0.000686)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000498)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002390)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000587)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000469)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002529)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000580)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000496)[0m   [0;1mCOMMIT[0m
+  [4;36;1mSQL (0.000606)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.011498)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.070987)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.004790)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.003032)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000554)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.001919)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.001982)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;36;1mSQL (0.000503)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000335)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.003082)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002143)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;36;1mSQL (0.000538)[0m   [0;1mBEGIN[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002958)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002191)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;35;1mSQL (0.000936)[0m   [0mINSERT INTO source_records (`name`, `uri`, `primary_source`, `workflow_state`) VALUES(NULL, 'http://www.newstuff.org/my_test', 0, 3)[0m
+  [4;36;1mSQL (0.000886)[0m   [0;1mINSERT INTO srecord_types (`type_uri`, `source_record_id`) VALUES('', 9)[0m
+  [4;35;1mTaliaCore::SrecordType Update (0.001062)[0m   [0mUPDATE srecord_types SET `type_uri` = '', `source_record_id` = 9 WHERE `id` = 9[0m
+  [4;36;1mSQL (0.001362)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002210)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.004600)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002242)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;36;1mSQL (0.000551)[0m   [0;1mBEGIN[0m
+  [4;35;1mTaliaCore::SourceRecord Destroy (0.001104)[0m   [0m DELETE FROM source_records
+ WHERE `id` = 9
+[0m
+  [4;36;1mSQL (0.001202)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.001937)[0m   [0mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_test') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002783)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000562)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000380)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.003058)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;36;1mSQL (0.000620)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000395)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002235)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002237)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002355)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.024165)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002379)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002414)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002266)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.004837)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002371)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002234)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.005892)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002192)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002323)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000555)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000355)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002174)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;36;1mSQL (0.000503)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000449)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002240)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000541)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000360)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002140)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000534)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000356)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.000601)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002182)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.005746)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.007180)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.000752)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000711)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002193)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.003541)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;36;1mSQL (0.000624)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000499)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002441)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.003232)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;36;1mSQL (0.000637)[0m   [0;1mBEGIN[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002406)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002241)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;35;1mSQL (0.001055)[0m   [0mINSERT INTO source_records (`name`, `uri`, `primary_source`, `workflow_state`) VALUES(NULL, 'http://www.newstuff.org/my_test', 0, 3)[0m
+  [4;36;1mSQL (0.001006)[0m   [0;1mINSERT INTO srecord_types (`type_uri`, `source_record_id`) VALUES('', 10)[0m
+  [4;35;1mTaliaCore::SrecordType Update (0.001126)[0m   [0mUPDATE srecord_types SET `type_uri` = '', `source_record_id` = 10 WHERE `id` = 10[0m
+  [4;36;1mSQL (0.001275)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002438)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.003512)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002071)[0m   [0mSELECT * FROM source_records WHERE (source_records.`id` = 0) [0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002341)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;35;1mSQL (0.000577)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Destroy (0.001099)[0m   [0;1m DELETE FROM source_records
+ WHERE `id` = 10
+[0m
+  [4;35;1mSQL (0.001181)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002219)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_test') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002630)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000618)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000495)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002568)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mSQL (0.000626)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000629)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002384)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002245)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002291)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002246)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002404)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002217)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002391)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.003025)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002402)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002376)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002408)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.003429)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002268)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000629)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000379)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002002)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mSQL (0.000536)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000394)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.003857)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000546)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000366)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002285)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000556)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000374)[0m   [0;1mCOMMIT[0m
+  [4;36;1mSQL (0.000737)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002416)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.108295)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.005185)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.003049)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000432)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002031)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002039)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;36;1mSQL (0.000585)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000393)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002150)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002397)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;36;1mSQL (0.000547)[0m   [0;1mBEGIN[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002354)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002363)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;35;1mSQL (0.001228)[0m   [0mINSERT INTO source_records (`name`, `uri`, `primary_source`, `workflow_state`) VALUES(NULL, 'http://www.newstuff.org/my_test', 0, 3)[0m
+  [4;36;1mSQL (0.000988)[0m   [0;1mINSERT INTO srecord_types (`type_uri`, `source_record_id`) VALUES('', 11)[0m
+  [4;35;1mTaliaCore::SrecordType Update (0.000879)[0m   [0mUPDATE srecord_types SET `type_uri` = '', `source_record_id` = 11 WHERE `id` = 11[0m
+  [4;36;1mSQL (0.001293)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002275)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.017038)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002475)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002178)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;35;1mSQL (0.000552)[0m   [0mBEGIN[0m
+  [4;36;1mTaliaCore::SourceRecord Destroy (0.000884)[0m   [0;1m DELETE FROM source_records
+ WHERE `id` = 11
+[0m
+  [4;35;1mSQL (0.001112)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002817)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_test') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002327)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000515)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000401)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002381)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mSQL (0.000544)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000387)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002194)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002305)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002805)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002282)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.003390)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002333)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002137)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002405)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002211)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002196)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002245)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002172)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.003149)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000562)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000431)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002000)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;35;1mSQL (0.000612)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000406)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002267)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000526)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000357)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002263)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000573)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000385)[0m   [0;1mCOMMIT[0m
+  [4;36;1mSQL (0.000531)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002355)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Columns (0.006357)[0m   [0;1mSHOW FIELDS FROM source_records[0m
+  [4;35;1mTaliaCore::SrecordType Columns (0.009236)[0m   [0mSHOW FIELDS FROM srecord_types[0m
+  [4;36;1mSQL (0.003227)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000604)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002025)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002124)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;36;1mSQL (0.000524)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000376)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002269)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002225)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;36;1mSQL (0.000542)[0m   [0;1mBEGIN[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002194)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002302)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n') LIMIT 1[0m
+  [4;35;1mSQL (0.001028)[0m   [0mINSERT INTO source_records (`name`, `uri`, `primary_source`, `workflow_state`) VALUES(NULL, 'http://www.newstuff.org/my_test', 0, 3)[0m
+  [4;36;1mSQL (0.000911)[0m   [0;1mINSERT INTO srecord_types (`type_uri`, `source_record_id`) VALUES('', 12)[0m
+  [4;35;1mTaliaCore::SrecordType Update (0.000891)[0m   [0mUPDATE srecord_types SET `type_uri` = '', `source_record_id` = 12 WHERE `id` = 12[0m
+  [4;36;1mSQL (0.001328)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002581)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002262)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002128)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;36;1mSQL (0.000536)[0m   [0;1mBEGIN[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.161420)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n' AND source_records.id <> 12) LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002291)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_test\n' AND source_records.id <> 12) LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Update (0.001237)[0m   [0mUPDATE source_records SET `primary_source` = 0, `uri` = 'http://www.newstuff.org/my_test', `workflow_state` = 4, `name` = NULL WHERE `id` = 12[0m
+  [4;36;1mSQL (0.001073)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002308)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002193)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "xxxx") LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002219)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_test") LIMIT 1[0m
+  [4;36;1mSQL (0.000493)[0m   [0;1mBEGIN[0m
+  [4;35;1mTaliaCore::SourceRecord Destroy (0.000961)[0m   [0m DELETE FROM source_records
+ WHERE `id` = 12
+[0m
+  [4;36;1mSQL (0.001373)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.001874)[0m   [0mSELECT * FROM source_records WHERE (source_records.`id` = 'http://www.newstuff.org/my_test') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002201)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000580)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000385)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.001955)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;36;1mSQL (0.000586)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000497)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002372)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002275)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002225)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002178)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: http://www.newstuff.org/my_first\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002186)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002183)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foobar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002377)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002173)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: \"foo:bar \"\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002256)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002163)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002170)[0m   [0;1mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.003066)[0m   [0mSELECT * FROM source_records WHERE (source_records.uri = '--- !ruby/object:N::URI \nuri_s: foo:bar\n') LIMIT 1[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002251)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000529)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000363)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.002086)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.newstuff.org/my_first") LIMIT 1[0m
+  [4;36;1mSQL (0.001216)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000539)[0m   [0mCOMMIT[0m
+  [4;36;1mTaliaCore::SourceRecord Load (0.002405)[0m   [0;1mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;35;1mSQL (0.000702)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.011119)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTaliaCore::SourceRecord Load (0.038683)[0m   [0mSELECT * FROM source_records WHERE (uri = "http://www.test.org/test/") LIMIT 1[0m
+  [4;36;1mSQL (0.000521)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000364)[0m   [0mCOMMIT[0m

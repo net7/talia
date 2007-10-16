@@ -1,0 +1,13 @@
+<%= widget(:sidebar) %>
+
+
+<!-- contents: main part of the page - divided into external and internal -->
+<div id="contents_ext" class="open">
+  <div id="contents_int">
+    <p  id="contents_loader" style="display: none" class="side_bar_loader">Caricamento in corso</p>
+   
+    <%= widget(:source_list, :sources => @sources) %>
+    
+  </div>
+</div>
+  

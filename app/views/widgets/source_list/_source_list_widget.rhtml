@@ -1,0 +1,4 @@
+<h2><%= source_list.sources.size %> sources found</h2>
+<div>
+  <%= render(:partial => File.join(source_list.self_folder, 'source_item'), :collection => source_list.sources) %>
+</div>
