@@ -135,19 +135,21 @@ function setDivHeight()
 	pagina forzo l'altezza uguale a quella della pagina */
 	
 	/* !!!!!! CONTROLLARE IL CORRETTO FUNZIONAMENTO SU ALTRE PIATTAFORME !!!!!!!!!!!! */
-if((windowHeight-290-158-window.pageYOffset)>0)
-	 $("bottom_menu").style.marginTop =290+(windowHeight-290-158-window.pageYOffset) + ("px");
+if(windowHeight-218>290)
+
+	 $("bottom_menu").style.marginTop =(windowHeight-218) + ("px");
+
          else  $("bottom_menu").style.marginTop =290+ ("px");
 	
 if(ext_pageHeight < windowHeight)
 	{
 
-
+               
 		$('ext_page').style.height = (windowHeight) + ("px");
                
-	
+	         // $("bottom_menu").style.marginTop = windowHeight - 218  + ("px"); 
 
-     } else {  $("bottom_menu").style.marginTop = windowHeight - 218  + ("px"); }
+     } 
 	
 	
 	/* dimensionamento del side bar: se non arriva fino in fodno alla pagina, lo imposto con lo style perché arrivi in fondo */
@@ -155,7 +157,7 @@ if(ext_pageHeight < windowHeight)
 	{
                  
 		      $('side_bar').style.height =  (windowHeight - 158) + "px";
-         
+                      //$("bottom_menu").style.marginTop = windowHeight - 218  + ("px"); 
 	} 
 // (window.pageYOffset/2);
 
@@ -180,66 +182,8 @@ else{
 }
 
 
-function updateSideBarContent(url){
-
-alert(url); return false;
-
-}
-
-function applyClickToSidebarButton(buttonClass){
-
-pippo = $$(buttonClass);
-
-for(i=0;i<pippo.length;i++){
-
-	pippo[i].onclick=function(){ 
-
-		 updateSideBarContent(this.href); return false;
-                   
-	}
-
-
-}
-
-
-}
-
-
-function pixel2int( pixels){
-
-//return parseInt(pixels.substring(0,pixels.length-2));
-
-
-}
-
-/* funzione che fa scorrere un oggetto in base allo scroll e altra misura. */
-
-function scroll_element(elementId, morePixel){
-
-if( typeof( window.pageYOffset ) == 'number' ) {
-
-    //Netscape compliant
-$(elementId).style.marginTop =morePixel +  window.pageYOffset +"px";
-  
-  } else if( document.body && ( document.body.scrollLeft || document.body.scrollTop ) ) {
-    //DOM compliant
-   $(elementId).style.marginTop =morePixel +  document.body.scrollTop/2 +"px";
-
-  } else if( document.documentElement && ( document.documentElement.scrollLeft || document.documentElement.scrollTop ) ) {
-    //IE6 standards compliant mode
- 
-  $(elementId).style.marginTop =morePixel +   document.documentElement.scrollTop/2 +"px";
-
-  
- }
-
-
-}
-
 var margin_bottom_menu = 290;
 
-var size= window.innerHeight;
-var newsize = window.innerHeight;
 
 
 window.onresize = function(){
@@ -248,41 +192,32 @@ window.onresize = function(){
   setDivHeight();
 
 }
+var prevOffset =0;
+window.onscroll= function(){
 
 
+}
 window.onload = function(){
-
-
-applyClickToSidebarButton("a.top_menu_item");
 
 
 
 $("bottom_menu").style.marginTop = 290 +"px";
 $("top_menu").style.marginTop = 60 +"px";
 
-/* calcolo la distanza che bottom_menu ha dalla testata*/
 
-//margin_bottom_menu = pixel2int($("top_menu").style.marginTop) + pixel2int($("top_menu").clientHeight);
-  
-
-  
 
  setDivHeight();
 
  /* applico al pulsante con id 'sidebar_button' le funzioni per aprire e chiudere side_bar */
 
 	$('side_bar_button').onclick=function(){
+
 	open_close("side_bar" , "open", "closed");
 	open_close("contents_ext", "open", "closed");
         open_close("footer", "open", "closed");
         open_close("page", "open", "closed");
 
   }
-
-
-}
-
-window.onscroll = function() {
 
 
 }
