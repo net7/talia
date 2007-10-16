@@ -51,7 +51,9 @@ module TaliaCore
       end
       
       # Initialize the ActiveRDF connection
-      ConnectionPool.add_data_source(config["rdf_connection"])
+      rdf_cfg = Hash.new
+      config["rdf_connection"].each { |key, value| rdf_cfg[key.to_sym] = value }
+      ConnectionPool.add_data_source(rdf_cfg)
       
       # Register the local name
       N::Namespace.shortcut(:local, config["local_uri"])
