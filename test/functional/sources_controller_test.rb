@@ -36,7 +36,7 @@ class SourcesControllerTest < Test::Unit::TestCase
     #   sources/show
     # It tries to find a source with the name 'show'
     # This behavior it's ok, cause we cannot never request this route.
-    assert_raise(ActiveRecord::RecordNotFound) { get :show, {} }
+    assert_raise(QueryError) { get :show, {} }
   end
   
   def test_show_with_unexistent_source_name
@@ -71,7 +71,7 @@ class SourcesControllerTest < Test::Unit::TestCase
   
   # SHOW_ATTRIBUTE
   def test_show_attribute_without_thw_source_name
-    assert_raise(ActiveRecord::RecordNotFound) { get :show_attribute, {} }
+    assert_raise(QueryError) { get :show_attribute, {} }
   end
   
   def test_show_attribute_with_unexistent_source_name
@@ -98,7 +98,7 @@ class SourcesControllerTest < Test::Unit::TestCase
   # SHOW_RDF_PREDICATE
   def test_show_rdf_predicate_with_wrong_params
     # empty params
-    assert_raise(ActiveRecord::RecordNotFound) { get :show_rdf_predicate, {} }
+    assert_raise(QueryError) { get :show_rdf_predicate, {} }
     
     # unexistent source
     params = {:id => @unexistent_name, :namespace => 'default', :predicate => 'pr'}
@@ -145,7 +145,7 @@ class SourcesControllerTest < Test::Unit::TestCase
   
   # EDIT
   def test_edit_without_the_source_name
-    assert_raise(ActiveRecord::RecordNotFound) { get :edit, {} }
+    assert_raise(QueryError) { get :edit, {} }
   end
   
   def test_edit_with_wrong_source_name
@@ -174,7 +174,7 @@ class SourcesControllerTest < Test::Unit::TestCase
   
   # UPDATE
   def test_update_without_the_source_name
-    assert_raise(ActiveRecord::RecordNotFound) { put :update, {} }
+    assert_raise(QueryError) { put :update, {} }
   end
   
   def test_update_with_wrong_source_name
@@ -200,7 +200,7 @@ class SourcesControllerTest < Test::Unit::TestCase
   
   # DESTROY
   def test_destroy_without_the_source_name
-    assert_raise(ActiveRecord::RecordNotFound) { delete :destroy, {} }
+    assert_raise(QueryError) { delete :destroy, {} }
   end
   
   def test_destroy_with_wrong_source_name
