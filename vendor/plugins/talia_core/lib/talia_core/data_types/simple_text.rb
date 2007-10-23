@@ -20,6 +20,14 @@ module TaliaCore
     def all_bytes
       read_all_bytes
     end
+    
+    # Returns the complete text
+    def all_text
+      if(!is_file_open?)
+        open_file
+      end
+      @file_handle.read(self.size)
+    end
 
     # returns the next byte from the object, or nil at EOS
     def get_byte(close_after_single_read=false)

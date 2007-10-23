@@ -130,7 +130,11 @@ module TaliaCore
       config["assert"] = true
       
       # Where to find the data directory which will be contain the data
-      config["data_directory_location"] = "/var/www/talia/data"
+      if(defined?(RAILS_ROOT))
+        config["data_directory_location"] = File.join(RAILS_ROOT, 'data')
+      else
+        config["data_directory_location"] = File.join(File.dirname(__FILE__),'..', '..', 'data')
+      end
       
       return config
     end

@@ -110,15 +110,7 @@ module TaliaCore
       
       @exists = true
     end
-    
-    # Returns a list of data objects, or nil if the Source has no data
-    # TODO: Check: Note that the data will be stored in the object_store,
-    #       but is not an object_property. This is because this is
-    #       something that requires extra handling.
-    def data
-      # FIXME: Implementation missing
-      # TODO: Permission checks for some data types?
-    end
+
     
     # Accessor for the error messages (after validation)
     # At the moment, these are only the object store messages
@@ -238,6 +230,14 @@ module TaliaCore
     # attributes on this Source.
     def direct_predicates
       @rdf_resource.direct_predicates
+    end
+    
+    # Returns an array of the "inverse" predicates of this source. These are
+    # the predicates for which this source exists as an object
+    def inverse_predicates
+      qry = Query.new.distinct.select(:p)
+      qry.where(:s, :p, RDFS::Resource.new(uri.to_s))
+      qry.execute.collect{ |res| N::Predicate.new(res.uri) }
     end
     
     # Returns a TypeList with the types of this Source
@@ -427,7 +427,7 @@ module TaliaCore
         @rdf_resource[Source::db_item_to_rdf(col)] << @source_record[col]
       end
       # Write the types
-      types.each { |type| @rdf_resource[N::RDF::type] << type}
+      types.each { |type| @rdf_resource[N::RDF::type] << Source.new(type) }
    
       @rdf_resource.save
     end

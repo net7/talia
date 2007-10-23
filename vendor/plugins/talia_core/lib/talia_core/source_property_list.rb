@@ -83,6 +83,11 @@ module TaliaCore
       @rdf_list.size
     end
     
+    # For printing etc.
+    def join(separator)
+      collect { |prop| prop }.join(separator)
+    end
+    
     protected
     
     # Check if the underlying source is saved, raise an error otherwise

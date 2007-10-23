@@ -21,7 +21,7 @@ module FileStore
 
   # Return true if the specified data file is open, false otherwise
   def is_file_open?
-    (@file_handle != nil) ? true : false
+    (@file_handle != nil)
   end
 
   # Return the full file path related to the data directory
