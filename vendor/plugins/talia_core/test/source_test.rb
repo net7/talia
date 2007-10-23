@@ -247,6 +247,15 @@ module TaliaCore
       assert_equal(N::DEFAULT::author, my_source.direct_predicates[0])
     end
     
+    # Test for inverse predicates
+    def test_inverse_predicates
+      source = TestHelper.make_dummy_source("http://predicate_source/")
+      target = TestHelper.make_dummy_source("http://predicate_target/")
+      source.foo::invtest = target
+      assert_equal(1, target.inverse_predicates.size)
+      assert_equal(N::FOO::invtest, target.inverse_predicates[0])
+    end
+    
     # Test the Array accessor
     def test_array_accessor
       @@valid_source[N::MEETEST::array_test] << "foo"
@@ -463,7 +472,15 @@ module TaliaCore
       assert_equal(2, target.inverse[N::FOO::my_friend].size)
     end
     
-    
+    # Test if the save method/db dupes wipes any rdf data
+    def test_rdf_safe
+      safe = TestHelper.make_dummy_source("http://safehaven.com")
+      safe.foo::some_property = "I should be safe!"
+      safe.save!
+      safe.workflow_state = 3
+      safe.save!
+      assert_equal("I should be safe!", safe.foo::some_property[0])
+    end
   end
 end
  
