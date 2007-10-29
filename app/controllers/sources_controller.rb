@@ -14,7 +14,8 @@ class SourcesController < ApplicationController
   # GET /sources/1.xml
   def show
     @source = TaliaCore::Source.find(params[:id])
-
+    @page_subtitle = @source.uri.to_s
+    @page_title = "Talia | #{@source.uri.local_name}"
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @source }

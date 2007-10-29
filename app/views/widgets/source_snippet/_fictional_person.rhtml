@@ -1,0 +1,4 @@
+<h3>Fictional Character: <%= source_link(fictional_person.foaf::name.join(', '), fictional_person) %></h3>
+<p>
+    <%= fictional_person.dcns::description.join('</p><p>') %>
+</p>

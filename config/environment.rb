@@ -54,14 +54,21 @@ end
 # Include your application configuration below
 TaliaCore::Initializer.run do |config|
   # The name of the local node
-  config["local_uri"] = "http://localnode.org/"
+  config["local_uri"] = "http://www.talia.discovery-project.org/sources/"
   
   # The "default" namespace
-  config["default_namespace_uri"] = "http://default.talia.eu/"
+  config["default_namespace_uri"] = "http://www.talia.discovery-project.org/sources/default/"
   
-  # Connect options for ActiveRDF
-  # Defaults to in-memory RDFLite
-  config["rdf_connection"] = {
-    :type => :rdflite # In memory, so we don't have to clean the database 
+  # Connect options for ActiveRDF. Load from config file
+  env = ENV['RAILS_ENV'] ? ENV['RAILS_ENV'] : 'development'
+  rdf_config_name = File.join(RAILS_ROOT, 'config', 'rdfstore.yml')
+  config["rdf_connection"] = YAML::load(File.open(rdf_config_name))[env]
+  
+  # Namespaces used in the application
+  config["namespaces"] = {
+    :dcns => "http://purl.org/dc/elements/1.1/",
+    :foaf => "http://xmlns.com/foaf/0.1/",
+    :talias => "http://trac.talia.discovery-project.eu/wiki/StructuralOntology#",
+    :taliadom => "http://trac.talia.discovery-project.eu/wiki/SampleDomainOntology#"
   }
 end

@@ -11,4 +11,9 @@ module ApplicationHelper
   def page_subtitle
     @page_subtitle ? @page_subtitle : "Let's discover what's out there"
   end
+  
+  # Creates a link to the given source
+  def source_link(text, source)
+    link_to(text, :controller => 'sources', :action => 'show', :id => source.uri.local_name)
+  end
 end

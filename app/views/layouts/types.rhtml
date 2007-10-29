@@ -9,8 +9,8 @@
           :search => {:title => "Search and filter", :name  => "Search and Filter", :key => 5, :content => :search },
           :settings => {:title => "Settings", :name => "Settings", :key => 6, :content => :settings }
         },
-        :active_tab => :context,
-        :active_tab_options => { :source => @source }
+        :active_tab => :navigation,
+        :active_tab_options => { :source_class => @type }
         ) 
 %>
     
@@ -45,4 +45,3 @@
 </div> <!-- ext_page end -->
 
 <%= render(:partial => 'shared/main_footer') %>
-

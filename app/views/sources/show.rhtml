@@ -1,24 +1,12 @@
-<h1>Show source</h1>
-
-<table>
-  <tr>
-    <th>Name</th>
-    <td><%=h @source.name %></td>
-  </tr>
-  <tr>
-    <th>Uri</th>
-    <td><%=h @source.uri %></td>
-  </tr>
-  <tr>
-    <th>Workflow Status</th>
-    <td><%=h @source.workflow_status %></td>
-  </tr>
-  <tr>
-    <th>Primary Source</th>
-    <td><%=h @source.primary_source %></td>
-  </tr>
-</table>
-<br />
-<br />
-<%= link_to "back", :action => "index" %> | 
-<%= link_to "edit", edit_source_path(@source) %>
+<div>
+ <%= widget(:source_snippet, :source => @source) %>
+ <%= "<h3>ID: #{@source.predicate('dcns', 'id').join(' | ')}</h3>" if(@source.predicate('dcns', 'id')) %>
+ <%= @source.primary_source ? "This is a primary source" : "This is a contribution" %>
+<% if(@source.data_records.size > 0) %>
+    <%= @source.data_records[0].all_text %>
+<% else %>
+    <h3>Sorry mate, no data objects here</h3> 
+<% end %>
+</div>
+<!-- %= link_to "back", :action => "index" %--> 
+<!-- %= link_to "edit", edit_source_path(@source) %-->

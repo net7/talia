@@ -1,0 +1,4 @@
+<h3>Person: <%= source_link(person.foaf::name.join(', '), person) %></h3>
+<p>
+    <%= person.dcns::description.join('</p><p>') %>
+</p>

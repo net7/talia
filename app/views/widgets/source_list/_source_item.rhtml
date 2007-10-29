@@ -1,6 +1,3 @@
-<div>
-  <h3><%= source_item.uri.local_name %></h3>
-  <p>
-    <%= source_item.uri.to_s %>
-  </p>
+<div <%= "style='color:green'" if(source_item.primary_source) %>>
+  <%= widget(:source_snippet, :source => source_item) %>
 </div>
