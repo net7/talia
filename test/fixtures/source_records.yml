@@ -1,6 +1,6 @@
 something:
   id: 1
   name: something
-  uri: http://localnode.org/something
+  uri: http://www.talia.discovery-project.org/sources/something
   workflow_state: 0
   primary_source: 0
