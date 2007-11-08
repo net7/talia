@@ -7,7 +7,7 @@ require File.dirname(__FILE__) + '/test_helper'
 module TaliaCore
   
   # Test the RdfQuery class
-  class RdfQueryTest < Test::Unit::TestCase
+  class SourceQueryTest < Test::Unit::TestCase
     
     TestHelper::startup
     @@is_setup = false

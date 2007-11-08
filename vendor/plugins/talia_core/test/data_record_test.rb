@@ -17,7 +17,7 @@ module TaliaCore
     end
     
     # test not nil and records numbers
-    def test_records_numbres
+    def test_records_numbers
       assert_not_equal [], @test_records
       assert_equal 2, @test_records.size
     end

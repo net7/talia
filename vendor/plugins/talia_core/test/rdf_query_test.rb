@@ -40,6 +40,7 @@ module TaliaCore
       s3.foo::type = "hello"
       s3.foo::workstate = "1"
       s3.foo::primary = "true"
+      s3.foo::friend = s2
       s3.save!
     end
     
@@ -63,6 +64,25 @@ module TaliaCore
       assert_equal(1, result.size)
       assert_kind_of(Source, result[0])
       assert_equal("http://foo_one", result[0].uri.to_s)
+    end
+    
+    # Find on simple expression that is a relation
+    def test_find_by_resource_relation
+      qry = RdfQuery.new(:EXPRESSION, N::FOO::friend, Source.new("http://foo_two"))
+      result = qry.execute
+      assert_equal(1, result.size)
+      assert_kind_of(Source, result[0])
+      assert_equal("http://foo_three", result[0].uri.to_s)
+    end
+    
+    # Find on simple expression that is a relation if an URI is given 
+    # (If an URI object is given, it's clear that a resource is meant)
+    def test_find_by_resource_relation_by_uri
+      qry = RdfQuery.new(:EXPRESSION, N::FOO::friend, N::URI.new("http://foo_two"))
+      result = qry.execute
+      assert_equal(1, result.size)
+      assert_kind_of(Source, result[0])
+      assert_equal("http://foo_three", result[0].uri.to_s)
     end
     
     # Find on workflow state, without result

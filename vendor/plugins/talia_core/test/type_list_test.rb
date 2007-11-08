@@ -1,3 +1,4 @@
+require 'test/unit'
 require File.dirname(__FILE__) + "/../lib/talia_core"
 
 # Load the helper class
@@ -12,7 +13,7 @@ module TaliaCore
     TestHelper.startup
     
     def setup
-      TestHelper.fixtures
+      TestHelper.flush_db
       @record = SourceRecord.new("http://dummyuri.com/")
       @record.workflow_state = 0
       @record.primary_source = false

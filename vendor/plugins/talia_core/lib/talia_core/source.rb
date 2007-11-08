@@ -328,20 +328,9 @@ module TaliaCore
       builder.source(:primary => primary_source) do
         builder.id(@source_record.id, :type => "integer")
         builder.uri(uri.to_s)
-        
-        # Add the types to the XML
-        builder.types() do
-          for type in types do
-            builder.type(type.to_s)
-          end
-        end
-        
-        # Add the existing predicates to the XML
-        builder.activePredicates do
-          for predicate in direct_predicates do
-            builder.predicate(predicate.to_s)
-          end
-        end
+        builder.name(@source_record.name)
+        builder.workflow_state(@source_record.workflow_state, :type => "integer")
+        builder.primary_source(@source_record.primary_source, :type => "boolean")
       end
       
       xml

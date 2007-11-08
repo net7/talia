@@ -119,7 +119,14 @@ module TaliaCore
       case(operation)
       when :EXPRESSION
         predicate = RDFS::Resource.new(@property.to_s)
-        object = @value.is_a?(Source) ? RDFS::Resource.new(object.uri.to_s) : @value
+        # Check if we need to treat the value as a resource
+        object = if(@value.is_a?(Source)) 
+          RDFS::Resource.new(@value.uri.to_s) 
+        elsif(@value.kind_of?(N::URI))
+          RDFS::Resource.new(@value.to_s)
+        else
+          @value
+        end
         [[:s, predicate, object]]
       when :AND
         patterns = []

@@ -18,56 +18,21 @@ module TaliaCore
     # connect the database
     def self.startup
       if(!TaliaCore::Initializer.initialized)
+        TaliaCore::Initializer.talia_root = File.join(File.dirname(__FILE__))
+        TaliaCore::Initializer.environment = "test"
         # run the initializer
-        TaliaCore::Initializer.run do |config|
-          
-          # The name of the local node
-          config["local_uri"] = "http://localnode.org/"
-          
-          # The "default" namespace
-          config["default_namespace_uri"] = "http://default.talia.eu/"
-          
-          # Connect options for ActiveRDF
-          # Defaults to in-memory RDFLite
-          config["rdf_connection"] = {
-            :type => :rdflite # In memory, so we don't have to clean the database 
-          }
-          
-          # Indicates if the DB backend (ActiveRecord) is 
-          # used "standalone", which means "outside" a
-          # rails application. 
-          # For the standalone case, the Talia
-          # initializer will make the database connections.
-          # Otherwise, Rails will handle that.
-          config["standalone_db"] = true
-          
-          # Configuration for standalone database connection
-          dbconfig = YAML::load(File.open(File.dirname(__FILE__) + '/../config/database.yml')) 
-          config["db_connection"] = dbconfig["test"]
-          
-          # Additional namespaces that will be registered at 
-          # startup. If present, this is expected to be a Hash with 
-          # :shortcut => URI pairs
-          config["namespaces"] = {
-            :test => "http://testnamespace.com/",
-            :foo => "http://foo.com/"
-          }
-          
-          # Where to find the data directory which will be contain the data (without "/" ending)
-          config["data_directory_location"] = File.dirname(__FILE__) + "/data_for_test"
-          
-        end
+        TaliaCore::Initializer.run("talia_core")
       end
     end
     
     # Flush the database
     def self.flush_db
       @@fixtures.reverse.each { |f| ActiveRecord::Base.connection.execute "DELETE FROM #{f}" }
+      Fixtures.reset_cache # We must reset the cache because the fixtures were deleted
     end
     
     # Setup the fixtures
     def self.fixtures
-      flush_db
       fixture_files = @@fixtures.collect { |f| File.join(File.dirname(__FILE__), "#{f}.yml") }
       fixture_files.each do |fixture_file|
         Fixtures.create_fixtures(File.dirname(__FILE__) + '/fixtures', File.basename(fixture_file, '.*'))  

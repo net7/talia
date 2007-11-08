@@ -198,6 +198,17 @@ module TaliaCore
       assert_equal(2, result.size)
     end
     
+    # Test the conversion to an RDF query with and
+    def test_rdf_convert_and
+      qry = DbQuery.new(:EXPRESSION, :type, N::FOO::barme)
+      qry = qry.and(DbQuery.new(:EXPRESSION, :type, N::FOO::hello))
+      rdf_qry = qry.convert_rdf
+      assert_kind_of(RdfQuery, rdf_qry)
+      result = rdf_qry.execute
+      assert_equal(1, result.size)
+      assert_equal("http://foo_three", result[0].uri.to_s)
+    end
+    
     # Find on workflow state, using the RDF dupes
     def test_find_wf_state_on_rdf
       qry = DbQuery.new(:EXPRESSION, :workflow_state, 1).convert_rdf

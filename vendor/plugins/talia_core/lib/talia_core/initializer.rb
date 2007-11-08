@@ -10,11 +10,39 @@ module TaliaCore
   # The TaliaCore initializer is responsible for setting up the Talia core
   # system, e.g. making the neccessary connections, setting up the
   # basic namespaces, etc.
-  # The basic mechanism works like the Rails initializer
   #
-  # The initializer will automatically configure the namespace shortcuts
-  # for rdf: and rdfs:
+  # The basic mechanism works like the Rails initializer: Options can be
+  # added to the Hash in a block that is passed to the run method of the
+  # intializers.
+  #
+  # There are two settings that can be made before the configuration is started:
+  # 
+  # <tt>environmemnt</tt> is used to define the environment. This is used to
+  # select the configuration options from the files. This option will default
+  # to <tt>ENV['RAILS_ENV']</tt> if Talia runs in Rails. Otherwise the default
+  # will be "development".
+  # 
+  # <tt>talia_root</tt> is the root directory for the Talia installation. If
+  # unset, the will default to <tt>RAILS_ROOT</tt> in Rails and to the current
+  # directory if Talia is used as a standalone module. This will be used to find
+  # the configuration and data files.
+  #
+  # Usually these options need only to be set if running Talia standalone. In
+  # this case, assign <tt>TaliaCore::Initializer.talia_root</tt> and/or
+  # <tt>TaliaCore::Initializer.environmnet</tt> before running the 
+  # configuration.
+  #
+  # The options may also be stored in a configuration file; the name of
+  # the file is passed to the initializer.
   class Initializer
+    
+    # Is used to set the root directory manually. Must be written before
+    # the configuration is run.
+    cattr_writer :talia_root
+    
+    # Is used to manually set the environment. Must be written before
+    # the configuration is run.
+    cattr_writer :environment
     
     # The configuration hash that was used to initialize
     # the system is stored for later reference
@@ -32,62 +60,63 @@ module TaliaCore
     # Runs the initialization. You can pass a block to this method, which
     # is run with one parameter: A hash containing the configuration.
     # 
-    # For now, the values are documented in the code below
-    def self.run(&initializer)
+    # If a configuration file is given, the contents will be read before the
+    # block is called, the block values will overwrite the settings from the
+    # file.
+    # 
+    # For now, the values are documented in the code below and in the default
+    # configuration file.
+    def self.run(config_file = nil, &initializer)
       raise(SystemInitializationError, "System cannot be initialized twice") if(@@initialized || @@init_started)
       
       @@init_started = true
       
-      # See create_default_config to see the options
-      config = create_default_config()
+      # Set the talia root first
+      set_talia_root
+      
+      # Set the environmnet
+      set_environment
+      
+      # Start logging
+      set_logger # Set the logger
+      talia_logger.info("TaliaCore initializing with environmnet #{@environment}")
+      
+      # Load the config file if one is given
+      if(config_file)
+        config_file_path = File.join(TALIA_ROOT, 'config', "#{config_file}.yml")
+        @config = YAML::load(File.open(config_file_path))
+      else
+        # Create the default configuration
+        @config = create_default_config()
+      end
       
       # Call the user code
-      initializer.call(config) if(initializer)
+      initializer.call(@config) if(initializer)
       
       # Initialize the database connection
-      if(config["standalone_db"])
-        ActiveRecord::Base.establish_connection(config["db_connection"])
-        ActiveRecord::Base.logger = Logger.new(File.open('database.log', 'a'))
-      end
+      config_db
       
       # Initialize the ActiveRDF connection
-      rdf_cfg = Hash.new
-      config["rdf_connection"].each { |key, value| rdf_cfg[key.to_sym] = value }
-      ConnectionPool.add_data_source(rdf_cfg)
+      config_rdf
       
-      # Register the local name
-      N::Namespace.shortcut(:local, config["local_uri"])
+      # Configure the namespaces
+      config_namespaces
       
-      # Register the default name
-      N::Namespace.shortcut(:default, config["default_namespace_uri"])
-      
-      # Register the RDF namespace
-      N::Namespace.shortcut(:rdf, "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
-      
-      # Register the RDFS namespace
-      N::Namespace.shortcut(:rdfs, "http://www.w3.org/2000/01/rdf-schema#")
-      
-      # Register namespace for database dupes
-      N::Namespace.shortcut(:talia_db, "http://talia.discovery-project.eu/wiki/DatabaseDupes#")
-      
-      # Register additional namespaces
-      if(config["namespaces"])
-        sassert_type(config["namespaces"], Hash)
-        config["namespaces"].each_pair do |shortcut, uri|
-          N::Namespace.shortcut(shortcut, uri)
-        end
-      end
+      # Replace the data directory location variables
+      @config["data_directory_location"].gsub!(/TALIA_ROOT/, TALIA_ROOT)
       
       # set the $ASSERT flag
-      if(config["assert"])
+      if(@config["assert"])
         $ASSERT = true
       end
       
       @@initialized = true
       
       # Configuration will be frozen and stored
-      config.freeze
-      @@config = config
+      @config.freeze
+      @@config = @config
+      
+      talia_logger.info("TaliaCore initialization complete")
     end
     
     
@@ -130,15 +159,130 @@ module TaliaCore
       config["assert"] = true
       
       # Where to find the data directory which will be contain the data
-      if(defined?(RAILS_ROOT))
-        config["data_directory_location"] = File.join(RAILS_ROOT, 'data')
-      else
-        config["data_directory_location"] = File.join(File.dirname(__FILE__),'..', '..', 'data')
-      end
+      config["data_directory_location"] = File.join(TALIA_ROOT, 'data')
       
       return config
     end
     
+    
+    # Creates a logger if no logger is defined
+    # At the moment, this just creates a logger to the default director
+    def self.set_logger
+      unless(defined?(talia_logger))
+        Object.instance_eval do
+          def talia_logger
+            @talia_logger ||= Logger.new(File.join(TALIA_ROOT, 'log', 'talia_core.log'))
+          end
+        end
+      end
+    end
+    
+    # Set the Talia root directory first. Use the configured directory
+    # if given, otherwise go for the RAILS_ROOT/current directory.
+    def self.set_talia_root
+      if(@@talia_root)
+        Object.const_set(:TALIA_ROOT, @@talia_root)
+      elsif(defined?(RAILS_ROOT))
+        Object.const_set(:TALIA_ROOT, RAILS_ROOT)
+      else
+        Object.const_set(:TALIA_ROOT, '.')
+      end
+    end
+    
+    # Set the environmet to be used for config selection
+    def self.set_environment
+      if(@@environment)
+        @environment = @@environment
+      elsif(ENV['RAILS_ENV'])
+        @environment = ENV['RAILS_ENV']
+      else
+        @environment = "development"
+      end
+    end
+    
+    # Gets connection options from a file. The default_opts are the ones
+    # that will be used if no file is given. If both file and default are given,
+    # the method will overwrite the defaults.
+    def self.connection_opts(default_opts, config_file)
+      options = default_opts
+      
+      # First check for the file
+      if(config_file)
+        if(default_opts)
+          talia_logger.warn("Database options will be overwritten by config file values.")
+        end
+        
+        config_path = File.join(TALIA_ROOT, 'config', "#{config_file}.yml")
+        options = YAML::load(File.open(config_path))[@environment]
+      end
+      
+      options
+    end
+    
+    # The connection options for the standalone database connection
+    def self.db_connection_opts
+      connection_opts(@config["db_connection"], @config["db_file"])
+    end
+    
+    # Gets the db log file
+    def self.db_logfile
+      if(@config["db_log"])
+        @config["db_log"]
+      else
+        File.join(TALIA_ROOT, 'log', 'database.log')
+      end
+    end
+    
+    # Configure the database connection
+    def self.config_db
+      # Initialize the database connection
+      if(@config["standalone_db"])
+        talia_logger.info("TaliaCore using standalone database")
+    
+        ActiveRecord::Base.establish_connection(db_connection_opts)
+        ActiveRecord::Base.logger = Logger.new(db_logfile)
+      else
+        talia_logger.info("TaliaCore using exisiting database connection.")
+      end
+    end
+    
+    # Get the RDF configuration options
+    def self.rdf_connection_opts
+      options = connection_opts(@config["rdf_connection"], @config["rdf_connection_file"])
+      # Make the keys into symbols, as needed by ActiveRDF
+      rdf_cfg = Hash.new
+      options.each { |key, value| rdf_cfg[key.to_sym] = value }
+      
+      rdf_cfg
+    end
+    
+    # Configure the RDF connection
+    def self.config_rdf
+      ConnectionPool.add_data_source(rdf_connection_opts)
+    end
+    
+    # Configure the namespaces
+    def self.config_namespaces
+      # Register the local name
+      N::Namespace.shortcut(:local, @config["local_uri"])
+      
+      # Register the default name
+      N::Namespace.shortcut(:default, @config["default_namespace_uri"])
+      
+      # Register namespace for database dupes
+      N::Namespace.shortcut(:talia_db, "http://talia.discovery-project.eu/wiki/DatabaseDupes#")
+      
+      # Register the RDF namespace, since the Source class depends on it
+      N::Namespace.shortcut(:rdf, "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+      
+      # Register additional namespaces
+      if(@config["namespaces"])
+        sassert_type(@config["namespaces"], Hash)
+        @config["namespaces"].each_pair do |shortcut, uri|
+          N::Namespace.shortcut(shortcut, uri)
+        end
+      end
+    end
     
   end
 end
