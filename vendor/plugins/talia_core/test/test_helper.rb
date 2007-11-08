@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + "/../lib/talia_core"
 
 require 'active_record/fixtures'
 
-@@fixtures = [ 'source_records', 'dirty_relation_records', 'type_records', 'data_records']
+@@fixtures = [ 'source_records', 'type_records', 'data_records', 'dirty_relation_records']
 
 # Check for the tesly adapter, and load it if it's there
 if(File.exists?(File.dirname(__FILE__) + '/tesly_reporter.rb'))
@@ -14,6 +14,9 @@ end
 module TaliaCore
   
   class TestHelper
+
+    # Check if we have old (1.2.3-Rails) style ActiveRecord without fixture cache
+    @@new_ar = Fixtures.respond_to?(:reset_cache)
     
     # connect the database
     def self.startup
@@ -28,11 +31,12 @@ module TaliaCore
     # Flush the database
     def self.flush_db
       @@fixtures.reverse.each { |f| ActiveRecord::Base.connection.execute "DELETE FROM #{f}" }
-      Fixtures.reset_cache # We must reset the cache because the fixtures were deleted
+      Fixtures.reset_cache if(@@new_ar) # We must reset the cache because the fixtures were deleted
     end
     
     # Setup the fixtures
     def self.fixtures
+      flush_db unless(@@new_ar) # When fixtures are cached, there will be no default remove (which fails due to relational constraints)
       fixture_files = @@fixtures.collect { |f| File.join(File.dirname(__FILE__), "#{f}.yml") }
       fixture_files.each do |fixture_file|
         Fixtures.create_fixtures(File.dirname(__FILE__) + '/fixtures', File.basename(fixture_file, '.*'))  
