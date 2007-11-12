@@ -1,7 +1,7 @@
 # TaliaCore configuration file
 
 # The domain URI that is the "local" domain of this installation
-local_uri: "http://test.dummy/"
+local_uri: "http://www.talia.discovery-project.org/sources/"
 # The domain URI that is used as a default if no namespace is given
 default_namespace_uri: "http://default.dummy/"
 
