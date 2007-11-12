@@ -13,6 +13,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   type: redland
+  new: yes
   name: dbl
   location: mysql
   database: Talia_test_rdf

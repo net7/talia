@@ -16,7 +16,7 @@ module FileStore
   # Return the data directory for a specific data file
   def data_directory
     class_name = self.class.name.gsub(/(TaliaCore::)/, '')
-    TaliaCore::Initializer.config["data_directory_location"] + "/" + class_name + "/"
+    TaliaCore::CONFIG["data_directory_location"] + "/" + class_name + "/"
   end
 
   # Return true if the specified data file is open, false otherwise

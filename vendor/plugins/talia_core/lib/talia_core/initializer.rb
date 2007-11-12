@@ -29,7 +29,7 @@ module TaliaCore
   #
   # Usually these options need only to be set if running Talia standalone. In
   # this case, assign <tt>TaliaCore::Initializer.talia_root</tt> and/or
-  # <tt>TaliaCore::Initializer.environmnet</tt> before running the 
+  # <tt>TaliaCore::Initializer.environment</tt> before running the 
   # configuration.
   #
   # The options may also be stored in a configuration file; the name of
@@ -43,10 +43,6 @@ module TaliaCore
     # Is used to manually set the environment. Must be written before
     # the configuration is run.
     cattr_writer :environment
-    
-    # The configuration hash that was used to initialize
-    # the system is stored for later reference
-    cattr_reader :config
     
     # Indicates if the system has been initialized
     cattr_reader :initialized
@@ -77,6 +73,7 @@ module TaliaCore
       # Set the environmnet
       set_environment
       
+      
       # Start logging
       set_logger # Set the logger
       talia_logger.info("TaliaCore initializing with environmnet #{@environment}")
@@ -102,8 +99,8 @@ module TaliaCore
       # Configure the namespaces
       config_namespaces
       
-      # Replace the data directory location variables
-      @config["data_directory_location"].gsub!(/TALIA_ROOT/, TALIA_ROOT)
+      # Configure the data directory
+      config_data_directory
       
       # set the $ASSERT flag
       if(@config["assert"])
@@ -112,9 +109,14 @@ module TaliaCore
       
       @@initialized = true
       
+      # Set the environment to the configuration
+      @config["environment"] = @@environment
+      
       # Configuration will be frozen and stored
       @config.freeze
-      @@config = @config
+      
+      # Make the configuration available as a constant
+      TaliaCore.const_set(:CONFIG, @config)
       
       talia_logger.info("TaliaCore initialization complete")
     end
@@ -198,6 +200,7 @@ module TaliaCore
       else
         @environment = "development"
       end
+      @@environment = @environment
     end
     
     # Gets connection options from a file. The default_opts are the ones
@@ -265,9 +268,11 @@ module TaliaCore
     def self.config_namespaces
       # Register the local name
       N::Namespace.shortcut(:local, @config["local_uri"])
+      talia_logger.info("Local Domain: #{N::LOCAL}")
       
       # Register the default name
       N::Namespace.shortcut(:default, @config["default_namespace_uri"])
+      talia_logger.info("Default Dome: #{N::DEFAULT}")
       
       # Register namespace for database dupes
       N::Namespace.shortcut(:talia_db, "http://talia.discovery-project.eu/wiki/DatabaseDupes#")
@@ -282,6 +287,18 @@ module TaliaCore
           N::Namespace.shortcut(shortcut, uri)
         end
       end
+    end
+    
+    # Configure the data directory
+    def self.config_data_directory
+      data_directory = if(@config['data_directory_location'])
+        # Replace the data directory location variables
+        @config["data_directory_location"].gsub!(/TALIA_ROOT/, TALIA_ROOT)
+      else
+        File.join(TALIA_ROOT, 'data')
+      end
+      
+      @config['data_directory_location'] = data_directory
     end
     
   end
