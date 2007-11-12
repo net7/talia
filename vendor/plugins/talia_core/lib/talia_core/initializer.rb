@@ -182,13 +182,15 @@ module TaliaCore
     # Set the Talia root directory first. Use the configured directory
     # if given, otherwise go for the RAILS_ROOT/current directory.
     def self.set_talia_root
-      if(@@talia_root)
-        Object.const_set(:TALIA_ROOT, @@talia_root)
+      root = if(@@talia_root)
+        @@talia_root
       elsif(defined?(RAILS_ROOT))
-        Object.const_set(:TALIA_ROOT, RAILS_ROOT)
+        RAILS_ROOT
       else
-        Object.const_set(:TALIA_ROOT, '.')
+        '.'
       end
+      # Use the full path for the root
+      Object.const_set(:TALIA_ROOT, File.expand_path(root))
     end
     
     # Set the environmet to be used for config selection

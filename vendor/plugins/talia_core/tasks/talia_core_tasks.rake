@@ -18,27 +18,37 @@ include TaliaRake
 
 namespace :talia_core do
   
-  # Initialization for tests
+    # Standard initialization
+  desc "Initialize the TaliaCore"
+  task :talia_init do
+    title
+    init_talia
+    talia_config if(ENV['verbose'] && ENV['verbose'] == "yes")
+  end
+  
+  # Init for the unit tests
   desc "Initialize Talia for the tests"
-  task :test_init do
+  task :test_setup do
     unless(ENV['environment'])
       puts "Setting environment to 'test'"
       ENV['environment'] = "test"
     end
 
-
-    title 
-    init_talia
+    # Invoke the init after the setup
+    Rake::Task["talia_core:talia_init"].invoke
   end
   
   # Test task
   desc 'Test the talia_core plugin.'
-  task :test => :test_init
+  task :test => :test_setup
+  # Create the test tasks
   Rake::TestTask.new(:test) do |t| 
     t.libs << 'lib'
-    t.pattern = 'test/**/*_test.rb'
+    # This will always take the files from the talia_core directory
+    t.test_files = FileList["#{File.dirname(__FILE__)}/../test/**/*_test.rb"]
     t.verbose = true
   end
+  
 
   desc 'Generate documentation for the talia_core plugin.'
   Rake::RDocTask.new(:rdoc) do |rdoc|
@@ -52,14 +62,6 @@ namespace :talia_core do
   desc "Test the TaliaCore startup"
   task :init_test => :talia_init do
     talia_config
-  end
-  
-  # Standard initialization
-  desc "Initialize the TaliaCore"
-  task :talia_init do
-    title
-    init_talia
-    talia_config if(ENV['verbose'] && ENV['verbose'] == "yes")
   end
  
   # Task for importing ontologies/raw RDF data
@@ -96,9 +98,8 @@ namespace :talia_core do
     ENV['reset_db'] = "yes" unless(ENV['reset_db'])
     ENV['reset_rdf'] = "yes" unless(ENV['reset_rdf'])
     
-    title
-    init_talia
-    talia_config if(ENV['verbose'] && ENV['verbose'] == "yes")
+    # Invoke the init after the setup
+    Rake::Task["talia_core:talia_init"].invoke
     
     puts "Importing ontologies..."
     rdf_import("rdfxml", FileList.new(File.join(demodir, '*.rdf*')))
@@ -128,8 +129,6 @@ namespace :talia_core do
   
   desc "Migrate the database through scripts in db/migrate. Target specific version with VERSION=x"  
   task :migrate => :talia_init do
-    title
-    init_talia
     do_migrations  
   end  
 

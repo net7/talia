@@ -1,7 +1,7 @@
 require 'test/unit'
 
 # Load the helper class
-require File.dirname(__FILE__) + '/test_helper'
+require File.join(File.dirname(__FILE__), 'test_helper')
 
 module TaliaCore
 
@@ -32,12 +32,12 @@ module TaliaCore
     
     # test data directory
     def test_data_directory
-      base_dir_name = File.dirname(__FILE__) + '/data_for_test/SimpleText/'
-      dir_for_test  = @test_records[0].data_directory
+      base_dir_name = File.expand_path(File.join(File.dirname(__FILE__), 'data_for_test', 'SimpleText'))
+      dir_for_test  = File.expand_path(@test_records[0].data_directory)
       assert_equal(base_dir_name, dir_for_test)
       assert( File.exists?(dir_for_test) )
-      assert_equal(base_dir_name + 'temp1.txt', dir_for_test + @test_records[0].location)
-      assert( File.exists?(dir_for_test + @test_records[0].location) )
+      assert_equal(File.join(base_dir_name, 'temp1.txt'), File.join(dir_for_test, @test_records[0].location))
+      assert( File.exists?(File.join(dir_for_test, @test_records[0].location)), "#{File.join(dir_for_test, @test_records[0].location)} does not exist" )
     end
 
     # test file size
