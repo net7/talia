@@ -13,6 +13,31 @@
         :active_tab_options => { :source_class => @type }
         ) 
 %>
+
+<%= 
+    #widget(:sidebar) do
+      #tab :navigation "Navigation" do
+        #title "Navigation"
+        #name "Navigation"
+        #key 1
+        #content navigation_bar
+      #end
+      
+       #dtab :context do
+       #RHTML 
+       #end
+    #end
+          #:navigation => {:title => "Navigation", :name => "Navigation", :key => 1, :content => :navigation_bar },
+          #:context => {:title => "Related Contents", :name => "Related Contents", :key => 2, :content => :context_bar },
+          #:panorama => {:title => "Panorama", :name => "Panorama", :key => 3, :content => :panorama_view },
+          #:login => {:title => "Login", :name => "Login", :key => 4, :content => :login },
+          #:search => {:title => "Search and filter", :name  => "Search and Filter", :key => 5, :content => :search },
+          #:settings => {:title => "Settings", :name => "Settings", :key => 6, :content => :settings }
+        #},
+        #:active_tab => :navigation,
+        #:active_tab_options => { :source_class => @type }
+        #) 
+%>
     
 <div id="ext_page"> <!-- ext_page: elemento esterno a tutto -->
   <div id="int_page"> <!-- int_page: elemento esterno a tutto, interno solo a ext_page -->
