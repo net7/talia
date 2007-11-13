@@ -1,20 +1,20 @@
 # Rake tasks for the talia core
-$: << File.join(File.dirname(__FILE__))
+$: << File.dirname(__FILE__)
 $: << File.join(File.dirname(__FILE__), '..', 'lib') # For Talia core
 
 require 'rake'
 require 'yaml'
 require 'talia_core'
+require 'talia_util/talia_util'
 require 'rake/testtask'
 require 'rake/rdoctask'
 
 # Require helpers
-require 'rake_helpers'
 require 'rdf_import'
 require 'yaml_import'
 require 'data_import'
 
-include TaliaRake
+include TaliaUtil
 
 namespace :talia_core do
   
@@ -23,7 +23,7 @@ namespace :talia_core do
   task :talia_init do
     title
     init_talia
-    talia_config if(ENV['verbose'] && ENV['verbose'] == "yes")
+    talia_config if(flag?('verbose'))
   end
   
   # Init for the unit tests

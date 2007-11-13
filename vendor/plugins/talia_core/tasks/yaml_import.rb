@@ -7,7 +7,7 @@ def register_namespaces(data)
   if(data["namespaces"])
     data["namespaces"].each do |shortcut, uri|
       if(N::URI.shortcut_exists?(shortcut))
-        if(!N::URI [shortcut].to_s == shortcut)
+        if(!N::URI[shortcut].to_s == shortcut)
           puts "WARNING: Namespace for #{shortcut} already registered with #{N::URI[shortcut]} instead of #{uri}."
         else
           puts "Namespace #{shortcut} already registered."
