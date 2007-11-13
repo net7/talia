@@ -1,18 +1,12 @@
 # Rake tasks for the talia core
-$: << File.dirname(__FILE__)
 $: << File.join(File.dirname(__FILE__), '..', 'lib') # For Talia core
 
 require 'rake'
 require 'yaml'
 require 'talia_core'
-require 'talia_util/talia_util'
+require 'talia_util'
 require 'rake/testtask'
 require 'rake/rdoctask'
-
-# Require helpers
-require 'rdf_import'
-require 'yaml_import'
-require 'data_import'
 
 include TaliaUtil
 

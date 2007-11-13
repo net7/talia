@@ -3,7 +3,7 @@ gem 'progressbar'
 require 'progressbar'
 require 'ftools'
 
-module TaliaRake
+module TaliaUtil
   def import_data(files, type)
     
     # First get the class for the data type and the directory

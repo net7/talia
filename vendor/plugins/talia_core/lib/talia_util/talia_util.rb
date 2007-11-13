@@ -26,8 +26,8 @@ module TaliaUtil
     # run the initializer
     TaliaCore::Initializer.run(config_file) do |config|
       unless(flag?('no_standalone'))
-        puts "Always using standalone db from rake task"
-        puts "Give the no_standalone=yes option to override it."
+        puts "Always using standalone db from utilities."
+        puts "Give the no_standalone option to override it."
         config['standalone_db'] = "true"
       end
     end
