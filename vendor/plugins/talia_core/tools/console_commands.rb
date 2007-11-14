@@ -21,5 +21,13 @@ def self.command(command, &command_block)
     define_method(command, command_block)
   end
 end
-  
+
+# Add an instance variable
+def self.to_var(name, value)
+  (class << self; self; end).class_eval do
+    raise(RuntimeError, "Method already defined: #{name}") if(method_defined?(name)) 
+    define_method(name) { value }
+  end
+  value
+end
 
