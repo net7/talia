@@ -1,3 +1,5 @@
+/* @override http://192.168.1.6:3000/stylesheets/main.css?1193337993 */
+
 /* CSS Document */
 
 /* ***************** ************** ************** */
@@ -29,27 +31,35 @@ font-family: Avenir, "Lucida Grande", Verdana, "Bitstream Vera Sans", Arial, Hel
 /* !!!! SIDE BAR CHIUSO !!!! */
 
 a{
+	color: #355a8e;
+	text-decoration: none;
 }
 
 a:hover{
+	color: #355a8e;
+	text-decoration: underline;
 }
 
 h1{
 	font-size:1.3em;
+	margin-bottom: 5px;
 }
 
 h2{
 	font-size:1.2em;
+	margin-bottom: 5px;
 }
 
 h3{
 	font-size:1.1em;
+	margin-bottom: 5px;
 }
 
 p{
 	color:#333333;
-	line-height:1.5em;
+	line-height:1.7em;
 	font-size:0.9em;
+	margin-bottom: 5px;
 }
 
 /* loader */
@@ -331,6 +341,130 @@ padding:0px;
 	margin-left:73px;
 }
 /* !!!! SIDE BAR CHIUSO !!!! */
+
+
+/* ***************** ************** ************** */
+/* ***************** ************** ************** */
+/* ***************** DEFINIZIONE STILI TYPES ************** */
+/* ***************** ************** ************** */
+/* ***************** ************** ************** */
+
+/* tree: #ext_page #int_page #side_bar */
+/* APERTO */
+#side_bar.open div#widget_navigation_bar_default{
+	border-top: 2px solid #efefef;
+	display: block;
+	width: 212px;
+	padding: 10px 0 0 0;
+}
+#side_bar.open div#widget_navigation_bar_default h3{
+	/* text-transform: uppercase; */
+	font: normal normal 13px "Lucida Grande", Lucida, Verdana, sans-serif;
+	display: block;
+	width: 212px;
+	margin: 0 0 10px 0;
+	padding: 0 0 10px 0;
+	border-bottom: 2px solid #efefef;
+	text-decoration: none;
+}
+
+#side_bar.open div#widget_navigation_bar_default h3 a{
+	text-decoration: none;
+	color: #929292;
+}
+
+/* CHIUSO */
+#side_bar.closed div#widget_navigation_bar_default{
+	display:  none;
+}
+#side_bar.closed div#widget_context_bar_default{
+	display:  none;
+}
+
+/* lista risultati */
+div#contents_int div#widget_source_list_default{
+	display: block;
+	padding: 10px 0 0 0;
+}
+div#contents_int div#widget_source_list_default h3{
+	padding: 10px 0 0 0;
+	/* display: block;
+	font-variant: small-caps;*/
+}
+div#contents_int div#widget_source_list_default div div#widget_source_snippet_default h3{
+	color: #000;
+	font-size: 14px;
+	font-style: normal;	
+}
+div#contents_int div#widget_source_list_default div div#widget_source_snippet_default h3 a{
+	color: #a08d52;
+	text-decoration: none;
+	font-style: normal;
+	font-size: 14px;
+}
+div#contents_int div#widget_source_list_default div div#widget_source_snippet_default  h3 a:hover{
+	text-decoration: underline;
+}
+
+div#contents_int div#widget_source_list_default div.primary_source div#widget_source_snippet_default h3{
+	color: #000;
+	font-size: 14px;
+	font-style: normal;	
+}
+div#contents_int div#widget_source_list_default div.primary_source div#widget_source_snippet_default h3 a{
+	font-size: 14px;
+	color: #355a8e;
+	text-decoration: none;
+	font-style: normal;
+}
+div#contents_int div#widget_source_list_default div.primary_source div#widget_source_snippet_default  h3 a:hover{
+	text-decoration: underline;
+}
+
+div#contents_int div#widget_source_list_default p{
+}
+
+div#contents_int div#widget_source_snippet_default h3{
+	font-size: 20px;
+	color: #000;
+}
+div#contents_int div#widget_source_snippet_default h3 a{
+	font-size: 20px;
+	font-weight: bold;
+}
+div#contents_int h3{
+	font-size: 10px;
+	color: #9e9e9e;
+	font-weight: normal;
+}
+
+div#contents_int h2{
+	border-top: 1px solid #ccc;
+	margin: 10px 0 10px 0;
+	padding:  10px 0 0 0;
+	color: #666;
+	font-size: 18px;
+	font-weight: normal;
+}
+
+/* elementi titolo paragrafo formattazione futura*/
+div#contents_int div.section{
+	border-top: 1px solid #ccc;
+	margin: 10px 0 0 0;
+	padding:  10px 0 0 0;
+}
+
+div#contents_int div.section h1{
+	color: #666;
+	font-size: 18px;
+	font-weight: normal;
+}
+
+div#contents_int div.section p{
+}
+
+
+
 
 
 

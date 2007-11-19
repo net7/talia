@@ -1,0 +1,49 @@
+# Configuaration for the context widget
+properties:
+    luccadom#works:
+        label: "Opere"
+        inv_label: "Opera di"
+    luccadom#birthplace:
+        label: "Luogo di nascita"
+        inv_label: "Nato a"
+    # luccadom#death:
+    #    label: "Data di morte"
+    # luccadom#birth:
+    #    label: "Data di nascita"
+    luccadom#close_to:
+        label: "Vicino a"
+        is_symmetric: true
+    luccadom#subject:
+        label: "Soggetto"
+        inv_label: "Soggetto di"
+    luccadom#contains:
+        label: "Contiene"
+        inv_label: "Contenuto in"
+    luccadom#next_epoch:
+        label: "Periodo seg."
+        inv_label: "Periodo prec."
+    # luccadom#ends:
+    #    label: "Fine"
+    # luccadom#begins:
+    #    label: "Inizio"
+    luccadom#in_epoch:
+        label: "Nel periodo"
+        inv_label: "In questo periodo"
+    luccadom#has_institution:
+        label: "Istituzione"
+        inv_label: "In città"
+    luccadom#has_place:
+        label: "Luogo"
+        inv_label: "In città"
+    luccadom#has_building:
+        label: "Edificio"
+        inv_label: "In città"
+    # luccadom#coordinates:
+    #   label: "Coordinate"
+    luccadom#citizen:
+        label: "Cittadino"
+        inv_label: "Cittadino di"
+    talias#refers_to:
+        label: "Collegato a"
+        is_symmetric: true
+

@@ -9,4 +9,4 @@ require 'rake/rdoctask'
 
 require 'tasks/rails'
 
-task :cruise => ['doc:app', 'talia_core:test', 'test']
+task :cruise => ['doc:app', 'talia_core:test', 'widgeon_test', 'test']

@@ -3,19 +3,19 @@
 
           <ul id="top_menu">
             <% for tab in sidebar.top_tabs %>
-                <li><a class="top_menu_item" href="javascript:void(<%= tab[:key] %>)" title="<%= tab[:title] %>, AccessKey: <%= tab[:key] %>" accesskey="<%= tab[:key] %>"><%= tab[:name] %></a></li>
+                <li><a class="top_menu_item" href="javascript:void(<%= tab['key'] %>)" title="<%= tab['title'] %>, AccessKey: <%= tab[:key] %>" accesskey="<%= tab['key'] %>"><%= tab['name'] %></a></li>
             <% end %>
           </ul>
 
           <ul id="bottom_menu">
             <% for tab in sidebar.top_tabs %>
-                <li><a class="top_menu_item" href="javascript:void(<%= tab[:key] %>)" title="<%= tab[:title] %>, AccessKey: <%= tab[:key] %>" accesskey="<%= tab[:key] %>"><%= tab[:name] %></a></li>
+                <li><a class="top_menu_item" href="javascript:void(<%= tab['key'] %>)" title="<%= tab['title'] %>, AccessKey: <%= tab['key'] %>" accesskey="<%= tab['key'] %>"><%= tab['name'] %></a></li>
             <% end %>
           </ul>
 
           <div id="side_bar_content">
 
-            <h1><%= sidebar.tabs[sidebar.active_tab][:title] %></h1> <!-- titolo della sezione side bar in cui ci troviamo -->
+            <h1><%= sidebar.tabs[sidebar.active_tab]['title'] %></h1> <!-- titolo della sezione side bar in cui ci troviamo -->
 
             <p id="open_close_button"><a   id="side_bar_button" >Chiudi</a></p> <!-- pulsantino apri e chiudi -->
             <!-- inizio contenuto realse del side bar -->

@@ -1,8 +1,15 @@
+require 'paginator'
+
 class SourcesController < ApplicationController
   # GET /sources
   # GET /sources.xml
   def index
     @sources = TaliaCore::Source.find(:all)
+    
+    @pager = ::Paginator.new(TaliaCore::SourceRecord.count, 5) do |offset, per_page|
+      TaliaCore::Source.find(:all, :limit => per_page, :offset => offset)
+    end
+    @page = @pager.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,7 +22,6 @@ class SourcesController < ApplicationController
   def show
     @source = TaliaCore::Source.find(params[:id])
     @page_subtitle = @source.uri.to_s
-    @page_title = "Talia | #{@source.uri.local_name}"
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @source }

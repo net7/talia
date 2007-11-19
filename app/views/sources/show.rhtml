@@ -1,7 +1,6 @@
 <div>
  <%= widget(:source_snippet, :source => @source) %>
- <%= "<h3>ID: #{@source.predicate('dcns', 'id').join(' | ')}</h3>" if(@source.predicate('dcns', 'id')) %>
- <%= @source.primary_source ? "This is a primary source" : "This is a contribution" %>
+  <!-- %= @source.primary_source ? "This is a primary source" : "This is a contribution" % -->
 <% if(@source.data_records.size > 0) %>
     <%= @source.data_records[0].all_text %>
 <% else %>

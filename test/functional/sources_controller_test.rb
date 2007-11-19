@@ -17,12 +17,11 @@ class SourcesControllerTest < Test::Unit::TestCase
     @unexistent_name  = 'somewhat'
     
     N::Namespace.shortcut(:myns, "http://myns.org/")
-    N::Namespace.shortcut(:foaf, "http://www.foaf.org/")
   end
 
   def teardown
     %w(registered_uris inverse_register).each {|var| N::URI.send(:class_variable_set, "@@#{var}".to_sym, Hash.new)}
-    %w(myns foaf).each {|const| N.send(:remove_const, const.upcase)}
+    %w(myns).each {|const| N.send(:remove_const, const.upcase)}
   end
 
   def test_index

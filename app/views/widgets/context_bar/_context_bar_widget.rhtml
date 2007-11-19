@@ -1,19 +1,8 @@
-<% for group in context_bar.context_groups.keys %>
-<h2><%= "#{group.namespace}:#{group.local_name}" %></h2>
-  <% if(context_bar.context_groups[group][:normal]) %>
-    <h3>Normal</h3>
-    <% for referenced in context_bar.context_groups[group][:normal] %>
-        <div>
-        <%= link_to(referenced.uri.local_name, :controller => 'sources', :action => 'show', :id => referenced.uri.local_name) %>
-        </div>
-        <% end %>
-  <% end %>
-  <% if(context_bar.context_groups[group][:inverse]) %>
-    <h3>Inverse</h3>
-    <% for referenced in context_bar.context_groups[group][:inverse] %>
+<% context_bar.each_group do |group_name, contents|%>
+  <h3><%= group_name %></h3>
+  <% for referenced in contents %>
       <div>
-      <%= link_to(referenced.uri.local_name, :controller => 'sources', :action => 'show', :id => referenced.uri.local_name) %>
+      <%= link_to(short_name(referenced), :controller => 'sources', :action => 'show', :id => referenced.uri.local_name) %>
       </div>
-      <% end %>
   <% end %>
 <% end %>

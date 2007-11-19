@@ -13,7 +13,7 @@ rdf_connection_file: rdfstore
 # If standalone_db is set, ActiveRecord will be configured for use
 # without the Rails environment
 standalone_db: false
-# db_file: database
+db_file: database
 # Database configuration can also be given as a hash here
 # db_connection: 
 # If unset, the databse log will end up in the default log directory
@@ -32,7 +32,5 @@ namespaces:
     foaf:     "http://xmlns.com/foaf/0.1/"
     talias:   "http://trac.talia.discovery-project.eu/wiki/StructuralOntology#"
     taliadom: "http://trac.talia.discovery-project.eu/wiki/SampleDomainOntology#"
-
-
-
-
+    owl:      "http://www.w3.org/2002/07/owl#"
+    luccadom: "http://trac.talia.discovery-project.eu/wiki/LuccaOntology#"

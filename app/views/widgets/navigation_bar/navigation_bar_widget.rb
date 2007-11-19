@@ -7,7 +7,9 @@ class NavigationBarWidget < Widgeon::Widget
     else
       @supertypes = []
       @subtypes = [
-        N::SourceClass.new((N::TALIAS + 'Source').to_s),
+        N::SourceClass.new((N::LUCCADOM + 'place').to_s),
+        N::SourceClass.new((N::LUCCADOM + 'building').to_s),
+        N::SourceClass.new((N::LUCCADOM + 'artwork').to_s),
         N::SourceClass.new((N::FOAF + 'Person').to_s)
       ]
     end

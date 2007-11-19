@@ -1,30 +1,47 @@
+# Render a source with a given template. The widget checks the type of the 
 class SourceSnippetWidget < Widgeon::Widget
   
-  @@type_templates = {
-    N::TALIADOM + 'Book' => 'book',
-    N::FOAF + 'Person' => 'person',
-    N::TALIADOM + 'FictionalPerson' => 'fictional_person',
-    N::FOAF + 'Group' => 'group',
-    N::TALIADOM + 'FictionalPlace' => 'fictional_place',
-    N::TALIADOM + 'AbstractConcept' => 'abstract_concept',
-    N::TALIADOM + 'GraphicNovel' => 'graphic_novel'
-  }
-  
-  # Kludge to avoid problems with changing sequence on Hash#keys
-  @@template_keys = @@type_templates.keys
-  
-  
   def before_render
+    sassert_not_nil(@source)
   end
-  
   
   # Return the correct partial sub-template for the given Source, depending 
   # on the source type. If not template is found, return 'default't
-  def get_item_template(source)
-    types = source.types
+  def get_item_template
+    get_type_template(@source.types)
+  end
+  
+  protected
+  
+  # Return the template for the given type
+  def get_type_template(types)
+    template = "default"
     
-    # Select the first matching template
-    key = @@template_keys.detect { |type| types.include?(type) }
-    key ? @@type_templates[key] : 'default'
+    # For each of the types, check if the type template exists
+    for type in types
+      sassert_type(type, N::URI)
+      type_uri = type.to_name_s('_')
+      template = if(Dependencies.mechanism == :require)
+        @@type_templates[type_uri] ||= check_type_template(type_uri)
+      else
+        check_type_template(type_uri)
+      end
+      
+      # When a template is found, break out
+      return template unless(template == "default")
+    end
+    
+    template # Otherwise this will return "default"
+  end
+  
+  # Check if the type template exists on disk, otherwise return "default"
+  def check_type_template(type)
+    sassert_type(type, String)
+    file_name = File.join(self_path, "_#{type}.rhtml")
+    if(FileTest.exists?(file_name))
+      type
+    else
+      "default"
+    end
   end
 end

@@ -25,13 +25,9 @@ tabs:
         name:  "Search and Filter"
         key: 5
         content: search
-     settings:
+    settings:
         title: "Settings" 
         name: "Settings"
         key: 6
         content: settings
-
-active_tab: navigation
-active_tab_options: 
-    source_class: @type
 
