@@ -17,10 +17,10 @@ module TaliaCore
   # Since data for the Source exists both in the database and in the RDF store, the 
   # handling/saving of data is a bit peculiar at the moment (subject to change in the future):
   #
-  # * When a new Source is created, the database record is save *immediately* with 
-  #   default values
-  # * RDF properties are always written *immediately*
-  # * Database properties are *only written when the save method is called*
+  # * When a new Source is created, no data is saved
+  # * RDF properties *cannot* be written until the Source has been saved for the first time
+  # * Database properties are *only* written when the save method is called
+  # * RDF properties are written immediately when they are assigned
   # * To ensure that the data is written, the save method should be called as 
   #   necessary.
   class Source
@@ -334,6 +334,13 @@ module TaliaCore
       end
       
       xml
+    end
+    
+    
+    # To string: Just return the URI. Use to_xml if you need something more
+    # involved.
+    def to_s
+      uri.to_s
     end
     
     protected

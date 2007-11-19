@@ -60,3 +60,34 @@ command(:show) do |element|
   end
   nil
 end
+
+desc "Print the rdf types"
+command(:put_types) do 
+  N::SourceClass.rdf_types.each do |type|
+    puts type.to_name_s
+  end
+  nil
+end
+
+desc "Import into the Talia store. Can be called with {rdf|data|yaml} as parameter"
+command(:talia_import) do |type|
+  unless(type)
+    print "Import which type? (rdf|data|yaml) : "
+    type = readline
+  end
+  type = type.to_s.strip
+  print "Enter file pattern: "
+  filepattern = readline
+  case(type)
+  when "rdf":
+    print "Select data file format (ntriples|rdfxml): "
+    dataformat = readline
+    rdf_import(dataformat, FileList.new(filepattern))
+  when "yaml":
+    yaml_import(FileList.new(filepattern))
+  when "data":
+    print "Select data type to import: "
+    datatype = readline
+    import_data(FileList.new(filepattern), datatype)
+  end
+end

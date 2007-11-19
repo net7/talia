@@ -39,7 +39,7 @@ module TaliaUtil
     puts "Importing data from #{datafile}..."
 
     data.each do |source_name, data_set|
-
+      puts "Processing #{source_name}" if(flag?("verbose"))
       workflow_state = data_set["workflow_state"] ? data_set.delete("workflow_state").to_i : 0
       primary_source = data_set.delete("primary_source") == "true" ? true : false
       types = data_set.delete("type")

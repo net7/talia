@@ -14,6 +14,7 @@ require "talia_core"
 require "command_line"
 require "talia_util"
 require "irb"
+require "rake"
 
 include TaliaUtil
 title
