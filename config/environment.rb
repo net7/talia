@@ -38,6 +38,9 @@ Rails::Initializer.run do |config|
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
   
+  # Workaround for Edge TODO: Proper session store
+  # config.action_controller.session_store = :drb_store
+  
   # See Rails::Configuration for more options
   config.action_controller.session = { :session_key => "_talia_session", :secret => "some secret phrase" }
 end

@@ -1,6 +1,0 @@
----
-mode: development
-runs_at_launch: 0
-identifier: Talia
-port: 3001
-bundle: /Developer/Locomotive2/Bundles/rails112.locobundle
