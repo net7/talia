@@ -1,5 +1,6 @@
-#!/usr/local/bin/ruby
-#
+#!/usr/bin/env ruby
+# -*- Ruby -*-
+# 
 #   irb.rb - intaractive ruby
 #   	$Release Version: 0.9.5 $
 #   	$Revision: 11708 $

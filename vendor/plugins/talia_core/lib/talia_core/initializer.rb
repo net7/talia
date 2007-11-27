@@ -34,6 +34,23 @@ module TaliaCore
   #
   # The options may also be stored in a configuration file; the name of
   # the file is passed to the initializer.
+  #
+  # = Example config
+  #  
+  #  # If working with Rails, this code goes to the environment.rb
+  #  
+  #  # Set the root directory (optional, for Rails it's automatic)
+  #  TaliaCore::Initializer.talia_root = "/my_directory/my_talia_root/"
+  #  # Set the environment (optional, automatic for rails)
+  #  TaliaCore::Initializer.environment = "development"
+  #  
+  #  # Run the initializer, giving a config file
+  #  # See the example config files for options
+  #  TaliaCore::Initializer.run("talia_core.yml") do |config|
+  #    # Give more confi options. These will overwrite the ones from the 
+  #    # config file
+  #    config['standalone_db'] = "true"
+  #  end
   class Initializer
     
     # Is used to set the root directory manually. Must be written before
