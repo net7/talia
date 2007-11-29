@@ -1,3 +1,5 @@
+require 'rubygems'
+gem 'optiflag'
 require 'optiflag'
 
 # Parse for the command line

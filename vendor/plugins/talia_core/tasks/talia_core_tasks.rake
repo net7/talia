@@ -115,15 +115,5 @@ namespace :talia_core do
     puts "Talia Core tasks usage information."
     print_options
   end
-  
-  desc "Load fixtures into the current database.  Load specific fixtures using FIXTURES=x,y"  
-  task :fixtures => :talia_init do
-    load_fixtures 
-  end  
-  
-  desc "Migrate the database through scripts in db/migrate. Target specific version with VERSION=x"  
-  task :migrate => :talia_init do
-    do_migrations  
-  end  
 
 end

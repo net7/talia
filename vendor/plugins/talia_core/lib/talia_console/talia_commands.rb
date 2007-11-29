@@ -1,5 +1,7 @@
 # Create the commands for the Talia console
 require 'console_commands'
+require 'talia_util'
+include TaliaUtil
 
 desc "Show help on the talia console commands"
 command(:chelp) do
@@ -10,20 +12,17 @@ command(:chelp) do
  nil
 end
 
-desc "Print all source URIs"
+desc "Get all sources"
 command(:sources) do
-  TaliaCore::Source.find(:all).each do |source|
-    puts source.uri
-  end
-  nil
+  TaliaCore::Source.find(:all)
 end
 
 desc "Find a source by local uri"
-command(:src) do |uri|
+command(:tsrc) do |uri|
   TaliaCore::Source.find(N::LOCAL + uri)
 end
 
-desc "Add a RDF source. Result set to 'adapter'. Use: :type, option => ..."
+desc "Add a RDF source adapter. Result set to 'adapter'. Use: :type, option => ..."
 command(:rdf_source) do |type, options|
   options[:type] = type
   to_var :adapter, ConnectionPool.add_data_source(options)
@@ -39,8 +38,8 @@ command(:resource) do |uri|
   to_var :res, RDFS::Resource.new(uri)
 end
 
-desc "Show the given element"
-command(:show) do |element|
+desc "Print the given element"
+command(:tprint) do |element|
   puts element.class
   if(element.kind_of?(TaliaCore::Source))
     puts "Source: #{element.uri}"
@@ -55,6 +54,10 @@ command(:show) do |element|
       puts "#{pred.uri}:"
       element[pred.uri].each { |val| puts "\t#{Uri.new(val).to_name_s}\n\n" }
     end
+  elsif(element.kind_of?(String))
+    puts element
+  elsif(element.respond_to?("each"))
+    element.each { |el| puts el.to_s }
   else
     puts "Unknown type: #{element.class}"
   end
@@ -91,3 +94,38 @@ command(:talia_import) do |type|
     import_data(FileList.new(filepattern), datatype)
   end
 end
+
+desc "Quick query for sources. Use nil as a placeholder"
+command(:tquery) do |subject, predicate, object|
+  variables = []
+  q_subject = if(subject)
+    RDFS::Resource.new(make_uri(subject).to_s)
+  else
+    variables << :s
+    :s
+  end
+  q_predicate = if(predicate)
+    RDFS::Resource.new(make_uri(predicate).to_s)
+  else
+    variables << :p
+    :p
+  end
+  q_object = if(object)
+    if(object.include?(":"))
+      RDFS::Resource.new(make_uri(object).to_s)
+    else
+      object
+    end
+  else
+    variables << :o
+    :o
+  end
+  my_query = Query.new.select(*variables).distinct
+  my_query.where(q_subject, q_predicate, q_object)
+  puts "SPARQL: #{Query2SPARQL.translate(my_query)}"
+  puts ""
+  my_query.execute
+end
+
+
+

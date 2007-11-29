@@ -1,7 +1,52 @@
+# This file is only for the tasks that are used only for "standalone" mode, and
+# for development. All other tasks go to "tasks/", and are available both 
+# in Rails and in standalone mode.
+
 require 'fileutils'
+require 'rake/gempackagetask'
+
+
+# Some general setup stuff
+
+TALIA_VERSION = "0.0.1"
 
 $: << File.join(File.dirname(__FILE__))
 load 'tasks/talia_core_tasks.rake'
+
+desc "Load fixtures into the current database.  Load specific fixtures using FIXTURES=x,y"  
+task :fixtures => "talia_core:talia_init" do
+  load_fixtures 
+end  
+
+desc "Migrate the database through scripts in db/migrate. Target specific version with VERSION=x"  
+task :migrate => [:local_migrations, "talia_core:talia_init"] do
+  do_migrations 
+  puts "Migrations done."
+end  
+
+
+# DEVELOPMENT TASKS
+
+## Creates the Talia core dependencies on the given gem spec.
+#def create_deps(gemspec)
+#  gemspec.add_dependency
+#end
+#
+## Gem spec for the developer gem
+#developer_spec = Gem::Specifcation.new do |spec|
+#  spec.version = TALIA_VERSION
+#  spec.author = "Talia dev team"
+#  spec.platform = Grem::Platform::RUBY
+#  spec.required_ruby_version = '>= 1.8.6'
+#  spec.date = Time.now
+#  
+#  create_deps(spec)
+#end
+#
+## Gem spec for the standard talia gem
+#talia_spec = Gem::Sepcification.new do |spec|
+#  
+#end
 
 # This is just a quick hack to use the migrations in standalone mode
 desc "Copies the template migrations to the local migrations directory"
