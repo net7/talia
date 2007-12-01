@@ -54,7 +54,8 @@ module TaliaUtil
   
   # Put the title for Talia
   def title
-    puts("\nTalia Digital Library system. http://www.talia.discovery-project.eu/\n\n")
+    puts "\nTalia Digital Library system. Version: #{TaliaCore::Version::STRING}" 
+    puts "http://www.talia.discovery-project.eu/\n\n"
   end
   
   # Flush the database
@@ -79,13 +80,14 @@ module TaliaUtil
     fixtures.reverse.each { |f| ActiveRecord::Base.connection.execute "DELETE FROM #{f}" }
     fixture_files = fixtures.collect { |f| File.join(File.dirname(__FILE__), "#{f}.yml") }
     fixtures.each do |fixture_file|
-      Fixtures.create_fixtures('test/fixtures', File.basename(fixture_file, '.*'))  
+      Fixtures.create_fixtures(File.join('test', 'fixtures'), File.basename(fixture_file, '.*'))  
     end  
   end
   
   # Do migrations
   def do_migrations
-    ActiveRecord::Migrator.migrate('db/migrate', ENV["VERSION"] ? ENV["VERSION"].to_i : nil )
+    migration_path = File.join("generators", "talia", "templates", "migrations")
+    ActiveRecord::Migrator.migrate(migration_path, ENV["VERSION"] ? ENV["VERSION"].to_i : nil )
   end
   
   # Check if the given flag is set on the command line
