@@ -42,7 +42,7 @@ Rails::Initializer.run do |config|
   # config.action_controller.session_store = :drb_store
   
   # See Rails::Configuration for more options
-  config.action_controller.session = { :session_key => "_talia_session", :secret => "some secret phrase" }
+  config.action_controller.session = { :session_key => "_talia_session", :secret => "176e9df1967d085808f4aeafb5a9b1da4db1c58508e618b473ca3312f3df9917b78cfb4c965b62e1a31b77d79ee8bbea643aa2f38639c0ff963fa98b5750728a" }
 end
 
 # Add new inflection rules using the following format 
