@@ -1,5 +1,5 @@
 # Rake tasks for the talia core
-$: << File.join(File.dirname(__FILE__), '..', 'lib') # For Talia core
+$: << File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'lib') # For Talia core
 
 require 'rake'
 require 'yaml'
