@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+# -*- Ruby -*-
+
+# Talia command line tool - mainly for creating standalone installations
+
+begin
+  require 'talia_cl'
+rescue LoadError
+  # If we fail, maybe we have a development installation
+  # Retry with additonal path
+  $: << File.join(File.dirname(__FILE__), "..", "lib")
+  require 'talia_cl'
+end
+
+run_command_line

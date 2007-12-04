@@ -17,10 +17,10 @@ module TaliaCore
   # Since data for the Source exists both in the database and in the RDF store, the 
   # handling/saving of data is a bit peculiar at the moment (subject to change in the future):
   #
-  # * When a new Source is created, the database record is save *immediately* with 
-  #   default values
-  # * RDF properties are always written *immediately*
-  # * Database properties are *only written when the save method is called*
+  # * When a new Source is created, no data is saved
+  # * RDF properties *cannot* be written until the Source has been saved for the first time
+  # * Database properties are *only* written when the save method is called
+  # * RDF properties are written immediately when they are assigned
   # * To ensure that the data is written, the save method should be called as 
   #   necessary.
   class Source
@@ -317,7 +317,7 @@ module TaliaCore
       namesp_uri ? self[namesp_uri + name.to_s] << value : false
     end
     
-    # Creates a sensible XML representation of the Source
+    # Creates a simple XML representation of the Source
     def to_xml
       xml = String.new
       builder = Builder::XmlMarkup.new(:target => xml, :indent => 2)
@@ -334,6 +334,37 @@ module TaliaCore
       end
       
       xml
+    end
+    
+    # Creates an RDF/XML resprentation of the source
+    def to_rdf
+      xml = String.new
+      
+      builder = Builder::XmlMarkup.new(:target => xml, :indent => 2)
+      
+      # Xml instructions (version and charset)
+      builder.instruct!
+      
+      # Build the namespaces
+      namespaces = {}
+      N::Namespace.shortcuts.each { |key, value| namespaces["xmlns:#{key.to_s}"] = value.to_s }
+      
+      builder.rdf :RDF, namespaces do # The main RDF/XML element
+        builder.rdf :Description, :about => uri do # Element describing this resource
+          # loop through the predicates
+          direct_predicates.each do |predicate|
+            predicate_rdf(predicate, builder)
+          end
+        end
+      end
+      
+    end
+    
+    
+    # To string: Just return the URI. Use to_xml if you need something more
+    # involved.
+    def to_s
+      uri.to_s
     end
     
     protected
@@ -544,6 +575,21 @@ module TaliaCore
       end
     end
     
+    # Build an rdf/xml string for one predicate
+    def predicate_rdf(predicate, builder)
+      builder.tag!(predicate.to_name_s) do
+        # Get the predicate values
+        self[predicate.to_s].each do |value|
+          # If we have a (re)Source, we have to put in another description tag.
+          # Otherwise, we will take just the string
+          if(value.kind_of?(Source))
+            builder.rdf :Description, "rdf:about" => value.uri.to_s
+          else
+            builder.text!(value.to_s)
+          end
+        end # end predicate loop
+      end # end tag!
+    end # end method
     
   end
 end

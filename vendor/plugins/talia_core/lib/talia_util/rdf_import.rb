@@ -1,4 +1,4 @@
-module TaliaRake
+module TaliaUtil
   
   # Import RDF data directly into the triple store.
   # This is called to import onotologies and other RDF data.

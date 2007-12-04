@@ -1,5 +1,5 @@
-# Module containing generic helper methods for the Rake tasks
-module TaliaRake
+# Utility module for tests, rake tasks etc.
+module TaliaUtil
   
   # Get the list of files from the "files" option
   def get_files
@@ -24,18 +24,21 @@ module TaliaRake
     config_file = ENV['config'] ? ENV['config'] : 'talia_core'
     
     # run the initializer
-    TaliaCore::Initializer.run(config_file)
-    puts("TaliaCore initialized")
+    TaliaCore::Initializer.run(config_file) do |config|
+      unless(flag?('no_standalone'))
+        puts "Always using standalone db from utilities."
+        puts "Give the no_standalone option to override it."
+        config['standalone_db'] = "true"
+      end
+    end
+    
+    puts("\nTaliaCore initialized")
     
     # # Flush the database if requested
-    if(ENV['reset_db'] && (ENV['reset_db'] == "yes"))
-      flush_db
-    end
+    flush_db if(flag?('reset_db'))
     
     # Flus the rdf if requested
-    if(ENV['reset_rdf'] && (ENV['reset_rdf'] == "yes"))
-      flush_rdf
-    end
+    flush_rdf if(flag?('reset_rdf'))
   end
   
   # Get info from the Talia configuraion
@@ -51,7 +54,8 @@ module TaliaRake
   
   # Put the title for Talia
   def title
-    puts("\nTalia Digital Library system. http://www.talia.discovery-project.eu/\n\n")
+    puts "\nTalia Digital Library system. Version: #{TaliaCore::Version::STRING}" 
+    puts "http://www.talia.discovery-project.eu/\n\n"
   end
   
   # Flush the database
@@ -76,13 +80,20 @@ module TaliaRake
     fixtures.reverse.each { |f| ActiveRecord::Base.connection.execute "DELETE FROM #{f}" }
     fixture_files = fixtures.collect { |f| File.join(File.dirname(__FILE__), "#{f}.yml") }
     fixtures.each do |fixture_file|
-      Fixtures.create_fixtures('test/fixtures', File.basename(fixture_file, '.*'))  
+      Fixtures.create_fixtures(File.join('test', 'fixtures'), File.basename(fixture_file, '.*'))  
     end  
   end
   
   # Do migrations
   def do_migrations
-    ActiveRecord::Migrator.migrate('db/migrate', ENV["VERSION"] ? ENV["VERSION"].to_i : nil )
+    migration_path = File.join("generators", "talia", "templates", "migrations")
+    ActiveRecord::Migrator.migrate(migration_path, ENV["VERSION"] ? ENV["VERSION"].to_i : nil )
+  end
+  
+  # Check if the given flag is set on the command line
+  def flag?(the_flag)
+    sassert_not_nil(the_flag)
+    ENV[the_flag] && (ENV[the_flag] == "yes" || ENV[the_flag] == "true")
   end
   
   # print the common options for the tasks
@@ -97,6 +108,7 @@ module TaliaRake
     puts "environment=<env>   - Environment for configuration (default: development)"
     puts "data_dir=<dir>      - Directory for the data files"
     puts "verbose={yes|no}    - Show some additional info"
+    puts ""
   end
   
   # Get an URI string from the given string in ns:name notation
