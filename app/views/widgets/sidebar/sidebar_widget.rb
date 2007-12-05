@@ -5,7 +5,7 @@ class SidebarWidget < Widgeon::Widget
     @bottom_tabs = []
     
     # Create bottom and top lists
-    @tabs.each do |name, settings|
+    tabs.each do |name, settings|
       if(settings['position'] == "bottom")
         @bottom_tabs << settings
       else
@@ -14,6 +14,6 @@ class SidebarWidget < Widgeon::Widget
     end
     
     @active_tab_options = {} unless(@active_tab_options)
-    @tab_widget = @tabs[@active_tab]['content']
+    @tab_widget = tabs[@active_tab]['content']
   end
 end
