@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # -*- Ruby -*-
 
-# Talia command line tool - mainly for creating standalone installations
+# Talia command line tool
 
 begin
   require 'talia_cl'

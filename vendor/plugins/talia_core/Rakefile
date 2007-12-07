@@ -35,8 +35,8 @@ end
 def create_deps(gemspec)
   gemspec.add_dependency('builder', '>= 2.1.2')
   gemspec.add_dependency('optiflag', '>= 0.6.5')
-  gemspec.add_dependency('paginator', '>= 1.1.0')
-  gemspec.add_dependency('progressbar', '>= 0.0.3'
+  gemspec.add_dependency('progressbar', '>= 0.0.3')
+  gemspec.add_dependency('rake', '>= 0.7.1')
   )
 end
 
@@ -54,7 +54,7 @@ end
 # Gem spec for the developer gem
 developer_spec = Gem::Specification.new do |spec|
   spec.name = "talia-dev"
-  spec.summary = "Set up the development dependencies for talia"
+  spec.summary = "Set up the development dependencies for talia."
   spec.version = TaliaCore::Version::STRING
   spec.author = "Talia dev team"
   spec.platform = Gem::Platform::RUBY
@@ -77,7 +77,8 @@ end
 # Gem spec for the standard talia gem
 talia_spec = Gem::Specification.new do |spec|
   spec.name = "talia-core"
-  spec.summary = "Talia Digital Library core components"
+  spec.summary = "Talia Digital Library. Core components."
+  spec.description = "Talia is a digital library system, developed for the Discovery project. This package contains the core API for accessing a Talia database. It's completely independent from Rails."
   spec.version = TaliaCore::Version::STRING
   spec.platform = Gem::Platform::RUBY
   
@@ -88,12 +89,14 @@ talia_spec = Gem::Specification.new do |spec|
   
   # Additional dependencies
   spec.requirements << "Install additional gems for activerdf adapters."
+  spec.add_dependency('activerecord', '>= 1.99.1')
+  spec.add_dependency('activesupport', '>= 1.99.1')
   spec.add_dependency('activerdf', '>= 1.7.0')
   spec.add_dependency('simpleassert', '>= 0.0.1')
   spec.add_dependency('semantic_naming', '>= 0.0.1')
   
   # Files
-  spec.files = FileList["{lib}/**/*", "{tasks}/**/*", "{generators}/**/*"].to_a
+  spec.files = FileList["{lib}/**/*"].to_a
   spec.require_path = "lib"
   spec.test_files = FileList["{test}/**/*test.rb"].to_a
 end
