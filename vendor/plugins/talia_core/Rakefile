@@ -37,7 +37,6 @@ def create_deps(gemspec)
   gemspec.add_dependency('optiflag', '>= 0.6.5')
   gemspec.add_dependency('progressbar', '>= 0.0.3')
   gemspec.add_dependency('rake', '>= 0.7.1')
-  )
 end
 
 # Adds the things that are common for all gems
