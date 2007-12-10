@@ -3,57 +3,84 @@ class TaliaGenerator < Rails::Generator::Base
   
   # Initialize the generator
   def initialize(runtime_args, runtime_options = {})
-    @generator_root = File.expand_path(File.dirname(__FILE__))
     super
+    usage if(args.empty?)
+    @generator_root = File.expand_path(File.dirname(__FILE__))
+    @destination_root = args.shift
   end
   
   def manifest
     # Add the migrations
     record do |m|
-      # configuration files
-      m.template(File.join("config", "talia_core.yml"), File.join("config", "talia_core.yml"))
-      m.template(File.join("config", "rdfstore.yml"), File.join("config", "rdfstore.yml"))
-      m.template(File.join("tasks", "talia_core_tasks.rake"), File.join("tasks", "talia_core_tasks.rake"))
-      migration_templates(m)
-      controller_templates(m)
+      # root directory
+      m.directory ""
+
+     process_dir(m, 'app')
+     process_dir(m, 'db')
+     process_dir(m, 'public')
+     process_dir(m, 'script')
+     
+      # Create the config directory
+      m.directory('config')
+      process_dir(m, File.join('config', 'environments'))
+      m.file(talia_root(File.join('config', 'boot.rb')), File.join('config', 'boot.rb'))
+      m.file(talia_root(File.join('config', 'environment.rb')), File.join('config', 'environment.rb'))
+      m.file(talia_root(File.join('config', 'routes.rb')), File.join('config', 'routes.rb'))
+      m.file(talia_root(File.join('config', 'database.yml.app_example')), File.join('config', 'database.yml'))
+      m.file(talia_root(File.join('config', 'rdfstore.yml.app_example')), File.join('config', 'rdfstore.yml'))
+      m.file(talia_root(File.join('config', 'talia_core.yml.app_example')), File.join('config', 'talia_core.yml'))
+      
+      # Root-level files
+      m.file(talia_root('Rakefile'), 'Rakefile')
+      
+      # Create empty directories
+      m.directory('log')
+      m.directory('data')
+      m.directory('vendor')
+      m.directory(File.join('vendor', 'plugins'))
+      
     end
   end
   
   protected
-  
-  # Generate the default controllers for Talia. These have fixed names
-  def controller_templates(manifest)
-   controller_root = File.join(@generator_root, "templates", "controllers")
-   Dir.entries(controller_root).each do |controller|
-     unless(File.directory?(File.join(controller_root, controller)))
-       manifest.template(File.join("controllers", controller), File.join("app", "controllers", controller))
-     end
-   end
+
+  # Use to copy a whole directory from the "template" to the new
+  # talia instance
+  def process_dir(manifest, directory, options = {})
+    manifest.directory(directory)
+    
+    files = relative_dir_files(directory)
+    
+    process_files(manifest, files, options)
   end
-  
-  # Generate the migrations. We will use the numbering of the files present
-  # in the migration directory, the numbering will be replaced with the 
-  # "proper" numbering during the migration process.
-  def migration_templates(manifest)
-    # Regexp for the migration files. We consider only the files that
-    # start with three numbers and an underscore
-    mig_re = /^(\d\d\d)_(.*).rb$/
-    migration_root = File.join(@generator_root, "templates", "migrations")
-    # Hash the migrations
-    migrations = {}
-    Dir.entries(migration_root).each do |name|
-      if((md = mig_re.match(name)) && !File.directory?(File.join(migration_root, name)))
-        # Add the migration to the hash, with both the 
-        # original name and the plain migration name
-        migrations[md[1].to_i] = [name, md[2]]
+    
+  # Record a list of given file copies. The file_list should contain relative
+  # pathnames from the talia root directory.
+  def process_files(manifest, file_list, options = {})
+    file_list.each do |file|
+      if(File.directory?(file_root(file)))
+        manifest.directory(file)
+      else
+        manifest.file(talia_root(file), file, options)
       end
     end
-    
-    # Now go through the migrations we found and construct the templates
-    migrations.keys.sort.each do |number|
-      template = File.join("migrations", migrations[number][0])
-      migration_name = migrations[number][1]
-      manifest.migration_template(template, "db/migrate", :migration_file_name => migration_name )
-    end
+  end
+  
+  # Get the contents of a a directory as relative pathnames (without the 
+  # root dir prepended)
+  def relative_dir_files(directory)
+    files = Dir["#{file_root(directory)}/**/*"]
+    files.map! { |file| file.gsub(/#{file_root}/, '') }
+  end
+  
+  # Change the given path so that it will point to the root of the "template"
+  # installation
+  def talia_root(path = '')
+    File.join('..', '..', '..', '..', path)
+  end
+  
+  # Get the absolute file path to the root of the "template" installation
+  def file_root(path = '')
+    File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', path))
   end
 end
