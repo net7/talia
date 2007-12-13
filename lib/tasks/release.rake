@@ -20,7 +20,7 @@ namespace :talia do
     spec.platform = Gem::Platform::RUBY
 
     spec.add_dependency('talia-core', ">= #{TaliaCore::Version::STRING}")
-    spec.add_dependency('rails', '>= 1.99.1')
+    spec.add_dependency('rails', '>= 2.0.1')
     spec.add_dependency('paginator', '>= 1.1.0')
 
     # Files
@@ -38,7 +38,7 @@ namespace :talia do
     spec.files = files.to_a
 
     spec.require_path = "lib"
-    # spec.test_files = FileList["{test}/**/*test.rb"].to_a
+    spec.test_files = FileList["{test}/**/*test.rb"].to_a
   end
 
   # Rake tasks

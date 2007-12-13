@@ -49,6 +49,7 @@ class ContextBarWidget < Widgeon::Widget
   
   # Reads the property from the given URI (must give a URI object)
   def get_property(uri)
+    sassert_not_nil(@properties, "Properties lost?")
     @properties["#{uri.namespace}##{uri.local_name}"]
   end
   

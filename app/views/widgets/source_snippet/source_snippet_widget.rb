@@ -37,7 +37,7 @@ class SourceSnippetWidget < Widgeon::Widget
   # Check if the type template exists on disk, otherwise return "default"
   def check_type_template(type)
     sassert_type(type, String)
-    file_name = File.join(self_path, "_#{type}.rhtml")
+    file_name = File.join(path_to_self, "_#{type}.rhtml")
     if(FileTest.exists?(file_name))
       type
     else
