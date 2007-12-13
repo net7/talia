@@ -9,6 +9,7 @@ require 'rdf_resource_wrapper'
 require 'rdf_helper'
 require 'source_property_list'
 require 'type_list'
+require 'json'
 
 module TaliaCore
   
@@ -360,11 +361,25 @@ module TaliaCore
       
     end
     
-    
     # To string: Just return the URI. Use to_xml if you need something more
     # involved.
     def to_s
       uri.to_s
+    end
+    
+    
+    # JSON representation of the Source: Just the URL. This doesn' really store
+    # all information, but it avoids serialization problems
+    def to_json(*)
+      {
+        'json_class' => self.class.name,
+        'uri' => uri
+      }.to_json
+    end
+    
+    # JSON deserializer: Just create a new object with the url
+    def self.json_create(object)
+      new(object['uri'])
     end
     
     protected
