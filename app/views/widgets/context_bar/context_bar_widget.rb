@@ -2,7 +2,7 @@ class ContextBarWidget < Widgeon::Widget
   
   def before_render
     return unless(@source) # Just bail out if no source is given
-    sassert_not_nil(@properties, "Must use context bar with properties.")
+    sassert_not_nil(properties, "Must use context bar with properties.")
     @context_groups = {}
     if(@source)
       @source.direct_predicates.each do |pred|
@@ -49,8 +49,8 @@ class ContextBarWidget < Widgeon::Widget
   
   # Reads the property from the given URI (must give a URI object)
   def get_property(uri)
-    sassert_not_nil(@properties, "Properties lost?")
-    @properties["#{uri.namespace}##{uri.local_name}"]
+    sassert_not_nil(properties, "Properties lost?")
+    properties["#{uri.namespace}##{uri.local_name}"]
   end
   
     # Adds the given predicate to the groups as normal or inverse predicate.
