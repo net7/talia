@@ -31,7 +31,7 @@ module TaliaUtil
       end
     end
 
-    adapter.save
+    adapter.save if(adapter.respond_to?(:save))
 
     puts "\n--> Importing rdf/rdfs file: complete!\n\n"
   end
