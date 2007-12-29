@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <parent1>
+        <child1>parent1_child1_text</child1>
+        <child1>parent1_child2_text</child1>
+    </parent1>
+    <parent2>
+        <child1>parent2_child1_text</child1>
+        <child1>parent2_child2_text</child1>        
+    </parent2>
+</root>

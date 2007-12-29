@@ -10,3 +10,21 @@ second:
   source_record_id:  1
   type:              SimpleText
   location:          temp2.txt
+
+third:
+  id:                3
+  source_record_id:  1
+  type:              XmlDataType
+  location:          temp1.xml
+
+fourth:
+  id:                4
+  source_record_id:  1
+  type:              XmlDataType
+  location:          temp2.xhtml
+
+fifth:
+  id:                5
+  source_record_id:  1
+  type:              XmlDataType
+  location:          temp3.hnml

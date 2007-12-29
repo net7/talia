@@ -4,7 +4,7 @@
 to_exclude = ['file_store.rb']
 
 # get all supported data types and include them
-Dir[File.dirname(__FILE__) + '/*.{rb}'].each{|file|
+Dir[File.join(File.dirname(__FILE__),'*.{rb}')].each{|file|
   if !to_exclude.include?(file)
     require file
   end

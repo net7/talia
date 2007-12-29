@@ -19,7 +19,7 @@ module TaliaCore
     # test not nil and records numbers
     def test_records_numbers
       assert_not_equal [], @test_records
-      assert_equal 2, @test_records.size
+      assert_equal 5, @test_records.size
     end
   
     # test class type and mime_type
