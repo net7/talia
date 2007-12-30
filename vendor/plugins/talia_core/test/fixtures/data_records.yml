@@ -28,3 +28,39 @@ fifth:
   source_record_id:  1
   type:              XmlDataType
   location:          temp3.hnml
+
+sixth:
+  id:                6
+  source_record_id:  1
+  type:              ImageDataType
+  location:          temp1.bmp
+
+seventh:
+  id:                7
+  source_record_id:  1
+  type:              ImageDataType
+  location:          temp2.fit
+
+eighth:
+  id:                8
+  source_record_id:  1
+  type:              ImageDataType
+  location:          temp3.gif
+
+ninth:
+  id:                9
+  source_record_id:  1
+  type:              ImageDataType
+  location:          temp4.jpg
+
+tenth:
+  id:                10
+  source_record_id:  1
+  type:              ImageDataType
+  location:          temp5.png
+
+eleventh:
+  id:                11
+  source_record_id:  1
+  type:              ImageDataType
+  location:          temp6.tif

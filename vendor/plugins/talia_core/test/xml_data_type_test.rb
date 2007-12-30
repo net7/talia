@@ -6,20 +6,20 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 module TaliaCore
 
   # Test te DataRecord storage class
-  class DataRecordTest < Test::Unit::TestCase
+  class XmlDataTypeTest < Test::Unit::TestCase
   
     # Establish the database connection for the test
     TestHelper.startup
      
     def setup
       TestHelper.fixtures
-      @test_records = XmlDataType.find_data_records(1)
+      @test_records = DataRecord.find_data_records(1)
     end
     
     # test not nil and records numbers
     def test_records_numbers
       assert_not_equal [], @test_records
-      assert_equal 5, @test_records.size
+      assert_equal 11, @test_records.size
     end
   
     # test class type and mime_type and subtype
