@@ -10,7 +10,7 @@ $: << this_dir + '/talia_core/'
 # Stuff we may need to load from sources/uninstalled versions
 TLoad::require_module("activerecord", "active_record", "/../../../rails/activerecord") unless(defined?(ActiveRecord))
 TLoad::require_module("activesupport", "active_support", "/../../../rails/activesupport") unless(defined?(ActiveSupport))
-TLoad::require_module("simpleassert", "simpleassert", "/../../simpleassert") unless(defined?(sassert))
+TLoad::require_module("assit", "assit", "/../../assit") unless(defined?(assit))
 TLoad::require_module("semantic_naming", "semantic_naming", "/../../semantic_naming")
 TLoad::require_module("activerdf", "active_rdf", "/../../ActiveRDF")
 

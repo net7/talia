@@ -37,6 +37,7 @@ def create_deps(gemspec)
   gemspec.add_dependency('optiflag', '>= 0.6.5')
   gemspec.add_dependency('progressbar', '>= 0.0.3')
   gemspec.add_dependency('rake', '>= 0.7.1')
+  gemspec.add_dependency('json', '>= 1.1.0')
 end
 
 # Adds the things that are common for all gems
@@ -91,7 +92,7 @@ talia_spec = Gem::Specification.new do |spec|
   spec.add_dependency('activerecord', '>= 1.99.1')
   spec.add_dependency('activesupport', '>= 1.99.1')
   spec.add_dependency('activerdf', '>= 1.7.0')
-  spec.add_dependency('simpleassert', '>= 0.0.1')
+  spec.add_dependency('assit', '>= 0.0.1')
   spec.add_dependency('semantic_naming', '>= 0.0.1')
   
   # Files

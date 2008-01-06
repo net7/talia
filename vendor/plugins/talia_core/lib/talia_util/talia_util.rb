@@ -92,7 +92,7 @@ module TaliaUtil
   
   # Check if the given flag is set on the command line
   def flag?(the_flag)
-    sassert_not_nil(the_flag)
+    assit_not_nil(the_flag)
     ENV[the_flag] && (ENV[the_flag] == "yes" || ENV[the_flag] == "true")
   end
   

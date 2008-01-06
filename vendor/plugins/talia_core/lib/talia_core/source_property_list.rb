@@ -20,7 +20,7 @@ module TaliaCore
     # The subclass will need to supply the to_source
     # and to_resource methods
     def initialize(prop_list)
-      sassert_type(prop_list, PropertyList)
+      assit_type(prop_list, PropertyList)
       
       @rdf_list = prop_list
     end

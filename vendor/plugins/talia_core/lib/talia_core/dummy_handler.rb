@@ -1,6 +1,6 @@
 require 'active_rdf'
 require 'semantic_naming'
-require 'simpleassert'
+require 'assit'
 require 'errors'
 
 module TaliaCore
@@ -15,8 +15,8 @@ module TaliaCore
     
     # Create the new handler
     def initialize(uri, rdf_resource)
-      sassert_type(uri, N::URI)
-      sassert_type(rdf_resource, RdfResourceWrapper)
+      assit_type(uri, N::URI)
+      assit_type(rdf_resource, RdfResourceWrapper)
       
       @uri = uri.to_s
       @rdf_resource = rdf_resource

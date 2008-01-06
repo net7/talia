@@ -46,7 +46,7 @@ module TaliaCore
     #
     # The scope can be :all or :first, as usual.
     def self.find_by_hash(scope, option_hash)
-      sassert_type(option_hash, Hash)
+      assit_type(option_hash, Hash)
       
       db_hash = Hash.new
       
@@ -79,7 +79,7 @@ module TaliaCore
     
     # Find multiple records from multiple uris
     def self.find_by_some_uris(uris)
-      sassert_type(uris, Array)
+      assit_type(uris, Array)
       raise RecordNotFound("Cannot find record without URI")  unless(uris.size > 0)
       # Find it
       result = find(:all, :conditions => sanitize_sql_hash({:uri => uris}))

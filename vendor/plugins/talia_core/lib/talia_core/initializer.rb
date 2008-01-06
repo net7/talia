@@ -1,4 +1,4 @@
-require 'simpleassert'
+require 'assit'
 require 'semantic_naming'
 require 'active_support'
 require 'active_record'
@@ -301,7 +301,7 @@ module TaliaCore
       
       # Register additional namespaces
       if(@config["namespaces"])
-        sassert_type(@config["namespaces"], Hash)
+        assit_type(@config["namespaces"], Hash)
         @config["namespaces"].each_pair do |shortcut, uri|
           N::Namespace.shortcut(shortcut, uri)
         end

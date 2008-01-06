@@ -201,7 +201,7 @@ module TaliaCore
           find_result = SourceQuery.new(options).execute
           
           if(first_param == :first)
-            sassert(find_result.size == 0 || find_result.size == 1, "Illegal result size for :first: #{find_result.size}")
+            assit(find_result.size == 0 || find_result.size == 1, "Illegal result size for :first: #{find_result.size}")
             find_result = find_result[0]
           elsif(first_param != :all)
             raise(QueryError, "Illegal find scope #{first_param}")
@@ -209,7 +209,7 @@ module TaliaCore
         end
       end
              
-      sassert(find_result.is_a?(Source) || find_result.is_a?(Array) || find_result == nil)
+      assit(find_result.is_a?(Source) || find_result.is_a?(Array) || find_result == nil)
       find_result
     end
     
@@ -428,8 +428,8 @@ module TaliaCore
   
     # Loads an existing record into the system
     def load_record(existing_record)
-      sassert_type(existing_record, SourceRecord)
-      sassert_not_nil(existing_record.uri)
+      assit_type(existing_record, SourceRecord)
+      assit_not_nil(existing_record.uri)
       
       # Our local store is the record given to us
       @source_record = existing_record
@@ -554,7 +554,7 @@ module TaliaCore
             return @source_record.send(shortcut.to_s)
           end
         else
-          sassert(false, "Invalid association type")
+          assit(false, "Invalid association type")
           return false
         end
       end
