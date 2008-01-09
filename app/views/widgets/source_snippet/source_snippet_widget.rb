@@ -2,7 +2,7 @@
 class SourceSnippetWidget < Widgeon::Widget
   
   def before_render
-    sassert_not_nil(@source)
+    assit_not_nil(@source)
   end
   
   # Return the correct partial sub-template for the given Source, depending 
@@ -19,7 +19,7 @@ class SourceSnippetWidget < Widgeon::Widget
     
     # For each of the types, check if the type template exists
     for type in types
-      sassert_type(type, N::URI)
+      assit_type(type, N::URI)
       type_uri = type.to_name_s('_')
       template = if(Dependencies.mechanism == :require)
         @@type_templates[type_uri] ||= check_type_template(type_uri)
@@ -36,7 +36,7 @@ class SourceSnippetWidget < Widgeon::Widget
   
   # Check if the type template exists on disk, otherwise return "default"
   def check_type_template(type)
-    sassert_type(type, String)
+    assit_type(type, String)
     file_name = File.join(self.class.path_to_self, "_#{type}.rhtml")
     if(FileTest.exists?(file_name))
       type

@@ -27,7 +27,7 @@ module ApplicationHelper
   # If no label is defined, it will put the local name of the source as the
   # only element.
   def labels(source)
-    sassert_type(source, TaliaCore::Source)
+    assit_type(source, TaliaCore::Source)
     labels = source.rdfs::label
     unless(labels && labels.size > 0)
       labels = [source.uri.local_name]
@@ -38,7 +38,7 @@ module ApplicationHelper
   
   # Helper to get the short name of a source
   def short_name(source) 
-    sassert_type(source, TaliaCore::Source)
+    assit_type(source, TaliaCore::Source)
     shortname = source.talias::shortname
     if(shortname && shortname.size > 0)
       # get the first short name
