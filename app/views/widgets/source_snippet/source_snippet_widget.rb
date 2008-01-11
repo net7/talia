@@ -19,7 +19,7 @@ class SourceSnippetWidget < Widgeon::Widget
     
     # For each of the types, check if the type template exists
     for type in types
-      assit_type(type, N::URI)
+      assit_kind_of(N::URI, type)
       type_uri = type.to_name_s('_')
       template = if(Dependencies.mechanism == :require)
         @@type_templates[type_uri] ||= check_type_template(type_uri)
@@ -36,7 +36,7 @@ class SourceSnippetWidget < Widgeon::Widget
   
   # Check if the type template exists on disk, otherwise return "default"
   def check_type_template(type)
-    assit_type(type, String)
+    assit_kind_of(String, type)
     file_name = File.join(self.class.path_to_self, "_#{type}.rhtml")
     if(FileTest.exists?(file_name))
       type

@@ -20,6 +20,9 @@ ActionController::Routing::Routes.draw do |map|
   # instead of a file named 'wsdl'
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 
+  map.connect 'widgeon/:action', :controller => 'widgeon'
+  map.connect 'import/:action', :controller => 'import', :action => 'start_import'
+  
   # Install the default route as the lowest priority.
   map.connect ':controller/:id/:attribute', 
               :controller => 'resources', 
