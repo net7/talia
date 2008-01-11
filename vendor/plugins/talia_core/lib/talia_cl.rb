@@ -32,7 +32,7 @@ end
 
 # Runs the command line
 def run_command_line
-  title
+  Util::title
   
   command = ARGV.shift
   

@@ -24,5 +24,11 @@ module TaliaCore
       assert_equal("http://something.com/", @test_record.uri.to_s)
     end
     
+    # Test if the validation works
+    def test_validate
+      @test_record.uri = nil
+      assert_raise(ActiveRecord::RecordInvalid) { @test_record.save! }
+    end
+    
   end
 end

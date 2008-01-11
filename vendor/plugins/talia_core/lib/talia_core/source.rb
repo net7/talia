@@ -428,7 +428,7 @@ module TaliaCore
   
     # Loads an existing record into the system
     def load_record(existing_record)
-      assit_type(existing_record, SourceRecord)
+      assit_kind_of(SourceRecord, existing_record)
       assit_not_nil(existing_record.uri)
       
       # Our local store is the record given to us

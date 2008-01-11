@@ -24,8 +24,8 @@ module TaliaCommandLine
     flags = TaliaCommands::flags
 
     unless(flags.noinit?)
-      init_talia
-      talia_config if(flags.verbose?)
+      Util::init_talia
+      Util::talia_config if(flags.verbose?)
     else
       puts "Talia not initialized, as requested."
     end

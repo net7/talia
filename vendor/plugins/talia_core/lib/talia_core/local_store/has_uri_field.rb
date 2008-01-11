@@ -9,7 +9,7 @@ module ActiveRecord
     # Adds the uri getter an setter to the current
     # class
     def self.has_uri_field(uri_type)
-      assit_type(uri_type, Class)
+      assit_kind_of(Class, uri_type)
       
       # For the URIs we do a minimal check (String with no blanks and : char somewher)
       validates_format_of :uri, :with => /\A\S*:\S*\Z/

@@ -1,4 +1,5 @@
-require File.dirname(__FILE__) + "/../lib/talia_core"
+$: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
+require "talia_core"
 
 require 'active_record/fixtures'
 

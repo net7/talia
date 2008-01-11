@@ -15,8 +15,8 @@ module TaliaCore
     
     # Create the new handler
     def initialize(uri, rdf_resource)
-      assit_type(uri, N::URI)
-      assit_type(rdf_resource, RdfResourceWrapper)
+      assit_kind_of(N::URI, uri)
+      assit_kind_of(RdfResourceWrapper, rdf_resource)
       
       @uri = uri.to_s
       @rdf_resource = rdf_resource

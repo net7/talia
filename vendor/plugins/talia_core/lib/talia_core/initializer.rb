@@ -301,7 +301,7 @@ module TaliaCore
       
       # Register additional namespaces
       if(@config["namespaces"])
-        assit_type(@config["namespaces"], Hash)
+        assit_kind_of(Hash, @config["namespaces"])
         @config["namespaces"].each_pair do |shortcut, uri|
           N::Namespace.shortcut(shortcut, uri)
         end

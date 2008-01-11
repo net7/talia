@@ -85,13 +85,13 @@ module TaliaCommandLine
     when "rdf":
       print "Select data file format (ntriples|rdfxml): "
       dataformat = readline
-      rdf_import(dataformat, FileList.new(filepattern))
+      RdfImport::import(dataformat, FileList.new(filepattern))
     when "yaml":
-      yaml_import(FileList.new(filepattern))
+      YamlImport::import_multi_files(FileList.new(filepattern))
     when "data":
       print "Select data type to import: "
       datatype = readline
-      import_data(FileList.new(filepattern), datatype)
+      DataImport::import(FileList.new(filepattern), datatype)
     end
   end
 

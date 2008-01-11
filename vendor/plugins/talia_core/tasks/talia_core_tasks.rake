@@ -15,9 +15,9 @@ namespace :talia_core do
     # Standard initialization
   desc "Initialize the TaliaCore"
   task :talia_init do
-    title
-    init_talia
-    talia_config if(flag?('verbose'))
+    Util::title
+    Util::init_talia
+    Util::talia_config if(Util::flag?('verbose'))
   end
   
   # Init for the unit tests
@@ -55,7 +55,7 @@ namespace :talia_core do
   # Just run the Talia init to test it
   desc "Test the TaliaCore startup"
   task :init_test => :talia_init do
-    talia_config
+    Util::talia_config
   end
  
   # Task for importing ontologies/raw RDF data
@@ -64,19 +64,19 @@ namespace :talia_core do
   # The real import task
   desc "Import RDF data directly into the triple store. Option: rdf_syntax={ntriples|rdfxml}"
   task :rdf_import => :talia_init do
-    rdf_import(ENV['rdf_syntax'], get_files)
+    RdfImport::import(ENV['rdf_syntax'], get_files)
   end
   
   # Task for importing YAML data into the data store
   desc "Import YAML data file in Talia format."
   task :yaml_import => :talia_init do
-    yaml_import(get_files)
+    YamlImport::import_multi_files(get_files)
   end
   
   # Task to import data files into the Talia system
   desc "Import data files. Options data_type=<data_type> replace_files={yes|no}"
   task :data_import => :talia_init do
-    import_data(get_files, ENV['data_type'])
+    DataImport::import(get_files, ENV['data_type'])
   end
   
   # Task to import demo data from a demo directory
@@ -84,7 +84,7 @@ namespace :talia_core do
   task :demo_import do
     unless(demodir = ENV['demodir'])
       puts "ERROR: Need demodir option for import"
-      print_options
+      Util::print_options
       exit(1)
     end
     
@@ -96,14 +96,14 @@ namespace :talia_core do
     Rake::Task["talia_core:talia_init"].invoke
     
     puts "Importing ontologies..."
-    rdf_import("rdfxml", FileList.new(File.join(demodir, '*.rdf*')))
+    RdfImport::import("rdfxml", FileList.new(File.join(demodir, '*.rdf*')))
     puts "Importing data records..."
-    yaml_import([File.join(demodir, "demo_data.yml")])
+    YamlImport::import_multi_files([File.join(demodir, "demo_data.yml")])
     puts "Importing files..."
     Dir.foreach(File.join(demodir)) do |entry|
       if(FileTest.directory?(File.join(demodir,entry)) && entry != ".." && entry != "." && entry != ".svn")
         puts "Importing for type #{entry}"
-        import_data(FileList.new(File.join(demodir, entry, '*')), entry)
+        DataImport::import(FileList.new(File.join(demodir, entry, '*')), entry)
       end
     end
   end
@@ -113,7 +113,7 @@ namespace :talia_core do
   task :help do
     title
     puts "Talia Core tasks usage information."
-    print_options
+    Util::print_options
   end
 
 end
