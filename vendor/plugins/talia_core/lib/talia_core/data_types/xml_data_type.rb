@@ -79,8 +79,44 @@ module TaliaCore
         content = document.root.elements
       end
       
+      # adjust/replace items path
+      content.each { |i| wrapImg i }
+      
       # return content
       return content
+    end
+    
+    
+    private
+    # adjusted/replaced items path
+    def wrapImg item
+      if item.class == REXML::Element
+        # recursive execution
+        item.each_child { |subItem| wrapImg subItem}
+    
+        case item.name
+        when "img"
+          if item.attributes.include? "src"
+            # get path
+            path = Pathname.new(item.attributes['src']).split
+            # adjust src attribute
+            item.attributes['src'] = File.join("ImageDataType",path[1].to_s) if path[0].relative?
+          end
+        when "a"
+          if item.attributes.include? "href"
+            # get path
+            path = Pathname.new(item.attributes['href']).split
+            # adjust href attribute
+            case File.extname(path[1].to_s)
+            when ".txt"
+              item.attributes['href'] = File.join("SimpleText", path[1].to_s) if path[0].relative?
+            when '.htm', '.html','.xhtml','.hnml','.xml'
+              item.attributes['href'] = File.join("XmlDataType", path[1].to_s) if path[0].relative?
+            end
+          end
+        end
+       
+      end
     end
     
   end

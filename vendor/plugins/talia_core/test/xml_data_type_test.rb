@@ -89,6 +89,6 @@ module TaliaCore
       assert_not_equal nil, hnml_content.nil?
     end
   end
-
+   
 end
 
