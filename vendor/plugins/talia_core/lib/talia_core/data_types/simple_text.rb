@@ -13,7 +13,7 @@ module TaliaCore
 
     # return the mime_type for this specified class
     def mime_type
-      'plain/text'     
+      'text/plain'
     end
     
     # returns all bytes in the object as an array
