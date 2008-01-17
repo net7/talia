@@ -11,8 +11,13 @@ module TaliaCore
     #             at least the following methods
     # See also:   single-table inheritance    
 
-    # returns all bytes in the object as an array
+    # returns all bytes in the object as an array of unsigned integers
     def all_bytes
+    end
+    
+    # Returns all_bytes as an binary string
+    def content_string
+      all_byes.pack('C*') if(all_bytes)
     end
 
     # returns the next byte from the object, or nil at EOS  
