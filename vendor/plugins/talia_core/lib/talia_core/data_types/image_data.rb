@@ -4,7 +4,7 @@ require 'talia_core/local_store/data_record'
 module TaliaCore
   
   # Class to manage image data type
-  class ImageDataType < DataRecord
+  class ImageData < DataRecord
     
     # include the module to work with files
     # TODO: paramterize this. If we'll have to work with file inculde the following

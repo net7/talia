@@ -9,7 +9,6 @@ require 'rdf_resource_wrapper'
 require 'rdf_helper'
 require 'source_property_list'
 require 'type_list'
-require 'json'
 
 module TaliaCore
   
@@ -318,6 +317,18 @@ module TaliaCore
       namesp_uri ? self[namesp_uri + name.to_s] << value : false
     end
     
+    # This will return a list of DataRecord objects. Without parameters, this
+    # returns all data elements on the source. If a type is given, it will
+    # return only the elements of the given type. If both type and location are
+    # given, it will retrieve only the specified data element
+    def data(type = nil, location= nil)
+      find_type = location ? :first : :all # Find just one element if a location is given
+      options = {}
+      options[:conditions] = [ "type = ?", type ] if(type && !location)
+      options[:conditions] = [ "type = ? AND location = ?", type, location ] if(type && location)
+      @source_record.data_records.find(find_type, options)
+    end
+    
     # Creates a simple XML representation of the Source
     def to_xml
       xml = String.new
@@ -365,21 +376,6 @@ module TaliaCore
     # involved.
     def to_s
       uri.to_s
-    end
-    
-    
-    # JSON representation of the Source: Just the URL. This doesn' really store
-    # all information, but it avoids serialization problems
-    def to_json(*)
-      {
-        'json_class' => self.class.name,
-        'uri' => uri
-      }.to_json
-    end
-    
-    # JSON deserializer: Just create a new object with the url
-    def self.json_create(object)
-      new(object['uri'])
     end
     
     protected

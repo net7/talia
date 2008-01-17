@@ -4,7 +4,7 @@ require "rexml/document"
 module TaliaCore
   
   # Class to manage XML and HTML data type
-  class XmlDataType < DataRecord
+  class XmlData < DataRecord
     
     # include the module to work with files
     # TODO: paramterize this. If we'll have to work with file inculde the following
