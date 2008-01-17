@@ -6,7 +6,7 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 module TaliaCore
 
   # Test te DataRecord storage class
-  class ImageDataTypeTest < Test::Unit::TestCase
+  class ImageDataTest < Test::Unit::TestCase
   
     # Establish the database connection for the test
     TestHelper.startup
@@ -24,12 +24,12 @@ module TaliaCore
   
     # test class type and mime_type and subtype
     def test_mime_types
-      assert_kind_of(ImageDataType, @test_records[5])
-      assert_kind_of(ImageDataType, @test_records[6])
-      assert_kind_of(ImageDataType, @test_records[7])
-      assert_kind_of(ImageDataType, @test_records[8])
-      assert_kind_of(ImageDataType, @test_records[9])
-      assert_kind_of(ImageDataType, @test_records[10])
+      assert_kind_of(ImageData, @test_records[5])
+      assert_kind_of(ImageData, @test_records[6])
+      assert_kind_of(ImageData, @test_records[7])
+      assert_kind_of(ImageData, @test_records[8])
+      assert_kind_of(ImageData, @test_records[9])
+      assert_kind_of(ImageData, @test_records[10])
       assert_equal("image/bmp", @test_records[5].mime_type)
       assert_equal("image/fits", @test_records[6].mime_type)
       assert_equal("image/gif", @test_records[7].mime_type)
@@ -40,7 +40,7 @@ module TaliaCore
     
     # test data directory
     def test_data_directory
-      base_dir_name = File.expand_path(File.join(File.dirname(__FILE__), 'data_for_test', 'ImageDataType'))
+      base_dir_name = File.expand_path(File.join(File.dirname(__FILE__), 'data_for_test', 'ImageData'))
       dir_for_test  = File.expand_path(@test_records[5].data_directory)
       assert_equal(base_dir_name, dir_for_test)
       assert(File.exists?(dir_for_test))

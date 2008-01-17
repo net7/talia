@@ -26,8 +26,8 @@ module TaliaCore
     def test_mime_types
       assert_kind_of(SimpleText, @test_records[0])
       assert_kind_of(SimpleText, @test_records[1])
-      assert_equal("plain/text", @test_records[0].mime_type)
-      assert_equal("plain/text", @test_records[1].mime_type)
+      assert_equal("text/plain", @test_records[0].mime_type)
+      assert_equal("text/plain", @test_records[1].mime_type)
     end
     
     # test data directory

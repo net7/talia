@@ -14,53 +14,53 @@ second:
 third:
   id:                3
   source_record_id:  1
-  type:              XmlDataType
+  type:              XmlData
   location:          temp1.xml
 
 fourth:
   id:                4
   source_record_id:  1
-  type:              XmlDataType
+  type:              XmlData
   location:          temp2.xhtml
 
 fifth:
   id:                5
   source_record_id:  1
-  type:              XmlDataType
+  type:              XmlData
   location:          temp3.hnml
 
 sixth:
   id:                6
   source_record_id:  1
-  type:              ImageDataType
+  type:              ImageData
   location:          temp1.bmp
 
 seventh:
   id:                7
   source_record_id:  1
-  type:              ImageDataType
+  type:              ImageData
   location:          temp2.fit
 
 eighth:
   id:                8
   source_record_id:  1
-  type:              ImageDataType
+  type:              ImageData
   location:          temp3.gif
 
 ninth:
   id:                9
   source_record_id:  1
-  type:              ImageDataType
+  type:              ImageData
   location:          temp4.jpg
 
 tenth:
   id:                10
   source_record_id:  1
-  type:              ImageDataType
+  type:              ImageData
   location:          temp5.png
 
 eleventh:
   id:                11
   source_record_id:  1
-  type:              ImageDataType
+  type:              ImageData
   location:          temp6.tif

@@ -25,8 +25,8 @@ db_file: database
 
 # Configure the namespaces for use with RDF
 namespaces:
-    # Some default namespaces
-    rdfs: "http://www.w3.org/2000/01/rdf-schema#"
+    # Default namespaces rdf, rdfs, xsd, owl are defined in the semantic_naming
+    # library.
     # Add more namespaces here
 
 

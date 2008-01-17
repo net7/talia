@@ -6,7 +6,7 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 module TaliaCore
 
   # Test te DataRecord storage class
-  class XmlDataTypeTest < Test::Unit::TestCase
+  class XmlDataTest < Test::Unit::TestCase
   
     # Establish the database connection for the test
     TestHelper.startup
@@ -24,9 +24,9 @@ module TaliaCore
   
     # test class type and mime_type and subtype
     def test_mime_types
-      assert_kind_of(XmlDataType, @test_records[2])
-      assert_kind_of(XmlDataType, @test_records[3])
-      assert_kind_of(XmlDataType, @test_records[4])
+      assert_kind_of(XmlData, @test_records[2])
+      assert_kind_of(XmlData, @test_records[3])
+      assert_kind_of(XmlData, @test_records[4])
       assert_equal("text/xml", @test_records[2].mime_type)
       assert_equal("xml", @test_records[2].mime_subtype)
       assert_equal("text/html", @test_records[3].mime_type)
@@ -37,7 +37,7 @@ module TaliaCore
     
     # test data directory
     def test_data_directory
-      base_dir_name = File.expand_path(File.join(File.dirname(__FILE__), 'data_for_test', 'XmlDataType'))
+      base_dir_name = File.expand_path(File.join(File.dirname(__FILE__), 'data_for_test', 'XmlData'))
       dir_for_test  = File.expand_path(@test_records[2].data_directory)
       assert_equal(base_dir_name, dir_for_test)
       assert(File.exists?(dir_for_test))

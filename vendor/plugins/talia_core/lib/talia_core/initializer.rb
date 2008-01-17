@@ -296,9 +296,6 @@ module TaliaCore
       # Register namespace for database dupes
       N::Namespace.shortcut(:talia_db, "http://talia.discovery-project.eu/wiki/DatabaseDupes#")
       
-      # Register the RDF namespace, since the Source class depends on it
-      N::Namespace.shortcut(:rdf, "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
-      
       # Register additional namespaces
       if(@config["namespaces"])
         assit_kind_of(Hash, @config["namespaces"])

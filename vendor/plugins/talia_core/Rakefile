@@ -66,7 +66,7 @@ developer_spec = Gem::Specification.new do |spec|
   spec.requirements << "Talia source code from http://talia.discovery-project.eu/svn/talia/repository/..."
   
   # Install the console
-  spec.executables << 'talia_console'
+  spec.executables << 'talia'
 end
 
 # Rake tasks
@@ -85,7 +85,7 @@ talia_spec = Gem::Specification.new do |spec|
   create_common_gemspec(spec)
   
   # Install the console
-  spec.executables << 'talia_console'
+  spec.executables << 'talia'
   
   # Additional dependencies
   spec.requirements << "Install additional gems for activerdf adapters."

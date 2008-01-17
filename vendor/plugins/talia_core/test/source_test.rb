@@ -40,6 +40,18 @@ module TaliaCore
         src.types << "http://www.interestingrelations.org/book"
         src.save!
       end
+      
+      @@data_source = Source.new("http://www.test.org/source_with_data")
+      @@data_source.workflow_state = 1
+      @@data_source.primary_source = false
+      text = SimpleText.new
+      text.location = "text.txt"
+      image = ImageData.new
+      image.location = "image.jpg"
+      @@data_source.data_records << text
+      @@data_source.data_records << image
+      @@data_source.save!
+      
     end
     
     def setup
@@ -481,6 +493,34 @@ module TaliaCore
       safe.save!
       assert_equal("I should be safe!", safe.foo::some_property[0])
     end
+    
+    # Test if accessing the data on a Source works
+    def test_data_access
+      data = @@data_source.data
+      assert_equal(2, data.size)
+    end
+    
+    # Test if accessing the data on a Source works
+    def test_data_access_by_type
+      data = @@data_source.data("SimpleText")
+      assert_equal(1, data.size)
+      assert_kind_of(SimpleText, data.first)
+    end
+    
+    # Test if accessing the data on a Source works
+    def test_data_access_by_type_and_location
+      data = @@data_source.data("ImageData", "image.jpg")
+      assert_kind_of(ImageData, data)
+    end
+    
+    # Test accessing inexistent data
+    def test_data_access_inexistent
+      data = @@data_source.data("Foo")
+      assert_equal(0, data.size)
+      data = @@data_source.data("SimpleText", "noop.txt")
+      assert_nil(data)
+    end 
+    
   end
 end
  
