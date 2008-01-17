@@ -25,10 +25,17 @@ ActionController::Routing::Routes.draw do |map|
   
   # Install the default route as the lowest priority.
   map.connect ':controller/:id/:attribute', 
-              :controller => 'resources', 
+              :controller => 'sources', 
               :action => 'show_attribute',
               :id => nil,
               :attribute => :nil
+
+  map.connect ':controller/:id/:data_type/:location', 
+              :controller => 'sources', 
+              :action => 'show_source_data',
+              :id => nil,
+              :data_type => :nil,
+              :location  => :nil
 
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'
