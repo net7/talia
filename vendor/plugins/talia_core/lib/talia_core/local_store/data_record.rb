@@ -17,7 +17,7 @@ module TaliaCore
     
     # Returns all_bytes as an binary string
     def content_string
-      all_byes.pack('C*') if(all_bytes)
+      all_bytes.pack('C*') if(all_bytes)
     end
 
     # returns the next byte from the object, or nil at EOS  
