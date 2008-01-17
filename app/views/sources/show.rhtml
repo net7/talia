@@ -1,4 +1,5 @@
 <div>
+ <%= widget(:toolbar, :buttons => { :Lucca => {:id => 'Lucca'}, :print => "javascript:print();" }) %>
  <%= widget(:source_snippet, :source => @source) %>
   <!-- %= @source.primary_source ? "This is a primary source" : "This is a contribution" % -->
 <% if(@source.data_records.size > 0) %>
