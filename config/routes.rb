@@ -19,6 +19,8 @@ ActionController::Routing::Routes.draw do |map|
   # Allow downloading Web Service WSDL as a file with an extension
   # instead of a file named 'wsdl'
   map.connect ':controller/service.wsdl', :action => 'wsdl'
+  
+  map.connect '', :controller => 'sources'
 
   map.connect 'widgeon/:action', :controller => 'widgeon'
   map.connect 'import/:action', :controller => 'import', :action => 'start_import'
@@ -27,13 +29,13 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/:id/:attribute', 
               :controller => 'sources', 
               :action => 'show_attribute',
-              :id => nil,
+              :id => :nil,
               :attribute => :nil
 
   map.connect ':controller/:id/:data_type/:location', 
               :controller => 'sources', 
               :action => 'show_source_data',
-              :id => nil,
+              :id => :nil,
               :data_type => :nil,
               :location  => :nil
 
