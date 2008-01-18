@@ -263,6 +263,7 @@ module TaliaCore
       
       attr
     end
+    alias :get_attribute :[]
     
     # Assignment to the the array-type accessor
     def []=(attribute, value)
@@ -272,6 +273,7 @@ module TaliaCore
         raise(ArgumentError, "Set not available on RDF properties, use << instead.")
       end
     end
+    alias :set_attribute :[]=
     
     # This returns a special object which collects the "inverse" properties 
     # of the Source - these are all RDF properties which have the current
@@ -327,6 +329,27 @@ module TaliaCore
       options[:conditions] = [ "type = ?", type ] if(type && !location)
       options[:conditions] = [ "type = ? AND location = ?", type, location ] if(type && location)
       @source_record.data_records.find(find_type, options)
+    end
+    
+    # Returns an array of labels for this source. You may give the name of the
+    # property that is used as a label, by default it uses rdf:label(s). If
+    # the given property is not set, it will return the local part of this
+    # Source's URI.
+    #
+    # In any case, the result will always be an Array with at least one elment.
+    def labels(type = N::RDFS::label)
+      labels = get_attribute(type)
+      unless(labels && labels.size > 0)
+        labels = [uri.local_name]
+      end
+
+      labels
+    end
+    
+    # This returns a single label of the given type. (If multiple labels
+    # exist in the RDF, just the first is returned.)
+    def label(type = N::RDFS::label)
+      labels(type)[0]
     end
     
     # Creates a simple XML representation of the Source

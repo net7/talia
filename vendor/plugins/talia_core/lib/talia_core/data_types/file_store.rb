@@ -35,9 +35,9 @@ module FileStore
   # Open a specified file name and return a file handle.
   # If the file is already opened, return the file handle
   def open_file(file_name = get_file_path, options = 'rb')
-    # chek if the file name really exists, otherwise rise an exception
+    # chek if the file name really exists, otherwise raise an exception
     if !File.exists?(file_name)
-      rise(IOError, "The specified file does not exist.", caller)
+      raise(IOError, "File #{file_name} could not be opened.", caller)
     end
     
     # try to open the specified file if is not already open
@@ -76,8 +76,8 @@ module FileStore
         bytes = @file_handle.read(self.size).unpack("C*")
         return bytes
       rescue
-        # re-rise system the excepiton
-        rise
+        # re-raise system the excepiton
+        raise
         return nil
       ensure
         # 3. Close the file
@@ -102,8 +102,8 @@ module FileStore
 
       return current_byte
     rescue
-      # re-rise system the excepiton
-      rise
+      # re-raise system the excepiton
+      raise
       close_file
       return nil
     end
@@ -121,10 +121,10 @@ module FileStore
       if (position < size)
         set_position(position)
       else
-        rise(IOError, 'Position out of range', caller)
+        raise(IOError, 'Position out of range', caller)
       end
     else
-      rise(IOError, 'Position not valid. It must be an integer')
+      raise(IOError, 'Position not valid. It must be an integer')
     end
   end
 
