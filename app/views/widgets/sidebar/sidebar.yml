@@ -5,29 +5,35 @@ tabs:
         name: "Navigation"
         key: 1
         content: navigation_bar
+        redirect:
+            controller: types
+            action:
     context:
         title: "Related Contents" 
         name: "Related Contents"
         key: 2
         content: context_bar
-    panorama:
-        title: "Panorama"
-        name: "Panorama"
-        key: 3
-        content: panorama_view
-    login:
-        title: "Login"
-        name: "Login"
-        key: 4
-        content: login
-    search:
-        title: "Search and filter"
-        name:  "Search and Filter"
-        key: 5
-        content: search
-    settings:
-        title: "Settings" 
-        name: "Settings"
-        key: 6
-        content: settings
+        redirect:
+            controller: sources
+            action:
+#    panorama:
+#        title: "Panorama"
+#        name: "Panorama"
+#        key: 3
+#        content: panorama_view
+#    login:
+#        title: "Login"
+#        name: "Login"
+#        key: 4
+#        content: login
+#    search:
+#        title: "Search and filter"
+#        name:  "Search and Filter"
+#        key: 5
+#        content: search
+#    settings:
+#        title: "Settings" 
+#        name: "Settings"
+#        key: 6
+#        content: settings
 

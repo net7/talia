@@ -23,19 +23,6 @@ module ApplicationHelper
     link_to(text, :controller => 'sources', :action => 'show', :id => source.uri.local_name)
   end
   
-  # Helper to get the labels of the source. This returns an array of labels. 
-  # If no label is defined, it will put the local name of the source as the
-  # only element.
-  def labels(source)
-    assit_kind_of(TaliaCore::Source, source)
-    labels = source.rdfs::label
-    unless(labels && labels.size > 0)
-      labels = [source.uri.local_name]
-    end
-    
-    labels
-  end
-  
   # Helper to get the short name of a source
   def short_name(source) 
     assit_kind_of(TaliaCore::Source, source)

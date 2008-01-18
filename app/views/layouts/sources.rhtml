@@ -1,10 +1,13 @@
 <%= render(:partial => 'shared/main_header') %>
 
 <%= 
+    sidebar_title = nil
+    sidebar_title = "#{@source.label} è" if(@source)
     widget(:sidebar,
         'active_tab' => 'context',
-        'active_tab_options' => { :source => @source }
-        ) 
+        'active_tab_options' => { :source => @source },
+        'sidebar_title' => sidebar_title
+        )
 %>
     
 <div id="ext_page"> <!-- ext_page: elemento esterno a tutto -->

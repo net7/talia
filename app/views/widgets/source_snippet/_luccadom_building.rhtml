@@ -1,4 +1,4 @@
-<h3><%= source_link(labels(luccadom_building).join(', '), luccadom_building) %></h3>
+<h3><%= source_link(luccadom_building.labels.join(', '), luccadom_building) %></h3>
 <% if(has_property?(coords = luccadom_building.luccadom::coordinates)) %>
   <div class="property">Coordinate: <%= coords[0] %></div>
   <div class="property"><a href="http://maps.google.com/maps?q=<%= coords[0] %>">Fai clic per
