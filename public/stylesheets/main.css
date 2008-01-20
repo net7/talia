@@ -177,7 +177,7 @@ p.side_bar_loader{
 	height:42px;
 	text-indent:-9999px;
 	/*border:1px solid #FFFF00;*/
-	background:transparent url(/images/side_bar_icon.gif) top left no-repeat;
+	/* background:transparent url(/images/side_bar_icon.gif) top left no-repeat; */
 }
 
 #side_bar ul#top_menu li a:hover{
@@ -186,7 +186,7 @@ p.side_bar_loader{
 	height:42px;
 	text-indent:-9999px;
 	/*border:1px solid #FF0000;*/
-	background:transparent url(/images/side_bar_icon_ro.gif) top left no-repeat;
+	/* background:transparent url(/images/side_bar_icon_ro.gif) top left no-repeat; */
 }
 
 

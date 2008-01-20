@@ -8,6 +8,7 @@ tabs:
         redirect:
             controller: types
             action:
+        image: home.png
     context:
         title: "Related Contents" 
         name: "Related Contents"
@@ -16,6 +17,7 @@ tabs:
         redirect:
             controller: sources
             action:
+        image: document.png
 #    panorama:
 #        title: "Panorama"
 #        name: "Panorama"

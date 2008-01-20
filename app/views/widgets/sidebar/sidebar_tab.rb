@@ -20,10 +20,23 @@ class SidebarWidget < Widgeon::Widget
     # text is given, this will default to the name of the tab.
     def tab_link(text = nil)
       text = @settings['name'] unless(text)
-      link = "<a class='#{position}_menu_item'"
+      name_id = "sidbr_" + @settings['name'].downcase.gsub(/\s+/, '_')
+      image = @settings['image'] ? @settings['image'] : "side_bar_icon.gif"
+      image_ext = File.extname(image)
+      image_base = File.basename(image, image_ext)
+      image_hover = "#{image_base}_ro#{image_ext}"
+      
+      # First some style properties: TODO: Kludge
+      link = "<style type='text/css'>"
+      link += "\##{name_id} { background:transparent url(/images/#{image}) top left no-repeat }"
+      link += "\##{name_id}:hover { background:transparent url(/images/#{image_hover}) top left no-repeat }"
+      link += "</style>"
+      # Now the link
+      link += "<a class='#{position}_menu_item' id='#{name_id}'"
       link += " href='#{tab_link_target}'"
       link += " title='#{@settings['title']} AccessKey #{@settings['key']}'" 
-      link += " accesskey='#{@settings['key']}'>"
+      link += " accesskey='#{@settings['key']}'"
+      link += ">"
       link += text
       link += '</a>'
     end
