@@ -280,6 +280,11 @@ module TaliaCore
     
     # Configure the RDF connection
     def self.config_rdf
+      # Configure the logging options for ActiveRDF
+      ENV['ACTIVE_RDF_LOG'] = File.join(TALIA_ROOT, 'log', 'active_rdf.log')
+      ardf_llevel = @config['ardf_log_level']
+      ENV['ACTIVE_RDF_LOG_LEVEL'] = ardf_llevel ? ardf_llevel : '0'
+      
       ConnectionPool.add_data_source(rdf_connection_opts)
     end
     

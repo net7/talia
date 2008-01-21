@@ -8,7 +8,10 @@ default_namespace_uri: "http://default.dummy/"
 # The RDF store configuration can be read from a file
 rdf_connection_file: rdfstore
 # RDF configuration can also be given as a hash here
-# rdf_connection: 
+# rdf_connection:
+
+# Set the logging level for ActiveRDF
+ardf_log_level: 0
 
 # If standalone_db is set, ActiveRecord will be configured for use
 # without the Rails environment
