@@ -55,7 +55,7 @@ class SourcesController < ApplicationController
 
   # GET /sources/1/data_type/file.txt
   def show_source_data
-    @data = TaliaCore::Source.find(params[:id]).data(params[:data_type].classify, params[:location])
+    @data = TaliaCore::Source.find(params[:id]).data(params[:data_type].camelize, params[:location])
     raise ActiveRecord::RecordNotFound if @data.nil?
     send_data @data.content_string, :type => @data.mime_type,
                                     :disposition => 'inline',

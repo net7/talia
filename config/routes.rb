@@ -37,7 +37,8 @@ ActionController::Routing::Routes.draw do |map|
               :action => 'show_source_data',
               :id => :nil,
               :data_type => :nil,
-              :location  => :nil
+              :location  => :nil,
+              :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
 
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'

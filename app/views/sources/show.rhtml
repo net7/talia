@@ -2,11 +2,7 @@
  <%= widget(:toolbar, :buttons => { :Lucca => {:id => 'Lucca'}, :print => "javascript:print();" }) %>
  <%= widget(:source_snippet, :source => @source) %>
   <!-- %= @source.primary_source ? "This is a primary source" : "This is a contribution" % -->
-<% if(@source.data_records.size > 0) %>
-    <%= @source.data_records[0].all_text %>
-<% else %>
-    <h3>Sorry mate, no data objects here</h3> 
-<% end %>
+<%= render_source_data %>
 </div>
 <!-- %= link_to "back", :action => "index" %--> 
 <!-- %= link_to "edit", edit_source_path(@source) %-->
