@@ -11,6 +11,9 @@ module TaliaUtil
     
     class << self
   
+      # Import files with the given type. This is a simple import feature,
+      # it's assumed that the file (without extension is named like the
+      # Source it should be assigned to.
       def import(files, type)
     
         # First get the class for the data type and the directory
@@ -22,14 +25,22 @@ module TaliaUtil
         created = 0
     
         files.each do |file|
-          name = File.basename(file)
+          # Get the basename without extension and additions. This strips off
+          # everything after the first point or _ character. Examples:
+          # book.html
+          # book_picture.jpg
+          # => Will all be assigned to "book"
+          name = File.basename(file).gsub(/[_|\.].+$/, '')
           if(TaliaCore::Source.exists?(name))
             src = TaliaCore::Source.find(name)
         
+            # Get the filename with extension
+            file_name = File.basename(file)
+            
             # Create the record if necessary
-            unless(data = src.data_records.find_by_location(name))
+            unless(data = src.data_records.find_by_location(file_name))
               data = data_klass.new
-              data.location = name
+              data.location = file_name
               src.data_records << data
               src.save!
               data.save!
