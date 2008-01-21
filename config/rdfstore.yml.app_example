@@ -4,9 +4,19 @@ development:
   name: dbl
   location: mysql
   database: Talia_development_rdf
-  user: rails
-  password: slilRuAmNep3
+  user: root
+  password: 
   host: localhost
+
+# Configuration example for redland with hashes(bdb) store
+# You may also use "memory" instead of "hashes" for the memory-only store
+#
+# development:
+#   type: redland
+#   location: hashes
+#   name: talia_development
+#   hash-type: bdb
+#   dir: .
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -14,11 +24,30 @@ development:
 test:
   type: rdflite
 
+# Configuration example for redland with hashes(bdb) store
+# This uses the memory store in order not to have a permanent store for testing
+#
+# development:
+#   type: redland
+#   location: hashes
+#   name: talia_test
+#   hash-type: memore
+
 production:
   type: redland
   name: dbl
   location: mysql
   database: Talia_production_rdf
-  user: rails
-  password: slilRuAmNep3
+  user: root
+  password: 
   host: localhost
+
+# Configuration example for redland with hashes(bdb) store
+# You may also use "memory" instead of "hashes" for the memory-only store
+#
+# development:
+#   type: redland
+#   location: hashes
+#   name: talia_production
+#   hash-type: bdb
+#   dir: .
