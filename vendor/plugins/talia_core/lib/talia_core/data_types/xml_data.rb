@@ -1,5 +1,30 @@
 require 'talia_core/local_store/data_record'
-require "rexml/document"
+require 'rexml/document'
+
+begin
+  # if tidy is not present, disable it
+  require 'tidy'
+  
+  # if tidylib path is not set, disable tidy
+  if ENV['TIDYLIB'].nil?
+    Tidy_enable = false
+  else
+    Tidy.path = ENV['TIDYLIB']
+  end
+  
+  # enable tidy
+  Tidy_enable = true
+rescue
+  # disable tidy
+  Tidy_enable = false
+end
+
+if ENV['TIDYLIB'].nil?
+  Tidy_enable = false
+else
+  Tidy.path = ENV['TIDYLIB']
+end
+      
 
 module TaliaCore
   
@@ -93,6 +118,27 @@ module TaliaCore
         xml_str += element.to_s
       end
       xml_str
+    end
+    
+    # Add data as string into file
+    def create_from_data(location, data, options = {:tidy => true})
+      # check tidy option
+      if (((options[:tidy] == true) and (Tidy_enable == true)) and 
+          ((File.extname(location) == '.htm') or (File.extname(location) == '.html') or (File.extname(location) == '.xhtml')))        
+        
+        # apply tidy on data
+        data_to_write = Tidy.open(:show_warnings => false) do |tidy|
+                  tidy.options.output_xhtml = true
+                  tidy.options.tidy_mark = false
+                  xhtml = tidy.clean(data)
+                  xhtml
+        end
+      else
+        data_to_write = data
+      end
+      
+      # write data
+      super(location, data_to_write, options)
     end
     
     private

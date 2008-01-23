@@ -32,35 +32,47 @@ fifth:
 sixth:
   id:                6
   source_record_id:  1
-  type:              ImageData
-  location:          temp1.bmp
+  type:              XmlData
+  location:          temp4.html
 
 seventh:
   id:                7
   source_record_id:  1
-  type:              ImageData
-  location:          temp2.fit
+  type:              XmlData
+  location:          temp5.xhtml
 
 eighth:
   id:                8
   source_record_id:  1
   type:              ImageData
-  location:          temp3.gif
+  location:          temp1.bmp
 
 ninth:
   id:                9
   source_record_id:  1
   type:              ImageData
-  location:          temp4.jpg
+  location:          temp2.fit
 
 tenth:
   id:                10
   source_record_id:  1
   type:              ImageData
-  location:          temp5.png
+  location:          temp3.gif
 
 eleventh:
   id:                11
+  source_record_id:  1
+  type:              ImageData
+  location:          temp4.jpg
+
+twelfth:
+  id:                12
+  source_record_id:  1
+  type:              ImageData
+  location:          temp5.png
+
+thirteen:
+  id:                13
   source_record_id:  1
   type:              ImageData
   location:          temp6.tif

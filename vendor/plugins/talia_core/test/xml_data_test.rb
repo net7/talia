@@ -19,7 +19,7 @@ module TaliaCore
     # test not nil and records numbers
     def test_records_numbers
       assert_not_equal [], @test_records
-      assert_equal 11, @test_records.size
+      assert_equal 13, @test_records.size
     end
   
     # test class type and mime_type and subtype
@@ -27,12 +27,18 @@ module TaliaCore
       assert_kind_of(XmlData, @test_records[2])
       assert_kind_of(XmlData, @test_records[3])
       assert_kind_of(XmlData, @test_records[4])
+      assert_kind_of(XmlData, @test_records[5])
+      assert_kind_of(XmlData, @test_records[6])
       assert_equal("text/xml", @test_records[2].mime_type)
       assert_equal("xml", @test_records[2].mime_subtype)
       assert_equal("text/html", @test_records[3].mime_type)
       assert_equal("html", @test_records[3].mime_subtype)
       assert_equal("text/hnml", @test_records[4].mime_type)
       assert_equal("hnml", @test_records[4].mime_subtype)
+      assert_equal("text/html", @test_records[5].mime_type)
+      assert_equal("html", @test_records[5].mime_subtype)
+      assert_equal("text/html", @test_records[6].mime_type)
+      assert_equal("html", @test_records[6].mime_subtype)
     end
     
     # test data directory
@@ -76,17 +82,31 @@ module TaliaCore
     def test_specific_classes_methods
       # test content value
       xml_content =  @test_records[2].get_content
-      html_content = @test_records[3].get_content
+      xhtml_content = @test_records[3].get_content
       hnml_content = @test_records[4].get_content
       
       assert_kind_of REXML::Elements, xml_content
       assert_not_equal nil, xml_content.nil?
       
-      assert_kind_of REXML::Elements, html_content
-      assert_not_equal nil, html_content.nil?
+      assert_kind_of REXML::Elements, xhtml_content
+      assert_not_equal nil, xhtml_content.nil?
       
       assert_kind_of REXML::Elements, hnml_content
       assert_not_equal nil, hnml_content.nil?
+      
+      # test Tidy parsing
+      temp0_file = File.expand_path(File.join(File.dirname(__FILE__), 'data_for_test', 'XmlData','temp0.xhtml'))
+      @test_records[5].create_from_data(temp0_file, @test_records[5].all_text, {:tidy => true})
+      # read content of file
+      file_tidy = File.open(temp0_file,'r')
+      string_tidy = file_tidy.read(File.size(temp0_file))
+      file_tidy.close
+      # delete tidy file
+      File.delete(temp0_file)
+      # if tidy is enabled, check tidy output
+      if !ENV['TIDYLIB'].nil?
+        assert_equal string_tidy, @test_records[6].all_text
+      end
     end
   end
    
