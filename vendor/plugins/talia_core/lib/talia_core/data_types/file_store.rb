@@ -12,6 +12,21 @@ module FileStore
   # TODO: Create an object from file
   def create_from_file
   end
+  
+   # Add data as string into file
+  def create_from_data(location, data, options = {})
+    # close file if opened
+    close_file
+    
+    # open file for writing
+    @file_handle = File.open(location, 'w')
+    
+    # write data string into file
+    @file_handle << data
+    
+    # close file
+    @file_handle.close
+  end
     
   # Return the data directory for a specific data file
   def data_directory
