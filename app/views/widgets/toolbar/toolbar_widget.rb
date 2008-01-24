@@ -5,7 +5,9 @@ class ToolbarWidget < Widgeon::Widget
   end
   
   def each_button(&block)
-    buttons.each do |name, url|
+    buttons.each do |button|
+      name = button[0]
+      url = button[1]
       url = case url
       when Hash
         controller.url_for(url)
