@@ -154,7 +154,7 @@ module TaliaCore
             # get path
             path = Pathname.new(item.attributes['src']).split
             # adjust src attribute
-            item.attributes['src'] = File.join("image_data",path[1].to_s) if path[0].relative?
+            item.attributes['src'] = "/source_data/image_data/#{path[1].to_s}" if path[0].relative?
           end
         when "a"
           if item.attributes.include? "href"
@@ -163,9 +163,9 @@ module TaliaCore
             # adjust href attribute
             case File.extname(path[1].to_s)
             when ".txt"
-              item.attributes['href'] = File.join("simple_text", path[1].to_s) if path[0].relative?
+              item.attributes['href'] = "/source_data/simple_text/#{path[1].to_s}" if path[0].relative?
             when '.htm', '.html','.xhtml','.hnml','.xml'
-              item.attributes['href'] = File.join("xml_data", path[1].to_s) if path[0].relative?
+              item.attributes['href'] = "/source_data/xml_data/#{path[1].to_s}" if path[0].relative?
             end
           end
         end

@@ -52,7 +52,7 @@ module TaliaUtil
           types = [types] unless(types.kind_of?(Array))
           types.compact!
           # Create the type uris
-          types = types.collect { |type| Util::make_uri(type) }
+          types = types.collect { |type| TaliaCore::CoreHelper::make_uri(type) }
         
           # Create the source
           source = TaliaCore::Source.new(source_name, *types)
@@ -62,11 +62,11 @@ module TaliaUtil
         
           # Now add the rdf elements
           data_set.each do |name, value|
-            uri = Util::make_uri(name, "#")
+            uri = TaliaCore::CoreHelper::make_uri(name, "#")
             value = [value] unless(value.kind_of?(Array))
           
             value.each do |val|
-              val = TaliaCore::Source.new(Util::make_uri(val)) if(val.index(":"))
+              val = TaliaCore::Source.new(TaliaCore::CoreHelper::make_uri(val)) if(val.index(":"))
               source[uri] << val
             end
           end

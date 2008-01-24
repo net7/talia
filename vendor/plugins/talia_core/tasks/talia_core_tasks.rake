@@ -73,6 +73,12 @@ namespace :talia_core do
     YamlImport::import_multi_files(get_files)
   end
   
+  # Task for updating the OWL classes with RDFS class information
+  desc "Update OWL classes with RDFS class information."
+  task :owl_to_rdfs_update => :talia_init do
+    RdfUpdate::owl_to_rdfs
+  end
+  
   # Task to import data files into the Talia system
   desc "Import data files. Options data_type=<data_type> replace_files={yes|no}"
   task :data_import => :talia_init do
@@ -96,7 +102,7 @@ namespace :talia_core do
     Rake::Task["talia_core:talia_init"].invoke
     
     puts "Importing ontologies..."
-    RdfImport::import("rdfxml", FileList.new(File.join(demodir, '*.rdf*')))
+    RdfImport::import("rdfxml", FileList.new(File.join(demodir, '*.rdf*'), File.join(demodir, '*.owl')))
     puts "Importing data records..."
     YamlImport::import_multi_files([File.join(demodir, "demo_data.yml")])
     puts "Importing files..."
@@ -106,6 +112,7 @@ namespace :talia_core do
         DataImport::import(FileList.new(File.join(demodir, entry, '*')), entry)
       end
     end
+    RdfUpdate::owl_to_rdfs
   end
   
   # Help info

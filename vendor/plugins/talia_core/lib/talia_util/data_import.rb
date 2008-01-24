@@ -26,11 +26,11 @@ module TaliaUtil
     
         files.each do |file|
           # Get the basename without extension and additions. This strips off
-          # everything after the first point or _ character. Examples:
+          # everything after the first point or - character. Examples:
           # book.html
-          # book_picture.jpg
+          # book-picture.jpg
           # => Will all be assigned to "book"
-          name = File.basename(file).gsub(/[_|\.].+$/, '')
+          name = File.basename(file).gsub(/[-|\.].+$/, '')
           if(TaliaCore::Source.exists?(name))
             src = TaliaCore::Source.find(name)
         

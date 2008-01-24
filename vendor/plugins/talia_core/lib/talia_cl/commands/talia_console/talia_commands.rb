@@ -99,20 +99,20 @@ module TaliaCommandLine
   console(:tquery) do |subject, predicate, object|
     variables = []
     q_subject = if(subject)
-      RDFS::Resource.new(make_uri(subject).to_s)
+      RDFS::Resource.new(TaliaCore::CoreHelper::make_uri(subject).to_s)
     else
       variables << :s
       :s
     end
     q_predicate = if(predicate)
-      RDFS::Resource.new(make_uri(predicate).to_s)
+      RDFS::Resource.new(TaliaCore::CoreHelper::make_uri(predicate).to_s)
     else
       variables << :p
       :p
     end
     q_object = if(object)
       if(object.include?(":"))
-        RDFS::Resource.new(make_uri(object).to_s)
+        RDFS::Resource.new(TaliaCore::CoreHelper::make_uri(object).to_s)
       else
         object
       end
