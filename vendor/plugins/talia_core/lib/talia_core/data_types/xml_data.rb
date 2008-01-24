@@ -14,7 +14,7 @@ begin
   
   # enable tidy
   Tidy_enable = true
-rescue
+rescue LoadError
   # disable tidy
   Tidy_enable = false
 end
