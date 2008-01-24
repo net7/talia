@@ -1,49 +1,49 @@
 # Configuaration for the context widget
 properties:
     luccadom#works:
-        label: "Opere"
-        inv_label: "Opera di"
+        label: "Work(s)"
+        inv_label: "Work by"
     luccadom#birthplace:
-        label: "Luogo di nascita"
-        inv_label: "Nato a"
+        label: "Place of birth"
+        inv_label: "Born in"
     # luccadom#death:
     #    label: "Data di morte"
     # luccadom#birth:
     #    label: "Data di nascita"
     luccadom#close_to:
-        label: "Vicino a"
+        label: "Close to"
         is_symmetric: true
     luccadom#subject:
-        label: "Soggetto"
-        inv_label: "Soggetto di"
+        label: "Subject"
+        inv_label: "Subject of"
     luccadom#contains:
-        label: "Contiene"
-        inv_label: "Contenuto in"
+        label: "Contains"
+        inv_label: "Contained in"
     luccadom#next_epoch:
-        label: "Periodo seg."
-        inv_label: "Periodo prec."
+        label: "Next period"
+        inv_label: "Prev. period"
     # luccadom#ends:
     #    label: "Fine"
     # luccadom#begins:
     #    label: "Inizio"
     luccadom#in_epoch:
-        label: "Nel periodo"
-        inv_label: "In questo periodo"
+        label: "In period"
+        inv_label: "In this period"
     luccadom#has_institution:
-        label: "Istituzione"
-        inv_label: "In città"
+        label: "Institution"
+        inv_label: "In city"
     luccadom#has_place:
-        label: "Luogo"
-        inv_label: "In città"
+        label: "Place(s)"
+        inv_label: "In city"
     luccadom#has_building:
-        label: "Edificio"
-        inv_label: "In città"
+        label: "Building(s)"
+        inv_label: "In city"
     # luccadom#coordinates:
     #   label: "Coordinate"
     luccadom#citizen:
-        label: "Cittadino"
-        inv_label: "Cittadino di"
+        label: "Citizen(s)"
+        inv_label: "Citizen of"
     talias#refers_to:
-        label: "Collegato a"
+        label: "Connected to"
         is_symmetric: true
 

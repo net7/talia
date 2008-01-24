@@ -2,7 +2,7 @@
 
 <%= 
     sidebar_title = nil
-    sidebar_title = "#{@source.label} è" if(@source)
+    sidebar_title = "#{@source.label} is" if(@source)
     widget(:sidebar,
         'active_tab' => 'context',
         'active_tab_options' => { :source => @source },

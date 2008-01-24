@@ -1,9 +1,12 @@
+<% if(@widget.show_home) %>
+  <h3><%= link_to('<< Back to start', :controller => 'types', :action => nil) %></h3>
+<% end %>
 <% for supertype in @widget.supertypes %>
-<h3><%= type_link("<< #{supertype.to_name_s}", supertype) %></h3>
+<h3><%= type_link("<< #{@widget.class_label(supertype)}", supertype) %></h3>
 <% end %>
 <% if(@widget.source_class) %>
-<h3> <%= @widget.source_class.to_name_s %></h3>
+<h3> <%= @widget.class_label(@widget.source_class) %></h3>
 <% end %>
 <% for subtype in @widget.subtypes %>
-<h3><%= type_link("#{subtype.to_name_s} >>", subtype) %></h3>
+<h3><%= type_link("#{@widget.class_label(subtype)} >>", subtype) %></h3>
 <% end %>

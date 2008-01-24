@@ -1,0 +1,23 @@
+# Configuration for the ontology navigation bar widget.
+
+# "root" classes are not shown, but all their children appear in the root-level
+# interface. 
+# "self" classes are shown in the root-level interface themselves
+root_classes:
+    - foaf:Agent
+    - luccadom:institution
+    - luccadom:museum
+    - luccadom:place
+    - luccadom:artwork
+    - luccadom:epoch
+
+# Labels for classes. These override the values given in the RDF store
+labels:
+    foaf:Agent: FOAF Agent
+    
+
+# Defines the "allowed" namespaces. Classes outside those namespaces will not
+# be shown
+allowed_namespaces:
+    - foaf
+    - luccadom

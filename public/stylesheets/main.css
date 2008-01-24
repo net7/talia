@@ -25,7 +25,7 @@ body.closed {text-align:left;
 	padding: 0;
 	border: 0;
 	background:#FFF url(/images/page_bg_side_bar_open.gif) top left repeat-y;
-font-family: Avenir, "Lucida Grande", Verdana, "Bitstream Vera Sans", Arial, Helvetica, sans-serif;
+        font-family: Avenir, "Lucida Grande", Verdana, "Bitstream Vera Sans", Arial, Helvetica, sans-serif;
 	font-size:0.8125em;
 }
 /* !!!! SIDE BAR CHIUSO !!!! */
@@ -300,6 +300,11 @@ p.side_bar_loader{
 #side_bar.closed #side_bar_content p{
 	display: none;
 }
+
+#side_bar.closed #side_bar_content div{
+	display: none;
+}
+
 /* !!!! SIDE BAR CHIUSO !!!! */
 
 
@@ -464,8 +469,22 @@ div#contents_int div.section p{
 }
 
 
+div#html_data h3{ 
+    font-size: 1.1em;
+    color: #666666;
+}
 
+div#html_data h4{ 
+    color: #666666;
+}
 
+div#html_data ul{ 
+    margin-left: 3em;
+    margin-bottom: 1em;
+}
 
-
+div#html_data img{ 
+    float:right;
+    margin: 3em 0em 3em 3em;
+}
 

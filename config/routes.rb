@@ -23,9 +23,14 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '', :controller => 'sources'
 
   map.connect 'widgeon/:action', :controller => 'widgeon'
+  
+  map.connect 'source_data/:type/:location', :controller => 'source_data',
+              :action => 'show',
+              :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
+  
   map.connect 'import/:action', :controller => 'import', :action => 'start_import'
   
-  # Install the default route as the lowest priority.
+  
   map.connect ':controller/:id/:attribute', 
               :controller => 'sources', 
               :action => 'show_attribute',
@@ -40,6 +45,7 @@ ActionController::Routing::Routes.draw do |map|
               :location  => :nil,
               :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
 
+  # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'
 end

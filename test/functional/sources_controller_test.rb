@@ -108,11 +108,6 @@ class SourcesControllerTest < Test::Unit::TestCase
     assert_response :success
   end
   
-  # SHOW_SOURCE_DATA
-  def test_source_data
-    flunk
-  end
-  
   # NEW
   def test_new
     get :new, {}

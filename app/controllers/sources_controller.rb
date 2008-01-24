@@ -53,15 +53,6 @@ class SourcesController < ApplicationController
     render :text => predicates, :status => status
   end
 
-  # GET /sources/1/data_type/file.txt
-  def show_source_data
-    @data = TaliaCore::Source.find(params[:id]).data(params[:data_type].camelize, params[:location])
-    raise ActiveRecord::RecordNotFound if @data.nil?
-    send_data @data.content_string, :type => @data.mime_type,
-                                    :disposition => 'inline',
-                                    :filename => params[:location]
-  end
-
   # GET /sources/new
   # GET /sources/new.xml
   def new
