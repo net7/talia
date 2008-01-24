@@ -20,7 +20,7 @@ ActionController::Routing::Routes.draw do |map|
   # instead of a file named 'wsdl'
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   
-  map.connect '', :controller => 'sources'
+  map.connect '', :controller => 'sources', :action => 'show', :id => 'Lucca'
 
   map.connect 'widgeon/:action', :controller => 'widgeon'
   
