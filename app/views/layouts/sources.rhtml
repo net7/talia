@@ -26,7 +26,11 @@
         <p  id="contents_loader" style="display: none" class="side_bar_loader">Caricamento in corso</p>
 
         <!-- Dummy toolbar call. This uses arrays instead of hashes, so that the button order is preserved. -->
-        <%= widget(:toolbar, :buttons => [ ["Home", {:action => 'show', :id => 'Lucca'}], ["Print Page", "javascript:print();"] ] ) %>
+        <%= widget(:toolbar, :buttons => [ 
+            ["Home", {:action => 'show', :id => 'Lucca'}], 
+            ["List", {:action => 'index'} ],
+            ["Print Page", "javascript:print();"]
+          ] ) %>
         
         <%= @content_for_layout %>
 
