@@ -5,24 +5,21 @@ begin
   # if tidy is not present, disable it
   require 'tidy'
   
-  # if tidylib path is not set, disable tidy
-  if ENV['TIDYLIB'].nil?
-    Tidy_enable = false
-  else
-    Tidy.path = ENV['TIDYLIB']
+  # Tidy_enable constant is not defined?
+  if ((defined? Tidy_enable) == nil)
+    if ENV['TIDYLIB'].nil?
+      # disable tidy
+      Tidy_enable = false
+    else
+      # set path and enable tidy
+      Tidy.path = ENV['TIDYLIB']
+      Tidy_enable = true
+    end
   end
-  
-  # enable tidy
-  Tidy_enable = true
+
 rescue LoadError
   # disable tidy
-  Tidy_enable = false
-end
-
-if ENV['TIDYLIB'].nil?
-  Tidy_enable = false
-else
-  Tidy.path = ENV['TIDYLIB']
+  Tidy_enable = false if ((defined? Tidy_enable) == nil)
 end
       
 
