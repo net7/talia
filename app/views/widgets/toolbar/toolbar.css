@@ -1,0 +1,13 @@
+#toolbar ul{
+  background-color: #DDD;
+  float: right;
+  list-style-type: none;
+}
+#toolbar ul li {
+  display: inline;
+  margin: 3px;
+}
+#toolbar ul li:hover {
+  background-color: #ffc;
+  cursor: pointer;
+}

@@ -1,19 +1,5 @@
 <!-- toolbar widget -->
-<style type="text/css" media="screen">
-  #toolbar ul{
-    background-color: #DDD;
-    float: right;
-    list-style-type: none;
-  }
-  #toolbar ul li {
-    display: inline;
-    margin: 3px;
-  }
-  #toolbar ul li:hover {
-    background-color: #ffc;
-    cursor: pointer;
-  }
-</style>
+<%= stylesheet %>
 <div id="toolbar">
   <ul>
     <% @widget.each_button do |name, url|%>
