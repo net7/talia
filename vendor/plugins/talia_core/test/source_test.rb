@@ -229,6 +229,12 @@ module TaliaCore
       assert_equal(42, source.workflow_state)
     end
     
+    # Test limit
+    def test_find_limit
+      result = Source.find(:all, :limit => 2)
+      assert_equal(2, result.size)
+    end
+    
     # Test creation of local sources
     def test_create_local
       source = Source.new("dingens")

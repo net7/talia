@@ -197,7 +197,12 @@ module TaliaCore
           options[:force_rdf] = qry_opts.delete(:force_rdf) if(qry_opts[:force_rdf])
           options[:conditions] = qry_opts
 
-          find_result = SourceQuery.new(options).execute
+          if(qry_opts.size == 0)
+            # Special case: Just all/first with offset and/or limit
+            find_result = load_from_records(SourceRecord.find(first_param, :limit => options[:limit], :offset => options[:offset]))
+          else
+            find_result = SourceQuery.new(options).execute
+          end
           
           if(first_param == :first)
             assit(find_result.size == 0 || find_result.size == 1, "Illegal result size for :first: #{find_result.size}")

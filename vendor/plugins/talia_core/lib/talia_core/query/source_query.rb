@@ -101,6 +101,7 @@ module TaliaCore
     
     # Creates a query with the given list of conditions and the given operation.
     def self.create_expressions(operation, conditions, force_rdf = false)
+      assit(conditions.size > 0, "Cannot create an expression without a condition")
       tmp_type = nil
       
       queries = []
@@ -118,7 +119,6 @@ module TaliaCore
           tmp_type = MixedQuery if(tmp_type != expr.class)
           queries << expr
         end
-        
       end
       
       query = tmp_type.new(operation, queries)
