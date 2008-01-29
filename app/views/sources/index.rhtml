@@ -1,2 +1,2 @@
-<h1>Sources found: <%= @sources.size  %></h1>
-<%= widget(:source_list, :sources => @sources) %>
+<h1>Sources found: <%= @pager.count  %></h1>
+<%= widget(:source_list, :pager => @pager) %>

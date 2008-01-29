@@ -1,5 +1,12 @@
-<h2><%= @widget.sources.size %> sources found</h2>
+<h2>Page <%= @widget.page.number %> of <%= @widget.pager.number_of_pages %></h2>
+
 <div>
-  <%= widget_partial('source_item', :collection => @widget.sources) %>
+  <%= widget_partial('source_item', :collection => @widget.page.items) %>
 </div>
+<div>
+
+<%= widget_backlink("< prev page", :sel_page => (@widget.page.number - 1), :pager_state => @widget.pager.state) if(@widget.page.prev?) %>
+<%= widget_backlink("next page >", :sel_page => (@widget.page.number + 1), :pager_state => @widget.pager.state) if(@widget.page.next?) %>
+</div>
+
 

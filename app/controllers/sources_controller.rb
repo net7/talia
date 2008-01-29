@@ -1,4 +1,4 @@
-require 'paginator'
+require 'pagination/source_paginator'
 
 # We need the rdf mime type for this: TODO: Find a location to define the mime
 # types.
@@ -8,16 +8,12 @@ class SourcesController < ApplicationController
   # GET /sources
   # GET /sources.xml
   def index
-    @sources = TaliaCore::Source.find(:all)
-    
-    @pager = ::Paginator.new(TaliaCore::SourceRecord.count, 5) do |offset, per_page|
-      TaliaCore::Source.find(:all, :limit => per_page, :offset => offset)
-    end
-    @page = @pager.page(params[:page])
+    # For "normal" operations, we just create a pager
+    @pager = SourcePaginator.new(TaliaCore::SourceRecord.count, 5)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @sources }
+      format.xml  { render :xml => TaliaCore::Source.find(:all) } # XML for all sources
     end
   end
 
