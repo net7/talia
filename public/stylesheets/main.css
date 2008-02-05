@@ -443,7 +443,7 @@ div#contents_int h3{
 	font-weight: normal;
 }
 
-div#contents_int h2{
+#contents_int h2{
 	border-top: 1px solid #ccc;
 	margin: 10px 0 10px 0;
 	padding:  10px 0 0 0;
@@ -488,3 +488,14 @@ div#html_data img{
     margin: 3em 0em 3em 3em;
 }
 
+#error, #errorExplanation, #errorExplanation h2 {
+	color: #f00;
+}
+
+#errorExplanation ul {
+	list-style-type: none;
+}
+
+#notice {
+	color: #0c0;
+}

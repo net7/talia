@@ -1,0 +1,8 @@
+<%= error_messages_for 'source' %>
+<% form_for :source, @source, :url => { :controller => 'admin/sources', :action => 'update', :id => @source } do |f| %>
+  <p><label for="source_uri">Uri</label><br/>
+  <%= text_field 'source', 'uri', :value => @source.uri, :tabindex => 10 %></p>
+  <p><label for="source_primary_source">Primary Source</label><br/>
+  <%= select 'source', 'primary_source', %w(true false), :tabindex => 20 %></p>
+  <p><%= f.submit "submit" %> or <%= link_to "Back", :action => 'index' %></p>
+<% end %>

@@ -43,4 +43,10 @@ module ApplicationHelper
     property && property.size > 0
   end
   
+  # Show each <tt>flash</tt> status (<tt>:notice</tt>, <tt>:error</tt>) only if it's present.
+  def show_flash
+    [:notice, :error].collect do |status|
+      %(<div id="#{status}">#{flash[status]}</div>) unless flash[status].nil?
+    end
+  end
 end

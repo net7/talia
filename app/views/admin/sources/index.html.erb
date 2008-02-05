@@ -1,0 +1,22 @@
+<h1>Sources</h1>
+
+<table border="0" cellspacing="0" cellpadding="5">
+  <tr>
+  <th class="horizontal">Name</th>
+  <th class="horizontal">Workflow State</th>
+  <th class="horizontal">Primary Source</th>
+  <th class="horizontal"></th>
+  </tr>
+<% for source in @sources -%>
+  <tr class="<%= cycle("odd", "even") -%>">
+    <% name = source.uri.to_s.split('/').last -%>
+    <td><a href="<%=h source.uri %>" title="<%=h name.titleize %>"><%=h name.titleize %></a></td>
+    <td><%=h source.workflow_state %></td>
+    <td><%=h source.primary_source %></td>
+    <td><%= link_to 'Edit', url_for(:action => :edit, :id => name) %></td>
+  </tr>
+<% end -%>
+</table>
+
+<br />
+<%= will_paginate @sources %>
