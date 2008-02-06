@@ -178,3 +178,18 @@ test
 vendor
   External libraries that the application depends on. Also includes the plugins subdirectory.
   This directory is in the load path.
+
+
+== ActiveRDF Environment variable
+
+You can enable ActiveRDF logger setting the log file path into ENV['ACTIVE_RDF_LOG'] variable
+and logger level in ENV['ACTIVE_RDF_LOG_LEVEL'] variable. The logger level can be DEBUG, 
+INFO, WARN, ERROR, FATAL or UNKNOWN.
+Example:
+  require 'logger'
+  ENV['ACTIVE_RDF_LOG'] = "/path/to/log/file"
+  ENV['ACTIVE_RDF_LOG_LEVEL'] = Logger::DEBUG.to_s
+
+If you want to load only specified adapters, set ENV['ACTIVE_RDF_ADAPTERS']
+Example:
+  ENV['ACTIVE_RDF_ADAPTERS'] = "rdflite, redland"
