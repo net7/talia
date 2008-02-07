@@ -8,7 +8,7 @@ tabs:
         redirect:
             controller: types
             action:
-        image: home.png
+        image: side_bar_icon_navigation.gif
     context:
         title: "Related Contents" 
         name: "Related Contents"
@@ -17,25 +17,35 @@ tabs:
         redirect:
             controller: sources
             action:
-        image: document.png
-#    panorama:
-#        title: "Panorama"
-#        name: "Panorama"
-#        key: 3
-#        content: panorama_view
+        image: side_bar_icon_related.gif
+    panorama:
+        title: "Panorama"
+        name: "Panorama"
+        key: 3
+        content: panorama_view
+        image: side_bar_icon_panorama.gif
+    search:
+        title: "Search and filter"
+        name:  "Search and Filter"
+        key: 5
+        content: search
+        image: side_bar_icon_search.gif
+    settings:
+        title: "Settings" 
+        name: "Settings"
+        key: 6
+        content: settings
+        image: side_bar_icon_settings.gif
+        position: bottom
+    homepage:
+        title: "Homepage" 
+        name: "Homepage"
+        key: 7
+        content: homepage
+        image: side_bar_icon_home.gif
 #    login:
 #        title: "Login"
 #        name: "Login"
 #        key: 4
 #        content: login
-#    search:
-#        title: "Search and filter"
-#        name:  "Search and Filter"
-#        key: 5
-#        content: search
-#    settings:
-#        title: "Settings" 
-#        name: "Settings"
-#        key: 6
-#        content: settings
-
+#        image: document.png

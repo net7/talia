@@ -25,12 +25,19 @@ class SidebarWidget < Widgeon::Widget
       image_ext = File.extname(image)
       image_base = File.basename(image, image_ext)
       image_hover = "#{image_base}_ro#{image_ext}"
+      image_selected = "#{image_base}_sel#{image_ext}"
       
-      # First some style properties: TODO: Kludge
+#      # First some style properties: TODO: Kludge
       link = "<style type='text/css'>"
-      link += "\##{name_id} { background:transparent url(/images/#{image}) top left no-repeat }"
-      link += "\##{name_id}:hover { background:transparent url(/images/#{image_hover}) top left no-repeat }"
-      link += "</style>"
+        # conidion for the active page
+        if @settings['is_active']
+           link += "\##{name_id} { background-image: url(/images/#{image_selected}) !important;}"
+           link += " \##{name_id}:hover { background-image: url(/images/#{image_selected}) !important;}"
+        else
+           link += "\##{name_id} { background-image: url(/images/#{image}) !important;}"
+           link += " \##{name_id}:hover { background-image: url(/images/#{image_hover}) !important;}"
+        end
+       link += "</style>"
       # Now the link
       link += "<a class='#{position}_menu_item' id='#{name_id}'"
       link += " href='#{tab_link_target}'"
@@ -39,7 +46,26 @@ class SidebarWidget < Widgeon::Widget
       link += ">"
       link += text
       link += '</a>'
-    end
+  end
+    
+        # Creates the link that will be called when the tab is clicked. If no 
+    # text is given, this will default to the name of the tab.
+#    def tab_link(text = nil)
+#      text = @settings['name'] unless(text)
+#      name_id = "sidbr_" + @settings['name'].downcase.gsub(/\s+/, '_')
+#      image = @settings['image'] ? @settings['image'] : "side_bar_icon.gif"
+#      image_ext = File.extname(image)
+#      image_base = File.basename(image, image_ext)
+#      image_hover = "#{image_base}_ro#{image_ext}"
+#      
+#      link = "<a class='#{position}_menu_item' id='#{name_id}'"
+#      link += " href='#{tab_link_target}'"
+#      link += " title='#{@settings['title']} AccessKey #{@settings['key']}'" 
+#      link += " accesskey='#{@settings['key']}'"
+#      link += ">"
+#      link += "<img src='/images/#{@settings['is_active'] ? image_hover : image}' alt='#{text}' />"
+#      link += '</a>'
+#    end
     
     # Gets the link target for a tab. If there is no redirect set for this 
     # tab, it returns a void link. Otherwise it builds a link for the
