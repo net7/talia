@@ -12,6 +12,11 @@ class Admin::SourcesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @sources }
+      format.js do
+        render :update do |page|
+          page.replace_html 'sources', :partial => 'sources'
+        end
+      end
     end
   end
 
