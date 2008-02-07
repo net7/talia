@@ -1,5 +1,6 @@
 require 'talia_core/local_store/data_record'
 require 'rexml/document'
+require 'xml/xslt'
 
 begin
   # if tidy is not present, disable it
@@ -91,18 +92,31 @@ module TaliaCore
     # Additional methods for this specific class ====================================
 
     # return contect of the object as REXML::Elements
+    # * options: Options for getting context. Default nil.
+    # * options[:xsl_file]: xsl file path for transformation.
     def get_content(options = nil)
-      document = REXML::Document.new all_text
+      text_to_parse = all_text
+      
+      if (!options.nil?)
+        # if xsl_file option is specified, execute transformation
+        if (!options[:xsl_file].nil?)
+          text_to_parse = xslt_transform(get_file_path, options[:xsl_file])
+        end
+      end
+      
+      # create document object
+      document = REXML::Document.new text_to_parse
       
       # get content
-      if mime_subtype == "html"
+      if ((mime_subtype == "html") or 
+          ((mime_subtype == "xml") and (!options.nil?) and (!options[:xsl_file].nil?)))
         content = document.elements['//body'].elements
       elsif ((mime_subtype == "xml") or (mime_subtype == "hnml"))
         content = document.root.elements
       end
       
       # adjust/replace items path
-      content.each { |i| wrapImg i }
+      content.each { |i| wrapItem i }
       
       # return content
       return content
@@ -118,6 +132,10 @@ module TaliaCore
     end
     
     # Add data as string into file
+    # * location: destination file to write
+    # * data: data to write
+    # * options: options
+    # * options[:tidy]: enable or disable tidy (convert html into xhtml). Default value is true
     def create_from_data(location, data, options = {:tidy => true})
       # check tidy option
       if (((options[:tidy] == true) and (Tidy_enable == true)) and 
@@ -140,10 +158,11 @@ module TaliaCore
     
     private
     # adjusted/replaced items path
-    def wrapImg item
+    # * item: REXML::Element to parse
+    def wrapItem item
       if item.class == REXML::Element
         # recursive execution
-        item.each_child { |subItem| wrapImg subItem}
+        item.each_child { |subItem| wrapItem subItem}
     
         case item.name
         when "img"
@@ -168,6 +187,20 @@ module TaliaCore
         end
        
       end
+    end
+    
+    # execute xslt transformation
+    # * document: xml document. Can be file path as string or REXML::Document
+    # * xsl_file: xsl file for transformation. Can be file path as string or REXML::Document
+    def xslt_transform(document, xsl_file)
+      xslt = XML::XSLT.new()
+      # get xml document
+      xslt.xml = document
+      # get xslt document
+      xslt.xsl = xsl_file
+
+      # return transformation output
+      return xslt.serve()      
     end
     
   end
