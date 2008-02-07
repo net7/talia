@@ -49,4 +49,8 @@ module ApplicationHelper
       %(<div id="#{status}">#{flash[status]}</div>) unless flash[status].nil?
     end
   end
+  
+  def widget_stylesheet(widget_name)
+    %(<link href="/widgeon/stylesheet?widget=#{widget_name}" media="screen" rel="stylesheet" type="application/css" />)
+  end
 end
