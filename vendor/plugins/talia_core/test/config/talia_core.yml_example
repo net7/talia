@@ -31,7 +31,7 @@ namespaces:
     test: "http://testnamespace.com/"
     foo: "http://foo.com/"
     # HyperNietzsche namespace
-    hy_nietzsche: "http://www.hypernietzsche.org/ontology/"
+    hyper: "http://www.hypernietzsche.org/ontology/"
     # DublinCore namespace
     dcns:     "http://purl.org/dc/elements/1.1/"
 

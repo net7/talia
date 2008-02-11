@@ -1,0 +1,9 @@
+## Maps XML elements to properties in the hyper: ontology
+title: "dcns:title"
+ordering: "position"
+publisher: "dcns:publisher"
+description: "dcns:description"
+date: "dcns:date"
+publishing_date: "dcns:date"
+language: "dcns:language"
+curator_notes: ":curator_note"

@@ -14,18 +14,22 @@ module FileStore
   end
   
    # Add data as string into file
-  def create_from_data(location, data, options = {})
+  def create_from_data(file_location, data, options = {})
     # close file if opened
     close_file
     
+    # Set the location for the record
+    self.location = file_location
+    
     # open file for writing
-    @file_handle = File.open(location, 'w')
+    @file_handle = File.open(get_file_path, 'w')
     
     # write data string into file
     @file_handle << data
     
     # close file
-    @file_handle.close
+    close_file
+    
   end
     
   # Return the data directory for a specific data file
@@ -62,9 +66,7 @@ module FileStore
       # check and set the initial position of the reading cursors.
       # It's necessary to do this thing because we don't know if the user
       # has specified the initial reading cursors befort starting working on file
-      if @position == nil
-        @position = @file_handle.pos
-      end
+      @position ||= @file_handle.pos
       
       @file_handle.pos = @position
     end

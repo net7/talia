@@ -1,6 +1,6 @@
 require 'talia_core/local_store/data_record'
 require 'rexml/document'
-require 'xml/xslt'
+# require 'xml/xslt'
 
 begin
   # if tidy is not present, disable it
@@ -129,6 +129,11 @@ module TaliaCore
         xml_str += element.to_s
       end
       xml_str
+    end
+    
+    # Returns an xml string that is escaped for HTML inclusing
+    def get_escaped_content_string(options = nil)
+      get_content_string(options).gsub(/</, "&lt;").gsub(/>/, "&gt;")
     end
     
     # Add data as string into file
