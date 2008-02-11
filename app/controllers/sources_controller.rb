@@ -1,9 +1,5 @@
 require 'pagination/source_paginator'
 
-# We need the rdf mime type for this: TODO: Find a location to define the mime
-# types.
-Mime::Type.register "application/rdf+xml", :rdf
-
 class SourcesController < ApplicationController
   # GET /sources
   # GET /sources.xml
