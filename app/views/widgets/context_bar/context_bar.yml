@@ -46,4 +46,7 @@ properties:
     talias#refers_to:
         label: "Connected to"
         is_symmetric: true
+    luccadom#transcript:
+        label: "Transcription"
+        inv_label: "Transcription of"
 

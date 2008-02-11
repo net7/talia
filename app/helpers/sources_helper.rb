@@ -10,6 +10,10 @@ module SourcesHelper
           result += "<div>"
           result += widget(:html_data, :data => data_record)
           result += "</div>"
+        when 'text/xml'
+          result += "<pre><code>"
+          result += data_record.get_escaped_content_string
+          result += "</code></pre>"
         when 'text/plain'
           result += "<h3>Plain Text Data: #{data_record.location}</h3>"
           result += "<pre> #{data_record.all_text} </pre>"
