@@ -118,6 +118,10 @@ module TaliaCore
       return @source_record.errors
     end
     
+    # Wrapping for <tt>ActiveRecord</tt> <tt>update_attributes</tt>.
+    def update_attributes(attributes)
+      @source_record.update_attributes(attributes)
+    end
     
     # Find Sources in the system
     # If just a single parameter (or a list of N::URI or String) is given, 
@@ -228,6 +232,11 @@ module TaliaCore
       # database store
       uri = build_query_uri(uri)
       return SourceRecord.exists_uri?(uri)
+    end
+        
+    # Wrap the <tt>Will Paginate</tt> paginate.
+    def self.paginate(options)
+      SourceRecord.paginate(options)
     end
     
     # Returns an array of the predicates that are directly defined for this
