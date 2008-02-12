@@ -88,6 +88,12 @@ module TaliaCore
       collect { |prop| prop }.join(separator)
     end
     
+    # Include? works like for an array
+    def include?(value)
+      value = "<#{value.uri}>" if(value.is_a?(Source))
+      @rdf_list.include?(value)
+    end
+    
     protected
     
     # Check if the underlying source is saved, raise an error otherwise

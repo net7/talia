@@ -13,17 +13,19 @@ module TaliaUtil
   # Test te DataRecord storage class
   class EditionImportTest < Test::Unit::TestCase
   
+    include UtilTestMethods
+    
     # Establish the database connection for the test
-    TaliaCore::TestHelper.startup
+    TaliaCore::TestHelper.startup 
     
     
     # Flush RDF before each test
     def setup
-      unless(@src)
+      setup_once(:src) do
         TaliaCore::TestHelper.flush_rdf
         TaliaCore::TestHelper.flush_db
+        HyperImporter::Importer.import(load_doc('edition'))
       end
-      @src = HyperImporter::Importer.import(UtilHelper.load_doc('edition'))
     end
     
     # Test if the import succeeds
@@ -33,14 +35,12 @@ module TaliaUtil
     
     # Test if the types were imported correctly
     def test_types
-      assert_equal(1, @src.types.size)
-      assert_equal(N::HYPER + "Edition", @src.types[0])
+      assert_types(@src, N::HYPER + "Edition", N::HYPER + "TEI")
     end
     
     # Test the title property
     def test_title
-      assert_equal(1, @src.dcns::title.size)
-      assert_equal("edition", @src.dcns::title[0])
+      assert_property(@src.dcns::title, "edition")
     end
     
     # Test source name
@@ -50,21 +50,17 @@ module TaliaUtil
     
     # Test the publishing date
     def test_pubdate
-      assert_equal(1, @src.dcns::date.size)
-      assert_equal("2007-11-28", @src.dcns::date[0])
+      assert_property(@src.dcns::date, "2007-11-28")
     end
     
     # Test the publisher
     def test_publisher
-      assert_equal(1, @src.dcns::publisher.size)
-      assert_equal("HyperNietzsche", @src.dcns::publisher[0])
+      assert_property(@src.dcns::publisher, "HyperNietzsche")
     end
 
     # Test if the curator was imported correctly
     def test_curator
-      assert_equal(1, @src.hyper::curator.size)
-      assert_kind_of(TaliaCore::Source, @src.hyper::curator[0])
-      assert_equal(N::LOCAL::kbrunkhorst, @src.hyper::curator[0].uri)
+      assert_property(@src.hyper::curator, N::LOCAL::kbrunkhorst)
     end
     
     # Test if the data file was imported
@@ -81,8 +77,7 @@ module TaliaUtil
    
     # And now: already_published
     def test_already_published
-      assert_equal(1, @src.hyper::already_published.size)
-      assert_equal("no", @src.hyper::already_published[0])
+      assert_property(@src.hyper::already_published, "no")
     end
     
   end

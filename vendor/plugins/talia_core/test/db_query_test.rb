@@ -10,29 +10,29 @@ module TaliaCore
   class DbQueryTest < Test::Unit::TestCase
     
     TestHelper::startup
-    @@is_setup = false
-    
-    def db_setup
-      # Setup the database things
-      TestHelper::flush_db()
-      s1 = Source.new("http://foo_one")
-      s1.workflow_state = 0
-      s1.primary_source = true
-      s1.save!
-      s2 = Source.new("http://foo_two", N::FOO::eatthis, N::FOO::hello)
-      s2.workflow_state = 1
-      s2.primary_source = false
-      s2.save!
-      s3 = Source.new("http://foo_three", N::FOO::barme, N::FOO::hello)
-      s3.workflow_state = 1
-      s3.primary_source = true
-      s3.save!
-    end
     
     def setup
-      # We need to setup the database things only once
-      db_setup if(!@@is_setup)
-      @@is_setup = true
+      setup_once(:flush) do
+        TestHelper::flush_db
+      end
+      setup_once(:s1) do
+        s1 = Source.new("http://foo_one")
+        s1.workflow_state = 0
+        s1.primary_source = true
+        s1.save!
+      end
+      setup_once(:s2) do
+        s2 = Source.new("http://foo_two", N::FOO::eatthis, N::FOO::hello)
+        s2.workflow_state = 1
+        s2.primary_source = false
+        s2.save!
+      end
+      setup_once(:s3) do
+        s3 = Source.new("http://foo_three", N::FOO::barme, N::FOO::hello)
+        s3.workflow_state = 1
+        s3.primary_source = true
+        s3.save!
+      end
     end
     
     # Find on workflow state

@@ -16,47 +16,59 @@ module TaliaCore
     N::URI.shortcut(:test_uri, "http://www.testuri.com/bar")
     N::Predicate.shortcut(:test_predicate, "http://www.meetest.org/my_predicate")
     N::Namespace.shortcut(:foaf, "http://www.foaf.org/")
-    @@is_setup = false
-    
-    def setup_db
-      TestHelper.flush_rdf
-      TestHelper.flush_db
-      print RDFS::Resource.find_all
-      @@test_source = Source.new("http://www.test.org/test/")
-      @@valid_source = Source.new("http://www.test.org/valid")
-      @@valid_source.workflow_state = 3
-      @@valid_source.primary_source = false
-      @@valid_source.save!
-      
-      @@local_source = Source.new(N::LOCAL + "home_source")
-      @@local_source.workflow_state = 42
-      @@local_source.primary_source = false
-      @@local_source.save!
-      
-      (1..3).each do |n|
-        src = Source.new("http://www.typedthing.com/element#{n}")
-        src.workflow_state = 0
-        src.primary_source = false
-        src.types << "http://www.interestingrelations.org/book"
-        src.save!
-      end
-      
-      @@data_source = Source.new("http://www.test.org/source_with_data")
-      @@data_source.workflow_state = 1
-      @@data_source.primary_source = false
-      text = SimpleText.new
-      text.location = "text.txt"
-      image = ImageData.new
-      image.location = "image.jpg"
-      @@data_source.data_records << text
-      @@data_source.data_records << image
-      @@data_source.save!
-      
-    end
     
     def setup
-      setup_db if(!@@is_setup)
-      @@is_setup = true
+      setup_once(:flush) do
+        TestHelper.flush_rdf
+        TestHelper.flush_db
+        print RDFS::Resource.find_all
+        true
+      end
+      
+      setup_once(:test_source) do
+        Source.new("http://www.test.org/test/")
+      end
+      
+      setup_once(:valid_source) do
+        valid_source = Source.new("http://www.test.org/valid")
+        valid_source.workflow_state = 3
+        valid_source.primary_source = false
+        valid_source.save!
+        valid_source
+      end
+      assert(Source::exists?(@valid_source.uri))
+      
+      setup_once(:local_source) do
+        local_source = Source.new(N::LOCAL + "home_source")
+        local_source.workflow_state = 42
+        local_source.primary_source = false
+        local_source.save!
+        local_source
+      end
+      
+      setup_once(:dummy_sources) do
+        (1..3).each do |n|
+          src = Source.new("http://www.typedthing.com/element#{n}")
+          src.workflow_state = 0
+          src.primary_source = false
+          src.types << "http://www.interestingrelations.org/book"
+          src.save!
+        end
+      end
+      
+      setup_once(:data_source) do
+        data_source = Source.new("http://www.test.org/source_with_data")
+        data_source.workflow_state = 1
+        data_source.primary_source = false
+        text = SimpleText.new
+        text.location = "text.txt"
+        image = ImageData.new
+        image.location = "image.jpg"
+        data_source.data_records << text
+        data_source.data_records << image
+        data_source.save!
+        data_source
+      end
     end
     
     def test_created_helper
@@ -88,10 +100,10 @@ module TaliaCore
     
     # Checks if the direct object properties work
     def test_object_properties
-      @@test_source.workflow_state = 2
-      @@test_source.name = "Foobar"
-      assert_equal(2, @@test_source.workflow_state)
-      assert_equal("Foobar", @@test_source.name)
+      @test_source.workflow_state = 2
+      @test_source.name = "Foobar"
+      assert_equal(2, @test_source.workflow_state)
+      assert_equal("Foobar", @test_source.name)
     end
     
     # Tests if the ActiveRecord validation works
@@ -119,32 +131,32 @@ module TaliaCore
     
     # Test load/save for active record
     def test_save
-      assert_equal(3, @@valid_source.workflow_state)
-      @@valid_source.workflow_state = 15
-      @@valid_source.save
-      assert(Source.exists?(@@valid_source.uri))
-      assert(SourceRecord.exists_uri?(@@valid_source.uri))
-      assert_equal(15, Source.new(@@valid_source.uri).workflow_state)
+      assert_equal(3, @valid_source.workflow_state)
+      @valid_source.workflow_state = 15
+      @valid_source.save
+      assert(Source.exists?(@valid_source.uri))
+      assert(SourceRecord.exists_uri?(@valid_source.uri))
+      assert_equal(15, Source.new(@valid_source.uri).workflow_state)
     end
     
     # Check loading of Elements
     def test_load
-      @@valid_source.save
-      source_loaded = Source.find(@@valid_source.uri)
+      @valid_source.save
+      source_loaded = Source.find(@valid_source.uri)
       assert_kind_of(Source, source_loaded)
-      assert_equal(@@valid_source.workflow_state, source_loaded.workflow_state)
-      assert_equal(@@valid_source.primary_source, source_loaded.primary_source)
-      assert_equal(@@valid_source.uri, source_loaded.uri)
+      assert_equal(@valid_source.workflow_state, source_loaded.workflow_state)
+      assert_equal(@valid_source.primary_source, source_loaded.primary_source)
+      assert_equal(@valid_source.uri, source_loaded.uri)
     end
     
     # Load change, and save
     def test_load_save
-      @@valid_source.save
-      source_loaded = Source.find(@@valid_source.uri)
+      @valid_source.save
+      source_loaded = Source.find(@valid_source.uri)
       source_loaded.workflow_state = 4
       source_loaded.save
       
-      source_reloaded = Source.find(@@valid_source.uri)
+      source_reloaded = Source.find(@valid_source.uri)
       assert_equal(4, source_reloaded.workflow_state)
     end
     
@@ -169,61 +181,61 @@ module TaliaCore
     
     # Default RDF property
     def test_rdf_default_property
-      @@valid_source.author = "foobar"
-      assert_equal(@@valid_source.author[0], "foobar")
-      assert_equal(@@valid_source.default::author[0], "foobar")
+      @valid_source.author = "foobar"
+      assert_equal(@valid_source.author[0], "foobar")
+      assert_equal(@valid_source.default::author[0], "foobar")
     end
     
     # Direct RDF property
     def test_rdf_direct_property
-      @@valid_source.test_predicate = "moofoo"
-      assert_equal(@@valid_source.test_predicate[0], "moofoo")
-      assert_equal(0, @@valid_source.default::test_predicate.size)
+      @valid_source.test_predicate = "moofoo"
+      assert_equal(@valid_source.test_predicate[0], "moofoo")
+      assert_equal(0, @valid_source.default::test_predicate.size)
     end
     
     # Namespaced RDF property
     def test_rdf_namespace_property
-      @@valid_source.meetest::something = "somefoo"
-      assert_equal(@@valid_source.meetest::something[0], "somefoo")
+      @valid_source.meetest::something = "somefoo"
+      assert_equal(@valid_source.meetest::something[0], "somefoo")
     end
     
     # Generic URI property
     def test_rdf_generic_uri
-      @@valid_source.test_uri = "bar"
-      assert_equal("bar", @@valid_source.test_uri[0])
+      @valid_source.test_uri = "bar"
+      assert_equal("bar", @valid_source.test_uri[0])
     end
     
     # Check disallowed cases for RDF
     def test_rdf_fail
-      assert_raise(SemanticNamingError) { @@valid_source.test_predicate("foo") }
+      assert_raise(SemanticNamingError) { @valid_source.test_predicate("foo") }
     end
     
     # Relation properties
     def test_rdf_relations
-      @@valid_source.rel_it = Source.new("http://foobar.com/")
-      assert_kind_of(SourcePropertyList, @@valid_source.rel_it)
-      assert_kind_of(Source, @@valid_source.rel_it[0])
-      assert_equal("http://foobar.com/", @@valid_source.rel_it[0].uri.to_s)
+      @valid_source.rel_it = Source.new("http://foobar.com/")
+      assert_kind_of(SourcePropertyList, @valid_source.rel_it)
+      assert_kind_of(Source, @valid_source.rel_it[0])
+      assert_equal("http://foobar.com/", @valid_source.rel_it[0].uri.to_s)
     end
     
     # RDF load and save
     def test_rdf_save_load
-      @@valid_source.hero = "napoleon"
-      @@valid_source.save
-      loaded = Source.find(@@valid_source.uri)
+      @valid_source.hero = "napoleon"
+      @valid_source.save
+      loaded = Source.find(@valid_source.uri)
       assert_equal("napoleon", loaded.hero[0])
     end
     
     # Exists for local sources
     def test_exists_local
-      @@local_source.save()
+      @local_source.save()
       assert(Source.exists?("home_source"))
       assert(!Source.exists?("home_foo"))
     end
     
     # Find for local sources
     def test_find_local
-      @@local_source.save()
+      @local_source.save()
       source = Source.find("home_source")
       assert_kind_of(Source, source)
       assert_equal(42, source.workflow_state)
@@ -276,9 +288,9 @@ module TaliaCore
     
     # Test the Array accessor
     def test_array_accessor
-      @@valid_source[N::MEETEST::array_test] << "foo"
-      assert_equal(@@valid_source[N::MEETEST::array_test], @@valid_source.meetest::array_test)
-      assert_equal("foo", @@valid_source[N::MEETEST::array_test][0])
+      @valid_source[N::MEETEST::array_test] << "foo"
+      assert_equal(@valid_source[N::MEETEST::array_test], @valid_source.meetest::array_test)
+      assert_equal("foo", @valid_source[N::MEETEST::array_test][0])
     end
     
         # Read an db attribute by symbol
@@ -315,14 +327,14 @@ module TaliaCore
     
     # Test the predicate accessor
     def test_predicate_accessor
-      assert(@@valid_source.predicate_set(:meetest, "array_test_acc", "bla"))
-      assert_equal(@@valid_source.predicate(:meetest, "array_test_acc"), @@valid_source.meetest::array_test_acc)
-      assert_equal("bla", @@valid_source.predicate(:meetest, "array_test_acc")[0])
+      assert(@valid_source.predicate_set(:meetest, "array_test_acc", "bla"))
+      assert_equal(@valid_source.predicate(:meetest, "array_test_acc"), @valid_source.meetest::array_test_acc)
+      assert_equal("bla", @valid_source.predicate(:meetest, "array_test_acc")[0])
     end
     
     # Test for non-existing predicates
     def test_nonexistent_predicate
-      assert_nil(@@valid_source.predicate(:idontexist, "something"))
+      assert_nil(@valid_source.predicate(:idontexist, "something"))
     end
     
     # Test the id property
@@ -502,30 +514,37 @@ module TaliaCore
     
     # Test if accessing the data on a Source works
     def test_data_access
-      data = @@data_source.data
+      data = @data_source.data
       assert_equal(2, data.size)
     end
     
     # Test if accessing the data on a Source works
     def test_data_access_by_type
-      data = @@data_source.data("SimpleText")
+      data = @data_source.data("SimpleText")
       assert_equal(1, data.size)
       assert_kind_of(SimpleText, data.first)
     end
     
     # Test if accessing the data on a Source works
     def test_data_access_by_type_and_location
-      data = @@data_source.data("ImageData", "image.jpg")
+      data = @data_source.data("ImageData", "image.jpg")
       assert_kind_of(ImageData, data)
     end
     
     # Test accessing inexistent data
     def test_data_access_inexistent
-      data = @@data_source.data("Foo")
+      data = @data_source.data("Foo")
       assert_equal(0, data.size)
-      data = @@data_source.data("SimpleText", "noop.txt")
+      data = @data_source.data("SimpleText", "noop.txt")
       assert_nil(data)
     end 
+    
+    # Test equality
+    def test_equals
+      new_src = Source.new(@test_source.uri)
+      assert_equal(new_src, @test_source)
+      assert_not_same(new_src, @test_source)
+    end
     
   end
 end

@@ -8,9 +8,6 @@ module TaliaUtil
       source_type 'hyper:Paragraph'
       
       def import!
-        import_relations!
-        import_types!
-        add_property_from(@element_xml, 'title', true)
         import_nodes
       end
       

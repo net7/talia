@@ -11,17 +11,19 @@ module TaliaUtil
   # Test te DataRecord storage class
   class ChapterImportTest < Test::Unit::TestCase
   
+    include UtilTestMethods
+    
     # Establish the database connection for the test
     TaliaCore::TestHelper.startup
     
     
     # Flush RDF before each test
     def setup
-      unless(@src)
+      setup_once(:src) do
         TaliaCore::TestHelper.flush_rdf
         TaliaCore::TestHelper.flush_db
+        HyperImporter::Importer.import(load_doc('chapter'))
       end
-      @src = HyperImporter::Importer.import(UtilHelper.load_doc('chapter'))
     end
     
     # Test if the import succeeds
@@ -31,29 +33,22 @@ module TaliaUtil
     
     # Test if the types were imported correctly
     def test_types
-      assert_equal(2, @src.types.size)
-      assert(@src.types[0] == N::HYPER + "Chapter" || @src.types[0] == N::HYPER + "Work", "Failed on types: #{@src.types[0]}, #{@src.types[1]}")
-      assert(@src.types[1] == N::HYPER + "Chapter" || @src.types[1] == N::HYPER + "Work")
-      assert_not_equal(@src.types[0], @src.types[1])
+      assert_types(@src, N::HYPER + "Chapter", N::HYPER + "Work")
     end
     
     # Test the title property
     def test_title
-      assert_equal(1, @src.dcns::title.size)
-      assert_equal("[Text]", @src.dcns::title[0])
+      assert_property(@src.dcns::title, "[Text]")
     end
     
     # Test the ordering
     def test_ordering
-      assert_equal(1, @src.hyper::position.size)
-      assert_equal("2", @src.hyper::position[0])
+      assert_property(@src.hyper::position, "2")
     end
     
     # Test the first page
     def test_first_page
-      assert_equal(1, @src.hyper::first_page.size)
-      assert_kind_of(TaliaCore::Source, @src.hyper::first_page[0])
-      assert_equal(N::LOCAL + "AC,[Text]", @src.hyper::first_page[0].uri)
+      assert_property(@src.hyper::first_page, N::LOCAL + "AC,[Text]")
     end
     
     # Test source name
@@ -63,8 +58,7 @@ module TaliaUtil
     
     # Test the name
     def test_name
-      assert_equal(1, @src.hyper::name.size)
-      assert_equal("[Text]", @src.hyper::name[0])
+      assert_property(@src.hyper::name, "[Text]")
     end
     
   end

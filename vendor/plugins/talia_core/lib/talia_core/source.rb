@@ -415,6 +415,11 @@ module TaliaCore
       uri.to_s
     end
     
+    # Equality test. Two sources are equal if they have the same URI
+    def ==(value)
+      value.is_a?(Source) && (value.uri == uri)
+    end
+    
     protected
     
     

@@ -10,43 +10,44 @@ module TaliaCore
   class MixedQueryTest < Test::Unit::TestCase
     
     TestHelper::startup
-    @@is_setup = false
-    
-    def setup_db
-      # Setup the database things
-      TestHelper::flush_rdf()
-      TestHelper::flush_db()
-      s1 = Source.new("http://foo_one")
-      s1.workflow_state = 0
-      s1.primary_source = true
-      s1.save!
-      s1.foo::workstate = "0"
-      s1.foo::primary = "true"
-      s1.save!
-      s2 = Source.new("http://foo_two", N::FOO::eatthis, N::FOO::hello)
-      s2.workflow_state = 1
-      s2.primary_source = false
-      s2.save!
-      s2.foo::type = "eatthis"
-      s2.foo::type = "hello"
-      s2.foo::workstate = "1"
-      s2.foo::primary = "false"
-      s2.save!
-      s3 = Source.new("http://foo_three", N::FOO::barme, N::FOO::hello)
-      s3.workflow_state = 1
-      s3.primary_source = true
-      s3.save!
-      s3.foo::type = "barme"
-      s3.foo::type = "hello"
-      s3.foo::workstate = "1"
-      s3.foo::primary = "true"
-      s3.save!
-    end
     
     def setup
-      # we only need to run the db-setup once for this
-      setup_db if(!@@is_setup)
-      @@is_setup = true
+      setup_once(:flush) do
+        # Setup the database things
+        TestHelper::flush_rdf()
+        TestHelper::flush_db()
+      end
+      setup_once(:s1) do
+        s1 = Source.new("http://foo_one")
+        s1.workflow_state = 0
+        s1.primary_source = true
+        s1.save!
+        s1.foo::workstate = "0"
+        s1.foo::primary = "true"
+        s1.save!
+      end
+      setup_once(:s2) do
+        s2 = Source.new("http://foo_two", N::FOO::eatthis, N::FOO::hello)
+        s2.workflow_state = 1
+        s2.primary_source = false
+        s2.save!
+        s2.foo::type = "eatthis"
+        s2.foo::type = "hello"
+        s2.foo::workstate = "1"
+        s2.foo::primary = "false"
+        s2.save!
+      end
+      setup_once(:s3) do
+        s3 = Source.new("http://foo_three", N::FOO::barme, N::FOO::hello)
+        s3.workflow_state = 1
+        s3.primary_source = true
+        s3.save!
+        s3.foo::type = "barme"
+        s3.foo::type = "hello"
+        s3.foo::workstate = "1"
+        s3.foo::primary = "true"
+        s3.save!
+      end
     end
     
     # Test simple AND operation

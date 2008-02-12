@@ -62,5 +62,50 @@ module TaliaCore
     end
     
   end
+  
+  # Add some stuff to the basic test case
+  class Test::Unit::TestCase
+    
+    # Helper to create a variable only once. This should be used from the
+    # setup method, and will assign the given block to the given class variable.
+    # 
+    # The block will only be executed once, after that the value for the
+    # class variable will be retrieved from a cache. 
+    #
+    # This is a workaround because the Ruby test framework doesn't provide 
+    # a setup_once method or something like this, and in fact re-creates the
+    # Test case object for every single test (go figure). It would be 
+    # worth switching to RSpec just for this, but it's a heap of work so... the
+    # test framework has just the braindead "fixtures" mechanism...
+    #
+    # The thing is that's a good practice to have reasonably fine-grained tests,
+    # and you often have objects that are re-used often, are read-only for all
+    # the tests and expensive to create. So you basically want to create them
+    # only once.
+    #
+    # This thing is less than perfect, but it should work for now. Basically it
+    # assumes that all tests for a TestCase will be run in a row, and the
+    # setup method will execute before the first test and that no other tests
+    # will execute before all tests of the TestCase are executed.
+    def setup_once(variable, &block)
+      variable = variable.to_sym
+      value = self.class.obj_cache[variable]
+      unless(value)
+        value = block.call
+        self.class.obj_cache[variable] = value
+      end
+      assit_not_nil(value)
+      value ||= false # We can't have a nil value (will cause the block to re-run)
+      instance_variable_set(:"@#{variable}", value)
+    end
+    
+    protected 
+    
+    # Helper variable in the class for setup_once
+    def self.obj_cache
+      @obj_cache ||= {}
+    end
+    
+  end
 
 end

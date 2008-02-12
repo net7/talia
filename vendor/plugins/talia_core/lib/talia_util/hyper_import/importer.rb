@@ -30,6 +30,17 @@ module TaliaUtil
         end
       end
       
+      # This will be called to initiate the import on this importer. this
+      # will be called from self.import, and should not be called directly and
+      # should not be overwritten.
+      def do_import!
+        import_relations!
+        import_types!
+        add_property_from(@element_xml, 'title', true) # The title should always exist
+        import! # Calls the import features of the subclass
+        @source.save! # Save the source when the import is complete
+      end
+      
       # Imports the data. To be overwritten by child classes
       def import!
         assit_fail("Should never call base class version of import.")
@@ -45,8 +56,7 @@ module TaliaUtil
       def self.import(element_xml)
         assit_real_string(element_xml.root.name, "XML root element must have a name")
         importer = importer_for_element(element_xml.root)
-        importer.import!
-        importer.source.save!
+        importer.do_import!
         importer.source
       end
       
