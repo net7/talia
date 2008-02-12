@@ -105,7 +105,7 @@ module TaliaUtil
         if(node = root.elements[name])
           ## Create an URI for the new property
           property = TaliaCore::CoreHelper.make_uri(map_property(name), ':', N::HYPER)
-          @source[property] << node.text.strip if(node.text)
+          @source[property] << node.text.strip if(node.text && node.text.strip != "")
         else
           assit(!required, "The node n#{name} is required to exist.")
         end
@@ -117,7 +117,7 @@ module TaliaUtil
         if(node = root.elements[name])
           ## Create an URI for the new property
           property = TaliaCore::CoreHelper.make_uri(map_property(name), ':', N::HYPER)
-          add_source_rel(property, node.text.strip) if(node.text)
+          add_source_rel(property, node.text.strip) if(node.text && node.text.strip != "")
         else
           assit(!required, "The node n#{name} is required to exist.")
         end
@@ -162,12 +162,13 @@ module TaliaUtil
           # Add each relation with predicate and object
           begin
             if((object = get_text(rel, 'object')) && object != '')
-              predicate = get_text(rel, 'predicate').underscore
+              predicate = map_property(get_text(rel, 'predicate'))
               assit_real_string(predicate, "Predicate missing. Object: #{object}")
               assit_real_string(object, "Object missing. Predicate: #{predicate}")
               # Now we need to create/get the source for the relation,
               # and assign it to the current source
-              add_source_rel(N::HYPER + predicate, N::HYPER + object)
+              predicate_uri = TaliaCore::CoreHelper.make_uri(predicate, ':', N::HYPER)
+              add_source_rel(predicate_uri, object)
             else
               # Skip empty object for relation
             end

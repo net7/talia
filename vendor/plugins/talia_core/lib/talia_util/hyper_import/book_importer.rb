@@ -7,7 +7,6 @@ module TaliaUtil
       
       source_type 'hyper:Book'
       
-      # TODO: Still missing import for contained NOTES elements
       def import!
         add_property_from(@element_xml, 'copyrightNote')
         add_property_from(@element_xml, 'description')

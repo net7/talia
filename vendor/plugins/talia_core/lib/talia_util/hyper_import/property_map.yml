@@ -1,4 +1,5 @@
 ## Maps XML elements to properties in the hyper: ontology
+# This map is also used for the relation names
 title: "dcns:title"
 ordering: "position"
 publisher: "dcns:publisher"
@@ -7,3 +8,6 @@ date: "dcns:date"
 publishing_date: "dcns:date"
 language: "dcns:language"
 curator_notes: ":curator_note"
+dimensionX: ":width"
+dimensionY: ":height"
+isSubPartOf: "part_of"

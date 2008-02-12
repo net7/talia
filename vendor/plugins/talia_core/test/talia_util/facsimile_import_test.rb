@@ -74,5 +74,11 @@ module TaliaUtil
       assert_property(@src.hyper::already_published, "no")
     end
     
+    # Test import of the dimensions
+    def test_dimensions
+      assert_property(@src.hyper::width, "2556")
+      assert_property(@src.hyper::height, "3988")
+    end
+    
   end
 end
