@@ -39,7 +39,7 @@ module TaliaUtil
           note = get_source(note_name, N::HYPER + 'Note')
           note.hyper::position = position
           # Add a relation to the page
-          add_source_rel(N::HYPER::page, N::LOCAL + page, note)
+          add_source_rel(N::HYPER::page, page, note)
           
           # Create a data object for the coordinates
           if(coordinates && coordinates != '')

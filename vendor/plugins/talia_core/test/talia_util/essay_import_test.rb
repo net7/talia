@@ -11,7 +11,7 @@ require 'talia_util'
 module TaliaUtil
 
   # Test te DataRecord storage class
-  class EditionImportTest < Test::Unit::TestCase
+  class EssayImportTest < Test::Unit::TestCase
   
     include UtilTestMethods
     
@@ -21,9 +21,12 @@ module TaliaUtil
     
     # Flush RDF before each test
     def setup
-      setup_once(:src) do
+      setup_once(:flush) do
+        clean_data_files
         TaliaCore::TestHelper.flush_rdf
         TaliaCore::TestHelper.flush_db
+      end
+      setup_once(:src) do
         HyperImporter::Importer.import(load_doc('essay'))
       end
     end

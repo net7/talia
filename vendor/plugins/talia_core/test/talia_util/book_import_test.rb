@@ -19,9 +19,12 @@ module TaliaUtil
     
     # Flush RDF before each test
     def setup
-      setup_once(:src) do
+      setup_once(:flush) do
+        clean_data_files
         TaliaCore::TestHelper.flush_rdf
         TaliaCore::TestHelper.flush_db
+      end
+      setup_once(:src) do
         HyperImporter::Importer.import(load_doc('book_manuscript'))
       end
       setup_once(:work_src) { HyperImporter::Importer.import(load_doc('book_work')) }

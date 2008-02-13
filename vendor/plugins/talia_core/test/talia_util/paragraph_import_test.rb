@@ -19,68 +19,72 @@ module TaliaUtil
     
     # Flush RDF before each test
     def setup
-      TaliaCore::TestHelper.flush_rdf
-      TaliaCore::TestHelper.flush_db
+      setup_once(:flush) do
+        clean_data_files
+        TaliaCore::TestHelper.flush_rdf
+        TaliaCore::TestHelper.flush_db
+      end
+      
+      setup_once(:paragraph) { HyperImporter::Importer.import(load_doc('paragraph')) }
+      setup_once(:coord_para) { HyperImporter::Importer.import(load_doc('manuscript_paragraph_coords')) }
+      setup_once(:multinotes) { HyperImporter::Importer.import(load_doc('paragraph_multinotes')) }
+      setup_once(:work_para) { HyperImporter::Importer.import(load_doc('work_page_annotation')) }
+    
     end
     
     # Test if the import succeeds
     def test_import
-      src = HyperImporter::Importer.import(load_doc('paragraph'))
-      assert_kind_of(TaliaCore::Source, src)
+      assert_kind_of(TaliaCore::Source, @paragraph)
     end
     
     # Test if the types were imported correctly
     def test_types
-      src = HyperImporter::Importer.import(load_doc('paragraph'))
-      assert_kind_of(TaliaCore::Source, src)
-      assert_types(src, N::HYPER + "Paragraph", N::HYPER + "Work")
+      assert_types(@paragraph, N::HYPER + "Paragraph", N::HYPER + "Work")
     end
     
     # Test source name
     def test_name
-      src = HyperImporter::Importer.import(load_doc('paragraph'))
-      assert_equal(N::LOCAL + "AC-17", src.uri)
+      assert_equal(N::LOCAL + "AC-17", @paragraph.uri)
     end
     
     # Test the manuscript paragraph
     def test_manuscript_para_title
-      src = HyperImporter::Importer.import(load_doc('manuscript_paragraph_coords'))
-      assert_equal("D 12,10r[1]", src.dcns::title[0])
+      assert_property(@coord_para.dcns::title, "D 12,10r[1]")
     end
     
     # Test the note import for a paragraph
     def test_paragraph_notes
-      src = HyperImporter::Importer.import(load_doc('manuscript_paragraph_coords'))
-      notes = src.hyper::note
+      notes = @coord_para.hyper::note
       assert_equal(1, notes.size)
     end
     
     # Test if the properties of a paragraph were imported correctly
     def test_paragraph_notes_position
-      src = HyperImporter::Importer.import(load_doc('manuscript_paragraph_coords'))
-      note = src.hyper::note[0]
-      assert_equal(1, note.hyper::position.size)
-      assert_equal("1", note.hyper::position[0])
+      note = @coord_para.hyper::note[0]
+      assert_property(note.hyper::position, "1")
     end
     
     
     # Test if the properties of a paragraph were imported correctly
     def test_paragraph_notes_page
-      src = HyperImporter::Importer.import(load_doc('paragraph'))
-      note = src.hyper::note[0]
-      assert_equal(1, note.hyper::page.size)
-      assert_equal("AC,[Text]", note.hyper::page[0].uri.local_name)
+      note = @paragraph.hyper::note[0]
+      assert_property(note.hyper::page, N::LOCAL + "AC,[Text]")
     end
     
     # Test import of a paragraph with multiple notes
     def test_paragraph_multiple_notes
-      src = HyperImporter::Importer.import(load_doc('paragraph_multinotes'))
-      notes = src.hyper::note
+      notes = @multinotes.hyper::note
       assert_equal(2, notes.size)
       # Some little sanity checks
       assert_equal(1, notes[0].hyper::page.size)
       assert_equal(1, notes[1].hyper::page.size)
       assert_not_equal(notes[0].hyper::page[0], notes[1].hyper::page[0])
+    end
+    
+    # Test work paragraph
+    def test_work_paragrahph
+      assert_types(@work_para, N::HYPER + "Paragraph", N::HYPER + "Work")
+      assert_equal(2, @work_para.hyper::note.size)
     end
     
   end

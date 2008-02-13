@@ -21,6 +21,8 @@ module FileStore
     # Set the location for the record
     self.location = file_location
     
+    raise(RuntimeError, "File already exists: #{get_file_path}") if(File.exists?(get_file_path))
+    
     # open file for writing
     @file_handle = File.open(get_file_path, 'w')
     

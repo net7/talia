@@ -20,6 +20,7 @@ module TaliaUtil
     # Flush RDF before each test
     def setup
       setup_once(:flush) do
+        clean_data_files
         TaliaCore::TestHelper.flush_rdf
         TaliaCore::TestHelper.flush_db
       end

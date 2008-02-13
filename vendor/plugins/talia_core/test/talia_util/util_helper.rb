@@ -36,5 +36,23 @@ module TaliaUtil
       end
     end
     
+    # Deletes the data files for the temp sources
+    def clean_data_files
+      puts "Cleaning #{TaliaCore::CONFIG["data_directory_location"]}"
+      clean_data(TaliaCore::CONFIG["data_directory_location"])
+    end
+    
+    # Recursive cleaner for data files
+    def clean_data(directory)
+      # Break for the "dot" directory labels
+      return if(File.basename(directory) =~ /^\..*/)
+      if(FileTest.file?(directory) && !(File.basename(directory) =~ /temp.*/))
+        File.delete(directory)
+        puts "#{directory} ...deleted"
+      elsif(FileTest.directory?(directory))
+        Dir.entries(directory).each { |entry| clean_data(File.join(directory, entry)) }
+      end
+    end
+    
   end
 end
