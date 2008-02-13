@@ -30,7 +30,10 @@ db_file: database
 namespaces:
     # Default namespaces rdf, rdfs, xsd, owl are defined in the semantic_naming
     # library.
-    # Add more namespaces here
+    # HyperNietzsche namespace
+    hyper: "http://www.hypernietzsche.org/ontology/"
+    # DublinCore namespace
+    dcns:     "http://purl.org/dc/elements/1.1/"
 
 
 

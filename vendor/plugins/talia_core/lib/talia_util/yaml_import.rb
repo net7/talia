@@ -1,7 +1,3 @@
-require 'rubygems'
-gem 'progressbar'
-require 'progressbar'
-
 module TaliaUtil
   
   # Import module for Talia data contained in YAML files

@@ -1,6 +1,3 @@
-require 'rubygems'
-gem 'progressbar'
-require 'progressbar'
 require 'ftools'
 
 module TaliaUtil
