@@ -140,9 +140,8 @@ module TaliaUtil
           # If the Source already exists, push the types in
           src = TaliaCore::Source.find(source_uri)
           type_list = src.types
-          assit_equal(type_list.size, 0, "There should not be types here. Source: #{source_name}")
           types.each do |type|
-            type_list << type
+            type_list << type unless(type_list.include?(type))
           end
         else
           src = TaliaCore::Source.new(N::LOCAL + source_name, *types)

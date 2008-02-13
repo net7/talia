@@ -12,6 +12,13 @@ module TaliaCore
     TestHelper.startup
      
     def setup
+      # Sets the file that is used by one test
+      setup_once(:tmp_file) { File.expand_path(File.join(File.dirname(__FILE__), 'data_for_test', 'XmlData', 'temp0.xhtml')) }
+      setup_once(:flush) do
+        # If the temp file already exists, it must be deleted
+        File.delete(@tmp_file) if(File.exist?(@tmp_file))
+        TestHelper.flush_db
+      end
       TestHelper.fixtures
       @test_records = DataRecord.find_data_records(1)
     end
@@ -95,14 +102,13 @@ module TaliaCore
       assert_not_equal nil, hnml_content.nil?
       
       # test Tidy parsing
-      temp0_file = File.expand_path(File.join(File.dirname(__FILE__), 'data_for_test', 'XmlData','temp0.xhtml'))
-      @test_records[5].create_from_data(temp0_file, @test_records[5].all_text, {:tidy => true})
+      @test_records[5].create_from_data(File.basename(@tmp_file), @test_records[5].all_text, {:tidy => true})
       # read content of file
-      file_tidy = File.open(temp0_file,'r')
-      string_tidy = file_tidy.read(File.size(temp0_file))
+      file_tidy = File.open(@tmp_file,'r')
+      string_tidy = file_tidy.read(File.size(@tmp_file))
       file_tidy.close
       # delete tidy file
-      File.delete(temp0_file)
+      File.delete(@tmp_file)
       # if tidy is enabled, check tidy output
       if !ENV['TIDYLIB'].nil?
         assert_equal string_tidy, @test_records[6].all_text
