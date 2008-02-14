@@ -28,7 +28,7 @@ module TaliaUtil
       end
       setup_once(:src) do
         base_uri = File.join(File.expand_path(File.dirname(__FILE__)), "import_samples#{File::SEPARATOR}")
-        list_path = "test_list.xml"
+        list_path = "list.xml"
         sig_path = ""
         
         HyperXmlImport.import(base_uri, list_path, sig_path)

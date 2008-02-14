@@ -25,8 +25,8 @@ module TaliaUtil
         TaliaCore::TestHelper.flush_db
       end
       
-      setup_once(:src) { HyperImporter::Importer.import(load_doc('manuscript_page')) }
-      setup_once(:work_src) { HyperImporter::Importer.import(load_doc('page')) }
+      setup_once(:src) { HyperImporter::Importer.import(load_doc('D-12,10r')) }
+      setup_once(:work_src) { HyperImporter::Importer.import(load_doc('AC,1')) }
     end
     
     # Test if the import succeeds

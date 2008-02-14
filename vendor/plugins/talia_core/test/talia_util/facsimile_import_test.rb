@@ -27,7 +27,7 @@ module TaliaUtil
         TaliaCore::TestHelper.flush_db
       end
       setup_once(:src) do
-        HyperImporter::Importer.import(load_doc('facsimile'))
+        HyperImporter::Importer.import(load_doc('egrepalysviola-3259'))
       end
     end
     

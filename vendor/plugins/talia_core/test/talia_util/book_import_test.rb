@@ -25,9 +25,9 @@ module TaliaUtil
         TaliaCore::TestHelper.flush_db
       end
       setup_once(:src) do
-        HyperImporter::Importer.import(load_doc('book_manuscript'))
+        HyperImporter::Importer.import(load_doc('Mp-XIV-2'))
       end
-      setup_once(:work_src) { HyperImporter::Importer.import(load_doc('book_work')) }
+      setup_once(:work_src) { HyperImporter::Importer.import(load_doc('AC')) }
     end
     
     # Test if the import succeeds
@@ -46,7 +46,7 @@ module TaliaUtil
     
     # Test the title property
     def test_title
-      assert_property(@src.dcns::title, "Goethe- und Schiller-Archiv")
+      assert_property(@src.dcns::title, "MpXIV2")
     end
     
     # Test the ordering

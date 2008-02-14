@@ -25,7 +25,7 @@ module TaliaUtil
         clean_data_files
         TaliaCore::TestHelper.flush_rdf
         TaliaCore::TestHelper.flush_db
-        HyperImporter::Importer.import(load_doc('transcription'))
+        HyperImporter::Importer.import(load_doc('igerikevzapf-539'))
       end
     end
     
