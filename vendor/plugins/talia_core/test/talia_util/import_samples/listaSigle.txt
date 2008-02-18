@@ -49,7 +49,7 @@ annotations:
  WS-194
  M-I-2,70[5]
  N-IV-4,13[2]
- (multi-note)
+ (multi-note):
  Mp-XIV-2,55v[2]et56r[1]
  Mp-XIV-2,56v[6]et57r[1]
  M-I-2,50[2]et51[2]

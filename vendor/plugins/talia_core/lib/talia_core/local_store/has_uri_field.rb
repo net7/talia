@@ -17,7 +17,7 @@ module ActiveRecord
       
       # Initializer takes the uri field
       define_method("initialize") do |uri|
-        super(nil)
+        super(nil) { nil } # Weird, but otherwise the super(nil) will have the intializer as block. Really.
         write_attribute(:uri, uri.to_s)
       end
       

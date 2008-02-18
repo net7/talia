@@ -125,7 +125,7 @@ namespace :talia_core do
   # Help info
   desc "Help on general options for the TaliaCore tasks"
   task :help do
-    title
+    Util.title
     puts "Talia Core tasks usage information."
     Util::print_options
   end

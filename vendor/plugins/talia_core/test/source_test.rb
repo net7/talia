@@ -264,6 +264,7 @@ module TaliaCore
       source.author = "napoleon"
       source.save!
       print source.to_xml
+      print source.to_rdf # also check rdf
     end
     
     # Test for direct predicates
@@ -538,6 +539,13 @@ module TaliaCore
       data = @data_source.data("SimpleText", "noop.txt")
       assert_nil(data)
     end 
+    
+    # Test foreign Source
+    def test_foreign
+      foreign = Source.new("http://www.hypernietzsche.org/ontology/Dossier")
+      assert_kind_of(Source, foreign)
+      assert(!foreign.local)
+    end
     
     # Test equality
     def test_equals
