@@ -76,6 +76,14 @@ module TaliaCore
       SourceRecord.find(:all, opts)
     end
     
+    # Gets a count of the result, *IGNORING* any limit (or offset) conditions
+    # that may be set
+    def result_count_all
+      sql = "SELECT COUNT(*) FROM source_records WHERE #{get_conditions()} "
+      sql += "LIMIT #{limit} " if(limit)
+      SourceRecord.count_by_sql(sql)
+    end
+    
     # Indicates if this query can be converted to an RDF query.
     def can_convert_rdf?
       return true if(operation == :EXPRESSION) # expressions can always be converted

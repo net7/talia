@@ -3,7 +3,7 @@ require 'semantic_naming'
 require 'active_support'
 require 'active_record'
 require 'active_rdf'
-require 'source'
+require 'talia_core/source'
 
 module TaliaCore
   

@@ -1,6 +1,7 @@
 # require 'objectproperties' # Includes the class methods for the object_properties
 require 'local_store/source_record'
 require 'local_store/data_record'
+require 'pagination/source_pagination'
 require 'query/source_query'
 require 'active_rdf'
 require 'semantic_naming'
@@ -195,11 +196,7 @@ module TaliaCore
             raise(QueryError, "Illegal query scope #{first_param}")
           end
 
-          options = {}
-          options[:limit] = qry_opts.delete(:limit) if(qry_opts[:limit])
-          options[:offset] = qry_opts.delete(:offset) if(qry_opts[:offset])
-          options[:force_rdf] = qry_opts.delete(:force_rdf) if(qry_opts[:force_rdf])
-          options[:conditions] = qry_opts
+          options = find_query_opts(qry_opts)
 
           if(qry_opts.size == 0)
             # Special case: Just all/first with offset and/or limit
@@ -221,6 +218,25 @@ module TaliaCore
       find_result
     end
     
+    # Counts the number of Sources with the given options (see #find for how 
+    # the options work. This will currently raise an exception in case 
+    # the options cannot be translated to a database-only query.
+    # 
+    # If no options are passed, this returns the number of Sources in the 
+    # system. Offset and/or limit options are silently *ignored*.
+    def self.count(options = nil)
+      if(options)
+        options = find_query_opts(options)
+      end
+      if(options && options[:conditions].size > 0)
+        qry = SourceQuery.new(options)
+        raise(ArgumentError, "Can only work with database queries") unless(qry.is_a?(DbQuery))
+        qry.result_count_all
+      else
+        SourceRecord.count_by_sql("SELECT COUNT(*) FROM source_records")
+      end
+    end
+    
     # Checks if the current record already exists in the database
     def exists?
       @exists = Source.exists?(uri)
@@ -232,11 +248,6 @@ module TaliaCore
       # database store
       uri = build_query_uri(uri)
       return SourceRecord.exists_uri?(uri)
-    end
-        
-    # Wrap the <tt>Will Paginate</tt> paginate.
-    def self.paginate(options)
-      SourceRecord.paginate(options)
     end
     
     # Returns an array of the predicates that are directly defined for this
@@ -460,10 +471,21 @@ module TaliaCore
         existing_records.size == 1 ? existing_records[0] : existing_records
       end
       
+      # Transforms the options given to #find to options that can be given
+      # to the SourceQuery class.
+      def find_query_opts(options)
+        qry_opts = {}
+        qry_opts[:limit] = options.delete(:limit) if(options[:limit])
+        qry_opts[:offset] = options.delete(:offset) if(options[:offset])
+        qry_opts[:force_rdf] = options.delete(:force_rdf) if(options[:force_rdf])
+        qry_opts[:conditions] = options
+        qry_opts
+      end
+      
     end
     
     # End of class methods
-  
+    
     # Loads an existing record into the system
     def load_record(existing_record)
       assit_kind_of(SourceRecord, existing_record)
@@ -643,6 +665,7 @@ module TaliaCore
         end # end predicate loop
       end # end tag!
     end # end method
+    
     
   end
 end

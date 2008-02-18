@@ -234,5 +234,12 @@ module TaliaCore
       assert_equal("http://foo_two", result[0].uri.to_s)
     end
     
+    # Test the result count
+    def test_result_count_all
+      qry = DbQuery.new(:EXPRESSION, :workflow_state, 1)
+      result = qry.result_count_all
+      assert_equal(2, result)
+    end
+    
   end
 end
