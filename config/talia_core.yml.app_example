@@ -32,6 +32,6 @@ namespaces:
     foaf:     "http://xmlns.com/foaf/0.1/"
     talias:   "http://trac.talia.discovery-project.eu/wiki/StructuralOntology#"
     taliadom: "http://trac.talia.discovery-project.eu/wiki/SampleDomainOntology#"
-    luccadom: "http://trac.talia.discovery-project.eu/wiki/LuccaOntology
+    luccadom: "http://trac.talia.discovery-project.eu/wiki/LuccaOntology"
     # HyperNietzsche namespace
     hyper: "http://www.hypernietzsche.org/ontology/"
