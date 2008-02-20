@@ -1,7 +1,11 @@
-# Displays a list of sources. If a @pager object is passed, this will used 
-# as a data source. Otherwise a new pager is constructed.
-# If @pager_opts are given, these will be used in the #find operation of the
-# pager
+# Displays a paginated list of sources, using the widgeon will_paginate support.
+# This takes the following options:
+# 
+# * <tt>source_options</tt> - A hash of options that will be passed to 
+#                             TaliaCore::Source#paginate to retrieve 
+#                             the sources. A page parameter will be silently ignored.
+# * <tt>page</tt> - The current page of the pagination. If this is not given, 
+#                   the first page is shown.
 class SourceListWidget < Widgeon::Widget
   
   ITEMS_PER_PAGE = 5
