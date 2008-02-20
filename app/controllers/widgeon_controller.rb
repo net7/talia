@@ -6,18 +6,14 @@ class WidgeonController < ApplicationController
       widget  = Widgeon::Widget.create_widget(params[:widget_name], options)
       render :text => widget.send(params[:handler].to_sym, params), :status => 200
     end
-  end
-  
-  def stylesheet
-    headers['Content-Type'] = 'application/css'
-    render :file => "#{Widgeon::Widget.path_to_widgets}/#{params[:widget]}/#{params[:widget]}.css"
-  end
+  end 
   
   # This handles a callback from a widget
   def callback
-    widget_class = params[:widget_class]
-    widget_options = WidgeonEncoding.decode_object(params[:options])
+    options = WidgeonEncoding.decode_options(params[:widget_callback_options])
     
-    @widget = Widgeon::Widget.load(widget_class.to_s).new(widget_options)
+    widget_class = options.delete(:widget_class)
+    
+    @widget = Widgeon::Widget.load(widget_class.to_s).new(options)
   end
 end

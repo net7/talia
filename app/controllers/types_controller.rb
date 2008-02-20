@@ -1,4 +1,3 @@
-require 'pagination/source_paginator'
 class TypesController < ApplicationController
 
   # GET /sources

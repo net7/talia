@@ -1,12 +1,11 @@
-require 'pagination/source_paginator'
-
 class SourcesController < ApplicationController
   # GET /sources
   # GET /sources.xml
   def index
     # For "normal" operations, we just create a pager
-    @pager = SourcePaginator.new(TaliaCore::SourceRecord.count, 5)
-
+    @source_options = { :page => 1, :per_page => 10 }
+    @sources = TaliaCore::Source.paginate(@source_options)
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => TaliaCore::Source.find(:all) } # XML for all sources
@@ -106,4 +105,7 @@ class SourcesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  
+  
 end

@@ -1,4 +1,5 @@
 module SourcesHelper
+  
   # Renders the data
   def render_source_data
     result = ""
