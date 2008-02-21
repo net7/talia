@@ -14,6 +14,6 @@ class WidgeonController < ApplicationController
     
     widget_class = options.delete(:widget_class)
     
-    @widget = Widgeon::Widget.load(widget_class.to_s).new(options)
+    @widget = Widgeon::Widget.load(widget_class.to_s).new(self, request, options)
   end
 end

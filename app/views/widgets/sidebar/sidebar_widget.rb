@@ -12,7 +12,7 @@ class SidebarWidget < Widgeon::Widget
     tabs.each do |name, settings|
       # Add a setting so the tab can check if it's the active one
       settings['is_active'] = (@active_tab == name)
-      tab_obj = SidebarTab.new(settings, controller)
+      tab_obj = SidebarTab.new(settings, @controller)
       if(settings['position'] == "bottom")
         @bottom_tabs << tab_obj
       else
