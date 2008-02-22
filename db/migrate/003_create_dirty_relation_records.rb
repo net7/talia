@@ -1,4 +1,6 @@
-class CreateDirtyRelationRecords < ActiveRecord::Migration
+require File.join(File.dirname(__FILE__), "constraint_migration")
+
+class CreateDirtyRelationRecords < ConstraintMigration
   def self.up
     create_table "dirty_relation_records", :force => true do |t|
       t.column :source_record_id,   :integer, :null => false
@@ -6,11 +8,11 @@ class CreateDirtyRelationRecords < ActiveRecord::Migration
     end
     
     # Create the foreign key
-    execute "alter table dirty_relation_records add constraint dirty_relations foreign key (source_record_id) references source_records(id)"
+    create_constraint("dirty_relation_records", "source_records")
   end
 
   def self.down
-    execute "alter table dirty_relation_records drop foreign key dirty_relations"
+    remove_constraint("dirty_relation_records", "source_records")
     drop_table "dirty_relation_records"
   end
 end

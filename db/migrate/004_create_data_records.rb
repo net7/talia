@@ -1,4 +1,6 @@
-class CreateDataRecords < ActiveRecord::Migration
+require File.join(File.dirname(__FILE__), "constraint_migration")
+
+class CreateDataRecords < ConstraintMigration
   def self.up
     create_table "data_records", :force => true do |t|
       t.column :source_record_id,   :integer, :null => false
@@ -10,12 +12,12 @@ class CreateDataRecords < ActiveRecord::Migration
     add_index :data_records, :source_record_id, :unique => false
     
     # Create the foreign key
-    execute "alter table data_records add constraint data_records_fkey foreign key (source_record_id) references source_records(id)"
+    create_constraint("data_records", "source_records")
   end
 
   def self.down
     # drop the foreign key
-    execute "alter table data_records drop foreign key data_records_fkey"
+    remove_constraint("data_records", "source_records")
 
     # drop the table    
     drop_table "data_records"
