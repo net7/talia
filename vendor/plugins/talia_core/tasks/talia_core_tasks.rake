@@ -122,6 +122,24 @@ namespace :talia_core do
     RdfUpdate::owl_to_rdfs
   end
   
+  # Helper task to bootstrap Redland RDF (should usually only be a problem when
+  # using Redland with mysql store)
+  desc "Initialize Redland RDF store. Option: rdfconf=<rdfconfig_file> [environment=env]"
+  task :redland_init do
+    # This simply activates the RDF store once with the :new option set.
+    Util.title
+    environment = ENV['environment'] || "development"
+    rais(ArgumentError, "Must have rdfconfig=<config_file>") unless(ENV['rdfconf'])
+    options = YAML::load(File.open(ENV['rdfconf']))[environment]
+    
+    rdf_cfg = Hash.new
+    options.each { |key, value| rdf_cfg[key.to_sym] = value }
+    
+    rdf_cfg[:new] = "yes"
+    
+    ConnectionPool.add_data_source(rdf_cfg)
+  end
+  
   # Help info
   desc "Help on general options for the TaliaCore tasks"
   task :help do
