@@ -7,6 +7,11 @@ class WidgeonController < ApplicationController
       render :text => widget.send(params[:handler].to_sym, params), :status => 200
     end
   end 
+
+  def stylesheet
+    headers['Content-Type'] = Mime::CSS
+    render :file => "#{Widgeon::Widget.path_to_widgets}/#{params[:widget]}/#{params[:widget]}.css"
+  end
   
   # This handles a callback from a widget
   def callback
