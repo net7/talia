@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :users
+
+  map.resource :session
+
   map.resources :sources
   map.resources :types
   
@@ -56,6 +60,8 @@ ActionController::Routing::Routes.draw do |map|
 #              :data_type => :nil,
 #              :location  => :nil,
 #              :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
+
+  map.logout 'logout', :controller => 'sessions', :action => 'destroy'
 
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'

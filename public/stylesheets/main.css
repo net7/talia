@@ -422,3 +422,7 @@ div#html_data img{
 #notice {
 	color: #0c0;
 }
+
+#login_box {
+	float: right;
+}

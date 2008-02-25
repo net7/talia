@@ -1,6 +1,7 @@
 require 'paginator'
 
 class Admin::SourcesController < ApplicationController
+  before_filter :login_required
   include TaliaCore
   layout 'sources'
   

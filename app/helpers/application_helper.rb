@@ -53,4 +53,10 @@ module ApplicationHelper
   def widget_stylesheet(widget_name)
     %(<link href="/widgeon/stylesheet?widget=#{widget_name}" media="screen" rel="stylesheet" type="application/css" />)
   end
+  
+  # Show the logout box if the user is loggedin.
+  # TODO: in future should handle even the login link.
+  def login_box
+    %(<div id="login_box">#{link_to("Logout", logout_path)}</div>) if logged_in?
+  end
 end
