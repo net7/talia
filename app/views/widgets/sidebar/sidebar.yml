@@ -1,51 +1,51 @@
 # Default configuration for the sidebar widget
 tabs:
-    navigation: 
-        title: "Navigation"
-        name: "Navigation"
-        key: 1
-        content: navigation_bar
-        redirect:
-            controller: types
-            action:
-        image: side_bar_icon_navigation.gif
-    context:
-        title: "Related Contents" 
-        name: "Related Contents"
-        key: 2
-        content: context_bar
-        redirect:
-            controller: sources
-            action:
-        image: side_bar_icon_related.gif
-    panorama:
-        title: "Panorama"
-        name: "Panorama"
-        key: 3
-        content: panorama_view
-        image: side_bar_icon_panorama.gif
-    search:
-        title: "Search and filter"
-        name:  "Search and Filter"
-        key: 5
-        content: search
-        image: side_bar_icon_search.gif
-    settings:
-        title: "Settings" 
-        name: "Settings"
-        key: 6
-        content: settings
-        image: side_bar_icon_settings.gif
-        position: bottom
-    homepage:
-        title: "Homepage" 
-        name: "Homepage"
-        key: 7
-        content: homepage
-        image: side_bar_icon_home.gif
-#    login:
-#        title: "Login"
-#        name: "Login"
-#        key: 4
-#        content: login
-#        image: document.png
+  - id: navigation
+    title: "Navigation"
+    name: "Navigation"
+    key: 1
+    content: navigation_bar
+    redirect:
+        controller: types
+        action:
+    image: side_bar_icon_navigation.gif
+  - id: context
+    title: "Related Contents" 
+    name: "Related Contents"
+    key: 2
+    content: context_bar
+    redirect:
+        controller: sources
+        action:
+    image: side_bar_icon_related.gif
+  - id: panorama
+    title: "Panorama"
+    name: "Panorama"
+    key: 3
+    content: panorama_view
+    image: side_bar_icon_panorama.gif
+  - id: search
+    title: "Search and filter"
+    name:  "Search and Filter"
+    key: 5
+    content: search
+    image: side_bar_icon_search.gif
+  - id: settings
+    title: "Settings" 
+    name: "Settings"
+    key: 6
+    content: settings
+    image: side_bar_icon_settings.gif
+    position: bottom
+  - id: homepage
+    title: "Homepage" 
+    name: "Homepage"
+    key: 7
+    content: homepage
+    image: side_bar_icon_home.gif
+#  - id :login
+#    title: "Login"
+#    name: "Login"
+#    key: 4
+#    content: login
+#    image: document.png
