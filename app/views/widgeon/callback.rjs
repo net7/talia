@@ -1,1 +1,1 @@
-page.replace_html @widget.id, render_widget
+page.replace_html @widget.global_id, render_widget
