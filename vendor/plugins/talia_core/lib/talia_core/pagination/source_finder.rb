@@ -21,6 +21,8 @@ module TaliaCore
       # case the total_entries options should be provided to the method.
       def paginate(options)
         assit_kind_of(Hash, options)
+        options = options.dup # Creating the pager modifies the options, dup
+                              # them so that there are no side effects on this method
         WillPaginate::Collection.create(*wp_parse_options!(options)) do |pager|
           options.update(:offset => pager.offset, :limit => pager.per_page)
         
