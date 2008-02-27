@@ -9,8 +9,9 @@ class WidgeonController < ApplicationController
   end 
 
   def stylesheet
-    headers['Content-Type'] = Mime::CSS
-    render :file => "#{Widgeon::Widget.path_to_widgets}/#{params[:widget]}/#{params[:widget]}.css"
+    respond_to do |format|
+      format.css { render :file => "#{Widgeon::Widget.path_to_widgets}/#{params[:widget]}/#{params[:widget]}.css" }
+    end
   end
   
   # This handles a callback from a widget
@@ -30,5 +31,4 @@ class WidgeonController < ApplicationController
       redirect_to(redirect_options)
     end
   end
-  
 end
