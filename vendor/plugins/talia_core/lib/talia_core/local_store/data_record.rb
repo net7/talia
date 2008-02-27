@@ -59,6 +59,10 @@ module TaliaCore
       find(:all, :conditions => "source_record_id = #{id}")
     end
     
+    def self.find_by_type_and_location!(source_data_type, location)
+      source_data = self.find(:first, :conditions => ["type = ? AND location = ?", source_data_type.camelize, location])
+      raise ActiveRecord::RecordNotFound if source_data.nil?
+      source_data
+    end
   end
-
 end
