@@ -21,8 +21,8 @@ module TaliaCore
         s1.workflow_state = 0
         s1.primary_source = true
         s1.save!
-        s1.foo::workstate = "0"
-        s1.foo::primary = "true"
+        s1.foo::workstate << "0"
+        s1.foo::primary << "true"
         s1.save!
       end
       setup_once(:s2) do
@@ -30,10 +30,10 @@ module TaliaCore
         s2.workflow_state = 1
         s2.primary_source = false
         s2.save!
-        s2.foo::type = "eatthis"
-        s2.foo::type = "hello"
-        s2.foo::workstate = "1"
-        s2.foo::primary = "false"
+        s2.foo::type << "eatthis"
+        s2.foo::type << "hello"
+        s2.foo::workstate << "1"
+        s2.foo::primary << "false"
         s2.save!
       end
       setup_once(:s3) do
@@ -41,10 +41,10 @@ module TaliaCore
         s3.workflow_state = 1
         s3.primary_source = true
         s3.save!
-        s3.foo::type = "barme"
-        s3.foo::type = "hello"
-        s3.foo::workstate = "1"
-        s3.foo::primary = "true"
+        s3.foo::type << "barme"
+        s3.foo::type << "hello"
+        s3.foo::workstate << "1"
+        s3.foo::primary << "true"
         s3.save!
       end
     end

@@ -193,7 +193,7 @@ module TaliaCore
     
     # Namespaced RDF property
     def test_rdf_namespace_property
-      @valid_source.meetest::something = "somefoo"
+      @valid_source.meetest::something << "somefoo"
       assert_equal(@valid_source.meetest::something[0], "somefoo")
     end
     
@@ -211,7 +211,7 @@ module TaliaCore
     # Relation properties
     def test_rdf_relations
       @valid_source.rel_it = Source.new("http://foobar.com/")
-      assert_kind_of(SourcePropertyList, @valid_source.rel_it)
+      assert_kind_of(PropertyList, @valid_source.rel_it)
       assert_kind_of(Source, @valid_source.rel_it[0])
       assert_equal("http://foobar.com/", @valid_source.rel_it[0].uri.to_s)
     end
@@ -280,7 +280,7 @@ module TaliaCore
     def test_inverse_predicates
       source = TestHelper.make_dummy_source("http://predicate_source/")
       target = TestHelper.make_dummy_source("http://predicate_target/")
-      source.foo::invtest = target
+      source.foo::invtest << target
       assert(target.inverse_predicates.size > 0, "No inverse predicates")
       assert(target.inverse_predicates.include?(N::FOO::invtest), "Inverse predicate not found.")
     end
@@ -385,7 +385,7 @@ module TaliaCore
     def test_assign_unsaved_fail
       src = Source.new("http://fobar.org/unsaved")
       src.workflow_state = 3
-      assert_raise(UnsavedSourceError) { src.meetest::something << "test"  }
+      assert_raise(RuntimeError) { src.meetest::something << "test"  }
     end
     
     # Test find on db element
@@ -489,9 +489,9 @@ module TaliaCore
       target = TestHelper.make_dummy_source("http://inversetest.com/target")
      
       
-      origin.foo::my_friend = target
-      origin.foo::coworker = target
-      origin2.foo::my_friend = target
+      origin.foo::my_friend << target
+      origin.foo::coworker << target
+      origin2.foo::my_friend << target
       
       inverted = target.inverse[N::FOO::coworker]
       assert_equal(1, inverted.size)
@@ -504,7 +504,7 @@ module TaliaCore
     # Test if the save method/db dupes wipes any rdf data
     def test_rdf_safe
       safe = TestHelper.make_dummy_source("http://safehaven.com")
-      safe.foo::some_property = "I should be safe!"
+      safe.foo::some_property << "I should be safe!"
       safe.save!
       safe.workflow_state = 3
       safe.save!

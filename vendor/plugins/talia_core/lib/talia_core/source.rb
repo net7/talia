@@ -6,10 +6,8 @@ require 'query/source_query'
 require 'active_rdf'
 require 'semantic_naming'
 require 'dummy_handler'
-require 'rdf_resource_wrapper'
 require 'rdf_resource'
 require 'rdf_helper'
-require 'source_property_list'
 require 'type_list'
 
 module TaliaCore
@@ -311,18 +309,7 @@ module TaliaCore
     # Example: <tt>person.inverse[N::FOO::creator]</tt> would return a list of
     # all the elements of which the current person is the creator.
     def inverse
-      my_inverse = Object.new
-      my_inverse.instance_variable_set(:@rdf_inverse, @rdf_resource.inverse)
-      
-      class << my_inverse
-        include RdfHelper
-        
-        def [](pred_uri)
-          to_sources(@rdf_inverse[pred_uri.to_s])
-        end
-      end
-      
-      return my_inverse
+      @rdf_resource.inverse
     end
     
     # Accessor that allows to lookup a namespace/name combination. This works like
@@ -432,6 +419,15 @@ module TaliaCore
       value.is_a?(Source) && (value.uri == uri)
     end
     
+    # Add the uri call to the respond_to?
+    def respond_to?(symbol, include_private=true)
+      if(symbol == :uri)
+        true
+      else
+        super(symbol, include_private)
+      end
+    end
+    
     protected
     
     
@@ -457,7 +453,7 @@ module TaliaCore
         if(item == :type)
           N::RDF::type
         else
-          (N::TALIA_DB + item.to_s).to_s
+          (N::TALIA_DB + item.to_s)
         end
       end
       
@@ -496,7 +492,7 @@ module TaliaCore
       @source_record = existing_record
       
       # Create the RDF object
-      @rdf_resource = RdfResourceWrapper.new(existing_record.uri.to_s)  
+      @rdf_resource = RdfResource.new(existing_record.uri.to_s)  
     end
   
     # Creates a brand new Source object
@@ -507,7 +503,7 @@ module TaliaCore
       @source_record = SourceRecord.new(uri.to_s)
       
       # Contains the interface to the ActiveRDF 
-      @rdf_resource = RdfResourceWrapper.new(uri.to_s)
+      @rdf_resource = RdfResource.new(uri.to_s)
       
       # Insert the types
       for type in new_types do
@@ -523,7 +519,7 @@ module TaliaCore
         @rdf_resource[Source::db_item_to_rdf(col)] << @source_record[col]
       end
       # Write the types
-      types.each { |type| @rdf_resource[N::RDF::type] << Source.new(type) }
+      types.each { |type| @rdf_resource.types << N::SourceClass.new(type) }
    
       @rdf_resource.save
     end
@@ -533,11 +529,14 @@ module TaliaCore
     def remove_db_dupes!
       db_columns_each do |col|
         db_dupe = @rdf_resource[Source::db_item_to_rdf(col)]
+        db_dupe.writeable = true # make the list writeable, even if the Source doesn't exist
         db_dupe.remove
       end
       
       # Remove the types
-      @rdf_resource[N::RDF::type].remove
+      types = @rdf_resource.types
+      types.writeable = true # see above
+      types.remove
       
       @rdf_resource.save
     end
@@ -648,15 +647,6 @@ module TaliaCore
         @rdf_resource[predicate.to_s] << args[-1]
       else
         @rdf_resource[predicate.to_s]
-      end
-    end
-    
-    # Adds the respond_to? for the uri property
-    def respond_to?(method)
-      if(method == :uri)
-        true
-      else
-        super(method)
       end
     end
     

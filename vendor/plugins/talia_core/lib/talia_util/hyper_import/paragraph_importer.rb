@@ -23,7 +23,7 @@ module TaliaUtil
             create_note(page, position, coordinates)
             
           rescue RuntimeError => e
-            assit_fail("Error #{e} during relation import, possibly malformed XML?")
+            assit_fail("Error '#{e}' during relation import, possibly malformed XML?")
           end
         end
       end
@@ -37,7 +37,7 @@ module TaliaUtil
         # Check if the note already exists - this should never happen!
         if(!TaliaCore::Source.exists?(note_name))
           note = get_source(note_name, N::HYPER + 'Note')
-          note.hyper::position = position
+          note.hyper::position << position
           # Add a relation to the page
           add_source_rel(N::HYPER::page, page, note)
           

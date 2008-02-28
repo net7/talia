@@ -20,12 +20,12 @@ module TaliaCore
     end
     
     def test_create
-      res = RdfResource.new("http://resource_created_test/")
+      res = make_dummy_resource("http://resource_created_test/")
       assert_equal("http://resource_created_test/", res.uri)
     end
     
     def test_assign_property
-      res = RdfResource.new("http://test_assign_property")
+      res = make_dummy_resource("http://test_assign_property")
       res["http://dummyres.org"] << "foo"
       prop = res["http://dummyres.org"]
       assert_equal(1, prop.size)
@@ -33,7 +33,7 @@ module TaliaCore
     end
     
     def test_assign_source_relation
-      res = RdfResource.new("http://test_assign_source_relation")
+      res = make_dummy_resource("http://test_assign_source_relation")
       res["http://dummyrel"] << Source.new("http://dummyrelatedsource")
       prop = res["http://dummyrel"]
       assert_equal(1, prop.size)
@@ -42,18 +42,31 @@ module TaliaCore
     end
     
     def test_types
-      res = RdfResource.new("http://test_types")
+      res = make_dummy_resource("http://test_types")
       res.types << N::SourceClass.new(N::RDF::test)
-      assert_equal(2, res.types.size)
-      assert(!res.types.include?(N::RDF::foo))
+      assert_equal(RdfResource.default_types.size + 1, res.types.size, "Wrong number of types: #{res.types}")
+      assert(!res.types.include?(N::RDF::foo)) # negative check, just to be sure
       assert(res.types.include?(N::RDF::test))
       assert_kind_of(N::SourceClass, res.types[0])
-      assert(res.types.include?(N::RDFS.Resource))
+      # check the default types
+      RdfResource.default_types.each do |def_type|
+        assert(res.types.include?(def_type))
+      end
+    end
+    
+    def test_default_types
+      # Check if there are the default types on a freshly created resource
+      res = RdfResource.new("http://test_default_types")
+      assert_equal(RdfResource.default_types.size, res.types.size)
+    end
+    
+    def test_default_types
+      
     end
     
     def test_inverse
-      target = RdfResource.new("http://test_target")
-      source = RdfResource.new("http://test.source")
+      target = make_dummy_resource("http://test_target")
+      source = make_dummy_resource("http://test.source")
       source[N::RDF::foo] << target
       props = target.inverse[N::RDF::foo]
       assert_equal(1, props.size)
@@ -62,7 +75,7 @@ module TaliaCore
     end
     
     def test_save
-      res = RdfResource.new("http://test_save")
+      res = make_dummy_resource("http://test_save")
       res[N::RDF::test] << "foo"
       res.save
       
@@ -70,6 +83,14 @@ module TaliaCore
       rdfs_prop = Query.new(N::SourceClass).distinct(:t).where(res,N::RDF::type,:t).execute
       assert_equal(1, rdfs_prop.size)
       assert_equal(N::RDFS.Resource, rdfs_prop.first)
+    end
+    
+    private
+    
+    # Make a dummy resource with a saved source in the background
+    def make_dummy_resource(uri)
+      TestHelper.make_dummy_source(uri)
+      RdfResource.new(uri)
     end
     
   end

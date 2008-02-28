@@ -28,7 +28,7 @@ module TaliaUtil
     # a value is an N::URI, this will assert if the property refers to the 
     # Source given by the URI.
     def assert_property(property, *values)
-      assert_kind_of(TaliaCore::SourcePropertyList, property) # Just to be sure
+      assert_kind_of(PropertyList, property) # Just to be sure
       assert_equal(values.size, property.size, "Expected #{values.size} values instead of #{property.size}")
       values = values.collect { |value| value.is_a?(N::URI) ? TaliaCore::Source.new(value) : value }
       property.each do |value|

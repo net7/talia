@@ -30,7 +30,7 @@ module TaliaCore
       
       property_list = Query.new(TaliaCore::Source).distinct(:o).where(self, predicate, :o).execute
       
-      PropertyList.new(predicate, property_list, self)
+      PropertyList.new(predicate, property_list, self, source_exists?)
     end
     
     # Returns an on-the-fly object that can be used to query for "inverse"
@@ -85,10 +85,13 @@ module TaliaCore
     # Returns the types of this resource as N::SourceClass objects
     def types
       types = Query.new(N::SourceClass).distinct(:t).where(self,N::RDF::type,:t).execute
-      uniq_types = (types + self.class.default_types).uniq # Add the default types to the list
+      # Add the "default" types if necessary
+      self.class.default_types.each do |def_type|
+        types << def_type unless(types.include?(def_type))
+      end
       
       # Make a property list for the types.
-      PropertyList.new(N::RDF::type, uniq_types, self)
+      PropertyList.new(N::RDF::type, types, self, source_exists?)
     end
     
     private
@@ -112,6 +115,11 @@ module TaliaCore
       Query.new(N::URI).distinct(:p,:o).where(self, :p, :o).execute do |p, o|
         db.add(self, p, o)
       end
+    end
+    
+    # Returns true if the corresponding Source already exists in the database
+    def source_exists?
+      Source.exists?(@uri)
     end
     
   end

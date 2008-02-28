@@ -16,7 +16,7 @@ module TaliaCore
     # Create the new handler
     def initialize(uri, rdf_resource)
       assit_kind_of(N::URI, uri)
-      assit_kind_of(RdfResourceWrapper, rdf_resource)
+      assit_kind_of(RdfResource, rdf_resource)
       
       @uri = uri.to_s
       @rdf_resource = rdf_resource
@@ -24,15 +24,12 @@ module TaliaCore
     
     # Catch the invocations
     def method_missing(method, *args)
-      if method.to_s[-1..-1] == '='
-        # set value
-        raise(SemanticNamingError, "Wrong number of arguments") if(args.size != 1)
-        @rdf_resource[@uri + method.to_s[0..-2]] << args[0]
-      else
-        # read value
-        raise(SemanticNamingError, "Wrong number of arguments") if(args.size != 0)
-        @rdf_resource[@uri + method.to_s] 
-      end
+      # read value
+      raise(SemanticNamingError, "Wrong number of arguments") if(args.size != 0)
+      @rdf_resource[@uri + method.to_s]
     end
+    
+    # remove the type call
+    private :type
   end
 end
