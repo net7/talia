@@ -6,7 +6,7 @@ require File.join(File.dirname(__FILE__), '..', 'test_helper')
 module TaliaCore
   
   # Test the RdfResource class
-  class SourceTest < Test::Unit::TestCase
+  class RdfResourceTest < Test::Unit::TestCase
  
     # Establish the database connection for the test
     TestHelper.startup
