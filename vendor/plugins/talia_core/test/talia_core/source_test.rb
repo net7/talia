@@ -20,7 +20,6 @@ module TaliaCore
       setup_once(:flush) do
         TestHelper.flush_rdf
         TestHelper.flush_db
-        print RDFS::Resource.find_all
         true
       end
       

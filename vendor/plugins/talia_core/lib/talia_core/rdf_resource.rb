@@ -12,7 +12,7 @@ module TaliaCore
       # A list of "default" types that will be added to all resources
       def default_types
         @default_types ||= [
-          N::SourceClass.new(N::RDFS::resource)
+          N::SourceClass.new(N::RDFS.Resource)
         ]
       end
       
@@ -26,11 +26,11 @@ module TaliaCore
     # Returns the value(s) of the given predicates as a PropertyList filled
     # with TaliaCore::Source objects.
     def [](predicate)
-      property = N::URI.new(predicate) unless(predicate.kind_of?(N::URI))
+      predicate = N::URI.new(predicate) unless(predicate.kind_of?(N::URI))
       
-      property_list = Query.new(TaliaCore::Source).distinct(:o).where(self, property, :o).execute
+      property_list = Query.new(TaliaCore::Source).distinct(:o).where(self, predicate, :o).execute
       
-      PropertyList.new(property, property_list, self)
+      PropertyList.new(predicate, property_list, self)
     end
     
     # Returns an on-the-fly object that can be used to query for "inverse"
@@ -49,8 +49,8 @@ module TaliaCore
       
       class <<inverseobj     
         
-        def [](property_uri)
-          property = N::URI.new(property_uri) unless(property_uri.kind_of?(N::URI))
+        def [](property)
+          property = N::URI.new(property) unless(property.kind_of?(N::URI))
           Query.new(TaliaCore::Source).distinct(:s).where(:s, property, @obj_uri).execute
         end
         private(:type)
@@ -85,13 +85,17 @@ module TaliaCore
     # Returns the types of this resource as N::SourceClass objects
     def types
       types = Query.new(N::SourceClass).distinct(:t).where(self,N::RDF::type,:t).execute
-      (types + self.class.default_types).uniq # Add the default types to the list
+      uniq_types = (types + self.class.default_types).uniq # Add the default types to the list
+      
+      # Make a property list for the types.
+      PropertyList.new(N::RDF::type, uniq_types, self)
     end
     
     private
     
     # Saves the the "default" types of this resource to the writing adapter
     def save_default_types
+      db = ConnectionPool.write_adapter
       self.class.default_types.each do |t|
         db.add(self, N::RDF::type, t)
       end

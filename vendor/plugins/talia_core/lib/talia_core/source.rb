@@ -7,6 +7,7 @@ require 'active_rdf'
 require 'semantic_naming'
 require 'dummy_handler'
 require 'rdf_resource_wrapper'
+require 'rdf_resource'
 require 'rdf_helper'
 require 'source_property_list'
 require 'type_list'
@@ -649,6 +650,16 @@ module TaliaCore
         @rdf_resource[predicate.to_s]
       end
     end
+    
+    # Adds the respond_to? for the uri property
+    def respond_to?(method)
+      if(method == :uri)
+        true
+      else
+        super(method)
+      end
+    end
+    
     
     # Build an rdf/xml string for one predicate
     def predicate_rdf(predicate, builder)
