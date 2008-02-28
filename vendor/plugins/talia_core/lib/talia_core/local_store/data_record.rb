@@ -60,6 +60,11 @@ module TaliaCore
     end
     
     def self.find_by_type_and_location!(source_data_type, location)
+      # TODO: Should it directly instantiate the STI sub-class?
+      # In this case we should use the following line instead.
+      #
+      # source_data = source_data_type.classify.constantize.find_by_location(location, :limit => 1)
+      #
       source_data = self.find(:first, :conditions => ["type = ? AND location = ?", source_data_type.camelize, location])
       raise ActiveRecord::RecordNotFound if source_data.nil?
       source_data
