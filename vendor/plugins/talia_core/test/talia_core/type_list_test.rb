@@ -1,8 +1,7 @@
 require 'test/unit'
-require File.dirname(__FILE__) + "/../lib/talia_core"
 
 # Load the helper class
-require File.dirname(__FILE__) + '/test_helper'
+require File.join(File.dirname(__FILE__), '..', 'test_helper')
 
 module TaliaCore
   

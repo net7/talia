@@ -1,7 +1,7 @@
 module TaliaCore
   
   # This represents the types of a Source object. Each TypeList is 
-  # bound to one Source object and the 
+  # bound to one Source object.
   class TypeList
 
     # make this enumerable

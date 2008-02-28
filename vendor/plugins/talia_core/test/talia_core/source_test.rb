@@ -1,8 +1,7 @@
 require 'test/unit'
-require File.dirname(__FILE__) + "/../lib/talia_core"
 
 # Load the helper class
-require File.dirname(__FILE__) + '/test_helper'
+require File.join(File.dirname(__FILE__), '..', 'test_helper')
 
 module TaliaCore
   
@@ -283,8 +282,8 @@ module TaliaCore
       source = TestHelper.make_dummy_source("http://predicate_source/")
       target = TestHelper.make_dummy_source("http://predicate_target/")
       source.foo::invtest = target
-      assert_equal(1, target.inverse_predicates.size)
-      assert_equal(N::FOO::invtest, target.inverse_predicates[0])
+      assert(target.inverse_predicates.size > 0, "No inverse predicates")
+      assert(target.inverse_predicates.include?(N::FOO::invtest), "Inverse predicate not found.")
     end
     
     # Test the Array accessor

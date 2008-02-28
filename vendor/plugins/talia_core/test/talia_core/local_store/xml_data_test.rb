@@ -1,7 +1,7 @@
 require 'test/unit'
 
 # Load the helper class
-require File.join(File.dirname(__FILE__), 'test_helper')
+require File.join(File.dirname(__FILE__), '..', '..', 'test_helper')
 
 module TaliaCore
 
@@ -13,7 +13,7 @@ module TaliaCore
      
     def setup
       # Sets the file that is used by one test
-      setup_once(:tmp_file) { File.expand_path(File.join(File.dirname(__FILE__), 'data_for_test', 'XmlData', 'temp0.xhtml')) }
+      setup_once(:tmp_file) { File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'data_for_test', 'XmlData', 'temp0.xhtml')) }
       setup_once(:flush) do
         # If the temp file already exists, it must be deleted
         File.delete(@tmp_file) if(File.exist?(@tmp_file))
@@ -50,7 +50,7 @@ module TaliaCore
     
     # test data directory
     def test_data_directory
-      base_dir_name = File.expand_path(File.join(File.dirname(__FILE__), 'data_for_test', 'XmlData'))
+      base_dir_name = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'data_for_test', 'XmlData'))
       dir_for_test  = File.expand_path(@test_records[2].data_directory)
       assert_equal(base_dir_name, dir_for_test)
       assert(File.exists?(dir_for_test))
