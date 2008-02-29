@@ -7,7 +7,6 @@ require 'active_rdf'
 require 'semantic_naming'
 require 'dummy_handler'
 require 'rdf_resource'
-require 'rdf_helper'
 require 'type_list'
 
 module TaliaCore

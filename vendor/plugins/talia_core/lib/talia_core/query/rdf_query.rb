@@ -98,7 +98,7 @@ module TaliaCore
         raw_results = {}
         @operands.each do |op|
           op_results = op.execute(false)
-          op_results.each { |res| raw_results[res.uri.to_sym] = res }
+          op_results.each { |res| raw_results[res.uri.to_s.to_sym] = res }
         end
         raw_results.values
       else

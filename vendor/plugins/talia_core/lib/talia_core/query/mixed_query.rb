@@ -84,7 +84,7 @@ module TaliaCore
     # This is used for mixed :AND queries
     def execute_and
       # Find the resources from RDF
-      resources = @rdf_query.execute_raw.collect { |res| res.uri }
+      resources = @rdf_query.execute.collect { |res| res.uri.to_s }
       # Build the SQL query condition
       conditions = @db_query.get_conditions()
       conditions += " AND ( #{SourceRecord::sanitize_sql({:uri => resources})} )"
@@ -99,10 +99,10 @@ module TaliaCore
       # We use a hash to eliminate duplicate results
       result_hash = {}
       # First add the rdf results 
-      @rdf_query.execute_raw.collect { |res| result_hash[res.uri.to_sym] = res.uri }
+      @rdf_query.execute.collect { |res| result_hash[res.uri.to_s.to_sym] = res }
       # Then add the db results
-      @db_query.execute_raw.collect { |s_rec| result_hash[s_rec.uri.to_s.to_sym] = s_rec }
-      result_hash.values.collect{ |res| Source.new(res) }
+      @db_query.execute.collect { |s_rec| result_hash[s_rec.uri.to_s.to_sym] = s_rec }
+      result_hash.values
     end
     
   end
