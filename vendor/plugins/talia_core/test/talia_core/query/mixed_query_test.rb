@@ -69,7 +69,7 @@ module TaliaCore
       assert_equal(2, results.size)
       assert(results[0].uri.to_s == "http://foo_three" || results[0].uri.to_s == "http://foo_one")
       assert(results[1].uri.to_s == "http://foo_three" || results[1].uri.to_s == "http://foo_one")
-      assert_not_equal(results[0].uri.to_s, results[1].uri_to_s)
+      assert_not_equal(results[0].uri.to_s, results[1].uri.to_s)
     end
     
     # Test a more complex or operation
@@ -92,7 +92,7 @@ module TaliaCore
       assert_equal(2, results.size)
       assert(results[0].uri.to_s == "http://foo_three" || results[0].uri.to_s == "http://foo_two")
       assert(results[1].uri.to_s == "http://foo_three" || results[1].uri.to_s == "http://foo_two")
-      assert_not_equal(results[0].uri.to_s, results[1].uri_to_s)
+      assert_not_equal(results[0].uri.to_s, results[1].uri.to_s)
     end
     
     

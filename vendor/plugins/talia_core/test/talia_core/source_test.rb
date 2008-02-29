@@ -177,18 +177,11 @@ module TaliaCore
       assert_raises(ActiveRecord::RecordNotFound) { Source.find("xxxx") }
     end
     
-    # Default RDF property
-    def test_rdf_default_property
-      @valid_source.author = "foobar"
-      assert_equal(@valid_source.author[0], "foobar")
-      assert_equal(@valid_source.default::author[0], "foobar")
-    end
-    
     # Direct RDF property
     def test_rdf_direct_property
-      @valid_source.test_predicate = "moofoo"
-      assert_equal(@valid_source.test_predicate[0], "moofoo")
-      assert_equal(0, @valid_source.default::test_predicate.size)
+      @valid_source.default::test_predicate << "moofoo"
+      assert_equal(@valid_source.default::test_predicate[0], "moofoo")
+      assert_equal(1, @valid_source.default::test_predicate.size)
     end
     
     # Namespaced RDF property
@@ -197,31 +190,25 @@ module TaliaCore
       assert_equal(@valid_source.meetest::something[0], "somefoo")
     end
     
-    # Generic URI property
-    def test_rdf_generic_uri
-      @valid_source.test_uri = "bar"
-      assert_equal("bar", @valid_source.test_uri[0])
-    end
-    
     # Check disallowed cases for RDF
     def test_rdf_fail
-      assert_raise(SemanticNamingError) { @valid_source.test_predicate("foo") }
+      assert_raise(ArgumentError) { @valid_source.test_predicate("foo") }
     end
     
     # Relation properties
     def test_rdf_relations
-      @valid_source.rel_it = Source.new("http://foobar.com/")
-      assert_kind_of(PropertyList, @valid_source.rel_it)
-      assert_kind_of(Source, @valid_source.rel_it[0])
-      assert_equal("http://foobar.com/", @valid_source.rel_it[0].uri.to_s)
+      @valid_source.default::rel_it << Source.new("http://foobar.com/")
+      assert_kind_of(PropertyList, @valid_source.default::rel_it)
+      assert_kind_of(Source, @valid_source.default::rel_it[0])
+      assert_equal("http://foobar.com/", @valid_source.default::rel_it[0].uri.to_s)
     end
     
     # RDF load and save
     def test_rdf_save_load
-      @valid_source.hero = "napoleon"
+      @valid_source.default::hero << "napoleon"
       @valid_source.save
       loaded = Source.find(@valid_source.uri)
-      assert_equal("napoleon", loaded.hero[0])
+      assert_equal("napoleon", loaded.default::hero[0])
     end
     
     # Exists for local sources
@@ -259,7 +246,7 @@ module TaliaCore
       source.workflow_state = 1
       source.primary_source = false
       source.save!
-      source.author = "napoleon"
+      source.default::author << "napoleon"
       source.save!
       print source.to_xml
       print source.to_rdf # also check rdf
@@ -268,7 +255,7 @@ module TaliaCore
     # Test for direct predicates
     def test_direct_predicates
       my_source = TestHelper.make_dummy_source("http://direct_predicate_haver/")
-      my_source.author = "napoleon"
+      my_source.default::author << "napoleon"
       # Expected size of direct predicates: One for the predicate set above
       # one for the rdf:type and one for each database dummy
       expected_size = SourceRecord.content_columns.size + 2

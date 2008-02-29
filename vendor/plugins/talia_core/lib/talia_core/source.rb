@@ -559,21 +559,11 @@ module TaliaCore
     # corresponds to a valid database attribute. In this case,
     # the call will be passed to the database.
     #
-    # Otherwise, the call goes to the RDF store, as explained below.
+    # Otherwise it checks if the name corresponds to a namespace. In this case
+    # it returns a namespace dummy-handler on which properties can be requested.
+    # (e.g. <tt>source.dcns::title</tt>)
     # 
-    # There are 3 possibilities for RDF, which are processed in that order:
-    # 
-    # 1. The method name is a shortcut for a PredicateType. In that
-    #    case, we use that predicate for the resource. We don't expect
-    #    any arguments.
-    #    OR
-    #    The method name is a shortcut for a generic URI, in which case we
-    #    use it like a predicate
-    # 2. The method name is the shortcut for a Namespace. In that case,
-    #    we expect an argument which can be appended to the Namespace
-    #    as a string
-    # 3. The method name is unknown, in which case we use it in the
-    #    default namespace.
+    # If the name is not a namespace, the call will fail normally.
     def method_missing(method_name, *args)
       # TODO: Add permission checking for all updates to the model
       # TODO: Add permission checking for read access?
@@ -585,8 +575,6 @@ module TaliaCore
       else
         method_name.to_s
       end
-      
-      arg_count = update ? (args.size - 1) : args.size
       
       # Check if this call should go to the db
       if(@source_record.attribute_names.include?(shortcut.to_s))
@@ -618,33 +606,11 @@ module TaliaCore
       
       # Otherwise, check for the RDF predicate
       registered = N::URI[shortcut.to_s]
-      predicate = nil
       
-      if(!registered)
-        # Possibility 4.
-        predicate = N::DEFAULT + shortcut.to_s
-      elsif(registered.kind_of?(N::Namespace))
-        # Possibility 2.
-        raise(SemanticNamingError, "Namespace invoked incorrectly") if(arg_count != 0)
-        # Return "dummy handler" that will catch the namespace::name invocation
-        return DummyHandler.new(registered, @rdf_resource)
-      elsif(registered.kind_of?(N::SourceClass))
-        raise(SemanticNamingError, "Can't use source class as a predicate.")
-      elsif(registered.kind_of?(N::URI))
-        # Possibility 1.: Predicate or generic URI
-        raise(SemanticNamingError, "No additional parameters can be given with predicate") if(arg_count != 0)
-        predicate = registered
-      else
-        # Error: Wrong type
-        raise(SemanticNamingError, "Unexpected type in semantic naming")
-      end
+      return super(method_name, *args) unless(registered) # normal handler if not a registered uri
+      raise(ArgumentError, "Must give a namspace as argument") unless(registered.is_a?(N::Namespace))
       
-      if update
-        raise_if_unsaved
-        @rdf_resource[predicate.to_s] << args[-1]
-      else
-        @rdf_resource[predicate.to_s]
-      end
+      DummyHandler.new(registered, @rdf_resource)
     end
     
     
