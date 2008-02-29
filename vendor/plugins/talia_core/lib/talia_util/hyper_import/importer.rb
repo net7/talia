@@ -300,6 +300,13 @@ end
 # Require all the importer class files from this directory
 # This automatically loads all files with importer classes
 $: << File.expand_path(File.dirname(__FILE__))
+
+# Require the superclasses first, cause the other depend on them
+# Require importer superclasses
+require File.join('contribution_importer')
+
+# Now require all the importes (requires the superclasses again, but no worries
+# that's what require is for ;-)
 Dir.entries(File.expand_path(File.dirname(__FILE__))).each do |file|
   if(file =~ /_importer\.rb$/)
     require file

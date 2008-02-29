@@ -1,5 +1,3 @@
-require 'contribution_importer'
-
 module TaliaUtil
   
   module HyperImporter
