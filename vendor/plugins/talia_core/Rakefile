@@ -18,7 +18,7 @@ end
 
 desc "Migrate the database through scripts in db/migrate. Target specific version with VERSION=x"  
 task :migrate => "talia_core:talia_init" do
-  do_migrations 
+  Util::do_migrations 
   puts "Migrations done."
 end  
 
@@ -108,4 +108,4 @@ end
 desc 'Default: run unit tests.'
 task :default => 'cruise'
 
-task :cruise => ['local_migrations', 'talia_core:test', 'talia_core:rdoc']
+task :cruise => ['migrate', 'talia_core:test', 'talia_core:rdoc']
