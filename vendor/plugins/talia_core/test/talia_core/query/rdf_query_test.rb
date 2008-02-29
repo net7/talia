@@ -131,7 +131,7 @@ module TaliaCore
       qry3 = RdfQuery.new(:EXPRESSION, N::FOO::primary, "true")
       qry = RdfQuery.new(:OR, qry1, qry2, qry3)
       result = qry.execute
-      assert_equal(3, result.size)
+      assert_equal(3, result.size, "Illegal result size: #{result}")
     end
     
     # Test query with nested options. This also tests the and and or

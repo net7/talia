@@ -78,22 +78,15 @@ module TaliaCore
       @offset = value
     end
     
-    # Executes the query. This will return a list of Source objects for the
-    # elements found in the RDF store
-    def execute
-      raw_results = execute_raw
-      raw_results.collect { |resource| Source.new(resource.uri) }
-    end
     
-    # Executes the "raw" query. In this case, this means that a list of 
-    # RDFS::Resource objects will be returned
+    # Executes the query.
     # 
     # The use_limits parameter is used to enable the use of the 
     # LIMIT and OFFSET options
-    def execute_raw(use_limit = true)
+    def execute(use_limit = true)
       case(operation)
       when :AND, :EXPRESSION
-        qry = Query.new.distinct.select(:s)
+        qry = Query.new(Source).distinct.select(:s)
         patterns = get_where_pattern
         patterns.each { |pat| qry.where(*pat) }
         qry.limit(limit) if(limit && use_limit)
@@ -104,7 +97,7 @@ module TaliaCore
         # A hash is used to ensure each result is added only once 
         raw_results = {}
         @operands.each do |op|
-          op_results = op.execute_raw(false)
+          op_results = op.execute(false)
           op_results.each { |res| raw_results[res.uri.to_sym] = res }
         end
         raw_results.values
@@ -118,16 +111,8 @@ module TaliaCore
     def get_where_pattern
       case(operation)
       when :EXPRESSION
-        predicate = RDFS::Resource.new(@property.to_s)
-        # Check if we need to treat the value as a resource
-        object = if(@value.is_a?(Source)) 
-          RDFS::Resource.new(@value.uri.to_s) 
-        elsif(@value.kind_of?(N::URI))
-          RDFS::Resource.new(@value.to_s)
-        else
-          @value
-        end
-        [[:s, predicate, object]]
+        predicate = N::Predicate.new(@property.to_s)
+        [[:s, predicate, @value]]
       when :AND
         patterns = []
         @operands.each { |op| patterns.concat(op.get_where_pattern) }

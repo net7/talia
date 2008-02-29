@@ -60,8 +60,19 @@ module TaliaCore
       assert_equal(RdfResource.default_types.size, res.types.size)
     end
     
-    def test_default_types
-      
+    def test_direct_predicates
+      res = make_dummy_resource("http://test_predicates")
+      res[N::RDFS::test_pred] << "foo"
+      assert(res.direct_predicates.size > 0, "No direct_predicates found")
+      assert(res.direct_predicates.include?(N::RDFS::test_pred), "test predicate not found")
+    end 
+    
+    def test_inverse_predicates
+      target = make_dummy_resource("http://test_pred_target")
+      source = make_dummy_resource("http://test_pred_source")
+      source[N::RDF::test_pred_rel] << target
+      assert(target.inverse_predicates.size > 0, "No inverse predicate found")
+      assert(target.inverse_predicates.include?(N::RDF::test_pred_rel))
     end
     
     def test_inverse

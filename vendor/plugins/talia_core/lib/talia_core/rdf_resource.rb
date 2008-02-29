@@ -70,6 +70,14 @@ module TaliaCore
       Query.new(N::Predicate).distinct(:p).where(self, :p, :o).execute
     end
     
+    # Returns the "inverse" predicates for the resource. these are the predicates
+    # for which this resource exists as an object
+    def inverse_predicates
+      qry = Query.new.distinct.select(:p)
+      qry.where(:s, :p, N::URI.new(uri.to_s))
+      qry.execute.collect{ |res| N::Predicate.new(res.uri) }
+    end
+    
     # Saves the current resource and it's properties to the RDF. (This has
     # been optimized so that if only one RDF backend is present it won't do
     # any copying around.

@@ -259,9 +259,7 @@ module TaliaCore
     # Returns an array of the "inverse" predicates of this source. These are
     # the predicates for which this source exists as an object
     def inverse_predicates
-      qry = Query.new.distinct.select(:p)
-      qry.where(:s, :p, RDFS::Resource.new(uri.to_s))
-      qry.execute.collect{ |res| N::Predicate.new(res.uri) }
+      @rdf_resource.inverse_predicates
     end
     
     # Returns a TypeList with the types of this Source
