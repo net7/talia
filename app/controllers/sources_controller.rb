@@ -1,10 +1,11 @@
 class SourcesController < ApplicationController
+  include TaliaCore
   # GET /sources
   # GET /sources.xml
   def index
     # For "normal" operations, we just create a pager
     @source_options = { :page => 1, :per_page => 10 }
-    @sources = TaliaCore::Source.paginate(@source_options)
+    @sources = Source.paginate(@source_options)
     
     respond_to do |format|
       format.html # index.html.erb
@@ -15,7 +16,7 @@ class SourcesController < ApplicationController
   # GET /sources/1
   # GET /sources/1.xml
   def show
-    @source = TaliaCore::Source.find(params[:id])
+    @source = Source.find(params[:id])
     @page_subtitle = @source.uri.to_s
     respond_to do |format|
       format.html # show.html.erb
@@ -27,7 +28,7 @@ class SourcesController < ApplicationController
   # GET /sources/1/name
   def show_attribute
     headers['Content-Type'] = Mime::TEXT
-    attribute = TaliaCore::Source.find(params[:id])[params[:attribute]]
+    attribute = Source.find(params[:id])[params[:attribute]]
     status = '404 Not Found' if attribute.nil?
     render :text => attribute.to_s, :status => status
   end
@@ -35,7 +36,7 @@ class SourcesController < ApplicationController
   # GET /sources/1/foaf/friend
   def show_rdf_predicate
     headers['Content-Type'] = Mime::TEXT
-    predicates = TaliaCore::Source.find(params[:id]).predicates(params[:namespace], params[:predicate])
+    predicates = Source.find(params[:id]).predicate(params[:namespace], params[:predicate])
     if predicates.nil?
       # This is a workaround: when predicates is nil it tries to render a template with the name of this method.
       predicates = ''

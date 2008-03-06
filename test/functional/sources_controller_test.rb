@@ -81,7 +81,7 @@ class SourcesControllerTest < Test::Unit::TestCase
   end
   
   # SHOW_RDF_PREDICATE
-  def _ignore_test_show_rdf_predicate_with_wrong_params
+  def test_show_rdf_predicate_with_wrong_params
     # empty params
     assert_raise(QueryError) { get :show_rdf_predicate, {} }
     
@@ -91,7 +91,7 @@ class SourcesControllerTest < Test::Unit::TestCase
     
     # unexistent namespace
     source = TaliaCore::Source.find(@source_name)
-    source.myns::predicate = 'some value'
+    source.myns::predicate << 'some value'
     params = params.merge(:id => @source_name, :namespace => 'foo')
     get :show_rdf_predicate, params
     
@@ -100,9 +100,9 @@ class SourcesControllerTest < Test::Unit::TestCase
     get :show_rdf_predicate, params
   end
     
-  def _ignore_test_show_rdf_predicate
+  def test_show_rdf_predicate
     source = TaliaCore::Source.find(@source_name)
-    source.foaf::friend = 'a friend'
+    source.foaf::friend << 'a friend'
     params = {:id => @source_name, :namespace => 'foaf', :predicate => 'friend'}
     get :show_rdf_predicate, params
     assert_response :success
