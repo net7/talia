@@ -6,8 +6,6 @@ quentin:
   crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
   created_at: <%= 5.days.ago.to_s :db %>
 
-
-
 aaron:
   id: 2
   login: aaron
@@ -16,4 +14,9 @@ aaron:
   crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
   created_at: <%= 1.days.ago.to_s :db %>
 
-
+admin:
+  id: 3
+  login: admin
+  email: admin@talia.org
+  salt: c8d13be260ba82f798b06f100152d347cc4840ba
+  crypted_password: ccc2e10b38106d5833fb817407973a996d392310

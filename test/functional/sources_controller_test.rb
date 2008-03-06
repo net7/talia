@@ -81,7 +81,7 @@ class SourcesControllerTest < Test::Unit::TestCase
   end
   
   # SHOW_RDF_PREDICATE
-  def test_show_rdf_predicate_with_wrong_params
+  def _ignore_test_show_rdf_predicate_with_wrong_params
     # empty params
     assert_raise(QueryError) { get :show_rdf_predicate, {} }
     
@@ -100,96 +100,11 @@ class SourcesControllerTest < Test::Unit::TestCase
     get :show_rdf_predicate, params
   end
     
-  def test_show_rdf_predicate
+  def _ignore_test_show_rdf_predicate
     source = TaliaCore::Source.find(@source_name)
     source.foaf::friend = 'a friend'
     params = {:id => @source_name, :namespace => 'foaf', :predicate => 'friend'}
     get :show_rdf_predicate, params
     assert_response :success
-  end
-  
-  # NEW
-  def test_new
-    get :new, {}
-    
-    # No content checks, the pages change too often
-  end
-  
-  # EDIT
-  def test_edit_without_the_source_name
-    assert_raise(QueryError) { get :edit, {} }
-  end
-  
-  def test_edit_with_wrong_source_name
-    assert_raise(ActiveRecord::RecordNotFound) { get :edit, {:id => @unexistent_name} }
-  end
-  
-  def test_edit
-    get :edit, {:id => @source_name}
-    
-    assert_select 'h1', 'Edit source'
-    assert_select "form[method=?]", "post"
-    assert_select "form[action=?]", "/sources/something?html%5Bmethod%5D=put"
-    assert_select 'form' do
-      assert_select "p",                    :count => 4
-      assert_select "label",                :count => 4
-      assert_select "select",               :count => 1
-      assert_select "input[type=text]",     :count => 3
-      assert_select "input[type=submit]",   :count => 1
-      assert_select "select[id=source_primary_source]" do
-        assert_select "option", :count => 2
-      end
-    end
-    assert_select "a[href=/sources]"
-    assert_select "a[href=/sources/#{@source_name}]"
-  end
-  
-  # UPDATE
-  def test_update_without_the_source_name
-    assert_raise(QueryError) { put :update, {} }
-  end
-  
-  def test_update_with_wrong_source_name
-    assert_raise(ActiveRecord::RecordNotFound) { put :update, {:id => @unexistent_name} }
-  end
-  
-  def test_update_wrong_http_verbs
-    get     :update, {:id => @source_name}
-    assert_response :redirect
-    post    :update, {:id => @source_name}
-    assert_response :redirect
-    delete  :update, {:id => @source_name}
-    assert_response :redirect
-  end
-  
-  def test_update
-    source = TaliaCore::Source.find(@source_name)
-    source.name = 'updated name'
-    params = {:id => @source_name, :source => source}
-    put :update, params
-    assert_response :redirect
-  end
-  
-  # DESTROY
-  def test_destroy_without_the_source_name
-    assert_raise(QueryError) { delete :destroy, {} }
-  end
-  
-  def test_destroy_with_wrong_source_name
-    assert_raise(ActiveRecord::RecordNotFound) { delete :destroy, {:id => @unexistent_name} }
-  end
-  
-  def test_destroy_with_wrong_http_verbs
-    get     :destroy, {:id => @source_name}
-    assert_response 302
-    post    :destroy, {:id => @source_name}
-    assert_response 302
-    put     :destroy, {:id => @source_name}
-    assert_response 302
-  end
-  
-  def test_destroy
-    delete :destroy, {:id => @source_name}
-    assert_response :redirect
   end
 end
