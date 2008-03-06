@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../test_helper'
 
 class Admin::SourcesControllerTest < ActionController::TestCase
   def setup
-    @controller = Admin::SourcesControllerTest.new
+    @controller = Admin::SourcesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     
@@ -19,13 +19,13 @@ class Admin::SourcesControllerTest < ActionController::TestCase
 
   def test_should_get_edit
     login_as :admin
-    get :edit, :id => "http://www.talia.discovery-project.org/sources/something"
+    get :edit, :id => "something"
     assert_response :success
   end
 
   def test_should_update_source
     login_as :admin
-    put :update, :id => "http://www.talia.discovery-project.org/sources/something", :source => { }
+    put :update, :id => "something", :source => { }
     assert_redirected_to :action => 'index'
   end
 end
