@@ -1,27 +1,27 @@
 something:
   id: 1
   name: something
-  uri: http://www.talia.discovery-project.org/sources/something
+  uri: <%= N::LOCAL %>something
   workflow_state: 0
   primary_source: 0
 
 one:
   id: 2
   name: one
-  uri: http://www.talia.discovery-project.org/sources/one
+  uri: <%= N::LOCAL %>one
   workflow_state: 0
   primary_source: 0
 
 two:
   id: 3
   name: two
-  uri: http://www.talia.discovery-project.org/sources/two
+  uri: <%= N::LOCAL %>two
   workflow_state: 0
   primary_source: 0
 
 three:
   id: 4
   name: three
-  uri: http://www.talia.discovery-project.org/sources/three
+  uri: <%= N::LOCAL %>three
   workflow_state: 0
   primary_source: 0
