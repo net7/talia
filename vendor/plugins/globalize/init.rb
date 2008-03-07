@@ -1,3 +1,4 @@
+directory = File.dirname(__FILE__)
 require 'pathname'
 require 'singleton'
 
