@@ -21,7 +21,7 @@ class WidgeonController < ApplicationController
     if(request.xhr?)
       # Set the callback flag
       options[:callback_active] = true
-      @widget = Widgeon::Widget.load(widget_class.to_s).new(self, request, options)
+      @widget = Widgeon::Widget.load(options[:widget_class].to_s).new(self, request, options)
     else
       redirect_options = options.delete(:request_params)
       raise(ArgumentError, "Illegal options") unless(redirect_options.is_a?(Hash))
