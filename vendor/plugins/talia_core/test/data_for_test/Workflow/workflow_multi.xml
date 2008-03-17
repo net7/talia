@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+    <workflow name="default">
+        <step start="submited" event="review" end="reviewed" />
+        <step start="reviewed" event="publish" end="published" />
+        <step start="published" event="auto" end="published" />
+    </workflow>
+    <workflow name="second workflow">
+        <step start="first_state" event="first_event" end="second_state" />
+        <step start="second_state" event="auto" end="second_state" />
+    </workflow>
+</root>
