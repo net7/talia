@@ -9,6 +9,9 @@ if(File.exists?(File.dirname(__FILE__) + '/tesly_reporter.rb'))
 end
 
 class Test::Unit::TestCase
+  # RoleRequirementTestHelper must be included to test RoleRequirement
+  include RoleRequirementTestHelper
+
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
   # test database remains unchanged so your fixtures don't have to be reloaded
