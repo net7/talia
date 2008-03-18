@@ -4,7 +4,6 @@ class UserTest < Test::Unit::TestCase
   # Be sure to include AuthenticatedTestHelper in test/test_helper.rb instead.
   # Then, you can remove it from this and the functional test.
   include AuthenticatedTestHelper
-  fixtures :users
 
   def test_should_create_user
     assert_difference 'User.count' do
@@ -95,6 +94,8 @@ class UserTest < Test::Unit::TestCase
   end
 
   def test_should_respond_to_roles_methods
+    # Forcing ActsAsRoled inclusion
+    User.class_eval { include ActsAsRoled }
     assert users(:quentin).user?
     assert users(:admin).admin?
   end
