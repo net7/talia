@@ -1,0 +1,6 @@
+<%= error_messages_for :user %>
+<h1>Edit User</h1>
+<% form_for(:user, @user, :url => {:controller => 'admin/users', :action => 'update', :id => @user}, :html => {:method => :put}) do |f| %>
+  <%= render :partial => "form" %>
+  <p><%= f.submit "submit" %> or <%= link_to "cancel", :action => "index" %></p>
+<% end %>

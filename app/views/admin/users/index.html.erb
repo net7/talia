@@ -1,0 +1,19 @@
+<table>
+  <tr>
+    <th>Login</th>
+    <th>E-Mail</th>
+    <th colspan="3"></th>
+  </tr>
+  <% for user in @users %>
+    <tr>
+      <td><%=h user.login %></td>
+      <td><%=h user.email %></td>
+      <td><%= link_to "Show", :action => 'show', :id => user %></td>
+      <td><%= link_to "Edit", :action => 'edit', :id => user %></td>
+      <td><%= link_to "Destroy", :action => 'destroy', :id => user, :confirm => 'Sei sicuro?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<br />
+<%= link_to "Create new user", :action => "new" %>
