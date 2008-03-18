@@ -1,5 +1,6 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
+  include ActsAsRoled
   has_and_belongs_to_many :roles
   
 #  attr_protected :roles
