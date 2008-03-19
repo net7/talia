@@ -93,7 +93,7 @@ module RoleRequirementSystem
         # check to see if they have one of the required roles
         passed = false
         roles.each { |role|
-          passed = true if user.has_role?(role)
+          passed = true if user.authorized_as?(role)
         } unless (user==:false || user==false)
         
         return false unless passed

@@ -100,6 +100,24 @@ class UserTest < Test::Unit::TestCase
     assert users(:admin).admin?
   end
 
+  def test_should_add_roles
+    assert_difference('users(:quentin).roles.size') do
+      users(:quentin).roles_attributes = ['user', 'admin']
+    end
+  end
+
+  def test_should_remove_roles
+    assert_difference('users(:quentin).roles.size', -1) do
+      users(:quentin).roles_attributes = []
+    end
+  end
+
+  def test_should_switch_roles
+    assert_no_difference('users(:quentin).roles.size') do
+      users(:quentin).roles_attributes = ['admin']
+    end
+  end
+
 protected
   def create_user(options = {})
     User.create({ :login => 'quire', :email => 'quire@example.com', :password => 'quire', :password_confirmation => 'quire' }.merge(options))

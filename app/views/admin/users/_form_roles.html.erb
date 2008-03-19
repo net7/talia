@@ -1,0 +1,8 @@
+<% for role in Role.find(:all) %>
+  <% fields_for "user[roles_attributes][]", role do |role_form| %>
+    <p>
+      <%= check_box_tag "user[roles_attributes][]", role.name, @user.has_role?(role.name), :id => "user_roles_attributes_#{role.id}" %>
+      <label for="user_roles_attributes_<%= role.id %>"><%=h role.name.titleize %></label>
+    </p>
+  <% end %>
+<% end %>

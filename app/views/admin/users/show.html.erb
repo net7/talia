@@ -1,3 +1,6 @@
 <h1><%= @user.login %></h1>
 
+<h2>Roles</h2>
+<div><%= @user.roles_to_sentence %></div><br />
+
 <%= link_to "Back", :action => 'index' %> | <%= link_to "Edit", :action => 'edit', :id => @user %>
