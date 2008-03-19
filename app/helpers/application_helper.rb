@@ -1,6 +1,39 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   
+  def header
+    render :partial => 'shared/main_header'
+  end
+  
+  def footer
+    render :partial => 'shared/main_footer'
+  end
+  
+  def sidebar
+    sidebar_title = nil
+    sidebar_title = "#{@source.label} is" if(@source)
+    widget(:sidebar,
+        'active_tab' => 'context',
+        'active_tab_options' => { :source => @source },
+        'sidebar_title' => sidebar_title
+        )
+  end
+  
+  def toolbar
+    widget(:toolbar, :buttons => [ 
+      ["Home", {:action => 'show', :id => 'Lucca'}], 
+      ["List", {:action => 'index'} ],
+      ["Print Page", "javascript:print();"]
+    ] )
+  end
+  
+  def talia_footer
+    %( <div id="footer" class="open">
+       <h1>Talia | Discovery</h1>
+       <p>Let's discover things</p>
+       </div> )
+  end
+  
   # Returns the title for the whole page. This returns the value
   # set in the controller, or a default value
   def page_title

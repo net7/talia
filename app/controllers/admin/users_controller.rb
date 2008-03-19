@@ -1,5 +1,4 @@
 class Admin::UsersController < ApplicationController
-  layout 'sources'
   require_role 'admin'
   PER_PAGE = 10
 
