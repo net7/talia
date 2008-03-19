@@ -1,9 +1,10 @@
 class Admin::UsersController < ApplicationController
   layout 'sources'
   require_role 'admin'
+  PER_PAGE = 10
 
   def index
-    @users = User.find(:all)
+    @users = User.paginate(:page => params[:page], :per_page => PER_PAGE)
   end
   
   def show

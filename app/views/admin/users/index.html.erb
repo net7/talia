@@ -10,10 +10,13 @@
       <td><%=h user.email %></td>
       <td><%= link_to "Show", :action => 'show', :id => user %></td>
       <td><%= link_to "Edit", :action => 'edit', :id => user %></td>
-      <td><%= link_to "Destroy", :action => 'destroy', :id => user, :confirm => 'Sei sicuro?', :method => :delete %></td>
+      <td><%= link_to "Destroy", :action => 'destroy', :id => user, :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>
 </table>
+<br />
+
+<%= will_paginate @users %>
 
 <br />
 <%= link_to "Create new user", :action => "new" %>
