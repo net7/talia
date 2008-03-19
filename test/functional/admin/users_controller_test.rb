@@ -18,11 +18,11 @@ class Admin::UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
   
-  def _ignore_test_should_create_user
+  def test_should_create_user
     login_as :admin
 
     assert_difference('User.count') do
-      post :create, :user => { }
+      post :create, :user => user_params
     end
 
     assert_redirected_to :action => "show", :id => assigns(:user)
@@ -61,6 +61,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
   
   private
   def user_params
-    {:login => 'luca', :email => 'luca@talia.org' }
+    { :login => 'luca', :email => 'luca@talia.org',
+      :password => 'luca', :password_confirmation => 'luca' }
   end
 end
