@@ -102,19 +102,19 @@ class UserTest < Test::Unit::TestCase
 
   def test_should_add_roles
     assert_difference('users(:quentin).roles.size') do
-      users(:quentin).roles_attributes = ['user', 'admin']
+      users(:quentin).update_attributes(:roles_attributes => ['user', 'admin'])
     end
   end
 
   def test_should_remove_roles
     assert_difference('users(:quentin).roles.size', -1) do
-      users(:quentin).roles_attributes = []
+      users(:quentin).update_attributes(:roles_attributes => [])
     end
   end
 
   def test_should_switch_roles
     assert_no_difference('users(:quentin).roles.size') do
-      users(:quentin).roles_attributes = ['admin']
+      users(:quentin).update_attributes(:roles_attributes => ['admin'])
     end
   end
 

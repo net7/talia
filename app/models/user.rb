@@ -1,8 +1,10 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
   include ActsAsRoled
-  has_and_belongs_to_many :roles  
+  has_and_belongs_to_many :roles
+  attr_accessor :roles_attributes
   attr_accessible :roles_attributes
+  after_update :save_roles
 
   # authorized_as? simply needs to return true or false whether a user has a role or not.  
   # It may be a good idea to have "admin" roles return true always
@@ -17,15 +19,6 @@ class User < ActiveRecord::Base
 
   def roles_to_sentence
     role_names.to_sentence
-  end
-
-  def roles_attributes=(roles_attributes)
-    (roles_attributes - role_names).each do |role_name|
-      self.roles << Role.find_by_name(role_name)
-    end
-    (role_names - roles_attributes).each do |role_name|
-      self.roles.delete(Role.find_by_name(role_name))
-    end
   end
 
   # Virtual attribute for the unencrypted password
@@ -104,5 +97,10 @@ class User < ActiveRecord::Base
     
     def role_names
       @role_names ||= self.roles.map(&:name)
-    end    
+    end
+    
+    def save_roles
+      return if roles_attributes.nil?
+      self.roles = Role.find_by_names(roles_attributes)
+    end
 end
