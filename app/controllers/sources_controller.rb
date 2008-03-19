@@ -1,15 +1,17 @@
 class SourcesController < ApplicationController
   include TaliaCore
+  PER_PAGE = 10
+  
   # GET /sources
   # GET /sources.xml
   def index
     # For "normal" operations, we just create a pager
-    @source_options = { :page => 1, :per_page => 10 }
+    @source_options = { :page => 1, :per_page => PER_PAGE }
     @sources = Source.paginate(@source_options)
     
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => TaliaCore::Source.find(:all) } # XML for all sources
+      format.xml  { render :xml => @sources }
     end
   end
 
