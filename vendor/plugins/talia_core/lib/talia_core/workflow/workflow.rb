@@ -55,6 +55,7 @@ module TaliaCore
   
     # set source id for current workflow
     # Setting sorce id, the state will be reload from database
+    # * source_record_id: source id
     def source=(source_record_id)
       # set source id
       @source_record_id = source_record_id
@@ -64,14 +65,8 @@ module TaliaCore
       data
     end
   
-  
-    private
-  
-    # set state
-    def state=(value)
-      @workflow_machine.state = value.to_sym
-    end
-    
+private  
+
     # get data if record exist or create new record.
     def data
       # check data record
@@ -87,7 +82,8 @@ module TaliaCore
     def load_data
       # load current state
       wr = WorkflowRecord.find(:first, :conditions => {:source_record_id => source})
-      state = wr.state
+      # set state
+      @workflow_machine.state = wr.state.to_sym
     end
   
     # create new record

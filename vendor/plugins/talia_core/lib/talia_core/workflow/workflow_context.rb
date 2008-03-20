@@ -12,6 +12,7 @@ module TaliaCore
     end
   
     # set source id
+    # * value: source id
     def source=(value)
       @source_record_id = value
     end

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <root>
     <workflow>
-        <step start="submited" event="review" end="reviewed" />
+        <step start="submitted" event="review" end="reviewed" />
         <step start="reviewed" event="publish" end="published" />
         <step start="published" event="auto" end="published" />
     </workflow>

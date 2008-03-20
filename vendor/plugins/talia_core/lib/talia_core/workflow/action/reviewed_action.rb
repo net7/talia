@@ -1,5 +1,3 @@
-require 'workflow/workflow_action'
-
 module TaliaCore
 
   class ReviewedAction < WorkflowAction

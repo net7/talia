@@ -1,0 +1,4 @@
+workflow_1:
+  id: 1
+  source_record_id: 1
+  state: 'reviewed'

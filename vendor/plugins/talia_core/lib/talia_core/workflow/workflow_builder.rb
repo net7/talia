@@ -71,18 +71,12 @@ module TaliaCore
     end
   
     # Add step to workflow
-    # * origin_state: origin state of transition
+    # * origin_state: begin state of transition
     # * event: event that execute the transition
-    # * destination_state: destination state of transition
+    # * destination_state: end state of transition
     def self.step(origin_state, event, destination_state)
       @transitions << [origin_state.to_sym, event.to_sym, destination_state.to_sym]
     end
-
-    private
-  
-    #def Workflow.queues 
-    #  Hash.new
-    #end
   
   end
   
