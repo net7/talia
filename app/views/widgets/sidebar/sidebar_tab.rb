@@ -21,7 +21,7 @@ class SidebarWidget < Widgeon::Widget
     def tab_link(text = nil)
       text = @settings['name'] unless(text)
       name_id = "sidbr_" + @settings['name'].downcase.gsub(/\s+/, '_')
-      image = @settings['image'] ? @settings['image'] : "side_bar_icon.gif"
+      image = @settings['image'] ? @settings['image'] : "side_bar_icon_default.gif"
       image_ext = File.extname(image)
       image_base = File.basename(image, image_ext)
       image_hover = "#{image_base}_ro#{image_ext}"
@@ -31,11 +31,11 @@ class SidebarWidget < Widgeon::Widget
       link = "<style type='text/css'>"
         # conidion for the active page
         if @settings['is_active']
-           link += "\##{name_id} { background-image: url(/images/#{image_selected}) !important;}"
-           link += " \##{name_id}:hover { background-image: url(/images/#{image_selected}) !important;}"
+           link += "\##{name_id} { background-image: url(/images/sibeBarIcons/#{image_selected}) !important;}"
+           link += " \##{name_id}:hover { background-image: url(/images/sibeBarIcons/#{image_selected}) !important;}"
         else
-           link += "\##{name_id} { background-image: url(/images/#{image}) !important;}"
-           link += " \##{name_id}:hover { background-image: url(/images/#{image_hover}) !important;}"
+           link += "\##{name_id} { background-image: url(/images/sibeBarIcons/#{image}) !important;}"
+           link += " \##{name_id}:hover { background-image: url(/images/sibeBarIcons/#{image_hover}) !important;}"
         end
        link += "</style>"
       # Now the link

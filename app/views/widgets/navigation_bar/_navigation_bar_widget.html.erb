@@ -1,12 +1,97 @@
+
 <% if(@widget.show_home) %>
-  <h3><%= link_to('<< Back to start', :controller => 'types', :action => nil) %></h3>
+  <!--  <h3><%= link_to('<< Back to start', :controller => 'types', :action => nil) %></h3> -->
 <% end %>
+
+<!-- link back -->
 <% for supertype in @widget.supertypes %>
-<h3><%= type_link("<< #{@widget.class_label(supertype)}", supertype) %></h3>
+  <!-- <h3 class="super"><%= type_link("<< #{@widget.class_label(supertype)}", supertype) %></h3> -->
 <% end %>
+
+<!-- pagina in cui sono -->
 <% if(@widget.source_class) %>
-<h3> <%= @widget.class_label(@widget.source_class) %></h3>
+  <!-- <h3 class="exact"> <%= @widget.class_label(@widget.source_class) %></h3> -->
 <% end %>
+
+<!-- livelli sotto -->
+
+<!--
+<div>
+<ul>
+
 <% for subtype in @widget.subtypes %>
-<h3><%= type_link("#{@widget.class_label(subtype)} >>", subtype) %></h3>
+  <li id="<%="#{subtype.to_name_s}"%>"> <%= type_link("#{@widget.class_label(subtype)}", subtype) %> </li>
 <% end %>
+
+
+</ul>
+</div>
+-->
+
+<div id="pod-wrap">
+    
+    <div id="backLink">
+        <ul>
+            <li id="ipod_backlink_default"><a>NAVIGAZIONE</a></li>
+        </ul>
+    </div>
+
+    <div id="ipod_scroll_up_button">
+      <a href="javascript:void(0)" onclick="scroll_pod_navigation_down('ipod_nav_level_1');">scroll up</a>
+    </div>
+
+    <div id="pod-list-wrap-mask">
+        <div id="pod-list-wrap-ext">
+            <div id="pod-list-wrap">
+                <ul id="ipod_nav_level_1">
+                    <% for subtype in @widget.subtypes %>
+                     <li id="<%="#{subtype.to_name_s}"%>"> <%= type_link("#{@widget.class_label(subtype)}", subtype) %> </li>
+                    <% end %>
+                       
+                   <li id="link_aggiunto_1"><a class="ipodStyle" href="http://www.google.it" onclick="navigationGoDown('link_aggiunto_1');" title="Test Link Number One">link_aggiunto_1</a></li>
+                   <li id="link_aggiunto_2"><a class="ipodStyle" href="http://www.google.it" onclick="navigationGoDown('link_aggiunto_2');" title="Test Link Number One">link_aggiunto_2</a></li>
+                   <li id="link_aggiunto_3"><a class="ipodStyle" href="http://www.google.it" onclick="navigationGoDown('link_aggiunto_3');" title="Test Link Number One">link_aggiunto_3</a></li>
+                   <li id="link_aggiunto_4"><a class="ipodStyle" href="http://www.google.it" onclick="navigationGoDown('link_aggiunto_4');" title="Test Link Number One">link_aggiunto_4</a></li>
+                   <li id="link_aggiunto_5"><a class="ipodStyle" href="http://www.google.it" onclick="navigationGoDown('link_aggiunto_5');" title="Test Link Number One">link_aggiunto_5</a></li>
+                   <li id="link_aggiunto_6"><a class="ipodStyle" href="http://www.google.it" onclick="navigationGoDown('link_aggiunto_6');" title="Test Link Number One">link_aggiunto_6</a></li>
+                   <li id="link_aggiunto_7"><a class="ipodStyle" href="http://www.google.it" onclick="navigationGoDown('link_aggiunto_7');" title="Test Link Number One">link_aggiunto_7</a></li>
+                   <li id="link_aggiunto_8"><a class="ipodStyle" href="http://www.google.it" onclick="navigationGoDown('link_aggiunto_8');" title="Test Link Number One">link_aggiunto_8</a></li>
+                   
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="ipod_scroll_down_button">
+      <a href="javascript:void(0)" onclick="scroll_pod_navigation_up('ipod_nav_level_1');">scroll down</a>
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- old tyle 
+<div id="pod-wrap">
+  <div id="top-but-wrap"><a id="top-but" onclick="podButtonClicked();" href="#"> </a></div>
+  <div id="pod-list-wrap-ext">
+    <div id="pod-list-wrap">
+        &nbsp;
+    </div>
+  </div> -->
+
+  <!-- <div id="bot-but-wrap"><a id="bot-but" onclick="podButtonClicked();" href="#"> </a></div> -->
+
+<!--
+</div>
+
+-->
