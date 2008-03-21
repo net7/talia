@@ -1,5 +1,5 @@
 require 'test/unit'
-require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'talia_core', 'lib', 'talia_core', 'workflow', 'workflow_builder'))
+require 'workflow/workflow_builder'
 
 # Load the helper 
 require File.join(File.dirname(__FILE__), '..', '..', 'test_helper')
