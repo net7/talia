@@ -8,17 +8,16 @@ module TaliaCore
   #
   # Example:
   # 
-  # workflow1 = WorkflowBuilder.workflow 1 do
+  # workflow1 = WorkflowBuilder.workflow do
   #   WorkflowBuilder.step "submitted","review","reviewed"
   #   WorkflowBuilder.step "reviewed","publish","published"
   #   WorkflowBuilder.step "published", "auto","published"
   # end
-  class WorkflowBuilder < OpenStruct
+  class WorkflowBuilder
   
     @transitions = []
   
-    # Create new workflow
-    # * source_record_id: source id
+    # create new workflow
     def self.workflow
       yield if block_given?
       return Workflow.new(@transitions)
@@ -28,7 +27,13 @@ module TaliaCore
     # * source_record_id: source id
     # * filename: file to load
     # * name: load workflow by name (optional)
-    def self.load_xml(source_record_id, filename, name = nil)
+    def self.load_xml(source_record_id, filename = nil, name = nil)
+      
+      # if filename is nil, use default workflow
+      if filename.nil?
+        filename = File.join("config", "workflow", "default.xml")
+      end
+      
       # load xml file
       file = File.new(filename)
       xml_data = REXML::Document.new file
@@ -57,11 +62,16 @@ module TaliaCore
   
     # load workflow from dsl file
     # * source_record_id: source id
-    # * filename: file to load
-    def self.load_dsl(source_record_id,filename)
+    # * filename: file to load.
+    def self.load_dsl(source_record_id,filename = nil)
+      
+      # if filename is nil, use default workflow
+      if filename.nil?
+        filename = File.join("config", "workflow", "default.rb")
+      end
+      
       # build workflow
-      dsl = new
-      workflow = dsl.instance_eval(File.read(filename), filename)
+      workflow = instance_eval(File.read(filename), filename)
     
       # set source id
       workflow.source = source_record_id

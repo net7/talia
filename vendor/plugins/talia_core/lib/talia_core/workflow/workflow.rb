@@ -8,8 +8,11 @@ module TaliaCore
   class Workflow
   
     # initialize current workflow
-    # * transitions: transitions as Array of 3 string element (origin state, event, destination state)
+    # * transitions: transitions as Array of 3 string element (origin state, event, destination state).
     def initialize(transitions)
+      
+      raise "Workflow not defined." if transitions.nil?
+      
       # build statemachine
       @workflow_machine = Statemachine.build do
         # add all transitions

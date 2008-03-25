@@ -42,15 +42,16 @@ module TaliaCore
       assert_kind_of(Workflow, workflow3)
       
       # build workflow from XML containing some workflow
-      workflow4 = WorkflowBuilder.load_xml(3, @workflow_xml_multi_file, "default")
+      workflow4 = WorkflowBuilder.load_xml(3, @workflow_xml_multi_file, "first workflow")
       # check workflow4 class builded
       assert_kind_of(Workflow, workflow4)
-      
     end
     
     def test_workflow
       
       # load workflow from dsl file
+      WorkflowRecord.delete_all 'source_record_id = 2' 
+      assert_nil WorkflowRecord.find(:first, :conditions => {:source_record_id => 2})
       workflow = WorkflowBuilder.load_dsl(2, @workflow_dsl_file)
       assert_kind_of(Workflow,workflow)
       
@@ -67,7 +68,6 @@ module TaliaCore
       # execute an action sending parameters
       workflow.action(:publish, 'my_user', {:vote => 10})
       assert_equal(:published, workflow.state)
-      
     end
     
     def test_workflow_record
@@ -85,7 +85,28 @@ module TaliaCore
       assert_kind_of(Workflow,workflow)
       assert_equal(:submitted, workflow.state)
       assert WorkflowRecord.find(:first, :conditions => {:source_record_id => 2})
+    end
+    
+    def test_default_workflow
       
+      # create new workflow using default file
+      WorkflowRecord.delete_all 'source_record_id = 2' 
+      assert_nil WorkflowRecord.find(:first, :conditions => {:source_record_id => 2})
+      workflow = WorkflowBuilder.load_dsl(2)
+      assert_kind_of(Workflow, workflow)
+      assert_equal(:submitted, workflow.state)
+      assert WorkflowRecord.find(:first, :conditions => {:source_record_id => 2})
+      
+      # execute an action
+      workflow.action(:review, 'my_user')
+      assert_equal(:reviewed, workflow.state)
+      
+      # reload workflow for same source
+      assert WorkflowRecord.find(:first, :conditions => {:source_record_id => 2})
+      workflow = WorkflowBuilder.load_dsl(2)
+      assert_kind_of(Workflow, workflow)
+      assert_equal(:reviewed, workflow.state)
+         
     end
     
   end
