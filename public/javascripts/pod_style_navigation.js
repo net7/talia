@@ -17,7 +17,8 @@ function deleteHrefAttributesInIpodNav() {
 	{
             $$('a.ipodStyle')[i].writeAttribute('href',false);
 	}
-	defaultBackLinkString = ($('backLink').childElements())[0].innerHTML;
+// FIXME
+//	defaultBackLinkString = ($('backLink').childElements())[0].innerHTML;
 }
 /* **************************************** */
 
@@ -230,6 +231,8 @@ function configureBackLink()
 /* funzione di controllo dell'altezza in verticale del pod style menu al primo caricamento*/
 function checkVerticalHeightOfPodNavigation()
 {
+// FIXME
+/*
     var altezzaVerticale = document.viewport.getDimensions().height - $('pod-list-wrap-mask').cumulativeOffset($('pod-list-wrap-mask')).top - 50;
     $('pod-list-wrap-mask').setStyle('height: '+ altezzaVerticale +'px');
     $('ipod_scroll_down_button').setStyle('margin-top: ' + altezzaVerticale + 'px');
@@ -245,6 +248,7 @@ function checkVerticalHeightOfPodNavigation()
         $('ipod_scroll_up_button').setStyle('display:block;');
         $('ipod_scroll_down_button').setStyle('display:block;');
     }
+*/
 }
 
 function scroll_pod_navigation_up(item)
