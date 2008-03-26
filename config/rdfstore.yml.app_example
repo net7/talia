@@ -31,7 +31,7 @@ test:
 #   type: redland
 #   location: hashes
 #   name: talia_test
-#   hash-type: memore
+#   hash-type: memory
 
 production:
   type: redland
