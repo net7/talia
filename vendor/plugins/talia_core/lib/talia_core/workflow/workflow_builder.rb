@@ -67,7 +67,7 @@ module TaliaCore
       
       # if filename is nil, use default workflow
       if filename.nil?
-        filename = File.join("config", "workflow", "default.rb")
+        filename = File.join(TALIA_ROOT, "config", "workflow", "default.rb")
       end
       
       # build workflow
