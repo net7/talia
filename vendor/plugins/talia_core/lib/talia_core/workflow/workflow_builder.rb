@@ -31,14 +31,14 @@ module TaliaCore
       
       # if filename is nil, use default workflow
       if filename.nil?
-        file = File.join("config", "workflow", "default.xml")
+        file = File.join(TALIA_ROOT, "config", "workflow", "default.xml")
       else
         # check filename syntax
         if filename.include?(".") || filename.include?("/") || filename.include?("\\")
           raise "Filename cannot contain '.', '/' or '\\'"
         end
         
-        file = File.join("config", "workflow", filename + ".xml")
+        file = File.join(TALIA_ROOT, "config", "workflow", filename + ".xml")
       end
       
       # load xml file
@@ -74,14 +74,14 @@ module TaliaCore
       
       # if filename is nil, use default workflow
       if filename.nil?
-        file = File.join("config", "workflow", "default.rb")
+        file = File.join(TALIA_ROOT, "config", "workflow", "default.rb")
       else
         # check filename syntax
         if filename.include?(".") || filename.include?("/") || filename.include?("\\")
           raise "Filename cannot contain '.', '/' or '\\'"
         end
         
-        file = File.join("config", "workflow", filename + ".rb")
+        file = File.join(TALIA_ROOT, "config", "workflow", filename + ".rb")
       end
       
       # build workflow
