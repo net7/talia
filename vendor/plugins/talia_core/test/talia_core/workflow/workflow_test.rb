@@ -14,9 +14,8 @@ module TaliaCore
      
     def setup
       TestHelper.fixtures
-      @workflow_dsl_file = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'data_for_test', 'Workflow', 'temp1.rb'))
-      @workflow_xml_file = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'data_for_test', 'Workflow', 'temp2.xml'))
-      @workflow_xml_multi_file = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'data_for_test', 'Workflow', 'temp3.xml'))
+      @workflow_dsl_file = 'default'
+      @workflow_xml_file = 'default'
     end
 
     def test_workflow_builder
@@ -41,10 +40,13 @@ module TaliaCore
       # check workflow3 class builded
       assert_kind_of(Workflow, workflow3)
       
-      # build workflow from XML containing some workflow
-      workflow4 = WorkflowBuilder.load_xml(3, @workflow_xml_multi_file, "first workflow")
-      # check workflow4 class builded
-      assert_kind_of(Workflow, workflow4)
+      # test load file from wrong characters (security check)
+      assert_raise(RuntimeError) {WorkflowBuilder.load_dsl(1, '.')}
+      assert_raise(RuntimeError) {WorkflowBuilder.load_dsl(1, '/')}
+      assert_raise(RuntimeError) {WorkflowBuilder.load_dsl(1, '\\')}
+      assert_raise(RuntimeError) {WorkflowBuilder.load_xml(1, '.')}
+      assert_raise(RuntimeError) {WorkflowBuilder.load_xml(1, '/')}
+      assert_raise(RuntimeError) {WorkflowBuilder.load_xml(1, '\\')}
     end
     
     def test_workflow

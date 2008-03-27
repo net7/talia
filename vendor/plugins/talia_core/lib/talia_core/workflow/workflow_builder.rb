@@ -25,18 +25,25 @@ module TaliaCore
   
     # load workflow from xml file
     # * source_record_id: source id
-    # * filename: file to load
+    # * filename: filename to load without extension, e.g. 'my_file' ('.', '/', '\' aren't permitted)
     # * name: load workflow by name (optional)
     def self.load_xml(source_record_id, filename = nil, name = nil)
       
       # if filename is nil, use default workflow
       if filename.nil?
-        filename = File.join("config", "workflow", "default.xml")
+        file = File.join("config", "workflow", "default.xml")
+      else
+        # check filename syntax
+        if filename.include?(".") || filename.include?("/") || filename.include?("\\")
+          raise "Filename cannot contain '.', '/' or '\\'"
+        end
+        
+        file = File.join("config", "workflow", filename + ".xml")
       end
       
       # load xml file
-      file = File.new(filename)
-      xml_data = REXML::Document.new file
+      xml_file = File.new(file)
+      xml_data = REXML::Document.new xml_file
     
       # get workflow configuration by name
       if (name.nil?)
@@ -62,16 +69,23 @@ module TaliaCore
   
     # load workflow from dsl file
     # * source_record_id: source id
-    # * filename: file to load.
+    # * filename: filename to load without extension, e.g. 'my_file' ('.', '/', '\' aren't permitted)
     def self.load_dsl(source_record_id,filename = nil)
       
       # if filename is nil, use default workflow
       if filename.nil?
-        filename = File.join(TALIA_ROOT, "config", "workflow", "default.rb")
+        file = File.join("config", "workflow", "default.rb")
+      else
+        # check filename syntax
+        if filename.include?(".") || filename.include?("/") || filename.include?("\\")
+          raise "Filename cannot contain '.', '/' or '\\'"
+        end
+        
+        file = File.join("config", "workflow", filename + ".rb")
       end
       
       # build workflow
-      workflow = instance_eval(File.read(filename), filename)
+      workflow = instance_eval(File.read(file))
     
       # set source id
       workflow.source = source_record_id
