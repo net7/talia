@@ -71,7 +71,7 @@ div#backLink ul li span{
 /* maschera della navigazione */
 div#pod-list-wrap-mask{
 	position:absolute;
-	overflow:hidden;
+	/* overflow:hidden; */
         width: 200px;
 	/*background-color:#99CCFF;*/
 }

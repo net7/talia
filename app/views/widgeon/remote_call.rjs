@@ -1,0 +1,2 @@
+# This sends the remote call to the widget, which may then modify the page
+@widget.send("#{@action}_remotecall", page)

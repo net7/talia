@@ -33,7 +33,11 @@ class NavigationBarWidget < Widgeon::Widget
       klass.label
     end
   end
-    
+  
+  remote_call :navigate do |page|
+    page.replace_html "backLink", "<div>foo</div>"
+  end
+  
   protected
  
   # Checks if the given element is a "root" class

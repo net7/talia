@@ -14,7 +14,23 @@ class WidgeonController < ApplicationController
     end
   end
   
-  # This handles a callback from a widget
+  # Handles "remote calls" to a widget. These are expected to be a AJAX calls,
+  # and the widget will use the given callback renderer to modifiy the page
+  # using javascript.
+  #
+  # The widget object itself will be initialized, but the <tt>before_render</tt>
+  # method will *not* be called on the widget.
+  def remote_call
+    render("Can only be called as AJAX.", :status => 400) unless(request.xhr?)
+    options = WidgeonEncoding.decode_options(params[:call_options])
+    options[:callback_active] = true
+    widget_class = options.delete(:widget_class).to_s
+    # Action is the action that will be called on the widget.
+    @action = options.delete(:template)
+    @widget = Widgeon::Widget.load(widget_class).new(self, request, options)
+  end
+  
+  # This handles a callback from a widget to itself
   def callback
     options = WidgeonEncoding.decode_options(params[:widget_callback_options])
     
