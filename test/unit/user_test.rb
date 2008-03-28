@@ -5,6 +5,10 @@ class UserTest < Test::Unit::TestCase
   # Then, you can remove it from this and the functional test.
   include AuthenticatedTestHelper
 
+  def setup
+    @open_id = 'http://quentin.someopenidprovider.com'
+  end
+
   def test_should_create_user
     assert_difference 'User.count' do
       user = create_user
@@ -91,6 +95,11 @@ class UserTest < Test::Unit::TestCase
     assert_not_nil users(:quentin).remember_token
     assert_not_nil users(:quentin).remember_token_expires_at
     assert users(:quentin).remember_token_expires_at.between?(before, after)
+  end
+
+  def test_should_normalize_open_id_url_before_save
+    users(:quentin).update_attribute(:open_id, @open_id)
+    assert_equal("#{@open_id}/", users(:quentin).open_id)
   end
 
   def test_should_respond_to_roles_methods
