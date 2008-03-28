@@ -56,6 +56,10 @@ module ApplicationHelper
     link_to(text, :controller => 'sources', :action => 'show', :id => source.uri.local_name)
   end
   
+  def javascript(file_name)
+    content_for :javascript, javascript_include_tag(file_name.to_s)
+  end
+  
   # Helper to get the short name of a source
   def short_name(source) 
     assit_kind_of(TaliaCore::Source, source)
