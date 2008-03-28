@@ -36,12 +36,18 @@ class User < ActiveRecord::Base
   
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :password, :password_confirmation
+  attr_accessible :login, :email, :password, :password_confirmation, :open_id
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)
     u = find_by_login(login) # need to get the salt
     u && u.authenticated?(password) ? u : nil
+  end
+  
+  # Authenticates a user by their open id indentifier.  Returns the user or nil.
+  def self.open_id_authentication(identity_url)
+    u = find_by_open_id(identity_url) # need to get the salt
+    u ? u : nil
   end
 
   # Encrypts some data with the salt.
@@ -84,23 +90,23 @@ class User < ActiveRecord::Base
   end
 
   protected
-    # before filter 
-    def encrypt_password
-      return if password.blank?
-      self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--") if new_record?
-      self.crypted_password = encrypt(password)
-    end
+  # before filter 
+  def encrypt_password
+    return if password.blank?
+    self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--") if new_record?
+    self.crypted_password = encrypt(password)
+  end
       
-    def password_required?
-      crypted_password.blank? || !password.blank?
-    end
+  def password_required?
+    crypted_password.blank? || !password.blank?
+  end
     
-    def role_names
-      @role_names ||= self.roles.map(&:name)
-    end
+  def role_names
+    @role_names ||= self.roles.map(&:name)
+  end
     
-    def save_roles
-      return if roles_attributes.nil?
-      self.roles = Role.find_by_names(roles_attributes)
-    end
+  def save_roles
+    return if roles_attributes.nil?
+    self.roles = Role.find_by_names(roles_attributes)
+  end
 end

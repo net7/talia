@@ -12,3 +12,15 @@
 
 <p><%= submit_tag 'Log in' %></p>
 <% end -%>
+
+<% form_tag session_path do -%>
+<p><label for="openid_url">OpenId</label><br/>
+<%= text_field_tag 'openid_url' %></p>
+
+<!-- Uncomment this if you want this functionality
+<p><label for="remember_me">Remember me:</label>
+<%= check_box_tag 'remember_me' %></p>
+-->
+
+<p><%= submit_tag 'Log in' %></p>
+<% end -%>
