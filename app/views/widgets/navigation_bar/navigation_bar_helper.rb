@@ -1,8 +1,8 @@
 module NavigationBarHelper
   # Creates a link to the given source
   def type_link(text, type, level)
-    widget_remotelink(text, :ipod_load, { :navigation_type => type.to_name_s("#"), :level => level }, { :class => "ipodStyle", :href => "foo"} )
-    # link_to(text, {:controller => 'types', :action => 'show', :id => "#{type.namespace}##{type.local_name}"}, :onclick => "navigationGoDown('#{type.namespace}:#{type.local_name}');", :class => "ipodStyle")
+    item_id = type.to_name_s('_')
+    widget_remotelink(text, :ipod_load, { :navigation_type => type.to_name_s("#"), :navigation_id => item_id, :level => level }, { :class => "ipodStyle", :href => "foo"} )
   end
   
   # Create a paginator for the current type
