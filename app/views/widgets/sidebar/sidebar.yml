@@ -35,6 +35,9 @@ tabs:
     name: "Settings"
     key: 6
     content: settings
+    redirect:
+        controller: admin
+        action:
     image: side_bar_icon_settings.gif
     position: bottom
   - id: homepage
