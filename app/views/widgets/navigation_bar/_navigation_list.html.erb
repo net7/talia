@@ -1,0 +1,12 @@
+<%#
+# This is the template to render just the "current" list of navigation items,
+# using the current navigation level
+%>
+
+<ul id="ipod_nav_level_<%= current_level %>">
+  <% for subtype in widget_subtypes %>
+    <li id="<%="#{subtype.to_name_s}"%>"> 
+      <%= type_link("#{widget.class_label(subtype)}", subtype, current_level) %> 
+    </li>
+  <% end %>
+</ul>

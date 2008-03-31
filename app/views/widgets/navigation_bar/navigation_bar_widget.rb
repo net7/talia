@@ -34,6 +34,16 @@ class NavigationBarWidget < Widgeon::Widget
     end
   end
   
+  remote_call :ipod_load do |page|
+    new_level = (@level.to_i + 1).to_s
+    new_type = N::SourceClass.make_uri(@navigation_type, "#")
+    
+    page.insert_html(:bottom, "ipod_nav_level_#{@level}", 
+      :partial => "widgets/#{self.class.widget_name}/navigation_list",
+      :locals => {:widget => self, :current_level => new_level, :widget_subtypes => clean_types(new_type.subtypes)})
+    page.call('scrollNavigation', 'pod-list-wrap-ext', -200)
+  end
+  
   remote_call :navigate do |page|
     page.replace_html "backLink", "<div>foo</div>"
   end
@@ -48,7 +58,7 @@ class NavigationBarWidget < Widgeon::Widget
   
   # Get the root classes as N::SourceClass objects
   def root_class_objects
-    @root_classes.collect { |klass| N::SourceClass.new(CoreHelper::make_uri(klass)) }
+    @root_classes.collect { |klass| N::SourceClass.new(N::URI::make_uri(klass)) }
   end
   
   # Checks if the given class is in one of the "allowed" namespaces
