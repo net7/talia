@@ -1,6 +1,7 @@
-// hide open-id form by default
 Event.onReady(function() {
+	// hide open-id form by default	
   $('openid_login').hide();
+  $('login').focus();
 });
 
 Event.addBehavior({
