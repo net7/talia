@@ -104,7 +104,7 @@ module TaliaUtil
       def add_property_from(root, name, required = false)
         if(node = root.elements[name])
           ## Create an URI for the new property
-          property = TaliaCore::CoreHelper.make_uri(map_property(name), ':', N::HYPER)
+          property = N::URI.make_uri(map_property(name), ':', N::HYPER)
           @source[property] << node.text.strip if(node.text && node.text.strip != "")
         else
           assit(!required, "The node n#{name} is required to exist.")
@@ -116,7 +116,7 @@ module TaliaUtil
       def add_rel_from(root, name, required = false)
         if(node = root.elements[name])
           ## Create an URI for the new property
-          property = TaliaCore::CoreHelper.make_uri(map_property(name), ':', N::HYPER)
+          property = N::URI.make_uri(map_property(name), ':', N::HYPER)
           add_source_rel(property, node.text.strip) if(node.text && node.text.strip != "")
         else
           assit(!required, "The node n#{name} is required to exist.")
@@ -166,7 +166,7 @@ module TaliaUtil
               assit_real_string(object, "Object missing. Predicate: #{predicate}")
               # Now we need to create/get the source for the relation,
               # and assign it to the current source
-              predicate_uri = TaliaCore::CoreHelper.make_uri(predicate, ':', N::HYPER)
+              predicate_uri = N::URI.make_uri(predicate, ':', N::HYPER)
               add_source_rel(predicate_uri, object)
             else
               # Skip empty object for relation
@@ -181,16 +181,16 @@ module TaliaUtil
       # importer. 
       def import_types!
         if(self.class.get_source_type)
-          @source.types << TaliaCore::CoreHelper.make_uri(self.class.get_source_type, ':', N::HYPER)
+          @source.types << N::URI.make_uri(self.class.get_source_type, ':', N::HYPER)
         end
         
         hyper_type = get_text(@element_xml, 'type')
         hyper_subtype = get_text(@element_xml, 'subtype')
         
         if(hyper_subtype && TYPE_MAP[hyper_subtype])
-          @source.types << TaliaCore::CoreHelper.make_uri(TYPE_MAP[hyper_subtype], ':', N::HYPER)
+          @source.types << N::URI.make_uri(TYPE_MAP[hyper_subtype], ':', N::HYPER)
         elsif(hyper_type && TYPE_MAP[hyper_type])
-          @source.types << TaliaCore::CoreHelper.make_uri(TYPE_MAP[hyper_type], ':', N::HYPER)
+          @source.types << N::URI.make_uri(TYPE_MAP[hyper_type], ':', N::HYPER)
         else
           assit(!hyper_type, "There was no mapping for the type/subtype (#{hyper_type}/#{hyper_subtype})")
         end
