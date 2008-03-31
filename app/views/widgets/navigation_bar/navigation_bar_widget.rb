@@ -34,13 +34,16 @@ class NavigationBarWidget < Widgeon::Widget
     end
   end
   
-  remote_call :ipod_load do |page|
+  remote_call :ipod_down do |page|
     new_level = (@level.to_i + 1).to_s
     new_type = N::SourceClass.make_uri(@navigation_type, "#")
     
-    page.insert_html(:bottom, "ipod_nav_level_#{@level}", 
+    page.insert_html(:bottom, @navigation_id, 
       :partial => "widgets/#{self.class.widget_name}/navigation_list",
-      :locals => {:widget => self, :current_level => new_level, :widget_subtypes => clean_types(new_type.subtypes)})
+      :locals => {:widget => self, 
+                  :current_level => new_level, 
+                  :widget_subtypes => clean_types(new_type.subtypes),
+                  :widget_supertypes => clean_types(new_type.supertypes) })
     page.call('scrollNavigation', new_level)
   end
   
