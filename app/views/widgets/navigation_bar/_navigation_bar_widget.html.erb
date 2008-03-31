@@ -1,4 +1,5 @@
 
+
 <% if(@widget.show_home) %>
   <!--  <h3><%= link_to('<< Back to start', :controller => 'types', :action => nil) %></h3> -->
 <% end %>
@@ -15,29 +16,31 @@
 
 <!-- livelli sotto -->
 
-
 <div id="pod-wrap">
-    
+    <!-- back link esterno alla sezione che scrolla -->
+    <!--
     <div id="backLink">
         <ul>
-            <li id="ipod_backlink_default"><a>NAVIGAZIONE</a><%= widget_remotelink("foo", :navigate, :bar => "bla") %></li>
+            <li id="ipod_backlink_default"><a>NAVIGAZIONE</a></li>
         </ul>
     </div>
+    -->
 
     <div id="ipod_scroll_up_button">
-      <a href="javascript:void(0)" onclick="scroll_pod_navigation_down('ipod_nav_level_1');">scroll up</a>
+      <a href="javascript:void(0)" onclick="scroll_pod_navigation_up();">scroll up</a>
     </div>
 
     <div id="pod-list-wrap-mask">
         <div id="pod-list-wrap-ext">
-            <div id="pod-list-wrap">
-                <%= navigation_list %>
+
+          <div id="pod-list-wrap">
+                  <%= navigation_list %>
             </div>
         </div>
     </div>
 
     <div id="ipod_scroll_down_button">
-      <a href="javascript:void(0)" onclick="scroll_pod_navigation_up('ipod_nav_level_1');">scroll down</a>
+      <a href="javascript:void(0)" onclick="scroll_pod_navigation_down();">scroll down</a>
     </div>
 
 

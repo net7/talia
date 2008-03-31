@@ -4,9 +4,18 @@
 %>
 
 <ul id="ipod_nav_level_<%= current_level %>">
-  <% for subtype in widget_subtypes %>
-    <li id="<%="#{subtype.to_name_s}"%>"> 
-      <%= type_link("#{widget.class_label(subtype)}", subtype, current_level) %> 
-    </li>
-  <% end %>
+  <span class="ipod_internal_backlinks">
+    <li class="ipod_navigation_back_link"><a class="ipodStyle" href="http://www.google.it" onclick="defaultNavigationGoUp();" title="Test Link Number One">Back Link 1</a></li>
+    <li class="ipod_navigation_back_link"><a class="ipodStyle" href="http://www.google.it" onclick="defaultNavigationGoUp();" title="Test Link Number One">Back Link 2</a></li>
+    <li class="ipod_navigation_back_link"><a class="ipodStyle" href="http://www.google.it" onclick="defaultNavigationGoUp();" title="Test Link Number One">Back Link 3</a></li>
+  </span>
+  <span class="ipod_internal_scroll" ><!-- prova ! -->
+    
+<% for subtype in widget_subtypes %>
+      <li id="<%="#{subtype.to_name_s}"%>"> 
+        <%= type_link("#{widget.class_label(subtype)}", subtype, current_level) %> 
+      </li>
+    <% end %>
+  
+  </span>
 </ul>

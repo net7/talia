@@ -41,11 +41,7 @@ class NavigationBarWidget < Widgeon::Widget
     page.insert_html(:bottom, "ipod_nav_level_#{@level}", 
       :partial => "widgets/#{self.class.widget_name}/navigation_list",
       :locals => {:widget => self, :current_level => new_level, :widget_subtypes => clean_types(new_type.subtypes)})
-    page.call('scrollNavigation', 'pod-list-wrap-ext', -200)
-  end
-  
-  remote_call :navigate do |page|
-    page.replace_html "backLink", "<div>foo</div>"
+    page.call('scrollNavigation', new_level)
   end
   
   protected

@@ -1,68 +1,4 @@
 /* CSS Document */
-/* **************************************** */
-/* FORMATTAZIONE DEL BACK LINK */
-/* **************************************** */
-div#backLink{
-	width: 200px;
-	border-top:1px solid #E6E6E6
-}
-div#backLink ul{
-	display:block;
-	list-style: none;
-	margin:0;
-	padding:0;
-}
-div#backLink ul li{
-	display:block;
-	list-style: none;
-	margin:0;
-	padding:0;
-}
-div#backLink ul li a{
-	font-size:12px;
-	display:block;
-	width:160px;
-	padding: 10px 10px 10px 30px;
-	background-color: #FFFFFF;
-	background-image:url(/images/pod_style_navigation/ipod_arrow_back.gif);
-	background-repeat:no-repeat;
-	background-position:10px center;
-	text-decoration:none;
-	color: #333333;
-	font-weight: bold;
-}
-div#backLink ul li a:hover{
-	color: #990000;
-}
-div#backLink ul li#ipod_backlink_default a{
-	font-size:12px;
-	display:block;
-	width:180px;
-	padding: 10px 10px 10px 10px;
-	background-color: #FFFFFF;
-	background-image:none;
-	text-decoration:none;
-	color: #333333;
-	font-weight: bold;
-}
-div#backLink ul li#ipod_backlink_default a:hover{
-	color: #990000;
-}
-div#backLink ul li.backLinkItem{
-	border-bottom: 1px solid #E6E6E6;
-}
-/* back link per testi senza link */
-div#backLink ul li span{
-    font-size:12px;
-    display:block;
-    width:180px;
-    padding: 10px 10px 10px 10px;
-    background-color: #FFFFFF;
-    text-decoration:none;
-    color: #999999;
-    font-weight: bold;
-}
-/* **************************************** */
 
 
 /* **************************************** */
@@ -71,25 +7,22 @@ div#backLink ul li span{
 /* maschera della navigazione */
 div#pod-list-wrap-mask{
 	position:absolute;
-	/* overflow:hidden; */
+	overflow:hidden;
         width: 200px;
 	/*background-color:#99CCFF;*/
 }
-
 div#pod-list-wrap-ext{
 	position:absolute;
 	height: 400px;
 	width: 200px;
 	left:-200px;
 }
-
 div#pod-list-wrap
 {
     position:absolute;
     width: 200px;
     left:0;
 }
-
 div#pod-list-wrap ul
 {
 	list-style:none;
@@ -101,7 +34,6 @@ div#pod-list-wrap ul
 	left: 200px;
 	/* border-top:1px solid #D9D9D9; */
 }
-
 div#pod-list-wrap ul ul
 {
 top:-1px;
@@ -139,6 +71,33 @@ div#pod-list-wrap ul li a.ipodStyle span.corsivo{
 	color:#999999;
 	font-variant:small-caps;
 }
+
+
+/* back link interni */
+div#pod-list-wrap ul li.ipod_navigation_back_link{
+}
+
+div#pod-list-wrap ul li.ipod_navigation_back_link a{
+    font-size:12px;
+	display:block;
+	width:160px;
+	padding: 10px 10px 10px 30px;
+	background-color: #FFFFFF;
+	background-image:url(/images/pod_style_navigation/ipod_arrow_back.gif);
+	background-repeat:no-repeat;
+	background-position:10px center;
+	text-decoration:none;
+	color: #333333;
+	font-weight: bold;
+}
+
+div#pod-list-wrap ul li.ipod_navigation_back_link a:hover{
+    color: #990000;
+    background-color: #FFFFFF;
+    background-image:url(/images/pod_style_navigation/ipod_arrow_back_ro.gif);
+    background-repeat:no-repeat;
+    background-position:10px center;
+}
 /* **************************************** */
 
 
@@ -168,4 +127,24 @@ div#ipod_scroll_down_button a{
     text-indent: -999px;
     border-top:1px solid #D9D9D9;
 }
+
+/* **************************************** */
+/* ELEMENTI INTERNI ADDETTI ALLO SCROLL */
+/* **************************************** */
+span.ipod_internal_backlinks{
+    position: absolute;
+    z-index: 100;
+    display: block;
+    /* border: 1px solid blue; */
+}
+span.ipod_internal_scroll{
+    display: block;
+    /* position: absolute; */
+    /* border: 1px solid magenta; */
+}
+
+
+
+
+
 
