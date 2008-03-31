@@ -8,7 +8,7 @@ class User
   attr_accessor :roles
   
   def initialize
-    @roles = ['workflow_normal_users', 'workflow_power_users'].sort!
+    @roles = ['reviewers', 'publishers'].sort!
   end
   
   def authorized_as?(role_name)

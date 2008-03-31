@@ -7,7 +7,7 @@ module TaliaCore
   
     def test_roles
       # check set and get roles
-      assert_equal(["workflow_power_users"], ReviewedAction.allowed_roles)
+      assert_equal(["reviewers"], ReviewedAction.allowed_roles)
     end
   
   end
