@@ -6,6 +6,40 @@ module TaliaCore
   
   # Workflow class
   class Workflow
+    
+    # class level method
+    
+    class << self
+      
+      # return Array of all roles used into workflow
+      def roles
+        # get all file plased into action directory
+        classes = Dir.entries(File.join(File.dirname(__FILE__), 'action'))
+        
+        # collect all roles used
+        roles = classes.collect { |item| 
+          # Is file used by workflow?
+          if item.include?('_action.rb')
+            # convert filename to classname
+            classname = item.to_s.capitalize.gsub(/_action.rb$/, '').concat("Action")
+            # require file
+            require File.join('workflow', 'action', item)
+            # retrive role required
+            Object.const_get("TaliaCore").const_get(classname).allowed_roles
+          end
+        }
+        
+        # compact and sort roles array
+        roles.flatten!.compact!.sort!
+        
+        # return roles array
+        return roles
+      end
+      
+    end
+    
+    # ----------------------------------
+    # instance level method
   
     # initialize current workflow
     # * transitions: transitions as Array of 3 string element (origin state, event, destination state).
@@ -52,8 +86,8 @@ module TaliaCore
     # * options: options for event. Default value is nil
     def action(event, user, options = nil)
       raise "Event can be execute before set source id" if source.nil?
-    
-      @workflow_machine.send(event, options)
+      
+      @workflow_machine.send(event, user, options)
     end
   
     # set source id for current workflow
@@ -68,7 +102,7 @@ module TaliaCore
       data
     end
   
-private  
+    private  
 
     # get data if record exist or create new record.
     def data

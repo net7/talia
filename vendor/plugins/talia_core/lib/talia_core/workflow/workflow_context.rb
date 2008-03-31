@@ -36,7 +36,7 @@ module TaliaCore
       self.class.send(:define_method, name.to_sym) { |*args|
       
         # run "execute" method of WorkflowAction class
-        actionClassObject.new.execute(args)
+        actionClassObject.new.execute(args[0], args[1])
       
         # save current state
         wr = WorkflowRecord.find(:first, :conditions => {:source_record_id => @source_record_id})

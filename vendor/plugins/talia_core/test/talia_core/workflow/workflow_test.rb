@@ -1,6 +1,6 @@
 require 'test/unit'
 require 'workflow/workflow_builder'
-
+require File.join(File.dirname(__FILE__), 'user')
 # Load the helper 
 require File.join(File.dirname(__FILE__), '..', '..', 'test_helper')
 
@@ -64,11 +64,11 @@ module TaliaCore
       assert_equal(:submitted, workflow.state)
       
       # execute an action
-      workflow.action(:review, 'my_user')
+      workflow.action(:review, User.new)
       assert_equal(:reviewed, workflow.state)
       
       # execute an action sending parameters
-      workflow.action(:publish, 'my_user', {:vote => 10})
+      workflow.action(:publish, User.new, {:vote => 10})
       assert_equal(:published, workflow.state)
     end
     
@@ -100,7 +100,7 @@ module TaliaCore
       assert WorkflowRecord.find(:first, :conditions => {:source_record_id => 2})
       
       # execute an action
-      workflow.action(:review, 'my_user')
+      workflow.action(:review, User.new)
       assert_equal(:reviewed, workflow.state)
       
       # reload workflow for same source
@@ -109,6 +109,13 @@ module TaliaCore
       assert_kind_of(Workflow, workflow)
       assert_equal(:reviewed, workflow.state)
          
+    end
+    
+    def test_roles
+      
+      # check all roles required by Workflow
+      assert_equal(User.new.roles, Workflow.roles)
+      
     end
     
   end
