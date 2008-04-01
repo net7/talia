@@ -47,7 +47,7 @@ class NavigationBarWidget < Widgeon::Widget
                   :widget_supertypes => clean_types(@navigation_type.supertypes) })
     page.replace_html(@list_element, 
                       :inline => "<%= widget(:source_list, :source_options => { :type => @widget.navigation_type, :per_page => 3 }) %>")
-    page.call('scrollNavigation', new_level)
+    page.call('navigationGoDown ', @navigation_id)
   end
   
   protected

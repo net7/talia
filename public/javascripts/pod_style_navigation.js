@@ -1,13 +1,6 @@
 // JavaScript Document
 // POD NAVIGATION DEVELOPEMENT - very simple!
 
-
-function scrollNavigation(navigation_level)
-{
-    alert(navigation_level);
-}
-
-
 /* **************************************** */
 /* FUNZIONE CHE CANCELLA GLI ATTRIBUTI HREF NELLA NAVIGAZIONE */
 /* **************************************** */
@@ -52,36 +45,37 @@ function navigationGoDown(idLiDaModificare)
                 /* RETRIEVE FROM AJAX */
                 // needs some ajax stuff here, AGIUNGO UN ID COSTRUITO CON IL LIVELLO DI NAVIGAZIONE
 		// $(idLiDaModificare).insert("<ul id='ipod_nav_level_" + (navigationLevel + 1) + "'><li class=\"ipod_navigation_back_link\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"defaultNavigationGoUp();\" title=\"Test Link Number One\">Standard Back Link</a></li><li class=\"ipod_navigation_back_link\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoUp();\" title=\"Test Link Number One\">Strange Back Link</a></li><li id='test1'><a class='ipodStyle' title='Test Link Number One' onclick='navigationGoDown(\"test1\");'>Link di livello inferiore 1</a></li><li id='test2'><a class='ipodStyle' title='Test Link Number One' onclick='navigationGoDown(\"test2\");'>Link di livello inferiore 2</a></li><li id='test3'><a class='ipodStyle' title='Test Link Number One' onclick='navigationGoDown(\"test3\");'>Link di livello inferiore 3</a></li><li id='test4'><a class='ipodStyle' title='Test Link Number One' onclick='navigationGoDown(\"test4\");'>Link di livello inferiore 4</a></li><li id='test5'><a class='ipodStyle' title='Test Link Number One' onclick='navigationGoDown(\"test5\");'>Link di livello inferiore 5</a></li><li id='test6'><a class='ipodStyle' title='Test Link Number One' onclick='navigationGoDown(\"test6\");'>Link di livello inferiore 6</a></li><li id='test7'><a class='ipodStyle' title='Test Link Number One' onclick='navigationGoDown(\"test7\");'>Link di livello inferiore 7</a></li><li id='test8'><a class='ipodStyle' title='Test Link Number One' onclick='navigationGoDown(\"test8\");'>Link di livello inferiore 8</a></li></ul>");
-		$(idLiDaModificare).insert("<ul id=\"ipod_nav_level_" + (navigationLevel + 1) + "\"><span class=\"ipod_internal_backlinks\"><li class=\"ipod_navigation_back_link\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"defaultNavigationGoUp();\" title=\"Test Link Number One\">BACK LINK UNO</a></li><li class=\"ipod_navigation_back_link\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"defaultNavigationGoUp();\" title=\"Test Link Number One\">Back Link 2</a></li><li class=\"ipod_navigation_back_link\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"defaultNavigationGoUp();\" title=\"Test Link Number One\">Back Link 3</a></li></span><span class=\"ipod_internal_scroll\" ><li id=\"link_aggiunto_1\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_1');\">DOWN LINK 1</a></li><li id=\"link_aggiunto_2\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_2');\">link_aggiunto_2</a></li><li id=\"link_aggiunto_3\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_3');\">link_aggiunto_3</a></li><li id=\"link_aggiunto_4\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_4');\">link_aggiunto_4</a></li> <li id=\"link_aggiunto_5\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_5');\">link_aggiunto_5</a></li><li id=\"link_aggiunto_6\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_6');\">link_aggiunto_6</a></li><li id=\"link_aggiunto_7\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_7');\">link_aggiunto_7</a></li><li id=\"link_aggiunto_8\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_8');\">link_aggiunto_8</a></li></span></ul>");
+		// ********        $(idLiDaModificare).insert("<ul id=\"ipod_nav_level_" + (navigationLevel + 1) + "\"><span class=\"ipod_internal_backlinks\"><li class=\"ipod_navigation_back_link\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"defaultNavigationGoUp();\" title=\"Test Link Number One\">BACK LINK UNO</a></li><li class=\"ipod_navigation_back_link\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"defaultNavigationGoUp();\" title=\"Test Link Number One\">Back Link 2</a></li><li class=\"ipod_navigation_back_link\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"defaultNavigationGoUp();\" title=\"Test Link Number One\">Back Link 3</a></li></span><span class=\"ipod_internal_scroll\" ><li id=\"link_aggiunto_1\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_1');\">DOWN LINK 1</a></li><li id=\"link_aggiunto_2\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_2');\">link_aggiunto_2</a></li><li id=\"link_aggiunto_3\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_3');\">link_aggiunto_3</a></li><li id=\"link_aggiunto_4\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_4');\">link_aggiunto_4</a></li> <li id=\"link_aggiunto_5\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_5');\">link_aggiunto_5</a></li><li id=\"link_aggiunto_6\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_6');\">link_aggiunto_6</a></li><li id=\"link_aggiunto_7\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_7');\">link_aggiunto_7</a></li><li id=\"link_aggiunto_8\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_8');\">link_aggiunto_8</a></li></span></ul>");
                  
                 /* ma non ci sar√† un problema di posizione ? */ 
                 /*$('ipod_nav_level_' + (navigationLevel + 1))
                 $('ipod_nav_level_' + (navigationLevel + 1)).select('span.ipod_internal_backlinks')[0]
                 $('ipod_nav_level_' + (navigationLevel + 1)).select('span.ipod_internal_scroll ')[0]
-*/
+                */
                 var differenceInTopPosition = $('pod-list-wrap-mask').cumulativeOffset().top - $(idLiDaModificare).ancestors()[1].cumulativeOffset().top;
-
-                $(idLiDaModificare).setStyle("border: 1px solid blue;");
                 
-                alert("differenceInTopPosition: " + differenceInTopPosition);
-                $('ipod_nav_level_' + (navigationLevel + 1)).setStyle("margin-top:"+ differenceInTopPosition +"px;");
+                var dimensioneVerticaleDelBackNavigation = $('ipod_nav_level_' + (navigationLevel + 1)).select('span.ipod_internal_scroll')[0].getHeight();
+
+                $('ipod_nav_level_' + (navigationLevel + 1)).select('span.ipod_internal_scroll')[0].setStyle("margin-top:"+ dimensioneVerticaleDelBackNavigation +"px;");
+                
+                $('ipod_nav_level_' + (navigationLevel + 1)).setStyle('top:0px;');
+                
                 
                 /* qui dobbbiamo calcolare la posizione top dell'elemento ul creato*/
-                topToSet = ($(idLiDaModificare).ancestors()[0].cumulativeOffset().top -  $('pod-list-wrap-mask').cumulativeOffset().top);
                 
-                var topPositionUl = $(idLiDaModificare).ancestors()[0].cumulativeOffset().top;
-                var topPositionMenuMask = $('pod-list-wrap-mask').cumulativeOffset().top;
-                if(topPositionUl > topPositionMenuMask)
+                
+                var topMaskMenu = $('pod-list-wrap-mask').cumulativeOffset().top;
+                var topElement = $(idLiDaModificare).ancestors()[0].cumulativeOffset().top;
+                    
+                if(topElement > topMaskMenu)
                 {
-                    // $("ipod_nav_level_" + (navigationLevel + 1)).setStyle('top:-'+ (topPositionUl - topPositionMenuMask) +'px');
-                }else
-                {
-                    // $("ipod_nav_level_" + (navigationLevel + 1)).setStyle('top:'+ (topPositionMenuMask - topPositionUl) +'px');
+                    $('ipod_nav_level_' + (navigationLevel + 1)).setStyle('margin-top:-'+ (topElement - topMaskMenu)+'px;');
+                }else{
+                    $('ipod_nav_level_' + (navigationLevel + 1)).setStyle('margin-top:'+ (topMaskMenu - topElement) +'px;');
                 }
-
+                
                 /* cancello i dati href dei tag a */
                 deleteHrefAttributes($$('a.ipodStyle'));
-                
                 // scroll della navigazione verso la valle
 		orizontalScrollNavigation('pod-list-wrap-ext',-200);
 	}
@@ -195,8 +189,6 @@ function endOfMovementFunction()
 /* funzione di controllo dell'altezza in verticale del pod style menu al primo caricamento*/
 function checkVerticalHeightOfPodNavigation()
 {   /* altezza verticale disponibile per tutto il menu */
-// FIXME
-/*
     var altezzaVerticale = document.viewport.getDimensions().height - $('pod-list-wrap-mask').cumulativeOffset($('pod-list-wrap-mask')).top - 50;
     /* attribuisco 'altezza verticale alla maschera del menu */
     $('pod-list-wrap-mask').setStyle('height: '+ altezzaVerticale +'px');

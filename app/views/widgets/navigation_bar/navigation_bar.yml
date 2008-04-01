@@ -10,6 +10,12 @@ root_classes:
     - luccadom:place
     - luccadom:artwork
     - luccadom:epoch
+    - luccadom:house
+    - luccadom:techno
+    - luccadom:acid house
+    - luccadom:deep house
+    - luccadom:minimal
+    - luccadom:glitch
 
 # Labels for classes. These override the values given in the RDF store
 labels:

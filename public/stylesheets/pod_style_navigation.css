@@ -1,6 +1,5 @@
 /* CSS Document */
 
-
 /* **************************************** */
 /* FORMATTAZIONE DEL MENU */
 /* **************************************** */
@@ -8,7 +7,7 @@
 div#pod-list-wrap-mask{
 	position:absolute;
 	overflow:hidden;
-        width: 200px;
+        width: 900px;
 	/*background-color:#99CCFF;*/
 }
 div#pod-list-wrap-ext{
@@ -25,14 +24,14 @@ div#pod-list-wrap
 }
 div#pod-list-wrap ul
 {
-	list-style:none;
-	top:0;
-	padding:0;
-	position: absolute;
-	width: 200px;
-	list-style-position:inside;
-	left: 200px;
-	/* border-top:1px solid #D9D9D9; */
+    list-style:none;
+    top:0;
+    padding:0;
+    position: absolute;
+    width: 200px;
+    list-style-position:inside;
+    left: 200px;
+    /* border-top:1px solid #D9D9D9; */
 }
 div#pod-list-wrap ul ul
 {
@@ -139,8 +138,9 @@ span.ipod_internal_backlinks{
 }
 span.ipod_internal_scroll{
     display: block;
-    /* position: absolute; */
-    /* border: 1px solid magenta; */
+    left: 0px;
+    top: 0px;
+    position: relative;
 }
 
 
