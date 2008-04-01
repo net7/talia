@@ -426,3 +426,8 @@ div#html_data img{
 #login_box {
 	float: right;
 }
+
+#openid_login p input[type=text] {
+	background: #fff url(/images/openid-login-bg.gif) no-repeat top left;
+	padding-left: 20px;
+}
