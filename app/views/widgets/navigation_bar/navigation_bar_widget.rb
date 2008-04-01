@@ -9,7 +9,7 @@ class NavigationBarWidget < Widgeon::Widget
     @show_home = false # normally don't show the home/back link
     
     if(@source_class)
-      raise(ArgumentError, "This type is not allowed for the browser") unless(is_allowed?(@source_class))
+      raise(ArgumentError, "This type is not allowed for the browser: #{@source_class.to_name_s}") unless(is_allowed?(@source_class))
       if(is_root?(source_class))
         @supertypes = []
         @show_home = true # for a root class show the "back" link to the root level
@@ -34,16 +34,19 @@ class NavigationBarWidget < Widgeon::Widget
     end
   end
   
+  # This is the callback that updates the scrolling navigation
   remote_call :ipod_down do |page|
     new_level = (@level.to_i + 1).to_s
-    new_type = N::SourceClass.make_uri(@navigation_type, "#")
+    @navigation_type = N::SourceClass.make_uri(@navigation_type, "#")
     
     page.insert_html(:bottom, @navigation_id, 
       :partial => "widgets/#{self.class.widget_name}/navigation_list",
       :locals => {:widget => self, 
                   :current_level => new_level, 
-                  :widget_subtypes => clean_types(new_type.subtypes),
-                  :widget_supertypes => clean_types(new_type.supertypes) })
+                  :widget_subtypes => clean_types(@navigation_type.subtypes),
+                  :widget_supertypes => clean_types(@navigation_type.supertypes) })
+    page.replace_html(@list_element, 
+                      :inline => "<%= widget(:source_list, :source_options => { :type => @widget.navigation_type, :per_page => 3 }) %>")
     page.call('scrollNavigation', new_level)
   end
   

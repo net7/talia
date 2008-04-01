@@ -12,8 +12,7 @@ class TypesController < ApplicationController
   # GET /sources/1
   # GET /sources/1.xml
   def show
-    parts = params[:id].split("#")
-    @type = N::SourceClass.new(N::Namespace[parts[0]] + parts[1])
+    @type = N::SourceClass.make_uri(params[:id], "_")
     @page_title = "Talia | #{@type.to_name_s}"
     respond_to do |format|
       format.html # show.html.erb
