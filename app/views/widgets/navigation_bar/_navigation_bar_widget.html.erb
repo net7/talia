@@ -1,16 +1,16 @@
 
 
-<% if(@widget.show_home) %>
+<% if(w.show_home) %>
   <!--  <h3><%= link_to('<< Back to start', :controller => 'types', :action => nil) %></h3> -->
 <% end %>
 
 <!-- link back -->
-<% for supertype in @widget.supertypes %>
+<% for supertype in w.supertypes %>
   <!-- <h3 class="super"><%= type_link("<< #{@widget.class_label(supertype)}", supertype) %></h3> -->
 <% end %>
 
 <!-- pagina in cui sono -->
-<% if(@widget.source_class) %>
+<% if(w.source_class) %>
   <!-- <h3 class="exact"> <%= @widget.class_label(@widget.source_class) %></h3> -->
 <% end %>
 

@@ -38,20 +38,27 @@ class NavigationBarWidget < Widgeon::Widget
   remote_call :ipod_down do |page|
     new_level = (@level.to_i + 1).to_s
     @navigation_type = N::SourceClass.make_uri(@navigation_type, "#")
+    supertypes = clean_types(@navigation_type.supertypes)
+    
+    if(is_root?(@navigation_type))
+      show_home = true
+      supertypes = []
+    end
     
     page.insert_html(:bottom, @navigation_id, 
       :partial => "widgets/#{self.class.widget_name}/navigation_list",
       :locals => {:widget => self, 
                   :current_level => new_level, 
                   :widget_subtypes => clean_types(@navigation_type.subtypes),
-                  :widget_supertypes => clean_types(@navigation_type.supertypes) })
+                  :widget_supertypes => supertypes,
+                  :show_home => show_home })
     page.replace_html(@list_element, 
                       :inline => "<%= widget(:source_list, :source_options => { :type => @widget.navigation_type, :per_page => 3 }) %>")
     page.call('navigationGoDown ', @navigation_id)
   end
   
   protected
- 
+  
   # Checks if the given element is a "root" class
   def is_root?(klass)
     assit_kind_of(N::SourceClass, klass)
