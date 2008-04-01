@@ -26,9 +26,13 @@ module TaliaCore
     
     ## check user authorization
     def authorized?(user)
+      # check authorization for each role specified
       self.class.allowed_roles.each { |role|
-        user.authorized_as?(role)
+        # return false if user is not authorized
+        return false unless user.authorized_as?(role)
       }
+      # return true if user is authorized
+      return true
     end
     
   end

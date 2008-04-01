@@ -15,7 +15,7 @@ module TaliaCore
     # * options: arguments. Default value is nil
     def execute(user, options = nil)
       # check user authorization
-      authorized?(user)
+      raise "User is not authorized for execute this action" unless authorized?(user)
     end
   end
 
