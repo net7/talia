@@ -1,6 +1,6 @@
 if(@javascript)
   # This sends the remote call to the widget, which may then modify the page
-  @widget.send("#{@javascript}_remotecall", page)
+  @widget.send("#{@javascript}_remotecall", page, self)
 else
   page.replace_html @widget.global_id, @widget.render_template(self, @refresh)
 end

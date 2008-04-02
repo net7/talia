@@ -26,11 +26,7 @@ module NavigationBarHelper
   # Renders the navigation list of level 1
   def navigation_list
     widget_partial("navigation_list", 
-      :locals => { 
-        :current_level => "1", 
-        :widget_subtypes => w.subtypes , 
-        :widget_supertypes => w.supertypes,
-        :show_home => w.show_home })
+      :locals => { :current_level => "1" })
   end
   
   private

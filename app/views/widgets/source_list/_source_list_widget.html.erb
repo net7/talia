@@ -1,11 +1,11 @@
 <h2>Page <%= w.sources.current_page %> of <%= w.sources.page_count %></h2>
 
 <div>
-  <%= widget_partial('source_item', :collection => @widget.sources) %>
+  <%= widget_partial('source_item', :collection => w.sources) %>
 </div>
 <div>
 
-<%= widget_will_paginate(@widget.sources, :source_options => @widget.source_options) %>
+<%= widget_will_paginate(w.sources, :source_options => w.source_options) %>
 </div>
 
 
