@@ -8,7 +8,7 @@
     <li class="ipod_navigation_back_link">
       <span class="ipodStyle">Navigate!</span>
     </li>
-    <%= type_link_up("Back", nil) if(show_home) %>
+    <%= type_link_up("Back") if(show_home) %>
     <% for supertype in widget_supertypes %>
       <div><%= supertype.to_name_s %></div>
       <li id="<%= supertype.to_name_s('_') %>">

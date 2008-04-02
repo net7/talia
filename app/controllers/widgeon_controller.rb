@@ -21,30 +21,43 @@ class WidgeonController < ApplicationController
   # The widget object itself will be initialized, but the <tt>before_render</tt>
   # method will *not* be called on the widget.
   def remote_call
-    render("Can only be called as AJAX.", :status => 400) unless(request.xhr?)
     options = WidgeonEncoding.decode_options(params[:call_options])
-    options[:callback_active] = true
-    widget_class = options.delete(:widget_class).to_s
-    # Action is the action that will be called on the widget.
-    @action = options.delete(:template)
-    @widget = Widgeon::Widget.load(widget_class).new(self, request, options)
-  end
-  
-  # This handles a callback from a widget to itself
-  def callback
-    options = WidgeonEncoding.decode_options(params[:widget_callback_options])
+    
     
     if(request.xhr?)
-      # Set the callback flag
-      options[:callback_active] = true
-      @widget = Widgeon::Widget.load(options[:widget_class].to_s).new(self, request, options)
+      javascript_render(options)
     else
-      redirect_options = options.delete(:request_params)
-      raise(ArgumentError, "Illegal options") unless(redirect_options.is_a?(Hash))
-      redirect_options[:widgeon_class] = options[:widget_class]
-      redirect_options[:widgeon_id] = options[:widget_id]
-      redirect_options[:widgeon_callback] = WidgeonEncoding.encode_options(options)
-      redirect_to(redirect_options)
+      fallback_reload(options)
     end
   end
+  
+  
+  private
+  
+  # This handles the setup for an xhr/AJAX rendering of the widget
+  def javascript_render(options)
+    options[:callback_active] = true
+    klass = options.delete(:widget_class).to_s
+    @widget = Widgeon::Widget.load_widget(klass).new(self, request, options)
+    # Get the action handlers from the options
+    @refresh = options.delete(:refresh)
+    @javascript = options.delete(:javascript)
+    if((@refresh && @javascript) || !(@refresh || @javascript))
+      raise(ArgumentError, "Must have exactly one action specifier.")
+    end
+    @refresh = nil if(@refresh == :default) # Define no template => default
+  end
+  
+  # This handles the "fallback" reload of the original page, in case that his
+  # is not a AJAX call
+  def fallback_reload(options)
+    raise("Fallback reloading not allowed for this call.") unless(options.delete(:fallback_enabled))
+    redirect_options = options.delete(:request_params)
+    raise(ArgumentError, "Illegal options") unless(redirect_options.is_a?(Hash))
+    redirect_options[:widgeon_class] = options[:widget_class]
+    redirect_options[:widgeon_id] = options[:widget_id]
+    redirect_options[:widgeon_callback] = WidgeonEncoding.encode_options(options)
+    redirect_to(redirect_options)
+  end
+  
 end

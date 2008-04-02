@@ -2,16 +2,19 @@ module NavigationBarHelper
   # Creates a link to the given source, moving the ipod list "down"
   def type_link_down(type, level)
     text = w.class_label(type)
-    widget_remotelink(text, :ipod_down, 
-      { :navigation_type => type.to_name_s("#"), 
+    widget_remote_link(text,  
+      { :javascript => :ipod_down,
+        :navigation_type => type.to_name_s("#"), 
         :navigation_id => type_id(type), 
-        :level => level }, 
-      { :class => "ipodStyle", :href => static_url_for(type) } )
+        :level => level,
+        :fallback => static_url_for(type)
+      }, 
+      { :class => "ipodStyle" } )
   end
   
   # Creates a link to the given type, used as an "up" backlink for the ipod navigation
   def type_link_up(type)
-    text = w.class_label(type)
+    text = type.is_a?(String) ? type : w.class_label(type)
     link_to(text, static_url_for(type), { :class => "ipodStyle", :onclick => "defaultNavigationGoUp();" })
   end
   
@@ -35,6 +38,7 @@ module NavigationBarHelper
   
   # Creates a static url for the given type
   def static_url_for(type)
+    return w.request.params if(type.is_a?(String))
     static_url_params = w.request.parameters
     if(type)
       static_url_params[:id] = type_id(type)

@@ -8,7 +8,7 @@
 #                   the first page is shown.
 class SourceListWidget < Widgeon::Widget
   
-  def before_render
+  def on_init
     raise(ArgumentError, "Source options missing") unless(@source_options)
     @source_options[:page] = get_page   
     @sources = TaliaCore::Source.paginate(@source_options)

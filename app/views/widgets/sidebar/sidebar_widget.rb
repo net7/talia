@@ -3,7 +3,7 @@ load File.join(File.dirname(__FILE__), 'sidebar_tab.rb')
 
 class SidebarWidget < Widgeon::Widget
   
-  def before_render
+  def on_init
     @top_tabs = []
     @bottom_tabs = []
     new_tabs = []

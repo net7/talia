@@ -1,6 +1,6 @@
 class ContextBarWidget < Widgeon::Widget
   
-  def before_render
+  def on_init
     return unless(@source) # Just bail out if no source is given
     assit_not_nil(properties, "Must use context bar with properties.")
     @context_groups = {}

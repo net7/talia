@@ -1,7 +1,7 @@
 # Render a source with a given template. The widget checks the type of the 
 class SourceSnippetWidget < Widgeon::Widget
   
-  def before_render
+  def on_init
     assit_not_nil(@source)
     @template_dir ||= 'default' # set default template folder if the user didn't select it
   end

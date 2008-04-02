@@ -2,7 +2,7 @@ class NavigationBarWidget < Widgeon::Widget
   
   include TaliaCore
   
-  def before_render
+  def on_init
     assit_kind_of(Array, @root_classes, "Must configure root classes correctly.")
     assit_kind_of(Array, @allowed_namespaces, "Must configure the allowed namespaces.")
     
