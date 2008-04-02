@@ -53,7 +53,7 @@ class WidgeonController < ApplicationController
   def fallback_reload(options)
     raise("Fallback reloading not allowed for this call.") unless(options.delete(:fallback_enabled))
     redirect_options = options.delete(:request_params)
-    raise(ArgumentError, "Illegal options") unless(redirect_options.is_a?(Hash))
+    raise(ArgumentError, "Illegal options (#{redirect_options.class})") unless(redirect_options.is_a?(Hash))
     redirect_options[:widgeon_class] = options[:widget_class]
     redirect_options[:widgeon_id] = options[:widget_id]
     redirect_options[:widgeon_callback] = WidgeonEncoding.encode_options(options)
