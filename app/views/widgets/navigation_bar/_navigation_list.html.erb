@@ -4,25 +4,15 @@
 %>
 
 <ul id="ipod_nav_level_<%= current_level %>">
-  <span class="ipod_internal_backlinks">
-    <li class="ipod_navigation_back_link">
-      <span class="ipodStyle">Navigate!</span>
-    </li>
-    <%= type_link_up("Back") if(show_home) %>
-    <% for supertype in widget_supertypes %>
-      <div><%= supertype.to_name_s %></div>
-      <li id="<%= supertype.to_name_s('_') %>">
+  <%= type_link_up("Back") if(show_home) %>
+  <% for supertype in widget_supertypes %>
+    <li class="ipod_navigation_back_link" id="<%="#{ supertype.to_name_s('_') }"%>">
         <%= type_link_up(supertype) %>
-      </li>
-    <% end %>
-    
-    </span>
-    <span class="ipod_internal_scroll" >
-    <% for subtype in widget_subtypes %>
-      <li id="<%= subtype.to_name_s('_') %>"> 
-        <%= type_link_down(subtype, current_level) %> 
-      </li>
-    <% end %>
-  
-  </span>
+    </li>
+  <% end %>
+  <% for subtype in widget_subtypes %>
+    <li class="ipod_navigation_down_link" id="<%="#{ subtype.to_name_s('_') }"%>"> 
+      <%= type_link_down("#{widget.class_label(subtype)}", subtype, current_level) %> 
+    </li>
+  <% end %>
 </ul>

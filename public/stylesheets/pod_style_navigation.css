@@ -5,16 +5,15 @@
 /* **************************************** */
 /* maschera della navigazione */
 div#pod-list-wrap-mask{
-	position:absolute;
-	overflow:hidden;
-        width: 900px;
-	/*background-color:#99CCFF;*/
+    position:absolute;
+    overflow:hidden;
+    width: 200px;
 }
 div#pod-list-wrap-ext{
-	position:absolute;
-	height: 400px;
-	width: 200px;
-	left:-200px;
+    position:absolute;
+    height: 400px;
+    width: 200px;
+    left:-200px;
 }
 div#pod-list-wrap
 {
@@ -27,6 +26,7 @@ div#pod-list-wrap ul
     list-style:none;
     top:0;
     padding:0;
+    margin:0;
     position: absolute;
     width: 200px;
     list-style-position:inside;
@@ -35,40 +35,37 @@ div#pod-list-wrap ul
 }
 div#pod-list-wrap ul ul
 {
-top:-1px;
+    margin:0;
+    top:-1px;
 }
 
 div#pod-list-wrap ul li
 {
-	width: 200px;
-	background:#F2F2F2 url(/images/pod_style_navigation/ipod_button_bg.gif) bottom left repeat-x;
-	/* background-color: #F2F2F2; */
+    display:inline;
+    margin:0;
+    width: 200px;
+    background:#F2F2F2 url(/images/pod_style_navigation/ipod_button_bg.gif) bottom left repeat-x;
 }
 
 div#pod-list-wrap ul li a.ipodStyle{
-	font-size:12px;
-	padding:10px 30px 10px 10px;
-	display:block;
-	width: 160px;
-	cursor:pointer;
-	/* background-color: #F2F2F2; */
-	background-image:url(/images/pod_style_navigation/ipod_arrow.gif);
-	background-repeat:no-repeat;
-	background-position:180px center;
-	border-bottom:1px solid #D9D9D9;	
+    font-size:12px;
+    padding:10px 30px 10px 10px;
+    display:block;
+    width: 160px;
+    cursor:pointer;
+    border-bottom:1px solid #CDCDCD;
+    background:#F2F2F2 url(/images/pod_style_navigation/ipod_button_bg_new.gif) center left repeat-x;
 }
 
 div#pod-list-wrap ul li a:hover.ipodStyle{
-	color:#990000;
-	background-image:url(/images/pod_style_navigation/ipod_arrow_ro.gif);
-	background-repeat:no-repeat;
-	background-position:180px center;
+    color:#990000;
+    background:#F2F2F2 url(/images/pod_style_navigation/ipod_button_bg_new_ro.gif) center left repeat-x;
 }
 
 div#pod-list-wrap ul li a.ipodStyle span.corsivo{
-	font-style:italic;
-	color:#999999;
-	font-variant:small-caps;
+    font-style:italic;
+    color:#999999;
+    font-variant:small-caps;
 }
 
 
@@ -78,16 +75,17 @@ div#pod-list-wrap ul li.ipod_navigation_back_link{
 
 div#pod-list-wrap ul li.ipod_navigation_back_link a{
     font-size:12px;
-	display:block;
-	width:160px;
-	padding: 10px 10px 10px 30px;
-	background-color: #FFFFFF;
-	background-image:url(/images/pod_style_navigation/ipod_arrow_back.gif);
-	background-repeat:no-repeat;
-	background-position:10px center;
-	text-decoration:none;
-	color: #333333;
-	font-weight: bold;
+    display:block;
+    width:160px;
+    padding: 10px 10px 10px 30px;
+    background-color: #FFFFFF;
+    background-image:url(/images/pod_style_navigation/ipod_arrow_back.gif);
+    background-repeat:no-repeat;
+    background-position:10px center;
+    text-decoration:none;
+    color: #333333;
+    font-weight: bold;
+    border-bottom:1px solid #CDCDCD;
 }
 
 div#pod-list-wrap ul li.ipod_navigation_back_link a:hover{
@@ -99,7 +97,9 @@ div#pod-list-wrap ul li.ipod_navigation_back_link a:hover{
 }
 /* **************************************** */
 
-
+/* **************************************** */
+/* FRECCE SCROLL SU-GIU */
+/* **************************************** */
 div#ipod_scroll_up_button{
     width:200px;
     background-image:url(/images/pod_style_navigation/scroll_top_button.gif);
@@ -107,12 +107,15 @@ div#ipod_scroll_up_button{
     background-position:center center;
     border-bottom:1px solid #D9D9D9;
 }
+
 div#ipod_scroll_up_button a{
     display: block;
+    width:200px;
     margin:0;
     padding: 0;
     text-indent: -999px;
 }
+
 div#ipod_scroll_down_button{
     width:200px;
     background-image:url(/images/pod_style_navigation/scroll_bottom_button.gif);
@@ -121,6 +124,7 @@ div#ipod_scroll_down_button{
 }
 div#ipod_scroll_down_button a{
     display: block;
+    width:200px;
     margin:0;
     padding: 0;
     text-indent: -999px;
@@ -130,20 +134,30 @@ div#ipod_scroll_down_button a{
 /* **************************************** */
 /* ELEMENTI INTERNI ADDETTI ALLO SCROLL */
 /* **************************************** */
-span.ipod_internal_backlinks{
+div.ipod_internal_backlinks{
     position: absolute;
     z-index: 100;
-    display: block;
-    /* border: 1px solid blue; */
+    display: inline;
 }
-span.ipod_internal_scroll{
+div.ipod_internal_backlinks li{
+    display: inline;
+}
+div.ipod_internal_backlinks li a{
+    background-color: gold;
+    display: inline;
+}
+div.ipod_internal_scroll{
     display: block;
     left: 0px;
     top: 0px;
-    position: relative;
+    /* position: relative; */
 }
-
-
+div.ipod_internal_scroll li{
+    display: inline;
+}
+div.ipod_internal_scroll li a{
+    display: inline;    
+}
 
 
 
