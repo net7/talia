@@ -2,6 +2,7 @@
 <root>
     <workflow>
         <step start="submitted" event="review" end="reviewed" />
+        <step start="reviewed" event="vote" end="reviewed" />
         <step start="reviewed" event="publish" end="published" />
         <step start="published" event="auto" end="published" />
     </workflow>

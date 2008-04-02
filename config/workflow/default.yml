@@ -1,0 +1,17 @@
+default:
+  - step:
+    - "submitted"
+    - "review"
+    - "reviewed"
+  - step:
+    - "reviewed"
+    - "vote"
+    - "reviewed"
+  - step:
+    - "reviewed"
+    - "publish"
+    - "published"
+  - step:
+    - "published"
+    - "auto"
+    - "published"
