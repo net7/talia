@@ -25,20 +25,21 @@ module TaliaCore
   
     # load workflow from xml file
     # * source_record_id: source id
-    # * filename: filename to load without extension, e.g. 'my_file' ('.', '/', '\' aren't permitted)
-    # * name: load workflow by name (optional)
-    def self.load_xml(source_record_id, filename = nil, name = nil)
+    # * options: options hash. ':filename' => file to load, ':name' => configuration name to laod
+    #
+    # filename cannot contain extension, e.g. 'my_file' ('.', '/', '\' aren't permitted)
+    def self.load_xml(source_record_id, options = {})
       
       # if filename is nil, use default workflow
-      if filename.nil?
+      if options[:filename].nil?
         file = File.join(TALIA_ROOT, "config", "workflow", "default.xml")
       else
         # check filename syntax
-        if filename.include?(".") || filename.include?("/") || filename.include?("\\")
+        if options[:filename].include?(".") || options[:filename].include?("/") || options[:filename].include?("\\")
           raise "Filename cannot contain '.', '/' or '\\'"
         end
         
-        file = File.join(TALIA_ROOT, "config", "workflow", filename + ".xml")
+        file = File.join(TALIA_ROOT, "config", "workflow", options[:filename] + ".xml")
       end
       
       # load xml file
@@ -46,10 +47,10 @@ module TaliaCore
       xml_data = REXML::Document.new xml_file
     
       # get workflow configuration by name
-      if (name.nil?)
+      if (options[:name].nil?)
         workflow_configuration = xml_data.elements["//root/workflow"]
       else
-        workflow_configuration = xml_data.elements["//root/workflow[@name='#{name}']"]
+        workflow_configuration = xml_data.elements["//root/workflow[@name='#{options[:name]}']"]
       end
     
       # read all workflow step
@@ -69,19 +70,21 @@ module TaliaCore
   
     # load workflow from dsl file
     # * source_record_id: source id
-    # * filename: filename to load without extension, e.g. 'my_file' ('.', '/', '\' aren't permitted)
-    def self.load_dsl(source_record_id,filename = nil)
+    # * options: options hash. ':filename' => file to load
+    #
+    # filename cannot contain extension, e.g. 'my_file' ('.', '/', '\' aren't permitted)
+    def self.load_dsl(source_record_id, options = {})
       
       # if filename is nil, use default workflow
-      if filename.nil?
+      if options[:filename].nil?
         file = File.join(TALIA_ROOT, "config", "workflow", "default.rb")
       else
         # check filename syntax
-        if filename.include?(".") || filename.include?("/") || filename.include?("\\")
+        if options[:filename].include?(".") || options[:filename].include?("/") || options[:filename].include?("\\")
           raise "Filename cannot contain '.', '/' or '\\'"
         end
         
-        file = File.join(TALIA_ROOT, "config", "workflow", filename + ".rb")
+        file = File.join(TALIA_ROOT, "config", "workflow", options[:filename] + ".rb")
       end
       
       # build workflow
@@ -94,6 +97,52 @@ module TaliaCore
       return workflow
     end
   
+    # load workflow from xml file
+    # * source_record_id: source id
+    # * options: options hash. ':filename' => file to load, ':name' => configuration name to laod
+    #
+    # filename cannot contain extension, e.g. 'my_file' ('.', '/', '\' aren't permitted)
+    def self.load_yml(source_record_id, options = {})
+      
+      # if filename is nil, use default workflow
+      if options[:filename].nil?
+        file = File.join(TALIA_ROOT, "config", "workflow", "default.yml")
+      else
+        # check filename syntax
+        if options[:filename].include?(".") || options[:filename].include?("/") || options[:filename].include?("\\")
+          raise "Filename cannot contain '.', '/' or '\\'"
+        end
+        
+        file = File.join(TALIA_ROOT, "config", "workflow", options[:filename] + ".yml")
+      end
+      
+      # load yml file
+      yml_file = YAML::load_file(file)
+      
+      # get workflow configuration
+      if options[:name].nil?
+        workflow_configuration = yml_file['default']
+      else
+        workflow_configuration = yml_file[options[:name]]
+      end
+      
+      # read all workflow step
+      workflow_configuration.each { |item|  
+        # get step
+        step = item['step']
+        # add step elements to transitions array
+        @transitions << [step[0].to_s.to_sym, step[1].to_s.to_sym, step[2].to_s.to_sym]
+      }
+
+      # create new workflow and set source id
+      workflow = self.workflow
+      workflow.source = source_record_id
+    
+      # return workflow
+      return workflow
+      
+    end
+    
     # Add step to workflow
     # * origin_state: begin state of transition
     # * event: event that execute the transition

@@ -17,6 +17,9 @@ module TaliaCore
     def execute(user, options = nil)
       # check user authorization
       raise "User is not authorized for execute this action" unless authorized?(user)
+      
+      options[:result] = options[:vote] unless (options.nil? || options[:vote].nil?)
+      
     end
     
   end

@@ -16,6 +16,7 @@ module TaliaCore
       TestHelper.fixtures
       @workflow_dsl_file = 'default'
       @workflow_xml_file = 'default'
+      @workflow_yml_file = 'default'
     end
 
     def test_workflow_builder
@@ -31,22 +32,27 @@ module TaliaCore
       assert_equal(Workflow, workflow1.class)
       
       # build workflow from DSL
-      workflow2 = WorkflowBuilder.load_dsl(1, @workflow_dsl_file)
+      workflow2 = WorkflowBuilder.load_dsl(1, {:filename => @workflow_dsl_file})
       # check workflow2 class builded
       assert_kind_of(Workflow, workflow2)
 
       # build workflow from XML
-      workflow3 = WorkflowBuilder.load_xml(2, @workflow_xml_file)
+      workflow3 = WorkflowBuilder.load_xml(2, {:filename => @workflow_xml_file})
       # check workflow3 class builded
       assert_kind_of(Workflow, workflow3)
       
+      # build workflow from YAML
+      workflow4 = WorkflowBuilder.load_yml(3, {:filename => @workflow_yml_file})
+      # check workflow4 class builded
+      assert_kind_of(Workflow, workflow4)
+      
       # test load file from wrong characters (security check)
-      assert_raise(RuntimeError) {WorkflowBuilder.load_dsl(1, '.')}
-      assert_raise(RuntimeError) {WorkflowBuilder.load_dsl(1, '/')}
-      assert_raise(RuntimeError) {WorkflowBuilder.load_dsl(1, '\\')}
-      assert_raise(RuntimeError) {WorkflowBuilder.load_xml(1, '.')}
-      assert_raise(RuntimeError) {WorkflowBuilder.load_xml(1, '/')}
-      assert_raise(RuntimeError) {WorkflowBuilder.load_xml(1, '\\')}
+      assert_raise(RuntimeError) {WorkflowBuilder.load_dsl(1, {:filename =>'.'})}
+      assert_raise(RuntimeError) {WorkflowBuilder.load_dsl(1, {:filename =>'/'})}
+      assert_raise(RuntimeError) {WorkflowBuilder.load_dsl(1, {:filename =>'\\'})}
+      assert_raise(RuntimeError) {WorkflowBuilder.load_xml(1, {:filename =>'.'})}
+      assert_raise(RuntimeError) {WorkflowBuilder.load_xml(1, {:filename =>'/'})}
+      assert_raise(RuntimeError) {WorkflowBuilder.load_xml(1, {:filename =>'\\'})}
     end
     
     def test_workflow
@@ -54,7 +60,7 @@ module TaliaCore
       # load workflow from dsl file
       WorkflowRecord.delete_all 'source_record_id = 2' 
       assert_nil WorkflowRecord.find(:first, :conditions => {:source_record_id => 2})
-      workflow = WorkflowBuilder.load_dsl(2, @workflow_dsl_file)
+      workflow = WorkflowBuilder.load_dsl(2, {:filename => @workflow_dsl_file})
       assert_kind_of(Workflow,workflow)
       
       # check source id
@@ -76,14 +82,14 @@ module TaliaCore
       
       # load workflow (retrieve data from database)
       assert WorkflowRecord.find(:first, :conditions => {:source_record_id => 1})
-      workflow = WorkflowBuilder.load_dsl(1, @workflow_dsl_file)
+      workflow = WorkflowBuilder.load_dsl(1, {:filename => @workflow_dsl_file})
       assert_kind_of(Workflow, workflow)
       assert_equal(:reviewed, workflow.state)
 
       # load workflow (create new record in database)
       WorkflowRecord.delete_all 'source_record_id = 2' 
       assert_nil WorkflowRecord.find(:first, :conditions => {:source_record_id => 2})
-      workflow = WorkflowBuilder.load_xml(2, @workflow_xml_file)
+      workflow = WorkflowBuilder.load_xml(2, {:filename => @workflow_xml_file})
       assert_kind_of(Workflow,workflow)
       assert_equal(:submitted, workflow.state)
       assert WorkflowRecord.find(:first, :conditions => {:source_record_id => 2})
