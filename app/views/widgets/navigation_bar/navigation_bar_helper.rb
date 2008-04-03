@@ -12,6 +12,11 @@ module NavigationBarHelper
       { :class => "ipodStyle" } )
   end
   
+  # Title element for the navigation
+  def navigation_title
+    w.source_class ? w.class_label(w.source_class) : "Navigate!"
+  end
+  
   # Creates a link to the given type, used as an "up" backlink for the ipod navigation
   def type_link_up(type)
     text = type.is_a?(String) ? type : w.class_label(type)

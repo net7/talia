@@ -2,7 +2,7 @@ class HtmlDataWidget < Widgeon::Widget
   
   # The widget may be passed a data object directly, or it can look the data
   # up by location. 
-  def before_render
+  def on_init
     assit(@data || @location) # we must have either the data object itself, or a location
     
     @data ||= DataRecord.find(:first, :conditions => ["type = 'XmlData' AND location = ?", @location ])
