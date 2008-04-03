@@ -83,9 +83,12 @@ module TaliaCore
     # call action of state machine
     # * event: event
     # * user: user that call event
-    # * options: options for event. Default value is nil
-    def action(event, user, options = nil)
+    # * options: options Hash for events.
+    def action(event, user, options = {})
       raise "Event can be execute before set source id" if source.nil?
+      
+      # send source_record_id value
+      options[:source_record_id] = self.source
       
       @workflow_machine.send(event, user, options)
     end
