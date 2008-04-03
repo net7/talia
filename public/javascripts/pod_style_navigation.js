@@ -161,9 +161,12 @@ function endOfMovementFunction()
 /* ************************************* */
 /* GESTIONE DELLE DIMENSIONI VERTICALI E VERTICAL SCROLL */
 /* ************************************* */
-/* funzione di controllo dell'altezza in verticale del pod style menu al primo caricamento*/
+/* funzione di controllo dell'altezza in verticale del pod style menu al primo caricamento
+Viene chiamata all on load e anche sul resize
+*/
 function checkVerticalHeightOfPodNavigation()
-{   /* altezza verticale disponibile per tutto il menu */
+{
+    /* altezza verticale disponibile per tutto il menu */
     var margineDelMenuDalFondo = 50;
     var altezzaVerticale = document.viewport.getDimensions().height - $('pod-list-wrap-mask').cumulativeOffset($('pod-list-wrap-mask')).top - margineDelMenuDalFondo;
     /* attribuisco 'altezza verticale alla maschera del menu */
@@ -183,6 +186,21 @@ function checkVerticalHeightOfPodNavigation()
         // $('ipod_scroll_up_button').setStyle('display:block;');
         // $('ipod_scroll_down_button').setStyle('display:block;');
     }
+    
+    /* CONTROLLO: DOPO IL RESIZE */
+    var fondoMask = $('pod-list-wrap-mask').cumulativeOffset().top + $('pod-list-wrap-mask').getHeight();
+    var fondoNavigation = $('ipod_nav_level_' + navigationLevel).getHeight() + $('ipod_nav_level_' + navigationLevel).cumulativeOffset().top;
+    if(fondoMask > fondoNavigation && $('ipod_nav_level_' + navigationLevel).getHeight() > $('pod-list-wrap-mask').getHeight())
+    {
+        var differenza = fondoMask - fondoNavigation;
+        $('ipod_nav_level_' + navigationLevel).setStyle("top:" + ((parseInt($('ipod_nav_level_' + navigationLevel).style.top)) + differenza) + "px")
+    }
+    if($('pod-list-wrap-mask').getHeight() > $('ipod_nav_level_' + navigationLevel).getHeight())
+    {
+        $('ipod_nav_level_' + navigationLevel).setStyle("top:0px;");
+    }
+    
+    upAndDownButtonsSetup();
 }
 function scroll_pod_navigation_down()
 {
@@ -198,12 +216,12 @@ function scroll_pod_navigation_down()
        //  $('ipod_scroll_up_button').setStyle('background-image:url(/images/pod_style_navigation/scroll_top_button.gif);');
         if(bottomDifference < incrementoMovimento)
         {
-            new Effect.Move ($('ipod_nav_level_' + navigationLevel),{ x: 0, y: -bottomDifference, mode: 'relative', duration: 0.3});
+            new Effect.Move ($('ipod_nav_level_' + navigationLevel),{ x: 0, y: -bottomDifference, mode: 'relative', duration: 0.3, afterFinish: upAndDownButtonsSetup});
             /* cofigurazione pulsante */
             $('ipod_scroll_down_button').setStyle('background-image:url(/images/pod_style_navigation/scroll_bottom_button_deactivated.gif);');
         }else
         {
-            new Effect.Move ($('ipod_nav_level_' + navigationLevel),{ x: 0, y: -incrementoMovimento, mode: 'relative', duration: 0.3});
+            new Effect.Move ($('ipod_nav_level_' + navigationLevel),{ x: 0, y: -incrementoMovimento, mode: 'relative', duration: 0.3, afterFinish: upAndDownButtonsSetup});
         }
     }
 }
@@ -223,18 +241,53 @@ function scroll_pod_navigation_up()
         $('ipod_scroll_down_button').setStyle('background-image:url(/images/pod_style_navigation/scroll_bottom_button.gif);');
         if(topDifference < incrementoMovimento)
         {
-            new Effect.Move ($('ipod_nav_level_' + navigationLevel),{ x: 0, y: topDifference, mode: 'relative', duration: 0.3});
+            new Effect.Move ($('ipod_nav_level_' + navigationLevel),{ x: 0, y: topDifference, mode: 'relative', duration: 0.3, afterFinish: upAndDownButtonsSetup});
             /* cofigurazione pulsante */
             // $('ipod_scroll_up_button').setStyle('background-image:url(/images/pod_style_navigation/scroll_top_button_deactivated.gif);');
         }else
         {
-            new Effect.Move ($('ipod_nav_level_' + navigationLevel),{ x: 0, y: incrementoMovimento, mode: 'relative', duration: 0.3});
+            new Effect.Move ($('ipod_nav_level_' + navigationLevel),{ x: 0, y: incrementoMovimento, mode: 'relative', duration: 0.3, afterFinish: upAndDownButtonsSetup});
         }
     }
 }
 
 function upAndDownButtonsSetup()
 {
+    $('ipod_scroll_up_button').setStyle("display:block;");
+    $('ipod_scroll_down_button').setStyle("display:block;");
+        
+    if($('pod-list-wrap-mask').getHeight() > $('ipod_nav_level_' + navigationLevel).getHeight())
+    {
+        $('ipod_scroll_up_button').setStyle("background-image:none;");
+        $('ipod_scroll_down_button').setStyle("background-image:none;");
+    }else
+    {
+         var fondoMask = $('pod-list-wrap-mask').cumulativeOffset().top + $('pod-list-wrap-mask').getHeight();
+         var fondoNavigation = $('ipod_nav_level_' + navigationLevel).getHeight() + $('ipod_nav_level_' + navigationLevel).cumulativeOffset().top;
+         
+         var topMask = $('pod-list-wrap-mask').cumulativeOffset().top ;
+         var topNavigation = $('ipod_nav_level_' + navigationLevel).cumulativeOffset().top;
+         
+        /* caso 1: esiste la possibilità di scrollare verso il basso */
+        if( fondoNavigation > fondoMask && topNavigation < topMask )
+        {
+            $('ipod_scroll_down_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_bottom_button.gif);");
+            $('ipod_scroll_up_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_top_button.gif);");
+        }else if( fondoNavigation > fondoMask && topNavigation >= topMask )
+        {
+            $('ipod_scroll_down_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_bottom_button.gif);");
+            $('ipod_scroll_up_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_top_button_deactivated.gif);");
+        }else if( fondoNavigation <= fondoMask && topNavigation < topMask )
+        {
+            $('ipod_scroll_down_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_bottom_button_deactivated.gif);");
+            $('ipod_scroll_up_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_top_button.gif);");
+        }else if( fondoNavigation <= fondoMask && topNavigation >= topMask )
+        {
+            $('ipod_scroll_down_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_bottom_button_deactivated.gif);");
+            $('ipod_scroll_up_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_top_button_deactivated.gif);");
+        }
+        /* caso 2: esiste la possibilità di scrollare verso l'alto */
+    }
 }
 
 /* **************************************** */
@@ -245,7 +298,12 @@ document.observe("dom:loaded", function() {
    deleteHrefAttributes($$('a.ipodStyle'));
    /* posizionamento verticale */
    checkVerticalHeightOfPodNavigation();
+   upAndDownButtonsSetup();
    $('ipod_nav_level_' + navigationLevel).setStyle("top:0px");
+   
+   /* impostazioni per il disable del javascript */
+   $('pod-list-wrap-mask').setStyle('overflow:hidden;')
+   
 });
 
 /* **************************************** */
@@ -310,6 +368,7 @@ function handle(delta)
         {
             posizioneAttuale = parseInt($('ipod_nav_level_' + navigationLevel).style.top);
             $('ipod_nav_level_' + navigationLevel).setStyle("top:"+ (posizioneAttuale - 10) +"px");
+            upAndDownButtonsSetup();
         }
     }
     else
@@ -319,9 +378,11 @@ function handle(delta)
         {
             posizioneAttuale = parseInt($('ipod_nav_level_' + navigationLevel).style.top);
             $('ipod_nav_level_' + navigationLevel).setStyle("top:"+ (posizioneAttuale + 10) +"px");
+            upAndDownButtonsSetup();
         }
     }
 }
+/* **************************************** */
 
 
 

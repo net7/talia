@@ -6,7 +6,7 @@
 /* maschera della navigazione */
 div#pod-list-wrap-mask{
     position:absolute;
-    overflow:hidden;
+    /* overflow:hidden; */ /* DA IMPORRE CON JAVASCRIPT */
     width: 200px;
 }
 div#pod-list-wrap-ext{
@@ -21,6 +21,10 @@ div#pod-list-wrap
     width: 200px;
     left:0;
 }
+
+/* **************************************** */
+/* ELEMENTI LISTA */
+/* **************************************** */
 div#pod-list-wrap ul
 {
     list-style:none;
@@ -54,12 +58,15 @@ div#pod-list-wrap ul li a.ipodStyle{
     width: 160px;
     cursor:pointer;
     border-bottom:1px solid #CDCDCD;
+    border-top:1px solid #FFF;
+    color: #4e4e4e;
     background:#F2F2F2 url(/images/pod_style_navigation/ipod_button_bg_new.gif) center left repeat-x;
 }
 
 div#pod-list-wrap ul li a:hover.ipodStyle{
     color:#990000;
     background:#F2F2F2 url(/images/pod_style_navigation/ipod_button_bg_new_ro.gif) center left repeat-x;
+    text-decoration: none;
 }
 
 div#pod-list-wrap ul li a.ipodStyle span.corsivo{
@@ -100,31 +107,38 @@ div#pod-list-wrap ul li.ipod_navigation_back_link a:hover{
 /* **************************************** */
 /* FRECCE SCROLL SU-GIU */
 /* **************************************** */
-div#ipod_scroll_up_button{
+div#ipod_scroll_up_button{ /* DA IMPORRE CON JAVASCRIPT */
     width:200px;
+    height: 22px;
     background-image:url(/images/pod_style_navigation/scroll_top_button.gif);
     background-repeat:no-repeat;
     background-position:center center;
     border-bottom:1px solid #D9D9D9;
+    display:none;
 }
 
 div#ipod_scroll_up_button a{
     display: block;
+    position: absolute;
     width:200px;
+    height: 22px;
     margin:0;
     padding: 0;
     text-indent: -999px;
 }
 
-div#ipod_scroll_down_button{
+div#ipod_scroll_down_button{ /* DA IMPORRE CON JAVASCRIPT */
     width:200px;
+    height: 22px;
     background-image:url(/images/pod_style_navigation/scroll_bottom_button.gif);
     background-repeat:no-repeat;
     background-position:center center;
+    display:none;
 }
 div#ipod_scroll_down_button a{
     display: block;
     width:200px;
+    height: 22px;
     margin:0;
     padding: 0;
     text-indent: -999px;
@@ -159,6 +173,27 @@ div.ipod_internal_scroll li a{
     display: inline;    
 }
 
+/* **************************************** */
+/* DOVE SONO? */
+/* **************************************** */
+li.ipod_navigation_where_i_am{
+    display:inline;
+    margin:0;
+    width: 200px;
+}
+
+li.ipod_navigation_where_i_am b{
+    font-size:12px;
+    padding:10px 30px 10px 10px;
+    display:block;
+    width: 160px;
+    cursor:pointer;
+    border-bottom:1px solid #CDCDCD;
+    border-top:1px solid #FFF;
+    color: #FFF;
+    /* font-variant: small-caps; */
+    background:#F2F2F2 url(/images/pod_style_navigation/ipod_button_bg_highlight.gif) center left repeat-x;
+}
 
 
 

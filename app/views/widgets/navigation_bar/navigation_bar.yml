@@ -11,11 +11,11 @@ root_classes:
     - luccadom:artwork
     - luccadom:epoch
     - luccadom:house
-    - luccadom:techno
+    - luccadom:a longer thext... what happens inside the menu?
     - luccadom:acid house
     - luccadom:deep house
     - luccadom:minimal
-    - luccadom:glitch
+    - luccadom:a nice example of a long text that has to go inside the menu
 
 # Labels for classes. These override the values given in the RDF store
 labels:
