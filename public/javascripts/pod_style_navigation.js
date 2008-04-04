@@ -2,14 +2,6 @@
 // POD NAVIGATION DEVELOPEMENT - very simple!
 
 
-/* TO LIST & DEBUG
-
-1. pulsante ipod_scroll_up_button non funziona su ie
-2. funzione di gestione della visualizzazione dei pulsanti
-
-*/
-
-
 /* **************************************** */
 /* FUNZIONE CHE CANCELLA GLI ATTRIBUTI HREF NELLA NAVIGAZIONE */
 /* **************************************** */
@@ -77,6 +69,7 @@ function defaultNavigationGoUp()
 }
 
 /* complex back link: non torno da dove provendo ma da un nuovo link: devo andare a sostituire l'ul superiore */
+/* momentaneamente non utilizzato */
 function navigationGoUp()
 {
     deleteHrefAttributes($$('a.ipodStyle'));
@@ -114,7 +107,6 @@ var elementoDaSpostare; // il div che si sposta
 var correzioneSpostamento = 0;
 
 function orizontalScrollNavigation(parteDaSpostare,diQuanto) {
-    // $('pod-list-wrap-mask').setStyle('overflow: hidden');
     /* movimento, settaggio delle variabili */
     condition = 1;
     diQuanto -= correzioneSpostamento;
@@ -125,7 +117,7 @@ function orizontalScrollNavigation(parteDaSpostare,diQuanto) {
     positionDifference = 47;
 
     posizioneIniziale = elementoDaSpostare.cumulativeOffset(elementoDaSpostare).left - positionDifference;
-    // alert("posizioneIniziale: " + posizioneIniziale + ", diQuanto: " + diQuanto + ", positionDifference: " + positionDifference);
+    
     posizioneFinale = posizioneIniziale + diQuanto;
     if(posizioneIniziale < posizioneFinale)
     {
@@ -213,12 +205,11 @@ function scroll_pod_navigation_down()
     if(bottomDifference > 0)
     {
         /* cofigurazione pulsante */
-       //  $('ipod_scroll_up_button').setStyle('background-image:url(/images/pod_style_navigation/scroll_top_button.gif);');
         if(bottomDifference < incrementoMovimento)
         {
             new Effect.Move ($('ipod_nav_level_' + navigationLevel),{ x: 0, y: -bottomDifference, mode: 'relative', duration: 0.3, afterFinish: upAndDownButtonsSetup});
             /* cofigurazione pulsante */
-            $('ipod_scroll_down_button').setStyle('background-image:url(/images/pod_style_navigation/scroll_bottom_button_deactivated.gif);');
+            // $('ipod_scroll_down_button').setStyle('background-image:url(/images/pod_style_navigation/scroll_bottom_button_deactivated.gif);');
         }else
         {
             new Effect.Move ($('ipod_nav_level_' + navigationLevel),{ x: 0, y: -incrementoMovimento, mode: 'relative', duration: 0.3, afterFinish: upAndDownButtonsSetup});
@@ -238,7 +229,7 @@ function scroll_pod_navigation_up()
     if(topDifference > 0)
     {
         /* cofigurazione pulsante */
-        $('ipod_scroll_down_button').setStyle('background-image:url(/images/pod_style_navigation/scroll_bottom_button.gif);');
+        // $('ipod_scroll_down_button').setStyle('background-image:url(/images/pod_style_navigation/scroll_bottom_button.gif);');
         if(topDifference < incrementoMovimento)
         {
             new Effect.Move ($('ipod_nav_level_' + navigationLevel),{ x: 0, y: topDifference, mode: 'relative', duration: 0.3, afterFinish: upAndDownButtonsSetup});
@@ -268,7 +259,6 @@ function upAndDownButtonsSetup()
          var topMask = $('pod-list-wrap-mask').cumulativeOffset().top ;
          var topNavigation = $('ipod_nav_level_' + navigationLevel).cumulativeOffset().top;
          
-        /* caso 1: esiste la possibilità di scrollare verso il basso */
         if( fondoNavigation > fondoMask && topNavigation < topMask )
         {
             $('ipod_scroll_down_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_bottom_button.gif);");
@@ -286,7 +276,6 @@ function upAndDownButtonsSetup()
             $('ipod_scroll_down_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_bottom_button_deactivated.gif);");
             $('ipod_scroll_up_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_top_button_deactivated.gif);");
         }
-        /* caso 2: esiste la possibilità di scrollare verso l'alto */
     }
 }
 

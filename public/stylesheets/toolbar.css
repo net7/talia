@@ -1,0 +1,74 @@
+/* 
+    Document   : toolbar
+    Created on : 3-apr-2008, 16.10.58
+    Author     : Giulio Andreini
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+div#toolbar_mask{
+    margin:0; padding:0;
+}
+
+
+div#toolbar{
+    margin:0 0 15px 0; padding:0;
+    border:1px solid #303030;
+}
+
+div#toolbar ul{
+    margin: 0; padding:5px 10px;
+    background: #545454 url(/images/toolbar/toolbar_gray_bg.gif) top left repeat-x;
+}
+
+div#toolbar ul li{
+    display: inline;
+    margin:0 10px 0 0; padding:0 20px 0 0;
+    background: transparent url(/images/toolbar/separazione_toolbar.gif) center right no-repeat;
+}
+
+div#toolbar ul li a{
+    margin:0; padding:0;
+    color: #FFF;
+    font-size: 11px;
+}
+
+div#toolbar ul li a:hover{
+    color: #FFF;
+    background: none;
+    background-color: transparent;
+    background-color: #545454;
+}
+
+
+/* ******************************************** */
+/* PULSANTI SCROLL */
+/* ******************************************** */
+div#scroll_back{
+    display:none;
+}
+
+div#scroll_forward{
+    display:none;
+}
+
+
+/* ******************************************** */
+/* CSS FOR JAVASCRIPT ENABLED */
+
+
+
+
+
+
+
+
+
+
+
+
+
