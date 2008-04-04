@@ -129,7 +129,7 @@ namespace :talia_core do
     # This simply activates the RDF store once with the :new option set.
     Util.title
     environment = ENV['environment'] || "development"
-    rais(ArgumentError, "Must have rdfconfig=<config_file>") unless(ENV['rdfconf'])
+    raise(ArgumentError, "Must have rdfconf=<config_file>") unless(ENV['rdfconf'])
     options = YAML::load(File.open(ENV['rdfconf']))[environment]
     
     rdf_cfg = Hash.new
