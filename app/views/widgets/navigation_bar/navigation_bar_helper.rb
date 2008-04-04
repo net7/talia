@@ -1,4 +1,26 @@
 module NavigationBarHelper
+ 
+  # Creates the "up" links in the navigation list
+  def navigation_up_links
+    result = ""
+    if(w.show_home)
+      result += widget_partial("navigation_up_link", :locals => { :type => "Back" })
+    end
+    for supertype in w.supertypes 
+      result += widget_partial("navigation_up_link", :locals => { :type => supertype })
+    end
+    result
+  end
+  
+  # Creates the "down links in the navigation list
+  def navigation_down_links(level)
+    result = ""
+    for subtype in w.subtypes
+      result += widget_partial("navigation_down_link", :locals => { :type => subtype, :level => level })
+    end
+    result
+  end
+  
   # Creates a link to the given source, moving the ipod list "down"
   def type_link_down(type, level)
     text = w.class_label(type)
@@ -12,15 +34,26 @@ module NavigationBarHelper
       { :class => "ipodStyle" } )
   end
   
-  # Title element for the navigation
-  def navigation_title
-    w.source_class ? w.class_label(w.source_class) : "Navigate!"
-  end
-  
   # Creates a link to the given type, used as an "up" backlink for the ipod navigation
   def type_link_up(type)
     text = type.is_a?(String) ? type : w.class_label(type)
-    link_to(text, static_url_for(type), { :class => "ipodStyle", :onclick => "defaultNavigationGoUp();" })
+    widget_remote_link(text,
+    {
+      :javascript => :ipod_up,
+      :navigation_type => type.is_a?(String) ? "root" : type.to_name_s('#'),
+      :fallback => static_url_for(type)
+    },
+    { :class => "ipodStyle" } )
+  end
+  
+  # Title element for the navigation
+  def navigation_title
+    w.source_class ? w.class_label(w.source_class) : "Source Types"
+  end
+  
+  # Creates an css id for the given type
+  def id_for(type)
+    type.is_a?(String) ? type.downcase : type_id(type)
   end
   
   # Create a paginator for the current type

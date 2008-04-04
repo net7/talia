@@ -31,3 +31,6 @@ allowed_namespaces:
 # This is the id of the element that will recieve the list of types
 # (an id of an element somewhere on the page)
 list_element: types_list
+
+# The number of elements in the central type list for the navigation
+list_size: 3

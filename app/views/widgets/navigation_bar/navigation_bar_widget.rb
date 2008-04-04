@@ -9,7 +9,7 @@ class NavigationBarWidget < Widgeon::Widget
     @show_home = false # normally don't show the home/back link
     
     # We'll get the @navigation_type when the navigation is in callback
-    if(@navigation_type)
+    if(@navigation_type && @navigation_type != 'root')
       @source_class = N::SourceClass.make_uri(@navigation_type, "#")
     end
     
@@ -39,7 +39,8 @@ class NavigationBarWidget < Widgeon::Widget
     end
   end
   
-  # This is the callback that updates the scrolling navigation
+  # This is the callback that updates the scrolling navigation, going down to 
+  # the next level
   remote_call :ipod_down do |page, view|
     new_level = (@level.to_i + 1).to_s
     
@@ -47,9 +48,20 @@ class NavigationBarWidget < Widgeon::Widget
         :locals => {:current_level => new_level })
     )
     page.replace_html(@list_element, 
-      view.widget(:source_list, :source_options => { :type => @source_class, :per_page => 3 })
+      view.widget(:source_list, :source_options => { :type => @source_class, :per_page => @list_size.to_i })
     )
     page.call('navigationGoDown ', @navigation_id)
+  end
+  
+  # This is the callback that updates the scrolling navigation, going up to the
+  # next level
+  remote_call :ipod_up do |page, view|
+    list_content = "<h2>Please select a type</h2>"
+    if(@source_class) 
+      list_content =  view.widget(:source_list, :source_options => { :type => @source_class, :per_page => @list_size.to_i })
+    end
+    page.replace_html(@list_element, list_content)
+    page.call('defaultNavigationGoUp')
   end
   
   protected

@@ -135,7 +135,7 @@ p.side_bar_loader{
 	left:0;
 	width:270px;
 	/*border:1px solid #CC9900;*/
-	background:transparent url(/images/side_bar_top.gif) top left no-repeat;
+	background:transparent url(/images/side_bar_icons/side_bar_top.gif) top left no-repeat;
 }
 
 
@@ -146,7 +146,7 @@ p.side_bar_loader{
 	left:0;
 	width:43px;
 	/*border:1px solid #CC9900;*/
-	background:transparent url(/images/side_bar_top_closed.gif) top left no-repeat;
+	background:transparent url(/images/side_bar_icons/side_bar_top_closed.gif) top left no-repeat;
 }
 
 
