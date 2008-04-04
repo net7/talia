@@ -1,8 +1,27 @@
 <!-- toolbar widget -->
-<div id="toolbar">
-  <ul>
-    <% @widget.each_button do |name, url|%>
-      <li>[<a href="<%=url%>"><%=name%></a>]</li>
-    <% end%>
-  </ul>
+<div id="scroll_back">
+  <a href="#" id="prev">
+    previous
+  </a>
+</div>
+<div id="toolbar_mask">
+  <div id="toolbar">
+    <ul>
+      <% @widget.each_button do |name, url|%>
+        <li><a href="<%=url%>"><%=name%></a></li>
+      <% end%>
+      
+      <li><a href="javascript:print();">Tollbar added item 1</a></li>
+      <li><a href="javascript:print();">Tollbar added item two</a></li>
+      <li><a href="javascript:print();">Tollbar added item number 3</a></li>
+      <li><a href="javascript:print();">Tollbar added item num. four</a></li>
+      <li><a href="javascript:print();">Last tollbar added item</a></li>
+    </ul>
+  </div>
+</div>
+<!-- chiude mask -->
+<div id="scroll_forward">
+  <a href="#" id="next">
+    next
+  </a>
 </div>

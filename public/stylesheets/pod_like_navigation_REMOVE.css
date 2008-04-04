@@ -1,0 +1,68 @@
+#pod-wrap {
+    position: relative;
+    width: 195px;
+    /* height: 300px; */
+    /* border: 1px solid #999; */
+    font: 12px "Lucida Grande",LucidaGrande,Verdana,Helvetica,sans-serif;
+}
+#pod-wrap #top-but-wrap { /* elemento top dova va la retro-navigazione */
+    /* position: relative; */
+    border-bottom: 1px solid #999;
+    color: #666;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+#pod-wrap #top-but:link,
+#pod-wrap #top-but:visited,
+#pod-wrap #bot-but:link,
+#pod-wrap #bot-but:visited {
+    display: block;
+    padding: 3px;
+    text-decoration: none;
+}
+#pod-wrap #top-but:hover,
+#pod-wrap #bot-but:hover {
+}
+#pod-wrap #pod-list-wrap-ext {
+    position: absolute;
+    width: 193px;
+    height: 277px;
+    overflow:hidden;
+    padding: 3px;
+    left: 0;
+}
+
+#pod-wrap #pod-list-wrap {
+    position: absolute;
+    left: 0;
+}
+#pod-wrap #pod-list-wrap div{
+    /* border: 3px solid yellow; */
+    /* overflow: auto; */
+    left: 0;
+}
+#pod-wrap .pod-list {
+    position: absolute;
+    width: 190px;
+    height: 256px;
+    overflow: auto;
+}
+#pod-list-wrap div a.branch,
+#pod-list-wrap div a.branch:hover{
+    display: block;
+    width: 185px;
+    border-bottom: 2px solid #eee;
+    padding: 5px;
+    text-decoration: none;
+    color: #333;
+    background: transparent url(img/aqua_arrow-side.gif) 160px 4px no-repeat;
+}
+#pod-list-wrap div a.leaf,
+#pod-list-wrap div a.leaf:hover {
+    background-image: none;
+}
+#pod-wrap .pod-list a:hover {
+    background-color: #f6f6f6;
+    color: #458cee;
+}
