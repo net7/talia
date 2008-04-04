@@ -31,11 +31,11 @@ class SidebarWidget < Widgeon::Widget
       link = "<style type='text/css'>"
         # conidion for the active page
         if @settings['is_active']
-           link += "\##{name_id} { background-image: url(/images/sibeBarIcons/#{image_selected}) !important;}"
-           link += " \##{name_id}:hover { background-image: url(/images/sibeBarIcons/#{image_selected}) !important;}"
+           link += "\##{name_id} { background-image: url(/images/side_bar_icons/#{image_selected}) !important;}"
+           link += " \##{name_id}:hover { background-image: url(/images/side_bar_icons/#{image_selected}) !important;}"
         else
-           link += "\##{name_id} { background-image: url(/images/sibeBarIcons/#{image}) !important;}"
-           link += " \##{name_id}:hover { background-image: url(/images/sibeBarIcons/#{image_hover}) !important;}"
+           link += "\##{name_id} { background-image: url(/images/side_bar_icons/#{image}) !important;}"
+           link += " \##{name_id}:hover { background-image: url(/images/side_bar_icons/#{image_hover}) !important;}"
         end
        link += "</style>"
       # Now the link
