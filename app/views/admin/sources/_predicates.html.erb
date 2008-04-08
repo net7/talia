@@ -1,0 +1,9 @@
+<% @source.grouped_direct_predicates.each do |namespace, group| %>
+  <div id="<%=h namespace.underscore %>">
+    <h2><%=h namespace.titleize %></h2>
+    <% group.each do |name, sources| %>
+      <%= render :partial => "predicate", :collection => sources.flatten, :locals => { :namespace => namespace, :name => name } %>
+    <% end %>
+  </div>
+  <%= add_another_predicate namespace %>
+<% end %>

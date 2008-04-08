@@ -1,0 +1,17 @@
+<div class="predicate">
+  <% fields_for "source[predicates_attributes][]", predicate do |predicate_form|%>
+    <p>
+      <%= predicate_form.text_field   :label, :index => nil, :size => 60 %>
+      <%= predicate_form.hidden_field :namespace, :index => nil, :value => namespace %>
+      <%= predicate_form.text_field   :name, :index => nil, :value => name, :size => 20 %>
+      <%= predicate_form.hidden_field :uri, :index => nil %>
+      <% if predicate.new_record? %>
+        <%= link_to_function "remove", "remove_from_collection(this, '.predicate')" %>
+      <% else %>
+        <%= link_to_function "remove", "mark_for_destroy(this, '.predicate')" %>
+        <%= predicate_form.hidden_field :id, :index => nil %>
+        <%= predicate_form.hidden_field :should_destroy, :index => nil, :class => "should_destroy" %>
+      <% end %>
+    </p>
+  <% end %>
+</div>
