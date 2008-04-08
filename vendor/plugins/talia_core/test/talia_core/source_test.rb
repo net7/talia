@@ -357,6 +357,7 @@ module TaliaCore
 
     def test_normalize_uri
       assert_equal("#{N::LOCAL}LocalSource", Source.normalize_uri(N::LOCAL.to_s, 'LocalSource'))
+      assert_equal("#{N::LOCAL}Local_Source", Source.normalize_uri(N::LOCAL.to_s, 'Local Source'))
       assert_equal("http://star-wars.org/obi-wan-kenobi", Source.normalize_uri('http://star-wars.org/obi-wan-kenobi').to_s)
     end
     

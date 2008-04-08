@@ -488,7 +488,7 @@ module TaliaCore
       end
     end
     
-    def normalize_uri(uri, label = nil)
+    def normalize_uri(uri, label = '')
       self.class.normalize_uri(uri, label)
     end
     
@@ -570,8 +570,8 @@ module TaliaCore
       #   normalize_uri('http://xmlns.com/foaf/0.1/Group') # => http://xmlns.com/foaf/0.1/Group
       #   normalize_uri('http://www.talia.discovery-project.org/sources/Lucca')
       #     # => http://www.talia.discovery-project.org/sources/Lucca
-      def normalize_uri(uri, label = nil)
-        uri = N::LOCAL+label if uri.eql? N::LOCAL.to_s
+      def normalize_uri(uri, label = '')
+        uri = N::LOCAL+label.gsub(' ', '_') if uri.eql? N::LOCAL.to_s
         uri.to_s
       end
     end
