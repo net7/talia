@@ -225,11 +225,6 @@ module TaliaCore
       assert(!Source.exists?("home_foo"))
     end
     
-    def test_new_record
-      assert !@local_source.new_record?
-      assert  Source.new('').new_record?
-    end
-
     def test_should_destroy
       assert_respond_to(@local_source, :should_destroy?)
       

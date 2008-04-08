@@ -249,10 +249,6 @@ module TaliaCore
     def exists?
       @exists = Source.exists?(uri)
     end
-
-    def new_record?
-      @source_record.new_record?
-    end
     
     attr_accessor :should_destroy
     def should_destroy?
@@ -330,7 +326,7 @@ module TaliaCore
     # TODO: is predicate_set the way to disassociate a source from the current one?
     def save_predicates_attributes
       each_predicate_attribute do |namespace, name, source|
-        source.save if source.new_record?
+        source.save if source.exists?
         self.predicate_set(namespace, name, source) unless associated? source
         self.predicate_set(namespace, name, nil) if source.should_destroy?
       end
