@@ -11,6 +11,11 @@ $: << File.join(File.dirname(__FILE__))
 load 'tasks/talia_core_tasks.rake'
 require 'version'
 
+desc "Setup the environment to test unless ENV['environment'] was already defined."
+task :environment do
+  ENV['environment'] = "test" if ENV['environment'].nil?
+end
+
 desc "Load fixtures into the current database.  Load specific fixtures using FIXTURES=x,y"  
 task :fixtures => "talia_core:talia_init" do
   load_fixtures 
@@ -108,4 +113,4 @@ end
 desc 'Default: run unit tests.'
 task :default => 'cruise'
 
-task :cruise => ['migrate', 'talia_core:test', 'talia_core:rdoc']
+task :cruise => ['environment', 'migrate', 'talia_core:test', 'talia_core:rdoc']

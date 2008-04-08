@@ -17,6 +17,13 @@ module TaliaCore
     N::Namespace.shortcut(:foaf, "http://www.foaf.org/")
     
     def setup
+      @predicates_attributes = [{"name"=>"uri", "uri"=>"http://www.talia.discovery-project.org/sources/Guinigi_family", "should_destroy"=>"", "namespace"=>"DatabaseDupes", "id"=>"Guinigi_family", "label"=>"Guinigi Family"},
+        {"name"=>"type", "uri"=>"http://www.w3.org/2000/01/rdf-schema#Resource", "namespace"=>"22-rdf-syntax-ns", "label"=>"Resource"},
+        {"name"=>"type", "uri"=>"http://xmlns.com/foaf/0.1/Group", "namespace"=>"22-rdf-syntax-ns", "label"=>"Group"}]
+      
+      @params = {"uri"=>"http://www.talia.discovery-project.org/sources/Guinigi_family", "primary_source"=>"true",
+        "predicates_attributes"=>@predicates_attributes }
+        
       setup_once(:flush) do
         TestHelper.flush_rdf
         TestHelper.flush_db
@@ -218,6 +225,24 @@ module TaliaCore
       assert(!Source.exists?("home_foo"))
     end
     
+    def test_new_record
+      assert !@local_source.new_record?
+      assert  Source.new('').new_record?
+    end
+
+    def test_should_destroy
+      assert_respond_to(@local_source, :should_destroy?)
+      
+      @local_source.should_destroy = nil
+      assert !@local_source.should_destroy?
+      
+      @local_source.should_destroy = "true"
+      assert !@local_source.should_destroy?
+      
+      @local_source.should_destroy = "1"
+      assert @local_source.should_destroy?
+    end
+    
     # Find for local sources
     def test_find_local
       @local_source.save()
@@ -279,7 +304,89 @@ module TaliaCore
       assert_equal("foo", @valid_source[N::MEETEST::array_test][0])
     end
     
-        # Read an db attribute by symbol
+    def test_grouped_direct_predicates_should_not_collect_non_source_object
+      source = TestHelper.make_dummy_source("http://direct_predicate_haver/")
+      source.default::author << "napoleon"
+      # Expected size of direct predicates:
+      # One for the predicate set above
+      # one for the DatabaseDupes and one for 22-rdf-syntax-ns
+      assert_equal(3, source.grouped_direct_predicates.size)
+
+      assert(source.grouped_direct_predicates.keys.include? 'author')
+      assert(source.grouped_direct_predicates['author']['author'].flatten.empty?)
+    end
+    
+    def test_grouped_direct_predicates_should_collect_source_objects
+      source = TestHelper.make_dummy_source("http://direct_predicate_for_napoleon/")
+      source.default::historical_character << Source.new("#{N::LOCAL}napoleon")
+      # Expected size of direct predicates:
+      # One for the predicate set above
+      # one for the DatabaseDupes and one for 22-rdf-syntax-ns
+      assert_equal(3, source.grouped_direct_predicates.size)
+      
+      assert(source.grouped_direct_predicates.keys.include? 'historical_character')
+      assert(!source.grouped_direct_predicates['historical_character'].empty?)
+      assert_kind_of(Source, source.grouped_direct_predicates['historical_character']['historical_character'].flatten.first)
+    end
+    
+    def test_direct_predicates_sources
+      source = TestHelper.make_dummy_source("http://star-wars.org/")
+      source.default::jedi_knight << Source.new("http://star-wars.org/luke-skywalker")
+      assert(source.direct_predicates_sources.include? "http://star-wars.org/luke-skywalker")
+    end
+    
+    def test_associated
+      source = TestHelper.make_dummy_source("http://star-wars.org/")
+      associated_source = Source.new("http://star-wars.org/luke-skywalker")
+      source.default::jedi_knight << associated_source
+      assert(source.associated? associated_source)
+    end
+    
+    def test_predicates_attributes_setter
+      source = TestHelper.make_dummy_source("http://lucca.org/")
+      source.predicates_attributes = @predicates_attributes
+      
+      assert_equal('Guinigi_family', source.predicates_attributes.first['id'])
+    end
+
+    def _ignore_test_save_predicates_attributes
+      source = TestHelper.make_dummy_source("http://star-wars.org/")
+      @predicates_attributes[2] = @predicates_attributes[2].merge({'should_destroy' => '1'})
+      @predicates_attributes << {"name"=>"type", "uri"=>"http://xmlns.com/foaf/0.1/NewGroup", "namespace"=>"22-rdf-syntax-ns", "label"=>"NewGroup"}
+      source.predicates_attributes = @predicates_attributes
+      source.save_predicates_attributes
+      
+      assert(Source.exists?("http://xmlns.com/foaf/0.1/NewGroup"))
+      assert_equal(@predicates_attributes.size, source.direct_predicates_sources)
+    end
+
+    def test_normalize_uri
+      assert_equal("#{N::LOCAL}LocalSource", Source.normalize_uri(N::LOCAL.to_s, 'LocalSource'))
+      assert_equal("http://star-wars.org/obi-wan-kenobi", Source.normalize_uri('http://star-wars.org/obi-wan-kenobi').to_s)
+    end
+    
+    def test_extract_attributes
+      source = TestHelper.make_dummy_source("http://star-wars.org/")
+      source_record_attributes, attributes = source.send(:extract_attributes!, @params)
+
+      assert_equal(%w(uri primary_source), source_record_attributes.keys)
+      attributes['predicates_attributes'].each do |attributes_hash|
+        assert_kind_of(Hash, attributes_hash)
+      end
+    end
+    
+    def test_each_predicate_attribute
+      source = TestHelper.make_dummy_source("http://star-wars.org/")
+      source.predicates_attributes = @predicates_attributes
+      
+      source.send(:each_predicate_attribute) do |namespace, name, source|
+        assert_kind_of(String, namespace)
+        assert_kind_of(String, name)
+        assert_kind_of(Source, source)
+      end
+    end
+    
+    # Read an db attribute by symbol
     def test_read_access_db_symbol
       source = Source.new('http://localnode.org/something') 
       attribute_value = source[:uri]
@@ -328,6 +435,10 @@ module TaliaCore
       assert_equal("ihaveanid", Source.new("http://www.something_more.com/bla/ihaveanid").id)
       # to_param is an alias
       assert_equal("ihaveanid", Source.new("http://www.something_more.com/bla/ihaveanid").to_param)
+    end
+    
+    def test_titleize
+      assert_equal("Home Source", @local_source.titleize)
     end
     
     # Test find :all

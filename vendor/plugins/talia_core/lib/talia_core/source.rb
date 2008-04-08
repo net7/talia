@@ -60,6 +60,11 @@ module TaliaCore
     # Alias for id, used by Rails magic
     alias_method :to_param, :id
     
+    # Titleize the source name.
+    def titleize
+      to_param.titleize
+    end
+    
     # Indicates if this source belongs to the local store
     def local
       uri.local?
@@ -119,7 +124,12 @@ module TaliaCore
     
     # Wrapping for <tt>ActiveRecord</tt> <tt>update_attributes</tt>.
     def update_attributes(attributes)
-      @source_record.update_attributes(attributes)
+      source_record_attributes, attributes = extract_attributes!(attributes)
+      @source_record.update_attributes(source_record_attributes)
+      attributes.each do |k,v|
+        send(k + "=", v)
+        send('save_' + k)
+      end
     end
     
     # Find Sources in the system
@@ -239,6 +249,15 @@ module TaliaCore
     def exists?
       @exists = Source.exists?(uri)
     end
+
+    def new_record?
+      @source_record.new_record?
+    end
+    
+    attr_accessor :should_destroy
+    def should_destroy?
+      should_destroy.to_i == 1
+    end    
     
     # Checks if a source with the given uri exists in the system
     def self.exists?(uri)
@@ -268,7 +287,55 @@ module TaliaCore
     
     # Redirect the call to the :type_records
     alias :type_records :types
+
+    # Return an hash of direct predicates, grouped by namespace.
+    def grouped_direct_predicates
+      direct_predicates.inject({}) do |result, predicate|
+        property_list = self[predicate].select { |element| element.kind_of? TaliaCore::Source }
+        result[predicate.namespace] ||= {}
+        result[predicate.namespace][predicate.name] ||= []
+        result[predicate.namespace][predicate.name] << property_list
+        result
+      end
+    end
     
+    # Returns a flat uri (as string) list of associated sources.
+    def direct_predicates_sources
+      @direct_predicates_sources ||= direct_predicates.collect do |predicate|
+        self[predicate].select { |element| element.kind_of? TaliaCore::Source }.collect do |source|
+          source.to_s
+        end
+      end.flatten
+    end
+    
+    # Check if the current source is associated with the given one.
+    def associated?(source)
+      direct_predicates_sources.include? source.to_s
+    end
+    
+    attr_reader :predicates_attributes
+    def predicates_attributes=(predicates_attributes)
+      @predicates_attributes = predicates_attributes.collect do |attributes_hash|
+        source = Source.new(normalize_uri(attributes_hash['uri'], attributes_hash['label']))
+        source.should_destroy = attributes_hash['should_destroy']
+        source.workflow_state = 0
+        source.primary_source = false
+        attributes_hash['source'] = source
+        attributes_hash
+      end
+    end
+
+    # Save, associate/disassociate given predicates attributes.
+    # TODO: make should_destroy? working.
+    # TODO: is predicate_set the way to disassociate a source from the current one?
+    def save_predicates_attributes
+      each_predicate_attribute do |namespace, name, source|
+        source.save if source.new_record?
+        self.predicate_set(namespace, name, source) unless associated? source
+        self.predicate_set(namespace, name, nil) if source.should_destroy?
+      end
+    end
+        
     # Attribute reader, for compatibility with the ActiveRecord API
     # If the given name is a database field, the called will be
     # passed to the database. Otherwise, this will assume that 
@@ -425,12 +492,33 @@ module TaliaCore
       end
     end
     
+    def normalize_uri(uri, label = nil)
+      self.class.normalize_uri(uri, label)
+    end
+    
     protected
+    # Separates given attributes distinguishing between Source related and SourceRecord related.
+    def extract_attributes!(attributes)
+      source_record_attributes = attributes.inject({}) do |source_record_attributes, column_values|
+        source_record_attributes[column_values.first] = attributes.delete(column_values.first) if SourceRecord.column_names.include? column_values.first
+        source_record_attributes
+      end
+
+      [ source_record_attributes, attributes ]
+    end
     
-    
+    # Iterate through predicates_attributes, yielding the given code.
+    def each_predicate_attribute(&block)
+      predicates_attributes.each do |attributes_hash|
+        source = attributes_hash['source']
+        namespace = attributes_hash['namespace']
+        name = attributes_hash['name']
+        block.call(namespace, name, source)
+      end
+    end
+        
     # Class methods
     class << self
-      
       # Build an uri from a string that was given from a query.
       # If this already is a uri, it will just be returned. 
       # If this is not an URI, it will return a URI with the given name in the 
@@ -476,6 +564,20 @@ module TaliaCore
         qry_opts
       end
       
+      # Normalize the given uri.
+      # NOTE: <tt>Source#uri</tt> returns a value equal to <tt>N::LOCAL</tt> if the source uri is nil.
+      #       An uri of a brand new Source will always has <tt>N::LOCAL</tt> as value.
+      #       So, if the uri equals to <tt>N::LOCAL</tt> we should append the given label.
+      #
+      # Example:
+      #   normalize_uri('Lucca') # => http://www.talia.discovery-project.org/sources/Lucca
+      #   normalize_uri('http://xmlns.com/foaf/0.1/Group') # => http://xmlns.com/foaf/0.1/Group
+      #   normalize_uri('http://www.talia.discovery-project.org/sources/Lucca')
+      #     # => http://www.talia.discovery-project.org/sources/Lucca
+      def normalize_uri(uri, label = nil)
+        uri = N::LOCAL+label if uri.eql? N::LOCAL.to_s
+        uri.to_s
+      end
     end
     
     # End of class methods

@@ -14,8 +14,8 @@ development:
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
 # Do not set this db to the same as development or production.
-test:
-  type: rdflite
+#test:
+#  type: rdflite
 
 # Configuration example for redland with hashes(bdb) store
 # This uses the memory store in order not to have a permanent store for testing
@@ -30,9 +30,9 @@ test:
 # Configuration example for redland with hashes(bdb) store
 # You may also use "memory" instead of "hashes" for the memory-only store
 #
-development:
+test:
   type: redland
   location: hashes
-  name: talia_production
+  name: talia_test
   hash-type: bdb
   dir: .
