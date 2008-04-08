@@ -307,8 +307,8 @@ module TaliaCore
       # one for the DatabaseDupes and one for 22-rdf-syntax-ns
       assert_equal(3, source.grouped_direct_predicates.size)
 
-      assert(source.grouped_direct_predicates.keys.include? 'author')
-      assert(source.grouped_direct_predicates['author']['author'].flatten.empty?)
+      assert(source.grouped_direct_predicates['default'].keys.include? 'author')
+      assert(source.grouped_direct_predicates['default']['author'].flatten.empty?)
     end
     
     def test_grouped_direct_predicates_should_collect_source_objects
@@ -318,10 +318,10 @@ module TaliaCore
       # One for the predicate set above
       # one for the DatabaseDupes and one for 22-rdf-syntax-ns
       assert_equal(3, source.grouped_direct_predicates.size)
-      
-      assert(source.grouped_direct_predicates.keys.include? 'historical_character')
-      assert(!source.grouped_direct_predicates['historical_character'].empty?)
-      assert_kind_of(Source, source.grouped_direct_predicates['historical_character']['historical_character'].flatten.first)
+
+      assert(source.grouped_direct_predicates['default'].keys.include? 'historical_character')
+      assert(!source.grouped_direct_predicates['default']['historical_character'].empty?)
+      assert_kind_of(Source, source.grouped_direct_predicates['default']['historical_character'].flatten.first)
     end
     
     def test_direct_predicates_sources
@@ -376,7 +376,7 @@ module TaliaCore
       source.predicates_attributes = @predicates_attributes
       
       source.send(:each_predicate_attribute) do |namespace, name, source|
-        assert_kind_of(String, namespace)
+        assert_kind_of(Symbol, namespace)
         assert_kind_of(String, name)
         assert_kind_of(Source, source)
       end

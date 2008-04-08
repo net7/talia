@@ -288,9 +288,10 @@ module TaliaCore
     def grouped_direct_predicates
       direct_predicates.inject({}) do |result, predicate|
         property_list = self[predicate].select { |element| element.kind_of? TaliaCore::Source }
-        result[predicate.namespace] ||= {}
-        result[predicate.namespace][predicate.name] ||= []
-        result[predicate.namespace][predicate.name] << property_list
+        namespace = predicate.namespace.to_s
+        result[namespace] ||= {}
+        result[namespace][predicate.local_name] ||= []
+        result[namespace][predicate.local_name] << property_list
         result
       end
     end
@@ -312,7 +313,7 @@ module TaliaCore
     attr_reader :predicates_attributes
     def predicates_attributes=(predicates_attributes)
       @predicates_attributes = predicates_attributes.collect do |attributes_hash|
-        source = Source.new(normalize_uri(attributes_hash['uri'], attributes_hash['label']))
+        source = Source.new(normalize_uri(attributes_hash['uri'], attributes_hash['titleize']))
         source.should_destroy = attributes_hash['should_destroy']
         source.workflow_state = 0
         source.primary_source = false
@@ -322,11 +323,10 @@ module TaliaCore
     end
 
     # Save, associate/disassociate given predicates attributes.
-    # TODO: make should_destroy? working.
     # TODO: is predicate_set the way to disassociate a source from the current one?
     def save_predicates_attributes
       each_predicate_attribute do |namespace, name, source|
-        source.save if source.exists?
+        source.save unless source.exists?
         self.predicate_set(namespace, name, source) unless associated? source
         self.predicate_set(namespace, name, nil) if source.should_destroy?
       end
@@ -507,7 +507,7 @@ module TaliaCore
     def each_predicate_attribute(&block)
       predicates_attributes.each do |attributes_hash|
         source = attributes_hash['source']
-        namespace = attributes_hash['namespace']
+        namespace = attributes_hash['namespace'].to_sym
         name = attributes_hash['name']
         block.call(namespace, name, source)
       end
