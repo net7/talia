@@ -313,7 +313,7 @@ module TaliaCore
     attr_reader :predicates_attributes
     def predicates_attributes=(predicates_attributes)
       @predicates_attributes = predicates_attributes.collect do |attributes_hash|
-        source = Source.new(normalize_uri(attributes_hash['uri'], attributes_hash['titleize']))
+        source = Source.new(normalize_uri(attributes_hash['uri'], attributes_hash['label']))
         source.should_destroy = attributes_hash['should_destroy']
         source.workflow_state = 0
         source.primary_source = false
@@ -328,7 +328,7 @@ module TaliaCore
       each_predicate_attribute do |namespace, name, source|
         source.save unless source.exists?
         self.predicate_set(namespace, name, source) unless associated? source
-        self.predicate_set(namespace, name, nil) if source.should_destroy?
+        self.predicate(namespace, name).remove(source) if source.should_destroy?
       end
     end
         

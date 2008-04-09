@@ -17,11 +17,11 @@ module TaliaCore
     N::Namespace.shortcut(:foaf, "http://www.foaf.org/")
     
     def setup
-      @predicates_attributes = [{"name"=>"uri", "uri"=>"http://www.talia.discovery-project.org/sources/Guinigi_family", "should_destroy"=>"", "namespace"=>"DatabaseDupes", "id"=>"Guinigi_family", "label"=>"Guinigi Family"},
-        {"name"=>"type", "uri"=>"http://www.w3.org/2000/01/rdf-schema#Resource", "namespace"=>"22-rdf-syntax-ns", "label"=>"Resource"},
-        {"name"=>"type", "uri"=>"http://xmlns.com/foaf/0.1/Group", "namespace"=>"22-rdf-syntax-ns", "label"=>"Group"}]
+      @predicates_attributes = [{"name"=>"uri", "uri"=>"#{N::LOCAL}Guinigi_Family", "namespace"=>"talia_db", "label"=>"Guinigi Family"},
+        {"name"=>"type", "uri"=>"http://www.w3.org/2000/01/rdf-schema#Resource", "namespace"=>"rdf", "label"=>"Resource"},
+        {"name"=>"type", "uri"=>"http://xmlns.com/foaf/0.1/Group", "should_destroy"=>"", "namespace"=>"rdf", "id"=>"Group", "label"=>"Group"}]
       
-      @params = {"uri"=>"http://www.talia.discovery-project.org/sources/Guinigi_family", "primary_source"=>"true",
+      @params = {"uri"=>"#{N::LOCAL}Guinigi_family", "primary_source"=>"true",
         "predicates_attributes"=>@predicates_attributes }
         
       setup_once(:flush) do
@@ -307,7 +307,7 @@ module TaliaCore
       # one for the DatabaseDupes and one for 22-rdf-syntax-ns
       assert_equal(3, source.grouped_direct_predicates.size)
 
-      assert(source.grouped_direct_predicates['default'].keys.include? 'author')
+      assert(source.grouped_direct_predicates['default'].keys.include?('author'))
       assert(source.grouped_direct_predicates['default']['author'].flatten.empty?)
     end
     
@@ -319,7 +319,7 @@ module TaliaCore
       # one for the DatabaseDupes and one for 22-rdf-syntax-ns
       assert_equal(3, source.grouped_direct_predicates.size)
 
-      assert(source.grouped_direct_predicates['default'].keys.include? 'historical_character')
+      assert(source.grouped_direct_predicates['default'].keys.include?('historical_character'))
       assert(!source.grouped_direct_predicates['default']['historical_character'].empty?)
       assert_kind_of(Source, source.grouped_direct_predicates['default']['historical_character'].flatten.first)
     end
@@ -327,32 +327,36 @@ module TaliaCore
     def test_direct_predicates_sources
       source = TestHelper.make_dummy_source("http://star-wars.org/")
       source.default::jedi_knight << Source.new("http://star-wars.org/luke-skywalker")
-      assert(source.direct_predicates_sources.include? "http://star-wars.org/luke-skywalker")
+      assert(source.direct_predicates_sources.include?("http://star-wars.org/luke-skywalker"))
     end
     
     def test_associated
       source = TestHelper.make_dummy_source("http://star-wars.org/")
       associated_source = Source.new("http://star-wars.org/luke-skywalker")
       source.default::jedi_knight << associated_source
-      assert(source.associated? associated_source)
+      assert(source.associated?(associated_source))
     end
     
     def test_predicates_attributes_setter
       source = TestHelper.make_dummy_source("http://lucca.org/")
       source.predicates_attributes = @predicates_attributes
-      
-      assert_equal('Guinigi_family', source.predicates_attributes.first['id'])
+
+      assert_equal("#{N::LOCAL}Guinigi_Family", source.predicates_attributes.first['uri'])
+      assert_equal('talia_db', source.predicates_attributes.first['namespace'])
+      assert_equal('Guinigi Family', source.predicates_attributes.first['label'])
+      assert_kind_of(Source, source.predicates_attributes.first['source'])
     end
 
-    def _ignore_test_save_predicates_attributes
+    def test_save_predicates_attributes
       source = TestHelper.make_dummy_source("http://star-wars.org/")
       @predicates_attributes[2] = @predicates_attributes[2].merge({'should_destroy' => '1'})
-      @predicates_attributes << {"name"=>"type", "uri"=>"http://xmlns.com/foaf/0.1/NewGroup", "namespace"=>"22-rdf-syntax-ns", "label"=>"NewGroup"}
+      @predicates_attributes << {"name"=>"in_epoch", "uri"=> N::LOCAL.to_s, "should_destroy"=>"", "namespace"=>"talias", "id"=>"", "label"=>"Paolo Guinigi"}
       source.predicates_attributes = @predicates_attributes
       source.save_predicates_attributes
       
-      assert(Source.exists?("http://xmlns.com/foaf/0.1/NewGroup"))
-      assert_equal(@predicates_attributes.size, source.direct_predicates_sources)
+      assert(Source.exists?("#{N::LOCAL}Paolo_Guinigi"))
+      # Aspected size is equal to 3, because @predicates_attributes contains 4 sources, but 1 is marked for destroy.
+      assert_equal(3, source.direct_predicates_sources.size)
     end
 
     def test_normalize_uri
