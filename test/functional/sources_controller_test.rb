@@ -60,23 +60,25 @@ class SourcesControllerTest < Test::Unit::TestCase
   end
   
   def test_show_attribute_with_unexistent_source_name
-    assert_raise(ActiveRecord::RecordNotFound) { get :show_attribute, {:id => @unexistent_name} }
+    assert_raise(ActiveRecord::RecordNotFound) { get :show_attribute, {:source_id => @unexistent_name} }
   end
   
   def test_show_attribute_with_wrong_http_verbs
-    post   :show_attribute, {:id => @source_name, :attribute => 'name'}
+    post   :show_attribute, {:source_id => @source_name, :attribute => 'name'}
     assert_response :success
-    put    :show_attribute, {:id => @source_name, :attribute => 'name'}
+    put    :show_attribute, {:source_id => @source_name, :attribute => 'name'}
     assert_response :success
-    delete :show_attribute, {:id => @source_name, :attribute => 'name'}
+    delete :show_attribute, {:source_id => @source_name, :attribute => 'name'}
     assert_response :success
   end
   
   def test_show_attribute
     assert_routing("sources/#{@source_name}/name",
                   {:controller => 'sources', :action => 'show_attribute', 
-                    :id => 'something', :attribute => 'name'})
-    get :show_attribute, {:id => @source_name, :attribute => 'name'}
+                    :source_id => 'something', :attribute => 'name', 
+                    :namespace => nil, :path_prefix => '/sources/:source_id', 
+                    :name_prefix => "source_"})
+    get :show_attribute, {:source_id => @source_name, :attribute => 'name'}
     assert_response :success
   end
   

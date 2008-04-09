@@ -49,7 +49,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # Routes for the widget engine
   map.resources :widgets, :collection => { :callback => :get } do |widgets|
-    widgets.connect ":file", :controller => :widgets, :action => :load_file
+    widgets.connect ':file', :controller => 'widgets', :action => 'load_file'
   end
   
   # Routes for the source data
