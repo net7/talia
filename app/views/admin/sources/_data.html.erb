@@ -1,0 +1,8 @@
+<h2>Data</h2>
+<div id="data">
+  <ul>
+    <% for data in @source.data %>
+    <li><%= link_to data.location, :controller => '/source_data', :action => 'show', :type => data.type, :location => data.location %></li>
+    <% end %>    
+  </ul>
+</div>
