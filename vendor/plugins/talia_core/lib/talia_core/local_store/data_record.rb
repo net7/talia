@@ -56,7 +56,7 @@ module TaliaCore
     
     # Find all data records about a specified source    
     def self.find_data_records(id)
-      find(:all, :conditions => "source_record_id = #{id}")
+      find(:all, :conditions => ["source_record_id = ?", id])
     end
     
     def self.find_by_type_and_location!(source_data_type, location)
