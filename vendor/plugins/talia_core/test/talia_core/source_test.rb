@@ -17,9 +17,9 @@ module TaliaCore
     N::Namespace.shortcut(:foaf, "http://www.foaf.org/")
     
     def setup
-      @predicates_attributes = [{"name"=>"uri", "uri"=>"#{N::LOCAL}Guinigi_Family", "namespace"=>"talia_db", "label"=>"Guinigi Family"},
-        {"name"=>"type", "uri"=>"http://www.w3.org/2000/01/rdf-schema#Resource", "namespace"=>"rdf", "label"=>"Resource"},
-        {"name"=>"type", "uri"=>"http://xmlns.com/foaf/0.1/Group", "should_destroy"=>"", "namespace"=>"rdf", "id"=>"Group", "label"=>"Group"}]
+      @predicates_attributes = [{"name"=>"uri", "uri"=>"#{N::LOCAL}Guinigi_Family", "namespace"=>"talia_db", "titleized"=>"Guinigi Family"},
+        {"name"=>"type", "uri"=>"http://www.w3.org/2000/01/rdf-schema#Resource", "namespace"=>"rdf", "titleized"=>"Resource"},
+        {"name"=>"type", "uri"=>"http://xmlns.com/foaf/0.1/Group", "should_destroy"=>"", "namespace"=>"rdf", "id"=>"Group", "titleized"=>"Group"}]
       
       @params = {"uri"=>"#{N::LOCAL}Guinigi_family", "primary_source"=>"true",
         "predicates_attributes"=>@predicates_attributes }
@@ -343,14 +343,14 @@ module TaliaCore
 
       assert_equal("#{N::LOCAL}Guinigi_Family", source.predicates_attributes.first['uri'])
       assert_equal('talia_db', source.predicates_attributes.first['namespace'])
-      assert_equal('Guinigi Family', source.predicates_attributes.first['label'])
+      assert_equal('Guinigi Family', source.predicates_attributes.first['titleized'])
       assert_kind_of(Source, source.predicates_attributes.first['source'])
     end
 
     def test_save_predicates_attributes
       source = TestHelper.make_dummy_source("http://star-wars.org/")
       @predicates_attributes[2] = @predicates_attributes[2].merge({'should_destroy' => '1'})
-      @predicates_attributes << {"name"=>"in_epoch", "uri"=> N::LOCAL.to_s, "should_destroy"=>"", "namespace"=>"talias", "id"=>"", "label"=>"Paolo Guinigi"}
+      @predicates_attributes << {"name"=>"in_epoch", "uri"=> N::LOCAL.to_s, "should_destroy"=>"", "namespace"=>"talias", "id"=>"", "titleized"=>"Paolo Guinigi"}
       source.predicates_attributes = @predicates_attributes
       source.save_predicates_attributes
       
@@ -437,8 +437,8 @@ module TaliaCore
       assert_equal("ihaveanid", Source.new("http://www.something_more.com/bla/ihaveanid").to_param)
     end
     
-    def test_titleize
-      assert_equal("Home Source", @local_source.titleize)
+    def test_titleized
+      assert_equal("Home Source", @local_source.titleized)
     end
     
     # Test find :all

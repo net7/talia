@@ -61,7 +61,7 @@ module TaliaCore
     alias_method :to_param, :id
     
     # Titleize the source name.
-    def titleize
+    def titleized
       to_param.titleize
     end
     
@@ -313,7 +313,7 @@ module TaliaCore
     attr_reader :predicates_attributes
     def predicates_attributes=(predicates_attributes)
       @predicates_attributes = predicates_attributes.collect do |attributes_hash|
-        source = Source.new(normalize_uri(attributes_hash['uri'], attributes_hash['label']))
+        source = Source.new(normalize_uri(attributes_hash['uri'], attributes_hash['titleized']))
         source.should_destroy = attributes_hash['should_destroy']
         source.workflow_state = 0
         source.primary_source = false
