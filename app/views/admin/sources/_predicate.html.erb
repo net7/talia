@@ -5,7 +5,7 @@
       <%= predicate_form.hidden_field :namespace, :index => nil, :value => namespace %>
       <%= predicate_form.text_field   :name, :index => nil, :value => name, :size => 20 %>
       <%= predicate_form.hidden_field :uri, :index => nil %>
-      <% if predicate.new_record? %>
+      <% if predicate.exists? %>
         <%= link_to_function "remove", "remove_from_collection(this, '.predicate')" %>
       <% else %>
         <%= link_to_function "remove", "mark_for_destroy(this, '.predicate')" %>
