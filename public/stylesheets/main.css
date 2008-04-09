@@ -431,3 +431,7 @@ div#html_data img{
 	background: #fff url(/images/openid-login-bg.gif) no-repeat top left;
 	padding-left: 20px;
 }
+
+#data ul {
+	list-style-type: none;
+}

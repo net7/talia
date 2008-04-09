@@ -4,6 +4,7 @@
   <p><label for="source_primary_source">Primary Source</label><br/>
   <%= select 'source', 'primary_source', %w(true false), :tabindex => 20 %></p>
 <% end %>
+<%= render :partial => 'data' %>
 <div id="predicates">
   <%= render :partial => "predicates" %>
 </div>

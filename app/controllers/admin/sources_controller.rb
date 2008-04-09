@@ -5,8 +5,8 @@ class Admin::SourcesController < ApplicationController
   layout 'sources'
   include TaliaCore
   
-  # GET /sources
-  # GET /sources.xml
+  # GET /admin/sources
+  # GET /admin/sources.xml
   def index
     @sources = Source.paginate :page => params[:page], :per_page => 10
     
@@ -21,8 +21,8 @@ class Admin::SourcesController < ApplicationController
     end
   end
 
-  # GET /sources/1
-  # GET /sources/1.xml
+  # GET /admin/sources/1
+  # GET /admin/sources/1.xml
   def show
     @source = Source.find(params[:id])
 
@@ -32,13 +32,13 @@ class Admin::SourcesController < ApplicationController
     end
   end
 
-  # GET /sources/1/edit
+  # GET /admin/sources/1/edit
   def edit
     @source = Source.find(params[:id])
   end
 
-  # PUT /sources/1
-  # PUT /sources/1.xml
+  # PUT /admin/sources/1
+  # PUT /admin/sources/1.xml
   def update
     @source = Source.find(params[:id])
 

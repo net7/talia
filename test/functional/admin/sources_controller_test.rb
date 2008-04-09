@@ -14,6 +14,10 @@ class Admin::SourcesControllerTest < ActionController::TestCase
     assert_response :success
     
     assert_select "#source_uri[value=?]", N::LOCAL + source.label
+    assert_select "#data ul li" do
+      assert_select "a", data_record.location
+      assert_select "a[href=?]", "/source_data/#{data_record.type}/#{data_record.location}"
+    end
   end
 
   def test_should_update_source
@@ -68,5 +72,9 @@ class Admin::SourcesControllerTest < ActionController::TestCase
       N::Namespace.shortcut(:talias, "http://trac.talia.discovery-project.eu/wiki/StructuralOntology#") 
     end
     :talias
+  end
+  
+  def data_record
+    @data_record ||= TaliaCore::DataRecord.find(:first)
   end
 end
