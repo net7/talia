@@ -323,10 +323,9 @@ module TaliaCore
     end
 
     # Save, associate/disassociate given predicates attributes.
-    # TODO: is predicate_set the way to disassociate a source from the current one?
     def save_predicates_attributes
       each_predicate_attribute do |namespace, name, source|
-        source.save unless source.exists?
+        source.save
         self.predicate_set(namespace, name, source) unless associated? source
         self.predicate(namespace, name).remove(source) if source.should_destroy?
       end
