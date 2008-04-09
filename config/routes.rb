@@ -1,12 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :users
-
-  map.open_id_complete 'session', :controller => 'sessions', :action => 'create', :requirements => { :method => :get }
-  map.resource :session
-
-  map.resources :sources
-  map.resources :types
-  
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
@@ -32,26 +24,42 @@ ActionController::Routing::Routes.draw do |map|
   #     admin.resources :products
   #   end
 
+  # See how all your routes lay out with "rake routes"
+  
+  # Default route
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
   map.root :controller => 'sources', :action => 'show', :id => 'Lucca'
-
-  # See how all your routes lay out with "rake routes"
-
-  map.connect 'widgeon/:action', :controller => 'widgeon'
   
+
+  # Routes for login and users handling
+  map.resources :users
+  map.login  'login',  :controller => 'sessions', :action => 'create'
+  map.logout 'logout', :controller => 'sessions', :action => 'destroy'
+  map.open_id_complete 'session', :controller => 'sessions', :action => 'create', :requirements => { :method => :get }
+  map.resource :session
+
+  # Routes for the sources
+  map.resources :sources do |sources|
+    sources.connect ':attribute', :controller => 'sources', :action => 'show_attribute'
+  end
+  
+  # Routes for types
+  map.resources :types
+  
+  
+  # Routes for the widget engine
+  map.resources :widgets, :collection => { :callback => :get } do |widgets|
+    widgets.connect ":file", :controller => :widgets, :action => :load_file
+  end
+  
+  # Routes for the source data
   map.connect 'source_data/:type/:location', :controller => 'source_data',
               :action => 'show',
               :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
   
+  # Routes for import
   map.connect 'import/:action', :controller => 'import', :action => 'start_import'
   
-  
-  map.connect 'sources/:id/:attribute', 
-              :controller => 'sources', 
-              :action => 'show_attribute',
-              :id => :nil,
-              :attribute => :nil
-
 #  map.connect ':controller/:id/:data_type/:location', 
 #              :controller => 'sources', 
 #              :action => 'show_source_data',
@@ -60,8 +68,6 @@ ActionController::Routing::Routes.draw do |map|
 #              :location  => :nil,
 #              :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
 
-  map.login  'login',  :controller => 'sessions', :action => 'create'
-  map.logout 'logout', :controller => 'sessions', :action => 'destroy'
 
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'
