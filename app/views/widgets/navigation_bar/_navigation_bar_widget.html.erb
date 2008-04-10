@@ -6,12 +6,12 @@
 
 <!-- link back -->
 <% for supertype in w.supertypes %>
-  <!-- <h3 class="super"><%= type_link("<< #{@widget.class_label(supertype)}", supertype) %></h3> -->
+  <!-- <h3 class="super"><%= type_link("<< #{w.class_label(supertype)}", supertype) %></h3> -->
 <% end %>
 
 <!-- pagina in cui sono -->
 <% if(w.source_class) %>
-  <!-- <h3 class="exact"> <%= @widget.class_label(@widget.source_class) %></h3> -->
+  <!-- <h3 class="exact"> <%= w.class_label(w.source_class) %></h3> -->
 <% end %>
 
 <!-- livelli sotto -->
@@ -26,7 +26,7 @@
         <div id="pod-list-wrap-ext">
 
           <div id="pod-list-wrap">
-                  <%= navigation_list %>
+                  <%= w.navigation_list %>
             </div>
         </div>
     </div>
