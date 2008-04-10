@@ -283,16 +283,21 @@ function upAndDownButtonsSetup()
 /* ON-LOAD - prototype-style */
 /* **************************************** */
 document.observe("dom:loaded", function() {
-   // CHIAMATA ALLA FUNZIONE CHE ANNULA I LINK HREF TYRADIZIONALI
-   deleteHrefAttributes($$('a.ipodStyle'));
-   /* posizionamento verticale */
-   checkVerticalHeightOfPodNavigation();
-   upAndDownButtonsSetup();
-   $('ipod_nav_level_' + navigationLevel).setStyle("top:0px");
-   
-   /* impostazioni per il disable del javascript */
-   $('pod-list-wrap-mask').setStyle('overflow:hidden;')
-   
+    /* SE ESISTE IL CONTENITORE DEL MENU */
+    if($('pod-list-wrap-mask')) 
+    {
+        // CHIAMATA ALLA FUNZIONE CHE ANNULA I LINK HREF TYRADIZIONALI
+       deleteHrefAttributes($$('a.ipodStyle'));
+       /* posizionamento verticale */
+       checkVerticalHeightOfPodNavigation();
+       upAndDownButtonsSetup();
+       $('ipod_nav_level_' + navigationLevel).setStyle("top:0px");
+
+       /* impostazioni per il disable del javascript */
+       $('pod-list-wrap-mask').setStyle('overflow:hidden;')
+
+       /* controllo se esiste il pod navigation */
+    }
 });
 
 /* **************************************** */
@@ -304,19 +309,21 @@ if (window.addEventListener)  // MOZILLA
 
 // IE / OPERA
 window.onmousewheel = document.onmousewheel = wheel;
-
+    
 // GESTORE EVENTO "MOVIMENTO ROTELLA"
 function wheel(event)
 {
-    // Variabile che conterrà la variazione di movimento
-    var delta = 0;
+    if($('pod-list-wrap-mask')) 
+    {
+        // Variabile che conterrà la variazione di movimento
+        var delta = 0;
 
-    // INTERNET EXPLORER
-    if (!event)
-        event = window.event;
+        // INTERNET EXPLORER
+        if (!event)
+            event = window.event;
 
-    // INTERNET EXPLORER E OPERA
-    if (event.wheelDelta)
+        // INTERNET EXPLORER E OPERA
+        if (event.wheelDelta)
         {
             delta = event.wheelDelta/120;
             // IN OPERA 9 IL SEGNO E' INVERTITO
@@ -341,6 +348,7 @@ function wheel(event)
 
             // RITORNA FALSO
             event.returnValue = false;
+      }
 }
 
 

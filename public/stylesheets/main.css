@@ -37,6 +37,10 @@ a:hover{
 	color: #355a8e;
 	text-decoration: underline;
 }
+a
+{
+  outline: none;
+}
 
 h1{
 	font-size:1.3em;

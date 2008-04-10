@@ -13,7 +13,6 @@ Viene azionata in on load e on resize*/
 /* *************************** */
 function setElementsVerticalSettings()
 {
-    checkVerticalHeightOfPodNavigation();
     /* posizionamento dell'elemento bottom menu: menu presente nella sidebar
     che sta allineato in basso */
     var side_bar_top = Element.cumulativeOffset($('side_bar')).top;
@@ -28,7 +27,6 @@ function setElementsVerticalSettings()
         $('bottom_menu').setStyle('margin-top: ' + (Element.cumulativeOffset($('top_menu')).top + ($('top_menu').getDimensions().height) - Element.cumulativeOffset($('side_bar')).top) + 'px');
     }
     */
-    
     /* settaggio in altezza del div ext_page */
     $('ext_page').setStyle('height: '+document.viewport.getDimensions().height+'px');
     
@@ -47,27 +45,8 @@ function open_close(elementId , classOpen, classClosed){
     }
 }
     
-window.onresize = function(){
-    setElementsVerticalSettings();
-}
-
 window.onscroll= function(){
 }
-
-window.onload = function(){
-    $("bottom_menu").style.marginTop = 290 +"px";
-    $("top_menu").style.marginTop = 60 +"px";
-    setElementsVerticalSettings();
-    /* applico al pulsante con id 'sidebar_button' le funzioni per aprire e chiudere side_bar */
-    $('side_bar_button').onclick=function(){
-    open_close("side_bar" , "open", "closed");
-    open_close("contents_ext", "open", "closed");
-    open_close("footer", "open", "closed");
-    open_close("page", "open", "closed");
-    }
-}
-
-
 
 /* *************************** */
 /* funzione che dato un elemento della pagina,
@@ -84,7 +63,18 @@ function setHeightTillBottom(elementToModify, distance)
     }else{elementToModify.setStyle('height:' + (altezzaFinestra - Element.cumulativeOffset(elementToModify).top) + 'px');}
 }
 
-
-
-
-    
+/* FUNZIONE CARICATA DALl'ON LOAD, IMPOSTA GLI ELEMENTI PRINCIPALI DELLA PAGINA */
+function loadFunctionSettings()
+{
+    $("bottom_menu").style.marginTop = 290 +"px";
+    $("top_menu").style.marginTop = 60 +"px";
+    setElementsVerticalSettings();
+    /* applico al pulsante con id 'sidebar_button' le funzioni per aprire e chiudere side_bar */
+    $('side_bar_button').onclick=function(){
+    open_close("side_bar" , "open", "closed");
+    open_close("contents_ext", "open", "closed");
+    open_close("footer", "open", "closed");
+    open_close("page", "open", "closed");
+    }
+}
+   

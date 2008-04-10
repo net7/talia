@@ -1,9 +1,4 @@
 <!-- toolbar widget -->
-<div id="scroll_back">
-  <a href="#" id="prev">
-    previous
-  </a>
-</div>
 <div id="toolbar_mask">
   <div id="toolbar">
     <ul>
@@ -15,13 +10,19 @@
       <li><a href="javascript:print();">Tollbar added item two</a></li>
       <li><a href="javascript:print();">Tollbar added item number 3</a></li>
       <li><a href="javascript:print();">Tollbar added item num. four</a></li>
-      <li><a href="javascript:print();">Last tollbar added item</a></li>
     </ul>
   </div>
 </div>
 <!-- chiude mask -->
+
+<div id="scroll_back">
+  <a href="#" onclick="toolbar_scroll_prev();" id="prev">
+    previous
+  </a>
+</div>
+
 <div id="scroll_forward">
-  <a href="#" id="next">
+  <a href="#" onclick="toolbar_scroll_next();" id="next">
     next
   </a>
 </div>
