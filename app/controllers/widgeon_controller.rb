@@ -66,8 +66,8 @@ class WidgeonController < ApplicationController
   # This handles the setup for an xhr/AJAX rendering of the widget
   def javascript_render(options)
     options[:callback_active] = true
-    klass = options.delete(:widget_class).to_s
-    @widget = Widgeon::Widget.load_widget(klass).new(self, request, options)
+    @klass = options.delete(:widget_class).to_s
+    @options = options
     # Get the action handlers from the options
     @refresh = options.delete(:refresh)
     @javascript = options.delete(:javascript)

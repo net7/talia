@@ -41,10 +41,10 @@ class NavigationBarWidget < Widgeon::Widget
   
   # This is the callback that updates the scrolling navigation, going down to 
   # the next level
-  remote_call :ipod_down do |page, view|
+  remote_call :ipod_down do |page|
     new_level = (@level.to_i + 1).to_s
     
-    page.insert_html(:bottom, @navigation_id, render_template(view, "navigation_list",
+    page.insert_html(:bottom, @navigation_id, render_template("navigation_list",
         :locals => {:current_level => new_level })
     )
     page.replace_html(@list_element, 
@@ -55,7 +55,7 @@ class NavigationBarWidget < Widgeon::Widget
   
   # This is the callback that updates the scrolling navigation, going up to the
   # next level
-  remote_call :ipod_up do |page, view|
+  remote_call :ipod_up do |page|
     list_content = "<h2>Please select a type</h2>"
     if(@source_class) 
       list_content =  view.widget(:source_list, :source_options => { :type => @source_class, :per_page => @list_size.to_i })
