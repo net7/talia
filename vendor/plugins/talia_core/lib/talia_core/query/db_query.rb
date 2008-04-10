@@ -50,7 +50,7 @@ module TaliaCore
           if(idx == 0)
             fragment = @operands[idx].get_conditions
           else
-            fragment += " #{operation.to_s} #{@operands[idx].get_conditions} "
+            fragment << " #{operation.to_s} #{@operands[idx].get_conditions} "
           end
         end
         "( #{fragment} )"
@@ -79,8 +79,8 @@ module TaliaCore
     # Gets a count of the result, *IGNORING* any limit (or offset) conditions
     # that may be set
     def result_count_all
-      sql = "SELECT COUNT(*) FROM source_records WHERE #{get_conditions()} "
-      sql += "LIMIT #{limit} " if(limit)
+      sql = "SELECT COUNT(*) FROM source_records WHERE " << get_conditions() << " "
+      sql << "LIMIT " << limit << " " if(limit)
       SourceRecord.count_by_sql(sql)
     end
     

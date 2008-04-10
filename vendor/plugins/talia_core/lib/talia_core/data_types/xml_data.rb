@@ -126,7 +126,7 @@ module TaliaCore
     def get_content_string(options = nil)
       xml_str = ''
       get_content(options).each do |element|
-        xml_str += element.to_s
+        xml_str << element.to_s
       end
       xml_str
     end

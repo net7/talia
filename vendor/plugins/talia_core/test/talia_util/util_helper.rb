@@ -19,7 +19,7 @@ module TaliaUtil
     def assert_types(source, *types)
       assert_kind_of(TaliaCore::Source, source) # Just to be sure
       type_list = ""
-      source.types.each { |type| type_list += "#{type.local_name}\n" }
+      source.types.each { |type| type_list << "#{type.local_name}\n" }
       assert_equal(types.size, source.types.size, "Type size mismatch: Source has #{source.types.size} instead of #{types.size}.\n#{type_list}")
       types.each { |type| assert(source.types.include?(type), "#{source.uri.loca_name} should have type #{type}\n#{type_list}") }
     end

@@ -87,7 +87,7 @@ module TaliaCore
       resources = @rdf_query.execute.collect { |res| res.uri.to_s }
       # Build the SQL query condition
       conditions = @db_query.get_conditions()
-      conditions += " AND ( #{SourceRecord::sanitize_sql({:uri => resources})} )"
+      conditions << " AND ( " << SourceRecord::sanitize_sql({:uri => resources}) << " )"
       opts = {}
       opts[:conditions] = conditions
       source_records = SourceRecord.find(:all, opts)
