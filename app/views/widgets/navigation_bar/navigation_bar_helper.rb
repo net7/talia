@@ -4,10 +4,10 @@ module NavigationBarHelper
   def navigation_up_links
     result = ""
     if(w.show_home)
-      result += widget_partial("navigation_up_link", :locals => { :type => "Back" })
+      result << widget_partial("navigation_up_link", :locals => { :type => "Back" })
     end
     for supertype in w.supertypes 
-      result += widget_partial("navigation_up_link", :locals => { :type => supertype })
+      result << widget_partial("navigation_up_link", :locals => { :type => supertype })
     end
     result
   end
@@ -16,7 +16,7 @@ module NavigationBarHelper
   def navigation_down_links(level)
     result = ""
     for subtype in w.subtypes
-      result += widget_partial("navigation_down_link", :locals => { :type => subtype, :level => level })
+      result << widget_partial("navigation_down_link", :locals => { :type => subtype, :level => level })
     end
     result
   end

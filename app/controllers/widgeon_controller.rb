@@ -1,17 +1,15 @@
 class WidgeonController < ApplicationController
-  def index
-    if request.xhr?
-      raise(ArgumentError, "Widget not found") unless Widgeon::Widget.loaded_widgets.include?(params[:widget_name].to_sym) 
-      options = {:controller => @controller, :request => request}
-      widget  = Widgeon::Widget.create_widget(params[:widget_name], options)
-      render :text => widget.send(params[:handler].to_sym, params), :status => 200
-    end
-  end 
 
-  def stylesheet
-    respond_to do |format|
-      format.css { render :file => "#{Widgeon::Widget.path_to_widgets}/#{params[:widget]}/#{params[:widget]}.css" }
-    end
+  # GET /sources
+  # GET /sources.xml
+  def index
+    raise(NoMethodError, "Not implemented for now")
+  end
+
+  # GET information on a widget. If the special "id" <tt>callback</tt> is passed,
+  # handle this call as a remote callback for the widget.
+  def show
+   raise(NoMethodError, "Not implemented for now.")
   end
   
   # Handles "remote calls" to a widget. These are expected to be a AJAX calls,
@@ -20,9 +18,8 @@ class WidgeonController < ApplicationController
   #
   # The widget object itself will be initialized, but the <tt>before_render</tt>
   # method will *not* be called on the widget.
-  def remote_call
+  def callback
     options = WidgeonEncoding.decode_options(params[:call_options])
-    
     
     if(request.xhr?)
       javascript_render(options)
@@ -31,6 +28,38 @@ class WidgeonController < ApplicationController
     end
   end
   
+  # Renders "static" content from the widgets directory. The mime type will be
+  # assigned using the file extension and Rails internal MIME table. Note that
+  # the Mime type needs to be set up in the Rails configuration if this needs
+  # to serve MIME types not preconfigured with Rails (notably images).
+  #
+  # If the MIME type can not be determined, this will use default type 
+  # (application/octet-stream).
+  def load_file
+    # First, extract the filename and extension
+    extension = File.extname(params[:file]).gsub(/^\./, '' )
+    widget_klass = Widgeon::Widget.load_widget(params[:widget_id])
+    file = widget_klass.path_to_static(params[:file]) # Get just the "local" filename. 
+    
+    raise(ArgumentError, "Cannot find #{file}") unless(File.exists?(file))
+    
+    # We try to lookup the mime type from Rails' internal list
+    mime_type = Mime::Type.lookup_by_extension(extension)
+    
+    # Options for the send operation
+    send_options = { :disposition => 'inline' }
+    
+    # Set the mime type if it exists. The Mime type exists if there there is
+    # a matching constant definition on the Mime module
+    if(Mime.const_defined?(mime_type.to_sym.to_s.upcase))
+      send_options[:type] = mime_type.to_s
+    end
+    
+    # Now send the file
+    send_file(file, send_options)
+  end
+  
+  # Used for loading a file 
   
   private
   
