@@ -440,6 +440,11 @@ module TaliaCore
     def test_titleized
       assert_equal("Home Source", @local_source.titleized)
     end
+
+    def test_source_record_id
+      assert_nil(Source.new('').source_record_id)
+      assert_not_nil(Source.find(:first).source_record_id)
+    end
     
     # Test find :all
     def test_find_all
@@ -648,8 +653,7 @@ module TaliaCore
       new_src = Source.new(@test_source.uri)
       assert_equal(new_src, @test_source)
       assert_not_same(new_src, @test_source)
-    end
-    
+    end    
   end
 end
  

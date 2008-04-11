@@ -14,6 +14,22 @@ module TaliaCore
     def setup
       TestHelper.fixtures
       @test_records = DataRecord.find_data_records(1)
+      
+      setup_once(:image_mime_types) do
+        Mime::Type.register "image/gif", :gif, [], %w( gif )
+        Mime::Type.register "image/jpeg", :jpeg, [], %w( jpeg jpg jpe jfif pjpeg pjp )
+        Mime::Type.register "image/png", :png, [], %w( png )
+        Mime::Type.register "image/tiff", :tiff, [], %w( tiff tif )
+        Mime::Type.register "image/bmp", :bmp, [], %w( bmp )
+        image_mime_types = ['image/gif', 'image/jpeg', 'image/png', 'image/tiff', 'image/bmp']
+        image_mime_types
+      end
+    end
+    
+    def test_class_attributes
+      talia_root = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..'))
+      assert_equal(File.join(talia_root, 'tmp', 'data_records'), DataRecord.tempfile_path)
+      assert_equal(File.join(talia_root, 'data'), DataRecord.data_path)
     end
     
     # test not nil and records numbers
@@ -72,7 +88,58 @@ module TaliaCore
       line = "LINE1: This is a simple text to check the DataRecords class\n"
       assert_equal(line, @test_records[0].get_line)
     end
-  end
+    
+    def test_mime_type
+      ['text/plain'].each do |mime|
+        assert_equal('SimpleText', DataRecord.mime_type(mime))
+      end
 
+      @image_mime_types.each { |mime| assert_equal('ImageData', DataRecord.mime_type(mime)) }
+      
+      ['text/xml', 'application/xml'].each do |mime|
+        assert_equal('XmlData', DataRecord.mime_type(mime))
+      end
+      
+      assert_equal('DataRecord', DataRecord.mime_type('application/rtf'))
+    end
+    
+    def test_file_should_always_return_nil
+      assert_nil(DataRecord.new.file)
+    end
+    
+    def test_should_save_attachment
+      assert(!DataRecord.new.send(:save_attachment?))
+      data_record = DataRecord.new do |dr|
+        dr.content_type = 'image/jpeg'
+      end
+      assert(data_record.send(:save_attachment?))
+    end
+    
+    def test_should_assign_location
+      data_record = DataRecord.new do |dr|
+        dr.filename = 'image.jpg'
+      end
+      data_record.send(:assign_location)
+      assert_equal('image.jpg', data_record.location)
+    end
+    
+    def test_should_assign_mime_type
+      data_record = DataRecord.new do |dr|
+        dr.content_type = 'image/jpeg'
+      end
+      data_record.send(:assign_mime_type)
+      assert_equal('ImageData', data_record.type)
+    end
+  end
+  
+  def test_full_filename
+    data_record = DataRecord.new do |dr|
+      dr.filename = 'image.jpg'
+      dr.content_type = 'image/jpeg'
+    end
+    data_record.send(:assign_mime_type)
+    expected = File.join(DataRecord.data_path, data_record.type, data_record.filename)
+    assert_equal(expected, data_record.send(:full_filename))
+  end
 end
 

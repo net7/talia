@@ -60,6 +60,11 @@ module TaliaCore
     # Alias for id, used by Rails magic
     alias_method :to_param, :id
     
+    # Return the id of associated <tt>SourceRecord</tt>.
+    def source_record_id
+      @source_record.id
+    end
+    
     # Titleize the source name.
     def titleized
       to_param.titleize

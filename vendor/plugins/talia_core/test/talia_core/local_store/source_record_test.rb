@@ -16,6 +16,10 @@ module TaliaCore
       @test_record = SourceRecord.new("http://dummyuri.com/")
     end
     
+    def _ignore_test_data
+      assert_equal(Source.find(:first).data, Source.find(:first).instance_variable_get(:@data_record).data)
+    end
+    
     # Test the accessor methods for uri
     def test_uri
       @test_record.uri = "http://something.com/"

@@ -22,6 +22,11 @@ module TaliaCore
       errors.add(:primary_source, "cannot be nil") if(self[:primary_source] == nil)
     end
     
+    # Alias for data_records.
+    def data
+      data_records
+    end
+    
     # Helper to get a record with the given URI, or the given multiple uris
     # This raises an error if the record does not exist
     #
