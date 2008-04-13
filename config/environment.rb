@@ -1,3 +1,5 @@
+require File.join(File.dirname(__FILE__), 'rails_secret')
+
 # Be sure to restart your web server when you modify this file.
 
 # Uncomment below to force Rails into production mode when 
@@ -38,7 +40,7 @@ Rails::Initializer.run do |config|
   # no regular words or you'll be exposed to dictionary attacks.
   config.action_controller.session = {
     :session_key => "_talia_session",
-    :secret => "176e9df1967d085808f4aeafb5a9b1da4db1c58508e618b473ca3312f3df9917b78cfb4c965b62e1a31b77d79ee8bbea643aa2f38639c0ff963fa98b5750728a"
+    :secret => RailsSecret.load_secret
   }
   
   # Use the database for sessions instead of the cookie-based default,
