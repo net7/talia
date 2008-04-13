@@ -43,10 +43,10 @@ class NavigationBarWidget < Widgeon::Widget
   def navigation_up_links
     result = ""
     if(show_home)
-      result << widget_partial("navigation_up_link", :locals => { :type => "Back" })
+      result << w.partial("navigation_up_link", :locals => { :type => "Back" })
     end
     for supertype in supertypes 
-      result << widget_partial("navigation_up_link", :locals => { :type => supertype })
+      result << w.partial("navigation_up_link", :locals => { :type => supertype })
     end
     result
   end
@@ -55,7 +55,7 @@ class NavigationBarWidget < Widgeon::Widget
   def navigation_down_links(level)
     result = ""
     for subtype in subtypes
-      result << widget_partial("navigation_down_link", :locals => { :type => subtype, :level => level })
+      result << w.partial("navigation_down_link", :locals => { :type => subtype, :level => level })
     end
     result
   end
@@ -63,7 +63,7 @@ class NavigationBarWidget < Widgeon::Widget
   # Creates a link to the given source, moving the ipod list "down"
   def type_link_down(type, level)
     text = class_label(type)
-    widget_remote_link(text,  
+    w.remote_link(text,  
       { :javascript => :ipod_down,
         :navigation_type => type.to_name_s("#"), 
         :navigation_id => type_id(type), 
@@ -76,7 +76,7 @@ class NavigationBarWidget < Widgeon::Widget
   # Creates a link to the given type, used as an "up" backlink for the ipod navigation
   def type_link_up(type)
     text = type.is_a?(String) ? type : class_label(type)
-    widget_remote_link(text,
+    w.remote_link(text,
     {
       :javascript => :ipod_up,
       :navigation_type => type.is_a?(String) ? "root" : type.to_name_s('#'),
@@ -102,7 +102,7 @@ class NavigationBarWidget < Widgeon::Widget
   
   # Renders the navigation list of level 1
   def navigation_list
-    widget_partial("navigation_list", 
+    w.partial("navigation_list", 
       :locals => { :current_level => "1" })
   end
   
@@ -126,7 +126,7 @@ class NavigationBarWidget < Widgeon::Widget
   
   # This is the callback that updates the scrolling navigation, going down to 
   # the next level
-  remote_call :ipod_down do |page|
+  callback :ipod_down do |page|
     new_level = (@level.to_i + 1).to_s
     
     page.insert_html(:bottom, @navigation_id, render_template("navigation_list",
@@ -140,7 +140,7 @@ class NavigationBarWidget < Widgeon::Widget
   
   # This is the callback that updates the scrolling navigation, going up to the
   # next level
-  remote_call :ipod_up do |page|
+  callback :ipod_up do |page|
     list_content = "<h2>Please select a type</h2>"
     if(@source_class) 
       list_content =  view.widget(:source_list, :source_options => { :type => @source_class, :per_page => @list_size.to_i })

@@ -16,7 +16,8 @@
   <%= yield :javascript -%>
   
   <%= stylesheet_link_tag "main" %>
-  <%= widget_stylesheet('toolbar') %>
+  <%= widget_stylesheet_links :all %>
+  <%= widget_javascript_links :all %>
   <%= stylesheet_link_tag "side_bar_menu" %>
   <%= stylesheet_link_tag "pod_style_navigation" %>
   <%= stylesheet_link_tag "toolbar" %>

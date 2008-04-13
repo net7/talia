@@ -35,28 +35,38 @@ class WidgeonController < ApplicationController
   #
   # If the MIME type can not be determined, this will use default type 
   # (application/octet-stream).
+  # 
+  # If the Widgeon framework is set to serve assets from a static host, this
+  # will forward to the respective directory
   def load_file
-    # First, extract the filename and extension
-    extension = File.extname(params[:file]).gsub(/^\./, '' )
-    widget_klass = Widgeon::Widget.load_widget(params[:widget_id])
-    file = widget_klass.path_to_static(params[:file]) # Get just the "local" filename. 
-    
-    raise(ArgumentError, "Cannot find #{file}") unless(File.exists?(file))
-    
-    # We try to lookup the mime type from Rails' internal list
-    mime_type = Mime::Type.lookup_by_extension(extension)
-    
-    # Options for the send operation
-    send_options = { :disposition => 'inline' }
-    
-    # Set the mime type if it exists. The Mime type exists if there there is
-    # a matching constant definition on the Mime module
-    if(Mime.const_defined?(mime_type.to_sym.to_s.upcase))
-      send_options[:type] = mime_type.to_s
+    if(Widgeon::Widget.asset_mode == :install)
+      redirect_path = ''
+      redirect_path << widget.web_path_to_public(params[:widgeon_id]) << '/' 
+      redirect_path << params[:file]
+      redirect_to(redirect_path, :status => :moved_permanently)
+    else
+      # First, extract the filename and extension
+      extension = File.extname(params[:file]).gsub(/^\./, '' )
+      widget_klass = Widgeon::Widget.load_widget(params[:widgeon_id])
+      file = widget_klass.path_to_static_file(params[:file]) # Get just the "local" filename. 
+      
+      raise(Widgeon::ResourceNotFound, "Cannot find #{file}") unless(File.exists?(file))
+      
+      # We try to lookup the mime type from Rails' internal list
+      mime_type = Mime::Type.lookup_by_extension(extension)
+      
+      # Options for the send operation
+      send_options = { :disposition => 'inline' }
+      
+      # Set the mime type if it exists. The Mime type exists if there there is
+      # a matching constant definition on the Mime module
+      if(Mime.const_defined?(mime_type.to_sym.to_s.upcase))
+        send_options[:type] = mime_type.to_s
+      end
+      
+      # Now send the file
+      send_file(file, send_options)
     end
-    
-    # Now send the file
-    send_file(file, send_options)
   end
   
   # Used for loading a file 
@@ -74,6 +84,7 @@ class WidgeonController < ApplicationController
     if((@refresh && @javascript) || !(@refresh || @javascript))
       raise(ArgumentError, "Must have exactly one action specifier.")
     end
+    raise(ArgumentError, "Unknown widget #{@klass}") unless(Widgeon::Widget.exists?(@klass))
     @refresh = nil if(@refresh == :default) # Define no template => default
   end
   

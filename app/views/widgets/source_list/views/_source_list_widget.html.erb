@@ -1,7 +1,7 @@
 <h2>Page <%= w.sources.current_page %> of <%= w.sources.page_count %></h2>
 
 <div>
-  <%= widget_partial('source_item', :collection => w.sources) %>
+  <%= w.partial('source_item', :collection => w.sources) %>
 </div>
 <div>
 

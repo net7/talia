@@ -1,7 +1,7 @@
-widget = Widgeon::Widget.load_widget(@klass).new(self, request, @options)
+widget = Widgeon::Widget.load_widget(@klass).new(self, @options)
 if(@javascript)
   # This sends the remote call to the widget, which may then modify the page  
   widget.send("#{@javascript}_remotecall", page)
 else
-  page.replace_html widget.global_id, @widget.render_template(@refresh)
+  page.replace_html widget.global_id, widget.render_template(@refresh)
 end
