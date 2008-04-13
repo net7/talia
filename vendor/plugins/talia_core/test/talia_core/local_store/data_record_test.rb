@@ -26,10 +26,9 @@ module TaliaCore
       end
     end
     
-    def test_class_attributes
-      talia_root = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..'))
-      assert_equal(File.join(talia_root, 'tmp', 'data_records'), DataRecord.tempfile_path)
-      assert_equal(File.join(talia_root, 'data'), DataRecord.data_path)
+    def test_paths
+      assert_equal(File.join(TALIA_ROOT, 'tmp', 'data_records'), DataRecord.new.tempfile_path)
+      assert_equal(File.join(TALIA_ROOT, 'data'), DataRecord.new.data_path)
     end
     
     # test not nil and records numbers
