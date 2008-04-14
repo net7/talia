@@ -27,8 +27,12 @@ module TaliaCore
     end
     
     def test_paths
-      assert_equal(File.join(TALIA_ROOT, 'tmp', 'data_records'), DataRecord.new.tempfile_path)
-      assert_equal(File.join(TALIA_ROOT, 'data'), DataRecord.new.data_path)
+      tempfile_path = File.join(TALIA_ROOT, 'tmp', 'data_records')
+      data_path     = File.join(TALIA_ROOT, 'data')
+      assert_equal(tempfile_path, DataRecord.tempfile_path)
+      assert_equal(tempfile_path, DataRecord.new.send(:tempfile_path))
+      assert_equal(data_path, DataRecord.data_path)
+      assert_equal(data_path, DataRecord.new.send(:data_path))
     end
     
     # test not nil and records numbers

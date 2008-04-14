@@ -7,17 +7,7 @@ require 'ftools'
 module TaliaCore
   
   # ActiveRecord interface to the data record in the database
-  class DataRecord < ActiveRecord::Base
-    # Path used to store temporary files.
-    def tempfile_path
-      @@tempfile_path ||= File.join(TALIA_ROOT, 'tmp', 'data_records')
-    end
-    
-    # Path used to store data files.
-    def data_path
-      @@data_path ||= File.join(TALIA_ROOT, 'data')
-    end
-    
+  class DataRecord < ActiveRecord::Base    
     def before_save
       return unless save_attachment?
       assign_location
@@ -130,66 +120,95 @@ module TaliaCore
       self.class.write_to_temp_file data, self.filename
     end
     
-    # Writes the given data to a new tempfile, returning the closed tempfile.
-    def self.write_to_temp_file(data, filename)
-      FileUtils.mkdir_p(self.tempfile_path)
-      returning Tempfile.new(filename, self.tempfile_path) do |tmp|
-        tmp.binmode
-        tmp.write data
-        tmp.close
+    class << self
+      # Path used to store temporary files.
+      def tempfile_path
+        @@tempfile_path ||= File.join(TALIA_ROOT, 'tmp', 'data_records')
+      end
+
+      # Path used to store data files.
+      def data_path
+        @@data_path ||= File.join(TALIA_ROOT, 'data')
+      end
+
+      # Writes the given data to a new tempfile, returning the closed tempfile.
+      def write_to_temp_file(data, filename)
+        FileUtils.mkdir_p(self.tempfile_path)
+        returning Tempfile.new(filename, self.tempfile_path) do |tmp|
+          tmp.binmode
+          tmp.write data
+          tmp.close
+        end
+      end
+
+      # Find all data records about a specified source    
+      def find_data_records(id)
+        find(:all, :conditions => ["source_record_id = ?", id])
+      end
+
+      def find_by_type_and_location!(source_data_type, location)
+        # TODO: Should it directly instantiate the STI sub-class?
+        # In this case we should use the following line instead.
+        #
+        # source_data = source_data_type.classify.constantize.find_by_location(location, :limit => 1)
+        #
+        source_data = self.find(:first, :conditions => ["type = ? AND location = ?", source_data_type.camelize, location])
+        raise ActiveRecord::RecordNotFound if source_data.nil?
+        source_data
+      end
+
+      # Return the class name associated to the given mime-type.
+      # TODO: We should provide a kind of registration of subclasses,
+      # because now associations are hardcoded.
+      def mime_type(content_type)
+        case Mime::Type.lookup(content_type).to_sym
+          when :text:             'SimpleText'
+          when :jpg, :jpeg, :gif,
+            :png, :tiff, :bmp:    'ImageData'
+          when :xml:              'XmlData'
+          else name.demodulize
+        end
       end
     end
-    
-    # Find all data records about a specified source    
-    def self.find_data_records(id)
-      find(:all, :conditions => ["source_record_id = ?", id])
-    end
-    
-    def self.find_by_type_and_location!(source_data_type, location)
-      # TODO: Should it directly instantiate the STI sub-class?
-      # In this case we should use the following line instead.
-      #
-      # source_data = source_data_type.classify.constantize.find_by_location(location, :limit => 1)
-      #
-      source_data = self.find(:first, :conditions => ["type = ? AND location = ?", source_data_type.camelize, location])
-      raise ActiveRecord::RecordNotFound if source_data.nil?
-      source_data
-    end
-    
-    # Return the class name associated to the given mime-type.
-    # TODO: We should provide a kind of registration of subclasses,
-    # because now associations are hardcoded.
-    def self.mime_type(content_type)
-      case Mime::Type.lookup(content_type).to_sym
-        when :text:             'SimpleText'
-        when :jpg, :jpeg, :gif,
-          :png, :tiff, :bmp:    'ImageData'
-        when :xml:              'XmlData'
-        else name.demodulize
-      end
-    end
-    
+        
     private
+    # Check if the attachment should be saved.
     def save_attachment?
       !self.content_type.nil?
     end
     
+    # Assign filename to the location.
     def assign_location
       self.location = filename
     end
     
+    # Assign the STI subclass, perfoming a mime type lookup.
     def assign_mime_type
       self.type = self.class.mime_type(content_type)
     end
 
+    # Return the full path of the current attachment.
     def full_filename
-      @full_filename ||= File.join(self.class.data_path, self.type, self.filename)
+      @full_filename ||= File.join(data_path, type, filename)
     end
 
+    # Save the attachment on the data_path directory.
     def save_attachment
       FileUtils.mkdir_p(File.dirname(full_filename))
       File.cp(temp_path, full_filename)
       File.chmod(0644, full_filename)
+    end
+    
+    # Path used to store temporary files.
+    # This is a wrapper of the class method tempfile_path.
+    def tempfile_path
+      self.class.tempfile_path
+    end
+    
+    # Path used to store data files.
+    # This is a wrapper of the class method data_path.
+    def data_path
+      self.class.data_path
     end
   end
 end
