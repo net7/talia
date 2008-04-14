@@ -8,19 +8,12 @@ module TaliaCore
   
   # ActiveRecord interface to the data record in the database
   class DataRecord < ActiveRecord::Base
-    # Little hack to initialize the paths before the core is initialized.
-    # This will create the variables, the values will be put in when they
-    # are first read
-    @@tempfile_path = nil
-    @@data_path     = nil
-    
-    # Temp file path. This path is relative to TALIA_ROOT, thus the method can
-    # only be called after initialization is complete
+    # Path used to store temporary files.
     def tempfile_path
       @@tempfile_path ||= File.join(TALIA_ROOT, 'tmp', 'data_records')
     end
     
-    # See tempfile_path
+    # Path used to store data files.
     def data_path
       @@data_path ||= File.join(TALIA_ROOT, 'data')
     end
