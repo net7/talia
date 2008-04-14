@@ -37,4 +37,41 @@ class SourceDataControllerTest < Test::Unit::TestCase
     assert_response :missing
   end
   
+  def test_should_create
+    rails_logo = uploaded_png fixture_path
+    post :create, :data_record => { :file => rails_logo }
+    assert_response :success
+    assert File.exists?(full_filename)
+  end
+  
+  private
+  # get us an object that represents an uploaded file
+  def uploaded_file(path, content_type="application/octet-stream", filename=nil)
+    filename ||= File.basename(path)
+    t = Tempfile.new(filename)
+    FileUtils.copy_file(path, t.path)
+    (class << t; self; end;).class_eval do
+      alias local_path path
+      define_method(:original_filename) { filename }
+      define_method(:content_type) { content_type }
+    end
+    t
+  end
+
+  # PNG helper
+  def uploaded_png(path, filename=nil)
+    uploaded_file(path, 'image/png', filename)
+  end
+  
+  def file
+    'rails.png'
+  end
+  
+  def fixture_path
+    File.join(File.expand_path(RAILS_ROOT), 'test', 'fixtures', file)
+  end
+  
+  def full_filename
+    File.join(TaliaCore::DataRecord.data_path, 'ImageData', file)
+  end
 end

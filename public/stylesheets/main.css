@@ -439,3 +439,34 @@ div#html_data img{
 #data ul {
 	list-style-type: none;
 }
+
+#data p {
+	margin-top: 25px;
+}
+
+#data_form {
+	margin-top: 15px;
+	padding: 10px;
+	background-color: #ccc;
+}
+
+div.uploadStatus {
+  margin: 5px;
+}
+
+div.progressBar {
+	display: none;
+  margin: 5px;
+}
+
+div.progressBar div.border {
+  background-color: #fff;
+  border: 1px solid grey;
+  width: 100%;
+}
+
+div.progressBar div.background {
+  background-color: #0c0;
+  height: 18px;
+  width: 0%;
+}

@@ -5,4 +5,20 @@ module Admin::SourcesHelper
       page[namespace.underscore].select('.predicate').last.visual_effect :highlight
     end
   end
+  
+  def show_upload_form
+    link_to_function "upload", :id => 'upload_link' do |page|
+      page.replace_html 'data_form', :partial => 'upload'
+      page['upload_link'].visual_effect :fade, :duration => 0.001
+      page['data_form'].visual_effect :appear, :duration => 0.4
+    end
+  end
+  
+  def hide_upload_form
+    link_to_function "cancel" do |page|
+      page['data_form'].visual_effect :fade, :duration => 0.001
+      page['upload_link'].visual_effect :appear, :duration => 0.4
+      page.replace_html 'data_form', ''
+    end
+  end
 end

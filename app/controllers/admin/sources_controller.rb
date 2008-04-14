@@ -53,4 +53,18 @@ class Admin::SourcesController < ApplicationController
       end
     end
   end
+  
+  # GET /admin/sources/data/1
+  def data
+    @source = SourceRecord.find(params[:id])
+    
+    respond_to do |format|
+      format.js do
+        render :update do |page|
+          page.replace_html 'list', :partial => 'list'
+          page[:list].select('li').last.visual_effect :highlight
+        end
+      end
+    end
+  end
 end
