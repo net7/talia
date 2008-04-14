@@ -39,7 +39,7 @@ class SourceDataControllerTest < Test::Unit::TestCase
   
   def test_should_create
     rails_logo = uploaded_png fixture_path
-    post :create, :data_record => { :file => rails_logo }
+    post :create, :data_record => { :file => rails_logo, :source_record_id => source_record_id }
     assert_response :success
     assert File.exists?(full_filename)
   end
@@ -61,6 +61,10 @@ class SourceDataControllerTest < Test::Unit::TestCase
   # PNG helper
   def uploaded_png(path, filename=nil)
     uploaded_file(path, 'image/png', filename)
+  end
+  
+  def source_record_id
+    TaliaCore::Source.find(:first).id
   end
   
   def file
