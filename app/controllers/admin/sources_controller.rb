@@ -62,7 +62,10 @@ class Admin::SourcesController < ApplicationController
       format.js do
         render :update do |page|
           page.replace_html 'list', :partial => 'list'
-          page[:list].select('li').last.visual_effect :highlight
+          page.insert_html :top, 'data', :partial => 'notice'
+          page[:data_notice].visual_effect :highlight
+          page[:data_notice].visual_effect :fade, :duration => 3
+          page.delay(3.1) { page.remove :data_notice }
         end
       end
     end

@@ -64,7 +64,7 @@ class SourceDataControllerTest < Test::Unit::TestCase
   end
   
   def source_record_id
-    TaliaCore::Source.find(:first).id
+    TaliaCore::Source.find(:first).source_record_id
   end
   
   def file

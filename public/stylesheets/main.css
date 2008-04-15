@@ -423,8 +423,12 @@ div#html_data img{
 	list-style-type: none;
 }
 
-#notice {
+#notice, .notice {
 	color: #0c0;
+}
+
+.notice {
+	font-size: 1.2em;
 }
 
 #login_box {

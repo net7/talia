@@ -12,11 +12,7 @@ class SourceDataController < ApplicationController
   
   # POST /source_data
   def create
-    @data = DataRecord.new(params[:data_record])
-    if @data.save
-      render :inline => '', :status => 200
-    else
-      render :inline => '', :status => 500
-    end
+    status = DataRecord.find_or_create_and_assign_file(params[:data_record]) ? 200 : 500
+    render :inline => '', :status => status
   end
 end
