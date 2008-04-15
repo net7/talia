@@ -4,7 +4,7 @@ class CreateDataRecords < ConstraintMigration
   def self.up
     create_table "data_records", :force => true do |t|
       t.column :source_record_id,   :integer, :null => false
-      t.column :type,               :string,  :null => false
+      t.column :type,               :string
       t.column :location,           :string,  :null => false
     end
    
