@@ -128,34 +128,17 @@ module TaliaCore
     def test_should_save_attachment
       assert(!DataRecord.new.send(:save_attachment?))
       data_record = DataRecord.new do |dr|
-        dr.content_type = 'image/jpeg'
+        dr.file = file
       end
       assert(data_record.send(:save_attachment?))
     end
-    
-    def test_should_assign_location
-      data_record = DataRecord.new do |dr|
-        dr.filename = 'image.jpg'
-      end
-      data_record.send(:assign_location)
-      assert_equal('image.jpg', data_record.location)
-    end
-    
-    def test_should_assign_mime_type
-      data_record = DataRecord.new do |dr|
-        dr.content_type = 'image/jpeg'
-      end
-      data_record.send(:assign_mime_type)
-      assert_equal('ImageData', data_record.type)
-    end
-    
+        
     def test_full_filename
       data_record = DataRecord.new do |dr|
-        dr.filename = 'image.jpg'
-        dr.content_type = 'image/jpeg'
+        dr.location  = 'image.jpg'
+        dr.assign_type 'image/jpeg'
       end
-      data_record.send(:assign_mime_type)
-      expected = File.join(DataRecord.data_path, data_record.type, data_record.filename)
+      expected = File.join(DataRecord.data_path, data_record.type, data_record.location)
       assert_equal(expected, data_record.send(:full_filename))
     end
 

@@ -58,24 +58,22 @@ module TaliaCore
     def each_byte
     end
     
-    attr_accessor :content_type
-    attr_accessor :filename
-    attr_accessor :temp_path
-    
+    attr_accessor :temp_path    
     # This is a placeholder in case file is used in a form.
     def file() nil; end
     
     # Assign the file data (<tt>StringIO</tt> or <tt>File</tt>).
     def file=(file_data)
       return nil if file_data.nil? || file_data.size == 0 
-      self.content_type = file_data.content_type
-      self.filename     = file_data.original_filename if respond_to?(:filename)
+      self.assign_type file_data.content_type
+      self.location = file_data.original_filename if respond_to?(:location)
       if file_data.is_a?(StringIO)
         file_data.rewind
         self.temp_data = file_data.read
       else
         self.temp_path = file_data.path
       end
+      @save_attachment = true
     end
     
     # Gets the latest temp path from the collection of temp paths.  While working with an attachment,
@@ -117,7 +115,7 @@ module TaliaCore
     
     # Writes the given file to a randomly named Tempfile.
     def write_to_temp_file(data)
-      self.class.write_to_temp_file data, self.filename
+      self.class.write_to_temp_file data, self.location
     end
     
     class << self
@@ -195,36 +193,30 @@ module TaliaCore
         FileUtils.mkdir_p(tempfile_path) unless File.exists?(tempfile_path)
       end
     end
-        
+
+    # Assign the STI subclass, perfoming a mime-type lookup.
+    def assign_type(content_type)
+      self.type = self.class.mime_type(content_type)
+    end
+
     private
     # Check if the attachment should be saved.
     def save_attachment?
-      !self.content_type.nil?
+      @save_attachment
     end
     
     # Save the attachment, assigning location and mime-type,
     # then copying the file from the temp_path to the data_path.
     def save_attachment
       return unless save_attachment?
-      assign_location
-      assign_mime_type
       save_file
+      @save_attachment = false
       true
     end
-    
-    # Assign filename to the location.
-    def assign_location
-      self.location = filename
-    end
-    
-    # Assign the STI subclass, perfoming a mime-type lookup.
-    def assign_mime_type
-      self.type = self.class.mime_type(content_type)
-    end
-
+        
     # Return the full path of the current attachment.
     def full_filename
-      @full_filename ||= File.join(data_path, type, filename)
+      @full_filename ||= File.join(data_path, type, location)
     end
 
     # Save the attachment on the data_path directory.
@@ -254,7 +246,7 @@ module TaliaCore
     
     # Generates a unique filename for a Tempfile. 
     def random_tempfile_filename
-      "#{rand Time.now.to_i}#{filename || 'attachment'}"
+      "#{rand Time.now.to_i}#{location || 'attachment'}"
     end
   end
 end
