@@ -170,7 +170,7 @@ module TaliaCore
       def find_or_create_and_assign_file(params)
         data_record = self.find_or_create_by_location_and_source_record_id(extract_filename(params[:file]), params[:source_record_id])
         data_record.file = params[:file]
-        data_record.save_attachment
+        data_record.save # force attachment save and it also saves type attribute.
       end
 
       # Return the class name associated to the given mime-type.
@@ -195,6 +195,12 @@ module TaliaCore
         FileUtils.mkdir_p(tempfile_path) unless File.exists?(tempfile_path)
       end
     end
+        
+    private
+    # Check if the attachment should be saved.
+    def save_attachment?
+      !self.content_type.nil?
+    end
     
     # Save the attachment, assigning location and mime-type,
     # then copying the file from the temp_path to the data_path.
@@ -204,12 +210,6 @@ module TaliaCore
       assign_mime_type
       save_file
       true
-    end
-    
-    private
-    # Check if the attachment should be saved.
-    def save_attachment?
-      !self.content_type.nil?
     end
     
     # Assign filename to the location.
