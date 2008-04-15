@@ -1,16 +1,24 @@
 require 'test/unit'
-
 # Load the helper class
 require File.join(File.dirname(__FILE__), '..', '..', 'test_helper')
 
-module TaliaCore
+require 'action_controller/request'
+class UploadedFile < File
+  include ActionController::UploadedFile
+  attr_accessor_with_default(:content_type) { 'text/plain' }
+  alias_method :original_path, :path
+  
+  def size
+    self.class.size(original_path)
+  end
+end
 
+module TaliaCore
   # Test te DataRecord storage class
   class DataRecordTest < Test::Unit::TestCase
-  
     # Establish the database connection for the test
     TestHelper.startup
-     
+
     def setup
       TestHelper.fixtures
       @test_records = DataRecord.find_data_records(1)
@@ -51,12 +59,19 @@ module TaliaCore
     
     # test data directory
     def test_data_directory
-      base_dir_name = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'data_for_test', 'SimpleText'))
-      dir_for_test  = File.expand_path(@test_records[0].data_directory)
-      assert_equal(base_dir_name, dir_for_test)
+      dir_for_test = File.expand_path(@test_records[0].data_directory)
+      assert_equal(data_path_test, dir_for_test)
       assert( File.exists?(dir_for_test) )
-      assert_equal(File.join(base_dir_name, 'temp1.txt'), File.join(dir_for_test, @test_records[0].location))
+      assert_equal(File.join(data_path_test, 'temp1.txt'), File.join(dir_for_test, @test_records[0].location))
       assert( File.exists?(File.join(dir_for_test, @test_records[0].location)), "#{File.join(dir_for_test, @test_records[0].location)} does not exist" )
+    end
+
+    def test_should_find_or_create_and_assign_file
+      # FIXME: I use #file and #source_record_id instead of fixtures,
+      # due to unpredictable ids assignment.
+      # Because test process doesn't drop tables, but just empty and re-fill them.
+      params = {:file => file, :source_record_id => source_record_id}
+      assert(DataRecord.find_or_create_and_assign_file(params))
     end
 
     # test file size
@@ -133,16 +148,32 @@ module TaliaCore
       data_record.send(:assign_mime_type)
       assert_equal('ImageData', data_record.type)
     end
-  end
-  
-  def test_full_filename
-    data_record = DataRecord.new do |dr|
-      dr.filename = 'image.jpg'
-      dr.content_type = 'image/jpeg'
+    
+    def test_full_filename
+      data_record = DataRecord.new do |dr|
+        dr.filename = 'image.jpg'
+        dr.content_type = 'image/jpeg'
+      end
+      data_record.send(:assign_mime_type)
+      expected = File.join(DataRecord.data_path, data_record.type, data_record.filename)
+      assert_equal(expected, data_record.send(:full_filename))
     end
-    data_record.send(:assign_mime_type)
-    expected = File.join(DataRecord.data_path, data_record.type, data_record.filename)
-    assert_equal(expected, data_record.send(:full_filename))
-  end
-end
 
+    def test_extract_filename
+      assert_equal('temp1.txt', DataRecord.extract_filename(file))
+    end
+
+    private
+    def data_path_test
+      @data_path_test ||= File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'data_for_test', 'SimpleText'))
+    end
+
+    def file
+      UploadedFile.new(File.join(data_path_test, DataRecord.find(:first).location))
+    end
+
+    def source_record_id
+      SourceRecord.find(:first).id
+    end
+  end  
+end

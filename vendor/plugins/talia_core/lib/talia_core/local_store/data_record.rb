@@ -7,13 +7,8 @@ require 'ftools'
 module TaliaCore
   
   # ActiveRecord interface to the data record in the database
-  class DataRecord < ActiveRecord::Base    
-    def before_save
-      return unless save_attachment?
-      assign_location
-      assign_mime_type
-      save_attachment
-    end
+  class DataRecord < ActiveRecord::Base
+    before_save :save_attachment
 
     # Declaration of main abstract methods ======================
     # Some notes: every subclasses of DataRecord must implement
@@ -115,6 +110,11 @@ module TaliaCore
       self.temp_path = write_to_temp_file data unless data.nil?
     end
     
+    # Copies the given file to a randomly named Tempfile.
+    def copy_to_temp_file(file)
+      self.class.copy_to_temp_file file, random_tempfile_filename
+    end
+    
     # Writes the given file to a randomly named Tempfile.
     def write_to_temp_file(data)
       self.class.write_to_temp_file data, self.filename
@@ -131,9 +131,18 @@ module TaliaCore
         @@data_path ||= File.join(TALIA_ROOT, 'data')
       end
 
+      # Copies the given file path to a new tempfile, returning the closed tempfile.
+      def copy_to_temp_file(file, temp_base_name)
+        create_tempfile_path
+        returning Tempfile.new(temp_base_name, self.tempfile_path) do |tmp|
+          tmp.close
+          FileUtils.cp file, tmp.path
+        end
+      end
+
       # Writes the given data to a new tempfile, returning the closed tempfile.
       def write_to_temp_file(data, filename)
-        FileUtils.mkdir_p(self.tempfile_path)
+        create_tempfile_path
         returning Tempfile.new(filename, self.tempfile_path) do |tmp|
           tmp.binmode
           tmp.write data
@@ -157,6 +166,13 @@ module TaliaCore
         source_data
       end
 
+      # Find or create a record for the given location and source_record_id, then it saves the given file.
+      def find_or_create_and_assign_file(params)
+        data_record = self.find_or_create_by_location_and_source_record_id(extract_filename(params[:file]), params[:source_record_id])
+        data_record.file = params[:file]
+        data_record.save_attachment
+      end
+
       # Return the class name associated to the given mime-type.
       # TODO: We should provide a kind of registration of subclasses,
       # because now associations are hardcoded.
@@ -169,8 +185,27 @@ module TaliaCore
           else name.demodulize
         end
       end
+      
+      # Extract the filename.
+      def extract_filename(file_data)
+        file_data.original_filename if file_data.respond_to?(:original_filename)
+      end
+      
+      def create_tempfile_path
+        FileUtils.mkdir_p(tempfile_path) unless File.exists?(tempfile_path)
+      end
     end
-        
+    
+    # Save the attachment, assigning location and mime-type,
+    # then copying the file from the temp_path to the data_path.
+    def save_attachment
+      return unless save_attachment?
+      assign_location
+      assign_mime_type
+      save_file
+      true
+    end
+    
     private
     # Check if the attachment should be saved.
     def save_attachment?
@@ -182,7 +217,7 @@ module TaliaCore
       self.location = filename
     end
     
-    # Assign the STI subclass, perfoming a mime type lookup.
+    # Assign the STI subclass, perfoming a mime-type lookup.
     def assign_mime_type
       self.type = self.class.mime_type(content_type)
     end
@@ -193,22 +228,33 @@ module TaliaCore
     end
 
     # Save the attachment on the data_path directory.
-    def save_attachment
+    def save_file
       FileUtils.mkdir_p(File.dirname(full_filename))
       File.cp(temp_path, full_filename)
       File.chmod(0644, full_filename)
     end
     
+    # Extract the filename.
+    # This is a wrapper for the extract_filename class method.
+    def extract_filename(file_data)
+      self.class.extract_filename(file_data)
+    end
+    
     # Path used to store temporary files.
-    # This is a wrapper of the class method tempfile_path.
+    # This is a wrapper for the tempfile_path class method.
     def tempfile_path
       self.class.tempfile_path
     end
     
     # Path used to store data files.
-    # This is a wrapper of the class method data_path.
+    # This is a wrapper for the data_path class method.
     def data_path
       self.class.data_path
+    end
+    
+    # Generates a unique filename for a Tempfile. 
+    def random_tempfile_filename
+      "#{rand Time.now.to_i}#{filename || 'attachment'}"
     end
   end
 end
