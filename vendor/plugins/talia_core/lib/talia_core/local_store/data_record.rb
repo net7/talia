@@ -9,6 +9,7 @@ module TaliaCore
   # ActiveRecord interface to the data record in the database
   class DataRecord < ActiveRecord::Base
     before_save :save_attachment
+    before_destroy :destroy_attachment
 
     # Declaration of main abstract methods ======================
     # Some notes: every subclasses of DataRecord must implement
@@ -205,18 +206,22 @@ module TaliaCore
       @save_attachment
     end
     
-    # Save the attachment, assigning location and mime-type,
-    # then copying the file from the temp_path to the data_path.
+    # Save the attachment, copying the file from the temp_path to the data_path.
     def save_attachment
       return unless save_attachment?
       save_file
       @save_attachment = false
       true
     end
-        
+
+    # Destroy the attachment
+    def destroy_attachment
+      FileUtils.rm(full_filename) if File.exists?(full_filename)
+    end
+
     # Return the full path of the current attachment.
     def full_filename
-      @full_filename ||= File.join(data_path, type, location)
+      @full_filename ||= File.join(data_path, class_name, location)
     end
 
     # Save the attachment on the data_path directory.
@@ -242,6 +247,11 @@ module TaliaCore
     # This is a wrapper for the data_path class method.
     def data_path
       self.class.data_path
+    end
+    
+    # Returns demodulized type or class name.
+    def class_name
+      (self.type.to_s || self.class.name).demodulize
     end
     
     # Generates a unique filename for a Tempfile. 
