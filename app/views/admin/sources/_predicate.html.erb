@@ -5,9 +5,11 @@
       <%= predicate_form.text_field   :name, :index => nil, :value => name, :size => 20 %>
       <%= predicate_form.hidden_field :uri,  :index => nil %>
       <% if predicate.exists? %>
-        <%= link_to_function "remove", "remove_from_collection(this, '.predicate')" %>
+        <%= link_to_function image_tag('remove.png', :size => '12x12', :alt => 'remove', :class => 'remove'),
+          "remove_from_collection(this, '.predicate')" %>
       <% else %>
-        <%= link_to_function "remove", "mark_for_destroy(this, '.predicate')" %>
+        <%= link_to_function image_tag('remove.png', :size => '12x12', :alt => 'remove', :class => 'remove'),
+          "mark_for_destroy(this, '.predicate')" %>
         <%= predicate_form.hidden_field :id, :index => nil %>
         <%= predicate_form.hidden_field :should_destroy, :index => nil, :class => "should_destroy" %>
       <% end %>
