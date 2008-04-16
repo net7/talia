@@ -247,7 +247,7 @@ function upAndDownButtonsSetup()
     $('ipod_scroll_up_button').setStyle("display:block;");
     $('ipod_scroll_down_button').setStyle("display:block;");
         
-    if($('pod-list-wrap-mask').getHeight() > $('ipod_nav_level_' + navigationLevel).getHeight())
+    if( $('pod-list-wrap-mask').getHeight() > $('ipod_nav_level_' + navigationLevel).getHeight() )
     {
         $('ipod_scroll_up_button').setStyle("background-image:none;");
         $('ipod_scroll_down_button').setStyle("background-image:none;");

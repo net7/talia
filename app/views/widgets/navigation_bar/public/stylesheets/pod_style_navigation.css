@@ -127,6 +127,11 @@ div#ipod_scroll_up_button a{
     text-indent: -999px;
 }
 
+div#ipod_scroll_up_button a:hover{
+    background-color: transparent;
+}
+
+
 div#ipod_scroll_down_button{ /* DA IMPORRE CON JAVASCRIPT */
     width:200px;
     height: 22px;
@@ -144,7 +149,9 @@ div#ipod_scroll_down_button a{
     text-indent: -999px;
     border-top:1px solid #D9D9D9;
 }
-
+div#ipod_scroll_down_button a:hover{
+    background-color: transparent;
+}
 /* **************************************** */
 /* ELEMENTI INTERNI ADDETTI ALLO SCROLL */
 /* **************************************** */

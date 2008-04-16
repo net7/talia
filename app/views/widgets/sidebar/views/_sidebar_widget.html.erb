@@ -1,29 +1,30 @@
-        <!-- side bar: contains all navigation tools - can be closed or opened -->
-        <div id="side_bar" class="open"><!-- class: open/closed -->
+<!-- side bar: contains all navigation tools - can be closed or opened -->
+<div id="side_bar" class="open"><!-- class: open/closed -->
 
-          <ul id="top_menu">
-            <% for tab in w.top_tabs %>
-                <li><%= tab.tab_link %></li>
-            <% end %>
-          </ul>
+  <ul id="top_menu">
+    <% for tab in w.top_tabs %>
+      <li><%= tab.tab_link %></li>
+    <% end %>
+  </ul>
+  
+  <ul id="bottom_menu">
+    <% for tab in w.bottom_tabs %>
+      <li><%= tab.tab_link %></li>
+    <% end %>
+  </ul>
+  
+  <div id="side_bar_content">
+    
+    <h1><%= w.title %></h1> <!-- titolo della sezione side bar in cui ci troviamo -->
 
-          <ul id="bottom_menu">
-            <% for tab in w.bottom_tabs %>
-                <li><%= tab.tab_link %></li>
-            <% end %>
-          </ul>
-
-          <div id="side_bar_content">
-
-            <h1><%= w.title %></h1> <!-- titolo della sezione side bar in cui ci troviamo -->
-
-            <p id="open_close_button"><a   id="side_bar_button" >Chiudi</a></p> <!-- pulsantino apri e chiudi -->
+    <p id="open_close_button"><a id="side_bar_button" >Chiudi</a></p> <!-- pulsantino apri e chiudi -->
             <!-- inizio contenuto realse del side bar -->
-            <p id="side_bar_loader" style="display: none" class="side_bar_loader">Caricamento in corso</p>
-            <p>
-            <%= widget(w.tab_widget, w.active_tab_options) %>
-            </p>
-            <!-- fine contenuto realse del side bar -->
-          </div>
-        </div>
-        <!-- side bar end -->
+    <p id="side_bar_loader" style="display: none" class="side_bar_loader">Caricamento in corso</p>
+    <p>
+      <%= widget(w.tab_widget, w.active_tab_options) %>
+    </p>
+    <!-- fine contenuto realse del side bar -->
+  </div>
+</div>
+<!-- side bar end -->
+

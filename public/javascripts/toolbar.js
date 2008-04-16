@@ -18,7 +18,7 @@ function setToolbarGeometry()
     
     $('scroll_back').setStyle('display:block;');
     $('scroll_forward').setStyle('display:block;');
-        
+    
     /* ci va messa una condizione if: se l'ultimo elemento toolbar esce dall maschera ' */
     /*var ultimoElementoArrayLi = $$('div#toolbar ul li').length - 1;
     var lastElementEnd = $$('div#toolbar ul li')[ultimoElementoArrayLi].cumulativeOffset().left + $$('div#toolbar ul li')[ultimoElementoArrayLi].getWidth();
@@ -33,10 +33,10 @@ function setToolbarGeometry()
     }
     */
     
-    if($('toolbar_top'))
+    if($('toolbar_top')) /* se ho già creato gli oggetti ... */
     {
         graphicalElementsMove();
-    }else{
+    }else{ /* ... altrimenti ... */
         graphicalToolbarSetUp();
     }
 }
@@ -62,6 +62,7 @@ function graphicalToolbarSetUp()
 
 function graphicalElementsMove()
 {
+    $('toolbar_mask').setStyle('width:' + ( document.viewport.getDimensions().width - $('toolbar_mask').cumulativeOffset().left - 45 ) + 'px;');
     $('toolbar').setStyle('height:auto;');
     if($('toolbar').getHeight() < 30) $('toolbar').setStyle('height:30px;');
     
@@ -87,6 +88,21 @@ function graphicalElementsMove()
     
     $('toppa_left').setStyle("top:" + $('toolbar_mask').cumulativeOffset().top + "px; left:" + ( $('toolbar_mask').cumulativeOffset().left - 18 ) + "px; height:" + $('toolbar').getHeight() + "px;")
     $('toppa_right').setStyle("top:" + $('toolbar_mask').cumulativeOffset().top + "px; left:" + ( $('toolbar_mask').cumulativeOffset().left + $('toolbar_mask').getWidth() - 12 ) + "px; height:" + $('toolbar').getHeight() + "px;")
+    
+    /* devo controllare la posizione del toolbar */
+    /* controllo del margine destro.. */
+    if( ( $$('div#toolbar ul li')[$$('div#toolbar ul li').length - 1].cumulativeOffset().left + $$('div#toolbar ul li')[$$('div#toolbar ul li').length - 1].getWidth() ) < ( $('toolbar_mask').cumulativeOffset().left + $('toolbar_mask').getWidth() ) )
+    {
+        var differenzaDestra = ( $('toolbar_mask').cumulativeOffset().left + $('toolbar_mask').getWidth() ) - ( $$('div#toolbar ul li')[$$('div#toolbar ul li').length - 1].cumulativeOffset().left + $$('div#toolbar ul li')[$$('div#toolbar ul li').length - 1].getWidth() );
+        $('toolbar').setStyle('left:' + ( parseInt( $('toolbar').style.left ) + differenzaDestra)  + 'px;');
+    }
+    /*... controllo del margine sinistro */
+    if( $$('div#toolbar ul li')[0].cumulativeOffset().left > $('toolbar_mask').cumulativeOffset().left )
+    {
+        var differenzaSinistra = ( $$('div#toolbar ul li')[0].cumulativeOffset().left - $('toolbar_mask').cumulativeOffset().left );
+        $('toolbar').setStyle('left:' + ( parseInt( $('toolbar').style.left ) - differenzaSinistra + 15)  + 'px;');
+    }
+    
     configure_scroll_buttons();
 }
 
@@ -150,4 +166,3 @@ function toolbar_scroll_next()
     //* 2. chiamata alla funzione di scriptacuolous per il movimento */
     new Effect.Move ($('toolbar'),{ x: -(differenceInMovement + 10), y: 0, mode: 'relative', duration: 0.3, afterFinish: configure_scroll_buttons});
 }
-

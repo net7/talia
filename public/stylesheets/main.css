@@ -5,67 +5,60 @@
 /* ***************** ************** ************** */
 * {margin: 0; padding: 0;}
 
-body.open {
+body{
 	text-align:left;
 	color:#333;
 	margin: 0;
 	padding: 0;
 	border: 0;
-	background:#FFF url(/images/page_bg.gif) top left repeat-y;
 	font-family: Avenir, "Lucida Grande", Verdana, "Bitstream Vera Sans", Arial, Helvetica, sans-serif;
 	font-size:0.8125em;
+
+}
+
+body.open {
+	background: #FFF url(/images/page_bg.gif) top left repeat-y;
 }
 
 /* !!!! SIDE BAR CHIUSO !!!! */
-body.closed {text-align:left;
-	color:#333;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	background:#FFF url(/images/page_bg_side_bar_open.gif) top left repeat-y;
-        font-family: Avenir, "Lucida Grande", Verdana, "Bitstream Vera Sans", Arial, Helvetica, sans-serif;
-	font-size:0.8125em;
+body.closed {
+	background: #FFF url(/images/page_bg_side_bar_open.gif) top left repeat-y;
 }
 /* !!!! SIDE BAR CHIUSO !!!! */
 
+
+/* DEFINIZIONE TAG */
 a{
 	color: #355a8e;
 	text-decoration: none;
+        outline: none;
 }
-
 a:hover{
 	color: #355a8e;
 	text-decoration: underline;
+        background-color: transparent;
 }
-a
-{
-  outline: none;
-}
-
 h1{
 	font-size:1.3em;
 	margin-bottom: 5px;
 }
-
 h2{
 	font-size:1.2em;
 	margin-bottom: 5px;
 }
-
 h3{
 	font-size:1.1em;
 	margin-bottom: 5px;
 }
-
 p{
 	color:#333333;
 	line-height:1.7em;
 	font-size:0.9em;
 	margin-bottom: 5px;
 }
+/* DEFINIZIONE TAG */
 
 /* loader */
-
 p.side_bar_loader{
 	background:transparent url(/images/loading.gif) center center no-repeat;
 	display:block;
@@ -84,7 +77,6 @@ p.side_bar_loader{
 .floatClear{
 	clear:both;
 }
-
 
 /* ***************** ************** ************** */
 /* ***************** MAIN PAGE ELEMENTS ************** */
@@ -126,38 +118,25 @@ p.side_bar_loader{
 	color:#FFFFFF;
 }
 
-
 /* ***************** ************** ************** */
 /* ***************** SIDE BAR ************** */
 /* ***************** ************** ************** */
 
 /* tree: #ext_page #int_page #side_bar */
 /* APERTO */
-#side_bar.open{
+#side_bar{
 	position:absolute;
 	top:158px;
+        height: 300px;
 	left:0;
 	width:270px;
-	/*border:1px solid #CC9900;*/
+        /* width: 43px; */
 	background:transparent url(/images/side_bar_icons/side_bar_top.gif) top left no-repeat;
 }
-
-
-/* CHIUSO */
-#side_bar.closed{
-	position:absolute;
-	top:158px;
-	left:0;
-	width:43px;
-	/*border:1px solid #CC9900;*/
-	background:transparent url(/images/side_bar_icons/side_bar_top_closed.gif) top left no-repeat;
-}
-
 
 /* ***************** ************** ************** */
 /* ***************** SIDE BAR CONTENT : qui vengono caricati i contenuti contestuali della sidebar************** */
 /* ***************** ************** ************** */
-
 
 /*tree: #side_bar #side_bar_content */
 #side_bar #side_bar_content{
@@ -169,7 +148,6 @@ p.side_bar_loader{
 #side_bar #side_bar_content h1{
 	
 }
-
 
 /* !!!! SIDE BAR APERTO !!!! */
 #side_bar.open #side_bar_content h1{
@@ -200,9 +178,8 @@ p.side_bar_loader{
 }
 /* !!!! SIDE BAR APERTO !!!! */
 
-
-
 /* !!!! SIDE BAR CHIUSO !!!! */
+
 #side_bar.closed #side_bar_content h1{
 	display: none;
 }
@@ -223,11 +200,9 @@ p.side_bar_loader{
 #side_bar.closed #side_bar_content p#open_close_button a:hover{
 	background:transparent url(/images/button_side_bar_open_ro.gif) top left no-repeat;
 }
-
 #side_bar.closed #side_bar_content p{
 	display: none;
 }
-
 #side_bar.closed #side_bar_content div{
 	display: none;
 }
@@ -238,19 +213,19 @@ p.side_bar_loader{
 /* ***************** ************** ************** */
 /* ***************** CONTENTS ************** */
 /* ***************** ************** ************** */
-#contents_ext.open{
-	margin-left:270px;
-	/*border:1px solid #3399FF;*/
+#contents_ext{
 	padding:0px;
 	background:transparent url(/images/contents_top_left_no_tools_bg.gif) top left repeat-x;
+         margin-left:270px;
 }
-
-/* !!!! SIDE BAR CHIUSO !!!! */
+/*
+#contents_ext.open{
+	margin-left:270px;
+}
 #contents_ext.closed{
 	margin-left:43px;
-padding:0px;
-	background:transparent url(/images/contents_top_left_no_tools_bg.gif) top left repeat-x;
 }
+*/
 /* !!!! SIDE BAR CHIUSO !!!! */
 
 /* elementi grafici per il content */
@@ -273,7 +248,6 @@ padding:0px;
 	margin-left:73px;
 }
 /* !!!! SIDE BAR CHIUSO !!!! */
-
 
 /* ***************** ************** ************** */
 /* ***************** ************** ************** */
