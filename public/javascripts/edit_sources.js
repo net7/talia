@@ -20,6 +20,16 @@ function togglePredicates(e) {
 	setTimeout(function() { Event.addBehavior.reload() }, 10);
 }
 
+function showPredicatesOfDiv(id) {
+	element = $(id);
+	element.down('.predicates').show();
+  element.down('img').writeAttribute({
+	  'src': '/images/arrow_collapsed.png',
+		'class':'arrow_collapsed'
+	});
+	setTimeout(function() { Event.addBehavior.reload() }, 10);
+}
+
 function showUploadProgressBar() {
 	new Effect.Appear('UploadProgressBar1');
 }

@@ -427,6 +427,12 @@ div#html_data img{
 	border: none;
 }
 
+.add {
+	float: right;
+	margin-top: -18px;
+	margin-right: 8px;
+}
+
 .predicates {
 	padding-left: 10px;
 }
