@@ -52,9 +52,11 @@ class Admin::SourcesControllerTest < ActionController::TestCase
   def test_should_show_data_records_list
     login_as :admin
     get :edit, :id => source.label
-    assert_select('h2', 'Data')
+    assert_select('h2', 'Files')
     assert_select '#data' do
-      assert_select('ul#list')
+      assert_select('ul#list') do
+        assert_select('span.data')
+      end
     end
   end
   

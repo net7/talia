@@ -1,1 +1,1 @@
-<li><%= link_to data.location, :controller => '/source_data', :action => 'show', :type => data.type, :location => data.location %></li>
+<li><%= file_type(data.type) %> <%= link_to data.location, :controller => '/source_data', :action => 'show', :type => data.type, :location => data.location %></li>

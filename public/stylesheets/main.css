@@ -439,6 +439,31 @@ div#html_data img{
 	margin-top: 25px;
 }
 
+.data {
+	font-size: .7em;
+	padding: 2px;
+	margin-right: 2px;
+}
+
+.file {
+	background-color: #ff9;
+}
+
+.text {
+	background-color: #009;
+	color: #fff;
+}
+
+.xml {
+	background-color: #090;
+	color: #fff;
+}
+
+.image {
+	background-color: #900;
+	color: #fff;
+}
+
 #data_form {
 	margin-top: 15px;
 	padding: 10px;

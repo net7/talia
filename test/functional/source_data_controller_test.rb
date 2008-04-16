@@ -9,6 +9,10 @@ class TaliaCore::DummyDataRecord < TaliaCore::DataRecord
   def mime_type
     'dummy/dummy'
   end
+  
+  def type
+    self.class.name.demodulize
+  end
 end
 
 class SourceDataControllerTest < Test::Unit::TestCase

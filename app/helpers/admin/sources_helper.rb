@@ -21,4 +21,17 @@ module Admin::SourcesHelper
       page.replace_html 'data_form', ''
     end
   end
+  
+  def file_type(data_type)
+    data_type = case data_type
+    when Class
+      data_type.name
+    when nil
+      'Record'
+    else
+      data_type
+    end.gsub(/(Data|Simple)/, '').gsub(/Record/, 'File').upcase
+
+     %(<span class="data #{h data_type.downcase}">#{h data_type}</span>)
+  end
 end
