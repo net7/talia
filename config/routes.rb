@@ -45,18 +45,19 @@ ActionController::Routing::Routes.draw do |map|
   
   # Routes for types
   map.resources :types
-  
+
+  # Routes for the source data
+  map.connect 'source_data/:type/:location', :controller => 'source_data',
+              :action => 'show',
+              :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
+
+  map.resources :data_records, :controller => 'source_data'
   
   # Routes for the widget engine
   map.resources :widgeon, :collection => { :callback => :all } do |widgets|
     widgets.connect ':file', :controller => 'widgeon', :action => 'load_file', :requirements => { :file => %r([^;,?]+) }
   end
-  
-  # Routes for the source data
-  map.connect 'source_data/:type/:location', :controller => 'source_data',
-              :action => 'show',
-              :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
-  
+    
   # Routes for import
   map.connect 'import/:action', :controller => 'import', :action => 'start_import'
   
@@ -72,4 +73,5 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'
+  
 end

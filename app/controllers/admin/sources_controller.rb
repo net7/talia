@@ -62,7 +62,7 @@ class Admin::SourcesController < ApplicationController
       format.js do
         render :update do |page|
           page.replace_html 'list', :partial => 'list'
-          page.insert_html :top, 'data', :partial => 'notice'
+          page.insert_html :top, 'data', :partial => 'notice', :locals => { :text => 'Your file has been saved.'}
           page[:data_notice].visual_effect :highlight
           page[:data_notice].visual_effect :fade, :duration => 3
           page.delay(3.1) { page.remove :data_notice }
