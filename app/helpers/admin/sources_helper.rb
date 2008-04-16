@@ -30,7 +30,7 @@ module Admin::SourcesHelper
       'Record'
     else
       data_type
-    end.gsub(/(Data|Simple)/, '').gsub(/Record/, 'File').upcase
+    end.demodulize.gsub(/(Data|Simple)/, '').gsub(/Record/, 'File').upcase
 
      %(<span class="data #{h data_type.downcase}">#{h data_type}</span>)
   end
