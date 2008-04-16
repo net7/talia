@@ -8,6 +8,8 @@ module TaliaCore
   
   # ActiveRecord interface to the data record in the database
   class DataRecord < ActiveRecord::Base
+    belongs_to :source_record
+    
     before_save :save_attachment
     before_destroy :destroy_attachment
 
