@@ -1,9 +1,14 @@
 <% @source.grouped_direct_predicates.each do |namespace, group| %>
   <div id="<%=h namespace.underscore %>">
-    <h2><%=h namespace.titleize %></h2>
-    <% group.each do |name, sources| %>
-      <%= render :partial => "predicate", :collection => sources.flatten, :locals => { :namespace => namespace, :name => name } %>
-    <% end %>
+    <h4 class="rdf_header">
+      <%= image_tag 'arrow_grouped.png', :size => '12x12', :class => 'arrow_grouped' %>
+      <%=h namespace.titleize %>
+    </h4>
+    <div class="predicates">
+      <% group.each do |name, sources| %>
+        <%= render :partial => "predicate", :collection => sources.flatten, :locals => { :namespace => namespace, :name => name } %>
+      <% end %>
+    </div>
   </div>
   <%= add_another_predicate namespace %>
 <% end %>

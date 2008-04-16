@@ -1,6 +1,24 @@
 Event.onReady(function() {
-	$('data_form').hide();	
+	$('data_form').hide();
+	$$('.predicates').each(function(element){ element.hide(); });
 });
+
+Event.addBehavior({
+  '.arrow_grouped:click': togglePredicates,
+	'.arrow_collapsed:click': togglePredicates
+});
+
+function togglePredicates(e) {
+	element = $(e.element());
+  element.up('div').down('.predicates').toggle();
+  className = image = element.getAttribute('src').match(/grouped/) ? 
+    'collapsed' : 'grouped';
+  element.writeAttribute({
+	  'src': '/images/arrow_'+image+'.png',
+		'class':'arrow_'+className
+	});
+	setTimeout(function() { Event.addBehavior.reload() }, 10);
+}
 
 function showUploadProgressBar() {
 	new Effect.Appear('UploadProgressBar1');

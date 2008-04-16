@@ -414,6 +414,13 @@ div#html_data img{
 	padding-left: 20px;
 }
 
+.rdf_header {
+	margin-top: 15px;
+	padding-left: 10px;
+	background: #333 url(/images/rdf_header_bg.gif) repeat-x top left;
+	color: #fff;
+}
+
 #data ul {
 	list-style-type: none;
 }
