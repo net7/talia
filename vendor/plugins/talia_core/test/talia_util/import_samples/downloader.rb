@@ -9,8 +9,9 @@ puts "Usage downloader.rb <list_file> [output_path (default .)]" unless(ARGV[0])
 
 
 def grab_siglum(siglum)
-  open("http://www.nietzschesource.org/exportToTalia.php?get=#{siglum}", :http_basic_authentication => ["nietzsche", "source"]) do |io|
-    open(File.join(@output_path, "#{siglum}.xml"), "w") do |file|
+  siglum_enc = URI.escape(siglum)
+  open("http://www.nietzschesource.org/exportToTalia.php?get=#{siglum_enc}", :http_basic_authentication => ["nietzsche", "source"]) do |io|
+    open(File.join(@output_path, "#{siglum_enc}.xml"), "w") do |file|
       file << io.read
     end
   end
@@ -22,7 +23,7 @@ xml_doc.add_element("sigla")
 open(ARGV[0]) do |file|
   file.each_line do |line|
     line.strip!
-    unless(line == "" || line.include?(":") || line.include?(" "))
+    unless(line == "" || line.include?(":"))
       puts "fetching #{line}"
       grab_siglum(line)
       el = xml_doc.root.add_element("siglum")

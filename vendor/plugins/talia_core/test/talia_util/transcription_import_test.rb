@@ -60,14 +60,15 @@ module TaliaUtil
     end
 
     # Test if the curator was imported correctly
-    def test_curator
-      assert_property(@src.hyper::curator, N::LOCAL::igerike, N::LOCAL::vzapf)
+    def test_author
+      assert_property(@src.hyper::author, N::LOCAL::igerike, N::LOCAL::vzapf)
     end
     
     # Test if the data file was imported
     def test_data
       assert_equal(1, @src.data_records.size)
       assert_kind_of(TaliaCore::XmlData, @src.data_records[0])
+      assert_equal('N-IV-1,16[4].xml', @src.data_records[0].location)
     end
     
     # Test if the doucument data is valid XML

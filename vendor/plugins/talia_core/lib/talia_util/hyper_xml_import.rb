@@ -46,7 +46,7 @@ module TaliaUtil
         import_doc.root.elements.each("siglum") do |siglum|
           progress.inc
           begin
-            sig_uri = base_uri + sig_request + siglum.text.strip
+            sig_uri = base_uri + sig_request + URI.escape(siglum.text.strip)
             HyperImporter::Importer.import(REXML::Document.new(read_from(sig_uri)))
           rescue Exception => e
             puts("Error when importing #{siglum}: #{e}")

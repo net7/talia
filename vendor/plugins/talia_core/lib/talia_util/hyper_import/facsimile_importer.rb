@@ -9,9 +9,9 @@ module TaliaUtil
       
       def import!
         contribution_import!
-        import_curators!
         add_property_from(@element_xml, "dimensionX")
         add_property_from(@element_xml, "dimensionY")
+        source.hyper::dimension_units << 'pixel'
       end
       
     end

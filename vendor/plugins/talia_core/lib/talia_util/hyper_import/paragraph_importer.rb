@@ -33,10 +33,11 @@ module TaliaUtil
         assit(page && position, "Must have page and position to create note")
         return unless(page && position)
         # Create a name for the note's source
-        note_name = N::LOCAL + "#{source.uri.local_name}-note#{position}"
+        position = select_position(position)
+        n_name = note_name(position)
         # Check if the note already exists - this should never happen!
-        if(!TaliaCore::Source.exists?(note_name))
-          note = get_source(note_name, N::HYPER + 'Note')
+        if(!TaliaCore::Source.exists?(n_name))
+          note = get_source(n_name.local_name, N::HYPER + 'Note')
           note.hyper::position << position
           # Add a relation to the page
           add_source_rel(N::HYPER::page, page, note)
@@ -45,15 +46,32 @@ module TaliaUtil
           if(coordinates && coordinates != '')
             coord_data = TaliaCore::SimpleText.new
             # Create a somewhat unique filename for the coordinates
-            coord_file_location = "#{note_name.to_name_s.gsub(/\W/, '+')}-coords.txt"
+            coord_file_location = "#{n_name.to_name_s.gsub(/\W/, '+')}-coords.txt"
             coord_data.create_from_data(coord_file_location, coordinates)
             note.data_records << coord_data
           end
           
           @source.hyper::note << note
         else
-          assit_fail("Duplicate note #{note_name}")
+          assit_fail("Duplicate note #{n_name}")
         end
+      end
+      
+      private
+      
+      # Selects a name for the given note, updating the position until a 
+      # "free" position is found. (The original Hyper may include duplicate
+      # positions due to incorrect assignments). This returns the new position
+      def select_position(initial_position)
+        position = initial_position
+        while(TaliaCore::Source.exists?(note_name(position))) do position += 1 end
+        $stderr.puts("WARNING: Had to adapt note #{initial_position} for #{source.uri.to_name_s} to #{position}") if(position != initial_position)
+        position
+      end
+      
+      # Creates a name for a note
+      def note_name(position)
+        N::LOCAL + "#{source.uri.local_name}-note#{position}"
       end
       
     end

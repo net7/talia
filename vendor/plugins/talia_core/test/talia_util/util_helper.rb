@@ -6,6 +6,7 @@ module TaliaUtil
     
     # Loads a test document
     def load_doc(name)
+      name = URI.escape(name)
       demo_docs ||= {}
       demo_docs[name] ||= begin
         current_dir = File.expand_path(File.dirname(__FILE__))
@@ -32,7 +33,7 @@ module TaliaUtil
       assert_equal(values.size, property.size, "Expected #{values.size} values instead of #{property.size}")
       values = values.collect { |value| value.is_a?(N::URI) ? TaliaCore::Source.new(value) : value }
       property.each do |value|
-        assert(values.include?(value), "Found unexpexcted value #{value}. Value is a #{value.class}") 
+        assert(values.include?(value), "Found unexpected value #{value}. Value is a #{value.class}") 
       end
     end
     

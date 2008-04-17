@@ -11,8 +11,10 @@ module ActiveRecord
     def self.has_uri_field(uri_type)
       assit_kind_of(Class, uri_type)
       
-      # For the URIs we do a minimal check (String with no blanks and : char somewher)
-      validates_format_of :uri, :with => /\A\S*:\S*\Z/
+      # For the URIs we do a minimal check (String with no blanks the start and : char somewhere)
+      # URIs are stored un-escaped (that is without %-encoding), because Rails
+      # will automatically decode %-encoded URLs that are passed to the application.
+      validates_format_of :uri, :with => /\A\S*:.*\Z/
       validates_uniqueness_of :uri
       
       # Initializer takes the uri field

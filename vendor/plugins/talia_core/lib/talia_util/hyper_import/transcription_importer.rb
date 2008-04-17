@@ -9,7 +9,6 @@ module TaliaUtil
       
       def import!
         contribution_import!
-        import_curators!
       end
       
     end

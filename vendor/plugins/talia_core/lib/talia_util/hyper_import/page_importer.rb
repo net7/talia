@@ -12,6 +12,7 @@ module TaliaUtil
         add_property_from(@element_xml, 'height')
         add_property_from(@element_xml, 'position')
         add_property_from(@element_xml, 'position_name')
+        source.hyper::dimension_units << 'pixel'
       end
       
     end

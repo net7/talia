@@ -27,7 +27,7 @@ module TaliaUtil
       setup_once(:src) do
         HyperImporter::Importer.import(load_doc('Mp-XIV-2'))
       end
-      setup_once(:work_src) { HyperImporter::Importer.import(load_doc('AC')) }
+      setup_once(:work_src) { HyperImporter::Importer.import(load_doc('WS')) }
     end
     
     # Test if the import succeeds
@@ -41,7 +41,7 @@ module TaliaUtil
     end
     
     def test_in_archive
-      puts "*** Warning: This is still missing from the export!"
+      assert_property(@src.hyper::is_in_archive, N::LOCAL + 'Goethe- und Schiller-Archiv')
     end
     
     # Test the title property
@@ -62,12 +62,28 @@ module TaliaUtil
     # Test work import
     def test_work_book
       assert_types(@work_src, N::HYPER + "Book", N::HYPER + "PrintedAndDistributed")
-      assert_equal(N::LOCAL + "AC", @work_src.uri)
+      assert_equal(N::LOCAL + "WS", @work_src.uri)
+    end
+    
+    def test_date
+      assert_property(@work_src.dcns::date, '1880')
+    end
+    
+    def test_publisher
+      assert_property(@work_src.dcns::publisher, 'Ernst Schmeitzner')
+    end
+    
+    def test_publishing_place
+      assert_property(@work_src.hyper::publication_place, 'Chemnitz')
     end
     
     # Test source name
     def test_name
       assert_equal(N::LOCAL + "Mp-XIV-2", @src.uri)
+    end
+    
+    def test_copyright
+      assert_property(@work_src.hyper::copyright_note, '© Stiftung Weimarer Klassik und Kunstsammlungen, Goethe- und Schiller-Archiv, Weimar 2003')
     end
     
   end

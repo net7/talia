@@ -72,5 +72,9 @@ module TaliaUtil
       assert_equal(N::LOCAL + "D-12,10r", @src.uri)
     end
     
+    def test_units
+      assert_property(@src.hyper::dimension_units, 'pixel')
+    end
+    
   end
 end

@@ -124,8 +124,6 @@ module TaliaCore
       # Now check if the uri validation works
       source.uri = "foobar"
       assert(!source.valid?)
-      source.uri = "foo:bar "
-      assert(!source.valid?)
       source.uri = "foo:bar"
       assert(source.valid?)
       

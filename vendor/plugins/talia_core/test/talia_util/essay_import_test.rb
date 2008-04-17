@@ -29,6 +29,9 @@ module TaliaUtil
       setup_once(:src) do
         HyperImporter::Importer.import(load_doc('jgrzelczyk-4'))
       end
+      setup_once(:with_abstract) do
+        HyperImporter::Importer.import(load_doc('rmullerbuck-1'))
+      end
     end
     
     # Test if the import succeeds
@@ -62,8 +65,8 @@ module TaliaUtil
     end
 
     # Test if the curator was imported correctly
-    def test_curator
-      assert_property(@src.hyper::curator, N::LOCAL::jgrzelczyk)
+    def test_author
+      assert_property(@src.hyper::author, N::LOCAL::jgrzelczyk)
     end
 
     # And now: already_published
@@ -74,6 +77,10 @@ module TaliaUtil
     # Test the language setting
     def test_language
       assert_property(@src.dcns::language, "fr")
+    end
+    
+    def test_abstract
+      assert_property(@with_abstract.hyper::abstract, 'Chronologisch lassen sich drei Phasen der Annäherung Nietzsches an Frankreich unterscheiden: Die erste Phase beginnt im Herbst 1876 in Sorrent, nach dem Bruch mit Wagner. Diese erste intensive Hinwendung zu Frankreich geht mit der Abwendung von Wagner einher. Die zweite, weitaus wichtigere Phase, die im Winter 1883/84 während seines ersten Aufenthalts in Nizza beginnt, steht im Zeichen Paul Bourgets und der Psychologie. Erst in Frankreich wird Nietzsche zum Psychologen. Die dritte und letzte Phase, gewissermaßen der Gipfel- und Kulminationspunkt seiner Hinwendung zu Frankreich, ist in das Jahr 1888 zu datieren. In ihr taucht er zuletzt völlig in die französische Kultur ein, allerdings nicht gegen, sondern mit Richard Wagner.')
     end
     
   end

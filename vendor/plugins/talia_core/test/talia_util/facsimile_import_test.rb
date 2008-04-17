@@ -62,14 +62,15 @@ module TaliaUtil
     end
 
     # Test if the curator was imported correctly
-    def test_curator
-      assert_property(@src.hyper::curator, N::LOCAL::sviola, N::LOCAL::egrepaly)
+    def test_author
+      assert_property(@src.hyper::author, N::LOCAL::sviola, N::LOCAL::egrepaly)
     end
     
     # Test if the data file was imported
     def test_data
       assert_equal(1, @src.data_records.size)
       assert_kind_of(TaliaCore::ImageData, @src.data_records[0])
+      assert_equal('N-V-4,97.jpeg', @src.data_records[0].location)
     end
    
     # And now: already_published
@@ -81,6 +82,10 @@ module TaliaUtil
     def test_dimensions
       assert_property(@src.hyper::width, "2556")
       assert_property(@src.hyper::height, "3988")
+    end
+    
+    def test_units
+      assert_property(@src.hyper::dimension_units, 'pixel')
     end
     
   end

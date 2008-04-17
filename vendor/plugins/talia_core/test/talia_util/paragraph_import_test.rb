@@ -87,5 +87,11 @@ module TaliaUtil
       assert_equal(2, @work_para.hyper::note.size)
     end
     
+    # Assert auto create of new not positions
+    def test_note_position_creation
+      notes_pos = @work_para.hyper::note.collect {|note| note.hyper::position[0].to_i }
+      assert_equal([194, 195].sort, notes_pos.sort)
+    end
+    
   end
 end

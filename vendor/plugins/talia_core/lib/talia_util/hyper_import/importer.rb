@@ -36,7 +36,7 @@ module TaliaUtil
       def do_import!
         import_relations!
         import_types!
-        add_property_from(@element_xml, 'title', true) # The title should always exist
+        add_property_from(@element_xml, 'title', self.class.needs_title) # The title should always exist
         import! # Calls the import features of the subclass
         @source.save! # Save the source when the import is complete
       end
@@ -65,7 +65,7 @@ module TaliaUtil
       # Gets the importer for a given element name
       def self.importer_for_element(element)
         begin
-          klass = TaliaUtil::HyperImporter.const_get("#{element.name.capitalize}Importer")
+          klass = TaliaUtil::HyperImporter.const_get("#{element.name.camelize}Importer")
           assit_kind_of(Class, klass, "Could not create a class from #{element.name}")
           klass.new(element)
         rescue RuntimeError => e
@@ -85,6 +85,16 @@ module TaliaUtil
       # Get the source type
       def self.get_source_type
         @my_source_type
+      end
+      
+      # This can be used to not require a title on the element (the
+      # corresponding accessor, needs_title, will default to true
+      def self.title_required(required)
+        @title_required = required
+      end
+      
+      def self.needs_title
+        @title_required = true unless(defined?(@title_required))
       end
       
       # Gets the content of an element as a string. This looks for the direct
@@ -107,7 +117,7 @@ module TaliaUtil
           property = N::URI.make_uri(map_property(name), ':', N::HYPER)
           @source[property] << node.text.strip if(node.text && node.text.strip != "")
         else
-          assit(!required, "The node n#{name} is required to exist.")
+          assit(!required, "The node #{name} is required to exist.")
         end
       end
       
@@ -172,7 +182,7 @@ module TaliaUtil
               # Skip empty object for relation
             end
           rescue Exception => e
-            assit_fail("Error '#{e}' during relation import (#{predicate}, #{object}), possibly malformed XML?")
+            assit_fail("Error '#{e}' during relation import (#{predicate}, #{object}), possibly malformed XML?\n Backtrace: #{e.backtrace}\n")
           end
         end
       end

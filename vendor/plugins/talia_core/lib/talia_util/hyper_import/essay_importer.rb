@@ -9,8 +9,7 @@ module TaliaUtil
       
       def import!
         contribution_import!
-        import_curators!
-        add_rel_from(@element_xml, "abstract")
+        add_property_from(@element_xml, "abstract")
       end
       
     end

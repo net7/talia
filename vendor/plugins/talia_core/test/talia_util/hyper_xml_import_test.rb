@@ -68,5 +68,21 @@ module TaliaUtil
       assert(TaliaCore::Source.exists?("igerikevzapf-539"))
     end
     
+    def test_external_object_exists
+      assert(TaliaCore::Source.exists?("mmontinari-zvlbn-1987"))
+    end
+    
+    def test_path_step_exists
+      assert(TaliaCore::Source.exists?("igerike-927,1"))
+    end
+    
+    def test_path_exists
+      assert(TaliaCore::Source.exists?("igerike-907"))
+    end
+    
+    def test_archive_exists
+      assert(TaliaCore::Source.exists?("Goethe- und Schiller-Archiv"))
+    end
+    
   end
 end

@@ -1,13 +1,14 @@
 book_manuscript:
 Mp-XIV-2
 book_work:
-AC
+WS
 chapter:
 AC-[Text]
 edition:
 kbrunkhorst-93
 essay:
 jgrzelczyk-4
+rmullerbuck-1
 facsimile:
 egrepalysviola-3259
 manuscript page:
@@ -24,3 +25,14 @@ paragraph work page annotation:
 WS-194
 transcription:
 igerikevzapf-539
+path:
+igerike-907
+external object:
+mmontinari-nmgii-1988
+mmontinari-zvlbn-1987
+hjmette-dhnfn-1932
+tandina-aodns-2001
+path_step:
+igerike-927,1
+archive:
+Goethe- und Schiller-Archiv
