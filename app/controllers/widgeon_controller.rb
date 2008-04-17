@@ -77,6 +77,7 @@ class WidgeonController < ApplicationController
   def javascript_render(options)
     options[:callback_active] = true
     @klass = options.delete(:widget_class).to_s
+    raise(ArgumentError, "Must have id for javascript callback") unless(options[:widget_id])
     @options = options
     # Get the action handlers from the options
     @refresh = options.delete(:refresh)

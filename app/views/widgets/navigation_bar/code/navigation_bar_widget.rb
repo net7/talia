@@ -35,7 +35,7 @@ class NavigationBarWidget < Widgeon::Widget
     if(@labels && @labels[klass.to_name_s])
       @labels[klass.to_name_s]
     else
-      klass.label
+      klass.rdf_label
     end
   end
   
@@ -133,7 +133,7 @@ class NavigationBarWidget < Widgeon::Widget
         :locals => {:current_level => new_level })
     )
     page.replace_html(@list_element, 
-      view.widget(:source_list, :source_options => { :type => @source_class, :per_page => @list_size.to_i })
+      view.widget(:source_list, :id => 'types_list', :source_options => { :type => @source_class, :per_page => @list_size.to_i })
     )
     page.call('navigationGoDown ', @navigation_id)
   end
@@ -143,7 +143,7 @@ class NavigationBarWidget < Widgeon::Widget
   callback :ipod_up do |page|
     list_content = "<h2>Please select a type</h2>"
     if(@source_class) 
-      list_content =  view.widget(:source_list, :source_options => { :type => @source_class, :per_page => @list_size.to_i })
+      list_content =  view.widget(:source_list, :id => 'types_list', :source_options => { :type => @source_class, :per_page => @list_size.to_i })
     end
     page.replace_html(@list_element, list_content)
     page.call('defaultNavigationGoUp')

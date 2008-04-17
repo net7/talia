@@ -1,5 +1,8 @@
 # Configuration for the ontology navigation bar widget.
 
+# The id for the main navigation bar
+widget_id: 'main_navigation'
+
 # "root" classes are not shown, but all their children appear in the root-level
 # interface. 
 # "self" classes are shown in the root-level interface themselves
