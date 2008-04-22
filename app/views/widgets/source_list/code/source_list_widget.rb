@@ -12,6 +12,14 @@ class SourceListWidget < Widgeon::Widget
     raise(ArgumentError, "Source options missing") unless(@source_options)
     @source_options[:page] = get_page   
     @sources = TaliaCore::Source.paginate(@source_options)
+    @snippet_dir ||= 'source_list'
+  end
+  
+  # This iterates through all the groups in the source list, passing 
+  # two parameters: First, the group name as a string and a collection of
+  # elements with the group members
+  def groups
+    yield("Complete List", @sources)
   end
   
   private

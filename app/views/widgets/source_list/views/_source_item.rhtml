@@ -1,3 +1,1 @@
-<div <%= "class='primary_source'" if(source_item.primary_source) %>>
-    <%= widget(:source_snippet, :source => source_item, :identifier => source_item.uri.local_name, :template_dir => 'list') %>
-</div>
+<%= widget(:source_snippet, :html_options => { :class => 'single_source_element' }, :source => source_item, :template_dir => w.snippet_dir) %>
