@@ -121,6 +121,17 @@ module TaliaUtil
         end
       end
       
+      # This adds a property "explicitly", if the automatic mapping cannot be
+      # used
+      def add_property_explicit(root, name, property, required = false)
+        if(node = root.elements[name])
+          ## Create an URI for the new property
+          @source[property] << node.text.strip if(node.text && node.text.strip != "")
+        else
+          assit(!required, "The node #{name} is required to exist.")
+        end
+      end
+      
       # Works like add_property from, but will create a relation to the a 
       # Source instead of value
       def add_rel_from(root, name, required = false)

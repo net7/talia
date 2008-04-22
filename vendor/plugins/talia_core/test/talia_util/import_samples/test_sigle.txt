@@ -36,3 +36,5 @@ path_step:
 igerike-927,1
 archive:
 Goethe- und Schiller-Archiv
+author:
+pdiorio

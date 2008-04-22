@@ -50,7 +50,7 @@ module TaliaUtil
     end
     
     def test_state
-      assert_property(@src.hyper::state, "Germany")
+      assert_property(@src.hyper::country, "Germany")
     end
     
     def test_city
