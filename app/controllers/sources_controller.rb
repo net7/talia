@@ -9,6 +9,9 @@ class SourcesController < ApplicationController
     @source_options = { :page => 1, :per_page => PER_PAGE }
     @sources = Source.paginate(@source_options)
     
+    @types = N::LUCCADOM.elements_with_type(N::RDFS.Class, N::SourceClass)
+    @group_increment = 2
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @sources }

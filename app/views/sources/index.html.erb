@@ -1,2 +1,2 @@
 <h1>Sources found: <%= @sources.total_entries  %></h1>
-<%= widget(:source_list, :id => 'main_list', :source_options => @source_options) %>
+<%= widget(:grouped_list, :id => 'main_list', :group_property => :type, :group_values => @types, :group_increment => @group_increment) %>
