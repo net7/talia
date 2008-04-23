@@ -231,6 +231,32 @@ module TaliaCore
       find_result
     end
     
+    # Returns a hash of lists, each list corresponding to one of the values given.
+    # Each of those contains only Sources where the <tt>property</tt> has the 
+    # the corresponding value. The value itself will be the hash key for the 
+    # list. The method will perform a find operation for each value.
+    # 
+    # For example, this may be used to get a grouped result set for multiple
+    # types of sources.
+    # 
+    # The params will be passed on to the find operation, and must be hash.
+    #
+    # *Example*
+    #  
+    #  # Returns all RDFS properties and classes in two lists, each list limited to
+    #  # 5 elements.
+    #  Source.groups_by_property(:type, [N::RDFS.Class, N::RDFS.Property], :limit => 5)
+    def self.groups_by_property(property, values, params = {})
+      results = {}
+      property = property.to_sym
+      for val in values
+        params[property] = val
+        results[val] = find(:all, params.dup)
+      end
+      
+      results
+    end
+    
     # Counts the number of Sources with the given options (see #find for how 
     # the options work. This will currently raise an exception in case 
     # the options cannot be translated to a database-only query.

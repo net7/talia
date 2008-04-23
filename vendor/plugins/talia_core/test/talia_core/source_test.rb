@@ -97,6 +97,17 @@ module TaliaCore
       assert_not_nil(source.types.each { |type| type.to_s == N::FOAF.Person.to_s} )
     end
     
+    # test grouping by types
+    def test_grouping
+      TestHelper.make_dummy_source("http://groupme/source1", N::FOAF.Goat, N::FOAF.Bee)
+      TestHelper.make_dummy_source("http://groupme/source2", N::FOAF.Goat).save!
+      TestHelper.make_dummy_source("http://groupme/source3", N::FOAF.Bee).save!
+      results = Source.groups_by_property(:type, [ N::FOAF.Goat, N::FOAF.Bee ])
+      assert_equal(2, results.size)
+      assert_equal(2, results[N::FOAF.Goat].size)
+      assert_equal(2, results[N::FOAF.Bee].size)
+    end
+    
     # Test if the type is initialized correctly
     def test_type_init
       source = Source.new("http://www.newstuff.org/typeinit", N::FOAF.Person)

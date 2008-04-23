@@ -53,8 +53,8 @@ module TaliaCore
     end
     
     # Creates a dummy Source and saves it
-    def self.make_dummy_source(uri)
-      src = Source.new(uri)
+    def self.make_dummy_source(uri, *types)
+      src = Source.new(uri, *types)
       src.workflow_state = 0
       src.primary_source = 1
       src.save!
