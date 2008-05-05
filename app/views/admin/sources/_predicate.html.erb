@@ -2,8 +2,7 @@
   <% fields_for "source[predicates_attributes][]", predicate do |predicate_form|%>
       <%= predicate_form.text_field   :titleized,  :index => nil, :size => 60 %>
       <%= predicate_form.hidden_field :namespace, :index => nil, :value => namespace %>
-      <%= predicate_form.select :name, N::Namespace[namespace].predicates.collect {|p| [p.titleize, p]}, :index => nil %>
-      <%= debug N::Namespace[namespace].predicates %>
+      <%= predicate_form.text_field   :name, :index => nil, :value => name, :size => 20 %>
       <%= predicate_form.hidden_field :uri,  :index => nil %>
       <% if predicate.exists? %>
         <%= link_to_function image_tag('remove.png', :size => '12x12', :alt => 'remove', :class => 'remove'),
