@@ -1,0 +1,35 @@
+<!-- wizard widget -->
+<div class="wizard">
+  <div class="wizard_title" >
+    <%= @widget.wizard_title %>
+  </div>
+  <div class="wizard_body" >
+    <%= @widget.partial 'wizard_steps', :locals => {:steps =>  @widget.steps, :current_step => @widget.current_step, :wizard_name => @widget.wizard_name} %>
+    <div class="wizard_content" >
+      <% form_for :wizard_model, @widget.wizard_model, :url => {:controller => @widget.wizard_options[:controller], :action => @widget.wizard_options[:action]}, :html => {:name => @widget.wizard_name, :enctype => 'multipart/form-data'} do %>
+      
+        <% @widget.steps.each_with_index { |step, index|  %>
+            
+          <div id="<%= "wizard_#{@widget.wizard_name}_step_#{index}" %>" style="<%= "display:none" if index != @widget.current_step %>">
+            <%= @widget.partial "#{@widget.wizard_name}/#{step['partial']}", :locals => {:widget => @widget} %>
+        
+            <% if index > 0 %>
+              <%= @widget.remote_link "previous", {:javascript => "wizard_move_step", :step => index - 1, :previous_step => index }, {} %>
+            <% end  %>
+        
+            <% if index < (@widget.length - 1) %>
+              <%= @widget.remote_link "next", {:javascript => "wizard_move_step", :step => index + 1, :previous_step => index}, {} %>
+            <% end  %>
+        
+            <% if index == (@widget.length - 1) %>
+              <%= submit_tag "ok"  %>
+              <%= submit_to_remote "wizard_#{@widget.wizard_name}_submission", "Send", :url => {:action => @widget.wizard_options[:action]}, :html => {:enctype => 'multipart/form-data'} %>
+            <% end %>
+          </div>
+      
+        <% } %>
+      
+      <% end %>
+    </div>
+  </div>
+</div>

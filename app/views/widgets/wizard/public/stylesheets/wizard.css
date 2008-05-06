@@ -1,0 +1,16 @@
+.wizard_body {
+    display: block;
+}
+
+.wizard_steps {
+    display: block;
+    height: 100px;
+    width: 200px;
+    float: left;
+}
+
+.wizard_content {
+    display: block;
+    height: 100px;
+    width: auto;
+}
