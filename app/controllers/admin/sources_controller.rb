@@ -4,6 +4,8 @@ class Admin::SourcesController < ApplicationController
   require_role 'admin'
   layout 'sources'
   include TaliaCore
+  auto_complete_for :source, :titleized
+
   
   # GET /admin/sources
   # GET /admin/sources.xml
