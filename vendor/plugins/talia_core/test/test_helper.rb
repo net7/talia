@@ -1,6 +1,6 @@
 $: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
+require 'test/unit'
 require "talia_core"
-
 require 'active_record/fixtures'
 
 @@fixtures = [ 'source_records', 'type_records', 'data_records', 'dirty_relation_records', 'workflow_records']

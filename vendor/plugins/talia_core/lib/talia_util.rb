@@ -3,6 +3,7 @@ this_dir = File.dirname(File.expand_path(__FILE__))
 $: << this_dir unless($:.include?(this_dir))
 
 require 'version'
+require 'core_ext'
 require 'talia_core'
 require 'talia_util/talia_util'
 require 'talia_util/data_import'
