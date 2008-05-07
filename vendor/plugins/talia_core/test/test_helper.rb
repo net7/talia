@@ -99,6 +99,21 @@ module TaliaCore
       instance_variable_set(:"@#{variable}", value)
     end
     
+    # Assert the given condition is false
+    def assert_not(condition, message = nil)
+      assert !condition, message
+    end
+
+    # Assert the given collection is empty.
+    def assert_empty(condition, message = nil)
+      assert condition.empty?, message
+    end
+    
+    # Assert the given collection is not empty.
+    def assert_not_empty(condition, message = nil)
+      assert_not condition.empty?, message
+    end
+    
     protected 
     
     # Helper variable in the class for setup_once

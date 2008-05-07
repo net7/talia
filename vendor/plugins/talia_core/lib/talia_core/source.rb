@@ -276,6 +276,25 @@ module TaliaCore
       end
     end
     
+    # Find a list of sources which contains the given token inside the local name.
+    # This means that the namespace it will be excluded.
+    #
+    #   Sources in system:
+    #     * http://talia.org/one
+    #     * http://talia.org/two
+    #
+    #   Source.find_by_uri_token('a') # => [ ]
+    #   Source.find_by_uri_token('o') # => [ 'http://talia.org/one', 'http://talia.org/two' ]
+    #
+    # NOTE: It internally use a MySQL function, as sql condition, to find the local name of the uri.
+    def self.find_by_uri_token(token, options = {})
+      SourceRecord.find(:all, { 
+        :conditions => [ "LOWER(SUBSTRING_INDEX(uri, '/', -1)) LIKE ?", '%' + token.downcase + '%' ], 
+        :select => :uri,
+        :order => "uri ASC",
+        :limit => 10 }.merge!(options))
+    end
+    
     # Checks if the current record already exists in the database
     def exists?
       @exists = Source.exists?(uri)
