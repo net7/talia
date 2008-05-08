@@ -50,7 +50,7 @@ module TaliaUtil
             sig_uri = base_uri + sig_request + URI.escape(siglum.text.strip)
             HyperImporter::Importer.import(REXML::Document.new(read_from(sig_uri)))
           rescue Exception => e
-            puts("Error when importing #{siglum}: #{e}")
+            puts("Error when importing #{sig_uri}: #{e}")
           end
         end
         
