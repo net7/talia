@@ -27,6 +27,13 @@ module TaliaCore
       data_records
     end
     
+    # Return the titleized uri local name.
+    #
+    #   http://localnode.org/source # => Source
+    def titleized
+      self.uri.local_name.titleize
+    end
+    
     # Helper to get a record with the given URI, or the given multiple uris
     # This raises an error if the record does not exist
     #

@@ -14,10 +14,22 @@ module TaliaCore
     def setup
       TestHelper.fixtures
       @test_record = SourceRecord.new("http://dummyuri.com/")
+      
+      setup_once(:local_source) do
+        local_source = Source.new(N::LOCAL + "home_source")
+        local_source.workflow_state = 42
+        local_source.primary_source = false
+        local_source.save!
+        local_source
+      end
     end
     
     def _ignore_test_data
       assert_equal(Source.find(:first).data, Source.find(:first).instance_variable_get(:@data_record).data)
+    end
+    
+    def test_titleized
+      assert_equal("Home Source", @local_source.titleized)
     end
     
     # Test the accessor methods for uri

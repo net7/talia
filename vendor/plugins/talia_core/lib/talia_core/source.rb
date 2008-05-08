@@ -67,7 +67,7 @@ module TaliaCore
     
     # Titleize the source name.
     def titleized
-      to_param.titleize
+      @source_record.titleized
     end
     
     # Indicates if this source belongs to the local store
