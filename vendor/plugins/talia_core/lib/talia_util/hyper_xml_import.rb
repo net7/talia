@@ -29,6 +29,7 @@ module TaliaUtil
       # To retrieve a document, the siglum from the list xml will be appended
       # to base_uri + sig_request.
       def import(base_uri, list_location = "?getList=all", sig_request = "?get=")
+        base_uri ||= ''
         # Reset to defauls if we get nil values
         list_location ||= "?getList=all"
         sig_request ||= "?get="
