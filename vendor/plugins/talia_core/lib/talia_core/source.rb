@@ -575,6 +575,8 @@ module TaliaCore
           uri = (N::LOCAL + uri).to_s
         end
         
+        raise(ArgumentError, "Query URI must be an IRI, #{uri} is not.") unless(N::URI.is_iri?(uri))
+        
         return  uri
       end
       

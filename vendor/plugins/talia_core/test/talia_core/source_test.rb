@@ -294,7 +294,7 @@ module TaliaCore
       # one for the rdf:type and one for each database dummy
       expected_size = SourceRecord.content_columns.size + 2
       assert_equal(expected_size, my_source.direct_predicates.size)
-      assert_equal(N::DEFAULT::author, my_source.direct_predicates[0])
+      assert(my_source.direct_predicates.include?(N::DEFAULT::author))
     end
     
     # Test for inverse predicates

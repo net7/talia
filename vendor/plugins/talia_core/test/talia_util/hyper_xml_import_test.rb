@@ -81,7 +81,7 @@ module TaliaUtil
     end
     
     def test_archive_exists
-      assert(TaliaCore::Source.exists?("Goethe- und Schiller-Archiv"))
+      assert(TaliaCore::Source.exists?("Goethe-+und+Schiller-Archiv"))
     end
     
   end

@@ -41,7 +41,7 @@ module TaliaUtil
     end
     
     def test_in_archive
-      assert_property(@src.hyper::is_in_archive, N::LOCAL + 'Goethe- und Schiller-Archiv')
+      assert_property(@src.hyper::is_in_archive, N::LOCAL + 'Goethe-+und+Schiller-Archiv')
     end
     
     # Test the title property

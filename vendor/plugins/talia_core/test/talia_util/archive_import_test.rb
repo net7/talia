@@ -36,7 +36,7 @@ module TaliaUtil
     
         # Test source name
     def test_siglum
-      assert_equal(N::LOCAL + "Goethe- und Schiller-Archiv", @src.uri)
+      assert_equal(N::LOCAL + "Goethe-+und+Schiller-Archiv", @src.uri)
     end
     
     # Test if the types were imported correctly

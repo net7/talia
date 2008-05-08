@@ -155,7 +155,7 @@ module TaliaUtil
       # Gets or creates the Source with the given name. If the Source already
       # exists, it will add the given types to it
       def get_source(source_name, *types)
-        source_uri = N::LOCAL + source_name
+        source_uri = irify(N::LOCAL + source_name)
         src = nil
         if(TaliaCore::Source.exists?(source_uri))
           # If the Source already exists, push the types in
@@ -165,7 +165,7 @@ module TaliaUtil
             type_list << type unless(type_list.include?(type))
           end
         else
-          src = TaliaCore::Source.new(N::LOCAL + source_name, *types)
+          src = TaliaCore::Source.new(source_uri, *types)
           src.primary_source = primary_source?
           src.workflow_state = DEFAULT_WORKFLOW_STATE
           src.save!
@@ -193,7 +193,7 @@ module TaliaUtil
               # Skip empty object for relation
             end
           rescue Exception => e
-            assit_fail("Error '#{e}' during relation import (#{predicate}, #{object}), possibly malformed XML?\n Backtrace: #{e.backtrace}\n")
+            assit_fail("Error '#{e}' during relation import (#{predicate}, #{object}), possibly malformed XML?\n Backtrace: #{e.backtrace.join("\n")}\n")
           end
         end
       end
@@ -302,6 +302,12 @@ module TaliaUtil
         else
           false
         end
+      end
+      
+      # Removes all characters that are illegal in IRIs, so that the 
+      # URIs can be imported
+      def irify(uri)
+        N::URI.new(uri.to_s.gsub( /[{}|\\^`\s]/, '+'))
       end
       
       # Stole from Rails

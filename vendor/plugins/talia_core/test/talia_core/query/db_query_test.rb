@@ -13,6 +13,7 @@ module TaliaCore
     def setup
       setup_once(:flush) do
         TestHelper::flush_db
+        TestHelper::flush_rdf
       end
       setup_once(:s1) do
         s1 = Source.new("http://foo_one")
