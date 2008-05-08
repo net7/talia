@@ -1,7 +1,19 @@
 Event.onReady(function() {
 	$('data_form').hide();
 	$$('.predicates').each(function(element){ element.hide(); });
+	$$('.predicate').each(function(element){ attachAjaxAutocompleter(element); });
 });
+
+function attachAjaxAutocompleter(element) {
+	auto_complete_id = element.down('.auto_complete').identify();
+	// Force the element identification, since each input has the same id.
+	input_text_id = element.down('input[id~titleized]').identify(true);
+	new Ajax.Autocompleter(input_text_id, auto_complete_id, '/admin/sources/auto_complete_for_source', {parameters:'authenticity_token=' + encodeURIComponent(window.authenticityToken)});	
+}
+
+function attachAjaxAutocompleterOnNewElement(namespaceId) {
+	attachAjaxAutocompleter($(namespaceId).select('.predicate').last());
+}
 
 Event.addBehavior({
   '.arrow_grouped:click': togglePredicates,

@@ -70,4 +70,10 @@ class Admin::SourcesController < ApplicationController
       end
     end
   end
+  
+  # GET /admin/sources/auto_complete_for_source/aaa
+  def auto_complete_for_source
+    @items = Source.find_by_uri_token(params[:source][:predicates_attributes].first[:titleized])
+    render :inline => "<%= auto_complete_result @items, 'titleized' %>"
+  end
 end

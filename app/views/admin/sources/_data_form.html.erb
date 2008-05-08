@@ -7,4 +7,9 @@
   </div>
 </div>
 
-<%= javascript :edit_sources %>
+<script type="text/javascript" charset="utf-8">
+  var authenticityToken = '<%= protect_against_forgery? ? form_authenticity_token : "" %>';
+</script>
+
+<%= javascript :controls, :force_identify, :edit_sources %>
+<%= stylesheet :auto_complete %>
