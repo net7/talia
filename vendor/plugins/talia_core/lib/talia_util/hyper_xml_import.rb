@@ -28,7 +28,7 @@ module TaliaUtil
       #
       # To retrieve a document, the siglum from the list xml will be appended
       # to base_uri + sig_request.
-      def import(base_uri, list_location = "?getList=all", sig_request = "?get=")
+      def import(base_uri, list_location = "?getList=all", sig_request = "?get=", file_ext='')
         base_uri ||= ''
         # Reset to defauls if we get nil values
         list_location ||= "?getList=all"
@@ -47,7 +47,7 @@ module TaliaUtil
         import_doc.root.elements.each("siglum") do |siglum|
           progress.inc
           begin
-            sig_uri = base_uri + sig_request + URI.escape(siglum.text.strip)
+            sig_uri = base_uri + sig_request + URI.escape(siglum.text.strip) + file_ext
             HyperImporter::Importer.import(REXML::Document.new(read_from(sig_uri)))
           rescue Exception => e
             puts("Error when importing #{sig_uri}: #{e}")
