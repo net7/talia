@@ -34,6 +34,11 @@ module TaliaUtil
       assert_kind_of(TaliaCore::Source, @src)
     end
     
+    # Caused error during Hyper import tests
+    def test_k6_problem
+      HyperImporter::Importer.import(load_doc('K-6,101[1]'))
+    end
+    
     # Test if the types were imported correctly
     def test_types
       assert_types(@src, N::HYPER + "Manuscript", N::HYPER + "Page")

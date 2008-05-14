@@ -93,7 +93,7 @@ namespace :talia_core do
   end
   
   # Task to import demo data from a demo directory
-  desc "Import demo data (for default demo data). Opion: demodir=<dir>"
+  desc "Import demo data (for default demo data). Opions: demodir=<dir> [owlify=no]"
   task :demo_import do
     unless(demodir = ENV['demodir'])
       puts "ERROR: Need demodir option for import"
@@ -119,7 +119,9 @@ namespace :talia_core do
         DataImport::import(FileList.new(File.join(demodir, entry, '*')), entry)
       end
     end
-    RdfUpdate::owl_to_rdfs
+    if(ENV['owlify'].to_s.downcase == 'yes')
+      RdfUpdate::owl_to_rdfs
+    end
   end
   
   # Helper task to bootstrap Redland RDF (should usually only be a problem when
