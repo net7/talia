@@ -149,5 +149,5 @@ namespace :talia_core do
     puts "Talia Core tasks usage information."
     Util::print_options
   end
-
+  
 end
