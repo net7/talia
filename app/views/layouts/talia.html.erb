@@ -37,11 +37,8 @@
 <div id="ext_page"> <!-- ext_page: elemento esterno a tutto -->
 	<div id="int_page"> <!-- int_page: elemento esterno a tutto, interno solo a ext_page -->
 		
-        <!-- header: contains title of the project - upper part -->
-        <div id="header">
-			<h1>Discovery: Talia</h1>
-			<p class="header_subtitle">Subtitle saying bla bla bla....</p>
-		</div>
+        <%=  render :partial => 'shared/header' %>
+
 		<!-- header end -->
         
  		<%= widget(:sidebar) %>

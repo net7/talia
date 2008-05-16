@@ -3,11 +3,7 @@
 <div id="ext_page"> <!-- ext_page: elemento esterno a tutto -->
   <div id="int_page"> <!-- int_page: elemento esterno a tutto, interno solo a ext_page -->
     
-    <!-- header: contains title of the project - upper part -->
-    <div id="header">
-      <h1><%= page_title %></h1>
-      <p class="header_subtitle"><%= page_subtitle %></p>
-    </div>
+    <%=  render :partial => 'shared/header' %>
     <!-- header end -->
   
     <!-- contents: main part of the page - divided into external and internal -->
