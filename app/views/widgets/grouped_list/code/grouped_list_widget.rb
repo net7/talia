@@ -31,13 +31,14 @@ class GroupedListWidget < Widgeon::Widget
     return '' unless(@type_count[element] > current_size)
     
     link = '<div id="' << element_name(element) << '_more">'
-    link << remote_link('[more]', :javascript => 'grow_list', 
+    link << remote_link('[more]', { :javascript => 'grow_list', 
       :group_id => element_name(element), 
       :current_size => current_size, 
       :group_increment => @group_increment,
       :group_property => @group_property,
       :snippet_dir => @snippet_dir,
-      :fallback => { :id => element_name(element) })
+      :fallback => { :id => element_name(element) } },
+      { :class => 'list_more' })
     link << '</div>'
   end
   
