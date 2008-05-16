@@ -19,7 +19,6 @@ window.onload = function() {
   loadFunctionSettings();
   
   /* ACCORDION DELLE SOURCES LISTS */
-  loadAccordion('h1.accordion_toggle');
-  loadAccordion('h3.source_more');
+  configureSourcesListAccordion();
 }
 

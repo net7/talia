@@ -1,20 +1,6 @@
 // JavaScript Document
 // POD NAVIGATION DEVELOPEMENT - very simple!
 
-
-/* **************************************** */
-/* FUNZIONE CHE CANCELLA GLI ATTRIBUTI HREF NELLA NAVIGAZIONE */
-/* **************************************** */
-/* riceve un array di elementi */
-function deleteHrefAttributes(elementi)
-{
-    for(i=0; i<elementi.length; i++) // ciclo su tutti i link con classe ipod
-        {
-            elementi[i].writeAttribute('href',false);
-        }
-}
-/* **************************************** */
-
 /* **************************************** */
 /* FUNZIONI CHE SCRIVONO I SOTTOLIVELLI */
 /* **************************************** */
@@ -33,7 +19,9 @@ function navigationGoDown(idLiDaModificare)
     if(movementEnabled == true)
     {
         movementEnabled = false;
-
+        
+        // configuro la vista a accordion se ce n'è bisogno'
+        configureSourcesListAccordion();
         /* POSIZIONAMENTO DEL NUOVO UL CREATO */
         var differenzaPosizioneTopTraElementi = $('ipod_nav_level_' + (navigationLevel + 1)).cumulativeOffset().top - $('pod-list-wrap-mask').cumulativeOffset().top;
         if(differenzaPosizioneTopTraElementi > 0)

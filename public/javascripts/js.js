@@ -45,6 +45,16 @@ function open_close(element , classOpen, classClosed){
     }
 }
 
+function switch_class(element , class1, class2){
+    if(element.hasClassName(class1)){
+        element.removeClassName(class1); 
+        element.addClassName(class2);
+    } else if(element.hasClassName(class2)){
+        element.removeClassName(class2); 
+        element.addClassName(class1);
+    }
+}
+
 window.onscroll= function(){
 }
 
@@ -97,4 +107,18 @@ function loadFunctionSettings()
         if($('toolbar_top')) graphicalElementsMove();
     }
 }
-   
+
+/* **************************************** */
+/* FUNZIONE CHE CANCELLA GLI ATTRIBUTI HREF NELLA NAVIGAZIONE */
+/* **************************************** */
+/* riceve un array di elementi */
+function deleteHrefAttributes(elementi)
+{
+    for(i=0; i<elementi.length; i++) // ciclo su tutti i link con classe ipod
+        {
+            elementi[i].writeAttribute('href',false);
+        }
+}
+/* **************************************** */
+
+
