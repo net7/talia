@@ -1,7 +1,6 @@
 //
 //	With many thanks to Joe Cianflone, che no so chi è
 //
-
 /* FUNZIONE DI SETTAGGIO INIZIALE */
 /* la variabile passata è la definizione css degli elementi titolo */
 function loadAccordion (accordionGroup) {
@@ -9,7 +8,7 @@ function loadAccordion (accordionGroup) {
     
     for (var i=0, len=accordionElements.length; i < len; ++i) { /* scorro tutti gli elementi */
         $$(accordionGroup)[i].next().setStyle('display: none;'); /* imnposto display none per le parti nascoste */
-        Event.observe (accordionElements[i], 'click', accordion_event, false); /* aggiungo evento */
+        // questo va hard coded nell'html Event.observe (accordionElements[i], 'click', accordion_event, false); /* aggiungo evento */
         // Event.observe (accordionElements[i], 'mouseover', accordion, false); /* aggiungo evento */
     }
     /* cancello gli href */
@@ -18,9 +17,11 @@ function loadAccordion (accordionGroup) {
     if(accordionElements[0].hasClassName('first')) accordion(accordionElements[0]);   
 }
 
-function accordion_event(e) {
-    /* elemento su cui ho cliccato */
-    var clicked_element = Event.element(e);
+function accordion_event(elemento) {
+    /* elemento: elemento su cui ho cliccato */
+    
+    //var clicked_element = Event.element(e);
+    var clicked_element = elemento;
     accordion(clicked_element);
 }
 
@@ -95,10 +96,11 @@ function configureSourcesListAccordion()
 {
     if($$('h1.accordion_toggle').length > 0) /* controllo se cìè la struttura in questione */
     {
+        
         var titoliH1CategorieSources = $$('h1.accordion_toggle');
         for(i=0; i <titoliH1CategorieSources.length; i++)
         {
-            titoliH1CategorieSources[i].setStyle('background: #e5e5e5 url(/images/sources_listing/source_expand_icon.gif) center right no-repeat;');
+            // titoliH1CategorieSources[i].setStyle('background: #e5e5e5 url(/images/sources_listing/source_expand_icon.gif) center left no-repeat;');
         }
 
         loadAccordion('h1.accordion_toggle');
@@ -108,11 +110,21 @@ function configureSourcesListAccordion()
 
 function configureInternalSourcesAccordion()
 {
-    var elementiDaModificare = $$('p.source_data');
-    for(p=0; p<elementiDaModificare.length; p++)
+    var elementiPDaModificare = $$('p.source_data');
+    for(p=0; p<elementiPDaModificare.length; p++)
     {
-      elementiDaModificare[p].insert({ after: '<h3 class="source_more expand">More content</h3>' } )
+       // elementiPDaModificare[p].setStyle("display: none;");
+      // elementiDaModificare[p].insert({ after: '<h3 class="source_more expand">More content</h3>' } )
     }
+    
+    var elementiH3DaModificare = $$('h3.source_more');
+    for(p=0; p<elementiH3DaModificare.length; p++)
+    {
+      // elementiH3DaModificare[p].setStyle("display: block;").addClassName("expand");
+        elementiH3DaModificare[p].addClassName("expand");
+      // elementiDaModificare[p].insert({ after: '<h3 class="source_more expand">More content</h3>' } )
+    }
+    
     loadAccordion('h3.source_more');
 }
 

@@ -30,7 +30,7 @@ class GroupedListWidget < Widgeon::Widget
     @type_count[element] ||= TaliaCore::Source.count(@group_property => element)
     return '' unless(@type_count[element] > current_size)
     
-    link = '<div id="' << element_name(element) << '_more">'
+    link = '<div class="list_more" id="' << element_name(element) << '_more">'
     link << remote_link('[more]', { :javascript => 'grow_list', 
       :group_id => element_name(element), 
       :current_size => current_size, 

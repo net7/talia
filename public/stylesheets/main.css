@@ -124,7 +124,9 @@ p.side_bar_loader{
     #header div#title_bar{
         height: 122px;
     }
-
+        /* ***************** ************** ************** */
+        /* ***************** TOP BAR E DERIVATI ************** */
+        /* ***************** ************** ************** */
     #header div#top_bar{
         height: 32px;
         padding: 3px;
@@ -213,8 +215,35 @@ p.side_bar_loader{
       #header div#top_bar div#top_bar_login p a:hover{
           background:transparent url(/images/top_bar/top_bar_login_ro.gif) top left no-repeat;
       }
+      #header div#top_bar div#top_bar_login div#login_baloon{
+          position: absolute;
+          display: none;
+          top: 145px;
+          right: 10px;
+          padding: 35px 20px 15px 20px;
+          width: 209px;
+          height: 154px;
+          /* border: 1px solid red; */
+          background:transparent url(/images/top_bar/baloon_log_in.png) top left no-repeat;
+          z-index: 100;
+      }
+      
+      #header div#top_bar div#top_bar_login div#login_baloon{
+      }
     
-    
+      #header div#top_bar div#top_bar_login div#login_baloon form{
+      }
+      
+      #header div#top_bar div#top_bar_login div#login_baloon label{
+          display: block;
+      }
+      
+      #header div#top_bar div#top_bar_login div#login_baloon input{
+          background: transparent url("/images/search_field/bg_search.gif") no-repeat 10px 7px;
+          width: 100px;
+          display: block;
+      }
+      
 /* ***************** ************** ************** */
 /* ***************** SIDE BAR ************** */
 /* ***************** ************** ************** */

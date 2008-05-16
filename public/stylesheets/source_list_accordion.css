@@ -1,7 +1,7 @@
 h1.accordion_toggle {
     display: block;
     /* height: 30px; */
-    padding: 0 10px 0 10px;
+    padding: 0 10px 0 40px;
     line-height: 30px;
     color: #4e4e4e;
     font-weight: bold;
@@ -14,12 +14,12 @@ h1.accordion_toggle {
     margin: 0 0 5px 0;
 }
 
-div#contents_int div#source_list-main_list h1.accordion_toggle.expand{
-    background: #e5e5e5 url(/images/sources_listing/source_expand_icon.gif) center right no-repeat !important;
+h1.accordion_toggle.expand, h1.accordion_toggle{
+    background: #e5e5e5 url(/images/sources_listing/source_expand_icon.gif) center left no-repeat !important;
 }
 
-div#contents_int div#source_list-main_list  h1.accordion_toggle.compress{
-    background: #e5e5e5 url(/images/sources_listing/source_compress_icon.gif) center right no-repeat !important;
+h1.accordion_toggle.compress, h1.accordion_toggle.open{
+    background: #e5e5e5 url(/images/sources_listing/source_compress_icon.gif) center left no-repeat !important;
 }
 
 .accordion_toggle_active {
@@ -103,6 +103,15 @@ div#contents_int div.single_source_element p.source_more_data{
 }
 
 
+/* pulsantino more */
+div.list_more{
+    border: 1px solid #e5e5e5;  
+    padding: 8px;
+    margin: 0 0 5px 0;
+    background: #f4f4f4;
+    font-size: 0.9em;
+}
+
 /* paginatore */
 div#source_list-types_list{
     
@@ -113,7 +122,8 @@ div#source_list-types_list{
 
     div#source_list-types_list div div.pagination{
         border: 1px solid #e5e5e5;  
-        padding: 0 0 0 0;
+        padding: 8px;
         margin: 0 0 5px 0;
         background: #f4f4f4;
+        font-size: 0.9em;
     }

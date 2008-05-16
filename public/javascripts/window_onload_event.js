@@ -20,5 +20,6 @@ window.onload = function() {
   
   /* ACCORDION DELLE SOURCES LISTS */
   configureSourcesListAccordion();
+  
 }
 
