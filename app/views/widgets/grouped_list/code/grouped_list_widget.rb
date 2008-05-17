@@ -37,8 +37,8 @@ class GroupedListWidget < Widgeon::Widget
       :group_increment => @group_increment,
       :group_property => @group_property,
       :snippet_dir => @snippet_dir,
-      :fallback => { :id => element_name(element) } },
-      { :class => 'list_more' })
+      :fallback => { :id => element_name(element) } }
+      )
     link << '</div>'
   end
   
@@ -47,13 +47,33 @@ class GroupedListWidget < Widgeon::Widget
     raise(ArgumentError, "Required argument missing") unless(@group_id && @current_size)
     my_property = N::URI.make_uri(@group_id, '_', '')
     new_items = TaliaCore::Source.find(:all, @group_property => my_property, :offset => @current_size, :limit => @group_increment)
-    insert_html = partial('source_item', :collection => new_items)
+    
+    # The insert is a bit involved since: 
+    # * The more link will be updated with a correct version for the next increment
+    # * The new elements will be loaded into a div with an id, so that we
+    # * can slide it in with scriptaculous.
     new_size = @current_size + new_items.size
-    insert_html << more_link(my_property, new_size)
-    page.replace_html(@group_id + '_more', :inline => insert_html)
+    inc_id = element_name(my_property) + new_size.to_s # id for the newly inserted items
+    more_id = @group_id + '_more' # id for the [more] div
+    
+    item_html = create_list_increment(new_items, inc_id)
+    new_more = more_link(my_property, new_size)
+    
+    page.insert_html(:before, more_id, :inline => item_html) # insert new things first
+    page.replace(more_id, :inline => new_more) # this may replace with an empty element
+    
+    page.hide(inc_id)
+    page.visual_effect(:blind_down, inc_id)
   end
   
   private
+  
+    # Creates a new div to increment the list
+  def create_list_increment(items, id)
+    increment = '<div id="' << id << '">'
+    increment << partial('source_item', :collection => items)
+    increment << '</div>'
+  end
   
   # Gives a string representation of an element that is a String or an N::URI
   def element_name(element)
