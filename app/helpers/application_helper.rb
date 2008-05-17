@@ -19,14 +19,6 @@ module ApplicationHelper
         )
   end
   
-  def toolbar
-    widget(:toolbar, :buttons => [ 
-      ["Home", {:action => 'show', :id => 'Lucca'}], 
-      ["List", {:action => 'index'} ],
-      ["Print Page", "javascript:print();"]
-    ] )
-  end
-  
   def talia_footer
     %( <div id="footer" class="open">
        <h1>Talia | Discovery</h1>

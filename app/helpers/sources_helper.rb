@@ -28,4 +28,12 @@ module SourcesHelper
     
     result
   end
+  
+  def source_toolbar
+    widget(:toolbar, :buttons => [ 
+        ["Lucca", {:action => 'show', :id => 'Lucca'}], 
+        ["All", {:action => 'index'} ],
+        ["Print Page", "javascript:print();"]
+      ] )
+  end
 end
