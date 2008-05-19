@@ -7,7 +7,7 @@ Event.onReady(function() {
 function attachAjaxAutocompleter(element) {
 	auto_complete_id = element.down('.auto_complete').identify();
 	// Force the element identification, since each input has the same id.
-	input_text_id = element.down('input[id~titleized]').identify(true);
+	input_text_id = element.down('input[id~titleized]', 1).identify(true);
 	new Ajax.Autocompleter(input_text_id, auto_complete_id, '/admin/sources/auto_complete_for_source', {parameters:'authenticity_token=' + encodeURIComponent(window.authenticityToken)});	
 }
 
@@ -23,11 +23,10 @@ Event.addBehavior({
 function togglePredicates(e) {
 	element = $(e.element());
   element.up('div').down('.predicates').toggle();
-  className = image = element.getAttribute('src').match(/grouped/) ? 
-    'collapsed' : 'grouped';
+  className = image = element.getAttribute('src').match(/grouped/) ? 'collapsed' : 'grouped';
   element.writeAttribute({
 	  'src': '/images/arrow_'+image+'.png',
-		'class':'arrow_'+className
+		'class': 'arrow_'+className
 	});
 	setTimeout(function() { Event.addBehavior.reload() }, 10);
 }
@@ -37,7 +36,7 @@ function showPredicatesOfDiv(id) {
 	element.down('.predicates').show();
   element.down('img').writeAttribute({
 	  'src': '/images/arrow_collapsed.png',
-		'class':'arrow_collapsed'
+		'class': 'arrow_collapsed'
 	});
 	setTimeout(function() { Event.addBehavior.reload() }, 10);
 }
