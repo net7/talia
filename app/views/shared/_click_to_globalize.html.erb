@@ -3,6 +3,6 @@
 <div id="click_to_globalize"><%= languages_menu %></div>
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-  ClickToGlobalize.init('<%= form_authenticity_token %>');
+  var ctg = new ClickToGlobalize('<%= authenticity_token %>', '<%= request_forgery_protection_token %>');
 // ]]>
 </script>

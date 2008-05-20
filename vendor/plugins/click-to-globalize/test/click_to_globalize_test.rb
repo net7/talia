@@ -23,7 +23,9 @@ end
 class ClickToGlobalizeTest < Test::Unit::TestCase
   include Globalize
   include ApplicationHelper
-
+  
+  attr_accessor :protect_against_forgery, :form_authenticity_token
+  
   def setup
     assert_nil(Locale.send(:class_variable_set, :@@active, nil))
     
@@ -49,6 +51,9 @@ class ClickToGlobalizeTest < Test::Unit::TestCase
     @controller = ClickToGlobalizeController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+    
+    self.protect_against_forgery = true
+    self.form_authenticity_token = '123'
   end
   
   # LOCALE_OBSERVER
@@ -240,13 +245,22 @@ class ClickToGlobalizeTest < Test::Unit::TestCase
     end
   end
   
-  # HELPER
+  # HELPERS
   def test_helper_partial
-    assert_equal(@partial_path, Helper.send(:class_variable_get, :@@partial))
+    assert_equal(@partial_path, Helpers.send(:class_variable_get, :@@partial))
+  end
+  
+  def test_helper_authenticity_token_should_return_form_authenticity_token_when_protect_against_forgery_is_active
+    assert_equal('123', authenticity_token)
+  end
+  
+  def test_helper_authenticity_token_should_return_empty_string_when_protect_against_forgery_is_not_active
+    self.protect_against_forgery = false
+    assert_equal('', authenticity_token)
   end
   
   def ignore_test_helper_in_place_globalizer
-    assert false
+    flunk
   end
       
   def test_helper_languages
@@ -255,12 +269,16 @@ class ClickToGlobalizeTest < Test::Unit::TestCase
   end
   
   def ignore_test_helper_languages_menu
-    assert false
+    flunk
   end
   
   # CONTROLLER
+  def test_controller_deprecated_globalize
+    assert @controller.class.globalize?
+  end
+  
   def test_controller_globalize
-    assert(@controller.class.globalize?)
+    assert @controller.globalize?
   end
   
   def test_languages_set
@@ -278,7 +296,7 @@ class ClickToGlobalizeTest < Test::Unit::TestCase
     assert_kind_of(Hash, ApplicationController.languages)
     assert_equal(@new_languages.merge(@base_language), ApplicationController.languages)
     
-    ApplicationController.languages = @languages # reassign
+    ApplicationController.languages = @languages # re-assign
     assert_equal(@languages, ApplicationController.languages)
 
     ApplicationController.languages = @new_languages
@@ -338,5 +356,9 @@ class ClickToGlobalizeTest < Test::Unit::TestCase
     
     Locale.formatting = :markdown
     assert_equal(@inline[:markdown], @locale_controller.send(:inline)) if Locale.markdown?
+  end
+  
+  def protect_against_forgery?
+    !!protect_against_forgery
   end
 end

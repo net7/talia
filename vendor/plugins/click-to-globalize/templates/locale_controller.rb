@@ -33,7 +33,8 @@ class LocaleController < ApplicationController
   
   private
   def check_globalize
-    self.class.globalize?
+    # Note: self.class.globalize? is deprecated.
+    globalize? && self.class.globalize?
   end
   
   def clear_cache

@@ -9,14 +9,14 @@ module Globalize # :nodoc:
         result
       end
       
-      # Returns the active Locale or create a new one, checking the choosen base language.
+      # Returns the active <tt>Locale</tt> or create a new one, checking the choosen base language.
       # To easily plug-in this code I need always a ready Locale.
       def active
         @@active ||= Locale.set(@@base_language_code.locale)
       end
       
-      # Check if the the class has a current active Locale, calling the homonymous method.
-      # To easily plug-in this code I need always a ready Locale.
+      # Check if the the class has a current active <tt>Locale</tt>, calling the homonymous method.
+      # To easily plug-in this code I need always a ready <tt>Locale</tt>.
       def active?
         !active.nil?
       end
@@ -78,8 +78,8 @@ module Globalize # :nodoc:
     end
   end 
 
-  # Implements the Observer Pattern, when Locale#translate is called,
-  # it notify LocaleObserver, passing the translation key and the result for
+  # Implements the Observer Pattern, when <tt>Locale#translate</tt> is called,
+  # it notify <tt>LocaleObserver</tt>, passing the translation key and the result for
   # the current locale.
   class LocaleObserver
     attr_reader :translations
@@ -93,17 +93,23 @@ module Globalize # :nodoc:
     end
   end
   
-  module Helper # :nodoc:
+  module Helpers # :nodoc:
     @@partial = 'shared/_click_to_globalize'
     
-    # Check if the application is on the globalize mode and renders
-    # +app/views/shared/_click_to_globalize.rhtml+.
+    # Render +app/views/shared/_click_to_globalize.html.erb+.
     def click_to_globalize
-      return unless controller.class.globalize?
+      # Note: controller.class.globalize? is deprecated.
+      return unless controller.globalize? && controller.class.globalize?
       render @@partial
     end
     
-    # Returns the user defined languages in ApplicationController.
+    # Get form_authenticity_token if the application is protected from forgery.
+    # See ActionController::RequestForgeryProtection for details.
+    def authenticity_token
+      protect_against_forgery? ? form_authenticity_token : ''
+    end
+    
+    # Returns the user defined languages in <tt>ApplicationController</tt>.
     def languages
       controller.class.languages
     end
@@ -137,10 +143,22 @@ module Globalize # :nodoc:
   
   module Controller # :nodoc:
     module InstanceMethods # :nodoc:
+      # This is the <b>on/off</b> switch for the Click to Globalize features.
+      # Override this method in your controllers for custom conditions.
+      #
+      # Example:
+      #
+      #   def globalize?
+      #     current_user.admin?
+      #   end
+      def globalize?
+        true
+      end
+      
       private
-      # It's used as around_filter method, to add a LocaleObserver while the
+      # It's used as around_filter method, to add a <tt>LocaleObserver</tt> while the
       # request is processed.
-      # LocaleObserver catches all translations and pass them to the session.
+      # <tt>LocaleObserver</tt> catches all translations and pass them to the session.
       def observe_locale
         locale_observer = LocaleObserver.new
         Globalize::Locale.add_observer(locale_observer)
@@ -154,7 +172,7 @@ module Globalize # :nodoc:
       end
     end
     
-    module SingletonMethods
+    module SingletonMethods      
       # Checks if the application is in globalization mode.
       #
       # Override this method in your controllers for custom conditions.
@@ -164,6 +182,8 @@ module Globalize # :nodoc:
       #   def self.globalize?
       #     current_user.admin?
       #   end
+      #
+      # Note: this method is deprecated in favor of globalize?.
       def globalize?
         true
       end
@@ -204,7 +224,7 @@ module Globalize # :nodoc:
 end
 
 module ApplicationHelper # :nodoc:
-  include Globalize::Helper
+  include Globalize::Helpers
 end
 
 ActionController::Base.class_eval do # :nodoc:
@@ -212,5 +232,6 @@ ActionController::Base.class_eval do # :nodoc:
   include Globalize::Controller::InstanceMethods
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::SanitizeHelper
-  around_filter :observe_locale, :except => {:controller => :locale}, :if => self.globalize?
+  # Note: self.globalize? is deprecated.
+  around_filter :observe_locale, :except => { :controller => :locale }, :if => globalize? && self.globalize?
 end

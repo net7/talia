@@ -72,12 +72,12 @@
     bindElement: function(id, text, selector) {
       text     = text || 'paragraph '+id;
       selector = selector || 'input[type~=text]';
-      ClickToGlobalize.translateUrl            =  'fixtures/translate_'+id+'.xml';
-      ClickToGlobalize.translateUnformattedUrl =  'fixtures/translate_unformatted_'+id+'.xml';
+      ClickToGlobalize.DefaultOptions.translateUrl            = 'fixtures/translate_'+id+'.xml';
+      ClickToGlobalize.DefaultOptions.translateUnformattedUrl = 'fixtures/translate_unformatted_'+id+'.xml';
       
       element = $$$(text).first();
 
-      ClickToGlobalize.bindEditor(element, id, element.getText());
+      (new ClickToGlobalize('')).bindEditor(element, id, element.getText());
       Event.simulateMouse(element,'click');
       form = $(id+'-inplaceeditor');
 
@@ -99,8 +99,8 @@
   };
   
   // This allows to execute tests with Rake.
-  ClickToGlobalize.httpMethod  = 'get';
-  ClickToGlobalize.asynchronous = false;
+  ClickToGlobalize.DefaultOptions.httpMethod  = 'get';
+  ClickToGlobalize.DefaultOptions.asynchronous = false;
   
   new Test.Unit.Runner({
     testParagraphOne: function() {

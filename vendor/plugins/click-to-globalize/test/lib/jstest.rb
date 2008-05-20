@@ -3,6 +3,7 @@ require 'thread'
 require 'webrick'
 require 'fileutils'
 include FileUtils
+require 'erb'
 
 class Browser
   def supported?; true; end
@@ -277,12 +278,7 @@ class JavaScriptTestTask < ::Rake::TaskLib
 
     @server = WEBrick::HTTPServer.new(:Port => 4711) # TODO: make port configurable
     @server.mount_proc("/results") do |req, res|
-      @queue.push({
-        :tests => req.query['tests'].to_i,
-        :assertions => req.query['assertions'].to_i,
-        :failures => req.query['failures'].to_i,
-        :errors => req.query['errors'].to_i
-      })
+      @queue.push(req)
       res.body = "OK"
     end
     @server.mount("/response", BasicServlet)
@@ -302,38 +298,23 @@ class JavaScriptTestTask < ::Rake::TaskLib
       @browsers.each do |browser|
         if browser.supported?
           t0 = Time.now
-          results = {:tests => 0, :assertions => 0, :failures => 0, :errors => 0}
-          errors = []
-          failures = []
+          test_suite_results = TestSuiteResults.new
+
           browser.setup
-          puts "\nStarted tests in #{browser}"
+          puts "\nStarted tests in #{browser}."
+          
           @tests.each do |test|
-            browser.visit("http://localhost:4711#{test}?resultsURL=http://localhost:4711/results&t=" + ("%.6f" % Time.now.to_f))
- 
-            result = @queue.pop
-            result.each { |k, v| results[k] += v }
-            value = "."
-            
-            if result[:failures] > 0
-              value = "F"
-              failures.push(test)
-            end
-            
-            if result[:errors] > 0
-              value = "E"
-              errors.push(test)
-            end
-            
-            print value
+            browser.visit(get_url(test))
+            results = TestResults.new(@queue.pop.query, test[:url])
+            print results
+            test_suite_results << results
           end
           
-          puts "\nFinished in #{(Time.now - t0).round.to_s} seconds."
-          puts "  Failures: #{failures.join(', ')}" unless failures.empty?
-          puts "  Errors:   #{errors.join(', ')}" unless errors.empty?
-          puts "#{results[:tests]} tests, #{results[:assertions]} assertions, #{results[:failures]} failures, #{results[:errors]} errors"
+          print "\nFinished in #{Time.now - t0} seconds."
+          print test_suite_results
           browser.teardown
         else
-          puts "\nSkipping #{browser}, not supported on this OS"
+          puts "\nSkipping #{browser}, not supported on this OS."
         end
       end
 
@@ -341,7 +322,13 @@ class JavaScriptTestTask < ::Rake::TaskLib
       t.join
     end
   end
-
+  
+  def get_url(test)
+    params = "resultsURL=http://localhost:4711/results&t=" + ("%.6f" % Time.now.to_f)
+    params << "&tests=#{test[:testcases]}" unless test[:testcases] == :all
+    "http://localhost:4711#{test[:url]}?#{params}"
+  end
+  
   def mount(path, dir=nil)
     dir = Dir.pwd + path unless dir
 
@@ -349,9 +336,11 @@ class JavaScriptTestTask < ::Rake::TaskLib
     @server.mount(path, NonCachingFileHandler, dir)
   end
 
-  # test should be specified as a url
-  def run(test)
-    @tests<<test
+  # test should be specified as a hash of the form
+  # {:url => "url", :testcases => "testFoo,testBar"}.
+  # specifying :testcases is optional
+  def run(url, testcases = :all)
+    @tests <<  { :url => url, :testcases => testcases }
   end
 
   def browser(browser)
@@ -372,5 +361,111 @@ class JavaScriptTestTask < ::Rake::TaskLib
       end
 
     @browsers<<browser
+  end
+end
+
+class TestResults
+  attr_reader :tests, :assertions, :failures, :errors, :filename
+  def initialize(query, filename)
+    @tests      = query['tests'].to_i
+    @assertions = query['assertions'].to_i
+    @failures   = query['failures'].to_i
+    @errors     = query['errors'].to_i
+    @filename   = filename
+  end
+  
+  def error?
+    @errors > 0
+  end
+  
+  def failure?
+    @failures > 0
+  end
+  
+  def to_s
+    return "E" if error?
+    return "F" if failure?
+    "."
+  end
+end
+
+class TestSuiteResults
+  def initialize
+    @tests      = 0
+    @assertions = 0
+    @failures   = 0
+    @errors     = 0
+    @error_files   = []
+    @failure_files = []
+  end
+  
+  def <<(result)
+    @tests      += result.tests
+    @assertions += result.assertions
+    @failures   += result.failures
+    @errors     += result.errors
+    @error_files.push(result.filename)   if result.error?
+    @failure_files.push(result.filename) if result.failure?
+  end
+  
+  def error?
+    @errors > 0
+  end
+  
+  def failure?
+    @failures > 0
+  end
+  
+  def to_s
+    str = ""
+    str << "\n  Failures: #{@failure_files.join(', ')}" if failure?
+    str << "\n  Errors:   #{@error_files.join(', ')}" if error?
+    "#{str}\n#{summary}\n\n"
+  end
+  
+  def summary
+    "#{@tests} tests, #{@assertions} assertions, #{@failures} failures, #{@errors} errors."
+  end
+end
+
+class TestBuilder
+  UNITTEST_DIR = File.expand_path('test')
+  FIXTURES_DIR = File.join(UNITTEST_DIR, 'unit', 'fixtures')
+  TMP_DIR      = File.join(UNITTEST_DIR, 'unit', 'tmp')
+  TEMPLATE     = File.join(UNITTEST_DIR, 'lib', 'template.erb')
+  
+  def initialize(filename, template = TEMPLATE)
+    @filename          = filename
+    @template          = template
+    @js_filename       = File.basename(@filename)
+    @basename          = @js_filename.sub("_test.js", "")
+  end
+  
+  def html_fixtures
+    content = ""
+    file = File.join(FIXTURES_DIR, "#{@basename}.html")
+    File.open(file).each { |l| content << l } if File.exists?(file)
+    content
+  end
+  
+  def external_fixtures(extension)
+    filename = "#{@basename}.#{extension}"
+    File.exists?(File.join(FIXTURES_DIR, filename)) ? filename : nil
+  end
+  
+  def render
+    @title                 = @basename.gsub("_", " ").strip.capitalize
+    @html_fixtures         = html_fixtures
+    @js_fixtures_filename  = external_fixtures("js")
+    @css_fixtures_filename = external_fixtures("css")
+    
+    File.open(destination, "w+") do |file|
+      file << ERB.new(IO.read(@template), nil, "%").result(binding)
+    end
+  end
+  
+  def destination
+    filename = File.basename(@filename, ".js")
+    File.join(TMP_DIR, "#{filename}.html")
   end
 end

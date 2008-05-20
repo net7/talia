@@ -7,10 +7,10 @@ require 'active_record'
 require 'active_record/fixtures'
 require 'ftools'
 
-rails_root		     = File.expand_path(RAILS_ROOT)
-plugin_root		     = File.join(rails_root, 'vendor', 'plugins', 'click_to_globalize')
-templates_root     = File.join(plugin_root, 'templates')
-shared_folder      = File.join(rails_root, 'app', 'views', 'shared')
+rails_root		 = File.expand_path(RAILS_ROOT)
+plugin_root		 = File.join(rails_root, 'vendor', 'plugins', 'click_to_globalize')
+templates_root = File.join(plugin_root, 'templates')
+shared_folder  = File.join(rails_root, 'app', 'views', 'shared')
 
 require "#{plugin_root}/test/lib/jstest"
 
@@ -27,12 +27,12 @@ desc 'Run tests.'
 task :click => ['click:test']
 
 namespace :click do
-  desc 'Test the click_to_globalize plugin.'
+  desc 'Test Click To Globalize.'
   task :test => ['click:test:all']
   
   namespace :test do
-	  desc 'Run the complete suite case (Ruby).'
-	  task :all => [ :ruby ]
+	  desc 'Test both ruby and javascript code.'
+	  task :all => [:ruby, :js]
 
 	  desc 'Test ruby code.'
 	  Rake::TestTask.new(:ruby) do |t|
@@ -63,7 +63,7 @@ namespace :click do
 		  end
 	  end
 	  
-	  desc 'Generate documentation for the click_to_globalize plugin.'
+	  desc 'Generate documentation for Click to Globalize plugin.'
     Rake::RDocTask.new(:rdoc) do |rdoc|
     	rdoc.rdoc_dir = "#{plugin_root}/rdoc"
     	rdoc.title		= 'ClickToGlobalize'
@@ -73,10 +73,10 @@ namespace :click do
     end
   end
 
-  desc 'Setup the click_to_globalize plugin (alias for click:install).'
+  desc 'Setup Click to Globalize plugin (alias for click:install).'
   task :setup => :install
   
-  desc 'Install the click_to_globalize plugin.'
+  desc 'Install Click to Globalize plugin.'
   task :install do
     # Create the app/views/shared, if needed.
     FileUtils.mkdir(shared_folder) unless File.directory?(shared_folder)
@@ -89,10 +89,10 @@ namespace :click do
       puts 'DONE'
     end
     
-    puts "\nClick To Globalize was correctly installed."
+    puts "\nClick to Globalize was correctly installed."
   end
   
-  desc 'Uninstall the click_to_globalize plugin.'
+  desc 'Uninstall Click to Globalize plugin.'
   task :uninstall do
     # Delete Click To Globalize files.
     files.each do |file, path|

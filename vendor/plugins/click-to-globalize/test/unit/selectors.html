@@ -25,9 +25,12 @@
   
   <!-- Fixtures -->
   <div id="fixtures" style="display:none;">
-    undefined text
+    ungrouped text
     <div id="hello_world">Hello World</div>
     <p><p id="paragraph">Paragraph text</p></p>
+    <p id="white_space_paragraph">
+      White space
+    </p>
     <table>
       <tbody id="table">
         <tr>
@@ -56,20 +59,19 @@
 <!-- Tests follow -->
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
-
-  // Override this method, to avoid useless AJAX requests and elements binding.
-  ClickToGlobalize.init = function() { };
-  
   new Test.Unit.Runner({
     testRespondTo: function() {
       this.assertNotNull($$$);
       this.assertMatch(/function/, $$$);
     },
-    
-    testUndefinedText: function() {
-      elements = $$$('undefined text');
+    testUngroupedText: function() {
+      elements = $$$('ungrouped text');
       this.assertInstanceOf(Array, elements);
-      this.assertEqual(0, elements.size());
+      this.assertEqual(1, elements.size());
+      element = elements.first();
+      this.assertInstanceOf(HTMLDivElement, element);
+      this.assertEqual('ungrouped text', element.getText());
+      this.assertEqual('fixtures', element.id);
     },
     testBaseDiv: function() {
       elements = $$$('Hello World');
@@ -88,6 +90,15 @@
       this.assertInstanceOf(HTMLParagraphElement, element);
       this.assertEqual('Paragraph text', element.getText());
       this.assertEqual('paragraph', element.id);
+    },
+    testParagraphWithWhiteLine: function(){
+      elements = $$$('White space');
+      this.assertInstanceOf(Array, elements);
+      this.assertEqual(1, elements.size());
+      element = elements.first();
+      this.assertInstanceOf(HTMLParagraphElement, element);
+      this.assertEqual('White space', element.getText());
+      this.assertEqual('white_space_paragraph', element.id);      
     },
     testTable: function() {
       elements = $$$('First Cell');
