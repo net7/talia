@@ -19,7 +19,7 @@ window.onload = function() {
   loadFunctionSettings();
   
   /* ACCORDION DELLE SOURCES LISTS */
-  configureSourcesListAccordion();
+//  configureSourcesListAccordion();
   
 }
 
