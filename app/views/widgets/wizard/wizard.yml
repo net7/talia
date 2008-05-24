@@ -1,6 +1,0 @@
-default:
-  title: 'XHTML/XML submission'
-  steps:
-  - {name: "Step one", partial: "step_one"}
-  - {name: "Step two", partial: "step_two"}
-  - {name: "Finish", partial: "finish"}
