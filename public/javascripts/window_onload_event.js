@@ -1,25 +1,37 @@
-/* javascript contenete tutte le funzioni chiamate
-quando viene aperta la finestra */
-
-/* **************************************** */
-/* ON-LOAD - prototype-style */
-/* **************************************** */
-/* 1. questo viene chiamato all'inizio */
-document.observe("dom:loaded", function() {
-    
-});
-
-
-/* 2. questo viene chiamato alla fine */
+// This gets called after both html and images are fully loaded
 window.onload = function() {
-  /* refers to: toolbar.js */  
-  if( $('toolbar')) setToolbarGeometry();
-  
-  /* refers to: js.js */
-  loadFunctionSettings();
-  
-  /* ACCORDION DELLE SOURCES LISTS */
-//  configureSourcesListAccordion();
-  
-}
 
+    // If we have a toolbar, set its geometry (from: toolbar.js)
+    if($('toolbar'))
+        setToolbarGeometry();
+    
+    // sets up settings for the most important elements of the page
+    // (from: mainElementsPositioning.js)
+    loadFunctionSettings();
+
+    // builds the accordion for sources list (from: accordion.js)
+    // configureSourcesListAccordion();
+
+
+    // If we're browsing a page with pod navigation :
+    if($('pod-list-wrap-mask')) {
+
+       // Strip href attributes from A tags (from: utilities.js)
+       deleteHrefAttributes($$('a.ipodStyle'));
+       
+       // Check vertical alignments of masks, buttons and such
+       // (both from: pod_style_navigation.js)
+       checkVerticalHeightOfPodNavigation(); 
+       upAndDownButtonsSetup();
+       $('ipod_nav_level_' + navigationLevel).setStyle("top:0px");
+       
+       $('pod-list-wrap-mask').setStyle('overflow:hidden;');
+
+    } // if pod-list-wrap-mask
+    
+} // window.onload = function()
+
+
+// This gets called AFTER html is loaded but BEFORE all images
+// are loaded, useful to call hiding functions 
+document.observe("dom:loaded", function() {});

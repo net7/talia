@@ -86,10 +86,10 @@ div#contents_int div.single_source_element h3.source_more{
     padding: 0 0 0 15px;
     cursor: pointer;
 }
-div#contents_int div.single_source_element h3.source_more.expand{
+div#contents_int div.single_source_element h3.source_more{
     background: transparent url(/images/sources_listing/source_more_info_icon.gif) center left no-repeat;
 }
-div#contents_int div.single_source_element h3.source_more.compress{
+div#contents_int div.single_source_element h3.source_more.open{
     background: transparent url(/images/sources_listing/source_less_info_icon.gif) center left no-repeat;
 }
 

@@ -7,13 +7,15 @@
   <%= javascript_include_tag 'application' %>
   <%= javascript_include_tag 'effects' %>
   <%= javascript_include_tag 'lowpro' %>
-  <%= javascript_include_tag 'js' %>
+  <%= javascript_include_tag 'mainElementPositioning' %>
   <%= javascript_include_tag 'toolbar'  %>
-  <%= javascript_include_tag 'window_resize_event'  %>
+  <%= javascript_include_tag 'window_onresize_event'  %>
   <%= javascript_include_tag 'window_onload_event'  %>
-  <%= javascript_include_tag 'text_resize_event'  %>
+  <%= javascript_include_tag 'text_onresize_event'  %>
   <%= javascript_include_tag 'accordion'  %>
   <%= javascript_include_tag 'handleSearchField'  %>
+  <%= javascript_include_tag 'utilities'  %>
+
   <%= yield :javascript -%>
   
   <%= stylesheet_link_tag "main" %>

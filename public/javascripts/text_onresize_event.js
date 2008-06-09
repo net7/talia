@@ -141,15 +141,13 @@ TextResizeDetector = function() {
 			}
  	}
  }();
-/*
-TextResizeDetector.TARGET_ELEMENT_ID = 'doc';
-TextResizeDetector.USER_INIT_FUNC = null;
-*/
+
 
 function init()  {
    var iBase = TextResizeDetector.addEventListener(onFontResize,null);
         // alert("The base font size = " + iBase);
 }
+
 function onFontResize(e,args) {
         /* var msg = "\nThe base font size in pixels: " + args[0].iBase;
         msg +="\nThe current font size in pixels: " + args[0].iSize;
@@ -158,9 +156,11 @@ function onFontResize(e,args) {
         */
 
         /* FUNZIONI CHIAMATE AL RESIZE DEL TESTO */
-        graphicalElementsMove();
-        
+        // from toolbar.js
+        toolbarGraphicalUpdate();
+    
 }
+
 //id of element to check for and insert control
 TextResizeDetector.TARGET_ELEMENT_ID = 'header';
 //function to call once TextResizeDetector has init'd

@@ -146,7 +146,7 @@ class NavigationBarWidget < Widgeon::Widget
       list_content =  view.widget(:source_list, :id => 'types_list', :source_options => { :type => @source_class, :per_page => @list_size.to_i })
     end
     page.replace_html(@list_element, list_content)
-    page.call('defaultNavigationGoUp')
+    page.call('navigationGoUp')
   end
   
   protected

@@ -1,374 +1,381 @@
-// JavaScript Document
-// POD NAVIGATION DEVELOPEMENT - very simple!
+/* Pod-style menu
+ * 
+ * All the functions to make it work are here. Movements, animations,
+ * load and unload of menu lists.
+ * The structures gets initialized in window_onload_event.js
+ *  
+ * Basically there's a mask (a box) which contains the visible part of the menu,
+ * which scrolls under it and get hidden when outside its bounds. With buttons
+ * and mouse wheel the user can scroll the menu elements up and down.
+ * Clicking on a menu element will create a new AJAX request that downloads
+ * the new menu's contents, and initialize a new menu structure. This new 
+ * structure get positioned to the right of the old menu (we are going DOWN the 
+ * navigation tree) or to the left (we are going UP, or back) initially hidden.
+ * An animation will scroll bot old and new menus in the right direction.
+ */
 
-/* **************************************** */
-/* FUNZIONI CHE SCRIVONO I SOTTOLIVELLI */
-/* **************************************** */
-/* un po' di variabili */
-var movementEnabled = true; // variabile boolena che controlla se si pu√≤ attivare il movimento o no:
-// quando il movimento √® in corso viene settata come false e non si pu√≤ riativare il movimento
-var navigationLevel = 1; /* livello di navigazione attuale, inizialmente ugauale a 1 */
 
-/* ************************************* */
-/* NAVIGAZIONE VERSO LIVELLI INFERIORI */
-/* ************************************* */
-function navigationGoDown(idLiDaModificare)
-{
-    // idLiDaModificare: è l'elemento li su cui ho cliccato per navigare //'
-    /* AJAX ha già provveduto a attaccare il nuovo pezzo di codice */
-    if(movementEnabled == true)
-    {
+// Bool variable to stop animation if there's already one going on. If
+// there's an animation it will be false
+var movementEnabled = true; 
+
+// This is the current level of the pod navigation. 1 is the first level, when
+// you click on a subcategory you go on level 2, and so on
+var navigationLevel = 1; 
+
+// Extension of the pod navigation animation movement. Basically it's the
+// pod menu width, pixels
+var movementExtent = 200;
+
+// Enum to know where are we going to:
+// DOWN: we go right, down the tree, UP: we go left, up the tree
+var movDirection = {UP: 0, DOWN: 1};
+
+// Menu bottom margin from the bottom of the page, pixels
+var menuBottomMargin = 50;
+
+// When clicking on the menu vertical scroll buttons, the menu elements
+// will get moved under the mask by an amount of pixel given 
+// by mask.height * movPercentage
+var movPercentage = 70/100;
+
+
+// Minimum amount of pixel moved by a single wheel event inside the mask
+var minMovement = 10;
+
+
+
+// This function gets called when AJAX has already taken the content
+// of the next level of navigation. The user clicked on an li element with
+// id 'clickedLi'.
+function navigationGoDown(clickedLi) {
+   
+    if (movementEnabled == true) {
+
+        // Stop animations
         movementEnabled = false;
         
-        // configuro la vista a accordion se ce n'è bisogno'
-        configureSourcesListAccordion();
-        /* POSIZIONAMENTO DEL NUOVO UL CREATO */
-        var differenzaPosizioneTopTraElementi = $('ipod_nav_level_' + (navigationLevel + 1)).cumulativeOffset().top - $('pod-list-wrap-mask').cumulativeOffset().top;
-        if(differenzaPosizioneTopTraElementi > 0)
-        {
-            $('ipod_nav_level_' + (navigationLevel + 1)).setStyle('margin-top:-'+ differenzaPosizioneTopTraElementi +'px;');
-        }else{
-            $('ipod_nav_level_' + (navigationLevel + 1)).setStyle('margin-top:'+ (-differenzaPosizioneTopTraElementi) +'px;');
+        // NOTE: this should be called outside this function, directly after
+        // AJAX completed the request, maybe in ruby code?
+        // configureSourcesListAccordion();
+
+        // When we click on a pod element, the list of elements is partially
+        // hidden by the pod mask. If the first element shown is not the real first
+        // element of the list, we should calculate this offset and load the next
+        // level of menu aligned with the mask and not with the parent list first
+        // element (currently hidden, above the mask)
+        var offset = $('ipod_nav_level_' + (navigationLevel + 1)).cumulativeOffset().top - 
+            $('pod-list-wrap-mask').cumulativeOffset().top;
+
+        // offset>0: means that the next level got loaded below the mask
+        // top margin: we need to move it up, giving a negative margin-top.
+        // offset<0: default case where the next level is loaded above
+        // the top margin of the mask, use a positive margin-top
+        // This is here since some browsers loads the next menu level at the same
+        // y coord where we clicked, some others at the y coord of the
+        // upper margin of the real list (usually out of the mask)
+        if (offset > 0) {
+            $('ipod_nav_level_' + (navigationLevel + 1)).setStyle('margin-top:-'+ offset +'px;');
+            // This helps to avoid a problem with scrolling right after moving the
+            // menu down by one level
+            $('ipod_nav_level_' + (navigationLevel + 1)).setStyle('top: 0px;');
+        } else { 
+            $('ipod_nav_level_' + (navigationLevel + 1)).setStyle('margin-top:'+ (-offset) +'px;');
+            $('ipod_nav_level_' + (navigationLevel + 1)).setStyle('top: 0px;');
         }
 
-        /* cancello i dati href dei tag a */
+        // Strip href attribute from A tags
         deleteHrefAttributes($$('a.ipodStyle'));
-        // scroll della navigazione verso la valle
-        orizontalScrollNavigation('pod-list-wrap-ext',-200);
-    }
-}
-
-/* ************************************* */
-/* BACK NAVIGAZIONE VERSO LIVELLI SUPERIORI */
-/* ************************************* */
-/* ************************************* */
-/* back navigation semplice, torno da dove provengo.
-back link di default: si torna indietro esattamente da dove provengo, dall'ul di livello superiore
-*/
-function defaultNavigationGoUp()
-{
-    deleteHrefAttributes($$('a.ipodStyle'));
-    if(movementEnabled == true && navigationLevel > 1)
-    {
-        movementEnabled = false;
-        var differenza = ($('ipod_nav_level_' + navigationLevel).cumulativeOffset().top -  $('ipod_nav_level_' + (navigationLevel-1)).cumulativeOffset().top);
-        orizontalScrollNavigation('pod-list-wrap-ext',200);
-    }
-}
-
-/* complex back link: non torno da dove provendo ma da un nuovo link: devo andare a sostituire l'ul superiore */
-/* momentaneamente non utilizzato */
-function navigationGoUp()
-{
-    deleteHrefAttributes($$('a.ipodStyle'));
-    /* 1. salvare la parte di codeice dell'ultimo livello che poi dovr√† riessere incollata */
-    var codeToRemoveAndRepaste;
-    codeToRemoveAndRepaste = $('ipod_nav_level_' + navigationLevel);
-
-    /* RETRIEVE FROM AJAX */
-    // upperLevelCode = "<ul id=\"ipod_nav_level_" + (navigationLevel - 1) + "\"><li id='test1'><a class='ipodStyle' title='Test Link Number One' onclick='navigationGoDown(\"test1\");'>Strange Back Link Numero 1</a></li><li id='test1'><a class='ipodStyle' title='Test Link Number One' onclick='navigationGoDown(\"test1\");'>Strange Back Link Numero 2</a></li></ul>";
-    upperLevelCode = "<ul id=\"ipod_nav_level_" + (navigationLevel + 1) + "\"><div class=\"ipod_internal_backlinks\"><li class=\"ipod_navigation_back_link\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"defaultNavigationGoUp();\" title=\"Test Link Number One\">BACK LINK UNO</a></li><li class=\"ipod_navigation_back_link\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"defaultNavigationGoUp();\" title=\"Test Link Number One\">Back Link 2</a></li><li class=\"ipod_navigation_back_link\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"defaultNavigationGoUp();\" title=\"Test Link Number One\">Back Link 3</a></li></div><div class=\"ipod_internal_scroll\" ><li id=\"link_aggiunto_1\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_1');\">LINK NEW 1</a></li><li id=\"link_aggiunto_2\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_2');\">link_aggiunto_2</a></li><li id=\"link_aggiunto_3\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_3');\">link_aggiunto_3</a></li><li id=\"link_aggiunto_4\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_4');\">link_aggiunto_4</a></li> <li id=\"link_aggiunto_5\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_5');\">link_aggiunto_5</a></li><li id=\"link_aggiunto_6\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_6');\">link_aggiunto_6</a></li><li id=\"link_aggiunto_7\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_7');\">link_aggiunto_7</a></li><li id=\"link_aggiunto_8\"><a class=\"ipodStyle\" href=\"http://www.google.it\" onclick=\"navigationGoDown('link_aggiunto_8');\">link_aggiunto_8</a></li></div></ul>";
-    /* 2. sostituire il livello superiopre (navigationLevel - 1) */
-    $('ipod_nav_level_' + (navigationLevel-1)).replace(upperLevelCode);
-
-    /* 3. incollare l'ultimo livello nel punto giusto */
-    ($('ipod_nav_level_' + (navigationLevel-1)).childElements())[0].insert(codeToRemoveAndRepaste);
-
-    deleteHrefAttributes($$('a.ipodStyle'));
-
-     /* 4. avvio del movimento */
-    orizontalScrollNavigation('pod-list-wrap-ext',200);
-}
-/* **************************************** */
-
-/* **************************************** */
-/* SCROLL FUNCTIONS */
-/* **************************************** */
-/* variable settings for navigation scroll */
-var condition; // condizione che server per il loop del movimento
-var posizioneIniziale; // posizione iniziale dell√¨oggetto che si deve muovere
-var posizioneFinale; // posizione finale dell'oggetto in movimento
-var incremento; // incremento per raggiungere la destinazione del movimento, √® 0 oppure 1 negativo o positivo
-var incrementoUnit = 5; // entit√† del movimento: il movimento √® dato da incremento * incrementoUnit
-var totalIncrement; // appunto incremento * incrementoUnit
-var elementoDaSpostare; // il div che si sposta
-var correzioneSpostamento = 0;
-
-function orizontalScrollNavigation(parteDaSpostare,diQuanto) {
-    /* movimento, settaggio delle variabili */
-    condition = 1;
-    diQuanto -= correzioneSpostamento;
-    elementoDaSpostare = $(parteDaSpostare);
-
-    /* una piccola ocrrezione di posizionamento */
-    var positionDifference = $('pod-list-wrap-mask').cumulativeOffset($('pod-list-wrap-mask')).left;
-    positionDifference = 47;
-
-    posizioneIniziale = elementoDaSpostare.cumulativeOffset(elementoDaSpostare).left - positionDifference;
-    
-    posizioneFinale = posizioneIniziale + diQuanto;
-    if(posizioneIniziale < posizioneFinale)
-    {
-        incremento = 1;
-    }else if(posizioneIniziale > posizioneFinale){
-        incremento = -1;
-    }else if(posizioneIniziale = posizioneFinale)
-    {
-        incremento = 0;
-    }
-    totalIncrement = incremento * incrementoUnit;
-    // if(incremento != 0) animateObject();
-    if(incremento != 0) new Effect.Move (elementoDaSpostare,{ x: diQuanto, y: 0 , mode: 'relative', duration: 0.5, afterFinish: endOfMovementFunction});
-}
-
-/* FUNZIONE CHE VIENE CHIAMATA ALL FINE DEL MOVIMENTO DI SCROLL ORIZZONTALE */
-function endOfMovementFunction()
-{
-    if(incremento == -1) /* scorre versa sinistra, va verso livelli pi√π bassi */
-    {
-        navigationLevel++; /*decremento del vlivello di vavigazione */
-    }else if(incremento == 1) /* scorre verso destra, va verso livelli superiori */
-    {
-        $('ipod_nav_level_' + navigationLevel).remove();
-        navigationLevel--; /*decremento del vlivello di vavigazione */
-    }
-    movementEnabled = true;
-    incremento = 0;
-    checkVerticalHeightOfPodNavigation();
-}
-/* **************************************** */
-
-/* ************************************* */
-/* GESTIONE DELLE DIMENSIONI VERTICALI E VERTICAL SCROLL */
-/* ************************************* */
-/* funzione di controllo dell'altezza in verticale del pod style menu al primo caricamento
-Viene chiamata all on load e anche sul resize
-*/
-function checkVerticalHeightOfPodNavigation()
-{
-    /* altezza verticale disponibile per tutto il menu */
-    var margineDelMenuDalFondo = 50;
-    var altezzaVerticale = document.viewport.getDimensions().height - $('pod-list-wrap-mask').cumulativeOffset($('pod-list-wrap-mask')).top - margineDelMenuDalFondo;
-    /* attribuisco 'altezza verticale alla maschera del menu */
-    $('pod-list-wrap-mask').setStyle('height: '+ altezzaVerticale +'px');
-    /* posizionamento verticale del pulsante scroll */
-    $('ipod_scroll_down_button').setStyle('position:absolute;');
-    $('ipod_scroll_down_button').setStyle('margin-top: ' + altezzaVerticale + 'px');
-    /* ri definizione dell'immagine di sfondo per il pulsante scroll */
-    // $('ipod_scroll_up_button').setStyle('background-image:url(/images/pod_style_navigation/scroll_top_button_deactivated.gif);');
-
-    if($('pod-list-wrap-mask').getHeight() > $('ipod_nav_level_' + navigationLevel).getHeight())
-    {
-        // $('ipod_scroll_up_button').setStyle('display:none;');
-        // $('ipod_scroll_down_button').setStyle('display:none;');
-    }else
-    {
-        // $('ipod_scroll_up_button').setStyle('display:block;');
-        // $('ipod_scroll_down_button').setStyle('display:block;');
-    }
-    
-    /* CONTROLLO: DOPO IL RESIZE */
-    var fondoMask = $('pod-list-wrap-mask').cumulativeOffset().top + $('pod-list-wrap-mask').getHeight();
-    var fondoNavigation = $('ipod_nav_level_' + navigationLevel).getHeight() + $('ipod_nav_level_' + navigationLevel).cumulativeOffset().top;
-    if(fondoMask > fondoNavigation && $('ipod_nav_level_' + navigationLevel).getHeight() > $('pod-list-wrap-mask').getHeight())
-    {
-        var differenza = fondoMask - fondoNavigation;
-        $('ipod_nav_level_' + navigationLevel).setStyle("top:" + ((parseInt($('ipod_nav_level_' + navigationLevel).style.top)) + differenza) + "px")
-    }
-    if($('pod-list-wrap-mask').getHeight() > $('ipod_nav_level_' + navigationLevel).getHeight())
-    {
-        $('ipod_nav_level_' + navigationLevel).setStyle("top:0px;");
-    }
-    
-    upAndDownButtonsSetup();
-}
-function scroll_pod_navigation_down()
-{
-    /* valore di incremento standard dello scroll, posso anche metterlo fuori tra le altre variabili */
-    var maskBottom = $('pod-list-wrap-mask').cumulativeOffset().top + $('pod-list-wrap-mask').getHeight();
-    var itemBottom = $('ipod_nav_level_' + navigationLevel).cumulativeOffset().top + $('ipod_nav_level_' + navigationLevel).getHeight();
-    var bottomDifference = itemBottom - maskBottom;
-    var incrementoMovimento = $('pod-list-wrap-mask').getHeight();
-
-    if(bottomDifference > 0)
-    {
-        /* cofigurazione pulsante */
-        if(bottomDifference < incrementoMovimento)
-        {
-            new Effect.Move ($('ipod_nav_level_' + navigationLevel),{ x: 0, y: -bottomDifference, mode: 'relative', duration: 0.3, afterFinish: upAndDownButtonsSetup});
-            /* cofigurazione pulsante */
-            // $('ipod_scroll_down_button').setStyle('background-image:url(/images/pod_style_navigation/scroll_bottom_button_deactivated.gif);');
-        }else
-        {
-            new Effect.Move ($('ipod_nav_level_' + navigationLevel),{ x: 0, y: -incrementoMovimento, mode: 'relative', duration: 0.3, afterFinish: upAndDownButtonsSetup});
-        }
-    }
-}
-
-function scroll_pod_navigation_up()
-{
-    var maskTop = $('pod-list-wrap-mask').cumulativeOffset().top;
-    var itemTop = $('ipod_nav_level_' + navigationLevel).cumulativeOffset().top;
-    var topDifference = maskTop - itemTop; /* differenza tra il top della maschera e lo scroll */
-
-    var maskBottom = $('pod-list-wrap-mask').cumulativeOffset().top + $('pod-list-wrap-mask').getHeight();
-    var incrementoMovimento = maskBottom - maskTop;
-
-    if(topDifference > 0)
-    {
-        /* cofigurazione pulsante */
-        // $('ipod_scroll_down_button').setStyle('background-image:url(/images/pod_style_navigation/scroll_bottom_button.gif);');
-        if(topDifference < incrementoMovimento)
-        {
-            new Effect.Move ($('ipod_nav_level_' + navigationLevel),{ x: 0, y: topDifference, mode: 'relative', duration: 0.3, afterFinish: upAndDownButtonsSetup});
-            /* cofigurazione pulsante */
-            // $('ipod_scroll_up_button').setStyle('background-image:url(/images/pod_style_navigation/scroll_top_button_deactivated.gif);');
-        }else
-        {
-            new Effect.Move ($('ipod_nav_level_' + navigationLevel),{ x: 0, y: incrementoMovimento, mode: 'relative', duration: 0.3, afterFinish: upAndDownButtonsSetup});
-        }
-    }
-}
-
-function upAndDownButtonsSetup()
-{
-    $('ipod_scroll_up_button').setStyle("display:block;");
-    $('ipod_scroll_down_button').setStyle("display:block;");
         
-    if( $('pod-list-wrap-mask').getHeight() > $('ipod_nav_level_' + navigationLevel).getHeight() )
-    {
-        $('ipod_scroll_up_button').setStyle("background-image:none;");
-        $('ipod_scroll_down_button').setStyle("background-image:none;");
-    }else
-    {
-         var fondoMask = $('pod-list-wrap-mask').cumulativeOffset().top + $('pod-list-wrap-mask').getHeight();
-         var fondoNavigation = $('ipod_nav_level_' + navigationLevel).getHeight() + $('ipod_nav_level_' + navigationLevel).cumulativeOffset().top;
-         
-         var topMask = $('pod-list-wrap-mask').cumulativeOffset().top ;
-         var topNavigation = $('ipod_nav_level_' + navigationLevel).cumulativeOffset().top;
-         
-        if( fondoNavigation > fondoMask && topNavigation < topMask )
-        {
-            $('ipod_scroll_down_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_bottom_button.gif);");
-            $('ipod_scroll_up_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_top_button.gif);");
-        }else if( fondoNavigation > fondoMask && topNavigation >= topMask )
-        {
-            $('ipod_scroll_down_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_bottom_button.gif);");
-            $('ipod_scroll_up_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_top_button_deactivated.gif);");
-        }else if( fondoNavigation <= fondoMask && topNavigation < topMask )
-        {
-            $('ipod_scroll_down_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_bottom_button_deactivated.gif);");
-            $('ipod_scroll_up_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_top_button.gif);");
-        }else if( fondoNavigation <= fondoMask && topNavigation >= topMask )
-        {
-            $('ipod_scroll_down_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_bottom_button_deactivated.gif);");
-            $('ipod_scroll_up_button').setStyle("background-image:url(/images/pod_style_navigation/scroll_top_button_deactivated.gif);");
-        }
+        // Do the animation!
+        horizontalScrollNavigation(movDirection.DOWN);
+
+    } // if movementEnabled
+} // navigationGoDown()
+
+
+// NOTE: for now it just go back to the original previous menu elements. 
+// If we want to change it trought an AJAX or something, maybe we'll need 
+// to calculate some offset like in navigationGoDown()
+function navigationGoUp() {
+
+    // Strip href attribute from A tags
+    deleteHrefAttributes($$('a.ipodStyle'));
+
+    if (movementEnabled == true && navigationLevel > 1) {
+        // Stop other animations and do the current one
+        movementEnabled = false;
+        horizontalScrollNavigation(movDirection.UP);
     }
-}
 
-/* **************************************** */
-/* ON-LOAD - prototype-style */
-/* **************************************** */
-document.observe("dom:loaded", function() {
-    /* SE ESISTE IL CONTENITORE DEL MENU */
-    if($('pod-list-wrap-mask')) 
-    {
-        // CHIAMATA ALLA FUNZIONE CHE ANNULA I LINK HREF TYRADIZIONALI
-       deleteHrefAttributes($$('a.ipodStyle'));
-       /* posizionamento verticale */
-       checkVerticalHeightOfPodNavigation();
-       upAndDownButtonsSetup();
-       $('ipod_nav_level_' + navigationLevel).setStyle("top:0px");
+} // navigationGoUp()
 
-       /* impostazioni per il disable del javascript */
-       $('pod-list-wrap-mask').setStyle('overflow:hidden;')
 
-       /* controllo se esiste il pod navigation */
+// This function do the animation in the given direction
+function horizontalScrollNavigation(direction) {
+
+    // If we're going down the menu has to move in left direction, so we need
+    // a negative movementExtent
+    var realMovementExtent = 0;
+
+    // Function that will be called after the animation ends... we need
+    // 2 functions since we cant pass a parameter
+    var afterFunction;
+    if (direction == movDirection.UP) {
+        realMovementExtent = movementExtent;
+        afterFunction = endOfMovementFunctionUp;
+    } else if (direction == movDirection.DOWN) {
+        realMovementExtent = -movementExtent;
+        afterFunction = endOfMovementFunctionDown;
     }
-});
 
-/* **************************************** */
-/* SCROLL WHEEL */
-/* **************************************** */
-// INIZIALIZZAZIONE
-if (window.addEventListener)  // MOZILLA
+    new Effect.Move ($('pod-list-wrap-ext'), { x: realMovementExtent, y: 0 , mode: 'relative', duration: 0.5, afterFinish: afterFunction});
+
+} // horizontalScrollNavigation()
+
+// This function get called by Scriptacolous at the end of the scrolling
+// animations.
+function endOfMovementFunctionUp() {
+    // Remove the hidden menu elements
+    $('ipod_nav_level_' + navigationLevel).remove();
+
+    // Sets the nav elements and re-enables animations
+    navigationLevel--;
+    movementEnabled = true;
+
+    // Check the menu to look right
+    checkVerticalHeightOfPodNavigation();
+} // endOfMovementFunctionDown()
+
+function endOfMovementFunctionDown() {
+    navigationLevel++;
+    movementEnabled = true;
+    checkVerticalHeightOfPodNavigation();
+} // endOfMovementFunctionDown()
+
+// Sets position and dimensions of mask and current menu in case
+// of resize and movement. Various consistency checks for the menu 
+// and its buttons
+function checkVerticalHeightOfPodNavigation() {
+
+    // Real height of the menu, pixels
+    var menuHeight = document.viewport.getDimensions().height - 
+        $('pod-list-wrap-mask').cumulativeOffset($('pod-list-wrap-mask')).top - 
+        menuBottomMargin;
+
+    $('pod-list-wrap-mask').setStyle('height: '+ menuHeight +'px');
+
+    // Positioning of the bottom scroll button
+    $('ipod_scroll_down_button').setStyle('position:absolute;');
+    $('ipod_scroll_down_button').setStyle('margin-top: ' + menuHeight + 'px');
+
+    // currentMenu is the container of the current UL menu element
+    // mask is the outer mask of the pod navigation menu
+    var currentMenu = $('ipod_nav_level_' + navigationLevel);
+    var mask = $('pod-list-wrap-mask');
+
+    // Bottom y coordinate of menu and mask
+    var menuBottom = currentMenu.getHeight() + currentMenu.cumulativeOffset().top;
+    var maskBottom = mask.cumulativeOffset().top + mask.getHeight();
+
+    // If mask is bigger than menu, align the menu with the mask's top
+    if(mask.getHeight() > currentMenu.getHeight()) 
+        currentMenu.setStyle("top:0px;");
+  
+    // If menu is bigger than mask, and their bottom borders are not aligned,
+    // force them to be aligned 
+    if (maskBottom > menuBottom && currentMenu.getHeight() > mask.getHeight()) {
+        var offset = maskBottom - menuBottom;
+        currentMenu.setStyle("top:" + ((parseInt(currentMenu.style.top)) + offset) + "px")
+    }
+
+    upAndDownButtonsSetup();
+
+} // checkVerticalHeightOfPodNavigation()
+
+
+// Called by clicking the down button on the pod navigation menu
+function scrollPodNavigationDown() {
+
+    var maskBottom = $('pod-list-wrap-mask').cumulativeOffset().top + $('pod-list-wrap-mask').getHeight();
+    var menuBottom = $('ipod_nav_level_' + navigationLevel).cumulativeOffset().top + $('ipod_nav_level_' + navigationLevel).getHeight();
+
+    // Distance from bottom of the mask and bottom of the current menu. Is
+    // zero if they are bottom aligned and we can return
+    var bottomDifference = menuBottom - maskBottom;
+
+    if (bottomDifference <= 0)
+      return;
+  
+    // In a normal case we scroll down one page of the menu, actually not
+    // an entire page but a fraction of it due to movPercentage
+    var movementAmount = Math.round($('pod-list-wrap-mask').getHeight() * movPercentage);
+
+    // We move the current menu by an amount that is the smallest
+    // between the difference between coordinates of mask and menu and
+    // the size of the mask*movPercentage
+    var realMovement = Math.min(bottomDifference, movementAmount);
+
+    // Do the animation
+    new Effect.Move ($('ipod_nav_level_' + navigationLevel), { x: 0, y: -realMovement, mode: 'relative', duration: 0.3, afterFinish: upAndDownButtonsSetup});
+
+} // scrollPodNavigationDown()
+
+// Same as scrollPodNavigationDown()
+function scrollPodNavigationUp() {
+
+    var maskTop = $('pod-list-wrap-mask').cumulativeOffset().top;
+    var menuTop = $('ipod_nav_level_' + navigationLevel).cumulativeOffset().top;
+
+    var topDifference = maskTop - menuTop; 
+
+    if (topDifference <= 0)
+        return;
+    
+    var movementAmount = Math.round($('pod-list-wrap-mask').getHeight() * movPercentage);
+    var realMovement = Math.min(topDifference, movementAmount);
+
+    new Effect.Move ($('ipod_nav_level_' + navigationLevel), { x: 0, y: realMovement, mode: 'relative', duration: 0.3, afterFinish: upAndDownButtonsSetup});
+
+} // scrollPodNavigationUp()
+
+function upAndDownButtonsSetup() {
+
+    // HTML objects to do the math
+    var buttUp = $('ipod_scroll_up_button');
+    var buttDown = $('ipod_scroll_down_button');
+    var mask = $('pod-list-wrap-mask');
+    var currentMenu = $('ipod_nav_level_' + navigationLevel);
+
+    // y coords of menu and mask
+    var maskTop = mask.cumulativeOffset().top;
+    var maskBottom = maskTop + mask.getHeight(); 
+    var menuTop = currentMenu.cumulativeOffset().top;
+    var menuBottom = menuTop + currentMenu.getHeight(); 
+
+    buttUp.setStyle("display:block;");
+    buttDown.setStyle("display:block;");
+       
+    // If mask is bigger than menu, dont display navigation buttons
+    if (mask.getHeight() > currentMenu.getHeight()) {
+        buttUp.setStyle("background-image:none;");
+        buttDown.setStyle("background-image:none;");
+    } else {
+        
+        // We have some menu's elements hidden above the mask: show the UP button
+        if (menuTop < maskTop)
+            buttUp.setStyle("background-image:url(/images/pod_style_navigation/scroll_top_button.gif);");
+        else
+            buttUp.setStyle("background-image:url(/images/pod_style_navigation/scroll_top_button_deactivated.gif);");
+        
+        // We have some menu's elements hidden below mask: show the DOWN button
+        if (menuBottom > maskBottom)
+            buttDown.setStyle("background-image:url(/images/pod_style_navigation/scroll_bottom_button.gif);");
+        else
+            buttDown.setStyle("background-image:url(/images/pod_style_navigation/scroll_bottom_button_deactivated.gif);");
+
+    } // if mask.getHeight > ..
+} // upAndDownButtonsSetup()
+
+    
+    
+// wheel event handler
+function wheel(event) {
+  
+    if ($('pod-list-wrap-mask') == null)
+        return true;
+
+    var mask = $('pod-list-wrap-mask');
+
+    // x,y coords where user cliked
+    var x = Event.pointerX(event);
+    var y = Event.pointerY(event);
+
+    // Bounds of the mask
+    var y1 = mask.cumulativeOffset().top;
+    var x1 = mask.cumulativeOffset().left;
+    var dim = mask.getDimensions();
+
+    // If we are outside the mask bounds, dont process the wheel event
+    if (x<x1 || x>dim.width + x1)
+        return true;
+
+    if (y<y1 || y>dim.height + y1)
+        return true;
+  
+    // This will contain the wheel movement amount
+    var delta = 0;
+
+    // Every different browser process this event in a different way, we
+    // need to get this value in every case
+    if (!event)
+        event = window.event;
+
+    if (event.wheelDelta) {
+        delta = event.wheelDelta/120;
+
+        // Opera 9: sign is inverted
+        if (window.opera)
+            delta = -delta;
+
+    } else if (event.detail) {
+
+        // Mozilla
+        delta = -event.detail/3;
+    }
+
+    // Do we have to process something?
+    if (delta)
+        handle(delta);
+
+    // Prevent default browser behaviour: we dont want to scroll menu AND page
+    if (event.preventDefault)
+        event.preventDefault();
+
+    return false;
+} // wheel()
+
+// Called by wheel() if we have to process the wheel event
+function handle(delta) {
+   
+    // Usual bounds of mask and menu
+    var maskTop = $('pod-list-wrap-mask').cumulativeOffset().top;
+    var menuTop = $('ipod_nav_level_' + navigationLevel).cumulativeOffset().top;
+
+    var maskBottom = maskTop + $('pod-list-wrap-mask').getHeight();
+    var menuBottom = menuTop + $('ipod_nav_level_' + navigationLevel).getHeight();
+
+    // New position of the menu under the mask
+    var newPosition;
+    
+    // We are going up with the mousewheel
+    if (delta < 0) {
+
+        // If they are not aligned, calculate newPosition. Else just return: 
+        // we dont need any movement
+        if (menuBottom > maskBottom)
+            newPosition = parseInt($('ipod_nav_level_' + navigationLevel).style.top) - Math.min(minMovement, menuBottom - maskBottom);
+        else
+            return;
+
+    } else {
+        // Same as above: if they are aligned just return
+        if (menuTop < maskTop)
+            newPosition = parseInt($('ipod_nav_level_' + navigationLevel).style.top) + Math.min(minMovement, maskTop - menuTop);
+        else
+            return;
+
+    }
+    
+    // Update new menu position
+    $('ipod_nav_level_' + navigationLevel).setStyle("top:"+ newPosition + "px");
+    upAndDownButtonsSetup();
+
+} // handle()
+
+// Attach functions to browser's events
+if (window.addEventListener)
     window.addEventListener('DOMMouseScroll', wheel, false);
 
 // IE / OPERA
 window.onmousewheel = document.onmousewheel = wheel;
-    
-// GESTORE EVENTO "MOVIMENTO ROTELLA"
-function wheel(event)
-{
-    if($('pod-list-wrap-mask')) 
-    {
-        // Variabile che conterrà la variazione di movimento
-        var delta = 0;
-
-        // INTERNET EXPLORER
-        if (!event)
-            event = window.event;
-
-        // INTERNET EXPLORER E OPERA
-        if (event.wheelDelta)
-        {
-            delta = event.wheelDelta/120;
-            // IN OPERA 9 IL SEGNO E' INVERTITO
-            if (window.opera)
-                delta = -delta;
-        }
-
-        // MOZILLA - LUNGA VITA A MOZILLA
-        else if (event.detail)
-            {
-                // DELTA INVERTITO E MULTIPLO DI 3
-                delta = -event.detail / 3;
-            }
-
-            // SE IL DELTA E' DIVERSO DA ZERO ESEGUE LA FUNZIONE HANDLE
-            if (delta)
-                handle(delta);
-
-            // BLOCCA SCROLLING IN PAGINE LUNGHE...
-            if (event.preventDefault)
-                event.preventDefault();
-
-            // RITORNA FALSO
-            event.returnValue = false;
-      }
-}
-
-
-// GESTIONE EVENTO (RIDIMENSIONAMENTO TESTO)
-function handle(delta)
-{
-    // Dimensioni testo
-    var dimensione;
-    
-    if (delta < 0)
-    {
-        // SSU
-        if( ($('ipod_nav_level_' + navigationLevel).cumulativeOffset().top + $('ipod_nav_level_' + navigationLevel).getHeight()) > $('pod-list-wrap-mask').cumulativeOffset().top + $('pod-list-wrap-mask').getHeight() )
-        {
-            posizioneAttuale = parseInt($('ipod_nav_level_' + navigationLevel).style.top);
-            $('ipod_nav_level_' + navigationLevel).setStyle("top:"+ (posizioneAttuale - 10) +"px");
-            upAndDownButtonsSetup();
-        }
-    }
-    else
-    {
-        // GIU'
-        if( ($('ipod_nav_level_' + navigationLevel).cumulativeOffset().top) < $('pod-list-wrap-mask').cumulativeOffset().top )
-        {
-            posizioneAttuale = parseInt($('ipod_nav_level_' + navigationLevel).style.top);
-            $('ipod_nav_level_' + navigationLevel).setStyle("top:"+ (posizioneAttuale + 10) +"px");
-            upAndDownButtonsSetup();
-        }
-    }
-}
-/* **************************************** */
-
-
-
-
