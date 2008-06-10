@@ -103,8 +103,8 @@ new Accordion('h1.accordion_toggle', accBeh.FIRSTBLIND);
 Event.addBehavior.reassignAfterAjax = true;
 
 
-// DEBUG: for now H3 elements gets managed this way: directly an addBehaviour on the
-// html element, since they are single element accordion, we dont need an Accordion
+// H3 elements gets managed this way: directly addBehaviour on the html
+// element, since they are single element accordion, we dont need an Accordion
 // class. The behaviour simply toggles the blind effect on dom's .next()
 Event.addBehavior({
     'h3.source_more:click': function(event) {
