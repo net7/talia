@@ -7,6 +7,7 @@ class CreateWorkflowRecords < ConstraintMigration
       t.column :source_record_id,     :integer,     :null => false
       t.column :state,                :string,      :null => false
       t.column :arguments,            :string,      :null => true
+      t.column :type,                 :string
     end
     
     # Create the index 
