@@ -3,7 +3,7 @@ require 'test/unit'
 require "talia_core"
 require 'active_record/fixtures'
 
-@@fixtures = [ 'source_records', 'type_records', 'data_records', 'dirty_relation_records', 'workflow_records']
+@@fixtures = [ 'source_records', 'type_records', 'data_records', 'dirty_relation_records']
 
 # Check for the tesly adapter, and load it if it's there
 if(File.exists?(File.dirname(__FILE__) + '/tesly_reporter.rb'))

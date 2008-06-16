@@ -1,11 +1,14 @@
 require 'active_record'
+require File.join('talia_core', 'workflow')
+
 
 module TaliaCore
   
   # Workflow Record class.
-  # This class is used for load and save data.
   class WorkflowRecord < ActiveRecord::Base
-
+    
+    include TaliaCore::Acts::StateMachine
+    
   end
 
 end
