@@ -2,8 +2,9 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ImportControllerTest < ActionController::TestCase
   include TaliaCore
-  
+
   def test_should_create_manuscript
+    authorize_as :hyper
     assert_difference "Source.count", 2 do
       post :create, :document => document('Mp-XIV-2')
       assert_response :created    
@@ -12,6 +13,7 @@ class ImportControllerTest < ActionController::TestCase
   end
   
   def test_should_return_client_error_on_nil_document
+    authorize_as :hyper
     assert_no_difference "Source.count" do
       post :create, :document => nil
       assert_response 400      
@@ -19,6 +21,7 @@ class ImportControllerTest < ActionController::TestCase
   end
   
   def test_should_return_client_error_on_empty_document
+    authorize_as :hyper
     assert_no_difference "Source.count" do
       post :create, :document => ''
       assert_response 400      
@@ -26,10 +29,16 @@ class ImportControllerTest < ActionController::TestCase
   end
   
   def test_should_return_client_error_on_malformed_document
+    authorize_as :hyper
     assert_no_difference "Source.count" do
       post :create, :document => '<book'
       assert_response 400      
     end
+  end
+  
+  def test_should_redirect_to_login_path_on_missing_authorization
+    post :create, :document => document('Mp-XIV-2')
+    assert_redirected_to login_path
   end
   
   protected
@@ -37,7 +46,7 @@ class ImportControllerTest < ActionController::TestCase
       if /editions|facsimiles|manuscripts|works/.match method_name.id2name
         document("#{method_name}/#{arguments}")
       else
-        raise NoMethodError
+        super
       end
     end
       

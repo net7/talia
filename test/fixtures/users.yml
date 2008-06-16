@@ -21,3 +21,10 @@ admin:
   email: admin@talia.org
   salt: c8d13be260ba82f798b06f100152d347cc4840ba
   crypted_password: ccc2e10b38106d5833fb817407973a996d392310
+
+hyper:
+  id: 4
+  login: hyper
+  email: system@hyper.org
+  salt: c8d13be260ba82f798b06f100152d347cc4840ba
+  crypted_password: 981668d16c4646a510ed3ffaf28d05fe68035666

@@ -1,6 +1,8 @@
 require 'talia_util/hyper_xml_import'
 
 class ImportController < ApplicationController
+  before_filter :login_required
+  
   def create
     respond_to do |format|
       format.xml do
