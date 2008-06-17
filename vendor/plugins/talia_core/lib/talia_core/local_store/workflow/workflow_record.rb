@@ -7,7 +7,7 @@ module TaliaCore
   # Workflow Record class.
   class WorkflowRecord < ActiveRecord::Base
     
-    include TaliaCore::Acts::StateMachine
+    include TaliaCore::Workflow
     
   end
 

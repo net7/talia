@@ -10,8 +10,8 @@ module TaliaCore
   class WorkflowTest < Test::Unit::TestCase
         
     def test_no_initial_value_raises_exception
-      assert_raise(TaliaCore::Acts::StateMachine::NoInitialState) {
-        WorkflowRecord.acts_as_state_machine({})
+      assert_raise(TaliaCore::Workflow::NoInitialState) {
+        WorkflowRecord.workflow_machine({})
       }
     end
   

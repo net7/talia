@@ -1,11 +1,11 @@
-require File.join('talia_core','local_store', 'workflow_record')
+require File.join('talia_core','local_store', 'workflow', 'workflow_record')
 
 
 module TaliaCore
 
   class PublicationWorkflowRecord < WorkflowRecord
 
-    acts_as_state_machine :initial => :submitted, :initial_properties => {:vote => 0}, :column => 'state', :properties => 'arguments'
+    workflow_machine :initial => :submitted, :initial_properties => {:vote => 0}, :column => 'state', :properties => 'arguments'
     
     state :submitted
     state :accepted

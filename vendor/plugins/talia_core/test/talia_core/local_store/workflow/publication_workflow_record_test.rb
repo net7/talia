@@ -1,15 +1,15 @@
 require 'test/unit'
 
-require 'talia_core/local_store/publication_workflow_record'
-require File.join(File.dirname(__FILE__), '..', 'user_class_for_workflow')
+require 'talia_core/local_store/workflow/publication_workflow_record'
+require File.join(File.dirname(__FILE__), 'user_class_for_workflow')
 
 # Load the helper class
-require File.join(File.dirname(__FILE__), '..', '..', 'test_helper')
+require File.join(File.dirname(__FILE__), '..', '..', '..', 'test_helper')
 
 
 module TaliaCore
   class PublicationWorkflowRecordTest < Test::Unit::TestCase
-    include TaliaCore::Acts::StateMachine
+    include TaliaCore::Workflow
     
     def setup
       @user = User.new
