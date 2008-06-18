@@ -114,6 +114,11 @@ module TaliaCore
       assert_not condition.empty?, message
     end
     
+    # Assert the given element is included into the given collection.
+    def assert_included(collection, element, message = nil)
+      assert collection.include?(element), message
+    end
+    
     protected 
     
     # Helper variable in the class for setup_once

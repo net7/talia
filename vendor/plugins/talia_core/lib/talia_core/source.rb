@@ -337,27 +337,24 @@ module TaliaCore
     # Return an hash of direct predicates, grouped by namespace.
     def grouped_direct_predicates
       direct_predicates.inject({}) do |result, predicate|
-        property_list = self[predicate].select { |element| element.kind_of? TaliaCore::Source }
         namespace = predicate.namespace.to_s
         result[namespace] ||= {}
         result[namespace][predicate.local_name] ||= []
-        result[namespace][predicate.local_name] << property_list
+        result[namespace][predicate.local_name] << self[predicate]
         result
       end
     end
     
-    # Returns a flat uri (as string) list of associated sources.
-    def direct_predicates_sources
-      @direct_predicates_sources ||= direct_predicates.collect do |predicate|
-        self[predicate].select { |element| element.kind_of? TaliaCore::Source }.collect do |source|
-          source.to_s
-        end
+    # Returns a flat uri (as string) list of associated rdf objects (triple endpoint).
+    def direct_predicates_objects
+      @direct_predicates_objects ||= direct_predicates.collect do |predicate|
+        self[predicate].to_s
       end.flatten
     end
     
-    # Check if the current source is associated with the given one.
-    def associated?(source)
-      direct_predicates_sources.include? source.to_s
+    # Check if the current source is related with the given rdf object (triple endpoint).
+    def associated?(object)
+      direct_predicates_objects.include? object.to_s
     end
     
     attr_reader :predicates_attributes

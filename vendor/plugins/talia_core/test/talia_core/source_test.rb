@@ -313,35 +313,24 @@ module TaliaCore
       assert_equal("foo", @valid_source[N::MEETEST::array_test][0])
     end
     
-    def test_grouped_direct_predicates_should_not_collect_non_source_object
-      source = TestHelper.make_dummy_source("http://direct_predicate_haver/")
-      source.default::author << "napoleon"
-      # Expected size of direct predicates:
-      # One for the predicate set above
-      # one for the DatabaseDupes and one for 22-rdf-syntax-ns
-      assert_equal(3, source.grouped_direct_predicates.size)
-
-      assert(source.grouped_direct_predicates['default'].keys.include?('author'))
-      assert(source.grouped_direct_predicates['default']['author'].flatten.empty?)
-    end
-    
-    def test_grouped_direct_predicates_should_collect_source_objects
+    def test_grouped_direct_predicates_should_collect_rdf_objects
       source = TestHelper.make_dummy_source("http://direct_predicate_for_napoleon/")
       source.default::historical_character << Source.new("#{N::LOCAL}napoleon")
+      source.default::historical_character << "Giuseppe Garibaldi"
       # Expected size of direct predicates:
-      # One for the predicate set above
+      # Two for the predicates set above
       # one for the DatabaseDupes and one for 22-rdf-syntax-ns
       assert_equal(3, source.grouped_direct_predicates.size)
-
-      assert(source.grouped_direct_predicates['default'].keys.include?('historical_character'))
-      assert(!source.grouped_direct_predicates['default']['historical_character'].empty?)
-      assert_kind_of(Source, source.grouped_direct_predicates['default']['historical_character'].flatten.first)
+      assert_included source.grouped_direct_predicates['default'].keys, 'historical_character'
     end
     
-    def test_direct_predicates_sources
+    def test_direct_predicates_objects
       source = TestHelper.make_dummy_source("http://star-wars.org/")
       source.default::jedi_knight << Source.new("http://star-wars.org/luke-skywalker")
-      assert(source.direct_predicates_sources.include?("http://star-wars.org/luke-skywalker"))
+      source.default::jedi_master << "Obi-Wan Kenobi"
+
+      assert_included source.direct_predicates_objects, "http://star-wars.org/luke-skywalker"
+      assert_included source.direct_predicates_objects, "Obi-Wan Kenobi"
     end
     
     def test_associated
@@ -369,8 +358,9 @@ module TaliaCore
       source.save_predicates_attributes
       
       assert(Source.exists?("#{N::LOCAL}Paolo_Guinigi"))
-      # Aspected size is equal to 3, because @predicates_attributes contains 4 sources, but 1 is marked for destroy.
-      assert_equal(3, source.direct_predicates_sources.size)
+      # Expected size is equal to 6, because @predicates_attributes
+      # contains 8 sources, but 1 is marked for destroy.
+      assert_equal(7, source.direct_predicates_objects.size)
     end
 
     def test_normalize_uri
