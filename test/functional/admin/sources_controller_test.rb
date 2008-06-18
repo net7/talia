@@ -32,21 +32,21 @@ class Admin::SourcesControllerTest < ActionController::TestCase
   def test_should_add_relation_with_existing_source
     login_as :admin
     put :update, :id => source.label, :source => params
-    assert(source.direct_predicates_sources.include?("#{N::LOCAL}one"))
+    assert(source.direct_predicates_objects.include?("#{N::LOCAL}one"))
   end
   
   def test_should_add_source_relation_with_unexistent_source
     login_as :admin
     put :update, :id => source.label, :source => params(predicates_attributes_for_unexistent_source)
     assert(TaliaCore::Source.exists?(N::LOCAL + 'four'))
-    assert(source.direct_predicates_sources.include?("#{N::LOCAL}Four"))
+    assert(source.direct_predicates_objects.include?("#{N::LOCAL}Four"))
   end
   
   def test_should_remove_source_relation
     login_as :admin
     source.talias::attribute << TaliaCore::Source.find('two')
     put :update, :id => source.label, :source => params(predicates_attributes_for_destroyable_relation)
-    assert(!source.direct_predicates_sources.include?("#{N::LOCAL}two"))
+    assert(!source.direct_predicates_objects.include?("#{N::LOCAL}two"))
   end
   
   def test_should_show_data_records_list
@@ -85,7 +85,7 @@ class Admin::SourcesControllerTest < ActionController::TestCase
   end
   
   def predicates_attributes_for_unexistent_source
-    {"predicates_attributes"=>[{"name"=>"attribute", "uri"=>N::LOCAL.to_s, "namespace"=>namespace, "titleized"=>'Four'}]}
+    {"predicates_attributes"=>[{"name"=>"attribute", "uri"=>N::LOCAL.to_s, "namespace"=>namespace, "titleized"=>'Four', "should_destroy" => ''}]}
   end
   
   def predicates_attributes_for_destroyable_relation
