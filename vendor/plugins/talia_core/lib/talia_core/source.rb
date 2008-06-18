@@ -343,7 +343,7 @@ module TaliaCore
     # Returns a flat uri (as string) list of associated rdf objects (triple endpoint).
     def direct_predicates_objects
       @direct_predicates_objects ||= direct_predicates.collect do |predicate|
-        self[predicate].to_s
+        self[predicate].map(&:to_s)
       end.flatten
     end
     

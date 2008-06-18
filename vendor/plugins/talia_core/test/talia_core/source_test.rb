@@ -316,7 +316,7 @@ module TaliaCore
     def test_direct_predicates_objects
       source = TestHelper.make_dummy_source("http://star-wars.org/")
       source.default::jedi_knight << Source.new("http://star-wars.org/luke-skywalker")
-      source.default::jedi_master << "Obi-Wan Kenobi"
+      source.default::jedi_knight << "Obi-Wan Kenobi"
 
       assert_included source.direct_predicates_objects, "http://star-wars.org/luke-skywalker"
       assert_included source.direct_predicates_objects, "Obi-Wan Kenobi"
