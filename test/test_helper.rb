@@ -2,12 +2,6 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
-# Check for the tesly adapter, and load it if it's there
-if(File.exists?(File.dirname(__FILE__) + '/tesly_reporter.rb'))
-  printf("Continuing with tesly \n")
-  require File.dirname(__FILE__) + '/tesly_reporter'
-end
-
 class Test::Unit::TestCase
   # RoleRequirementTestHelper must be included to test RoleRequirement
   include RoleRequirementTestHelper
@@ -44,3 +38,5 @@ end
 
 require File.expand_path(File.dirname(__FILE__) + "/../lib/authenticated_test_helper")
 include AuthenticatedTestHelper
+
+include TaliaCore

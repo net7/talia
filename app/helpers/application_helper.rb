@@ -90,4 +90,10 @@ module ApplicationHelper
   def login_box
     %(<div id="login_box">#{link_to("Logout", logout_path)}</div>) if logged_in?
   end
+  
+  def default_toolbar
+    widget(:toolbar, :buttons => [ 
+        ["Home", {:controller => 'sources', :action => 'show', :id => 'Lucca'}]
+      ] )
+  end
 end
