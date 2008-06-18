@@ -1,4 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
+
+  map.resources :macrocontributions
+
+  map.resources :facsimile_editions
+  
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
@@ -48,8 +53,8 @@ ActionController::Routing::Routes.draw do |map|
 
   # Routes for the source data
   map.connect 'source_data/:type/:location', :controller => 'source_data',
-              :action => 'show',
-              :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
+    :action => 'show',
+    :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
 
   map.resources :data_records, :controller => 'source_data'
   
@@ -61,13 +66,13 @@ ActionController::Routing::Routes.draw do |map|
   # Routes for import
   map.connect 'import/:action', :controller => 'import', :action => 'start_import'
   
-#  map.connect ':controller/:id/:data_type/:location', 
-#              :controller => 'sources', 
-#              :action => 'show_source_data',
-#              :id => :nil,
-#              :data_type => :nil,
-#              :location  => :nil,
-#              :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
+  #  map.connect ':controller/:id/:data_type/:location', 
+  #              :controller => 'sources', 
+  #              :action => 'show_source_data',
+  #              :id => :nil,
+  #              :data_type => :nil,
+  #              :location  => :nil,
+  #              :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
 
 
   # Install the default route as the lowest priority.

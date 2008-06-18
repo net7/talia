@@ -96,4 +96,8 @@ module ApplicationHelper
         ["Home", {:controller => 'sources', :action => 'show', :id => 'Lucca'}]
       ] )
   end
+  
+  def page_title
+    @page_title || TaliaCore::SITE_NAME
+  end
 end
