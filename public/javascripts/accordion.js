@@ -91,8 +91,6 @@ var Accordion = Class.create({
     } // handleClick()
 }); // Accordion()
 
-// Accordion.prototype.isMoving = false;
-
 
 // Instantiate a new Accordion for the H1.accordion_toggle elements
 new Accordion('h1.accordion_toggle', accBeh.FIRSTBLIND);
@@ -106,6 +104,8 @@ Event.addBehavior.reassignAfterAjax = true;
 // H3 elements gets managed this way: directly addBehaviour on the html
 // element, since they are single element accordion, we dont need an Accordion
 // class. The behaviour simply toggles the blind effect on dom's .next()
+// Warning: there is a problem for the users without javascript: the 
+// "more content" links dont work properly, the covered content stay hidden.
 Event.addBehavior({
     'h3.source_more:click': function(event) {
         Effect.toggle(event.element().next(), 'blind', {duration: 0.7});
