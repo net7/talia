@@ -1,6 +1,0 @@
-<%= error_messages_for 'source' %>
-<% form_for :source, @source, :url => { :controller => 'admin/sources', :action => 'update', :id => @source }, :html => {:id => 'source_form'} do |f| %>
-  <%= render :partial => 'form' %>
-  <p><%= f.submit "submit" %> or <%= link_to "Back", :action => 'index' %></p>
-<% end %>
-<%= render :partial => 'data_form' %>
