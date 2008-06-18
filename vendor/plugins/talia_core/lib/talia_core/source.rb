@@ -300,11 +300,6 @@ module TaliaCore
       @exists = Source.exists?(uri)
     end
     
-    attr_accessor :should_destroy
-    def should_destroy?
-      should_destroy.to_i == 1
-    end    
-    
     # Checks if a source with the given uri exists in the system
     def self.exists?(uri)
       # A source exists if the respective record exists in the
@@ -360,21 +355,17 @@ module TaliaCore
     attr_reader :predicates_attributes
     def predicates_attributes=(predicates_attributes)
       @predicates_attributes = predicates_attributes.collect do |attributes_hash|
-        source = Source.new(normalize_uri(attributes_hash['uri'], attributes_hash['titleized']))
-        source.should_destroy = attributes_hash['should_destroy']
-        source.workflow_state = 0
-        source.primary_source = false
-        attributes_hash['source'] = source
+        attributes_hash['object'] = instantiate_source_or_rdf_object(attributes_hash)
         attributes_hash
       end
     end
 
     # Save, associate/disassociate given predicates attributes.
     def save_predicates_attributes
-      each_predicate_attribute do |namespace, name, source|
-        source.save
-        self.predicate_set(namespace, name, source) unless associated? source
-        self.predicate(namespace, name).remove(source) if source.should_destroy?
+      each_predicate_attribute do |namespace, name, object, should_destroy|
+        object.save if object.is_a? Source
+        self.predicate_set(namespace, name, object) unless associated? object
+        self.predicate(namespace, name).remove(object) if should_destroy
       end
     end
         
@@ -549,13 +540,47 @@ module TaliaCore
       [ source_record_attributes, attributes ]
     end
     
+    # Look at the given attributes and choose to instantiate
+    # a Source or a RDF object (triple endpoint).
+    #
+    # Cases:
+    #   Homer Simpson
+    #     # => Should instantiate a source with
+    #     http://localnode.org/Homer_Simpson using N::LOCAL constant.
+    #
+    #   "Homer Simpson"
+    #     # => Should return the string itself, without the double quoting
+    #     in order to add it directly to the RDF triple.
+    #
+    #   http://springfield.org/Homer_Simpson
+    #     # => Should instantiate a source with the given uri
+    def instantiate_source_or_rdf_object(attributes)
+      name_or_uri = attributes['titleized']
+      if /^\"[\w\s\d]+\"$/.match name_or_uri
+        name_or_uri[1..-2]
+      elsif /^http:\/\//.match name_or_uri
+        # TODO remove the block, setting those defaults into the related migration.
+        source = Source.new(name_or_uri)
+        source.workflow_state = 0
+        source.primary_source = false
+        source
+      else
+        # TODO remove the block, setting those defaults into the related migration.
+        source = Source.new(normalize_uri(attributes['uri'], name_or_uri))
+        source.workflow_state = 0
+        source.primary_source = false
+        source
+      end
+    end
+    
     # Iterate through predicates_attributes, yielding the given code.
     def each_predicate_attribute(&block)
       predicates_attributes.each do |attributes_hash|
-        source = attributes_hash['source']
-        namespace = attributes_hash['namespace'].to_sym
-        name = attributes_hash['name']
-        block.call(namespace, name, source)
+        object         = attributes_hash['object']
+        namespace      = attributes_hash['namespace'].to_sym
+        name           = attributes_hash['name']
+        should_destroy = attributes_hash['should_destroy'].to_i == 1
+        block.call(namespace, name, object, should_destroy)
       end
     end
         

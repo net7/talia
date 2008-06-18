@@ -17,9 +17,11 @@ module TaliaCore
     N::Namespace.shortcut(:foaf, "http://www.foaf.org/")
     
     def setup
-      @predicates_attributes = [{"name"=>"uri", "uri"=>"#{N::LOCAL}Guinigi_Family", "namespace"=>"talia_db", "titleized"=>"Guinigi Family"},
-        {"name"=>"type", "uri"=>"http://www.w3.org/2000/01/rdf-schema#Resource", "namespace"=>"rdf", "titleized"=>"Resource"},
-        {"name"=>"type", "uri"=>"http://xmlns.com/foaf/0.1/Group", "should_destroy"=>"", "namespace"=>"rdf", "id"=>"Group", "titleized"=>"Group"}]
+      @predicates_attributes = [{"name"=>"uri", "uri"=>"#{N::LOCAL}Guinigi_Family", "namespace"=>"talia_db", "titleized"=>"Guinigi Family", "should_destroy" => ""},
+        {"name"=>"uri", "uri"=>"#{N::LOCAL}", "namespace"=>"talia_db", "titleized"=>%("Homer Simpson"), "should_destroy" => ""},
+        {"name"=>"uri", "uri"=>"#{N::LOCAL}", "namespace"=>"talia_db", "titleized"=>"http://springfield.org/Homer_Simpson", "should_destroy" => ""},
+        {"name"=>"type", "uri"=>"http://www.w3.org/2000/01/rdf-schema#Resource", "namespace"=>"rdf", "titleized"=>"Resource", "should_destroy" => ""},
+        {"name"=>"type", "uri"=>"http://xmlns.com/foaf/0.1/Group", "should_destroy"=>"", "namespace"=>"rdf", "id"=>"Group", "titleized"=>"Group", "should_destroy" => ""}]
       
       @params = {"uri"=>"#{N::LOCAL}Guinigi_family", "primary_source"=>"true",
         "predicates_attributes"=>@predicates_attributes }
@@ -233,20 +235,7 @@ module TaliaCore
       assert(Source.exists?("home_source"))
       assert(!Source.exists?("home_foo"))
     end
-    
-    def test_should_destroy
-      assert_respond_to(@local_source, :should_destroy?)
-      
-      @local_source.should_destroy = nil
-      assert !@local_source.should_destroy?
-      
-      @local_source.should_destroy = "true"
-      assert !@local_source.should_destroy?
-      
-      @local_source.should_destroy = "1"
-      assert @local_source.should_destroy?
-    end
-    
+        
     # Find for local sources
     def test_find_local
       @local_source.save()
@@ -347,7 +336,7 @@ module TaliaCore
       assert_equal("#{N::LOCAL}Guinigi_Family", source.predicates_attributes.first['uri'])
       assert_equal('talia_db', source.predicates_attributes.first['namespace'])
       assert_equal('Guinigi Family', source.predicates_attributes.first['titleized'])
-      assert_kind_of(Source, source.predicates_attributes.first['source'])
+      assert_kind_of(Source, source.predicates_attributes.first['object'])
     end
 
     def test_save_predicates_attributes
@@ -379,14 +368,33 @@ module TaliaCore
       end
     end
     
+    def test_instantiate_source_or_rdf_object
+      source = TestHelper.make_dummy_source("http://springfield.org/")
+
+      attributes = { 'uri' => N::LOCAL.to_s, 'titleized' => 'Homer Simpson' }
+      result = source.instantiate_source_or_rdf_object(attributes)
+      assert_kind_of(Source, result)
+      assert_equal("#{N::LOCAL}Homer_Simpson", result.to_s)
+      
+      attributes.merge!('titleized' => %("Homer Simpson"))
+      result = source.instantiate_source_or_rdf_object(attributes)
+      assert_equal(%(Homer Simpson), result)
+      
+      attributes.merge!('titleized' => "http://springfield.org/Homer_Simpson")
+      result = source.instantiate_source_or_rdf_object(attributes)
+      assert_kind_of(Source, result)
+      assert_equal("http://springfield.org/Homer_Simpson", result.to_s)
+    end
+    
     def test_each_predicate_attribute
       source = TestHelper.make_dummy_source("http://star-wars.org/")
       source.predicates_attributes = @predicates_attributes
       
-      source.send(:each_predicate_attribute) do |namespace, name, source|
+      source.send(:each_predicate_attribute) do |namespace, name, object, should_destroy|
         assert_kind_of(Symbol, namespace)
         assert_kind_of(String, name)
-        assert_kind_of(Source, source)
+        assert_kind_of_classes(object, Source, String)
+        assert_boolean should_destroy
       end
     end
     

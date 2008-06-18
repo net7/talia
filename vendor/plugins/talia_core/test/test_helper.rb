@@ -13,9 +13,11 @@ end
 
 
 module TaliaCore
+  class Source
+    public :instantiate_source_or_rdf_object
+  end
   
   class TestHelper
-
     # Check if we have old (1.2.3-Rails) style ActiveRecord without fixture cache
     @@new_ar = Fixtures.respond_to?(:reset_cache)
     
@@ -117,6 +119,17 @@ module TaliaCore
     # Assert the given element is included into the given collection.
     def assert_included(collection, element, message = nil)
       assert collection.include?(element), message
+    end
+    
+    # Assert the given object is instance of one of those classes.
+    def assert_kind_of_classes(object, *classes)
+      assert_included(classes, object.class,
+        "#{object} should be instance of one of those classes: #{classes.to_sentence}")
+    end
+    
+    # Assert the given object is a boolean.
+    def assert_boolean(object)
+      assert_kind_of_classes(object, TrueClass, FalseClass)
     end
     
     protected 
