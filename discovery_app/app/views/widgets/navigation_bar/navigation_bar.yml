@@ -1,0 +1,39 @@
+# Configuration for the ontology navigation bar widget.
+
+# The id for the main navigation bar
+widget_id: 'main_navigation'
+
+# "root" classes are not shown, but all their children appear in the root-level
+# interface. 
+# "self" classes are shown in the root-level interface themselves
+root_classes:
+    - foaf:Agent
+    - luccadom:institution
+    - luccadom:museum
+    - luccadom:place
+    - luccadom:artwork
+    - luccadom:epoch
+    - luccadom:house
+    - luccadom:a longer thext... what happens inside the menu?
+    - luccadom:acid house
+    - luccadom:deep house
+    - luccadom:minimal
+    - luccadom:a nice example of a long text that has to go inside the menu
+
+# Labels for classes. These override the values given in the RDF store
+labels:
+    foaf:Agent: FOAF Agent
+    
+
+# Defines the "allowed" namespaces. Classes outside those namespaces will not
+# be shown
+allowed_namespaces:
+    - foaf
+    - luccadom
+
+# This is the id of the element that will recieve the list of types
+# (an id of an element somewhere on the page)
+list_element: types_list
+
+# The number of elements in the central type list for the navigation
+list_size: 3

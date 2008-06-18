@@ -1,0 +1,13 @@
+<h2 class="source_title"><%= source_link(default.uri.rdf_label, default) %></h2>
+<p class="source_data">
+  <span>Label:</span> <%= default.rdfs::label.join(', ') %> 
+  <span>Type:</span> <%= default.types.collect { |t| t.to_name_s }.join(', ') %>
+</p>
+
+<h3 class="source_more">More content</h3>
+
+<p class="source_more_data" style="display: none;">
+  <% for pred in default.direct_predicates %>
+    predicate: <%= pred.to_name_s  %>  ==> [<%= default[pred].join(', ') %>]<br/>
+  <% end %>
+</p>

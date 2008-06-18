@@ -1,0 +1,169 @@
+/* 
+    Document   : toolbar
+    Created on : 3-apr-2008, 16.10.58
+    Author     : Giulio Andreini
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+div#toolbar_mask{
+    position:relative;
+    margin:0; padding:0;
+    /* width: 500px;  momentaneo */
+}
+div#toolbar{
+    position:relative;
+    width: 500px;
+    margin:0 0 10px 0; padding:0;
+    border:1px solid #303030;
+}
+div#toolbar ul{
+    margin: 0; padding:5px 15px;
+    background-color: #545454;
+}
+div#toolbar ul li{
+    display: inline;
+    margin:0 15px 0 0;
+    padding:0 25px 0 0;
+    background: transparent url(/images/toolbar/separazione_toolbar.gif) center right no-repeat;
+}
+div#toolbar ul li a{
+    height: 20px;
+    margin:0; padding:0;
+    color: #FFF;
+    font-size: 11px;
+}
+div#toolbar ul li a:hover{
+    color: #FFF;
+    background: none;
+}
+
+/* ******************************************** */
+/* PULSANTI SCROLL */
+/* ******************************************** */
+div#scroll_back{
+    display:none;
+    width:18px;
+    height:18px;
+    position:absolute;
+    z-index: 1000;
+    background-color: #545454;
+}
+div#scroll_back a{
+    display:block;
+    width:18px;
+    height:18px;
+    background: transparent url(/images/toolbar/toolbar_back_button_deactivated.gif) top left no-repeat;
+    text-indent: -9999px;
+}
+
+div#scroll_forward{
+    display:none;
+    width:18px;
+    height:18px;
+    position:absolute;
+    background-color: #545454;
+}
+div#scroll_forward a{
+    display:block;
+    width:18px;
+    height:18px;
+    background: transparent url(/images/toolbar/toolbar_forward_button_deactivated.gif) top left no-repeat;
+    text-indent: -9999px;
+}
+
+/* ******************************************** */
+/* CSS FOR JAVASCRIPT ENABLED */
+/* ELEMENTI DI CONFIGURAZIONE GRAFICA*/
+
+div#toolbar_top_left{
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: transparent url(/images/toolbar/toolbar_bgs_top_left.gif) top left no-repeat;
+    top:0;
+    left:0;
+}
+div#toolbar_bottom_left{
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: transparent url(/images/toolbar/toolbar_bgs_bottom_left.gif) top left no-repeat;
+    top:0;
+    left:0;
+}
+div#toolbar_bottom_right{
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: transparent url(/images/toolbar/toolbar_bgs_bottom_right.gif) top left no-repeat;
+    top:0;
+    left:0;
+}
+div#toolbar_top_right{
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: transparent url(/images/toolbar/toolbar_bgs_top_right.gif) top left no-repeat;
+    top:0;
+    left:0;
+}
+div#toolbar_top{
+    position: absolute;
+    font-size:0;
+    height: 7px;
+    width: 7px;
+    background: transparent url(/images/toolbar/toolbar_bgs_top.gif) top left repeat-x;
+    top:0;
+    left:0;
+}
+div#toolbar_left{
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: transparent url(/images/toolbar/toolbar_bgs_left.gif) top left repeat-y;
+    top:0;
+    left:0;
+}
+div#toolbar_bottom{
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: transparent url(/images/toolbar/toolbar_bgs_bottom.gif) top left repeat-x;
+    top:0;
+    left:0;
+}
+div#toolbar_right{
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: transparent url(/images/toolbar/toolbar_bgs_right.gif) top left repeat-y;
+    top:0;
+    left:0;
+}
+
+/* NON UTILIZZATO 
+div#toolbar_bg{
+    position: absolute;
+    background-color: #545454:
+}
+*/
+
+div#toppa_left{
+    position: absolute;
+    width: 30px;
+    height: 7px;
+    background-color: #545454;
+}
+
+div#toppa_right{
+    position: absolute;
+    width: 30px;
+    height: 7px;
+    background-color: #545454;
+}
+
+
+
+
+

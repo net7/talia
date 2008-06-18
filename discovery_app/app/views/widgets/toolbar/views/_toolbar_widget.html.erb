@@ -1,0 +1,23 @@
+<!-- toolbar widget -->
+<div id="toolbar_mask">
+  <div id="toolbar">
+    <ul>
+      <% @widget.each_button do |name, url|%>
+        <li><a href="<%=url%>"><%=name%></a></li>
+      <% end%>
+    </ul>
+  </div>
+</div>
+<!-- chiude mask -->
+
+<div id="scroll_back">
+  <a href="javascript:void(0);" onclick="toolbarScrollPrev();" id="prev">
+    previous
+  </a>
+</div>
+
+<div id="scroll_forward">
+  <a href="javascript:void(0);" onclick="toolbarScrollNext();" id="next">
+    next
+  </a>
+</div>

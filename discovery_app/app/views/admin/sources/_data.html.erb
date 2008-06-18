@@ -1,0 +1,6 @@
+<li>
+  <%= file_type(data.type) %> <%= link_to data.location, :controller => '/source_data', :action => 'show', :type => data.type, :location => data.location %>
+  <%= link_to_remote image_tag('trash.gif', :class => 'trash'),
+      :url  => {:controller => '/source_data', :action => 'destroy', :id => data },
+      :method => :delete, :confirm => 'Are you sure?' %>
+</li>

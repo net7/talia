@@ -1,0 +1,18 @@
+<h2>Page <%= w.sources.current_page %> of <%= w.sources.page_count %></h2>
+
+
+<% w.groups do |name, elements| %>
+  <h1 class="accordion_toggle first">
+    <%= name %>
+  </h1>
+  <div class="accordion_content">
+    <%= w.partial('source_item', :collection => elements) %>
+  </div>
+<% end %>
+
+
+<div>
+  <%= widget_will_paginate(w.sources, :source_options => w.source_options) %>
+</div>
+
+

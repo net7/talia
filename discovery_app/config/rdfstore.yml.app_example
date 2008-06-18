@@ -1,0 +1,41 @@
+# Example configuration for the Talia RDF backend store. The default configuration
+# uses the Sesame DB (jruby only). Other examples are given for the development
+# mode - these can be easily adapted for production ;-)
+
+# JRuby/Sesame
+development:
+  type: sesame
+  location: ./db/sesame_development.db
+
+
+# RDF store setup for rdland with SQL backend
+# development:
+#  type: redland
+#  name: dbl
+#  location: mysql
+#  database: Talia_development_rdf
+#  user: root
+#  password: 
+#  host: localhost
+
+# Configuration example for redland with hashes(bdb) store
+# You may also use "memory" instead of "hashes" for the memory-only store
+#
+# development:
+#   type: redland
+#   location: hashes
+#   name: talia_development
+#   hash-type: bdb
+#   dir: .
+
+# Warning: The database defined as 'test' will be erased and
+# re-generated from your development database when you run 'rake'.
+# Do not set this db to the same as development or production.
+test:
+  type: rdflite
+
+# JRuby/Sesame
+production:
+  type: sesame
+  location: ./db/sesame_production.db
+

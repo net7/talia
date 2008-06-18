@@ -1,0 +1,7 @@
+<h3><%= source_link(foaf_Person.foaf::name.join(', '), foaf_Person) %></h3>
+<% if(has_property?(foaf_Person.luccadom::birth)) %>
+  <div class="property">Data di nascita: <%= foaf_Person.luccadom::birth[0]%></div>
+<% end %>
+<% if(has_property?(foaf_Person.luccadom::death)) %>
+  <div class="property">Data di morte: <%= foaf_Person.luccadom::death[0] %></div>
+<% end %>
