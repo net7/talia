@@ -19,9 +19,9 @@
         
         <div id="top_menu">
           <ul>
-            <li><%= titled_link('http://unkown.com','About The Project')%>&nbsp;|&nbsp;</li>
-            <li><%= titled_link('http://unkown.com','Committee Of Scholars')%>&nbsp;|&nbsp;</li>
-            <li><%= titled_link('http://unkown.com','Development Team')%>&nbsp;|&nbsp;</li>
+            <li><%= titled_link('http://unknown.com','About The Project')%>&nbsp;|&nbsp;</li>
+            <li><%= titled_link('http://unknown.com','Committee Of Scholars')%>&nbsp;|&nbsp;</li>
+            <li><%= titled_link('http://unknown.com','Development Team')%>&nbsp;|&nbsp;</li>
           </ul>
         </div>
         
@@ -46,8 +46,12 @@
                 <h2><%= "Simple Mode".t %> </h2>
                 <p><%= "Simple Mode Home Description".t %></p>
                 <ul>
-                  <li id="diorio"><a href="http://www.google.it" title="Critical Edition Colli / Montinari">Critical Edition Colli / Montinari</a></li>
-                  <li id="collimontinari"><a href="http://www.google.it" title="Facsimile Edition D'Iorio">Facsimile Edition D'Iorio</a></li>
+                  <li id="diorio">
+                    <a href="http://www.google.it" title="Critical Edition Colli / Montinari">Critical Edition Colli / Montinari</a>
+                  </li>
+                  <li id="collimontinari">
+                    <%= link_to('Facsimile Edition D\'Iorio', :controller => 'simple_mode', :action => 'testing_def') %>
+                  </li>
                 </ul>
               </div>
               

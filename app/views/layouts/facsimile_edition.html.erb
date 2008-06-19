@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title><%= page_title %></title>
+    <%= stylesheet_link_tag 'facsimile_edition' %>
+            
+  </head>
+  <body>
+    <div id="page_ext">
+      <div id="page_int">
+        <div id="header">
+          <h1>nietzsche source | DIORIO FACSIMILE Edtion</h1>
+          
+          <h2><%= "Simple Mode".t %></h2>
+          <div id="search_box">
+            <form>
+              <p>
+                <label><%= "Manuscript".t %></label> 
+                <input type="text"  />
+                <label><%= " Page".t %></label> 
+                <input type="text" />
+                <label class="invia"><%= "Search".t %></label>
+                <input type="button" class="invia"/>
+              </p>
+              
+            </form>
+          </div>
+          <div id="switch"><a href="#"><%= "Full Mode".t %></a></div>
+          <!-- switch -->
+        </div>
+        <!-- header -->
+        <div id="navigate">
+          <% if @displayButtons == true %>
+          <div id="tools">
+            
+            <ul>
+              <li id="panorama"> <a href="#"><%= "Panorama".t %> </a></li>
+              <li id="pdfdownload"> <a href="#"><%= "Download PDF".t %> </a></li>
+            </ul>
+          </div>
+          <% end %>
+          <!-- tools -->
+        <%= widget(:simple_mode_path, :path_elements => @path)%>
+        </div>
+        
+        <%= yield %>
+                        
+        <!-- content -->
+      </div>
+      <!-- page_int -->
+    </div>
+    <!-- page_ext -->
+  </body>
+</html>

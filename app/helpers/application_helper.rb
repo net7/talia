@@ -13,10 +13,10 @@ module ApplicationHelper
     sidebar_title = nil
     sidebar_title = "#{@source.label} is" if(@source)
     widget(:sidebar,
-        'active_tab' => 'context',
-        'active_tab_options' => { :source => @source },
-        'sidebar_title' => sidebar_title
-        )
+      'active_tab' => 'context',
+      'active_tab_options' => { :source => @source },
+      'sidebar_title' => sidebar_title
+    )
   end
   
   def talia_footer
@@ -100,4 +100,10 @@ module ApplicationHelper
   def page_title
     @page_title || TaliaCore::SITE_NAME
   end
+  
+  def titled_link (url, text)
+    text = text.t
+    "<a href='#{url}' title='#{text}'>#{text}</a>" 
+  end
+  
 end
