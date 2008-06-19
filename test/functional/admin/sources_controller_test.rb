@@ -16,6 +16,10 @@ class Admin::SourcesControllerTest < ActionController::TestCase
     get :edit, :id => source.label
     assert_response :success
     
+    assert_select '.predicate' do
+      assert_select '.should_destroy'
+    end
+    
     assert_select "#source_uri[value=?]", N::LOCAL + source.label
     assert_select "#data ul li" do
       assert_select "a", data_record.location
