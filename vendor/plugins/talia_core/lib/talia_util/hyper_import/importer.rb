@@ -1,6 +1,6 @@
 require 'rexml/document'
 require 'yaml'
-require 'base64'
+require 'open-uri'
 
 module TaliaUtil
   
@@ -28,6 +28,12 @@ module TaliaUtil
         if(source_name && source_name != "")
           @source = get_source(source_name)
         end
+      end
+      
+      # Sets the credentials that are use for HTTP downloading files. If this
+      # isn't set, it will just be ignored
+      def set_credentials(login, password)
+        @credentials = { :http_basic_authentication => [login, password] }
       end
       
       # This will be called to initiate the import on this importer. this
@@ -220,9 +226,9 @@ module TaliaUtil
       # Imports the file that is included in the xml, and all releant properties
       def import_file!
         file_name = get_text(@element_xml, 'file_name')
-        file_content = get_text(@element_xml, 'file_content')
+        file_url = get_text(@element_xml, 'file_url')
         file_content_type = get_text(@element_xml, 'file_content_type')
-        if(file_name && file_content && file_content_type)
+        if(file_name && file_url && file_content_type)
           begin
             # First, check the data type of the file - we'll use the file name
             # extension for that at the moment - not the file_content_type
@@ -241,16 +247,36 @@ module TaliaUtil
               return
             end
             
-            # Now that we have the data object, we can fill it 
-            data_obj.create_from_data(file_name, Base64.decode64(file_content))
+            # Now that we have the data object, we try to fill it with the data
+            # from the URL
+            load_from_data_url!(data_obj, file_name, file_url)
             @source.data_records << data_obj
             @source.hyper::file_content_type << file_content_type
           rescue Exception => e
             assit_fail("Exeption importing file #{file_name}: #{e}")
           end
         else
-          assit(!file_name && !file_content && !file_content_type, "Incomplete file definition on Source #{@source.uri.local_name}")
+          assit(!file_name && !file_url && !file_content_type, "Incomplete file definition on Source #{@source.uri.local_name}")
         end
+      end
+      
+      # Loads a data file from the given URL. This passes creates the given
+      # record from the data at the given URL, using the given location string
+      # on the data record.
+      def load_from_data_url!(data_record, location, url)
+        result = nil
+        open_args = [ url ]
+        open_args << @credentials if(@credentials)
+        
+        begin
+        open(*open_args) do |io|
+          result = data_record.create_from_data(location, io) 
+        end
+        rescue Exception => e
+          raise(IOError, "Error loading #{url} (when file: #{File.expand_path(url)}: #{e}")
+        end
+        
+        result
       end
       
       # Adds a relation to another source to the Source that is imported.

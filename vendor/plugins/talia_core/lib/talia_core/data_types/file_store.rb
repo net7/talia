@@ -27,7 +27,11 @@ module FileStore
     @file_handle = File.open(get_file_path, 'w')
     
     # write data string into file
-    @file_handle << data
+    if(data.respond_to?(:read))
+      @file_handle << data.read
+    else
+      @file_handle << data
+    end
     
     # close file
     close_file
