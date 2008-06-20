@@ -4,7 +4,7 @@
       <%= predicate_form.text_field   :titleized,  :index => nil, :size => 60, :autocomplete => :off %>
       <%= predicate_form.hidden_field :namespace, :index => nil, :value => namespace %>
       <%= predicate_form.hidden_field :uri,  :index => nil %>
-      <% unless predicate.exists? %>
+      <% unless @source.associated? predicate %>
         <%= link_to_function image_tag('remove.png', :size => '12x12', :alt => 'remove', :class => 'remove'),
           "remove_from_collection(this, '.predicate')" %>
       <% else %>
