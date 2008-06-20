@@ -9,6 +9,10 @@ class UserTest < Test::Unit::TestCase
     @open_id = 'http://quentin.someopenidprovider.com'
   end
 
+  def test_should_have_defined_translator_role
+    assert users(:aaron).has_role?('translator')
+  end
+
   def test_should_create_user
     assert_difference 'User.count' do
       user = create_user

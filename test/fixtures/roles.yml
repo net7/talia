@@ -1,6 +1,9 @@
-admin_role:
+admin:
   id: 1
   name: admin
-user_role:
+user:
   id: 2
   name: user
+translator:
+  id: 3
+  name: translator
