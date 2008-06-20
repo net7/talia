@@ -21,16 +21,13 @@ module TaliaUtil
     
     # Flush RDF before each test
     def setup
-      # Move to correct directory for finding the attached files
-      FileUtils::cd(File.join(File.dirname(__FILE__), 'import_samples'))
-      
       setup_once(:flush) do
         clean_data_files
         TaliaCore::TestHelper.flush_rdf
         TaliaCore::TestHelper.flush_db
       end
       setup_once(:src) do
-        HyperImporter::Importer.import(load_doc('egrepalysviola-3259'))
+        hyper_import(load_doc('egrepalysviola-3259'))
       end
     end
     

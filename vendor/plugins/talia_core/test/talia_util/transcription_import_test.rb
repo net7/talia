@@ -1,7 +1,6 @@
 require 'test/unit'
 require 'rexml/document'
 
-
 # Load the helper class
 require File.join(File.dirname(__FILE__), 'util_helper')
 
@@ -18,14 +17,13 @@ module TaliaUtil
     # Establish the database connection for the test
     TaliaCore::TestHelper.startup 
     
-    
     # Flush RDF before each test
     def setup
       setup_once(:src) do
         clean_data_files
         TaliaCore::TestHelper.flush_rdf
         TaliaCore::TestHelper.flush_db
-        HyperImporter::Importer.import(load_doc('igerikevzapf-539'))
+        hyper_import(load_doc('igerikevzapf-539'))
       end
     end
     

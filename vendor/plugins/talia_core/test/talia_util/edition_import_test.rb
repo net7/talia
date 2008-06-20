@@ -1,7 +1,6 @@
 require 'test/unit'
 require 'rexml/document'
 
-
 # Load the helper class
 require File.join(File.dirname(__FILE__), 'util_helper')
 
@@ -21,16 +20,13 @@ module TaliaUtil
     
     # Flush RDF before each test
     def setup
-      # Move to correct directory for finding the attached files
-      FileUtils::cd(File.join(File.dirname(__FILE__), 'import_samples'))
-      
       setup_once(:flush) do
         clean_data_files
         TaliaCore::TestHelper.flush_rdf
         TaliaCore::TestHelper.flush_db
       end
       setup_once(:src) do
-        HyperImporter::Importer.import(load_doc('kbrunkhorst-93'))
+        hyper_import(load_doc('kbrunkhorst-93'))
       end
     end
     

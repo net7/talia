@@ -27,10 +27,10 @@ module TaliaUtil
         TaliaCore::TestHelper.flush_db
       end
       setup_once(:src) do
-        HyperImporter::Importer.import(load_doc('jgrzelczyk-4'))
+        hyper_import(load_doc('jgrzelczyk-4'))
       end
       setup_once(:with_abstract) do
-        HyperImporter::Importer.import(load_doc('rmullerbuck-1'))
+        hyper_import(load_doc('rmullerbuck-1'))
       end
     end
     

@@ -25,9 +25,9 @@ module TaliaUtil
         TaliaCore::TestHelper.flush_db
       end
       setup_once(:src) do
-        HyperImporter::Importer.import(load_doc('Mp-XIV-2'))
+        hyper_import(load_doc('Mp-XIV-2'))
       end
-      setup_once(:work_src) { HyperImporter::Importer.import(load_doc('WS')) }
+      setup_once(:work_src) { hyper_import(load_doc('WS')) }
     end
     
     # Test if the import succeeds

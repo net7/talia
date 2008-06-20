@@ -25,7 +25,7 @@ module TaliaUtil
         TaliaCore::TestHelper.flush_db
       end
       setup_once(:src) do
-        HyperImporter::Importer.import(load_doc('Goethe- und Schiller-Archiv'))
+        hyper_import(load_doc('Goethe- und Schiller-Archiv'))
       end
     end
     

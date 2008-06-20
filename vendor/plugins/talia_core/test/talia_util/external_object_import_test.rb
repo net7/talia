@@ -27,16 +27,16 @@ module TaliaUtil
         TaliaCore::TestHelper.flush_db
       end
       setup_once(:src) do
-        HyperImporter::Importer.import(load_doc('mmontinari-nmgii-1988'))
+        hyper_import(load_doc('mmontinari-nmgii-1988'))
       end
       setup_once(:in_journal) do
-        HyperImporter::Importer.import(load_doc('mmontinari-zvlbn-1987'))
+        hyper_import(load_doc('mmontinari-zvlbn-1987'))
       end
       setup_once(:has_pages) do
-        HyperImporter::Importer.import(load_doc('hjmette-dhnfn-1932'))
+        hyper_import(load_doc('hjmette-dhnfn-1932'))
       end
       setup_once(:with_xml_entity) do
-        HyperImporter::Importer.import(load_doc('tandina-aodns-2001'))
+        hyper_import(load_doc('tandina-aodns-2001'))
       end
     end
     

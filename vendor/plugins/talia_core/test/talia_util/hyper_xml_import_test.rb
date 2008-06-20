@@ -21,9 +21,6 @@ module TaliaUtil
     
     # Flush RDF before each test
     def setup
-      # Move to correct directory for finding the attached files
-      FileUtils::cd(File.join(File.dirname(__FILE__), 'import_samples'))
-      
       setup_once(:flush) do
         clean_data_files
         TaliaCore::TestHelper.flush_rdf
@@ -34,7 +31,7 @@ module TaliaUtil
         list_path = "list.xml"
         sig_path = ""
         
-        HyperXmlImport.import(base_uri, list_path, sig_path)
+        run_in_data_dir { HyperXmlImport.import(base_uri, list_path, sig_path) }
         true
       end
     end

@@ -27,7 +27,7 @@ module TaliaUtil
         TaliaCore::TestHelper.flush_db
       end
       setup_once(:src) do
-        HyperImporter::Importer.import(load_doc('igerike-907'))
+        hyper_import(load_doc('igerike-907'))
       end
     end
     

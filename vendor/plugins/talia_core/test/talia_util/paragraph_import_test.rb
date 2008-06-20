@@ -25,10 +25,10 @@ module TaliaUtil
         TaliaCore::TestHelper.flush_db
       end
       
-      setup_once(:paragraph) { HyperImporter::Importer.import(load_doc('AC-17')) }
-      setup_once(:coord_para) { HyperImporter::Importer.import(load_doc('D-12,10r[1]')) }
-      setup_once(:multinotes) { HyperImporter::Importer.import(load_doc('Mp-XIV-2,55v[2]et56r[1]')) }
-      setup_once(:work_para) { HyperImporter::Importer.import(load_doc('WS-194')) }
+      setup_once(:paragraph) { hyper_import(load_doc('AC-17')) }
+      setup_once(:coord_para) { hyper_import(load_doc('D-12,10r[1]')) }
+      setup_once(:multinotes) { hyper_import(load_doc('Mp-XIV-2,55v[2]et56r[1]')) }
+      setup_once(:work_para) { hyper_import(load_doc('WS-194')) }
     
     end
     

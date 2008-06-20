@@ -25,8 +25,8 @@ module TaliaUtil
         TaliaCore::TestHelper.flush_db
       end
       
-      setup_once(:src) { HyperImporter::Importer.import(load_doc('D-12,10r')) }
-      setup_once(:work_src) { HyperImporter::Importer.import(load_doc('AC,1')) }
+      setup_once(:src) { hyper_import(load_doc('D-12,10r')) }
+      setup_once(:work_src) { hyper_import(load_doc('AC,1')) }
     end
     
     # Test if the import succeeds
@@ -36,7 +36,7 @@ module TaliaUtil
     
     # Caused error during Hyper import tests
     def test_k6_problem
-      HyperImporter::Importer.import(load_doc('K-6,101[1]'))
+      hyper_import(load_doc('K-6,101[1]'))
     end
     
     # Test if the types were imported correctly
