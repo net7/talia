@@ -4,6 +4,11 @@ class SimpleModeController < ApplicationController
     
     @path = [{:text => 'DEF'}]
     @displayButtons = false
+        
+    @tabs_elements = [
+      {:text => "Editor's Introduction".t, :selected => true}
+    ]
+    
     render :template => "simple_mode/facsimile_edition/index", :layout => "facsimile_edition"
     
   end
@@ -16,10 +21,12 @@ class SimpleModeController < ApplicationController
     @displayButtons = true
   
     @tabs_elements = [
-      {:text => 'N-IV-1', :selected => false},
-      {:text => 'N-IV-2', :selected => true}
+      {:text => 'copybooks'.t, :selected => false},
+      {:text => 'notebooks'.t, :selected => false},
+      {:text => 'drafts'.t, :selected => true}
+
     ]
-    
+      
     render :template => "simple_mode/facsimile_edition/material_list", :layout => "facsimile_edition"
     
   end
@@ -31,6 +38,11 @@ class SimpleModeController < ApplicationController
       {:text => 'N-IV-1'}
     ]
     @displayButtons = true
+    
+    @tabs_elements = [
+      {:text => 'N-IV-2', :selected => true}
+    ]
+    
     render :template => "simple_mode/facsimile_edition/panorama", :layout => "facsimile_edition"
    
   end
@@ -42,6 +54,8 @@ class SimpleModeController < ApplicationController
       {:text => 'N-IV-1', :controller => 'simple_mode', :action => 'panorama'}
     ]
     @displayButtons = true
+    
+    
     render :template => "simple_mode/facsimile_edition/page_view", :layout => "facsimile_edition"
    
   end
