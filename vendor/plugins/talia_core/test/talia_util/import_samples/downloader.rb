@@ -1,21 +1,16 @@
-# Quick script to download exported xml files from NietzscheSource for testing
+#!/usr/bin/ruby
+$: << File.join(File.dirname(__FILE__), '..', '..', '..', 'lib')
+require 'talia_util/hyper_download'
 
-require 'rexml/document'
-require 'open-uri'
-
-puts "Usage downloader.rb <list_file> [output_path (default .)]" unless(ARGV[0])
-@output_path = ARGV[1]
-@output_path ||= "."
-
-
-def grab_siglum(siglum)
-  siglum_enc = URI.escape(siglum)
-  open("http://www.nietzschesource.org/exportToTalia.php?get=#{siglum_enc}", :http_basic_authentication => ["nietzsche", "source"]) do |io|
-    open(File.join(@output_path, "#{siglum_enc}.xml"), "w") do |file|
-      file << io.read
-    end
-  end
+unless(ARGV[0])
+  puts "Usage downloader.rb <list_file> [output_path (default .)]"
+  exit 1
 end
+
+output_path = ARGV[1]
+output_path ||= "."
+
+dl = HyperDownload::Downloader.new(output_path)
 
 xml_doc = REXML::Document.new
 xml_doc.add_element("sigla")
@@ -25,13 +20,13 @@ open(ARGV[0]) do |file|
     line.strip!
     unless(line == "" || line.include?(":"))
       puts "fetching #{line}"
-      grab_siglum(line)
+      dl.grab_siglum(line)
       el = xml_doc.root.add_element("siglum")
       el.add_text("#{line}.xml")
     end
   end
 end
 
-File.open(File.join(@output_path, "list.xml"), "w") do |file|
+File.open(File.join(output_path, "list.xml"), "w") do |file|
   xml_doc.write(file)
 end
