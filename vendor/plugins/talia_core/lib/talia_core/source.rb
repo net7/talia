@@ -300,6 +300,10 @@ module TaliaCore
       @exists = Source.exists?(uri)
     end
     
+    def new_record? #:nodoc:
+      @source_record.new_record?
+    end
+    
     # Checks if a source with the given uri exists in the system
     def self.exists?(uri)
       # A source exists if the respective record exists in the
@@ -363,7 +367,7 @@ module TaliaCore
     # Save, associate/disassociate given predicates attributes.
     def save_predicates_attributes
       each_predicate_attribute do |namespace, name, object, should_destroy|
-        object.save if object.is_a? Source
+        object.save if object.is_a? Source and object.new_record?
         self.predicate_set(namespace, name, object) unless associated? object
         self.predicate(namespace, name).remove(object) if should_destroy
       end

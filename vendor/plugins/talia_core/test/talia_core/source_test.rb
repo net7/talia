@@ -254,7 +254,12 @@ module TaliaCore
       assert_not_empty Source.find_by_uri_token('1') # source1 fixture
       assert_empty Source.find_by_uri_token('org')
     end
-        
+
+    def test_new_record
+      assert Source.new('nu').new_record?
+      assert_not Source.find(:first).new_record?
+    end
+   
     # Test creation of local sources
     def test_create_local
       source = Source.new("dingens")
