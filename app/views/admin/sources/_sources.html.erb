@@ -9,7 +9,6 @@
   <tr class="<%= cycle("odd", "even") -%>">
     <% name = source.uri.to_s.split('/').last -%>
     <td><a href="<%=h source.uri %>" title="<%=h name.titleize %>"><%=h name.titleize %></a></td>
-    <td><%=h source.workflow_state %></td>
     <td><%=h source.primary_source %></td>
     <td><%= link_to 'Edit', url_for(:action => :edit, :id => name) %></td>
   </tr>

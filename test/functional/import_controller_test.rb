@@ -31,7 +31,7 @@ class ImportControllerTest < ActionController::TestCase
   def test_should_return_client_error_on_malformed_document
     authorize_as :hyper
     assert_no_difference "Source.count" do
-      post :create, :document => '<book'
+      post :create, :document => 'book'
       assert_response 400      
     end
   end
