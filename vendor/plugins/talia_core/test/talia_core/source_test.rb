@@ -38,7 +38,6 @@ module TaliaCore
       
       setup_once(:valid_source) do
         valid_source = Source.new("http://www.test.org/valid")
-        valid_source.workflow_state = 3
         valid_source.primary_source = false
         valid_source.save!
         valid_source
@@ -47,7 +46,6 @@ module TaliaCore
       
       setup_once(:local_source) do
         local_source = Source.new(N::LOCAL + "home_source")
-        local_source.workflow_state = 42
         local_source.primary_source = false
         local_source.save!
         local_source
@@ -56,7 +54,6 @@ module TaliaCore
       setup_once(:dummy_sources) do
         (1..3).each do |n|
           src = Source.new("http://www.typedthing.com/element#{n}")
-          src.workflow_state = 0
           src.primary_source = false
           src.types << "http://www.interestingrelations.org/book"
           src.save!
@@ -65,7 +62,6 @@ module TaliaCore
       
       setup_once(:data_source) do
         data_source = Source.new("http://www.test.org/source_with_data")
-        data_source.workflow_state = 1
         data_source.primary_source = false
         text = SimpleText.new
         text.location = "text.txt"
@@ -118,9 +114,7 @@ module TaliaCore
     
     # Checks if the direct object properties work
     def test_object_properties
-      @test_source.workflow_state = 2
       @test_source.name = "Foobar"
-      assert_equal(2, @test_source.workflow_state)
       assert_equal("Foobar", @test_source.name)
     end
     
@@ -129,7 +123,6 @@ module TaliaCore
       source = Source.new("http://www.newstuff.org/my_first")
       assert(!Source.exists?(source.uri))
       assert(!source.valid?) # Nothing set, invalid
-      source.workflow_state = 3
       source.primary_source = false
       errors = ""
       assert(source.valid?, source.errors.each_full() { |msg| errors += ":" + msg })
@@ -146,13 +139,12 @@ module TaliaCore
     end
     
     # Test load/save for active record
-    def test_save
-      assert_equal(3, @valid_source.workflow_state)
-      @valid_source.workflow_state = 15
+    def test_save_with_workflow
+      @valid_source.workflow = PublicationWorkflowRecord.new
       @valid_source.save
       assert(Source.exists?(@valid_source.uri))
       assert(SourceRecord.exists_uri?(@valid_source.uri))
-      assert_equal(15, Source.new(@valid_source.uri).workflow_state)
+      assert_kind_of(PublicationWorkflowRecord, Source.new(@valid_source.uri).workflow)
     end
     
     # Check loading of Elements
@@ -160,7 +152,6 @@ module TaliaCore
       @valid_source.save
       source_loaded = Source.find(@valid_source.uri)
       assert_kind_of(Source, source_loaded)
-      assert_equal(@valid_source.workflow_state, source_loaded.workflow_state)
       assert_equal(@valid_source.primary_source, source_loaded.primary_source)
       assert_equal(@valid_source.uri, source_loaded.uri)
     end
@@ -169,17 +160,16 @@ module TaliaCore
     def test_load_save
       @valid_source.save
       source_loaded = Source.find(@valid_source.uri)
-      source_loaded.workflow_state = 4
+      source_loaded.name = '4'
       source_loaded.save
       
       source_reloaded = Source.find(@valid_source.uri)
-      assert_equal(4, source_reloaded.workflow_state)
+      assert_equal('4', source_reloaded.name)
     end
     
     # Test load and save with multiple types
     def test_typed_load_save
       source = Source.new("http://www.newstuff.org/load_save_typed", N::FOAF.Person, N::FOAF.Foe)
-      source.workflow_state = 3
       source.primary_source = false
       assert_equal(2, source.types.size)
       
@@ -241,7 +231,6 @@ module TaliaCore
       @local_source.save()
       source = Source.find("home_source")
       assert_kind_of(Source, source)
-      assert_equal(42, source.workflow_state)
     end
     
     # Test limit
@@ -271,7 +260,6 @@ module TaliaCore
     def test_create_xml
       # TODO: Make a real test when it's worth it
       source = Source.new("http://www.newstuff.org/my_first", N::FOAF.Person, N::FOAF.Foe)
-      source.workflow_state = 1
       source.primary_source = false
       source.save!
       source.default::author << "napoleon"
@@ -354,7 +342,7 @@ module TaliaCore
       assert(Source.exists?("#{N::LOCAL}Paolo_Guinigi"))
       # Expected size is equal to 6, because @predicates_attributes
       # contains 8 sources, but 1 is marked for destroy.
-      assert_equal(7, source.direct_predicates_objects.size)
+      assert_equal(6, source.direct_predicates_objects.size)
     end
 
     def test_normalize_uri
@@ -504,43 +492,42 @@ module TaliaCore
     # Test if RDF assignment fails on unsigned Source
     def test_assign_unsaved_fail
       src = Source.new("http://fobar.org/unsaved")
-      src.workflow_state = 3
       assert_raise(RuntimeError) { src.meetest::something << "test"  }
     end
     
     # Test find on db element
     def test_find_on_db
       add_src = TestHelper.make_dummy_source("http://fourtythreedummy.one/")
-      add_src.workflow_state = 43
+      add_src.name = '43'
       add_src.save
       add_src = TestHelper.make_dummy_source("http://fourtythreedummy.two/")
-      add_src.workflow_state = 43
+      add_src.name = '43'
       add_src.save
-      sources = Source.find(:all, :workflow_state => 43)
+      sources = Source.find(:all, :name => '43')
       assert_equal(sources.size, 2)
     end
     
     # Test find :first on db element
     def test_find_on_db_first
       add_src = TestHelper.make_dummy_source("http://fourtyfourdummy.one/")
-      add_src.workflow_state = 44
+      add_src.name = '44'
       add_src.save
       add_src = TestHelper.make_dummy_source("http://fourtyfourdummy.two/")
-      add_src.workflow_state = 44
+      add_src.name = '44'
       add_src.save
-      source = Source.find(:first, :workflow_state => 44)
+      source = Source.find(:first, :name => '44')
       assert(source.uri.to_s == "http://fourtyfourdummy.one/" || source.uri.to_s == "http://fourtyfourdummy.two/")
     end
     
     # Test find on rdf of db elements
     def test_find_on_db_first_rdf
       add_src = TestHelper.make_dummy_source("http://fourtyfivedummy.one/")
-      add_src.workflow_state = 45
+      add_src.name = '45'
       add_src.save
       add_src = TestHelper.make_dummy_source("http://fourtyfivedummy.two/")
-      add_src.workflow_state = 45
+      add_src.name = '45'
       add_src.save
-      source = Source.find(:first, :workflow_state => 45, :force_rdf => true)
+      source = Source.find(:first, :name => '45', :force_rdf => true)
       assert(source.uri.to_s == "http://fourtyfivedummy.one/" || source.uri.to_s == "http://fourtyfivedummy.two/")
     end
     
@@ -588,16 +575,16 @@ module TaliaCore
     # Test find on db with limit and offset 
     def test_find_on_db_limit_offset
       add_src = TestHelper.make_dummy_source("http://fourtysixdummy.one/")
-      add_src.workflow_state = 46
+      add_src.name = '46'
       add_src.save
       add_src = TestHelper.make_dummy_source("http://fourtysixdummy.two/")
-      add_src.workflow_state = 46
+      add_src.name = '46'
       add_src.save
-      source = Source.find(:first, :workflow_state => 46)
-      sources = Source.find(:all, :workflow_state => 46, :limit => 1)
+      source = Source.find(:first, :name => '46')
+      sources = Source.find(:all, :name => '46', :limit => 1)
       assert_equal(1, sources.size)
       assert_equal(source.uri, sources[0].uri)
-      sources2 = Source.find(:all, :workflow_state => 46, :limit => 1, :offset => 1)
+      sources2 = Source.find(:all, :name => '46', :limit => 1, :offset => 1)
       assert_equal(1, sources2.size)
       assert_not_equal(sources[0], sources2[0])
     end
@@ -625,8 +612,6 @@ module TaliaCore
     def test_rdf_safe
       safe = TestHelper.make_dummy_source("http://safehaven.com")
       safe.foo::some_property << "I should be safe!"
-      safe.save!
-      safe.workflow_state = 3
       safe.save!
       assert_equal("I should be safe!", safe.foo::some_property[0])
     end

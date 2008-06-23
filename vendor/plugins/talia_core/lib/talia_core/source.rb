@@ -1,6 +1,7 @@
 # require 'objectproperties' # Includes the class methods for the object_properties
 require 'local_store/source_record'
 require 'local_store/data_record'
+require 'local_store/workflow/workflow_record'
 require 'pagination/source_pagination'
 require 'query/source_query'
 require 'active_rdf'
@@ -466,6 +467,16 @@ module TaliaCore
       labels(type)[0]
     end
     
+    # Shortcut for the workflow
+    def workflow
+      @source_record.workflow_record
+    end
+    
+    # Dito
+    def workflow=(value)
+      @source_record.workflow_record = value
+    end
+    
     # Creates a simple XML representation of the Source
     def to_xml
       xml = String.new
@@ -478,7 +489,6 @@ module TaliaCore
         builder.id(@source_record.id, :type => "integer")
         builder.uri(uri.to_s)
         builder.name(@source_record.name)
-        builder.workflow_state(@source_record.workflow_state, :type => "integer")
         builder.primary_source(@source_record.primary_source, :type => "boolean")
       end
       
@@ -565,13 +575,11 @@ module TaliaCore
       elsif /^http:\/\//.match name_or_uri
         # TODO remove the block, setting those defaults into the related migration.
         source = Source.new(name_or_uri)
-        source.workflow_state = 0
         source.primary_source = false
         source
       else
         # TODO remove the block, setting those defaults into the related migration.
         source = Source.new(normalize_uri(attributes['uri'], name_or_uri))
-        source.workflow_state = 0
         source.primary_source = false
         source
       end
