@@ -33,6 +33,7 @@ module TaliaUtil
         # Reset to defauls if we get nil values
         list_location ||= "?getList=all"
         sig_request ||= "?get="
+        file_ext ||= ''
         
         puts "Importing from URI: #{base_uri}. Fetching list from #{base_uri + list_location}"
         # open the document with the sigla to import
