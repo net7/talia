@@ -17,7 +17,7 @@ module TaliaCore
       end
       setup_once(:s1) do
         s1 = Source.new("http://foo_one")
-        s1.workflow_state = 0
+        s1.name = '0'
         s1.primary_source = true
         s1.save!
         s1.foo::workstate << "0"
@@ -27,7 +27,7 @@ module TaliaCore
       end
       setup_once(:s2) do
         s2 = Source.new("http://foo_two", N::FOO::eatthis, N::FOO::hello)
-        s2.workflow_state = 1
+        s2.name = '1'
         s2.primary_source = false
         s2.save!
         s2.foo::type << "eatthis"
@@ -39,7 +39,7 @@ module TaliaCore
       end
       setup_once(:s3) do
         s3 = Source.new("http://foo_three", N::FOO::barme, N::FOO::hello)
-        s3.workflow_state = 1
+        s3.name = '1'
         s3.primary_source = true
         s3.save!
         s3.foo::type << "barme"
@@ -63,7 +63,7 @@ module TaliaCore
     
     # Creating a simple database query
     def test_db_simple
-      qry = SourceQuery.new(:operation => :EXPRESSION, :property => :workflow_state, :value => 0)
+      qry = SourceQuery.new(:operation => :EXPRESSION, :property => :name, :value => '0')
       assert_kind_of(DbQuery, qry)
       result = qry.execute
       assert_equal(1, result.size)
@@ -73,7 +73,7 @@ module TaliaCore
     
     # Creating a simple database query and force it to rdf
     def test_force_simple
-      qry = SourceQuery.new(:operation => :EXPRESSION, :property => :workflow_state, :value => 0, :force_rdf => true)
+      qry = SourceQuery.new(:operation => :EXPRESSION, :property => :name, :value => '0', :force_rdf => true)
       assert_kind_of(RdfQuery, qry)
       result = qry.execute
       assert_equal(1, result.size)
@@ -106,7 +106,7 @@ module TaliaCore
     # Creating an "and" database query
     def test_db_and
       qry = SourceQuery.new(:operation => :AND, :conditions => {
-        :workflow_state => 1,
+        :name => '1',
         :primary_source => false })
       assert_kind_of(DbQuery, qry)
       result = qry.execute
@@ -117,7 +117,7 @@ module TaliaCore
     # Creating an "and" database query, forcing to RDF
     def test_db_and_force
       qry = SourceQuery.new(:operation => :AND, :conditions => {
-        :workflow_state => 1,
+        :name => '1',
         :primary_source => false },
         :force_rdf => true
       )
@@ -130,7 +130,7 @@ module TaliaCore
     # Creating an "or" database query
     def test_db_or
       qry = SourceQuery.new(:operation => :OR, :conditions => {
-        :workflow_state => 1,
+        :name => '1',
         :primary_source => false } )
       result = qry.execute
       assert_equal(2, result.size)
@@ -171,14 +171,14 @@ module TaliaCore
     
     # Test offset and limit for DB queries
     def test_offset_limit_db
-      qry = SourceQuery.new(:conditions => { :workflow_state => 1 }, :limit => 1)
+      qry = SourceQuery.new(:conditions => { :name => '1' }, :limit => 1)
       assert_kind_of(DbQuery, qry)
       result = qry.execute
       assert_equal(1, result.size)
       uri = result[0].uri.to_s
       assert((uri == "http://foo_three") || (uri == "http://foo_two"))
       # Now we test if we can get the other result with the offset
-      qry = SourceQuery.new(:conditions => { :workflow_state => 1 }, :limit => 1, :offset => 1)
+      qry = SourceQuery.new(:conditions => { :name => '1' }, :limit => 1, :offset => 1)
       result = qry.execute
       assert_equal(1, result.size)
       uri2 = result[0].uri.to_s

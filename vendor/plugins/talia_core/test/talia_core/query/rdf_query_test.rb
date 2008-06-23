@@ -17,7 +17,6 @@ module TaliaCore
       end
       setup_once(:s1) do
         s1 = Source.new("http://foo_one")
-        s1.workflow_state = 0
         s1.primary_source = true
         s1.save!
         s1.foo::workstate << "0"
@@ -27,7 +26,6 @@ module TaliaCore
       end
       setup_once(:s2) do
         s2 = Source.new("http://foo_two", N::FOO::eatthis, N::FOO::hello)
-        s2.workflow_state = 1
         s2.primary_source = false
         s2.save!
         s2.foo::type << "eatthis"
@@ -39,7 +37,6 @@ module TaliaCore
       end
       setup_once(:s3) do
         s3 = Source.new("http://foo_three", N::FOO::barme, N::FOO::hello)
-        s3.workflow_state = 1
         s3.primary_source = true
         s3.save!
         s3.foo::type << "barme"

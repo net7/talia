@@ -17,7 +17,7 @@ module TaliaCore
       
       setup_once(:local_source) do
         local_source = Source.new(N::LOCAL + "home_source")
-        local_source.workflow_state = 42
+        local_source.name = '42'
         local_source.primary_source = false
         local_source.save!
         local_source

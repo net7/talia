@@ -14,7 +14,7 @@ module TaliaCore
     def setup
       TestHelper.flush_db
       @record = SourceRecord.new("http://dummyuri.com/")
-      @record.workflow_state = 0
+      @record.name = '0'
       @record.primary_source = false
       @record.save!
       @test_list = TypeList.new(@record.type_records)

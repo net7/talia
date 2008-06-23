@@ -17,50 +17,50 @@ module TaliaCore
       end
       setup_once(:s1) do
         s1 = Source.new("http://foo_one")
-        s1.workflow_state = 0
+        s1.name = '0'
         s1.primary_source = true
         s1.save!
       end
       setup_once(:s2) do
         s2 = Source.new("http://foo_two", N::FOO::eatthis, N::FOO::hello)
-        s2.workflow_state = 1
+        s2.name = '1'
         s2.primary_source = false
         s2.save!
       end
       setup_once(:s3) do
         s3 = Source.new("http://foo_three", N::FOO::barme, N::FOO::hello)
-        s3.workflow_state = 1
+        s3.name = '1'
         s3.primary_source = true
         s3.save!
       end
     end
     
-    # Find on workflow state
+    # Find on name
     def test_find_wf_state
-      qry = DbQuery.new(:EXPRESSION, :workflow_state, 1)
+      qry = DbQuery.new(:EXPRESSION, :name, '1')
       result = qry.execute
       assert_equal(2, result.size)
     end
     
-    # Find on workflow state again
+    # Find on name again
     def test_find_wf_state_single
-      qry = DbQuery.new(:EXPRESSION, :workflow_state, 0)
+      qry = DbQuery.new(:EXPRESSION, :name, '0')
       result = qry.execute
       assert_equal(1, result.size)
       assert_kind_of(Source, result[0])
       assert_equal("http://foo_one", result[0].uri.to_s)
     end
     
-    # Find on workflow state, without result
+    # Find on name, without result
     def test_find_wf_state_nothing
-      qry = DbQuery.new(:EXPRESSION, :workflow_state, 4)
+      qry = DbQuery.new(:EXPRESSION, :name, '4')
       result = qry.execute
       assert_equal(0, result.size)
     end
     
     # Try an AND query
     def test_and_query
-      qry1 = DbQuery.new(:EXPRESSION, :workflow_state, 1)
+      qry1 = DbQuery.new(:EXPRESSION, :name, '1')
       qry2 = DbQuery.new(:EXPRESSION, :primary_source, false)
       qry = DbQuery.new(:AND, qry1, qry2)
       result = qry.execute
@@ -70,7 +70,7 @@ module TaliaCore
     
     # Try an OR query
     def test_or_query
-      qry1 = DbQuery.new(:EXPRESSION, :workflow_state, 1)
+      qry1 = DbQuery.new(:EXPRESSION, :name, '1')
       qry2 = DbQuery.new(:EXPRESSION, :primary_source, false)
       qry = DbQuery.new(:OR, qry1, qry2)
       result = qry.execute
@@ -108,7 +108,7 @@ module TaliaCore
     # Test if the type query and other options can be combined
     def test_type_and_wf_state_and
       qry1 = DbQuery.new(:EXPRESSION, :type, N::FOO::eatthis)
-      qry2 = DbQuery.new(:EXPRESSION, :workflow_state, 1)
+      qry2 = DbQuery.new(:EXPRESSION, :name, '1')
       qry = DbQuery.new(:AND, qry1, qry2)
       result = qry.execute
       assert_equal(1, result.size)
@@ -118,7 +118,7 @@ module TaliaCore
     # Test if the type query and other options can be combined
     def test_type_and_wf_state_or
       qry1 = DbQuery.new(:EXPRESSION, :type, N::FOO::eatthis)
-      qry2 = DbQuery.new(:EXPRESSION, :workflow_state, 1)
+      qry2 = DbQuery.new(:EXPRESSION, :name, '1')
       qry = DbQuery.new(:OR, qry1, qry2)
       result = qry.execute
       assert_equal(2, result.size)
@@ -128,7 +128,7 @@ module TaliaCore
     # Test if the type query and other options can be combined
     def test_multi_and
       qry1 = DbQuery.new(:EXPRESSION, :type, N::FOO::hello)
-      qry2 = DbQuery.new(:EXPRESSION, :workflow_state, 1)
+      qry2 = DbQuery.new(:EXPRESSION, :name, '1')
       qry3 = DbQuery.new(:EXPRESSION, :primary_source, true)
       qry = DbQuery.new(:AND, qry1, qry2, qry3)
       result = qry.execute
@@ -140,7 +140,7 @@ module TaliaCore
     # Test if the type query and other options can be combined
     def test_multi_or
       qry1 = DbQuery.new(:EXPRESSION, :type, N::FOO::hello)
-      qry2 = DbQuery.new(:EXPRESSION, :workflow_state, 1)
+      qry2 = DbQuery.new(:EXPRESSION, :name, '1')
       qry3 = DbQuery.new(:EXPRESSION, :primary_source, true)
       qry = DbQuery.new(:OR, qry1, qry2, qry3)
       result = qry.execute
@@ -172,7 +172,7 @@ module TaliaCore
     
     # Tests the limit and offset operators
     def test_offset_limit
-      qry = DbQuery.new(:EXPRESSION, :workflow_state, 1)
+      qry = DbQuery.new(:EXPRESSION, :name, '1')
       qry.limit = 1
       result = qry.execute
       assert_equal(1, result.size)
@@ -209,16 +209,16 @@ module TaliaCore
       assert_equal("http://foo_three", result[0].uri.to_s)
     end
     
-    # Find on workflow state, using the RDF dupes
+    # Find on name, using the RDF dupes
     def test_find_wf_state_on_rdf
-      qry = DbQuery.new(:EXPRESSION, :workflow_state, 1).convert_rdf
+      qry = DbQuery.new(:EXPRESSION, :name, '1').convert_rdf
       result = qry.execute
       assert_equal(2, result.size)
     end
     
-    # Find on workflow state again, using the RDF dupes
+    # Find on name again, using the RDF dupes
     def test_find_wf_state_single_on_rdf
-      qry = DbQuery.new(:EXPRESSION, :workflow_state, 0).convert_rdf
+      qry = DbQuery.new(:EXPRESSION, :name, '0').convert_rdf
       result = qry.execute
       assert_equal(1, result.size)
       assert_kind_of(Source, result[0])
@@ -236,7 +236,7 @@ module TaliaCore
     
     # Test the result count
     def test_result_count_all
-      qry = DbQuery.new(:EXPRESSION, :workflow_state, 1)
+      qry = DbQuery.new(:EXPRESSION, :name, '1')
       result = qry.result_count_all
       assert_equal(2, result)
     end

@@ -6,7 +6,6 @@ module TaliaUtil
   
   module HyperImporter
     
-    DEFAULT_WORKFLOW_STATE = 0
     # Load the property mapping from file
     PROPERTY_MAP = YAML::load(File.open(File.expand_path(File.join(File.dirname(__FILE__), 'property_map.yml'))))
     # Load the type mapping from file
@@ -173,7 +172,6 @@ module TaliaUtil
         else
           src = TaliaCore::Source.new(source_uri, *types)
           src.primary_source = primary_source?
-          src.workflow_state = DEFAULT_WORKFLOW_STATE
           src.save!
         end
         

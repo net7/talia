@@ -18,7 +18,7 @@ module TaliaCore
       end
       setup_once(:s1) do
         s1 = Source.new("http://foo_one")
-        s1.workflow_state = 0
+        s1.name = '0'
         s1.primary_source = true
         s1.save!
         s1.foo::workstate << "0"
@@ -27,7 +27,7 @@ module TaliaCore
       end
       setup_once(:s2) do
         s2 = Source.new("http://foo_two", N::FOO::eatthis, N::FOO::hello)
-        s2.workflow_state = 1
+        s2.name = '1'
         s2.primary_source = false
         s2.save!
         s2.foo::type << "eatthis"
@@ -38,7 +38,7 @@ module TaliaCore
       end
       setup_once(:s3) do
         s3 = Source.new("http://foo_three", N::FOO::barme, N::FOO::hello)
-        s3.workflow_state = 1
+        s3.name = '1'
         s3.primary_source = true
         s3.save!
         s3.foo::type << "barme"
@@ -63,7 +63,7 @@ module TaliaCore
     # Test a simple OR operation
     def test_simple_or
       rdf_qry = RdfQuery.new(:EXPRESSION, N::FOO::type, "barme")
-      db_qry = DbQuery.new(:EXPRESSION, :workflow_state, 0)
+      db_qry = DbQuery.new(:EXPRESSION, :name, '0')
       qry = MixedQuery.new(:OR, rdf_qry, db_qry)
       results = qry.execute
       assert_equal(2, results.size)
@@ -76,7 +76,7 @@ module TaliaCore
     def test_or
       rdf_qry = RdfQuery.new(:EXPRESSION, N::FOO::type, "barme")
       rdf_qry = rdf_qry.or(RdfQuery.new(:EXPRESSION, N::FOO::type, "eatthis"))
-      db_qry = DbQuery.new(:EXPRESSION, :workflow_state, 0)
+      db_qry = DbQuery.new(:EXPRESSION, :name, '0')
       qry = MixedQuery.new(:OR, rdf_qry, db_qry)
       results = qry.execute
       assert_equal(3, results.size)
@@ -86,7 +86,7 @@ module TaliaCore
     def test_or_dup_remove
       rdf_qry = RdfQuery.new(:EXPRESSION, N::FOO::type, "barme")
       rdf_qry = rdf_qry.or(RdfQuery.new(:EXPRESSION, N::FOO::type, "eatthis"))
-      db_qry = DbQuery.new(:EXPRESSION, :workflow_state, 1)
+      db_qry = DbQuery.new(:EXPRESSION, :name, '1')
       qry = MixedQuery.new(:OR, rdf_qry, db_qry)
       results = qry.execute
       assert_equal(2, results.size)
@@ -99,7 +99,7 @@ module TaliaCore
     # Test a more complex and operation
     def test_and
       rdf_qry = RdfQuery.new(:EXPRESSION, N::FOO::type, "hello")
-      db_qry = DbQuery.new(:EXPRESSION, :workflow_state, 1)
+      db_qry = DbQuery.new(:EXPRESSION, :name, '1')
       db_qry2 = DbQuery.new(:EXPRESSION, :primary_source, true)
       qry = MixedQuery.new(:AND, rdf_qry, db_qry, db_qry2)
       results = qry.execute
