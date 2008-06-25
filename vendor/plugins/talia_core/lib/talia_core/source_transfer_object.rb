@@ -24,7 +24,7 @@ module TaliaCore #:nodoc:
     end
     
     def to_s #:nodoc:
-      @name
-    end        
+      (uri || titleized).to_s
+    end
   end
 end
