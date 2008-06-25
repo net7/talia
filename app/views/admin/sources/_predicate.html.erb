@@ -13,7 +13,9 @@
         <%= link_to_function image_tag('remove.png', :size => '12x12', :alt => 'remove', :class => 'remove'),
           "mark_for_destroy(this, '.predicate')" %>
         <%= predicate_form.hidden_field :id, :index => nil %>
-        <%= hidden_field_tag 'should_destroy', nil, :class => "should_destroy" %>
+        <%= hidden_field_tag 'should_destroy', nil, :class => "should_destroy",
+        :id => 'source_predicates_attributes__should_destroy',
+        :name => 'source[predicates_attributes][][should_destroy]' %>
       <% end %>
       <div class="auto_complete"></div>
   <% end %>
