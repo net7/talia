@@ -19,6 +19,10 @@ module TaliaCore #:nodoc:
       end
     end
     
+    def source?
+      !uri.blank?
+    end
+    
     def titleized #:nodoc:
       @name.titleize
     end
