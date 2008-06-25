@@ -42,7 +42,6 @@ module TaliaUtil
       
         data.each do |source_name, data_set|
           puts "Processing #{source_name}" if(Util::flag?("verbose"))
-          workflow_state = data_set["workflow_state"] ? data_set.delete("workflow_state").to_i : 0
           primary_source = data_set.delete("primary_source") == "true" ? true : false
           types = data_set.delete("type")
           types = [types] unless(types.kind_of?(Array))
@@ -52,7 +51,6 @@ module TaliaUtil
         
           # Create the source
           source = TaliaCore::Source.new(source_name, *types)
-          source.workflow_state = workflow_state
           source.primary_source = primary_source
           source.save! # save the thing
         
