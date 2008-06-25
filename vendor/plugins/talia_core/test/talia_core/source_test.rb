@@ -303,7 +303,13 @@ module TaliaCore
       # Two for the predicates set above
       # one for the DatabaseDupes and one for 22-rdf-syntax-ns
       assert_equal(3, source.grouped_direct_predicates.size)
-      assert_included source.grouped_direct_predicates['default'].keys, 'historical_character'
+      predicates = source.grouped_direct_predicates['default']
+      predicates.each do |group, source_list|
+        source_list.flatten.each do |source|
+          assert_kind_of(SourceTransferObject, source)
+        end
+      end
+      assert_included predicates.keys, 'historical_character'
     end
     
     def test_direct_predicates_objects
@@ -372,11 +378,15 @@ module TaliaCore
       attributes.merge!('titleized' => %("Homer Simpson"))
       result = source.instantiate_source_or_rdf_object(attributes)
       assert_equal(%(Homer Simpson), result)
-      
+            
       attributes.merge!('titleized' => "http://springfield.org/Homer_Simpson")
       result = source.instantiate_source_or_rdf_object(attributes)
       assert_kind_of(Source, result)
       assert_equal("http://springfield.org/Homer_Simpson", result.to_s)
+      
+      attributes.merge!('titleized' => "Homer Simpson", 'uri' => nil)
+      result = source.instantiate_source_or_rdf_object(attributes)
+      assert_equal(%(Homer Simpson), result)
     end
     
     def test_each_predicate_attribute

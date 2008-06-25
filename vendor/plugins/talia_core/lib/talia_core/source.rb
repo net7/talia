@@ -2,6 +2,7 @@
 require 'local_store/source_record'
 require 'local_store/data_record'
 require 'local_store/workflow/workflow_record'
+require 'source_transfer_object'
 require 'pagination/source_pagination'
 require 'query/source_query'
 require 'active_rdf'
@@ -337,10 +338,11 @@ module TaliaCore
     # Return an hash of direct predicates, grouped by namespace.
     def grouped_direct_predicates
       direct_predicates.inject({}) do |result, predicate|
+        predicates = self[predicate].collect { |p| SourceTransferObject.new(p.to_s) }
         namespace = predicate.namespace.to_s
         result[namespace] ||= {}
         result[namespace][predicate.local_name] ||= []
-        result[namespace][predicate.local_name] << self[predicate]
+        result[namespace][predicate.local_name] << predicates
         result
       end
     end
@@ -572,6 +574,8 @@ module TaliaCore
       name_or_uri = attributes['titleized']
       if /^\"[\w\s\d]+\"$/.match name_or_uri
         name_or_uri[1..-2]
+      elsif attributes['uri'].blank?
+        name_or_uri
       elsif /^http:\/\//.match name_or_uri
         # TODO remove the block, setting those defaults into the related migration.
         source = Source.new(name_or_uri)
