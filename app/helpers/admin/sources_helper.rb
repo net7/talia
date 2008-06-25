@@ -1,8 +1,9 @@
 module Admin::SourcesHelper
   def add_another_predicate(namespace)
     link_to_function image_tag('add.png', :size => '12x12', :alt => 'Add another predicate for '+namespace, :class => 'add') do |page|
-      page.insert_html :bottom, 'new_predicates_for_'+namespace.underscore, :partial => 'predicate', :object => TaliaCore::Source.new(''), :locals => {:namespace => namespace, :name => ''}
+      page.insert_html :bottom, 'new_predicates_for_'+namespace.underscore, :partial => 'predicate', :object => TaliaCore::SourceTransferObject.new(''), :locals => {:namespace => namespace, :name => ''}
       page[namespace.underscore].select('.predicate').last.visual_effect :highlight
+      page << "$('#{h(namespace.underscore)}').select('.predicate').last().select('.source').first().setAttribute('value', true);"
       page << "attachAjaxAutocompleterOnNewElement('"+h(namespace.underscore)+"');"
       page << "showPredicatesOfDiv('"+h(namespace.underscore)+"');"
     end
