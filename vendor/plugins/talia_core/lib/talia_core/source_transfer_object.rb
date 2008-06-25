@@ -19,6 +19,10 @@ module TaliaCore #:nodoc:
       end
     end
     
+    def id
+      @name
+    end
+    
     def source?
       !uri.blank?
     end
