@@ -574,7 +574,7 @@ module TaliaCore
       name_or_uri = attributes['titleized']
       if /^\"[\w\s\d]+\"$/.match name_or_uri
         name_or_uri[1..-2]
-      elsif attributes['uri'].blank?
+      elsif attributes['uri'].blank? and attributes['source'].blank?
         name_or_uri
       elsif /^http:\/\//.match name_or_uri
         # TODO remove the block, setting those defaults into the related migration.
@@ -650,9 +650,6 @@ module TaliaCore
       end
       
       # Normalize the given uri.
-      # NOTE: <tt>Source#uri</tt> returns a value equal to <tt>N::LOCAL</tt> if the source uri is nil.
-      #       An uri of a brand new Source will always has <tt>N::LOCAL</tt> as value.
-      #       So, if the uri equals to <tt>N::LOCAL</tt> we should append the given label.
       #
       # Example:
       #   normalize_uri('Lucca') # => http://www.talia.discovery-project.org/sources/Lucca
@@ -660,7 +657,8 @@ module TaliaCore
       #   normalize_uri('http://www.talia.discovery-project.org/sources/Lucca')
       #     # => http://www.talia.discovery-project.org/sources/Lucca
       def normalize_uri(uri, label = '')
-        uri = N::LOCAL+label.gsub(' ', '_') if uri.eql? N::LOCAL.to_s
+        uri = N::LOCAL if uri.blank?
+        uri = N::LOCAL+label.gsub(' ', '_') if uri == N::LOCAL.to_s
         uri.to_s
       end
     end

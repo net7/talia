@@ -370,7 +370,7 @@ module TaliaCore
     def test_instantiate_source_or_rdf_object
       source = TestHelper.make_dummy_source("http://springfield.org/")
 
-      attributes = { 'uri' => N::LOCAL.to_s, 'titleized' => 'Homer Simpson' }
+      attributes = { 'uri' => N::LOCAL.to_s, 'titleized' => 'Homer Simpson', 'source' => 'true' }
       result = source.instantiate_source_or_rdf_object(attributes)
       assert_kind_of(Source, result)
       assert_equal("#{N::LOCAL}Homer_Simpson", result.to_s)
@@ -384,7 +384,7 @@ module TaliaCore
       assert_kind_of(Source, result)
       assert_equal("http://springfield.org/Homer_Simpson", result.to_s)
       
-      attributes.merge!('titleized' => "Homer Simpson", 'uri' => nil)
+      attributes.merge!('titleized' => "Homer Simpson", 'uri' => nil, 'source' => nil)
       result = source.instantiate_source_or_rdf_object(attributes)
       assert_equal(%(Homer Simpson), result)
     end
