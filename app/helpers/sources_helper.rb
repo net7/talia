@@ -31,8 +31,9 @@ module SourcesHelper
   
   def source_toolbar
     widget(:toolbar, :buttons => [ 
-        ["Lucca", {:action => 'show', :id => 'Lucca'}], 
-        ["All", {:action => 'index'} ],
+        # TODO: URLs are a hack to also work from the admin controller!
+        ["Lucca", {:controller => '/sources', :action => 'lucca'}], 
+        ["All", {:controller =>'/sources', :action => 'index'} ],
         ["Print Page", "javascript:print();"]
       ] )
   end

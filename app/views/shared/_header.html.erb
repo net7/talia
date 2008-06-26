@@ -14,7 +14,8 @@
       </form>
     </div>
     <div id="top_bar_login">
-      <p><a class="login_icon" href="#" title="Login">Login</a></p>
+      <p><%= link_to '', { :controller => 'admin' }, { :class => 'login_icon' } %>
+        <!-- a class="login_icon" href="#" title="Login">Login</a --></p>
       <div id="login_baloon">
         <form method="post" action="">
           <label>Log In</label>

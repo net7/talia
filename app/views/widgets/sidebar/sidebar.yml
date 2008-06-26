@@ -6,7 +6,7 @@ tabs:
     key: 1
     content: navigation_bar
     redirect:
-        controller: types
+        controller: /types
         action:
     image: side_bar_icon_navigation.gif
   - id: context
@@ -15,7 +15,7 @@ tabs:
     key: 2
     content: context_bar
     redirect:
-        controller: sources
+        controller: /sources
         action:
     image: side_bar_icon_related.gif
   - id: panorama
