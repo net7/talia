@@ -74,6 +74,12 @@ module TaliaCore
       end
     end
     
+    
+    # Check that no .uri method got added to the String class
+    def test_string_sanity
+      assert(!'foo'.respond_to?(:uri), "Someone added an 'uri' method to the String class. This will cause problems.")
+    end
+    
     def test_created_helper
       assert(Source.exists?("http://www.typedthing.com/element1"))
     end
