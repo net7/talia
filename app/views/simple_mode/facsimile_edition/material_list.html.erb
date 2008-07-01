@@ -1,6 +1,6 @@
 <!-- navigate -->
 <div id="menulocation">
- <%= widget(:simple_mode_tabs, :tabs_elements => @tabs_elements) %>
+  <%= widget(:simple_mode_tabs, :tabs_elements => @tabs_elements) %>
 </div>
 <!-- menulocation -->
 
@@ -11,19 +11,20 @@
 <div id="content">
   <ul id="access_list" class="minilist">
     
-    <li>
-      <h1>
-        <a href="panorama" title="thumb">
-          <img src="img/thumb-1.jpg" alt="thumb"  border="0"/>
-          Sigla
+    <% @elements.each do |element| %>
+      <li>
+        <h1>
+        <a href="panorama?mc=<%= params['mc'] %>&material=<%= element[:siglum]%>&type=<%= @type %>" title="<%= element[:siglum] %>">
+          <img arc="<%= element[:file_path] %>" alt="<%= element[:siglum] %>" border="0"/>
+          <%= element[:siglum] %>
         </a>
-      </h1>
-      <p>
-        DESCRIPTION
-      </p>
-    </li>
-    
-    
-  </ul>
+        </h1>
+        <p>
+          <%= element[:description] %>
+        </p>
+      </li>
+    <%end%>    
+ 
+ </ul>
 </div>
 

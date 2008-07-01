@@ -1,0 +1,42 @@
+<!-- navigate -->
+<div id="menulocation">
+  <%= widget(:simple_mode_tabs, :tabs_elements => @tabs_elements) %>
+</div>
+<!-- menulocation -->
+
+<div id="description">
+  <p>&nbsp;</p>
+</div>
+<!--[if !IE]>description<![endif]-->
+<div id="scroll">
+  <%= widget(:simple_mode_panorama, :elements => @elements, :panorama_type => 'vertical', :mc => @mc, :mc_type => @type, :material => @material) %>
+</div>
+<!--[if !IE]>scrol<![endif]-->   
+
+<div id="content" class="divided">
+  <div id="visore">
+    <div id="toolbar">
+      <p class="previous">   <a href="#" title="before">previous</a></p>
+      <p class="sigla">SIGLA</p>
+      <p class="zoom"><select>
+          
+          <option value="#">zoom</option>
+          <option value="#">25%</option>
+          <option value="#">50%</option>
+          <option>75%</option>
+          <option>100%</option>
+        </select>
+        
+      </p>
+      <p class="tooltools"><a href="#" title="pdf" class="pdf">pdf</a>    <a href="#" title="print" class="print">print</a></p>
+      <p class="sigla">SIGLA</p>
+      <p class="next">   <a href="#" title="next">next</a></p>
+    </div>
+    <div id="image_big">
+      <%= widget(:simple_mode_image, :source => @page)%>
+      <p>copyright</p>
+    </div>   
+    
+  </div>
+  <!--[if !IE]>visore<![endif]-->  
+</div>

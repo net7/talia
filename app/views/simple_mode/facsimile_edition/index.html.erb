@@ -6,14 +6,14 @@
 <!-- menulocation -->
 
 <div id="description">
-  <p> data from DB  </p>
+  <p><%= @editor_text %></p>
 </div>
 <!--[if !IE]>description<![endif]-->
 <div id="content">
   <ul id="access_list">
     <li id="works">
       <h1>
-        <a href="#" title="works section">
+        <a href="material_list?mc=<%= params['mc']%>&type=works" title="works section">
           <img src="/images/facsimile_edition/ico_works.jpg" alt="link to works section" width="78" height="70" border="0"/> 
           <%= "Works".t %>
         </a>
@@ -24,7 +24,7 @@
     <li id="manusctripts">
       <h1>
         
-        <a href="material_list" title="manuscripts section">
+        <a href="material_list?mc=<%= params['mc']%>&type=manuscripts" title="manuscripts section">
           <img src="/images/facsimile_edition/ico_manuscripts.jpg" alt="link to manuscripts  section" border="0"/> 
           <%= "Manuscripts".t %>
         </a>
@@ -34,7 +34,7 @@
     
     <li id="library">
       <h1>
-        <a href="#" title="library and readings">
+        <a href="material_list?mc=<%= params['mc']%>&type=libraries" title="library and readings">
           <img src="/images/facsimile_edition/ico_library.jpg" alt="link to Library and readings" border="0"/> 
           <%= "Library and readings".t %>
         </a>
@@ -43,7 +43,7 @@
     </li>
     <li id="correspondence">
       <h1>
-        <a href="#" title="correspondence">
+        <a href="material_list?mc=<%= params['mc']%>&type=letters" title="correspondence">
         <img src="/images/facsimile_edition/ico_correspondence.jpg" alt="link to correspondence" border="0"/>
         <%= "Letters".t %>
         </a>
@@ -53,7 +53,7 @@
     </li>
     <li id="picture">
       <h1>
-        <a href="#" title="picture material">
+        <a href="material_list?mc=<%= params['mc']%>&type=pictures" title="picture material">
           <img src="/images/facsimile_edition/ico_picture.jpg" alt="link to picture material" border="0"/>
           <%= "Pictures".t %>
           </a>

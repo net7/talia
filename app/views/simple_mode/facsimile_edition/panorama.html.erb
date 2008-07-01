@@ -1,6 +1,6 @@
 <!-- navigate -->
 <div id="menulocation">
- <%= widget(:simple_mode_tabs, :tabs_elements => @tabs_elements) %>
+  <%= widget(:simple_mode_tabs, :tabs_elements => @tabs_elements) %>
 </div>
 <!-- menulocation -->
 
@@ -10,23 +10,7 @@
 <!--[if !IE]>description<![endif]-->
 <div id="content">
   <div id="block_container">
-    
-    <div class="block">
-      <p class="lonely">
-        <img src="img/book_thumb_1.jpg" alt="pagina1" /> SIGLA
-      </p>
-      
-    </div>
-    <div class="block">
-      <p>
-        <a href="page_view">
-          <img src="img/book_thumb_1.jpg" alt="pagina1" /> 
-          SIGLA
-        </a>
-      </p>
-      <p><img src="img/book_thumb_1.jpg" alt="pagina1" /> SIGLA</p>
-    </div>
-    
+    <%= widget(:simple_mode_panorama, :elements => @elements, :panorama_type => 'horizontal', :mc => @mc, :mc_type => @type, :material => @material) %>
   </div>
   <!-- block_container -->
   
