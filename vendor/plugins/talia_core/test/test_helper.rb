@@ -52,9 +52,9 @@ module TaliaCore
   
   TestHelper.startup
   Test::Unit::TestCase.fixture_path=File.join(File.dirname(__FILE__), 'fixtures')
-  Test::Unit::TestCase.set_fixture_class :active_sources => TaliaCore::ActiveSource,
-    :semantic_properties => TaliaCore::SemanticProperty,
-    :semantic_relations => TaliaCore::SemanticRelation
+ # Test::Unit::TestCase.set_fixture_class :active_sources => TaliaCore::ActiveSource,
+ #   :semantic_properties => TaliaCore::SemanticProperty,
+ #   :semantic_relations => TaliaCore::SemanticRelation
   
   # Add some stuff to the basic test case
   class Test::Unit::TestCase
