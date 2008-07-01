@@ -5,7 +5,7 @@ require 'active_support/testing'
 require 'active_support/test_case'
 require 'active_record/fixtures'
 
-@@flush_tables = [ 'source_records', 'type_records', 'data_records', 'dirty_relation_records', 'active_sources']
+@@flush_tables = [ 'source_records', 'type_records', 'data_records', 'dirty_relation_records'] # , 'active_sources']
 
 module TaliaCore
   class Source
