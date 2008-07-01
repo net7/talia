@@ -1,5 +1,3 @@
-require 'active_record'
-require 'action_controller/mime_type'
 require 'talia_core/data_types/data_types_loader'
 require 'initializer'
 require 'ftools'

@@ -1,8 +1,6 @@
-require 'test/unit'
 # Load the helper class
 require File.join(File.dirname(__FILE__), '..', '..', 'test_helper')
 
-require 'action_controller/request'
 class UploadedFile < File
   include ActionController::UploadedFile
   attr_accessor_with_default(:content_type) { 'text/plain' }
