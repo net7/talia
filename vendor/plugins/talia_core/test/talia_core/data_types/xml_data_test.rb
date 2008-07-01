@@ -7,9 +7,8 @@ module TaliaCore
 
   # Test te DataRecord storage class
   class XmlDataTest < Test::Unit::TestCase
-  
-    # Establish the database connection for the test
-    TestHelper.startup
+    
+    fixtures :source_records, :data_records
      
     def setup
       # Sets the file that is used by one test
@@ -17,9 +16,8 @@ module TaliaCore
       setup_once(:flush) do
         # If the temp file already exists, it must be deleted
         File.delete(@tmp_file) if(File.exist?(@tmp_file))
-        TestHelper.flush_db
+        true
       end
-      TestHelper.fixtures
       @test_records = DataRecord.find_data_records(1)
     end
     

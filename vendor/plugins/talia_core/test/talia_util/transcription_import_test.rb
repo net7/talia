@@ -14,9 +14,6 @@ module TaliaUtil
   
     include UtilTestMethods
     
-    # Establish the database connection for the test
-    TaliaCore::TestHelper.startup 
-    
     # Flush RDF before each test
     def setup
       setup_once(:src) do

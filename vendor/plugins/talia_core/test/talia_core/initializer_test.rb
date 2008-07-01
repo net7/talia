@@ -7,9 +7,7 @@ module TaliaCore
   
   # Just test if the initializer has works correctly
   class InitTest < Test::Unit::TestCase
-    
-    TestHelper.startup
-    
+
     # Test it
     def test_initialized
       assert(TaliaCore::Initializer.initialized)

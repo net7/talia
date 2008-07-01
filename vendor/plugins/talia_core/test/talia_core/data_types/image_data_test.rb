@@ -8,11 +8,9 @@ module TaliaCore
   # Test te DataRecord storage class
   class ImageDataTest < Test::Unit::TestCase
   
-    # Establish the database connection for the test
-    TestHelper.startup
+    fixtures :source_records, :data_records
      
     def setup
-      TestHelper.fixtures
       @test_records = DataRecord.find_data_records(1)
     end
     

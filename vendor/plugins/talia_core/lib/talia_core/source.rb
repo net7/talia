@@ -291,10 +291,10 @@ module TaliaCore
     # NOTE: It internally use a MySQL function, as sql condition, to find the local name of the uri.
     def self.find_by_uri_token(token, options = {})
       SourceRecord.find(:all, { 
-        :conditions => [ "LOWER(SUBSTRING_INDEX(uri, '/', -1)) LIKE ?", '%' + token.downcase + '%' ], 
-        :select => :uri,
-        :order => "uri ASC",
-        :limit => 10 }.merge!(options))
+          :conditions => [ "LOWER(SUBSTRING_INDEX(uri, '/', -1)) LIKE ?", '%' + token.downcase + '%' ], 
+          :select => :uri,
+          :order => "uri ASC",
+          :limit => 10 }.merge!(options))
     end
     
     # Checks if the current record already exists in the database

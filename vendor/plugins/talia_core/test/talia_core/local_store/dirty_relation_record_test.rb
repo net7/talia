@@ -8,11 +8,9 @@ module TaliaCore
   # Test the SourceRecord storage class
   class DirtyRelationRecordTest < Test::Unit::TestCase
  
-    # Establish the database connection for the test
-    TestHelper.startup
+    fixtures :source_records, :dirty_relation_records
     
     def setup
-      TestHelper.fixtures
       @test_record = DirtyRelationRecord.new("http://dummyuri.com/")
     end
     

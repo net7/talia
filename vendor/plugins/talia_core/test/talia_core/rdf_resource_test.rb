@@ -7,10 +7,7 @@ module TaliaCore
   
   # Test the RdfResource class
   class RdfResourceTest < Test::Unit::TestCase
- 
-    # Establish the database connection for the test
-    TestHelper.startup
-    
+
     def setup
       setup_once(:flush) do
         TestHelper.flush_rdf

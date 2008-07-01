@@ -8,9 +8,6 @@ module TaliaCore
   # Test the SourceRecord storage class
   class TypeListTest < Test::Unit::TestCase
  
-    # Establish the database connection for the test
-    TestHelper.startup
-    
     def setup
       TestHelper.flush_db
       @record = SourceRecord.new("http://dummyuri.com/")

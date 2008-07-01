@@ -1,16 +1,11 @@
 $: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
 require 'test/unit'
 require "talia_core"
+require 'active_support/testing'
+require 'active_support/test_case'
 require 'active_record/fixtures'
 
-@@fixtures = [ 'source_records', 'type_records', 'data_records', 'dirty_relation_records']
-
-# Check for the tesly adapter, and load it if it's there
-if(File.exists?(File.dirname(__FILE__) + '/tesly_reporter.rb'))
-  printf("Continuing with tesly \n")
-  require File.dirname(__FILE__) + '/tesly_reporter'
-end
-
+@@flush_tables = [ 'source_records', 'type_records', 'data_records', 'dirty_relation_records', 'active_sources']
 
 module TaliaCore
   class Source
@@ -33,17 +28,8 @@ module TaliaCore
     
     # Flush the database
     def self.flush_db
-      @@fixtures.reverse.each { |f| ActiveRecord::Base.connection.execute "DELETE FROM #{f}" }
+      @@flush_tables.reverse.each { |f| ActiveRecord::Base.connection.execute "DELETE FROM #{f}" }
       Fixtures.reset_cache if(@@new_ar) # We must reset the cache because the fixtures were deleted
-    end
-    
-    # Setup the fixtures
-    def self.fixtures
-      flush_db unless(@@new_ar) # When fixtures are cached, there will be no default remove (which fails due to relational constraints)
-      fixture_files = @@fixtures.collect { |f| File.join(File.dirname(__FILE__), "#{f}.yml") }
-      fixture_files.each do |fixture_file|
-        Fixtures.create_fixtures(File.dirname(__FILE__) + '/fixtures', File.basename(fixture_file, '.*'))  
-      end  
     end
     
     # Flush the RDF store
@@ -63,6 +49,12 @@ module TaliaCore
     end
     
   end
+  
+  TestHelper.startup
+  Test::Unit::TestCase.fixture_path=File.join(File.dirname(__FILE__), 'fixtures')
+  Test::Unit::TestCase.set_fixture_class :active_sources => TaliaCore::ActiveSource,
+    :semantic_properties => TaliaCore::SemanticProperty,
+    :semantic_relations => TaliaCore::SemanticRelation
   
   # Add some stuff to the basic test case
   class Test::Unit::TestCase

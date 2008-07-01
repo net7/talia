@@ -7,10 +7,7 @@ module TaliaCore
   
   # Test the SourceType class
   class SourceTest < Test::Unit::TestCase
- 
-    # Establish the database connection for the test
-    TestHelper.startup
-    
+
     N::Namespace.shortcut(:meetest, "http://www.meetest.org/me/")
     N::URI.shortcut(:test_uri, "http://www.testuri.com/bar")
     N::Predicate.shortcut(:test_predicate, "http://www.meetest.org/my_predicate")

@@ -8,11 +8,9 @@ module TaliaCore
   # Test the SourceRecord storage class
   class SourceRecordTest < Test::Unit::TestCase
  
-    # Establish the database connection for the test
-    TestHelper.startup
+    fixtures :source_records, :type_records, :data_records
     
     def setup
-      TestHelper.fixtures
       @test_record = SourceRecord.new("http://dummyuri.com/")
       
       setup_once(:local_source) do

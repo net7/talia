@@ -261,7 +261,8 @@ module TaliaCore
       if(@config["standalone_db"])
         talia_logger.info("TaliaCore using standalone database")
     
-        ActiveRecord::Base.establish_connection(db_connection_opts)
+        ActiveRecord::Base.configurations['talia'] = db_connection_opts
+        ActiveRecord::Base.establish_connection(:talia)
         ActiveRecord::Base.logger = Logger.new(db_logfile)
       else
         talia_logger.info("TaliaCore using exisiting database connection.")
