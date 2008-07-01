@@ -2,9 +2,8 @@ require 'active_record'
 require 'talia_core/local_store/has_uri_field'
 require 'talia_core/local_store/dirty_relation_record'
 require 'talia_core/local_store/type_record'
-require 'local_store/macrocontribution_record'
 require 'macrocontribution'
-require 'local_store/macrocontribution_entry_record'
+
 
 module TaliaCore
   

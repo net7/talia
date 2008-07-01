@@ -2,8 +2,6 @@
 require 'local_store/source_record'
 require 'local_store/data_record'
 require 'local_store/macrocontribution_record'
-require 'macrocontribution_entry'
-require 'local_store/macrocontribution_entry_record'
 require 'local_store/workflow/workflow_record'
 require 'pagination/source_pagination'
 require 'query/source_query'
