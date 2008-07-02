@@ -25,16 +25,6 @@ module TaliaCore
     def all_bytes
     end
     
-    def write_file_after_save2
-      unless @file_data_to_write.nil?
-        begin
-          puts "a"
-        rescue
-          raise "Error"
-        end
-      end
-    end
-    
     # Returns all_bytes as an binary string
     def content_string
       all_bytes.pack('C*') if(all_bytes)
