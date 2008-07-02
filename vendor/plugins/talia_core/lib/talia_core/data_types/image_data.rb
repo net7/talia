@@ -9,7 +9,7 @@ module TaliaCore
     # include the module to work with files
     # TODO: paramterize this. If we'll have to work with file inculde the following
     #       otherwise, include the database mixin
-    include FileStore
+    #include FileStore
 
     # return the mime_type for this specified class
     def mime_type

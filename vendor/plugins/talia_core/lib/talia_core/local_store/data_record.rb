@@ -1,15 +1,18 @@
 require 'talia_core/data_types/data_types_loader'
+require 'talia_core/data_types/file_store'
 require 'initializer'
 require 'ftools'
+
 
 module TaliaCore
   
   # ActiveRecord interface to the data record in the database
   class DataRecord < ActiveRecord::Base
+    include FileStore
     belongs_to :source_record
     
     before_save :save_attachment
-    after_save :write_file_after_save
+    after_create :write_file_after_save
    
     before_destroy :destroy_attachment
 
@@ -20,6 +23,16 @@ module TaliaCore
 
     # returns all bytes in the object as an array of unsigned integers
     def all_bytes
+    end
+    
+    def write_file_after_save2
+      unless @file_data_to_write.nil?
+        begin
+          puts "a"
+        rescue
+          raise "Error"
+        end
+      end
     end
     
     # Returns all_bytes as an binary string
@@ -179,11 +192,11 @@ module TaliaCore
       # because now associations are hardcoded.
       def mime_type(content_type)
         case Mime::Type.lookup(content_type).to_sym
-          when :text:             'SimpleText'
-          when :jpg, :jpeg, :gif,
+        when :text:             'SimpleText'
+        when :jpg, :jpeg, :gif,
             :png, :tiff, :bmp:    'ImageData'
-          when :xml:              'XmlData'
-          else name.demodulize
+        when :xml:              'XmlData'
+        else name.demodulize
         end
       end
       
