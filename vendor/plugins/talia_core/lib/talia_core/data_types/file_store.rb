@@ -13,7 +13,7 @@ module FileStore
   def create_from_file
   end
   
-   # Add data as string into file
+  # Add data as string into file
   def create_from_data(file_location, data, options = {})
     # close file if opened
     close_file
@@ -21,27 +21,45 @@ module FileStore
     # Set the location for the record
     self.location = file_location
     
-    raise(RuntimeError, "File already exists: #{get_file_path}") if(File.exists?(get_file_path))
-    
-    # open file for writing
-    @file_handle = File.open(get_file_path, 'w')
-    
-    # write data string into file
     if(data.respond_to?(:read))
-      @file_handle << data.read
+      @file_data_to_write = data.read
     else
-      @file_handle << data
+      @file_data_to_write = data
     end
     
-    # close file
-    close_file
+  end
+  
+  def write_file_after_save
+    # check if there are data to write
+    unless @file_data_to_write.nil?
+      # check if file already exists
+      raise(RuntimeError, "File already exists: #{get_file_path}") if(File.exists?(get_file_path))
+          
+      begin
+        # create data directory path
+        FileUtils.mkdir_p(data_directory)
     
+        # open file for writing
+        @file_handle = File.open(get_file_path, 'w')
+      
+        # write data string into file
+        @file_handle << @file_data_to_write
+    
+        # close file
+        close_file
+    
+        @file_data_to_write = nil
+      rescue Exception => e
+        assit_fail("Exception on writing file #{self.location}: #{e}")
+      end
+    end
+
   end
     
   # Return the data directory for a specific data file
   def data_directory
     class_name = self.class.name.gsub(/(TaliaCore::)/, '')
-    File.join(TaliaCore::CONFIG["data_directory_location"], class_name)
+    File.join(TaliaCore::CONFIG["data_directory_location"], class_name, ("00" + self.id.to_s)[-3..-1], self.id.to_s)
   end
 
   # Return true if the specified data file is open, false otherwise
@@ -91,21 +109,21 @@ module FileStore
 
   # Read all bytes from a file  
   def read_all_bytes
-      # 1. Open file with option "r" (reading) and "b" (binary, useful for window system)
-      open_file
+    # 1. Open file with option "r" (reading) and "b" (binary, useful for window system)
+    open_file
       
-      # 2. Read all bytes
-      begin
-        bytes = @file_handle.read(self.size).unpack("C*")
-        return bytes
-      rescue
-        # re-raise system the excepiton
-        raise
-        return nil
-      ensure
-        # 3. Close the file
-        close_file
-      end
+    # 2. Read all bytes
+    begin
+      bytes = @file_handle.read(self.size).unpack("C*")
+      return bytes
+    rescue
+      # re-raise system the excepiton
+      raise
+      return nil
+    ensure
+      # 3. Close the file
+      close_file
+    end
   end
 
   # return the next_byte

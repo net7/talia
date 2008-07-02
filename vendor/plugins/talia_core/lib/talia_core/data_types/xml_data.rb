@@ -1,4 +1,5 @@
 require 'talia_core/local_store/data_record'
+require 'talia_core/data_types/file_store'
 require 'rexml/document'
 # require 'xml/xslt'
 

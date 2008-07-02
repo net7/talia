@@ -71,6 +71,10 @@ module TaliaUtil
         puts "#{directory} ...deleted"
       elsif(FileTest.directory?(directory))
         Dir.entries(directory).each { |entry| clean_data(File.join(directory, entry)) }
+        # delete all empty directory
+        if (Dir.entries(directory)-['.','..']).empty?
+          FileUtils.rmdir directory
+        end
       end
     end
     

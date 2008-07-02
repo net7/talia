@@ -57,7 +57,7 @@ module TaliaCore
     # test data directory
     def test_data_directory
       dir_for_test = File.expand_path(@test_records[0].data_directory)
-      assert_equal(data_path_test, dir_for_test)
+      assert_equal(data_path_test(@test_records[0].id), dir_for_test)
       assert( File.exists?(dir_for_test) )
       assert_equal(File.join(data_path_test, 'temp1.txt'), File.join(dir_for_test, @test_records[0].location))
       assert( File.exists?(File.join(dir_for_test, @test_records[0].location)), "#{File.join(dir_for_test, @test_records[0].location)} does not exist" )
@@ -144,12 +144,12 @@ module TaliaCore
     end
 
     private
-    def data_path_test
-      @data_path_test ||= File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'data_for_test', 'SimpleText'))
+    def data_path_test(id=nil)
+      @data_path_test ||= File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'data_for_test', 'SimpleText', ("00" + id.to_s)[-3..-1], id.to_s))
     end
 
     def file
-      UploadedFile.new(File.join(data_path_test, DataRecord.find(:first).location))
+      UploadedFile.new(File.join(data_path_test(DataRecord.find(:first).id), DataRecord.find(:first).location))
     end
 
     def source_record_id

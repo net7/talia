@@ -9,6 +9,8 @@ module TaliaCore
     belongs_to :source_record
     
     before_save :save_attachment
+    after_save :write_file_after_save
+   
     before_destroy :destroy_attachment
 
     # Declaration of main abstract methods ======================

@@ -1,4 +1,5 @@
 require 'test/unit'
+require 'talia_core/data_types/xml_data'
 
 # Load the helper class
 require File.join(File.dirname(__FILE__), '..', '..', 'test_helper')
@@ -48,11 +49,10 @@ module TaliaCore
     
     # test data directory
     def test_data_directory
-      base_dir_name = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'data_for_test', 'XmlData'))
       dir_for_test  = File.expand_path(@test_records[2].data_directory)
-      assert_equal(base_dir_name, dir_for_test)
+      assert_equal(base_dir_name(@test_records[2].id), dir_for_test)
       assert(File.exists?(dir_for_test))
-      assert_equal(File.join(base_dir_name, 'temp1.xml'), File.join(dir_for_test, @test_records[2].location))
+      assert_equal(File.join(base_dir_name(@test_records[2].id), 'temp1.xml'), File.join(dir_for_test, @test_records[2].location))
       assert( File.exists?(File.join(dir_for_test, @test_records[2].location)), "#{File.join(dir_for_test, @test_records[2].location)} does not exist" )
     end
 
@@ -100,17 +100,21 @@ module TaliaCore
       assert_not_equal nil, hnml_content.nil?
       
       # test Tidy parsing
-      @test_records[5].create_from_data(File.basename(@tmp_file), @test_records[5].all_text, {:tidy => true})
-      # read content of file
-      file_tidy = File.open(@tmp_file,'r')
-      string_tidy = file_tidy.read(File.size(@tmp_file))
-      file_tidy.close
-      # delete tidy file
-      File.delete(@tmp_file)
+      new_record = TaliaCore::XmlData.new
+      new_record.source_record_id = TaliaCore::Source.find(:first).id
+      new_record.create_from_data('test_file.xhtml', @test_records[5].all_text, {:tidy => true})
+      new_record.save!
+      # read data from file
+      string_tidy = new_record.all_text
       # if tidy is enabled, check tidy output
       if !ENV['TIDYLIB'].nil?
         assert_equal string_tidy, @test_records[6].all_text
       end
+    end
+    
+    private
+    def base_dir_name(id=nil)
+      @data_path_test ||= File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'data_for_test', 'XmlData', ("00" + id.to_s)[-3..-1], id.to_s))
     end
   end
    
