@@ -28,14 +28,22 @@ module ApplicationHelper
   
   # Returns the title for the whole page. This returns the value
   # set in the controller, or a default value
+  
+# 
+#  the old version, left here for reference, should be deleted
+#  #TODO: delete it! 
+#  def page_title
+#    if(@page_title)
+#      @page_title
+#    elsif(@source)
+#      short_name(@source)
+#    else
+#      "Talia | The Digital Library"
+#    end 
+#  end
+  
   def page_title
-    if(@page_title)
-      @page_title
-    elsif(@source)
-      short_name(@source)
-    else
-      "Talia | The Digital Library"
-    end 
+    @page_title || TaliaCore::SITE_NAME
   end
   
   # Returns the subtitle for the page. See page_title
@@ -97,9 +105,7 @@ module ApplicationHelper
       ] )
   end
   
-  def page_title
-    @page_title || TaliaCore::SITE_NAME
-  end
+ 
   
   def titled_link (url, text)
     text = text.t

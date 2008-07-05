@@ -5,7 +5,7 @@
 <!-- menulocation -->
 
 <div id="description">
-  <p> data from DB </p>
+  <p></p>
 </div>
 <!--[if !IE]>description<![endif]-->
 <div id="content">
@@ -14,7 +14,7 @@
     <% @elements.each do |element| %>
       <li>
         <h1>
-        <a href="panorama?mc=<%= params['mc'] %>&material=<%= element[:siglum]%>&type=<%= @type %>" title="<%= element[:siglum] %>">
+        <a href="fe_panorama?mc_uri=<%= params[:mc_uri] %>&material=<%= element[:siglum]%>&type=<%= @type %>" title="<%= element[:siglum] %>">
           <img arc="<%= element[:file_path] %>" alt="<%= element[:siglum] %>" border="0"/>
           <%= element[:siglum] %>
         </a>

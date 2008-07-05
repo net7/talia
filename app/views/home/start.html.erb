@@ -46,12 +46,17 @@
                 <h2><%= "Simple Mode".t %> </h2>
                 <p><%= "Simple Mode Home Description".t %></p>
                 <ul>
-                  <li id="diorio">
-                    <a href="http://www.google.it" title="Critical Edition Colli / Montinari">Critical Edition Colli / Montinari</a>
-                  </li>
-                  <li id="collimontinari">
-                    <%= link_to('Facsimile Edition D\'Iorio', :controller => 'simple_mode', :action => 'type_list', :mc => 'DEF') %>
-                  </li>
+                  <% @critical_editions.each do |ce| %>
+                    <li id="diorio">
+                      <%= link_to(ce.hyper::title, :controller => 'simple_mode', :action => 'ce_type_list', :mc_uri => ce.uri.local_name) %>
+                    </li>
+                  <% end %>
+                  
+                  <% @facsimile_editions.each do |fe| %>
+                    <li id="collimontinari">
+                      <%= link_to(fe.hyper::title, :controller => 'simple_mode', :action => 'fe_type_list', :mc_uri => fe.uri.local_name) %>
+                    </li>
+                  <% end %>
                 </ul>
               </div>
               

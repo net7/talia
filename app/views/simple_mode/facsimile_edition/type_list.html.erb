@@ -1,0 +1,26 @@
+
+<!-- navigate -->
+<div id="menulocation">
+  <%= widget(:simple_mode_tabs, :tabs_elements => @tabs_elements) %>
+</div>
+<!-- menulocation -->
+
+<div id="description">
+  <p><%= @editors_notes %></p>
+</div>
+<!--[if !IE]>description<![endif]-->
+<div id="content">
+  <ul id="access_list">    
+    <% @types.each do |type| %>
+      <li id="<%= type%>">
+        <h1>
+          <a href="fe_material_list?mc_uri=<%= params[:mc_uri]%>&type=<%= type %>" title="<%= type %> section">
+            <img src="/images/facsimile_edition/ico_<%= type %>.jpg" alt="link to <%= type %> section" width="78" height="70" border="0"/> 
+            <%= type.capitalize.t %>
+          </a>
+        </h1>
+        <p><%= "Facsimile Edition #{type.capitalize} Description".t %></p>
+      </li>
+    <% end %>        
+  </ul>  
+</div>
