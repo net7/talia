@@ -1,0 +1,203 @@
+# Load the helper class
+require File.join(File.dirname(__FILE__), '..', 'test_helper')
+
+module TaliaCore
+  
+  # Test the ActiveSource
+  class ActiveSourceTest < Test::Unit::TestCase
+    fixtures :active_sources, :semantic_properties, :semantic_relations
+    
+    N::Namespace.shortcut(:as_test_preds, 'http://testvalue.org/')
+    
+    def setup
+      setup_once(:flush) do
+        TestHelper.flush_rdf
+        true
+      end
+    end
+    
+    def test_exists
+      assert_not_nil(ActiveSource.find(:first))
+    end
+    
+    def test_objects
+      assert_equal(1, active_sources(:testy).objects.size)
+      assert_equal(4, active_sources(:multirel).objects.size)
+    end
+    
+    def test_content
+      assert_kind_of(TaliaCore::SemanticProperty, active_sources(:testy).objects[0])
+    end
+    
+    def test_objects_finder
+      assert_equal(1, active_sources(:testy).objects.find(:all).size)
+    end
+    
+    def test_accessor
+      assert_equal(3, active_sources(:multirel)['http://testvalue.org/multirel'].size)
+      assert_equal(1, active_sources(:multirel)['http://testvalue.org/multi_b'].size)
+    end
+    
+    def test_delete
+      del = active_sources(:deltest)
+      assert_equal(2, del['http://testvalue.org/delete_test'].size)
+      del["http://testvalue.org/delete_test"].remove("Delete Me!")
+      del.save!
+      assert_equal(1, active_sources(:deltest)["http://testvalue.org/delete_test"].size)
+    end
+    
+    def test_delete_relation
+      del = active_sources(:deltest_rel)
+      assert_equal(2, del['http://testvalue.org/delete_test'].size)
+      del['http://testvalue.org/delete_test'].remove(active_sources(:deltest_rel_target1))
+      del.save
+      assert_equal(1, active_sources(:deltest_rel)["http://testvalue.org/delete_test"].size)
+    end
+    
+    def test_accessor_tripledup
+      assert_equal(2, active_sources(:duplicator)['http://testvalue.org/dup_rel'].size)
+    end
+    
+    def test_accessor_tripledup_delete
+      dupey = active_sources(:dup_for_delete)
+      assert_equal(2, dupey['http://testvalue.org/dup_rel'].size)
+      dupey['http://testvalue.org/dup_rel'].remove('The test value')
+      dupey.save!
+      assert_equal(1, active_sources(:dup_for_delete)['http://testvalue.org/dup_rel'].size)
+      dupey['http://testvalue.org/dup_rel'].remove('The test value')
+      dupey.save!
+      assert_equal(0, active_sources(:dup_for_delete)['http://testvalue.org/dup_rel'].size)
+    end
+    
+    def test_uri
+      assert_equal("http://testy.com/testme/hard", active_sources(:testy).uri)
+    end
+    
+    def test_create
+      src = ActiveSource.new
+      src.uri = "http://www.testy.org/create_test"
+      src.save!
+      assert_equal(1, ActiveSource.find(:all, :conditions => { :uri =>  "http://www.testy.org/create_test" } ).size)
+    end
+    
+    def test_associate
+      test_src = active_sources(:assoc_test)
+      test_src["http://foo/assoc_test"] << active_sources(:assoc_test_target)
+      test_src["http://bar/assoc_test_prop"] << semantic_properties(:testvalue)
+      test_src.save!
+      assert_equal(1, active_sources(:assoc_test)["http://foo/assoc_test"].size)
+      assert_equal(1, active_sources(:assoc_test)["http://bar/assoc_test_prop"].size)
+      assert_equal('TaliaCore::ActiveSource', SemanticRelation.find(:first, 
+          :conditions => { 
+            :subject_id => test_src.id, 
+            :predicate_uri => 'http://foo/assoc_test',
+            :object_id => active_sources(:assoc_test_target)
+          }).object_type)
+    end
+    
+    def test_create_validate
+      src = ActiveSource.new
+      assert_raise(ActiveRecord::RecordInvalid) { src.save! }
+    end
+    
+    def test_create_validate_format
+      src = ActiveSource.new
+      src.uri = "invalid"
+      assert_raise(ActiveRecord::RecordInvalid) { src.save! }
+    end
+    
+    def test_create_validate_unique
+      src = ActiveSource.new
+      src.uri = active_sources(:testy).uri
+      assert_raise(ActiveRecord::RecordInvalid) { src.save! }
+    end
+    
+    def test_inverse
+      assert_equal(2, active_sources(:assoc_inverse_start).inverse['http://testvalue.org/inverse_test'].size)
+      second_rel = active_sources(:assoc_inverse_start).inverse['http://testvalue.org/inverse_test_rel2']
+      assert_equal(1, second_rel.size)
+      assert_kind_of(TaliaCore::ActiveSource, second_rel[0])
+      assert_equal('http://testy.com/testme/inverse_end_c', second_rel[0].uri)
+    end
+    
+    def test_predicate_access
+      assert_equal('The test value', active_sources(:testy).predicate(:as_test_preds, :the_rel1)[0])
+    end
+    
+    def test_predicate_assign_string
+      src = active_sources(:assoc_predicate_test)
+      src.predicate_set(:as_test_preds, :test, "Foo")
+      src.save!
+      src_chng = TaliaCore::ActiveSource.find(src.id)
+      assert_equal('Foo', src_chng[N::AS_TEST_PREDS.test][0])
+    end
+    
+    def test_predicate_assign_rel
+      src = active_sources(:assoc_predicate_test)
+      src.predicate_set(:as_test_preds, :test_rel, src)
+      src.save!
+      assert_equal(src.uri, active_sources(:assoc_predicate_test)[N::AS_TEST_PREDS.test_rel][0].uri)
+    end
+    
+    def test_direct_predicates
+      preds = active_sources(:predicate_search_a).direct_predicates
+      assert_equal(4, preds.size)
+      assert(preds.include?('http://testvalue.org/pred_b'), "#{preds} does not include the expected value")
+    end
+    
+    def test_inverse_predicates
+      preds = active_sources(:predicate_search_b).inverse_predicates
+      assert_equal(4, preds.size)
+      assert(preds.include?('http://testvalue.org/pred_b'), "#{preds} does not include the expected value")
+      assert_equal(0, active_sources(:predicate_search_b).direct_predicates.size)
+    end
+    
+    def test_types
+      src = ActiveSource.new
+      src.uri = 'http://testy.com/testme/type_test'
+      src.save!
+      src.types << N::SourceClass.new(active_sources(:type_a).uri)
+      src.types << N::SourceClass.new(active_sources(:type_b).uri)
+      src.save!
+      assert_equal(2, src.types.size)
+      assert_kind_of(N::SourceClass, src.types[0])
+      assert(src.types.include?(active_sources(:type_b).uri))
+    end
+    
+    def test_no_unsaved_properties
+      src = ActiveSource.new
+      assert_raise(ActiveRecord::RecordNotSaved) { src['foo://bar'] }
+    end
+    
+    def test_sti_simple # Single table inheritance
+      assert_kind_of(TaliaCore::OrderedSource, ActiveSource.find(:first, :conditions => { :uri => active_sources(:sti_source).uri }  ))
+      assert_kind_of(TaliaCore::OrderedSource, active_sources(:sti_source))
+    end
+    
+    def test_sti_relations
+      assert_equal(1, active_sources(:sti_source).objects.size)
+      assert_kind_of(TaliaCore::ActiveSource, active_sources(:sti_source).objects[0])
+      assert_equal(active_sources(:sti_source_b).uri, active_sources(:sti_source).objects[0].uri)
+    end
+    
+    def test_sti_relation_create
+      src = active_sources(:sti_source_reltest)
+      src['http://reltest_test'] << active_sources(:sti_source_reltest_b)
+      src['http://reltest_test_b'] << active_sources(:sti_source_reltest_c)
+      src.save!
+      assert_equal(1, src['http://reltest_test'].size)
+      assert_equal(1, src['http://reltest_test_b'].size)
+      assert_equal(TaliaCore::OrderedSource, src['http://reltest_test'][0].class)
+      assert_equal(TaliaCore::ActiveSource, src['http://reltest_test_b'][0].class)
+    end
+    
+    def test_sti_relation_inverse
+      assert_equal(1, active_sources(:sti_source_b).subjects.size)
+      assert_equal(TaliaCore::OrderedSource, active_sources(:sti_source_b).subjects[0].class)
+      assert_equal(TaliaCore::OrderedSource, active_sources(:sti_source_b).inverse['http://testvalue.org/sti_test'][0].class)
+      assert_equal(active_sources(:sti_source).uri, active_sources(:sti_source_b).inverse['http://testvalue.org/sti_test'][0].uri)
+    end
+    
+  end
+  
+end

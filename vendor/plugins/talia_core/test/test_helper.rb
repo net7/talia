@@ -5,7 +5,7 @@ require 'active_support/testing'
 require 'active_support/test_case'
 require 'active_record/fixtures'
 
-@@flush_tables = [ 'source_records', 'type_records', 'data_records', 'dirty_relation_records'] # , 'active_sources']
+@@flush_tables = [ 'source_records', 'type_records', 'data_records', 'dirty_relation_records', 'active_sources']
 
 module TaliaCore
   class Source
@@ -52,9 +52,9 @@ module TaliaCore
   
   TestHelper.startup
   Test::Unit::TestCase.fixture_path=File.join(File.dirname(__FILE__), 'fixtures')
- # Test::Unit::TestCase.set_fixture_class :active_sources => TaliaCore::ActiveSource,
- #   :semantic_properties => TaliaCore::SemanticProperty,
- #   :semantic_relations => TaliaCore::SemanticRelation
+  Test::Unit::TestCase.set_fixture_class :active_sources => TaliaCore::ActiveSource,
+    :semantic_properties => TaliaCore::SemanticProperty,
+    :semantic_relations => TaliaCore::SemanticRelation
   
   # Add some stuff to the basic test case
   class Test::Unit::TestCase

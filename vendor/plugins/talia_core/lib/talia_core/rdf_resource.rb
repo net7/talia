@@ -127,7 +127,8 @@ module TaliaCore
     
     # Returns true if the corresponding Source already exists in the database
     def source_exists?
-      Source.exists?(@uri)
+      # FIXME: Just a helper as long as ActiveSource is not completely integrated!
+      Source.exists?(@uri) || ActiveSource.exists?(:uri => @uri.to_s)
     end
     
   end
