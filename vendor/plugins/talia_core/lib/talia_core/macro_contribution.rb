@@ -1,5 +1,10 @@
-module TaliaCore #:nodoc:
-  # A +MacroContribution+ is a generic collection of sources.
+module TaliaCore
+
+  # This represents a macrocontribution.
+  #
+  # Everything valid for a normal source is also valid here
+  #
+  # It offers some methods for dealing with Macrocontributions  
   class MacroContribution < Source
     SOURCE_PREDICATE = N::HYPER::hasAsPart
 
