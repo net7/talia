@@ -1,18 +1,5 @@
-
-# require 'objectproperties' # Includes the class methods for the object_properties
-require 'local_store/source_record'
-require 'local_store/data_record'
-require 'local_store/workflow/workflow_record'
-require 'pagination/source_pagination'
-require 'query/source_query'
-require 'active_rdf'
-require 'semantic_naming'
-require 'dummy_handler'
-require 'rdf_resource'
-require 'type_list'
-
 module TaliaCore 
-  class FacsimileEdition < Macrocontribution
+  class FacsimileEdition < MacroContribution
     def initialize(uri, *types)
       super(uri, *types)
       # TODO: 'Facsimile' should actually be a valid value in the ontology
