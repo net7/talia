@@ -16,7 +16,7 @@ TLoad::require_module("activesupport", "active_support", "/../../../rails/active
 TLoad::require_module("assit", "assit", "/../../assit") unless(defined?(assit))
 TLoad::require_module("semantic_naming", "semantic_naming", "/../../semantic_naming")
 TLoad::require_module("activerdf", "active_rdf", "/../../ActiveRDF")
-TLoad::require_module("has_many_polymorphs", "has_many_polymorphs", "/../../has_many_polymorphs")
+TLoad::require_module("has_many_polymorphs", "has_many_polymorphs", "/../../has_many_polymorphs", "2.12")
 TLoad::require_module("actionpack", "action_controller", "/../../../rails/actionpack", RAILS_GEM_VERSION)
   
 # Stuff we just load from the gems
