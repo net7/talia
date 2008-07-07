@@ -6,20 +6,24 @@ class SimpleModeController < ApplicationController
     #just a reference for the creation of a Facsimile Edition
     
     #creation
-    @mc = Macrocontribution.new('DEF')
-    #addition of the "title" data
-    @mc.predicate_set(:hyper, "title", "D'Iorio Facsimile Edition")
-    #addition of the editor's notes' (used in the fe_type_list page)
-    @mc.predicate_set(:hyper, 'editorsNotes', 'Description text of this Facsimile Edition, written by the author')
-    #set of the macrocontribution type. Other possible types will be 'Critical', 'Genetical', 'GodKnows'
-    @mc.predicate_set(:hyper, "macrocontributionType", 'Facsimile')
+    @mc = FacsimileEdition.new('TEST2')
     @mc.save!
+    #    @mc.predicate(:hyper,'macrocontributionType').remove('Critical')
+    
+    
+    #addition of the "title" data
+    @mc.title="TEST Facsimile Edition"
+    #addition of the editor's notes' (used in the fe_type_list page)
+    @mc.editors_notes="Description text of this Facsimile Edition, written by the author"
+
     
     #addition of some sources to the Macrocontribution
     @mc.add_source("egrepalysviola-1807")
     @mc.add_source("egrepalysviola-1805")
     @mc.add_source("egrepalysviola-1831")
     
+
+    render :template => "simple_mode/facsimile_edition/test"  
   end
   
   
@@ -27,9 +31,9 @@ class SimpleModeController < ApplicationController
   def fe_type_list
 
     @mc_uri = params[:mc_uri]    
-    @mc = Macrocontribution.new(@mc_uri)
-    @mc_title = @mc.hyper::title
-    @editors_notes = @mc.hyper::editorsNotes
+    @mc = FacsimileEdition.new(@mc_uri)
+    @mc_title = @mc.title
+    @editors_notes = @mc.editors_notes
     
     @path = [{:text => @mc_uri}]
     @displayButtons = false
@@ -49,10 +53,9 @@ class SimpleModeController < ApplicationController
   def fe_material_list
 
     @mc_uri = params[:mc_uri]    
-    @mc = Macrocontribution.new(@mc_uri)
-    @mc_title = @mc.hyper::title
+    @mc = FacsimileEdition.new(@mc_uri)
+    @mc_title = @mc.title
     @type = params[:type]
-    @subtype = params[:subtype] || 'notebooks' #todo retrieve default from available list
     
     @page_title = "#{TaliaCore::SITE_NAME} - #{@mc_title}, #{@type.capitalize}"
 
@@ -63,9 +66,11 @@ class SimpleModeController < ApplicationController
     
     @displayButtons = false
   
-    @subtypes = @mc.related_subtypes(@type)
-    
     @tabs_elements = []
+    
+    @subtypes = @mc.related_subtypes(@type)
+    @subtype = params[:subtype] || @subtypes[0] #TODO: retrieve default from available list
+    
     @subtypes.each do |subtype|
       @tabs_elements << {:link => "fe_material_list?mc_uri=#{@mc_uri}&type=#{@type}&subtype=#{subtype}", :text => subtype.t, :selected => (subtype == @subtype ? true : false)}
     end
@@ -86,8 +91,8 @@ class SimpleModeController < ApplicationController
   def fe_panorama
     
     @mc_uri = params[:mc_uri]    
-    @mc = Macrocontribution.new(@mc_uri)
-    @mc_title = @mc.hyper::title
+    @mc = FacsimileEdition.new(@mc_uri)
+    @mc_title = @mc.title
     @material  = params[:material]
     @type = params[:type]
      
@@ -124,8 +129,8 @@ class SimpleModeController < ApplicationController
   def fe_single_page_view
 
     @mc_uri = params[:mc_uri]    
-    @mc = Macrocontribution.new(@mc_uri)
-    @mc_title = @mc.hyper::title
+    @mc = FacsimileEdition.new(@mc_uri)
+    @mc_title = @mc.title
     @material  = params[:material]
     @type = params[:type]
     @page = params[:page]

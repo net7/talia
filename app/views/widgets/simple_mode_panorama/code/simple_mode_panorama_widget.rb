@@ -9,6 +9,9 @@ class SimpleModePanoramaWidget < Widgeon::Widget
     result
   end
   
+  # called in the panorama page of Macrocontribuitons, it generates a panel
+  # with all the thumbnails of the given set of pages (passed through the @elements var) 
+  
   def horizontal_panorama
     result = ''
     @elements.each do |element| 
@@ -20,7 +23,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         result << generate_horizontal_line(element)
         result << '</div>
       </div>
-      '
+        '
         
       else
         if (position == 'odd') 
@@ -37,6 +40,9 @@ class SimpleModePanoramaWidget < Widgeon::Widget
   end
   
   
+  # used in the page showing the large facsimile in the facsimile edition, it
+  # generates a panel with all the thumbnails of the pages passed through the 
+  # @elements var
   def vertical_panorama
     result = ''
     @elements.each do |element| 
@@ -65,17 +71,20 @@ class SimpleModePanoramaWidget < Widgeon::Widget
     
   private 
   def generate_horizontal_line (element)
-        "
+    "
           <p>
             <a href='fe_single_page_view?mc_uri=#{@mc_uri}&type=#{@mc_type}&material=#{@material}&page=#{element[:siglum]}'>
               <img src='#{element[:file_path]}'/>#{element[:siglum]}
             </a>
           </p>
-        "     
+    "     
   end
         
   def generate_vertical_line (element)
-        "<img src='#{element[:file_path]}' alt='#{element[:siglum]}' /> 
-          #{element[:siglum]}"
-      end
-    end
+    "
+       <a href='fe_single_page_view?mc_uri=#{@mc_uri}&type=#{@mc_type}&material=#{@material}&page=#{element[:siglum]}'>
+         <img src='#{element[:file_path]}' alt='#{element[:siglum]}' /> 
+          #{element[:siglum]}
+       </a>"
+  end
+end
