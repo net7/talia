@@ -1,22 +1,32 @@
-module TaliaCore
-  
-  # This represents a macrocontribution.
-  #
-  # Everything valid for a normal source is also valid here
-  #
-  # It offers some methods for dealing with Macrocontributions  
+module TaliaCore #:nodoc:
+  # A +MacroContribution+ is a generic collection of sources.
   class MacroContribution < Source
- 
-    def initialize(uri, *types)
+    SOURCE_PREDICATE = N::HYPER::hasAsPart
+
+    def initialize(uri, *types) #:nodoc:
       super(uri, *types)
       self.primary_source = false
     end
-    # Used to add a new source to this macrcontribution.
-    # The adding is done by just creating a new RDF triple.
-    def add_source(new_source_uri)
-      new_source = Source.new(new_source_uri)
-      new_source[N::HYPER::isPartOfMacrocontribution] << self
-      new_source.save!
+
+    def sources #:nodoc:
+      @sources ||= self[SOURCE_PREDICATE]
+    end
+
+    # Add a +Source+ to the collection
+    def add(source)
+      raise ArgumentError unless source
+      case source
+        when String
+          self.add Source.new(source)
+        else 
+          sources << source
+      end
+    end
+    alias_method :<<, :add
+
+    # Remove the given +Source+ from the collection.
+    def remove(source)
+      sources.remove source
     end
     
     def title=(title)
@@ -42,9 +52,5 @@ module TaliaCore
     def macrocontribution_type
       self.hyper::macrocontributionType
     end
-    
   end  
-    
-      
-end
-  
+end  
