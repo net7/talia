@@ -18,17 +18,24 @@ module TaliaCore
       
     end
     
+    # The class of objects that will be "produced" by this RdfResource
+    attr_writer :object_class
+    
+    def object_class
+      @object_class ||= TaliaCore::Source
+    end
+    
     # Initialize a new resource with the given URI
     def initialize(uri)
       @uri = N::URI.new(uri)
     end
     
     # Returns the value(s) of the given predicates as a PropertyList filled
-    # with TaliaCore::Source objects.
+    # with the defined object_class objects.
     def [](predicate)
       predicate = N::URI.new(predicate) unless(predicate.kind_of?(N::URI))
       
-      property_list = Query.new(TaliaCore::Source).distinct(:o).where(self, predicate, :o).execute
+      property_list = Query.new(object_class).distinct(:o).where(self, predicate, :o).execute
       
       PropertyList.new(predicate, property_list, self, source_exists?)
     end
@@ -42,7 +49,7 @@ module TaliaCore
     #
     # Example: <tt>resource.inverse[N::DNCS::title]</tt>
     #
-    # The [] method will return a list of TaliaCore::Source objects
+    # The [] method will return a list of objects that are instances of object_class
     def inverse
       inverseobj = Object.new
       inverseobj.instance_variable_set(:@obj_uri, self)
@@ -51,7 +58,7 @@ module TaliaCore
         
         def [](property)
           property = N::URI.new(property) unless(property.kind_of?(N::URI))
-          Query.new(TaliaCore::Source).distinct(:s).where(:s, property, @obj_uri).execute
+          Query.new(object_class).distinct(:s).where(:s, property, @obj_uri).execute
         end
         private(:type)
       end

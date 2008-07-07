@@ -22,6 +22,25 @@ module TaliaCore
     validates_format_of :uri, :with => /\A\S*:.*\Z/
     validates_uniqueness_of :uri
     
+    # This helps the "new" method to either return an existing element or
+    # instead create a new object with the given uri.
+    # 
+    # We know that this is a hack.
+    def self.new(*args)
+      the_source = nil
+      if(args.size == 1 && args[0].is_a?(String)) # One string argument should be the uri
+        # if we don't find the something, let's create a new source
+        unless(the_source = find(:first, :conditions => { :uri => args[0] } ))
+          the_source = super() # brackets avoid passing any parameters
+          the_source.uri = args[0]
+        end
+      else
+        # In this case, it's a generic "new" call
+        the_source = super
+      end
+      the_source
+    end
+    
     
     # This will work in the normal way for database attributes. If the value
     # is not an attribute, it tries to find objects related to this source

@@ -20,6 +20,22 @@ module TaliaCore
       assert_not_nil(ActiveSource.find(:first))
     end
     
+    def test_create_existing
+      src = ActiveSource.new(active_sources(:testy).uri)
+      assert_equal(src, active_sources(:testy))
+    end
+    
+    def test_create_new
+      src_uri = 'http://foobarxxx.com/imallnew'
+      src = ActiveSource.new(src_uri)
+      assert_equal(src_uri, src.uri)
+    end
+    
+    def test_create_vanilla
+      src = ActiveSource.new
+      assert_nil(src.uri)
+    end
+    
     def test_objects
       assert_equal(1, active_sources(:testy).objects.size)
       assert_equal(4, active_sources(:multirel).objects.size)
