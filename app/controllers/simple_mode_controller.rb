@@ -4,13 +4,11 @@ class SimpleModeController < ApplicationController
   
   def facsimile_edition_creation
     #just a reference for the creation of a Facsimile Edition
-    
+      
     #creation
-    @mc = FacsimileEdition.new('TEST2')
+    @mc = FacsimileEdition.new('TEST')
     @mc.save!
-    #    @mc.predicate(:hyper,'macrocontributionType').remove('Critical')
-    
-    
+        
     #addition of the "title" data
     @mc.title="TEST Facsimile Edition"
     #addition of the editor's notes' (used in the fe_type_list page)
@@ -35,10 +33,12 @@ class SimpleModeController < ApplicationController
     @mc_title = @mc.title
     @editors_notes = @mc.editors_notes
     
+    #to be used by the simple_mode_path_widget
     @path = [{:text => @mc_uri}]
     @displayButtons = false
         
     @page_title = "#{TaliaCore::SITE_NAME} - #{@mc_title}"
+    #to be used by the simple_mode_tabs_widget
     @tabs_elements = [
       {:text => "Editor's Introduction".t, :selected => true}
     ]
@@ -58,7 +58,7 @@ class SimpleModeController < ApplicationController
     @type = params[:type]
     
     @page_title = "#{TaliaCore::SITE_NAME} - #{@mc_title}, #{@type.capitalize}"
-
+    #to be used by the simple_mode_path_widget
     @path = [
       {:text => @mc_uri, :controller => 'simple_mode', :action => 'fe_type_list', :mc_uri => @mc_uri},
       {:text => @type.capitalize.t}
@@ -71,6 +71,7 @@ class SimpleModeController < ApplicationController
     @subtypes = @mc.related_subtypes(@type)
     @subtype = params[:subtype] || @subtypes[0] #TODO: retrieve default from available list
     
+    #to be used by the simple_mode_tabs_widget
     @subtypes.each do |subtype|
       @tabs_elements << {:link => "fe_material_list?mc_uri=#{@mc_uri}&type=#{@type}&subtype=#{subtype}", :text => subtype.t, :selected => (subtype == @subtype ? true : false)}
     end
@@ -97,14 +98,14 @@ class SimpleModeController < ApplicationController
     @type = params[:type]
      
     @page_title = "#{TaliaCore::SITE_NAME} - #{@mc_title}, #{@material}"
-    
+    #to be used by the simple_mode_path_widget
     @path = [
       {:text => @mc_uri, :controller => 'simple_mode', :action => 'fe_type_list', :mc_uri => @mc_uri},
       {:text => @type.capitalize.t, :controller => 'simple_mode', :action => 'fe_material_list', :mc_uri => @mc_uri, :type => @type},
       {:text => @material}
     ]
     @displayButtons = true
-    
+    #to be used by the simple_mode_tabs_widget
     @tabs_elements = [
       {:link =>"",:text => @material, :selected => true}
     ]
@@ -136,7 +137,7 @@ class SimpleModeController < ApplicationController
     @page = params[:page]
   
     @page_title = "#{TaliaCore::SITE_NAME} - #{@mc_title}, #{@page}"
-      
+    #to be used by the simple_mode_path_widget
     @path = [
       {:text => @mc_uri, :controller => 'simple_mode', :action => 'fe_type_list'},
       {:text => @type.capitalize.t, :controller => 'simple_mode', :action => 'fe_material_list', :mc_uri => @mc_uri, :type => @type},
@@ -155,6 +156,42 @@ class SimpleModeController < ApplicationController
       @elements << {:siglum => siglum, :file_path => file_path}     
     end
     render :template => "simple_mode/facsimile_edition/single_page_view", :layout => "facsimile_edition"
+   
+  end
+  
+  
+  # facsimile edition page showing two large images of two adjacent pages
+
+  def fe_double_page_view
+
+    @mc_uri = params[:mc_uri]    
+    @mc = FacsimileEdition.new(@mc_uri)
+    @mc_title = @mc.title
+    @material  = params[:material]
+    @type = params[:type]
+    @page1 = params[:page1]
+    @page2 = params[:page2]
+    
+    @page_title = "#{TaliaCore::SITE_NAME} - #{@mc_title}, #{@page1} | #{@page2}"
+    #to be used by the simple_mode_path_widget
+    @path = [
+      {:text => @mc_uri, :controller => 'simple_mode', :action => 'fe_type_list'},
+      {:text => @type.capitalize.t, :controller => 'simple_mode', :action => 'fe_material_list', :mc_uri => @mc_uri, :type => @type},
+      {:text => @material, :controller => 'simple_mode', :action => 'fe_panorama', :mc_uri => @mc_uri, :type => @type, :material => @material},
+      {:text => @page1 + " | " + @page2}
+    ]
+    
+    @displayButtons = true
+
+    @material_description = @mc.material_description(@material)
+    
+    @elements = []
+    @mc.related_pages(@material).each do |siglum|
+ 
+      file_path = @mc.small_image_url(siglum)      
+      @elements << {:siglum => siglum, :file_path => file_path}     
+    end
+    render :template => "simple_mode/facsimile_edition/double_page_view", :layout => "facsimile_edition"
    
   end
   

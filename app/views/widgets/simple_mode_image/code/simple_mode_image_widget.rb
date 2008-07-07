@@ -26,11 +26,9 @@ class SimpleModeImageWidget < Widgeon::Widget
 
     fax = Source.new(fax_uri)
     
-    fax.data('ImageData')
-    
-    file_path = fax.data
+    file_path = fax.data('ImageData')
 
-    result = "<img src='#{file_path}' alt='#{@page}' width='723' height='488'/>"  
+    @code = "<img src='#{file_path}' alt='#{page_uri}' width='723' height='488'/>"  
 
   end
   
@@ -39,6 +37,6 @@ class SimpleModeImageWidget < Widgeon::Widget
     when 'previous'
     when 'next'
     end
-    code ="<p class='#{movement}'><a href='#'></a></p>"
+    @code ="<p class='#{movement}'><a href='#'></a></p>"
   end
 end

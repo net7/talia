@@ -16,8 +16,8 @@
 <div id="content" class="divided">
   <div id="visore">
     <div id="toolbar">
-      <p class="previous">   <a href="#" title="before">previous</a></p>
-      <p class="sigla">SIGLA</p>
+      <p class="previous"><%= widget(:simple_mode_image, :page => @page1, :mode => 'previous') %></p>
+      <p class="sigla"><%= @page1 %></p>
       <p class="zoom"><select>
           
           <option value="#">zoom</option>
@@ -29,11 +29,13 @@
         
       </p>
       <p class="tooltools"><a href="#" title="pdf" class="pdf">pdf</a>    <a href="#" title="print" class="print">print</a></p>
-      <p class="sigla">SIGLA</p>
-      <p class="next">   <a href="#" title="next">next</a></p>
+      <p class="sigla"><%= @page2 %></p>
+          <p class="next"><%= widget(:simple_mode_image, :page => @page2, :mode => 'next') %></p>
     </div>
     <div id="image_big">
-      <%= widget(:simple_mode_image, :source => @page)%>
+      <%= widget(:simple_mode_image, :page => @page1, :mode => 'show')%>
+
+      <%= widget(:simple_mode_image, :page => @page2, :mode => 'show')%>
       <p>copyright</p>
     </div>   
     

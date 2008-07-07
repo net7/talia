@@ -29,7 +29,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         if (position == 'odd') 
           result << '<div class="block">' 
         end 
-        result << generate_horizontal_line(element)
+        result << generate_horizontal_line(element)      
         if position == 'even' || @elements.last == element 
           result << '</div>
           ' 
@@ -45,8 +45,9 @@ class SimpleModePanoramaWidget < Widgeon::Widget
   # @elements var
   def vertical_panorama
     result = ''
+    last_element = ''
     @elements.each do |element| 
-      position = cycle('even', 'odd') 
+      position = cycle('even', 'odd')
       if @elements.first == element 
         result << '<div class="view_block">
         <p class="lonely">'
@@ -61,10 +62,15 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         result << generate_vertical_line(element)
         result << '</p>'
         if position == 'even' || @elements.last == element
-          result << '</div>
+          result << '</div>'
+          if position == 'even' && @elements.first != element
+            result <<  "<a href='fe_double_page_view?mc_uri=#{@mc_uri}&type=#{@mc_type}&material=#{@material}&page1=#{last_element[:siglum]}&page2=#{element[:siglum]}'>#{'facing pages'.t}</a>"
+          end
+          result << ' 
           <!--view_block-->'
         end 
-      end 
+      end
+      last_element = element      
     end 
     result
   end
