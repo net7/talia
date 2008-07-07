@@ -7,8 +7,6 @@ module TaliaCore
   class ActiveSourceTest < Test::Unit::TestCase
     fixtures :active_sources, :semantic_properties, :semantic_relations
     
-    N::Namespace.shortcut(:as_test_preds, 'http://testvalue.org/')
-    
     def setup
       setup_once(:rdf_res) do
         TestHelper.flush_rdf

@@ -53,12 +53,13 @@ module TaliaCore
     def inverse
       inverseobj = Object.new
       inverseobj.instance_variable_set(:@obj_uri, self)
+      inverseobj.instance_variable_set(:@obj_class, object_class)
       
       class <<inverseobj     
         
         def [](property)
           property = N::URI.new(property) unless(property.kind_of?(N::URI))
-          Query.new(object_class).distinct(:s).where(:s, property, @obj_uri).execute
+          Query.new(@obj_class).distinct(:s).where(:s, property, @obj_uri).execute
         end
         private(:type)
       end

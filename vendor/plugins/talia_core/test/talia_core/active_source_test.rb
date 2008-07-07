@@ -23,17 +23,20 @@ module TaliaCore
     def test_create_existing
       src = ActiveSource.new(active_sources(:testy).uri)
       assert_equal(src, active_sources(:testy))
+      assert(!src.new_record?)
     end
     
     def test_create_new
       src_uri = 'http://foobarxxx.com/imallnew'
       src = ActiveSource.new(src_uri)
       assert_equal(src_uri, src.uri)
+      assert(src.new_record?)
     end
     
     def test_create_vanilla
       src = ActiveSource.new
       assert_nil(src.uri)
+      assert(src.new_record?)
     end
     
     def test_objects
