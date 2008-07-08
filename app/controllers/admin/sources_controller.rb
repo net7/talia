@@ -2,7 +2,6 @@ require 'paginator'
 
 class Admin::SourcesController < ApplicationController
   require_role 'admin'
-  layout 'sources'
   include TaliaCore
   
   # GET /admin/sources

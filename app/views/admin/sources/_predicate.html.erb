@@ -3,15 +3,19 @@
       <%= predicate_form.text_field   :name, :index => nil, :value => name, :size => 20 %>
       <%= predicate_form.text_field   :titleized,  :index => nil, :size => 60, :autocomplete => :off %>
       <%= predicate_form.hidden_field :namespace, :index => nil, :value => namespace %>
-      <%= predicate_form.hidden_field :uri,  :index => nil %>
-      <% unless predicate.exists? %>
+      <%= predicate_form.hidden_field :uri,    :index => nil %>
+      <%= hidden_field_tag 'source', predicate.source?, :id => 'source_predicates_attributes__source',
+        :name => "source[predicates_attributes][][source]", :class => 'source' %>
+      <% unless @source.associated? predicate %>
         <%= link_to_function image_tag('remove.png', :size => '12x12', :alt => 'remove', :class => 'remove'),
           "remove_from_collection(this, '.predicate')" %>
       <% else %>
         <%= link_to_function image_tag('remove.png', :size => '12x12', :alt => 'remove', :class => 'remove'),
           "mark_for_destroy(this, '.predicate')" %>
         <%= predicate_form.hidden_field :id, :index => nil %>
-        <%= predicate_form.hidden_field :should_destroy, :index => nil, :class => "should_destroy" %>
+        <%= hidden_field_tag 'should_destroy', nil, :class => "should_destroy",
+        :id => 'source_predicates_attributes__should_destroy',
+        :name => 'source[predicates_attributes][][should_destroy]' %>
       <% end %>
       <div class="auto_complete"></div>
   <% end %>
