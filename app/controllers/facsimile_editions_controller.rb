@@ -1,4 +1,4 @@
-class SimpleModeController < ApplicationController
+class FacsimileEditionsController < ApplicationController
   include TaliaCore
   
   
