@@ -1,50 +1,57 @@
-module TaliaCore
-  
-  # This represents a macrocontribution.
-  #
-  # Everything valid for a normal source is also valid here
-  #
-  # It offers some methods for dealing with Macrocontributions  
+module TaliaCore #:nodoc:
+  # A +MacroContribution+ is a generic collection of sources.
   class MacroContribution < Source
- 
-    def initialize(uri, *types)
+    # FIXME on app boot it raises an error, because doesn't know about N::HYPER
+    # SOURCE_PREDICATE = N::HYPER + 'hasAsPart'
+    SOURCE_PREDICATE = 'hasAsPart'
+
+    attr_writer :title, :description, :macrocontribution_type
+
+    def initialize(uri, *types) #:nodoc:
       super(uri, *types)
       self.primary_source = false
     end
-    # Used to add a new source to this macrcontribution.
-    # The adding is done by just creating a new RDF triple.
-    def add_source(new_source_uri)
-      new_source = Source.new(new_source_uri)
-      new_source[N::HYPER::isPartOfMacrocontribution] << self
-      new_source.save!
+
+    def sources #:nodoc:
+      @sources ||= self[SOURCE_PREDICATE]
     end
-    
-    def title=(title)
-      self.predicate_set(:hyper, "title", title)
+
+    delegate :include?, :to => :sources
+
+    # Add a +Source+ to the collection
+    def add(source)
+      raise ArgumentError unless source
+      case source
+        when String
+          add Source.new(source)
+        else 
+          sources << source
+      end
     end
-    
-    def editors_notes=(notes)
-      self.predicate_set(:hyper, 'editorsNotes', notes)
+    alias_method :<<, :add
+
+    # Remove the given +Source+ from the collection.
+    def remove(source)
+      sources.remove source
     end
-    
-    def macrocontribution_type=(type)
-      self.predicate_set(:hyper, "macrocontributionType", type)      
+
+    def save
+      super
+      [:title, :description, :macrocontribution_type].each do |attribute|
+        self.predicate_set(:hyper, attribute.to_s, send(attribute))
+      end
     end
     
     def title
-      self.hyper::title
+      @title ||= self.hyper::title.first
     end
     
-    def editors_notes
-      self.hyper::editorsNotes
+    def description
+      @description ||= self.hyper::description.first
     end
     
     def macrocontribution_type
-      self.hyper::macrocontributionType
+      @macrocontribution_type ||= self.hyper::macrocontribution_type.first
     end
-    
   end  
-    
-      
-end
-  
+end  

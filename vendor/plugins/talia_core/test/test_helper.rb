@@ -10,6 +10,22 @@ require 'active_record/fixtures'
 module TaliaCore
   class Source
     public :instantiate_source_or_rdf_object
+
+    def self.create(uri)
+      source = self.new(uri)
+      source.primary_source = false
+      source.save!
+      source
+    end
+  end
+  
+  class MacroContribution
+    # Remove all related sources, used by test suite.
+    def clear
+      sources.each do |source|
+        self.remove source
+      end
+    end
   end
   
   class TestHelper
@@ -96,6 +112,7 @@ module TaliaCore
     def assert_not(condition, message = nil)
       assert !condition, message
     end
+    alias_method :assert_false, :assert_not
 
     # Assert the given collection is empty.
     def assert_empty(condition, message = nil)
