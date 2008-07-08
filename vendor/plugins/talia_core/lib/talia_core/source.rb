@@ -636,7 +636,7 @@ module TaliaCore
       def load_from_records(*existing_records)
         existing_records = existing_records[0] if(existing_records[0].kind_of?(Array))
         
-        existing_records = existing_records.collect { |record| Source.new(record) }
+        existing_records = existing_records.collect { |record| self.new(record) }
         # flatten the array if neccessary
         existing_records.size == 1 ? existing_records[0] : existing_records
       end
