@@ -16,8 +16,6 @@ module TaliaCore #:nodoc:
       @sources ||= self[SOURCE_PREDICATE]
     end
 
-    delegate :include?, :to => :sources
-
     # Add a +Source+ to the collection
     def add(source)
       raise ArgumentError unless source
@@ -30,10 +28,7 @@ module TaliaCore #:nodoc:
     end
     alias_method :<<, :add
 
-    # Remove the given +Source+ from the collection.
-    def remove(source)
-      sources.remove source
-    end
+    delegate :remove, :include?, :to => :sources
 
     def save
       super
