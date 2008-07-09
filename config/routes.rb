@@ -72,7 +72,21 @@ ActionController::Routing::Routes.draw do |map|
 
 
   # Install the default route as the lowest priority.
+  map.connect ':controller/:id', :action => 'show'
+  map.connect 'facsimile_editions/:id/:type/:subtype',
+    :controller => 'facsimile_editions',
+    :action => 'books',
+    :requirements => { :type => /works|manuscripts|library|correspondence|pictures/ },
+    :subtype => nil
+
+  map.connect 'facsimile_editions/:id/:book',
+    :controller => 'facsimile_editions',
+    :action => 'panorama' 
+
+  map.connect 'facsimile_editions/:id/:book,:page',
+    :controller => 'facsimile_editions',
+    :action => 'page'
+
   map.connect ':controller/:action/:id.:format'
-  map.connect ':controller/:action/:id'
-  
+  map.connect ':controller/:action/:id'  
 end
