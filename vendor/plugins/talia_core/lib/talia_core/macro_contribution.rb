@@ -2,7 +2,7 @@ module TaliaCore #:nodoc:
   # A +MacroContribution+ is a generic collection of sources.
   class MacroContribution < Source
     # FIXME on app boot it raises an error, because doesn't know about N::HYPER
-    # SOURCE_PREDICATE = N::HYPER + 'hasAsPart'
+#    SOURCE_PREDICATE = N::HYPER + 'hasAsPart'
     SOURCE_PREDICATE = 'hasAsPart'
 
     attr_writer :title, :description, :macrocontribution_type
@@ -38,20 +38,21 @@ module TaliaCore #:nodoc:
     def save
       super
       [:title, :description, :macrocontribution_type].each do |attribute|
+        self.predicate(:hyper, attribute.to_s).remove
         self.predicate_set(:hyper, attribute.to_s, send(attribute))
       end
     end
     
     def title
-      @title ||= self.hyper::title.first
+      @title ||= self.hyper::title.last
     end
     
     def description
-      @description ||= self.hyper::description.first
+      @description ||= self.hyper::description.last
     end
     
     def macrocontribution_type
-      @macrocontribution_type ||= self.hyper::macrocontribution_type.first
+      @macrocontribution_type ||= self.hyper::macrocontribution_type.last
     end
   end  
 end  

@@ -75,17 +75,25 @@ module TaliaCore
     end
     
     def test_should_save
-      macro_contribution = MacroContribution.new('http//test.org/mc2')
-      macro_contribution.title = @title
-      macro_contribution.description = @description
-      macro_contribution.macrocontribution_type = @macrocontribution_type
-
+      macro_contribution = create_macro_contribution('http//test.org/mc2')
       assert macro_contribution.save
 
       macro_contribution = MacroContribution.find('http//test.org/mc2')
       assert_equal @title, macro_contribution.title
       assert_equal @description, macro_contribution.description
       assert_equal @macrocontribution_type, macro_contribution.macrocontribution_type
+    end
+    
+    def test_should_update_attributes
+      macro_contribution = create_macro_contribution('http//test.org/mc3')
+      assert macro_contribution.save
+      
+      macro_contribution.title = 'title12'
+      assert macro_contribution.save
+      
+      macro_contribution = MacroContribution.find('http//test.org/mc3')
+      assert_equal 'title12', macro_contribution.title
+      assert_equal 1, macro_contribution.hyper::title.size
     end
     
     private
@@ -95,6 +103,14 @@ module TaliaCore
       
       def source
         @source ||= Source.create('http://test.org/source')
+      end
+      
+      def create_macro_contribution(uri)
+        macro_contribution = MacroContribution.new(uri)
+        macro_contribution.title = @title
+        macro_contribution.description = @description
+        macro_contribution.macrocontribution_type = @macrocontribution_type
+        macro_contribution
       end
   end
 end
