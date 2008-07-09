@@ -8,21 +8,21 @@ module TaliaCore
     
     # returns an array containing a list of the book types available and connected to this facsimile edition
     # (e.g.: 'Works', 'Manuscripts', ...)
-    def related_types
+    def types
       #TODO: everything
       result = ['works', 'manuscripts', 'library', 'correspondence', 'picture']
     end
     
     # returns an array containing a list of available subtypes of the given type. Of course they must
     # be present in the facsimile edition we're in
-    def related_subtypes(type)
+    def subtypes(type)
       #TODO: everything
       result = ['copybooks', 'notebooks', 'drafts']
     end
     
     # returns an array containing a list of all the books of the given type (manuscripts, works, etc.) 
     # and subtype (notebook, draft, etc.) belonging to this Facsimile Edition
-    def related_primary_sources(type, subtype)
+    def books(type, subtype = nil)
       #TODO: everything
       result = ['N-IV-1', 'N-IV-2', 'N-IV-3', 'N-IV-4']
     end
