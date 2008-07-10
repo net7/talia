@@ -1,28 +1,47 @@
+
+# require 'objectproperties' # Includes the class methods for the object_properties
+require 'local_store/source_record'
+require 'local_store/data_record'
+require 'local_store/workflow/workflow_record'
+require 'pagination/source_pagination'
+require 'query/source_query'
+require 'active_rdf'
+require 'semantic_naming'
+require 'dummy_handler'
+require 'rdf_resource'
+require 'type_list'
+
 module TaliaCore 
-  class FacsimileEdition < MacroContribution
+  class CriticalEdition < MacroContribution
     def initialize(uri, *types)
       super(uri, *types)
-      # TODO: 'Facsimile' should actually be a valid value in the ontology
-      self.macrocontribution_type = 'Facsimile'
+      # TODO: 'Critical' should actually be a valid value in the ontology
+      self.macrocontribution_type = 'Critical'
+    end
+    
+   
+    # returns  
+    def menu_elements
+      
     end
     
     # returns an array containing a list of the book types available and connected to this facsimile edition
     # (e.g.: 'Works', 'Manuscripts', ...)
-    def types
+    def related_types
       #TODO: everything
       result = ['works', 'manuscripts', 'library', 'correspondence', 'picture']
     end
     
     # returns an array containing a list of available subtypes of the given type. Of course they must
     # be present in the facsimile edition we're in
-    def subtypes(type)
+    def related_subtypes(type)
       #TODO: everything
       result = ['copybooks', 'notebooks', 'drafts']
     end
     
     # returns an array containing a list of all the books of the given type (manuscripts, works, etc.) 
     # and subtype (notebook, draft, etc.) belonging to this Facsimile Edition
-    def books(type, subtype = nil)
+    def related_primary_sources(type, subtype)
       #TODO: everything
       result = ['N-IV-1', 'N-IV-2', 'N-IV-3', 'N-IV-4']
     end
@@ -52,12 +71,9 @@ module TaliaCore
     
     # returns the left or right "neighbour" source of the given source.
     # movement is expected in the form of "next" or "previous"
-    # used, for instance, for browsing pages
     def neighbour_source(source, movement)
       #TODO: everything
-      result = 'N-IV-2,3'
     end
 
-    
   end
 end

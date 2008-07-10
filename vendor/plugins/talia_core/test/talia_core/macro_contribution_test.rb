@@ -14,7 +14,7 @@ module TaliaCore
     end
     
     def test_predicate
-      assert_equal 'hasAsPart', MacroContribution::SOURCE_PREDICATE
+      assert_equal 'http://www.hypernietzsche.org/ontology#hasAsPart', MacroContribution::SOURCE_PREDICATE
     end
     
     def test_initialize
@@ -97,20 +97,20 @@ module TaliaCore
     end
     
     private
-      def macro_contribution
-        @macro_contribution ||= MacroContribution.create('http://test.org/mc')
-      end
+    def macro_contribution
+      @macro_contribution ||= MacroContribution.create('http://test.org/mc')
+    end
       
-      def source
-        @source ||= Source.create('http://test.org/source')
-      end
+    def source
+      @source ||= Source.create('http://test.org/source')
+    end
       
-      def create_macro_contribution(uri)
-        macro_contribution = MacroContribution.new(uri)
-        macro_contribution.title = @title
-        macro_contribution.description = @description
-        macro_contribution.macrocontribution_type = @macrocontribution_type
-        macro_contribution
-      end
+    def create_macro_contribution(uri)
+      macro_contribution = MacroContribution.new(uri)
+      macro_contribution.title = @title
+      macro_contribution.description = @description
+      macro_contribution.macrocontribution_type = @macrocontribution_type
+      macro_contribution
+    end
   end
 end
