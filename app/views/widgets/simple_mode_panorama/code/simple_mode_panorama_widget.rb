@@ -20,7 +20,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         result << "
       <div class='block'>
         <p class='lonely'>"
-        result << panorama_line(element)
+        result << horizontal_line(element)
         result << '</p></div>
       </div>
         '
@@ -29,7 +29,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         if (position == 'odd') 
           result << '<div class="block">' 
         end 
-        result << "<p>#{panorama_line(element)}</p>"    
+        result << "<p>#{horizontal_line(element)}</p>"    
         if position == 'even' || elements.last == element 
           result << '</div>
           ' 
@@ -52,7 +52,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
       if elements.first == element 
         result << '<div class="view_block">
         <p class="lonely">'
-        result << panorama_line(element)
+        result << vertical_line(element)
         result << '</p>
       </div>'
       else 
@@ -60,7 +60,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
           result << '<div class="view_block">'
         end 
         result << '<p>'
-        result << panorama_line(element)
+        result << vertical_line(element)
         result << '</p>'
         if position == 'even' || elements.last == element
           result << '</div>'
@@ -77,10 +77,18 @@ class SimpleModePanoramaWidget < Widgeon::Widget
   end
     
   private 
-  def panorama_line (element)
-    url = "#{element}"
+  def horizontal_line(element)
+    url = "#{params[:book]}/#{element}"
     text = "<img src='#{element[:file_path]}'/>#{element}"
     result = "#{titled_link(url, text)}"    
   end
+  
+  def vertical_line(element)
+    url = "#{element}"
+    text = "<img src='#{element[:file_path]}'/>#{element}"
+    result = "#{titled_link(url, text)}"    
+    
+  end
+  
         
 end

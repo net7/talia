@@ -1,4 +1,4 @@
-  class FacsimileEditionsController < ApplicationController
+class FacsimileEditionsController < ApplicationController
   include TaliaCore
   before_filter :find_facsimile_edition
   
@@ -91,7 +91,7 @@
   end
   
   private
-    def find_facsimile_edition
-      @facsimile_edition = FacsimileEdition.find(params[:id])
-    end
+  def find_facsimile_edition
+    @facsimile_edition = FacsimileEdition.find(params[:id])
+  end
 end
