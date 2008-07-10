@@ -60,7 +60,7 @@ module TaliaCore
       assert_equal(data_path_test(@test_records[0].id), dir_for_test)
       assert( File.exists?(dir_for_test) )
       assert_equal(File.join(data_path_test, 'temp1.txt'), File.join(dir_for_test, @test_records[0].location))
-      assert( File.exists?(File.join(dir_for_test, @test_records[0].location)), "#{File.join(dir_for_test, @test_records[0].location)} does not exist" )
+      assert( File.exists?(File.join(dir_for_test, @test_records[0].id.to_s + File.extname(@test_records[0].location))), "#{File.join(dir_for_test, @test_records[0].location)} does not exist" )
     end
 
     def test_should_find_or_create_and_assign_file
@@ -140,16 +140,16 @@ module TaliaCore
     end
 
     def test_extract_filename
-      assert_equal('temp1.txt', DataRecord.extract_filename(file))
+      assert_equal('1.txt', DataRecord.extract_filename(file))
     end
 
     private
     def data_path_test(id=nil)
-      @data_path_test ||= File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'data_for_test', 'SimpleText', ("00" + id.to_s)[-3..-1], id.to_s))
+      @data_path_test ||= File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'data_for_test', 'SimpleText', ("00" + id.to_s)[-3..-1]))
     end
 
     def file
-      UploadedFile.new(File.join(data_path_test(DataRecord.find(:first).id), DataRecord.find(:first).location))
+      UploadedFile.new(File.join(data_path_test(DataRecord.find(:first).id), DataRecord.find(:first).id.to_s + File.extname(DataRecord.find(:first).location)))
     end
 
     def source_record_id

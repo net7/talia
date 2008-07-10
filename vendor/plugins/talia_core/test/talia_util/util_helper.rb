@@ -66,7 +66,7 @@ module TaliaUtil
     def clean_data(directory)
       # Break for the "dot" directory labels
       return if(File.basename(directory) =~ /^\..*/)
-      if(FileTest.file?(directory) && !(File.basename(directory) =~ /temp.*/))
+      if(FileTest.file?(directory) && !(File.basename(directory) =~ /temp.*/) && !(TaliaCore::TestHelper.data_record_files.include?(File.basename(directory))))
         File.delete(directory)
         puts "#{directory} ...deleted"
       elsif(FileTest.directory?(directory))

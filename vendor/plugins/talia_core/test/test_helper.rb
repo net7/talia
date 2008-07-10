@@ -64,6 +64,10 @@ module TaliaCore
       return src
     end
     
+    def self.data_record_files
+      return ['1.txt', '3.xml', '4.xhtml', '5.hnml', '6.html', '7.xhtml', '8.bmp', '9.fit', '10.gif', '11.jpg', '12.png', '13.tif']
+    end
+    
   end
   
   TestHelper.startup
