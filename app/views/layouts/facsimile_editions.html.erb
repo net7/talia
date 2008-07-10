@@ -5,12 +5,12 @@
     <title><%= page_title %></title>
     <%= stylesheet_link_tag 'facsimile_edition' %>
             
-  </head>
+    </head>
   <body>
     <div id="page_ext">
       <div id="page_int">
         <div id="header">
-          <h1>nietzsche source | DIORIO FACSIMILE Edtion</h1>
+          <h1><%= "#{TaliaCore::SITE_NAME} | #{@mc_title}" %></h1>
           
           <h2><%= "Simple Mode".t %></h2>
           <div id="search_box">
@@ -31,7 +31,7 @@
         </div>
         <!-- header -->
         <div id="navigate">
-          <% if @displayButtons == true %>
+          <% if display_buttons %>
           <div id="tools">
             
             <ul>
@@ -45,7 +45,7 @@
           </div>
           <% end %>
           <!-- tools -->
-        <%= widget(:simple_mode_path, :path_elements => @path)%>
+        <%= widget(:simple_mode_path, :path_elements => path)%>
         </div>
         
         <%= yield %>

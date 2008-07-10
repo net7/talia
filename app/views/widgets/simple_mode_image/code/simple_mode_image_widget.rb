@@ -4,23 +4,11 @@ class SimpleModeImageWidget < Widgeon::Widget
 
   
   def on_init
-    # mode can be 'show', 'next' or 'previous'
-    case @mode
-    when 'show'
-      @code = show(@page)
-    else
-      # both 'previous' and 'next' cases
-      @code = move(@page, @mode)
-    end
-
-  end
-  
-  def show(page_uri)
-       
+      
     # it looks in the RDF to find a facsimile related to the given @page page
     # TODO: check if the facsimile is in the macrocontribution
 
-    page = Source.find(page_uri)
+    page = Source.find(params[:page])
     
     fax_uri = page.inverse.[]('http://www.hypernietzsche.org/ontology/cites')
 
@@ -28,7 +16,7 @@ class SimpleModeImageWidget < Widgeon::Widget
     
     file_path = fax.data('ImageData')
 
-    @code = "<img src='#{file_path}' alt='#{page_uri}' width='723' height='488'/>"  
+    @code = "<img src='#{file_path}' alt='#{params[:page]}' width='723' height='488'/>"  
 
   end
   

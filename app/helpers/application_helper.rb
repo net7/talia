@@ -105,11 +105,15 @@ module ApplicationHelper
       ] )
   end
   
- 
-  
-  def titled_link (url, text)
+  def titled_link (url, text, title='')
+    title ||= text
     text = text.t
-    "<a href='#{url}' title='#{text}'>#{text}</a>" 
+    title = title.t
+    "<a href='#{url}' title='#{title}'>#{text}</a>" 
+  end
+  
+  def action_name
+    controller.action_name
   end
   
 end

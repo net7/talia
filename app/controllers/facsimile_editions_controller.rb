@@ -1,4 +1,4 @@
-class FacsimileEditionsController < ApplicationController
+  class FacsimileEditionsController < ApplicationController
   include TaliaCore
   before_filter :find_facsimile_edition
   
@@ -23,6 +23,8 @@ class FacsimileEditionsController < ApplicationController
   def panorama
     @description = @facsimile_edition.material_description(params[:id])
     @pages = @facsimile_edition.related_pages(params[:id])
+    #TODO: maybe a "Book" class for things like the following:
+    @type = 'manuscripts'
   end
   
   # TODO DRYup w/ panorama
@@ -30,6 +32,8 @@ class FacsimileEditionsController < ApplicationController
   def page
     @description = @facsimile_edition.material_description(params[:id])
     @pages = @facsimile_edition.related_pages(params[:id])
+    #TODO: retrieve these data from somewhere, maybe a "Page" class is required
+    @type = 'manuscripts'
   end
   
   # facsimile edition page showing two large images of two adjacent pages

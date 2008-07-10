@@ -1,10 +1,10 @@
 class SimpleModePanoramaWidget < Widgeon::Widget
-  def panorama
+  def panorama(elements)
     case @panorama_type
     when 'horizontal' 
-      result = horizontal_panorama
+      result = horizontal_panorama(elements)
     when 'vertical'
-      result = vertical_panorama
+      result = vertical_panorama(elements)
     end
     result
   end
@@ -12,16 +12,16 @@ class SimpleModePanoramaWidget < Widgeon::Widget
   # called in the panorama page of Macrocontribuitons, it generates a panel
   # with all the thumbnails of the given set of pages (passed through the @elements var) 
   
-  def horizontal_panorama
+  def horizontal_panorama(elements)
     result = ''
-    @elements.each do |element| 
+    elements.each do |element| 
       position = cycle('even', 'odd') 
-      if (@elements.first == element) 
+      if (elements.first == element) 
         result << "
       <div class='block'>
-        <div class='lonely'>"
-        result << generate_horizontal_line(element)
-        result << '</div>
+        <p class='lonely'>"
+        result << panorama_line(element)
+        result << '</p></div>
       </div>
         '
         
@@ -29,8 +29,8 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         if (position == 'odd') 
           result << '<div class="block">' 
         end 
-        result << generate_horizontal_line(element)      
-        if position == 'even' || @elements.last == element 
+        result << "<p>#{panorama_line(element)}</p>"    
+        if position == 'even' || elements.last == element 
           result << '</div>
           ' 
         end   
@@ -43,15 +43,16 @@ class SimpleModePanoramaWidget < Widgeon::Widget
   # used in the page showing the large facsimile in the facsimile edition, it
   # generates a panel with all the thumbnails of the pages passed through the 
   # @elements var
-  def vertical_panorama
+  def vertical_panorama(elements)
     result = ''
     last_element = ''
-    @elements.each do |element| 
+    elements.each do |element| 
       position = cycle('even', 'odd')
-      if @elements.first == element 
+
+      if elements.first == element 
         result << '<div class="view_block">
         <p class="lonely">'
-        result << generate_vertical_line(element)
+        result << panorama_line(element)
         result << '</p>
       </div>'
       else 
@@ -59,11 +60,11 @@ class SimpleModePanoramaWidget < Widgeon::Widget
           result << '<div class="view_block">'
         end 
         result << '<p>'
-        result << generate_vertical_line(element)
+        result << panorama_line(element)
         result << '</p>'
-        if position == 'even' || @elements.last == element
+        if position == 'even' || elements.last == element
           result << '</div>'
-          if position == 'even' && @elements.first != element
+          if position == 'even' && elements.first != element
             result <<  "<a href='fe_double_page_view?mc_uri=#{@mc_uri}&type=#{@mc_type}&material=#{@material}&page1=#{last_element[:siglum]}&page2=#{element[:siglum]}'>#{'facing pages'.t}</a>"
           end
           result << ' 
@@ -76,21 +77,10 @@ class SimpleModePanoramaWidget < Widgeon::Widget
   end
     
   private 
-  def generate_horizontal_line (element)
-    "
-          <p>
-            <a href='fe_single_page_view?mc_uri=#{@mc_uri}&type=#{@mc_type}&material=#{@material}&page=#{element[:siglum]}'>
-              <img src='#{element[:file_path]}'/>#{element[:siglum]}
-            </a>
-          </p>
-    "     
+  def panorama_line (element)
+    url = "#{element}"
+    text = "<img src='#{element[:file_path]}'/>#{element}"
+    result = "#{titled_link(url, text)}"    
   end
         
-  def generate_vertical_line (element)
-    "
-       <a href='fe_single_page_view?mc_uri=#{@mc_uri}&type=#{@mc_type}&material=#{@material}&page=#{element[:siglum]}'>
-         <img src='#{element[:file_path]}' alt='#{element[:siglum]}' /> 
-          #{element[:siglum]}
-       </a>"
-  end
 end

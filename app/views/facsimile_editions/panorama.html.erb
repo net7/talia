@@ -1,0 +1,19 @@
+<!-- navigate -->
+<div id="menulocation">
+  <%= widget(:simple_mode_tabs, :tabs_elements => @tabs_elements) %>
+</div>
+<!-- menulocation -->
+
+<div id="description">
+  <p><%= @material_description %></p>
+</div>
+<!--[if !IE]>description<![endif]-->
+<div id="content">
+  <div id="block_container">
+    <%= widget(:simple_mode_panorama, :elements => @elements, :panorama_type => 'horizontal', :mc_uri => @mc_uri, :mc_type => @type, :material => @material) %>
+  </div>
+  <!-- block_container -->
+  
+</div>
+
+

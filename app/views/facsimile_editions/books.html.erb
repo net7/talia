@@ -1,0 +1,30 @@
+<!-- navigate -->
+<div id="menulocation">
+  <%= widget(:simple_mode_tabs, :tabs_elements => tabs_elements) %>
+</div>
+<!-- menulocation -->
+
+<div id="description">
+  <p></p>
+</div>
+<!--[if !IE]>description<![endif]-->
+<div id="content">
+  <ul id="access_list" class="minilist">
+    
+    <% @books.each do |book| %>
+      <li>
+        <h1>
+          <% url = "#{book}" %>
+          <% title = "#{book}" %>
+          <% text = "<img arc='#{:filePATH}' alt='#{book}' border='0'/>#{book}" %>
+          <%= titled_link(url, text, title)%>
+        </h1>
+        <p>
+          <%= @facsimile_edition.material_description(book) %>
+        </p>
+      </li>
+    <%end%>    
+             
+  </ul>
+</div>
+

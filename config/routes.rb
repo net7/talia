@@ -29,8 +29,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # Default route
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-#  map.root :controller => 'sources', :action => 'show', :id => 'Lucca'
-   map.root :controller => 'home', :action => 'start'
+  map.root :controller => 'home', :action => 'start'
 
   # Routes for login and users handling
   map.resources :users
@@ -79,14 +78,20 @@ ActionController::Routing::Routes.draw do |map|
     :requirements => { :type => /works|manuscripts|library|correspondence|pictures/ },
     :subtype => nil
 
-  map.connect 'facsimile_editions/:id/:book',
+    map.connect 'facsimile_editions/:id/:book',
     :controller => 'facsimile_editions',
     :action => 'panorama' 
 
-  map.connect 'facsimile_editions/:id/:book,:page',
+  #TODO: bring it back to 'facsimile_editions/:id/:book,:page'
+  # it didn't work for me, I've changed it to do some testing, and as a 
+  # reminder.
+  # Are we sure we can use a comma as a separator?
+  map.connect 'facsimile_editions/:id/:book/:page',
     :controller => 'facsimile_editions',
     :action => 'page'
 
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'  
+  # Macrocontribution
+  map.connect ':controller/:id'
 end
