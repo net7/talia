@@ -51,17 +51,21 @@ class SimpleModePanoramaWidget < Widgeon::Widget
 
       if elements.first == element 
         result << '<div class="view_block">
-        <p class="lonely">'
+        <p class="lonely">
+        '
         result << vertical_line(element)
-        result << '</p>
+        result << '
+</p>
       </div>'
       else 
         if position == 'odd' 
           result << '<div class="view_block">'
         end 
-        result << '<p>'
+        result << '<p>
+        '
         result << vertical_line(element)
-        result << '</p>'
+        result << '
+</p>'
         if position == 'even' || elements.last == element
           result << '</div>'
           if position == 'even' && elements.first != element
@@ -79,15 +83,18 @@ class SimpleModePanoramaWidget < Widgeon::Widget
   private 
   def horizontal_line(element)
     url = "#{params[:book]}/#{element}"
-    text = "<img src='#{element[:file_path]}'/>#{element}"
+    image_url = "http://localhost:3000/facsimile_editions/#{params[:id]}/#{params[:book]}/#{element}.jpeg?size=thumbnail"
+    #image_url = formatted_facsimile_edition_book_page(params[:id], params[:book], element)
+
+    text = "<img src='#{image_url}'/>#{element}"
     result = "#{titled_link(url, text)}"    
   end
   
   def vertical_line(element)
     url = "#{element}"
-    text = "<img src='#{element[:file_path]}'/>#{element}"
-    result = "#{titled_link(url, text)}"    
-    
+    image_url = "http://localhost:3000/facsimile_editions/#{params[:id]}/#{params[:book]}/#{element}.jpeg?size=thumbnail"
+    text = "<img src='#{image_url}'/>#{element}"
+    result = "#{titled_link(url, text)}"  
   end
   
         

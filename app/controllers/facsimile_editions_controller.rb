@@ -1,7 +1,7 @@
 class FacsimileEditionsController < ApplicationController
   include TaliaCore
   before_filter :find_facsimile_edition
-  
+ 
   # GET /facsimile_editions/1
   def show
   end
@@ -20,21 +20,66 @@ class FacsimileEditionsController < ApplicationController
   end
   
   # GET /facsimile_editions/1/1
+  # 
+  # GET /facsimile_editions/1/1.jpeg
+  # GET /facsimile_editions/1/1.jpeg?size=thumbnail
+   
   def panorama
-    @description = @facsimile_edition.material_description(params[:id])
-    @pages = @facsimile_edition.related_pages(params[:id])
-    #TODO: maybe a "Book" class for things like the following:
-    @type = 'manuscripts'
+    respond_to do |format|
+      format.html do
+        @description = @facsimile_edition.material_description(params[:id])
+        @pages = @facsimile_edition.related_pages(params[:id])
+        #TODO: maybe a "Book" class for things like the following:
+        @type = 'manuscripts'
+      end
+      format.jpeg do
+        image = @facsimile_edition.book_image_data(params[:book], params[:size]) 
+        send_data image.content_string, :type => 'image/jpeg', :disposition => 'inline'
+      end
+    end
   end
-  
+    
   # TODO DRYup w/ panorama
   # GET /facsimile_editions/1/1,1
+  # 
+  # GET /facsimile_editions/1/1/1,1.jpeg
+  # GET /facsimile_editions/1/1/1,1.jpeg?size=thumbnail
   def page
-    @description = @facsimile_edition.material_description(params[:id])
-    @pages = @facsimile_edition.related_pages(params[:id])
-    #TODO: retrieve these data from somewhere, maybe a "Page" class is required
-    @type = 'manuscripts'
+    respond_to do |format|
+      format.html do
+        @description = @facsimile_edition.material_description(params[:id])
+        @pages = @facsimile_edition.related_pages(params[:id])
+        #TODO: retrieve these data from somewhere, maybe a "Page" class is required
+        @type = 'manuscripts'
+      end
+      format.jpeg do
+        image = @facsimile_edition.page_image_data(params[:book], params[:page], params[:size]) 
+        send_data image.content_string, :type => 'image/jpeg', :disposition => 'inline' 
+      end
+    end
   end
+
+  
+  def search 
+    searched_book = sanitize(params[:book])
+    searched_page = sanitize(params[:page])
+    search_result = @facsimile_edition.search(searched_book, searched_page)
+    url = "/facsimile_editions/#{params[:id]}" 
+    search_result.each do |part|
+      url << "/#{part}"
+    end
+    redirect_to url and return
+    #TODO: why this didn't work? (to be removed, left here as a reference)
+    # note that this suppose that @facsimile_edition.search returns an _hash_ 
+    # you'll find commented versions of returned values in there related to the
+    # following line
+    #        redirect_to :action => 'page', :book => search_result[:book], :page => search_result[:page], :id => params[:id] and return
+    
+  rescue ActiveRecord::RecordNotFound
+    flash[:search_notice] = "Searched records weren't found".t
+    redirect_to(:back)
+  end
+  
   
   # facsimile edition page showing two large images of two adjacent pages
   def fe_double_page_view

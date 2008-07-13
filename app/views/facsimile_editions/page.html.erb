@@ -30,8 +30,12 @@
           <p class="next"><%= next_page %></p>
     </div>
     <div id="image_big">
-      <%= widget(:simple_mode_image, :page => @page)%>
-      <p>copyright</p>
+      
+<!--    
+<%#*<img src="<%= url_for formatted_facsimile_edition_book(params[:id], params[:book])%>" alt="<%= params[:page]%>" height='488'/>%>
+-->
+      <img src='<%= "http://localhost:3000/facsimile_editions/#{params[:id]}/#{params[:book]}/#{params[:page]}.jpeg"%>' alt='<%=  params[:page] %>' height='488'/>
+      <p><%= copyright_note(params[:page]) %></p>
     </div>   
     
   </div>

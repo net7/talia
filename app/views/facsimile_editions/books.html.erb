@@ -16,7 +16,7 @@
         <h1>
           <% url = "#{book}" %>
           <% title = "#{book}" %>
-          <% text = "<img arc='#{:filePATH}' alt='#{book}' border='0'/>#{book}" %>
+          <% text = "<img src='/facsimile_editions/#{params[:id]}/#{book}.jpeg?size=thumbnail' alt='#{book}' border='0'/>#{book}" %>        
           <%= titled_link(url, text, title)%>
         </h1>
         <p>
@@ -24,7 +24,7 @@
         </p>
       </li>
     <%end%>    
-             
+                 
   </ul>
 </div>
 
