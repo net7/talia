@@ -33,51 +33,51 @@ module TaliaUtil
     end
     
     def test_book_exists
-      assert(TaliaCore::Source.exists?("Mp-XIV-2"))
+      assert(TaliaCore::Source.exists?(N::LOCAL + "Mp-XIV-2"))
     end
     
     def test_chapter_exists
-      assert(TaliaCore::Source.exists?("AC-[Text]"))
+      assert(TaliaCore::Source.exists?(N::LOCAL + "AC-[Text]"))
     end
     
     def test_edition_exists
-      assert(TaliaCore::Source.exists?("kbrunkhorst-93"))
+      assert(TaliaCore::Source.exists?(N::LOCAL + "kbrunkhorst-93"))
     end
     
     def test_essay_exists
-      assert(TaliaCore::Source.exists?("jgrzelczyk-4"))
+      assert(TaliaCore::Source.exists?(N::LOCAL + "jgrzelczyk-4"))
     end
     
     def test_facsimile_exists
-      assert(TaliaCore::Source.exists?("egrepalysviola-3259"))
+      assert(TaliaCore::Source.exists?(N::LOCAL + "egrepalysviola-3259"))
     end
     
     def test_page_exists
-      assert(TaliaCore::Source.exists?("AC,1"))
+      assert(TaliaCore::Source.exists?(N::LOCAL + "AC,1"))
     end
     
     def test_paragraph_exists
-      assert(TaliaCore::Source.exists?("AC-17"))
+      assert(TaliaCore::Source.exists?(N::LOCAL + "AC-17"))
     end
     
     def test_transcription_exists
-      assert(TaliaCore::Source.exists?("igerikevzapf-539"))
+      assert(TaliaCore::Source.exists?(N::LOCAL + "igerikevzapf-539"))
     end
     
     def test_external_object_exists
-      assert(TaliaCore::Source.exists?("mmontinari-zvlbn-1987"))
+      assert(TaliaCore::Source.exists?(N::LOCAL + "mmontinari-zvlbn-1987"))
     end
     
     def test_path_step_exists
-      assert(TaliaCore::Source.exists?("igerike-927,1"))
+      assert(TaliaCore::Source.exists?(N::LOCAL + "igerike-927,1"))
     end
     
     def test_path_exists
-      assert(TaliaCore::Source.exists?("igerike-907"))
+      assert(TaliaCore::Source.exists?(N::LOCAL + "igerike-907"))
     end
     
     def test_archive_exists
-      assert(TaliaCore::Source.exists?("Goethe-+und+Schiller-Archiv"))
+      assert(TaliaCore::Source.exists?(N::LOCAL + "Goethe-+und+Schiller-Archiv"))
     end
     
   end

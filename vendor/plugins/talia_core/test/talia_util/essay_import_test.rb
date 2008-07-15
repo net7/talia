@@ -30,9 +30,14 @@ module TaliaUtil
       end
     end
     
-    # Test if the import succeeds
     def test_import
       assert_kind_of(TaliaCore::Source, @src)
+    end
+    
+    # This used to break the import
+    def test_echavez_with_strange_abstract
+      # Test if the import succeeds and the correct data is loaded into the db
+      assert_equal(load_doc('echaves-1').root.elements['abstract'].text, hyper_import(load_doc('echaves-1'))[N::HYPER::abstract][0])    
     end
     
     # Test if the types were imported correctly

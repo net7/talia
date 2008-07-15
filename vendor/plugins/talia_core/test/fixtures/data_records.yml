@@ -1,78 +1,78 @@
 
 first:
-  id:                1
-  source_record_id:  1
-  type:              SimpleText
-  location:          temp1.txt
+  id: 1
+  source: something
+  type: TaliaCore::DataTypes::SimpleText
+  location: temp1.txt
   
 second:
-  id:                2
-  source_record_id:  1
-  type:              SimpleText
-  location:          temp2.txt
+  id: 2
+  source: something
+  type: TaliaCore::DataTypes::SimpleText
+  location: temp2.txt
 
 third:
-  id:                3
-  source_record_id:  1
-  type:              XmlData
-  location:          temp1.xml
+  id: 3
+  source: something
+  type: TaliaCore::DataTypes::XmlData
+  location: temp1.xml
 
 fourth:
-  id:                4
-  source_record_id:  1
-  type:              XmlData
-  location:          temp2.xhtml
+  id: 4
+  source: something
+  type: TaliaCore::DataTypes::XmlData
+  location: temp2.xhtml
 
 fifth:
-  id:                5
-  source_record_id:  1
-  type:              XmlData
-  location:          temp3.hnml
+  id: 5
+  source: something
+  type: TaliaCore::DataTypes::XmlData
+  location: temp3.hnml
 
 sixth:
-  id:                6
-  source_record_id:  1
-  type:              XmlData
-  location:          temp4.html
+  id: 6
+  source: something
+  type: TaliaCore::DataTypes::XmlData
+  location: temp4.html
 
 seventh:
-  id:                7
-  source_record_id:  1
-  type:              XmlData
-  location:          temp5.xhtml
+  id: 7
+  source: something
+  type: TaliaCore::DataTypes::XmlData
+  location: temp5.xhtml
 
 eighth:
-  id:                8
-  source_record_id:  1
-  type:              ImageData
-  location:          temp1.bmp
+  id: 8
+  source: something
+  type: TaliaCore::DataTypes::ImageData
+  location: temp1.bmp
 
 ninth:
-  id:                9
-  source_record_id:  1
-  type:              ImageData
-  location:          temp2.fit
+  id: 9
+  source: something
+  type: TaliaCore::DataTypes::ImageData
+  location: temp2.fit
 
 tenth:
-  id:                10
-  source_record_id:  1
-  type:              ImageData
+  id: 10
+  source: something
+  type: TaliaCore::DataTypes::ImageData
   location:          temp3.gif
 
 eleventh:
-  id:                11
-  source_record_id:  1
-  type:              ImageData
-  location:          temp4.jpg
+  id: 11
+  source: something
+  type: TaliaCore::DataTypes::ImageData
+  location: temp4.jpg
 
 twelfth:
-  id:                12
-  source_record_id:  1
-  type:              ImageData
-  location:          temp5.png
+  id: 12
+  source: something
+  type: TaliaCore::DataTypes::ImageData
+  location: temp5.png
 
 thirteen:
-  id:                13
-  source_record_id:  1
-  type:              ImageData
-  location:          temp6.tif
+  id: 13
+  source: something
+  type: TaliaCore::DataTypes::ImageData
+  location: temp6.tif

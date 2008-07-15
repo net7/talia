@@ -6,7 +6,7 @@ module TaliaCore
     
     # Initialize the list
     def initialize(collection, source, predicate)
-      raise(ActiveRecord::RecordNotSaved, "No properties on unsaved record.") if(source.new_record?)
+      # raise(ActiveRecord::RecordNotSaved, "No properties on unsaved record.") if(source.new_record?)
       @assoc_source = source
       @assoc_predicate = predicate.to_s
       # Add the properties to self, converting Semantic properties to 
@@ -23,7 +23,11 @@ module TaliaCore
     # Push to collection. Giving a string will create a property to be created,
     # saved and associated.
     def <<(value)
-      add_record_for(value)
+      if(value.kind_of?(Array))
+        value.each { |v| add_record_for(v) }
+      else
+        add_record_for(value)
+      end
     end
     alias_method :concat, '<<'
     
@@ -99,7 +103,6 @@ module TaliaCore
       else
         prop = SemanticProperty.new
         prop.value = value
-        prop.save
         to_add.object = prop
       end
       @assoc_source.semantic_relations << to_add

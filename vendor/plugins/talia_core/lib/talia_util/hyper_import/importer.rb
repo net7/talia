@@ -170,7 +170,8 @@ module TaliaUtil
             type_list << type unless(type_list.include?(type))
           end
         else
-          src = TaliaCore::Source.new(source_uri, *types)
+          src = TaliaCore::Source.new(source_uri)
+          src.types << types
           src.primary_source = primary_source?
           src.save!
         end
@@ -231,12 +232,12 @@ module TaliaUtil
             # First, check the data type of the file - we'll use the file name
             # extension for that at the moment - not the file_content_type
             file_ext = File.extname(file_name).downcase
-            data_obj = if(%w(.xml .hnml .tei .html).include?(file_ext))
-              TaliaCore::XmlData.new
+            data_obj = if(%w(.xml .hnml .tei .html .htm).include?(file_ext))
+              TaliaCore::DataTypes::XmlData.new
             elsif(%w(.jpg .gif .jpeg .png .tif).include?(file_ext))
-              TaliaCore::ImageData.new
+              TaliaCore::DataTypes::ImageData.new
             elsif(%w(txt).include?(file_ext))
-              TaliaCore::SimpleText.new
+              TaliaCore::DataTypes::SimpleText.new
             end
             
             # Check if we really got a data object, otherwise bail out
@@ -251,7 +252,7 @@ module TaliaUtil
             @source.data_records << data_obj
             @source.hyper::file_content_type << file_content_type
           rescue Exception => e
-            assit_fail("Exeption importing file #{file_name}: #{e}")
+            assit_fail("Exeption importing file #{file_name}: #{e}\n#{e.backtrace.join("\n")}\n")
           end
         else
           assit(!file_name && !file_url && !file_content_type, "Incomplete file definition on Source #{@source.uri.local_name}")
@@ -267,9 +268,9 @@ module TaliaUtil
         open_args << @credentials if(@credentials)
         
         begin
-        open(*open_args) do |io|
-          result = data_record.create_from_data(location, io) 
-        end
+          open(*open_args) do |io|
+            result = data_record.create_from_data(location, io) 
+          end
         rescue Exception => e
           raise(IOError, "Error loading #{url} (when file: #{File.expand_path(url)}: #{e}")
         end

@@ -25,6 +25,7 @@ module TaliaCore
     # Adds a new relation to the type that is represented by the given URL.
     # Note that the db record for the type must already exist
     def add_record_for(value)
+      value = value.uri if(value.respond_to?(:uri))
       value = N::SourceClass.new(value)
       add_db_record_for(to_type_source(value))
       self.push(value)
@@ -35,6 +36,7 @@ module TaliaCore
       uri = (value.respond_to?(:uri)) ? value.uri : value
       unless(value.is_a?(ActiveSource))
         value = ActiveSource.find(:first, :conditions => { :uri => uri } )
+        value ||= ActiveSource.new(uri) # Create new type if there's none
         raise(ActiveRecord::RecordNotFound, "No record for uri '#{uri}'") unless(value)
       end
       value

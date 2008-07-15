@@ -15,8 +15,8 @@ module TaliaCore
            
     # Relations where this source is the object of the relation
     has_many :related_subjects,
-             :foreign_key => 'object_id',
-             :class_name => 'TaliaCore::SemanticRelation'
+      :foreign_key => 'object_id',
+      :class_name => 'TaliaCore::SemanticRelation'
     has_many :subjects, :through => :related_subjects
     
     validates_format_of :uri, :with => /\A\S*:.*\Z/
@@ -28,17 +28,38 @@ module TaliaCore
     # We know that this is a hack.
     def self.new(*args)
       the_source = nil
-      if(args.size == 1 && args[0].is_a?(String)) # One string argument should be the uri
+      if(args.size == 1 && ( uri_s = uri_string_for(args[0]))) # One string argument should be the uri
         # if we don't find the something, let's create a new source
-        unless(the_source = find(:first, :conditions => { :uri => args[0] } ))
+        unless(the_source = find(:first, :conditions => { :uri => uri_s } ))
           the_source = super() # brackets avoid passing any parameters
-          the_source.uri = args[0]
+          the_source.uri = uri_s
         end
       else
         # In this case, it's a generic "new" call
         the_source = super
       end
       the_source
+    end
+    
+    # This method is slightly expanded to allow passing uris and uri objects
+    # as an "id"
+    def self.exists?(value)
+      if(uri_s = uri_string_for(value))
+        super(:uri => uri_s)
+      else
+        super
+      end
+    end
+    
+    # Finder also accepts uris as "ids"
+    def self.find(*args)
+      if(args.size == 1 && (uri_s = uri_string_for(args[0])))
+        src = super(:first, :conditions => { :uri => uri_s })
+        raise(ActiveRecord::RecordNotFound) unless(src)
+        src
+      else
+        super
+      end
     end
     
     
@@ -51,7 +72,6 @@ module TaliaCore
       if(attribute_names.include?(attribute.to_s))
         super(attribute)
       else
-        raise(ActiveRecord::RecordNotSaved, "No properties on unsaved record.") if(new_record?)
         get_objects_on(attribute)
       end
     end
@@ -119,8 +139,25 @@ module TaliaCore
     # conditions to the query.
     def get_objects_on(predicate, conditions = {}, wrapper = SemanticCollectionWrapper)
       conditions.merge!( :predicate_uri => predicate.to_s )
-      obs = objects.find(:all, :conditions => conditions )
+      obs = if(new_record?) # A new record cannot have properties attached
+        []
+      else
+        objects.find(:all, :conditions => conditions )
+      end
       wrapper.new(obs, self, predicate)
+    end
+    
+    # This gets the URI string from the given value. This will just return
+    # the value if it's a string. It will return the result of value.uri, if
+    # that method exists; otherwise it'll return nil
+    def self.uri_string_for(value)
+      if(value.is_a?(String))
+        value
+      elsif(value.respond_to?(:uri))
+        value.uri
+      else
+        nil
+      end
     end
     
   end

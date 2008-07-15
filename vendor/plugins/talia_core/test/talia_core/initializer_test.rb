@@ -23,7 +23,7 @@ module TaliaCore
     
     # Test the datase connection
     def test_db_connection
-      assert(SourceRecord.exists_uri?("http://localnode.org/something"))
+      assert(Source.exists?("http://localnode.org/something"))
     end
     
   end

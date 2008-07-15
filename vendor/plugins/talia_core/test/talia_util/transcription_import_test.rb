@@ -62,7 +62,7 @@ module TaliaUtil
     # Test if the data file was imported
     def test_data
       assert_equal(1, @src.data_records.size)
-      assert_kind_of(TaliaCore::XmlData, @src.data_records[0])
+      assert_kind_of(TaliaCore::DataTypes::XmlData, @src.data_records[0])
       assert_equal('N-IV-1,16[4].xml', @src.data_records[0].location)
     end
     

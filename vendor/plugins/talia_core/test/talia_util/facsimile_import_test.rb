@@ -65,7 +65,7 @@ module TaliaUtil
     # Test if the data file was imported
     def test_data
       assert_equal(1, @src.data_records.size)
-      assert_kind_of(TaliaCore::ImageData, @src.data_records[0])
+      assert_kind_of(TaliaCore::DataTypes::ImageData, @src.data_records[0])
       assert_equal('N-V-4,97.jpeg', @src.data_records[0].location)
     end
    

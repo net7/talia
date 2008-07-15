@@ -14,19 +14,19 @@ module TaliaCore
   class DummyHandler
     
     # Create the new handler
-    def initialize(uri, rdf_resource)
-      assit_kind_of(N::URI, uri)
-      assit_kind_of(RdfResource, rdf_resource)
+    def initialize(namespace, subject)
+      assit_kind_of(N::URI, namespace)
+      assit_kind_of(TaliaCore::Source, subject)
       
-      @uri = uri.to_s
-      @rdf_resource = rdf_resource
+      @namespace = namespace.to_s
+      @subject = subject
     end
     
     # Catch the invocations
     def method_missing(method, *args)
       # read value
       raise(SemanticNamingError, "Wrong number of arguments") if(args.size != 0)
-      @rdf_resource[@uri + method.to_s]
+      @subject[@namespace + method.to_s]
     end
     
     # remove the type call

@@ -5,19 +5,12 @@ require 'active_support/testing'
 require 'active_support/test_case'
 require 'active_record/fixtures'
 
-@@flush_tables = [ 'source_records', 'type_records', 'data_records', 'dirty_relation_records', 'active_sources']
+@@flush_tables = [ 'active_sources', 'semantic_relations', 'semantic_properties']
 
 module TaliaCore
-  class Source
-    public :instantiate_source_or_rdf_object
-
-    def self.create(uri)
-      source = self.new(uri)
-      source.primary_source = false
-      source.save!
-      source
-    end
-  end
+#  class Source
+#    public :instantiate_source_or_rdf_object
+#  end
   
   class MacroContribution
     # Remove all related sources, used by test suite.
@@ -58,8 +51,12 @@ module TaliaCore
     
     # Creates a dummy Source and saves it
     def self.make_dummy_source(uri, *types)
-      src = Source.new(uri, *types)
-      src.primary_source = 1
+      src = Source.new(uri)
+      src.primary_source = true
+      types.each do |t| 
+        ActiveSource.new(t).save! unless(ActiveSource.exists?(:uri => t.to_s))
+        src.types << t 
+      end
       src.save!
       return src
     end
@@ -74,7 +71,9 @@ module TaliaCore
   Test::Unit::TestCase.fixture_path=File.join(File.dirname(__FILE__), 'fixtures')
   Test::Unit::TestCase.set_fixture_class :active_sources => TaliaCore::ActiveSource,
     :semantic_properties => TaliaCore::SemanticProperty,
-    :semantic_relations => TaliaCore::SemanticRelation
+    :semantic_relations => TaliaCore::SemanticRelation,
+    :sources => TaliaCore::Source,
+    :data_records => TaliaCore::DataTypes::DataRecord
   
   # Add some stuff to the basic test case
   class Test::Unit::TestCase

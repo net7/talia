@@ -1,5 +1,4 @@
 require 'test/unit'
-require 'talia_core/data_types/xml_data'
 
 # Load the helper class
 require File.join(File.dirname(__FILE__), '..', '..', 'test_helper')
@@ -9,7 +8,7 @@ module TaliaCore
   # Test te DataRecord storage class
   class XmlDataTest < Test::Unit::TestCase
     
-    fixtures :source_records, :data_records
+    fixtures :active_sources, :data_records
      
     def setup
       # Sets the file that is used by one test
@@ -19,7 +18,7 @@ module TaliaCore
         File.delete(@tmp_file) if(File.exist?(@tmp_file))
         true
       end
-      @test_records = DataRecord.find_data_records(1)
+      @test_records = DataTypes::DataRecord.find_data_records(Fixtures.identify(:something))
     end
     
     # test not nil and records numbers
@@ -30,11 +29,11 @@ module TaliaCore
   
     # test class type and mime_type and subtype
     def test_mime_types
-      assert_kind_of(XmlData, @test_records[2])
-      assert_kind_of(XmlData, @test_records[3])
-      assert_kind_of(XmlData, @test_records[4])
-      assert_kind_of(XmlData, @test_records[5])
-      assert_kind_of(XmlData, @test_records[6])
+      assert_kind_of(DataTypes::XmlData, @test_records[2])
+      assert_kind_of(DataTypes::XmlData, @test_records[3])
+      assert_kind_of(DataTypes::XmlData, @test_records[4])
+      assert_kind_of(DataTypes::XmlData, @test_records[5])
+      assert_kind_of(DataTypes::XmlData, @test_records[6])
       assert_equal("text/xml", @test_records[2].mime_type)
       assert_equal("xml", @test_records[2].mime_subtype)
       assert_equal("text/html", @test_records[3].mime_type)
@@ -100,8 +99,8 @@ module TaliaCore
       assert_not_equal nil, hnml_content.nil?
       
       # test Tidy parsing
-      new_record = TaliaCore::XmlData.new
-      new_record.source_record_id = TaliaCore::Source.find(:first).id
+      new_record = DataTypes::XmlData.new
+      new_record.source_id = TaliaCore::Source.find(:first).id
       new_record.create_from_data('test_file.xhtml', @test_records[5].all_text, {:tidy => true})
       new_record.save!
       # read data from file
@@ -110,6 +109,16 @@ module TaliaCore
       if !ENV['TIDYLIB'].nil?
         assert_equal string_tidy, @test_records[6].all_text
       end
+    end
+    
+    def test_attach
+      test_uri = 'http://testy.com/xml_attach'
+      src = Source.new(test_uri)
+      src.data_records << TaliaCore::DataTypes::XmlData.new
+      src.save!
+      rel = Source.find(src.id)
+      assert_equal(1, rel.data_records.size)
+      assert_kind_of(DataTypes::XmlData, rel.data_records[0])
     end
     
     private

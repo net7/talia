@@ -44,7 +44,7 @@ module TaliaUtil
           
           # Create a data object for the coordinates
           if(coordinates && coordinates != '')
-            coord_data = TaliaCore::SimpleText.new
+            coord_data = TaliaCore::DataTypes::SimpleText.new
             # Create a somewhat unique filename for the coordinates
             coord_file_location = "#{n_name.to_name_s.gsub(/\W/, '+')}-coords.txt"
             coord_data.create_from_data(coord_file_location, coordinates)

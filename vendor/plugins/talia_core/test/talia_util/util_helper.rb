@@ -48,11 +48,11 @@ module TaliaUtil
     # a value is an N::URI, this will assert if the property refers to the 
     # Source given by the URI.
     def assert_property(property, *values)
-      assert_kind_of(PropertyList, property) # Just to be sure
+      assert_kind_of(TaliaCore::SemanticCollectionWrapper, property) # Just to be sure
       assert_equal(values.size, property.size, "Expected #{values.size} values instead of #{property.size}")
       values = values.collect { |value| value.is_a?(N::URI) ? TaliaCore::Source.new(value) : value }
       property.each do |value|
-        assert(values.include?(value), "Found unexpected value #{value}. Value is a #{value.class}") 
+        assert(values.include?(value), "Found unexpected value #{value}. Value is a #{value.class}\nExpected:\n#{values.join("\n")}") 
       end
     end
     

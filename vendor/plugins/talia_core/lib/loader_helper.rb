@@ -23,6 +23,29 @@ module TLoad
     end
   end
   
+  def self.start_dir
+    @start_dir ||= begin
+      # adding talia_core subdirectory to the ruby loadpath  
+      file = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
+      this_dir = File.dirname(File.expand_path(file))
+      $: << this_dir
+      $: << this_dir + '/talia_core/'
+      this_dir
+    end
+  end
+   
+  # Forces the loading of the parts of the rails framework that are used
+  # by Talia
+  def self.force_rails_parts
+    require_module("activerecord", "active_record", "/../../../rails/activerecord", RAILS_GEM_VERSION) unless(defined?(ActiveRecord))
+    require_module("activesupport", "active_support", "/../../../rails/activesupport", RAILS_GEM_VERSION) unless(defined?(ActiveSupport))
+    require_module("actionpack", "action_controller", "/../../../rails/actionpack", RAILS_GEM_VERSION)
+    require_module("has_many_polymorphs", "has_many_polymorphs", "/../../has_many_polymorphs")
+    # This sets the automatic loader path for Talia, allowing the ActiveSupport
+    # classes to automatically load classes from this directory.
+    Dependencies.load_paths << TLoad.start_dir unless(Dependencies.load_paths.include?(TLoad.start_dir))
+  end
+  
   private
   
   def self.load_from_gem(gem_name, local_name, gem_version)
@@ -31,3 +54,5 @@ module TLoad
   end
 
 end
+
+TLoad.start_dir # Load the paths and start directory

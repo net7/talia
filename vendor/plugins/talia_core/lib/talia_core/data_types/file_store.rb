@@ -58,7 +58,7 @@ module FileStore
     
   # Return the data directory for a specific data file
   def data_directory
-    class_name = self.class.name.gsub(/(TaliaCore::)/, '')
+    class_name = self.class.name.gsub(/(.*::)/, '')
     File.join(TaliaCore::CONFIG["data_directory_location"], class_name, ("00" + self.id.to_s)[-3..-1])
   end
 

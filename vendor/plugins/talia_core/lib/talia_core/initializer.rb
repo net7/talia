@@ -1,9 +1,6 @@
 require 'assit'
 require 'semantic_naming'
-require 'active_support'
-require 'active_record'
 require 'active_rdf'
-require 'talia_core/source'
 
 module TaliaCore
   
@@ -63,12 +60,12 @@ module TaliaCore
     
     # Indicates if the system has been initialized
     cattr_reader :initialized
-    @@initialized = false
+    @@initialized ||= false
     
     # Indicates if the initialization was started, 
     # but not finished
     cattr_reader :init_started
-    @@init_started = false
+    @@init_started ||= false
     
     # Runs the initialization. You can pass a block to this method, which
     # is run with one parameter: A hash containing the configuration.
@@ -300,7 +297,7 @@ module TaliaCore
       talia_logger.info("Default Dome: #{N::DEFAULT}")
       
       # Register namespace for database dupes
-      N::Namespace.shortcut(:talia_db, "http://talia.discovery-project.eu/wiki/DatabaseDupes#")
+      N::Namespace.shortcut(:talia, "http://talia.discovery-project.eu/wiki/TaliaInternal#")
       
       # Register additional namespaces
       if(@config["namespaces"])

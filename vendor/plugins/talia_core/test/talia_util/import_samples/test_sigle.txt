@@ -9,6 +9,7 @@ kbrunkhorst-93
 essay:
 jgrzelczyk-4
 rmullerbuck-1
+echaves-1
 facsimile:
 egrepalysviola-3259
 manuscript page:
@@ -39,3 +40,5 @@ archive:
 Goethe- und Schiller-Archiv
 author:
 pdiorio
+essay_page:
+aventurelli-1,1

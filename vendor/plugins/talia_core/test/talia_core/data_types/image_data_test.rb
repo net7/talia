@@ -8,10 +8,10 @@ module TaliaCore
   # Test te DataRecord storage class
   class ImageDataTest < Test::Unit::TestCase
   
-    fixtures :source_records, :data_records
+    fixtures :active_sources, :data_records
      
     def setup
-      @test_records = DataRecord.find_data_records(1)
+      @test_records = DataTypes::DataRecord.find_data_records(Fixtures.identify(:something))
     end
     
     # test not nil and records numbers
@@ -22,12 +22,12 @@ module TaliaCore
   
     # test class type and mime_type and subtype
     def test_mime_types
-      assert_kind_of(ImageData, @test_records[7])
-      assert_kind_of(ImageData, @test_records[8])
-      assert_kind_of(ImageData, @test_records[9])
-      assert_kind_of(ImageData, @test_records[10])
-      assert_kind_of(ImageData, @test_records[11])
-      assert_kind_of(ImageData, @test_records[12])
+      assert_kind_of(DataTypes::ImageData, @test_records[7])
+      assert_kind_of(DataTypes::ImageData, @test_records[8])
+      assert_kind_of(DataTypes::ImageData, @test_records[9])
+      assert_kind_of(DataTypes::ImageData, @test_records[10])
+      assert_kind_of(DataTypes::ImageData, @test_records[11])
+      assert_kind_of(DataTypes::ImageData, @test_records[12])
       assert_equal("image/bmp", @test_records[7].mime_type)
       assert_equal("image/fits", @test_records[8].mime_type)
       assert_equal("image/gif", @test_records[9].mime_type)
@@ -64,6 +64,16 @@ module TaliaCore
       
       # Re-check position (it should be 0)
       assert_equal(0, @test_records[7].position)
+    end
+    
+    def test_attach_image
+      test_uri = 'http://testy.com/image_attach'
+      src = Source.new(test_uri)
+      src.data_records << TaliaCore::DataTypes::ImageData.new
+      src.save!
+      rel = Source.find(src.id)
+      assert_equal(1, rel.data_records.size)
+      assert_kind_of(DataTypes::ImageData, rel.data_records[0])
     end
         
     private

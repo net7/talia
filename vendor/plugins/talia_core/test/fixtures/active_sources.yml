@@ -74,3 +74,29 @@ sti_source_reltest_b:
 
 sti_source_reltest_c:
     uri: http://testy.com/sti_source_reltest_c
+
+strange_attach:
+    uri: http://testy.com/strangeattachtest
+
+
+# Sources
+
+something:
+  uri: http://localnode.org/something
+  type: Source
+
+otherthing:
+  uri: http://localnode.org/otherthing
+  type: Source
+  
+first_book:
+  uri: http://localnode.org/firstbook
+  type: Source
+  
+second_book:
+  uri: http://localnode.org/secondbook
+  type: Source
+  
+third_book:
+  uri: http://localnode.org/thirdbook
+  type: Source

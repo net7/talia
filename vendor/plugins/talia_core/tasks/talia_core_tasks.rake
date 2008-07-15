@@ -17,6 +17,7 @@ namespace :talia_core do
   task :talia_init do
     Util::title
     Util::init_talia
+    TLoad::force_rails_parts
     Util::talia_config if(Util::flag?('verbose'))
   end
   
