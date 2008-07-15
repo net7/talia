@@ -39,7 +39,7 @@ class SourceSnippetWidget < Widgeon::Widget
   # Check if the type template exists on disk, otherwise return "default"
   def check_type_template(type)
     assit_kind_of(String, type)
-    file_name = File.join(self.class.path_to_self, @template_dir, "_#{type}.rhtml")
+    file_name = File.join(self.class.path_to_self, 'views', @template_dir, "_#{type}.rhtml")
     if(FileTest.exists?(file_name))
       File.join(@template_dir, type)
     else

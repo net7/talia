@@ -1,7 +1,5 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-include TaliaCore
-
 # Test the application helpers
 class SourceUsageTest < Test::Unit::TestCase
   

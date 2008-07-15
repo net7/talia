@@ -45,7 +45,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
   def test_should_update_user
     login_as :admin
     
-    put :update, :id => 1, :user => { }
+    put :update, :id => Fixtures.identify(:someone), :user => { }
     assert_redirected_to :action => "show", :id => assigns(:user)
   end
   
@@ -53,7 +53,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
     login_as :admin
     
     assert_difference('User.count', -1) do
-      delete :destroy, :id => 1
+      delete :destroy, :id => Fixtures.identify(:someone)
     end
 
     assert_redirected_to :action => "index"
