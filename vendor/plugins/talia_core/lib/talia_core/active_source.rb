@@ -75,7 +75,7 @@ module TaliaCore
         get_objects_on(attribute)
       end
     end
-    alias :[] :get_attribute
+    alias :get_attribute :[]
     # This returns a special object which collects the "inverse" properties 
     # of the Source - these are all RDF properties which have the current
     # Source as the object.
