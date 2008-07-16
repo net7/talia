@@ -1,0 +1,2 @@
+module CreateSemanticRelationsHelper
+end
