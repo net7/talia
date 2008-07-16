@@ -1,23 +1,23 @@
 something:
   id: 1
-  name: something
+  #name: something
   uri: <%= N::LOCAL %>something
-  primary_source: 0
+  #primary_source: 0
 
 one:
   id: 2
-  name: one
+  #name: one
   uri: <%= N::LOCAL %>one
-  primary_source: 0
+  #primary_source: 0
 
 two:
   id: 3
-  name: two
+  #name: two
   uri: <%= N::LOCAL %>two
-  primary_source: 0
+  #primary_source: 0
 
 three:
   id: 4
-  name: three
+  #name: three
   uri: <%= N::LOCAL %>three
-  primary_source: 0
+  #primary_source: 0

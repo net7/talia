@@ -5,6 +5,8 @@ class CreateActiveSources < ActiveRecord::Migration
       t.string :uri, :null => false
       t.string :type
     end
+    
+    add_index :active_sources, :uri, :unique => true
   end
 
   def self.down

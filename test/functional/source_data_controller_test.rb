@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 # Put a dummy data class here, just for this test
-class TaliaCore::DummyDataRecord < TaliaCore::DataRecord
+class TaliaCore::DummyDataRecord < TaliaCore::DataTypes::DataRecord
   def all_bytes
     "test string".unpack('C*')
   end

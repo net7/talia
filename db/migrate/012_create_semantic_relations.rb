@@ -7,6 +7,8 @@ class CreateSemanticRelations < ActiveRecord::Migration
       t.string :predicate_uri, :null => false
     end
     
+    add_index :semantic_relations, :predicate_uri, :unique => false
+    
   end
 
   def self.down
