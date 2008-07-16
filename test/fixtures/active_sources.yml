@@ -3,21 +3,25 @@ something:
   #name: something
   uri: <%= N::LOCAL %>something
   #primary_source: 0
+  type: Source
 
 one:
   id: 2
   #name: one
   uri: <%= N::LOCAL %>one
   #primary_source: 0
+  type: Source
 
 two:
   id: 3
   #name: two
   uri: <%= N::LOCAL %>two
   #primary_source: 0
+  type: Source
 
 three:
   id: 4
   #name: three
   uri: <%= N::LOCAL %>three
   #primary_source: 0
+  type: Source
