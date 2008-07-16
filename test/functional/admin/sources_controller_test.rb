@@ -77,7 +77,7 @@ class Admin::SourcesControllerTest < ActionController::TestCase
 
   private
   def source
-    @source ||= TaliaCore::Source.find('something')
+    @source ||= TaliaCore::Source.find("something")
   end
   
   def params(attributes = predicates_attributes)
@@ -104,6 +104,6 @@ class Admin::SourcesControllerTest < ActionController::TestCase
   end
   
   def data_record
-    @data_record ||= TaliaCore::DataRecord.find(:first)
+    @data_record ||= TaliaCore::DataTypes::DataRecord.find(:first)
   end
 end
