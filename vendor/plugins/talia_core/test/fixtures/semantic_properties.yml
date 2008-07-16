@@ -11,3 +11,6 @@ delete_me:
 
 delete_me_not:
     value: Keep Me!
+
+predicate_test:
+    value: I'm a redshirt, going to die!

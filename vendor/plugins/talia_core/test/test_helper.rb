@@ -12,15 +12,6 @@ module TaliaCore
 #    public :instantiate_source_or_rdf_object
 #  end
   
-  class MacroContribution
-    # Remove all related sources, used by test suite.
-    def clear
-      sources.each do |source|
-        self.remove source
-      end
-    end
-  end
-  
   class TestHelper
     # Check if we have old (1.2.3-Rails) style ActiveRecord without fixture cache
     @@new_ar = Fixtures.respond_to?(:reset_cache)

@@ -226,6 +226,14 @@ module TaliaCore
       assert_equal(src['http://strangeattach_prop'][0],"Nous présentons un commentaire de l'aphorisme 103 du Voyageur et son ombre, que Nietzsche a intitulé \" Lessing \" et où l'oeuvre de cet écrivain est jugée du du point de vue du style.\nOn ne comprend vraiment le problème que si on inscrit l'aphorisme dans le cadre de la réception par Nietzsche, dès ses années d'études, des oeuvres de Lessing. Il résulte de notre analyse que Nietzsche définit le style de Lessing en le comparant à ce que Nietzsche lui-même appelle l'école française. À l'époque du Voyageur, le concept de sérénité (Heiterkeit) dont Montaigne est le modèle, est central pour juger un style. La question est de savoir à quelle école française Lessing a appartenu. La réponse de Nietzsche est apparemment assez ambiguë : Lessing est rapproché non seulement de Bayle, de Voltaire, de Diderot et de Montaigne, mais aussi de Marivaux, de Corneille et de Racine.")
     end
     
+    def test_destroy_from_predicate
+      src = active_sources(:pred_destroy_test)
+      assert_equal(3, src.objects.size)
+      src['http://testvalue.org/pred_destroy_a'].remove
+      src.save!
+      assert_equal(1, active_sources(:pred_destroy_test).objects.size)
+    end
+    
   end
   
 end

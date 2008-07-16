@@ -109,3 +109,20 @@ sti_relation_inv:
     subject: sti_source_b
     object: sti_source (TaliaCore::ActiveSource)
     predicate_uri: http://testvalue.org/sti_test
+
+pred_destroy_a:
+    subject: pred_destroy_test
+    object: pred_destroy_target (TaliaCore::ActiveSource)
+    predicate_uri: http://testvalue.org/pred_destroy_a
+
+pred_destroy_val:
+    subject: pred_destroy_test
+    object: predicate_test (TaliaCore::SemanticProperty)
+    predicate_uri: http://testvalue.org/pred_destroy_a
+
+
+
+pred_destroy_b:
+    subject: pred_destroy_test
+    object: pred_destroy_target (TaliaCore::ActiveSource)
+    predicate_uri: http://testvalue.org/pred_destroy_b

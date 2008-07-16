@@ -43,7 +43,7 @@ module TaliaCore
       if(params.length > 0)
         params.each { |par| remove_relation(par) }
       else
-        @assoc_source.semantic_relations.destroy_all(:predicate_url => @assoc_predicate)
+        SemanticRelation.destroy_all(:predicate_uri => @assoc_predicate, :subject_id => @assoc_source.id) 
       end
     end
     

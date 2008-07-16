@@ -78,6 +78,11 @@ sti_source_reltest_c:
 strange_attach:
     uri: http://testy.com/strangeattachtest
 
+pred_destroy_test:
+    uri: http://testy.com/preddestroytest
+
+pred_destroy_target:
+    uri: http://testy.com/preddestroy_target
 
 # Sources
 
