@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 # Put a dummy data class here, just for this test
-class TaliaCore::DummyDataRecord < TaliaCore::DataRecord
+class TaliaCore::DummyDataRecord < TaliaCore::DataTypes::DataRecord
   def all_bytes
     "test string".unpack('C*')
   end
@@ -17,7 +17,7 @@ end
 
 class SourceDataControllerTest < Test::Unit::TestCase
 
-  fixtures :source_records, :data_records 
+  fixtures :active_sources, :data_records 
   
   # Setup some dome data, not quite nice but will do for now
   def setup
@@ -80,6 +80,6 @@ class SourceDataControllerTest < Test::Unit::TestCase
   end
   
   def full_filename
-    File.join(TaliaCore::DataRecord.data_path, 'ImageData', file)
+    File.join(TaliaCore::DataTypes::DataRecord.data_path, 'ImageData', file)
   end
 end

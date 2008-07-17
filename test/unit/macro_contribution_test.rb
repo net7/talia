@@ -1,5 +1,5 @@
 require 'test/unit'
-require File.join(File.dirname(__FILE__), '..', '..', 'vendor', 'plugins', 'talia_core', 'test', 'test_helper')
+require File.dirname(__FILE__) + '/../test_helper'
 
 module TaliaCore
   class MacroContributionTest < Test::Unit::TestCase
@@ -21,7 +21,7 @@ module TaliaCore
     end
     
     def test_initialize
-      assert_false macro_contribution.primary_source
+      assert !macro_contribution.primary_source
     end
     
     def test_sources
@@ -47,7 +47,7 @@ module TaliaCore
     def test_should_remove_source
       macro_contribution << source
       macro_contribution.remove source
-      assert_empty macro_contribution.sources
+      assert macro_contribution.sources.empty?
     end
     
     def test_should_not_raise_exception_if_try_to_remove_nil_source
