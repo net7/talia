@@ -1,11 +1,5 @@
 module TaliaCore 
   class FacsimileEdition < MacroContribution
-    def initialize(uri, *types)
-      super(uri, *types)
-      # TODO: 'Facsimile' should actually be a valid value in the ontology
-      self.macrocontribution_type = 'Facsimile'
-    end
-    
     # returns an array containing a list of the book types available and connected to this facsimile edition
     # (e.g.: 'Works', 'Manuscripts', ...)
     def types
@@ -84,7 +78,7 @@ module TaliaCore
         else
           # the book name has been passed, but we haven't the page name
           # we redirect to the "page" action of the first page of the book
-          book = Source.find(requested_book) || nil
+          book = Source.find("http://www.talia.discovery-project.org/sources/#{requested_book}") || nil
 #          this was used toghether with a different way of creating the redirection.
 #          please look at facsimile_editions_controller.rb 
 #          result = {:book => "#{book.id}"}
@@ -102,7 +96,8 @@ module TaliaCore
         else
           # both the book name and the page name were given, we redirect 
           # the user right there, in the "page" action of it          
-          book = Source.find(requested_book)
+          book = Source.find("http://www.talia.discovery-project.org/sources/#{requested_book}")
+          #TODO: it stopped working after the new backend creation
           qry1 = RdfQuery.new(:EXPRESSION, N::HYPER::part_of, book)
           qry2 = RdfQuery.new(:EXPRESSION, N::HYPER::position_name, requested_page)
           #TODO: check that the page is in the facsimile edition 

@@ -1,5 +1,4 @@
 class FacsimileEditionsController < ApplicationController
-  include TaliaCore
   before_filter :find_facsimile_edition
  
   # GET /facsimile_editions/1
@@ -42,8 +41,8 @@ class FacsimileEditionsController < ApplicationController
   # TODO DRYup w/ panorama
   # GET /facsimile_editions/1/1,1
   # 
-  # GET /facsimile_editions/1/1/1,1.jpeg
-  # GET /facsimile_editions/1/1/1,1.jpeg?size=thumbnail
+  # GET /facsimile_editions/1/1,1.jpeg
+  # GET /facsimile_editions/1/1,1.jpeg?size=thumbnail
   def page
     respond_to do |format|
       format.html do
@@ -113,30 +112,8 @@ class FacsimileEditionsController < ApplicationController
     render :template => "simple_mode/facsimile_edition/double_page_view", :layout => "facsimile_edition"
   end
   
-  def facsimile_edition_creation
-    #just a reference for the creation of a Facsimile Edition
-      
-    #creation
-    @mc = FacsimileEdition.new('TEST')
-    @mc.save!
-        
-    #addition of the "title" data
-    @mc.title="TEST Facsimile Edition"
-    #addition of the editor's notes' (used in the fe_type_list page)
-    @mc.editors_notes="Description text of this Facsimile Edition, written by the author"
-
-    
-    #addition of some sources to the Macrocontribution
-    @mc.add_source("egrepalysviola-1807")
-    @mc.add_source("egrepalysviola-1805")
-    @mc.add_source("egrepalysviola-1831")
-    
-
-    render :template => "simple_mode/facsimile_edition/test"  
-  end
-  
   private
   def find_facsimile_edition
-    @facsimile_edition = FacsimileEdition.find(params[:id])
+    @facsimile_edition = TaliaCore::FacsimileEdition.find("#{N::LOCAL}#{params[:id]}")
   end
 end

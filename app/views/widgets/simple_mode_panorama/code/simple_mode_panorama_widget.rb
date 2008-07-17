@@ -83,7 +83,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
   private 
   def horizontal_line(element)
     url = "#{params[:book]}/#{element}"
-    image_url = "http://localhost:3000/facsimile_editions/#{params[:id]}/#{params[:book]}/#{element}.jpeg?size=thumbnail"
+    image_url = "/facsimile_editions/#{params[:id]}/#{params[:book]}/#{element}.jpeg?size=thumbnail"
     #image_url = formatted_facsimile_edition_book_page(params[:id], params[:book], element)
 
     text = "<img src='#{image_url}'/>#{element}"
@@ -92,7 +92,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
   
   def vertical_line(element)
     url = "#{element}"
-    image_url = "http://localhost:3000/facsimile_editions/#{params[:id]}/#{params[:book]}/#{element}.jpeg?size=thumbnail"
+    image_url = "/facsimile_editions/#{params[:id]}/#{params[:book]}/#{element}.jpeg?size=thumbnail"
     text = "<img src='#{image_url}'/>#{element}"
     result = "#{titled_link(url, text)}"  
   end

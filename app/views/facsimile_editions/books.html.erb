@@ -14,7 +14,7 @@
     <% @books.each do |book| %>
       <li>
         <h1>
-          <% url = "#{book}" %>
+          <% url = "/facsimile_editions/#{params[:id]}/#{book}" %>
           <% title = "#{book}" %>
           <% text = "<img src='/facsimile_editions/#{params[:id]}/#{book}.jpeg?size=thumbnail' alt='#{book}' border='0'/>#{book}" %>        
           <%= titled_link(url, text, title)%>

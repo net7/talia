@@ -3,7 +3,7 @@ module TaliaCore #:nodoc:
   class MacroContribution < Source
     
     # FIXME on app boot it raises an error, because doesn't know about N::HYPER
-#    SOURCE_PREDICATE = N::HYPER + 'hasAsPart'
+    #    SOURCE_PREDICATE = N::HYPER + 'hasAsPart'
     SOURCE_PREDICATE =  'http://www.hypernietzsche.org/ontology#hasAsPart'
 
     attr_writer :title, :description, :macrocontribution_type

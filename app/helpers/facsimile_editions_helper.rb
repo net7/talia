@@ -1,4 +1,18 @@
 module FacsimileEditionsHelper
+  # creates the window title 
+  def page_title
+    case action_name
+    when "show"
+      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.hyper::title}"
+    when "books"      
+      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.hyper::title}, #{params[:type].t}"
+    when "panorama"
+      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.hyper::title}, #{params[:book].t}" 
+    when "page"
+      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.hyper::title}, #{params[:page].t}"      
+    end
+  end
+  
   # creates the elements to be shown in the path
   def path    
     path = []
@@ -35,6 +49,7 @@ module FacsimileEditionsHelper
     when "books"
       result = false
     when "panorama"
+      result = true
     when "page"
       result = true
     end
@@ -51,21 +66,33 @@ module FacsimileEditionsHelper
   
   # creates the elements to be shown in the tabs, depending on the action we're in
   def tabs_elements
-    result =[]
+    result = []
     case action_name
     when "show"
       result = [{:link => "", :text => "Editor's Introduction".t, :selected => true}]
     when "books"
-      result = []
+      subtypes = @facsimile_edition.subtypes(params[:type])
+      selected_subtype = params[:subtype] || subtypes[0]
+      subtypes.each do |subtype|
+        if (subtype == selected_subtype)
+          selected = true
+        else 
+          selected = false
+        end
+        result << {:link => "/facsimile_editions/#{params[:id]}/#{params[:type]}/#{subtype}", :text => subtype.t, :selected => selected}
+      end
     when "panorama"
       result = [{:link => "", :text => params[:book], :selected => true}] 
     when "page"
       result = [{:link => "", :text => params[:book], :selected => true}]       
     end
+    result
   end
   
   # returns a link to the next page, used in the "page" action
   def next_page
+    #TODO: dual page case
+    #    page_uri = params[:page] || params[:page2]
     page = @facsimile_edition.neighbour_source(params[:page],'next')
     result ="<p class='next'><a href='#{page}'></a></p>"
   end
