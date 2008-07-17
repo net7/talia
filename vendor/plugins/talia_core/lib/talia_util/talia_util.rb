@@ -64,7 +64,7 @@ module TaliaUtil
   
       # Flush the database
       def flush_db
-        [ 'source_records', 'dirty_relation_records', 'type_records', 'data_records'].reverse.each { |f| ActiveRecord::Base.connection.execute "DELETE FROM #{f}" }
+        [ 'active_sources', 'data_records'].reverse.each { |f| ActiveRecord::Base.connection.execute "DELETE FROM #{f}" }
         puts "All database records deleted"
       end
   
