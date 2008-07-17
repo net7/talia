@@ -49,7 +49,12 @@ module TLoad
   private
   
   def self.load_from_gem(gem_name, local_name, gem_version)
-    gem gem_name, gem_version
+    if gem_version
+      gem gem_name, gem_version
+    else
+      gem gem_name
+    end
+    
     require local_name
   end
 
