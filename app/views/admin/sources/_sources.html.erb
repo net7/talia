@@ -8,7 +8,7 @@
 <% for source in @sources -%>
   <tr class="<%= cycle("odd", "even") -%>">
     <% name = source.uri.to_s.split('/').last -%>
-    <td><a href="<%=h source.uri %>" title="<%=h name.titleize %>"><%=h name.titleize %></a></td>
+    <td><%= link_to h(name.titleize), {:controller => '/sources', :action => 'show', :id => source.uri.local_name}, {:title => h(name.titleize)} %></td>
     <td><%=h source.primary_source %></td>
     <td><%= link_to 'Edit', url_for(:action => :edit, :id => name) %></td>
   </tr>
