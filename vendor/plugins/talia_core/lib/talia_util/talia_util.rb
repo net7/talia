@@ -80,9 +80,8 @@ module TaliaUtil
       # Load the fixtures
       def load_fixtures
         # fixtures = ENV['FIXTURES'] ? ENV['FIXTURES'].split(/,/) : Dir.glob(File.join(File.dirname(__FILE__), 'test', 'fixtures', '*.{yml,csv}'))  
-        fixtures = [ 'source_records', 'type_records', 'dirty_relation_records', 'data_records']
+        fixtures = [ 'active_sources', 'semantic_relations', 'semantic_properties' 'data_records']
         fixtures.reverse.each { |f| ActiveRecord::Base.connection.execute "DELETE FROM #{f}" }
-        fixture_files = fixtures.collect { |f| File.join(File.dirname(__FILE__), "#{f}.yml") }
         fixtures.each do |fixture_file|
           Fixtures.create_fixtures(File.join('test', 'fixtures'), File.basename(fixture_file, '.*'))  
         end  
