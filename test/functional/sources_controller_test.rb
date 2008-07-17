@@ -5,7 +5,7 @@ require 'sources_controller'
 class SourcesController; def rescue_action(e) raise e end; end
 
 class SourcesControllerTest < Test::Unit::TestCase
-  fixtures :source_records
+  fixtures :active_sources
   
   N::Namespace.shortcut(:myns, "http://myns.org/")
   
