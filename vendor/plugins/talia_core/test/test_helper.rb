@@ -5,7 +5,7 @@ require 'active_support/testing'
 require 'active_support/test_case'
 require 'active_record/fixtures'
 
-@@flush_tables = [ 'active_sources', 'semantic_relations', 'semantic_properties']
+@@flush_tables = [ 'active_sources', 'semantic_relations', 'semantic_properties', 'data_records', 'workflows' ]
 
 module TaliaCore
 #  class Source
@@ -102,6 +102,11 @@ module TaliaCore
       instance_variable_set(:"@#{variable}", value)
     end
     
+    # Creates a source for the given uri
+    def create_source(uri)
+      Source.create!(uri)
+    end
+    
     # Assert the given condition is false
     def assert_not(condition, message = nil)
       assert !condition, message
@@ -133,6 +138,12 @@ module TaliaCore
     def assert_boolean(object)
       assert_kind_of_classes(object, TrueClass, FalseClass)
     end
+    
+    # Assert the source for the given uri exists.
+    def assert_source_exist(uri, message = nil)
+      assert Source.exists?(uri), message
+    end
+    alias_method :assert_source_exists, :assert_source_exist
     
     protected 
     

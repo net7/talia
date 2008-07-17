@@ -32,16 +32,18 @@ module TaliaCore
     def local
       uri.local?
     end
-    
+
+    alias_method :ar_update_attributes, :update_attributes    
     # Wrapping for <tt>ActiveRecord</tt> <tt>update_attributes</tt>.
     def update_attributes(attributes)
-      source_record_attributes, attributes = extract_attributes!(attributes)
-      @source_record.update_attributes(source_record_attributes)
-      attributes.each do |k,v|
+      attributes, rdf_attributes = extract_attributes!(attributes)
+      self.ar_update_attributes(attributes)
+
+      rdf_attributes.each do |k,v|
         send(k + "=", v)
         send('save_' + k)
       end
-    end
+    end    
     
     # Shortcut for assigning the primary_source status
     def primary_source=(value)
@@ -246,14 +248,14 @@ module TaliaCore
     
     protected
     
-    # Separates given attributes distinguishing between Source related and SourceRecord related.
+    # Separates given attributes distinguishing between ActiveSource and RDF.
     def extract_attributes!(attributes)
-      source_record_attributes = attributes.inject({}) do |source_record_attributes, column_values|
-        source_record_attributes[column_values.first] = attributes.delete(column_values.first) if SourceRecord.column_names.include? column_values.first
-        source_record_attributes
+      active_source_attributes = attributes.inject({}) do |active_source_attributes, column_values|
+        active_source_attributes[column_values.first] = attributes.delete(column_values.first) if self.class.column_names.include? column_values.first
+        active_source_attributes
       end
 
-      [ source_record_attributes, attributes ]
+      [ active_source_attributes, attributes ]
     end
     
     # Look at the given attributes and choose to instantiate

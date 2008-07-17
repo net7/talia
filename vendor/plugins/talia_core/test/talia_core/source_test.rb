@@ -27,8 +27,7 @@ module TaliaCore
         {"name"=>"type", "uri"=>"http://www.w3.org/2000/01/rdf-schema#Resource", "namespace"=>"rdf", "titleized"=>"Resource", "should_destroy" => ""},
         {"name"=>"type", "uri"=>"http://xmlns.com/foaf/0.1/Group", "should_destroy"=>"", "namespace"=>"rdf", "id"=>"Group", "titleized"=>"Group", "should_destroy" => ""}]
       
-      @params = {"uri"=>"#{N::LOCAL}Guinigi_family", "primary_source"=>"true",
-        "predicates_attributes"=>@predicates_attributes }
+      @params = {"uri"=>"#{N::LOCAL}Guinigi_family", "predicates_attributes"=>@predicates_attributes }
         
       setup_once(:flush) do
         TestHelper.flush_rdf
@@ -272,10 +271,8 @@ module TaliaCore
       source = TestHelper.make_dummy_source("http://direct_predicate_for_napoleon/")
       source.default::historical_character << Source.new("#{N::LOCAL}napoleon")
       source.default::historical_character << "Giuseppe Garibaldi"
-      # Expected size of direct predicates:
-      # Two for the predicates set above
-      # one for the DatabaseDupes and one for 22-rdf-syntax-ns
-      assert_equal(3, source.grouped_direct_predicates.size)
+
+      assert_equal(2, source.grouped_direct_predicates.size)
       predicates = source.grouped_direct_predicates['default']
       predicates.each do |group, source_list|
         source_list.flatten.each do |source|
@@ -312,16 +309,17 @@ module TaliaCore
     end
 
     def test_save_predicates_attributes
-      source = TestHelper.make_dummy_source("http://star-wars.org/")
+      source = create_source('http://star-warz.org/')
       @predicates_attributes[2] = @predicates_attributes[2].merge({'should_destroy' => '1'})
       @predicates_attributes << {"name"=>"in_epoch", "uri"=> N::LOCAL.to_s, "should_destroy"=>"", "namespace"=>"talias", "id"=>"", "titleized"=>"Paolo Guinigi"}
       source.predicates_attributes = @predicates_attributes
       source.save_predicates_attributes
       
-      assert(Source.exists?("#{N::LOCAL}Paolo_Guinigi"))
-      # Expected size is equal to 6, because @predicates_attributes
-      # contains 8 sources, but 1 is marked for destroy.
-      assert_equal(6, source.direct_predicates_objects.size)
+      assert_source_exists "#{N::LOCAL}Paolo_Guinigi"
+      source = create_source('http://star-warz.org/') # force the source reload
+      # Expected size is equal to 5, because @predicates_attributes
+      # contains 6 sources, but 1 is marked for destroy.
+      assert_equal(5, source.direct_predicates_objects.size)
     end
 
     def test_normalize_uri
@@ -332,11 +330,11 @@ module TaliaCore
     
     def test_extract_attributes
       source = TestHelper.make_dummy_source("http://star-wars.org/")
-      source_record_attributes, attributes = source.send(:extract_attributes!, @params)
+      attributes, rdf_attributes = source.send(:extract_attributes!, @params)
 
-      assert_equal(%w(uri primary_source), source_record_attributes.keys)
-      attributes['predicates_attributes'].each do |attributes_hash|
-        assert_kind_of(Hash, attributes_hash)
+      assert_equal(%w( uri ), attributes.keys)
+      rdf_attributes['predicates_attributes'].each do |attributes_hash|
+        assert_kind_of Hash, attributes_hash
       end
     end
     
@@ -344,21 +342,21 @@ module TaliaCore
       source = TestHelper.make_dummy_source("http://springfield.org/")
 
       attributes = { 'uri' => N::LOCAL.to_s, 'titleized' => 'Homer Simpson', 'source' => 'true' }
-      result = source.instantiate_source_or_rdf_object(attributes)
+      result = source.send :instantiate_source_or_rdf_object, attributes
       assert_kind_of(Source, result)
       assert_equal("#{N::LOCAL}Homer_Simpson", result.to_s)
       
       attributes.merge!('titleized' => %("Homer Simpson"))
-      result = source.instantiate_source_or_rdf_object(attributes)
+      result = source.send :instantiate_source_or_rdf_object, attributes
       assert_equal(%(Homer Simpson), result)
             
       attributes.merge!('titleized' => "http://springfield.org/Homer_Simpson")
-      result = source.instantiate_source_or_rdf_object(attributes)
+      result = source.send :instantiate_source_or_rdf_object, attributes
       assert_kind_of(Source, result)
       assert_equal("http://springfield.org/Homer_Simpson", result.to_s)
       
       attributes.merge!('titleized' => "Homer Simpson", 'uri' => nil, 'source' => nil)
-      result = source.instantiate_source_or_rdf_object(attributes)
+      result = source.send :instantiate_source_or_rdf_object, attributes
       assert_equal(%(Homer Simpson), result)
     end
     
