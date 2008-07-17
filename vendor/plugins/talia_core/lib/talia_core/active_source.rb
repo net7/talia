@@ -152,7 +152,8 @@ module TaliaCore
     # that method exists; otherwise it'll return nil
     def self.uri_string_for(value)
       if(value.is_a?(String))
-        value
+        # if this is a local name, prepend the local namespace
+        (value =~ /:/) ? value : N::LOCAL + value 
       elsif(value.respond_to?(:uri))
         value.uri
       else

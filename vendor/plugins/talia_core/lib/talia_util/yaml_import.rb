@@ -50,8 +50,8 @@ module TaliaUtil
           types = types.collect { |type| N::URI.make_uri(type) }
         
           # Create the source
-          source = TaliaCore::Source.new(source_name, *types)
-          source.primary_source = primary_source
+          source = TaliaCore::Source.new(source_name)
+          source.types << types
           source.save! # save the thing
         
           # Now add the rdf elements

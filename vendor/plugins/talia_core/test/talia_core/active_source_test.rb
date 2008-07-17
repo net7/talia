@@ -234,6 +234,11 @@ module TaliaCore
       assert_equal(1, active_sources(:pred_destroy_test).objects.size)
     end
     
+    def test_create_local
+      src = ActiveSource.new('testlocalthing')
+      assert_equal(N::LOCAL.testlocalthing, src.uri)
+    end
+    
   end
   
 end
