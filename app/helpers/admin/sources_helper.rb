@@ -25,16 +25,8 @@ module Admin::SourcesHelper
     end
   end
   
-  def file_type(data_type)
-    data_type = case data_type
-    when Class
-      data_type.name
-    when nil
-      'Record'
-    else
-      data_type
-    end.demodulize.gsub(/(Data|Simple)/, '').gsub(/Record/, 'File').upcase
-
+  def file_type(data)
+    data_type = data.class.name.demodulize.gsub(/(Data|Simple)/, '').gsub(/Record/, 'File').upcase
      %(<span class="data #{h data_type.downcase}">#{h data_type}</span>)
   end
   
