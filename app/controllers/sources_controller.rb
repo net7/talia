@@ -7,7 +7,7 @@ class SourcesController < ApplicationController
   def index
     # For "normal" operations, we just create a pager
     @source_options = { :page => 1, :per_page => PER_PAGE }
-    @sources = Source.paginate(@source_options)
+    @sources = TaliaCore::Source.paginate(@source_options)
     
     @types = N::LUCCADOM.elements_with_type(N::RDFS.Class, N::SourceClass)
     @group_increment = 2
@@ -21,7 +21,7 @@ class SourcesController < ApplicationController
   # GET /sources/1
   # GET /sources/1.xml
   def show
-    @source = Source.find(params[:id])
+    @source = TaliaCore::Source.find(params[:id])
     @page_subtitle = @source.uri.to_s
     respond_to do |format|
       format.html # show.html.erb
@@ -33,7 +33,7 @@ class SourcesController < ApplicationController
   # GET /sources/1/name
   def show_attribute
     headers['Content-Type'] = Mime::TEXT
-    attribute = Source.find(params[:source_id])[params[:attribute]]
+    attribute = TaliaCore::Source.find(params[:source_id])[params[:attribute]]
     status = '404 Not Found' if attribute.nil?
     render :text => attribute.to_s, :status => status
   end
@@ -41,7 +41,7 @@ class SourcesController < ApplicationController
   # GET /sources/1/foaf/friend
   def show_rdf_predicate
     headers['Content-Type'] = Mime::TEXT
-    predicates = Source.find(params[:id]).predicate(params[:namespace], params[:predicate])
+    predicates = TaliaCore::Source.find(params[:id]).predicate(params[:namespace], params[:predicate])
     if predicates.nil?
       # This is a workaround: when predicates is nil it tries to render a template with the name of this method.
       predicates = ''

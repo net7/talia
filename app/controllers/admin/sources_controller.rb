@@ -1,9 +1,9 @@
 require 'paginator'
 
 class Admin::SourcesController < ApplicationController
+  include TaliaCore
   require_role 'admin'
   layout 'sources'
-  include TaliaCore
   
   # GET /admin/sources
   # GET /admin/sources.xml
@@ -23,13 +23,13 @@ class Admin::SourcesController < ApplicationController
 
   # GET /admin/sources/1/edit
   def edit
-    @source = Source.find(params[:id])
+    @source = TaliaCore::Source.find(params[:id])
   end
 
   # PUT /admin/sources/1
   # PUT /admin/sources/1.xml
   def update
-    @source = Source.find(params[:id])
+    @source = TaliaCore::Source.find(params[:id])
 
     respond_to do |format|
       if @source.update_attributes(params[:source])
