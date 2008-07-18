@@ -32,11 +32,11 @@ module TaliaCore #:nodoc:
     delegate :remove, :include?, :to => :sources
 
     def save
-      super
       [:title, :description, :macrocontribution_type].each do |attribute|
         self.predicate(:hyper, attribute.to_s).remove
         self.predicate_set(:hyper, attribute.to_s, send(attribute))
       end
+      super
     end
     
     def title
@@ -50,5 +50,6 @@ module TaliaCore #:nodoc:
     def macrocontribution_type
       @macrocontribution_type ||= self.hyper::macrocontribution_type.last
     end
+    
   end  
 end  
