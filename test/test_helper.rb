@@ -36,5 +36,13 @@ class Test::Unit::TestCase
   # Add more helper methods to be used by all tests here...
 end
 
+def uses_mocha(description)
+  require 'rubygems'
+  require 'mocha'
+  yield
+rescue LoadError
+  $stderr.puts "Skipping #{description} tests. `gem install mocha` and try again."
+end
+
 require File.expand_path(File.dirname(__FILE__) + "/../lib/authenticated_test_helper")
 include AuthenticatedTestHelper

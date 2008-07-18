@@ -1,5 +1,5 @@
 class SourceDataController < ApplicationController
-  include TaliaCore
+  include TaliaCore::DataTypes
   upload_status_for :create
   
   # GET /source_data/1
