@@ -37,14 +37,18 @@ module HyperDownload
     
     # Grabs the siglum from the export URL
     def grab_siglum(siglum)
-      siglum_enc = URI.escape(siglum)
-      open(@fetch_url + siglum_enc, :http_basic_authentication => @auth) do |io|
+      begin
+        siglum_enc = URI.escape(siglum)
+        open(@fetch_url + siglum_enc, :http_basic_authentication => @auth) do |io|
   
-        xml_el_doc = REXML::Document.new(io)
-        load_file(xml_el_doc) unless(file_mode == :skip)
-        File.open(File.join(@output_path, "#{siglum_enc}.xml"), 'w') do |file|
-          xml_el_doc.write(file)
+          xml_el_doc = REXML::Document.new(io)
+          load_file(xml_el_doc) unless(file_mode == :skip)
+          File.open(File.join(@output_path, "#{siglum_enc}.xml"), 'w') do |file|
+            xml_el_doc.write(file)
+          end
         end
+      rescue Exception => e
+        puts "Had an exception #{e} while loading siglum #{siglum}"
       end
     end
 
@@ -68,15 +72,20 @@ module HyperDownload
         return
       end
   
-      puts("fetching file from #{file_url} to #{file_name}")
+      # puts("fetching file from #{file_url} to #{file_name}")
   
       # download the new file
       file_url.gsub!(/\[/, '%5B') # URI class doesn't like unescaped brackets
       file_url.gsub!(/\]/, '%5D')
-      open(file_url, :http_basic_authentication => ["nietzsche", "source"]) do |io|
-        open(File.join(@data_path, file_name), 'w') do |file|
-          file << io.read
+      begin
+        open(file_url, :http_basic_authentication => ["nietzsche", "source"]) do |io|
+          open(File.join(@data_path, file_name), 'w') do |file|
+            file << io.read
+          end
         end
+      rescue Exception => e
+        puts("Exception #{e} while loading #{file_url}. Passing up exception.")
+        raise
       end
       
     end
