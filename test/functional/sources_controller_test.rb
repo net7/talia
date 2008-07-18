@@ -29,7 +29,7 @@ class SourcesControllerTest < Test::Unit::TestCase
     #   sources/show
     # It tries to find a source with the name 'show'
     # This behavior it's ok, cause we cannot never request this route.
-    assert_raise(QueryError) { get :show, {} }
+    assert_raise(ActiveRecord::RecordNotFound) { get :show, {} }
   end
   
   def test_show_with_unexistent_source_name
@@ -54,7 +54,7 @@ class SourcesControllerTest < Test::Unit::TestCase
   
   # SHOW_ATTRIBUTE
   def test_show_attribute_without_thw_source_name
-    assert_raise(QueryError) { get :show_attribute, {} }
+    assert_raise(ActiveRecord::RecordNotFound) { get :show_attribute, {} }
   end
   
   def test_show_attribute_with_unexistent_source_name
@@ -83,7 +83,7 @@ class SourcesControllerTest < Test::Unit::TestCase
   # SHOW_RDF_PREDICATE
   def test_show_rdf_predicate_with_wrong_params
     # empty params
-    assert_raise(QueryError) { get :show_rdf_predicate, {} }
+    assert_raise(ActiveRecord::RecordNotFound) { get :show_rdf_predicate, {} }
     
     # unexistent source
     params = {:id => @unexistent_name, :namespace => 'default', :predicate => 'pr'}
@@ -93,7 +93,7 @@ class SourcesControllerTest < Test::Unit::TestCase
     source = TaliaCore::Source.find(@source_name)
     source.myns::predicate << 'some value'
     params = params.merge(:id => @source_name, :namespace => 'foo')
-    get :show_rdf_predicate, params
+    assert_raise(ArgumentError) { get :show_rdf_predicate, params }
     
     # unexistent predicate
     params = params.merge(:namespace => 'myns')

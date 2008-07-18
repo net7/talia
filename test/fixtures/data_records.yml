@@ -1,6 +1,6 @@
 dummy:
-    id: 1
-    source_id: 1
-    type: DummyDataRecord
-    location: testlocation
+  id: 1
+  source_id: 1
+  type: DataRecord
+  location: testlocation
 

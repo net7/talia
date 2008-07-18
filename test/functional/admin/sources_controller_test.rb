@@ -13,7 +13,7 @@ class Admin::SourcesControllerTest < ActionController::TestCase
 
   def test_should_get_edit
     login_as :admin
-    get :edit, :id => source.label
+    get :edit, :id => source.uri.local_name
     assert_response :success
     
     assert_select '.predicate' do
@@ -29,33 +29,34 @@ class Admin::SourcesControllerTest < ActionController::TestCase
 
   def test_should_update_source
     login_as :admin
-    put :update, :id => source.uri.to_s, :source => { }
+    put :update, :id => source.uri.local_name, :source => { }
     assert_redirected_to :action => 'index'
   end
     
   def test_should_add_relation_with_existing_source
     login_as :admin
-    put :update, :id => source.uri.to_s, :source => params
+    put :update, :id => source.uri.local_name, :source => params
     assert(source.direct_predicates_objects.include?("#{N::LOCAL}one"))
   end
   
   def test_should_add_source_relation_with_unexistent_source
     login_as :admin
-    put :update, :id => source.uri.to_s, :source => params(predicates_attributes_for_unexistent_source)
+    put :update, :id => source.uri.local_name, :source => params(predicates_attributes_for_unexistent_source)
     assert(TaliaCore::Source.exists?(N::LOCAL + 'four'))
     assert(source.direct_predicates_objects.include?("#{N::LOCAL}Four"))
   end
   
   def test_should_remove_source_relation
     login_as :admin
+    source = create_source
     source.talias::attribute << TaliaCore::Source.find('two')
-    put :update, :id => source.uri.to_s, :source => params(predicates_attributes_for_destroyable_relation)
+    put :update, :id => source.uri.local_name, :source => params(predicates_attributes_for_destroyable_relation)
     assert(!source.direct_predicates_objects.include?("#{N::LOCAL}two"))
   end
   
   def test_should_show_data_records_list
     login_as :admin
-    get :edit, :id => source.uri.to_s
+    get :edit, :id => source.uri.local_name
     assert_select('h2', 'Files')
     assert_select '#data' do
       assert_select('ul#list') do
@@ -66,7 +67,7 @@ class Admin::SourcesControllerTest < ActionController::TestCase
   
   def test_show_upload_form
     login_as :admin
-    get :edit, :id => source.uri.to_s
+    get :edit, :id => source.uri.local_name
     html = %(<a href="#" id="upload_link" onclick="try {
       Element.update(&quot;data_form&quot;, &quot;\u003Cform action=\&quot;/source_data/create\&quot; enctype=\&quot;multipart/form-data\&quot; method=\&quot;post\&quot; onsubmit=\&quot;if (this.action.indexOf('upload_id') \u0026lt; 0){ this.action += '?upload_id=1'; }this.target = 'UploadTarget1';$('UploadStatus1').innerHTML='Upload starting...'; if($('UploadProgressBar1')){$('UploadProgressBar1').firstChild.firstChild.style.width='0%'}; if (document.uploadStatus1) { document.uploadStatus1.stop(); }document.uploadStatus1 = new Ajax.PeriodicalUpdater('UploadStatus1','/source_data/upload_status?upload_id=1', Object.extend({asynchronous:true, evalScripts:true, onComplete:function(request){$('UploadStatus1').innerHTML='Upload finished.';if($('UploadProgressBar1')){$('UploadProgressBar1').firstChild.firstChild.style.width='100%'};document.uploadStatus1 = null; onFinishedUpload()}},{decay:1.8,frequency:2.0})); return true\&quot;\u003E\u003Ciframe id=\&quot;UploadTarget1\&quot; name=\&quot;UploadTarget1\&quot; src=\&quot;\&quot; style=\&quot;width:0px;height:0px;border:0\&quot;\u003E\u003C/iframe\u003E\n  \u003Cinput id=\&quot;data_record[source_record_id]\&quot; name=\&quot;data_record[source_record_id]\&quot; type=\&quot;hidden\&quot; value=\&quot;247\&quot; /\u003E\n  \u003Cinput id=\&quot;data_record_file\&quot; name=\&quot;data_record[file]\&quot; size=\&quot;30\&quot; type=\&quot;file\&quot; /\u003E\n  \u003Cinput id=\&quot;data_record_submit\&quot; name=\&quot;commit\&quot; onclick=\&quot;showUploadProgressBar();\&quot; type=\&quot;submit\&quot; value=\&quot;Upload\&quot; /\u003E or \u003Ca href=\&quot;#\&quot; onclick=\&quot;try {\n$(\u0026quot;data_form\u0026quot;).visualEffect(\u0026quot;fade\u0026quot;, {\u0026quot;duration\u0026quot;: 0.001});\n$(\u0026quot;upload_link\u0026quot;).visualEffect(\u0026quot;appear\u0026quot;, {\u0026quot;duration\u0026quot;: 0.4});\nElement.update(\u0026quot;data_form\u0026quot;, \u0026quot;\u0026quot;);\n} catch (e) { alert('RJS error:\\n\\n' + e.toString()); alert('$(\\\u0026quot;data_form\\\u0026quot;).visualEffect(\\\u0026quot;fade\\\u0026quot;, {\\\u0026quot;duration\\\u0026quot;: 0.001});\\n$(\\\u0026quot;upload_link\\\u0026quot;).visualEffect(\\\u0026quot;appear\\\u0026quot;, {\\\u0026quot;duration\\\u0026quot;: 0.4});\\nElement.update(\\\u0026quot;data_form\\\u0026quot;, \\\u0026quot;\\\u0026quot;);'); throw e }; return false;\&quot;\u003Ecancel\u003C/a\u003E\n  \u003Cdiv class=\&quot;progressBar\&quot; id=\&quot;UploadProgressBar1\&quot;\u003E\u003Cdiv class=\&quot;border\&quot;\u003E\u003Cdiv class=\&quot;background\&quot;\u003E\u003Cdiv class=\&quot;foreground\&quot;\u003E\u003C/div\u003E\u003C/div\u003E\u003C/div\u003E\u003C/div\u003E\u003Cdiv class=\&quot;uploadStatus\&quot; id=\&quot;UploadStatus1\&quot;\u003E\u003C/div\u003E\n\u003C/form\u003E    \n&quot;);
       $(&quot;upload_link&quot;).visualEffect(&quot;fade&quot;, {&quot;duration&quot;: 0.001});
@@ -80,8 +81,12 @@ class Admin::SourcesControllerTest < ActionController::TestCase
     @source ||= TaliaCore::Source.find(N::LOCAL + "something")
   end
   
+  def create_source(options = {})
+    TaliaCore::Source.create({:uri => "#{N::LOCAL}whatever"}.merge!(options))
+  end
+  
   def params(attributes = predicates_attributes)
-    {"uri"=>N::LOCAL + source.label, "primary_source"=>"false" }.merge(attributes)
+    {"uri"=>N::LOCAL + source.uri.local_name }.merge(attributes)
   end
   
   def predicates_attributes
