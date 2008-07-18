@@ -228,6 +228,12 @@ module TaliaCore
       assert(!source.valid?)
     end
     
+    def test_find_with_local_name
+      assert_nothing_raised ActiveRecord::RecordNotFound do
+        assert Source.find('home_source')
+      end
+    end
+    
     # Test the xml create
     def test_create_xml
       # TODO: Make a real test when it's worth it
