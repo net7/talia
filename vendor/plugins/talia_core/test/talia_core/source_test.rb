@@ -5,12 +5,12 @@ require File.join(File.dirname(__FILE__), '..', 'test_helper')
 
 module TaliaCore
   
-#  class Source
-#    def instantiate_source_or_rdf_object # Need since class may be loaded later
-#    end
-#    
-#    public :instantiate_source_or_rdf_object
-#  end
+  #  class Source
+  #    def instantiate_source_or_rdf_object # Need since class may be loaded later
+  #    end
+  #    
+  #    public :instantiate_source_or_rdf_object
+  #  end
   
   # Test the SourceType class
   class SourceTest < Test::Unit::TestCase
@@ -220,12 +220,6 @@ module TaliaCore
     def test_new_record
       assert Source.new('nu').new_record?
       assert_not Source.find(:first).new_record?
-    end
-   
-    # Test creation of local sources
-    def test_non_uri
-      source = Source.new("dingens")
-      assert(!source.valid?)
     end
     
     def test_find_with_local_name
@@ -500,7 +494,27 @@ module TaliaCore
       new_src = Source.new(@test_source.uri)
       assert_equal(new_src, @test_source)
       assert_not_same(new_src, @test_source)
-    end    
+    end
+    
+    def test_assign_object
+      assert(!ActiveSource.exists?(uri = 'http://assignobject_source'))
+      src = Source.new(uri)
+      src.rdfs::something << Source.new(uri + '_target')
+      src.save!
+      assert(ActiveSource.exists?(uri))
+      assert(ActiveSource.exists?(uri + '_target'))
+    end
+    
+    def test_assign_and_save
+      assert(!ActiveSource.exists?(uri = 'http://testassignandsave_source/'))
+      src = Source.new(uri)
+      # src.rdfs::something << 'foo'
+      # src.rdfs::something << 'bar'
+      src.types << ['http://types_test/assign_and_save_a', 'http://types_test/assign_and_save_a']
+      src.save!
+      assert(ActiveSource.exists?(src.uri))
+    end
+    
   end
 end
  

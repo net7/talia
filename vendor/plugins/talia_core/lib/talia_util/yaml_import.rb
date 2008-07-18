@@ -42,7 +42,7 @@ module TaliaUtil
       
         data.each do |source_name, data_set|
           puts "Processing #{source_name}" if(Util::flag?("verbose"))
-          primary_source = data_set.delete("primary_source") == "true" ? true : false
+          primary_source = (data_set.delete("primary_source") == "true") ? 'true' : 'false'
           types = data_set.delete("type")
           types = [types] unless(types.kind_of?(Array))
           types.compact!
@@ -51,6 +51,7 @@ module TaliaUtil
         
           # Create the source
           source = TaliaCore::Source.new(source_name)
+          source.talias::primary_source << primary_source ? 'true' : 'false'
           source.types << types
           source.save! # save the thing
         

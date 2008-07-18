@@ -239,6 +239,18 @@ module TaliaCore
       assert_equal(N::LOCAL.testlocalthing, src.uri)
     end
     
+    def test_assign_and_save
+      src = ActiveSource.new('http://testassignandsave/')
+      src[N::LOCAL.something] << ActiveSource.new('http://types_test/assign_and_save_a')
+      src.save!
+      assert(ActiveSource.exists?(src.uri))
+    end
+    
+    def test_assign_nil_fail
+      src = ActiveSource.new('http://testassignandsave_nil/')
+      assert_raise(ArgumentError) { src['rdfs:something'] << nil }
+    end
+    
   end
   
 end

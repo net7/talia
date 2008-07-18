@@ -1,4 +1,4 @@
-require 'ftools'
+require 'FileUtils'
 
 module TaliaUtil
   
@@ -37,20 +37,13 @@ module TaliaUtil
             # Create the record if necessary
             unless(data = src.data_records.find_by_location(file_name))
               data = data_klass.new
-              data.location = file_name
+              File.open(file) do |io|
+                data.create_from_data(file_name, io)
+              end
               src.data_records << data
               src.save!
               data.save!
               created += 1
-            end
-        
-            # Copy the file if necessary, overwriting the existing data
-            data_file = File.expand_path(data.get_file_path)
-            this_file = File.expand_path(file)
-        
-            if(data_file != this_file)
-              File.makedirs(File.dirname(data_file))
-              File.copy(this_file, data_file) if(!FileTest.exists?(data_file) || replace)
             end
           else
             not_found << file
@@ -68,13 +61,14 @@ module TaliaUtil
   
       # Get the data class for the type. That does some sanity checks 
       def get_data_class(type)
-        unless(type && TaliaCore.const_defined?(type))
-          puts("Must give an existing data type with the data_type=<type> option.")
-          print_options
+        data_klass = nil
+        begin
+          data_klass = TaliaCore::DataTypes.const_get(type)
+        rescue Exception => e
+          puts("Could get the data type #{type}: #{e}")
+          Util.print_options
           exit(1)
         end
-    
-        data_klass = TaliaCore.const_get(type)
     
         # Do the basic check
         unless(data_klass && data_klass.kind_of?(Class) && data_klass.method_defined?('data_directory'))
@@ -85,7 +79,7 @@ module TaliaUtil
         # Now check if we are a subclass of the data class
         my_instance = data_klass.new
     
-        unless(my_instance.kind_of?(TaliaCore::DataRecord))
+        unless(my_instance.kind_of?(TaliaCore::DataTypes::DataRecord))
           puts("The class #{data_klass} is not a DataRecord, can't create data for it.")
           exit(1)
         end

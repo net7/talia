@@ -23,6 +23,7 @@ module TaliaCore
     # Push to collection. Giving a string will create a property to be created,
     # saved and associated.
     def <<(value)
+      raise(ArgumentError, "cannot add nil") unless(value != nil)
       if(value.kind_of?(Array))
         value.each { |v| add_record_for(v) }
       else
