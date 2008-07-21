@@ -45,7 +45,9 @@ class Admin::SourcesController < ApplicationController
   
   # GET /admin/sources/data/1
   def data
-    @source = SourceRecord.find(params[:id])
+    # We need to specify the clause, because of Source#find overwrite the
+    # default behavior.
+    @source = TaliaCore::Source.find_by_id(params[:id])
     
     respond_to do |format|
       format.js do
@@ -62,7 +64,7 @@ class Admin::SourcesController < ApplicationController
   
   # GET /admin/sources/auto_complete_for_source/aaa
   def auto_complete_for_source
-    @items = Source.find_by_uri_token(params[:source][:predicates_attributes].first[:titleized])
+    @items = TaliaCore::Source.find_by_uri_token(params[:source][:predicates_attributes].first[:titleized])
     render :inline => "<%= auto_complete_result @items, 'titleized' %>"
   end
 end
