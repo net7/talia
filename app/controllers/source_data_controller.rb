@@ -4,7 +4,7 @@ class SourceDataController < ApplicationController
   
   # GET /source_data/1
   def show
-    @source_data = DataTypes::DataRecord.find_by_type_and_location!(params[:type], params[:location])
+    @source_data = TaliaCore::DataTypes::DataRecord.find_by_type_and_location!(params[:type], params[:location])
     send_data @source_data.content_string, :type => @source_data.mime_type,
                                     :disposition => 'inline',
                                     :filename => params[:location]
@@ -12,13 +12,13 @@ class SourceDataController < ApplicationController
   
   # POST /source_data
   def create
-    status = DataTypes::DataRecord.find_or_create_and_assign_file(params[:data_record]) ? 200 : 500
+    status = TaliaCore::DataTypes::DataRecord.find_or_create_and_assign_file(params[:data_record]) ? 200 : 500
     render :inline => '', :status => status
   end
 
   # DELETE /source_data/1
   def destroy
-    @source_data = DataTypes::DataRecord.find(params[:id])
+    @source_data = TaliaCore::DataTypes::DataRecord.find(params[:id])
     @source = @source_data.source_record
     @source_data.destroy
     render :update do |page|
