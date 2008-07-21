@@ -251,6 +251,29 @@ module TaliaCore
       assert_raise(ArgumentError) { src['rdfs:something'] << nil }
     end
     
+    def test_find_through
+      result = ActiveSource.find(:all, :find_through => ['http://testvalue.org/pred_find_through', active_sources(:find_through_target).uri])
+      assert_equal(1, result.size)
+      assert_equal(active_sources(:find_through_test), result[0])
+    end
+    
+    def test_find_through_props
+      result = ActiveSource.find(:all, :find_through => ['http://testvalue.org/pred_find_through', 'the_value'])
+      assert_equal(1, result.size)
+      assert_equal(active_sources(:find_through_test), result[0])
+    end
+    
+    def test_find_through_fail
+      assert_raise(ArgumentError) { ActiveSource.find(:all, :find_through => ['foo:bar', 'bar'], :joins => "LEFT JOIN something") }
+      assert_raise(ArgumentError) { ActiveSource.find(:all, :find_through => ['foo:bar', 'bar'], :conditions => ["x = ?", 'bar']) }
+    end
+    
+    def test_find_through_type
+      result = ActiveSource.find(:all, :type => active_sources(:find_through_type).uri)
+      assert_equal(1, result.size)
+      assert_equal(active_sources(:find_through_test), result[0])
+    end
+    
   end
   
 end

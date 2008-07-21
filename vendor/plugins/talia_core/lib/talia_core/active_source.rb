@@ -53,6 +53,7 @@ module TaliaCore
     
     # Finder also accepts uris as "ids"
     def self.find(*args)
+      prepare_options!(args.last) if(args.last.is_a?(Hash))
       if(args.size == 1 && (uri_s = uri_string_for(args[0])))
         src = super(:first, :conditions => { :uri => uri_s })
         raise(ActiveRecord::RecordNotFound) unless(src)
@@ -60,6 +61,13 @@ module TaliaCore
       else
         super
       end
+    end
+    
+    # The pagination will also use the prepare_options! to have access to the
+    # advanced finder options
+    def self.paginate(*args)
+      prepare_options!(args.last) if(args.last.is_a?(Hash))
+      super
     end
     
     
@@ -163,6 +171,61 @@ module TaliaCore
       result
     end
     
+    # Returns the "default" join (meaning that it joins all the "triple tables"
+    # together. The flags signal whether the relations and properties should 
+    # be joined.
+    def self.default_joins(include_rels = true, include_props = true)
+      join = "LEFT JOIN semantic_relations ON semantic_relations.subject_id = active_sources.id "
+      join << " LEFT JOIN active_sources AS obj_sources ON semantic_relations.object_id = obj_sources.id AND semantic_relations.object_type = 'TaliaCore::ActiveSource'" if(include_rels)
+      join << " LEFT JOIN semantic_properties AS obj_props ON semantic_relations.object_id = obj_props.id AND semantic_relations.object_type = 'TaliaCore::SemanticProperty'" if(include_props)
+      join
+    end
+    
+    
+    # Takes the "advanced" options that can be passed to the find method and
+    # converts them into "standard" find options.
+    def self.prepare_options!(options)
+      check_for_find_through!(options)
+      check_for_type_find!(options)
+    end
+    
+    # Checks if the :find_through option is set. If so, this expects the 
+    # option to have 2 values: The first representing the URL of the predicate
+    # and the second the URL or value that should be matched. 
+    # 
+    # An optional third parameter can be used to force an object search on the 
+    # semantic_properties table (instead of active_sources) - if not present
+    # this will be auto-guessed from the "object value", checking if it appears
+    # to be an URL or not.
+    #
+    #   ...find(:find_through => [N::RDF::something, 'value', true]
+    def self.check_for_find_through!(options)
+      if(f_through = options.delete(:find_through))
+        assit_kind_of(Array, f_through)
+        raise(ArgumentError, "Passed non-hash conditions with :find_through") if(options.has_key?(:conditions) && !options[:conditions].is_a?(Hash))
+        raise(ArgumentError, "Cannot pass custom join conditions with :find_through") if(options.has_key?(:joins))
+        predicate = f_through[0]
+        obj_val = f_through[1]
+        search_prop = (f_through.size > 2) ? f_through[2] : !(obj_val =~ /:/)
+        options[:joins] = default_joins(!search_prop, search_prop)
+        options[:conditions] ||= {}
+        options[:conditions]['semantic_relations.predicate_uri'] = predicate.to_s
+        if(search_prop)
+          options[:conditions]['obj_props.value'] = obj_val.to_s
+        else
+          options[:conditions]['obj_sources.uri'] = obj_val.to_s
+        end
+      end
+    end
+    
+    # Checks for the :type option in the find options. This is the same as
+    # doing a :find_through on the rdf type
+    def self.check_for_type_find!(options)
+      if(f_type = options.delete(:type))
+        options[:find_through] = [N::RDF::type, f_type.to_s, false]
+        check_for_find_through!(options)
+      end
+    end
   end
   
 end

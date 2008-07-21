@@ -84,6 +84,15 @@ pred_destroy_test:
 pred_destroy_target:
     uri: http://testy.com/preddestroy_target
 
+find_through_test:
+    uri: http://testy.com/find_through_source
+
+find_through_target:
+    uri: http://testy.com/find_through_target
+
+find_through_type:
+    uri: http://testy.com/find_through_type
+
 # Sources
 
 something:

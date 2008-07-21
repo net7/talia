@@ -14,3 +14,9 @@ delete_me_not:
 
 predicate_test:
     value: I'm a redshirt, going to die!
+
+find_through_prop:
+    value: the_value
+
+find_through_prop2:
+    value: other value

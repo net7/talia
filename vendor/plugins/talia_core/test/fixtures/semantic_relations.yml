@@ -120,9 +120,27 @@ pred_destroy_val:
     object: predicate_test (TaliaCore::SemanticProperty)
     predicate_uri: http://testvalue.org/pred_destroy_a
 
-
-
 pred_destroy_b:
     subject: pred_destroy_test
     object: pred_destroy_target (TaliaCore::ActiveSource)
     predicate_uri: http://testvalue.org/pred_destroy_b
+
+find_through:
+    subject: find_through_test
+    object: find_through_target (TaliaCore::ActiveSource)
+    predicate_uri: http://testvalue.org/pred_find_through
+
+find_through_b:
+    subject: find_through_test
+    object: find_through_prop (TaliaCore::SemanticProperty)
+    predicate_uri: http://testvalue.org/pred_find_through
+
+find_through_c:
+    subject: find_through_test
+    object: find_through_prop2 (TaliaCore::SemanticProperty)
+    predicate_uri: http://testvalue.org/pred_find_through
+
+find_through_type:
+    subject: find_through_test
+    object: find_through_type (TaliaCore::ActiveSource)
+    predicate_uri: http://www.w3.org/1999/02/22-rdf-syntax-ns#type
