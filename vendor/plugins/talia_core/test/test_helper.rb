@@ -54,7 +54,7 @@ module TaliaCore
     end
     
     def self.data_record_files
-      return ['1.txt', '3.xml', '4.xhtml', '5.hnml', '6.html', '7.xhtml', '8.bmp', '9.fit', '10.gif', '11.jpg', '12.png', '13.tif']
+      return ['1', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13']
     end
     
   end

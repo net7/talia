@@ -57,9 +57,13 @@ module FileStore
   end
     
   # Return the data directory for a specific data file
-  def data_directory
+  def data_directory(relative = false)
     class_name = self.class.name.gsub(/(.*::)/, '')
-    File.join(TaliaCore::CONFIG["data_directory_location"], class_name, ("00" + self.id.to_s)[-3..-1])
+    if relative == false
+      File.join(TaliaCore::CONFIG["data_directory_location"], class_name, ("00" + self.id.to_s)[-3..-1])
+    else
+      File.join(class_name, ("00" + self.id.to_s)[-3..-1])
+    end
   end
 
   # Return true if the specified data file is open, false otherwise
@@ -68,8 +72,8 @@ module FileStore
   end
 
   # Return the full file path related to the data directory
-  def get_file_path
-    File.join(data_directory, self.id.to_s + File.extname(self.location))
+  def get_file_path(relative = false)
+    File.join(data_directory(relative), self.id.to_s)
   end
 
   # private methods ==================================================================

@@ -43,7 +43,7 @@ module TaliaCore
       assert_equal(base_dir_name(@test_records[7].id), dir_for_test)
       assert(File.exists?(dir_for_test))
       assert_equal(File.join(base_dir_name(@test_records[7].id), 'temp1.bmp'), File.join(dir_for_test, @test_records[7].location))
-      assert( File.exists?(File.join(dir_for_test, @test_records[7].id.to_s + File.extname(@test_records[7].location))), "#{File.join(dir_for_test, @test_records[7].location)} does not exist" )
+      assert( File.exists?(File.join(dir_for_test, @test_records[7].id.to_s)), "#{File.join(dir_for_test, @test_records[7].location)} does not exist" )
     end
 
     # test file size
@@ -69,7 +69,10 @@ module TaliaCore
     def test_attach_image
       test_uri = 'http://testy.com/image_attach'
       src = Source.new(test_uri)
-      src.data_records << TaliaCore::DataTypes::ImageData.new
+      data_record = DataTypes::ImageData.new do |dr|
+        dr.location = 'my_file.jpg'
+      end
+      src.data_records << data_record
       src.save!
       rel = Source.find(src.id)
       assert_equal(1, rel.data_records.size)

@@ -11,8 +11,8 @@ module TaliaCore
       include FileStore
       belongs_to :source, :class_name => 'TaliaCore::Source'
     
-      before_save :save_attachment
-      after_create :write_file_after_save
+      after_save :save_attachment
+      after_create :write_file_after_save, :set_mime_type
    
       before_destroy :destroy_attachment
 
@@ -34,10 +34,6 @@ module TaliaCore
       def get_byte(close_after_single_read=false)
       end
     
-      # return a string corresponding to the MIME type
-      def mime_type    
-      end
-    
       # returns the current position of the read cursor
       def position
       end
@@ -53,6 +49,9 @@ module TaliaCore
       # reset the cursor to the initial state
       def reset
       end
+      
+      def extract_mime_type(location)
+      end
     
       # class methods ============================================
     
@@ -62,6 +61,10 @@ module TaliaCore
 
       # TODO: an iterator that calls a block on each byte in the object
       def each_byte
+      end
+      
+      def mime_type
+        self.mime
       end
     
       attr_accessor :temp_path    
@@ -226,7 +229,7 @@ module TaliaCore
 
       # Return the full path of the current attachment.
       def full_filename
-        @full_filename ||= File.join(data_path, class_name, location)
+        @full_filename ||= self.get_file_path #File.join(data_path, class_name, location)
       end
 
       # Save the attachment on the data_path directory.
@@ -263,6 +266,15 @@ module TaliaCore
       def random_tempfile_filename
         "#{rand Time.now.to_i}#{location || 'attachment'}"
       end
+      
+      # set mime type 
+      def set_mime_type
+        if !self.location.nil?
+          # Set mime type for the record
+          self.mime = extract_mime_type(self.location)
+        end
+      end
+      
     end
   end
 end

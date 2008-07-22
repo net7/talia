@@ -4,75 +4,88 @@ first:
   source: something
   type: TaliaCore::DataTypes::SimpleText
   location: temp1.txt
+  mime: text/plain
   
 second:
   id: 2
   source: something
   type: TaliaCore::DataTypes::SimpleText
   location: temp2.txt
+  mime: text/plain
 
 third:
   id: 3
   source: something
   type: TaliaCore::DataTypes::XmlData
   location: temp1.xml
+  mime: text/xml
 
 fourth:
   id: 4
   source: something
   type: TaliaCore::DataTypes::XmlData
   location: temp2.xhtml
+  mime: text/html
 
 fifth:
   id: 5
   source: something
   type: TaliaCore::DataTypes::XmlData
   location: temp3.hnml
+  mime: text/hnml
 
 sixth:
   id: 6
   source: something
   type: TaliaCore::DataTypes::XmlData
   location: temp4.html
+  mime: text/html
 
 seventh:
   id: 7
   source: something
   type: TaliaCore::DataTypes::XmlData
   location: temp5.xhtml
+  mime: text/html
 
 eighth:
   id: 8
   source: something
   type: TaliaCore::DataTypes::ImageData
   location: temp1.bmp
+  mime: image/bmp
 
 ninth:
   id: 9
   source: something
   type: TaliaCore::DataTypes::ImageData
   location: temp2.fit
+  mime: image/fits
 
 tenth:
   id: 10
   source: something
   type: TaliaCore::DataTypes::ImageData
-  location:          temp3.gif
+  location: temp3.gif
+  mime: image/gif
 
 eleventh:
   id: 11
   source: something
   type: TaliaCore::DataTypes::ImageData
   location: temp4.jpg
+  mime: image/jpeg
 
 twelfth:
   id: 12
   source: something
   type: TaliaCore::DataTypes::ImageData
   location: temp5.png
+  mime: image/png
 
 thirteen:
   id: 13
   source: something
   type: TaliaCore::DataTypes::ImageData
   location: temp6.tif
+  mime: image/tiff

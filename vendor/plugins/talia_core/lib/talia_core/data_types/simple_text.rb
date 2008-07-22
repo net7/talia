@@ -9,13 +9,12 @@ module TaliaCore
       # include the module to work with files
       # TODO: paramterize this. If we'll have to work with file inculde the following
       #       otherwise, include the database mixin
-      #include FileStore
-
-      # return the mime_type for this specified class
-      def mime_type
+      
+      # return the mime_type for a file
+      def extract_mime_type(location)
         'text/plain'
       end
-    
+      
       # returns all bytes in the object as an array
       def all_bytes
         read_all_bytes
@@ -75,7 +74,7 @@ module TaliaCore
       
         return line
       end
-
+      
     end
   end
 end

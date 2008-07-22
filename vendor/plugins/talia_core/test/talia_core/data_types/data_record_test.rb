@@ -59,8 +59,8 @@ module TaliaCore
       dir_for_test = File.expand_path(@test_records[0].data_directory)
       assert_equal(data_path_test(@test_records[0].id), dir_for_test)
       assert( File.exists?(dir_for_test) )
-      assert_equal(File.join(data_path_test, 'temp1.txt'), File.join(dir_for_test, @test_records[0].location))
-      assert( File.exists?(File.join(dir_for_test, @test_records[0].location)), "#{File.join(dir_for_test, @test_records[0].location)} does not exist" )
+      assert_equal('temp1.txt', @test_records[0].location)
+      assert( File.exists?(File.join(data_path_test(@test_records[0]),@test_records[0].id.to_s)), "#{File.join(data_path_test(@test_records[0]), @test_records[0].id.to_s)} does not exist" )
     end
 
     def test_should_find_or_create_and_assign_file
@@ -132,24 +132,26 @@ module TaliaCore
         
     def test_full_filename
       data_record = DataTypes::DataRecord.new do |dr|
+        dr.source_id = 1
         dr.location  = 'image.jpg'
         dr.assign_type 'image/jpeg'
       end
-      expected = File.join(DataTypes::DataRecord.data_path, data_record.type, data_record.location)
+      data_record.save
+      expected = File.expand_path(File.join(File.dirname(__FILE__), '..','..', 'data_for_test', 'DataRecord', ("00" + data_record.id.to_s)[-3..-1], data_record.id.to_s)) #File.join(DataTypes::DataRecord.data_path, data_record.type, data_record.location)
       assert_equal(expected, data_record.send(:full_filename))
     end
 
     def test_extract_filename
-      assert_equal('temp1.txt', DataTypes::DataRecord.extract_filename(file))
+      assert_equal('1', DataTypes::DataRecord.extract_filename(file))
     end
 
     private
     def data_path_test(id=nil)
-      @data_path_test ||= File.expand_path(File.join(File.dirname(__FILE__), '..','..', 'data_for_test', 'SimpleText', ("00" + id.to_s)[-3..-1], id.to_s))
+      @data_path_test ||= File.expand_path(File.join(File.dirname(__FILE__), '..','..', 'data_for_test', 'SimpleText', ("00" + id.to_s)[-3..-1]))
     end
 
     def file
-      UploadedFile.new(File.join(data_path_test(DataTypes::DataRecord.find(:first).id), DataTypes::DataRecord.find(:first).location))
+      UploadedFile.new(File.join(data_path_test(DataTypes::DataRecord.find(:first).id), DataTypes::DataRecord.find(:first).id.to_s))
     end
 
     def source_id
