@@ -1,12 +1,11 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../fabrica_test_helper'
 
 class ImportControllerTest < ActionController::TestCase
-  include TaliaCore
-
+  
   def test_should_create_manuscript
     authorize_as :hyper
     assert_difference "Source.count", 2 do
-      post :create, :document => document('Mp-XIV-2')
+      post :create, :document => document('export')
       assert_response :created    
       assert_kind_of Source, assigns(:document)      
     end
@@ -37,33 +36,8 @@ class ImportControllerTest < ActionController::TestCase
   end
   
   def test_should_redirect_to_login_path_on_missing_authorization
-    post :create, :document => document('Mp-XIV-2')
+    post :create, :document => document('export')
     assert_redirected_to login_path
   end
   
-  protected
-    def method_missing(method_name, *arguments)
-      if /editions|facsimiles|manuscripts|works/.match method_name.id2name
-        document("#{method_name}/#{arguments}")
-      else
-        super
-      end
-    end
-      
-    def document(name)
-      File.open(File.join(talia_core_fixtures, name + '.xml'))
-    end
-    
-    def talia_core_fixtures
-      @talia_core_fixtures ||= begin
-        File.join(File.expand_path(RAILS_ROOT),
-          'vendor', 'plugins', 'talia_core',
-          'test', 'talia_util', 'import_samples')
-      end
-    end
-    
-    def documents_root
-      @documents_root ||= File.join(File.expand_path(RAILS_ROOT),
-        'test', 'fixtures', 'import')
-    end
 end

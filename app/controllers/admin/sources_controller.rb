@@ -1,13 +1,14 @@
 require 'paginator'
 
 class Admin::SourcesController < ApplicationController
-  require_role 'admin'
   include TaliaCore
+  require_role 'admin'
+  layout 'sources'
   
   # GET /admin/sources
   # GET /admin/sources.xml
   def index
-    @sources = Source.paginate :page => params[:page], :per_page => 10
+    @sources = TaliaCore::Source.paginate :page => params[:page], :per_page => 10
     
     respond_to do |format|
       format.html # index.html.erb
@@ -20,26 +21,15 @@ class Admin::SourcesController < ApplicationController
     end
   end
 
-  # GET /admin/sources/1
-  # GET /admin/sources/1.xml
-  def show
-    @source = Source.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @source }
-    end
-  end
-
   # GET /admin/sources/1/edit
   def edit
-    @source = Source.find(params[:id])
+    @source = TaliaCore::Source.find(params[:id])
   end
 
   # PUT /admin/sources/1
   # PUT /admin/sources/1.xml
   def update
-    @source = Source.find(params[:id])
+    @source = TaliaCore::Source.find(params[:id])
 
     respond_to do |format|
       if @source.update_attributes(params[:source])
@@ -55,7 +45,9 @@ class Admin::SourcesController < ApplicationController
   
   # GET /admin/sources/data/1
   def data
-    @source = SourceRecord.find(params[:id])
+    # We need to specify the clause, because of Source#find overwrite the
+    # default behavior.
+    @source = TaliaCore::Source.find_by_id(params[:id])
     
     respond_to do |format|
       format.js do
@@ -72,7 +64,7 @@ class Admin::SourcesController < ApplicationController
   
   # GET /admin/sources/auto_complete_for_source/aaa
   def auto_complete_for_source
-    @items = Source.find_by_uri_token(params[:source][:predicates_attributes].first[:titleized])
+    @items = TaliaCore::Source.find_by_uri_token(params[:source][:predicates_attributes].first[:titleized])
     render :inline => "<%= auto_complete_result @items, 'titleized' %>"
   end
 end

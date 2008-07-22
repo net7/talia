@@ -16,7 +16,7 @@ class TaliaCore::DummyDataRecord < TaliaCore::DataTypes::DataRecord
 end
 
 class SourceDataControllerTest < Test::Unit::TestCase
-
+  include TaliaCore::DataTypes
   fixtures :active_sources, :data_records 
   
   # Setup some dome data, not quite nice but will do for now
@@ -25,25 +25,29 @@ class SourceDataControllerTest < Test::Unit::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     
-    @source_name      = 'something'
-    @unexistent_name  = 'somewhat'
+    @source_name     = 'something'
+    @unexistent_name = 'somewhat'
   end
   
-  # Test for existing data
-  def test_show_data
-    get :show, { :type => 'dummy_data_record', :location => 'testlocation' }
-    assert_response :success
+  uses_mocha 'DataRecordTest' do
+    # Test for existing data
+    def test_show_data
+      DataRecord.any_instance.stubs(:content_string).returns 'content_string'
+      DataRecord.any_instance.stubs(:mime_type).returns Mime::TEXT
+      get :show, { :type => 'DataRecord', :location => 'testlocation' }
+      assert_response :success
+    end
   end
   
   # Test against missing data
   def test_missing_data
-    get :show, { :type => 'dummy_data_record', :location => 'foo' }
+    get :show, { :type => 'DataRecord', :location => 'foo' }
     assert_response :missing
   end
   
   def test_should_create
     rails_logo = uploaded_png fixture_path
-    post :create, :data_record => { :file => rails_logo, :source_record_id => source_record_id }
+    post :create, :data_record => { :file => rails_logo, :source_id => source_id }
     assert_response :success
     assert File.exists?(full_filename)
   end
@@ -67,8 +71,8 @@ class SourceDataControllerTest < Test::Unit::TestCase
     uploaded_file(path, 'image/png', filename)
   end
   
-  def source_record_id
-    TaliaCore::Source.find(:first).source_record_id
+  def source_id
+    TaliaCore::Source.find(:first).id
   end
   
   def file

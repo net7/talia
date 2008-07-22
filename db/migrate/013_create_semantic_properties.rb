@@ -4,6 +4,8 @@ class CreateSemanticProperties < ActiveRecord::Migration
       t.timestamps
       t.text :value, :null => false
     end
+    
+    add_index :semantic_properties, :value, :unique => false
   end
 
   def self.down
