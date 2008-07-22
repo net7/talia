@@ -5,6 +5,7 @@ class CreateDataRecords < ConstraintMigration
     create_table "data_records", :force => true do |t|
       t.string :type
       t.string :location, :null => false
+      t.string :mime
       t.references :source, :null => false
     end
    
