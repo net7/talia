@@ -97,26 +97,20 @@ module TaliaUtil
     
     # Assert the source for the given uri exists.
     def assert_source_exist(uri, message = nil)
-      assert Source.exists?(uri), message
+      assert TaliaCore::Source.exists?(uri), message
     end
     alias_method :assert_source_exists, :assert_source_exist
-    
-    
-    
   end
-  
 end
 
 # Add some stuff to the basic test case
 class Test::Unit::TestCase
-   
   include TaliaUtil::TestHelpers
-  
-  protected 
+
+  protected
   
   # Helper variable in the class for setup_once
   def self.obj_cache
     @obj_cache ||= {}
   end
-    
 end
