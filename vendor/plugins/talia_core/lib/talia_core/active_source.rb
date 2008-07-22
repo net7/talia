@@ -51,7 +51,13 @@ module TaliaCore
       end
     end
     
-    # Finder also accepts uris as "ids"
+    # Finder also accepts uris as "ids". There are also some additional options
+    # that are accepted:
+    # 
+    #  * :find_through - accepts and array with an predicate name and an object
+    #    value/uri, to search for predicates that match the given predicate/value 
+    #    combination
+    #  * :type - specifically looks for sources with the given type.
     def self.find(*args)
       prepare_options!(args.last) if(args.last.is_a?(Hash))
       if(args.size == 1 && (uri_s = uri_string_for(args[0])))

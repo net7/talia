@@ -1,6 +1,7 @@
 $: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
 require 'test/unit'
 require "talia_core"
+require "talia_util/test_helpers"
 require 'active_support/testing'
 require 'active_support/test_case'
 require 'active_record/fixtures'
@@ -65,93 +66,5 @@ module TaliaCore
     :semantic_relations => TaliaCore::SemanticRelation,
     :sources => TaliaCore::Source,
     :data_records => TaliaCore::DataTypes::DataRecord
-  
-  # Add some stuff to the basic test case
-  class Test::Unit::TestCase
-    
-    # Helper to create a variable only once. This should be used from the
-    # setup method, and will assign the given block to the given class variable.
-    # 
-    # The block will only be executed once, after that the value for the
-    # class variable will be retrieved from a cache. 
-    #
-    # This is a workaround because the Ruby test framework doesn't provide 
-    # a setup_once method or something like this, and in fact re-creates the
-    # Test case object for every single test (go figure). It would be 
-    # worth switching to RSpec just for this, but it's a heap of work so... the
-    # test framework has just the braindead "fixtures" mechanism...
-    #
-    # The thing is that's a good practice to have reasonably fine-grained tests,
-    # and you often have objects that are re-used often, are read-only for all
-    # the tests and expensive to create. So you basically want to create them
-    # only once.
-    #
-    # This thing is less than perfect, but it should work for now. Basically it
-    # assumes that all tests for a TestCase will be run in a row, and the
-    # setup method will execute before the first test and that no other tests
-    # will execute before all tests of the TestCase are executed.
-    def setup_once(variable, &block)
-      variable = variable.to_sym
-      value = self.class.obj_cache[variable]
-      unless(value)
-        value = block.call
-        self.class.obj_cache[variable] = value
-      end
-      assit_not_nil(value)
-      value ||= false # We can't have a nil value (will cause the block to re-run)
-      instance_variable_set(:"@#{variable}", value)
-    end
-    
-    # Creates a source for the given uri
-    def create_source(uri)
-      Source.create!(uri)
-    end
-    
-    # Assert the given condition is false
-    def assert_not(condition, message = nil)
-      assert !condition, message
-    end
-    alias_method :assert_false, :assert_not
-
-    # Assert the given collection is empty.
-    def assert_empty(condition, message = nil)
-      assert condition.empty?, message
-    end
-    
-    # Assert the given collection is not empty.
-    def assert_not_empty(condition, message = nil)
-      assert_not condition.empty?, message
-    end
-    
-    # Assert the given element is included into the given collection.
-    def assert_included(collection, element, message = nil)
-      assert collection.include?(element), message
-    end
-    
-    # Assert the given object is instance of one of those classes.
-    def assert_kind_of_classes(object, *classes)
-      assert_included(classes, object.class,
-        "#{object} should be instance of one of those classes: #{classes.to_sentence}")
-    end
-    
-    # Assert the given object is a boolean.
-    def assert_boolean(object)
-      assert_kind_of_classes(object, TrueClass, FalseClass)
-    end
-    
-    # Assert the source for the given uri exists.
-    def assert_source_exist(uri, message = nil)
-      assert Source.exists?(uri), message
-    end
-    alias_method :assert_source_exists, :assert_source_exist
-    
-    protected 
-    
-    # Helper variable in the class for setup_once
-    def self.obj_cache
-      @obj_cache ||= {}
-    end
-    
-  end
 
 end
