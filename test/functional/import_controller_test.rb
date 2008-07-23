@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../fabrica_test_helper'
+require File.dirname(__FILE__) + '/fabrica_test_helper'
 
 class ImportControllerTest < ActionController::TestCase
   

@@ -1,0 +1,54 @@
+Index: app/controllers/source_data_controller.rb
+===================================================================
+--- app/controllers/source_data_controller.rb	(revision 794)
++++ app/controllers/source_data_controller.rb	(revision 801)
+@@ -4,7 +4,7 @@
+   
+   # GET /source_data/1
+   def show
+-    @source_data = DataTypes::DataRecord.find_by_type_and_location!(params[:type], params[:location])
++    @source_data = TaliaCore::DataTypes::DataRecord.find_by_type_and_location!(params[:type], params[:location])
+     send_data @source_data.content_string, :type => @source_data.mime_type,
+                                     :disposition => 'inline',
+                                     :filename => params[:location]
+@@ -12,13 +12,13 @@
+   
+   # POST /source_data
+   def create
+-    status = DataTypes::DataRecord.find_or_create_and_assign_file(params[:data_record]) ? 200 : 500
++    status = TaliaCore::DataTypes::DataRecord.find_or_create_and_assign_file(params[:data_record]) ? 200 : 500
+     render :inline => '', :status => status
+   end
+ 
+   # DELETE /source_data/1
+   def destroy
+-    @source_data = DataTypes::DataRecord.find(params[:id])
++    @source_data = TaliaCore::DataTypes::DataRecord.find(params[:id])
+     @source = @source_data.source_record
+     @source_data.destroy
+     render :update do |page|
+Index: db/migrate/014_create_data_records.rb
+===================================================================
+--- db/migrate/014_create_data_records.rb	(revision 794)
++++ db/migrate/014_create_data_records.rb	(revision 801)
+@@ -5,6 +5,7 @@
+     create_table "data_records", :force => true do |t|
+       t.string :type
+       t.string :location, :null => false
++      t.string :mime
+       t.references :source, :null => false
+     end
+    
+Index: db/migrate/013_create_semantic_properties.rb
+===================================================================
+--- db/migrate/013_create_semantic_properties.rb	(revision 794)
++++ db/migrate/013_create_semantic_properties.rb	(revision 801)
+@@ -5,7 +5,7 @@
+       t.text :value, :null => false
+     end
+     
+-    add_index :semantic_properties, :value, :unique => false
++    # add_index :semantic_properties, :value, :unique => false
+   end
+ 
+   def self.down

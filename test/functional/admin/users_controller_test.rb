@@ -31,14 +31,14 @@ class Admin::UsersControllerTest < ActionController::TestCase
   def test_should_show_user
     login_as :admin
     
-    get :show, :id => 1
+    get :show, :id => users(:quentin).id
     assert_response :success
   end
   
   def test_should_get_edit
     login_as :admin
     
-    get :edit, :id => 1
+    get :edit, :id => users(:quentin).id
     assert_response :success
   end
   

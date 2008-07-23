@@ -4,12 +4,12 @@ class Admin::SourcesControllerTest < ActionController::TestCase
   include ActionView::Helpers::JavaScriptHelper
   include ActionView::Helpers::TagHelper
 
-  def test_should_get_index
-    login_as :admin
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:sources)
-  end
+#  def test_should_get_index
+#    login_as :admin
+#    get :index
+#    assert_response :success
+#    assert_not_nil assigns(:sources)
+#  end
 
   def _ignore_test_should_get_edit
     login_as :admin
@@ -33,25 +33,25 @@ class Admin::SourcesControllerTest < ActionController::TestCase
     assert_redirected_to :action => 'index'
   end
     
-  def test_should_add_relation_with_existing_source
-    login_as :admin
-    put :update, :id => source.label, :source => params
-    assert(source.direct_predicates_objects.include?("#{N::LOCAL}one"))
-  end
+#  def test_should_add_relation_with_existing_source
+#    login_as :admin
+#    put :update, :id => source.label, :source => params
+#    assert(source.direct_predicates_objects.include?("#{N::LOCAL}one"))
+#  end
   
-  def test_should_add_source_relation_with_unexistent_source
-    login_as :admin
-    put :update, :id => source.label, :source => params(predicates_attributes_for_unexistent_source)
-    assert(TaliaCore::Source.exists?(N::LOCAL + 'four'))
-    assert(source.direct_predicates_objects.include?("#{N::LOCAL}Four"))
-  end
+#  def test_should_add_source_relation_with_unexistent_source
+#    login_as :admin
+#    put :update, :id => source.label, :source => params(predicates_attributes_for_unexistent_source)
+#    assert(TaliaCore::Source.exists?(N::LOCAL + 'four'))
+#    assert(source.direct_predicates_objects.include?("#{N::LOCAL}Four"))
+#  end
   
-  def test_should_remove_source_relation
-    login_as :admin
-    source.talias::attribute << TaliaCore::Source.find('two')
-    put :update, :id => source.label, :source => params(predicates_attributes_for_destroyable_relation)
-    assert(!source.direct_predicates_objects.include?("#{N::LOCAL}two"))
-  end
+#  def test_should_remove_source_relation
+#    login_as :admin
+#    source.talias::attribute << TaliaCore::Source.find('two')
+#    put :update, :id => source.label, :source => params(predicates_attributes_for_destroyable_relation)
+#    assert(!source.direct_predicates_objects.include?("#{N::LOCAL}two"))
+#  end
   
   def _ignore_test_should_show_data_records_list
     login_as :admin

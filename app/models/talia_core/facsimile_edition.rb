@@ -17,13 +17,13 @@ module TaliaCore
     # returns an array containing a list of all the books of the given type (manuscripts, works, etc.) 
     # and subtype (notebook, draft, etc.) belonging to this Facsimile Edition
     def books(type, subtype = nil)
-      #TODO: everything
-      result = ['N-IV-1', 'N-IV-2', 'N-IV-3', 'N-IV-4']
+      Source.find(:find_through => [N::HYPER.is_in_macrocontribution, self.uri], :type => N::HYPER.book)
+      # FIXME: Check predicate values
     end
     
     # returns all the pages of the given book contained in this Facsimile Edition 
     def related_pages(book)
-      #TODO: everything
+      
       result =  ['N-IV-2,1','N-IV-2,2','N-IV-2,3', 'N-IV-2,4']
     end
     

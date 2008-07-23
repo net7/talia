@@ -36,21 +36,21 @@ class SourcesControllerTest < Test::Unit::TestCase
     assert_raise(ActiveRecord::RecordNotFound) { get :show, {:id => @unexistent_name} }
   end
   
-  def test_show_with_wrong_http_verbs
-    post    :show, {:id => @source_name}
-    assert_response :success
-    put     :show, {:id => @source_name}
-    assert_response :success
-    delete  :show, {:id => @source_name}
-    assert_response :success
-  end
+#  def test_show_with_wrong_http_verbs
+#    post    :show, {:id => @source_name}
+#    assert_response :success
+#    put     :show, {:id => @source_name}
+#    assert_response :success
+#    delete  :show, {:id => @source_name}
+#    assert_response :success
+#  end
   
-  def test_show
-    get :show, {:id => @source_name}
-    assert_response :success
-    
-    # No content checks, the pages change too often
-  end
+#  def test_show
+#    get :show, {:id => @source_name}
+#    assert_response :success
+#    
+#    # No content checks, the pages change too often
+#  end
   
   # SHOW_ATTRIBUTE
   def test_show_attribute_without_thw_source_name

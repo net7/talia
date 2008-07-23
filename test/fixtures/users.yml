@@ -1,14 +1,13 @@
 quentin:
-  id: 1
   login: quentin
   email: quentin@example.com
   salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
   crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
   created_at: <%= 5.days.ago.to_s :db %>
   open_id: http://quentin.myopenid.com/
+  roles: user_role
 
 aaron:
-  id: 2
   login: aaron
   email: aaron@example.com
   salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
@@ -16,15 +15,18 @@ aaron:
   created_at: <%= 1.days.ago.to_s :db %>
 
 admin:
-  id: 3
   login: admin
   email: admin@talia.org
   salt: c8d13be260ba82f798b06f100152d347cc4840ba
   crypted_password: ccc2e10b38106d5833fb817407973a996d392310
+  roles: admin_role
 
 hyper:
-  id: 4
   login: hyper
   email: system@hyper.org
   salt: c8d13be260ba82f798b06f100152d347cc4840ba
   crypted_password: 981668d16c4646a510ed3ffaf28d05fe68035666
+
+someone:
+  login: someone
+  email: someone@hyper.org
