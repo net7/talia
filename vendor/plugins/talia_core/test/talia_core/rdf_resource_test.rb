@@ -41,7 +41,7 @@ module TaliaCore
     def test_types
       res = make_dummy_resource("http://test_types")
       res.types << N::SourceClass.new(N::RDF::test)
-      assert_equal(RdfResource.default_types.size + 1, res.types.size, "Wrong number of types: #{res.types}")
+      assert_equal(RdfResource.default_types.size + 2, res.types.size, "Wrong number of types: #{res.types}")
       assert(!res.types.include?(N::RDF::foo)) # negative check, just to be sure
       assert(res.types.include?(N::RDF::test))
       assert_kind_of(N::SourceClass, res.types[0])
@@ -89,7 +89,7 @@ module TaliaCore
       
       # Check if the defaul type was written
       rdfs_prop = Query.new(N::SourceClass).distinct(:t).where(res,N::RDF::type,:t).execute
-      assert_equal(1, rdfs_prop.size)
+      assert_equal(2, rdfs_prop.size)
       assert_equal(N::RDFS.Resource, rdfs_prop.first)
     end
     

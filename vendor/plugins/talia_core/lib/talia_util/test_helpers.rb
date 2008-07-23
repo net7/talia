@@ -55,7 +55,6 @@ module TaliaUtil
       end
       assit_not_nil(value)
       value ||= false # We can't have a nil value (will cause the block to re-run)
-      puts "Setting #{variable} to #{value}"
       instance_variable_set(:"@#{variable}", value)
     end
     

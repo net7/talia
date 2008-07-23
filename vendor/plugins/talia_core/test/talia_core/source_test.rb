@@ -505,16 +505,6 @@ module TaliaCore
       assert(ActiveSource.exists?(uri + '_target'))
     end
     
-    def test_assign_and_save
-      assert(!ActiveSource.exists?(uri = 'http://testassignandsave_source/'))
-      src = Source.new(uri)
-      # src.rdfs::something << 'foo'
-      # src.rdfs::something << 'bar'
-      src.types << ['http://types_test/assign_and_save_a', 'http://types_test/assign_and_save_a']
-      src.save!
-      assert(ActiveSource.exists?(src.uri))
-    end
-    
   end
 end
  

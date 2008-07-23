@@ -22,6 +22,12 @@ module TaliaCore
     validates_format_of :uri, :with => /\A\S*:.*\Z/
     validates_uniqueness_of :uri
     
+    # Accessor for addtional rdf types that will automatically be added to each
+    # object of that Source class
+    def self.additional_rdf_types 
+      @additional_rdf_types ||= []
+    end
+    
     # This helps the "new" method to either return an existing element or
     # instead create a new object with the given uri.
     # 
@@ -38,6 +44,7 @@ module TaliaCore
         # In this case, it's a generic "new" call
         the_source = super
       end
+      the_source.types << the_source.class.additional_rdf_types
       the_source
     end
     
@@ -148,6 +155,14 @@ module TaliaCore
     end
     
     private
+    
+    
+    # Helper to define a "additional type" in subclasses which will 
+    # automatically be added on Object creation
+    def has_rdf_type(*types)
+      @additional_rdf_types ||= []
+      types.each { |t| @additional_rdf_types << t.to_s }
+    end
     
     # Returns the related objects on the given predicate, adding the additional
     # conditions to the query.
