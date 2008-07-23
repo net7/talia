@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
     <title><%= page_title %></title>
     <%= stylesheet_link_tag 'facsimile_edition' %>
-                    
+                               
   </head>
   <body>
     <div id="page_ext">
@@ -27,7 +27,7 @@
             <% if flash[:search_notice] %> 
               <p><label type="text"><%= flash[:search_notice] %></label></p>
             <% end %>
-
+                        
           </div>
           <div id="switch"><a href="#"><%= "Full Mode".t %></a></div>
           <!-- switch -->
@@ -39,10 +39,10 @@
             
               <ul>
                 <!-- this is quite useless, IMHO, since we'll have also a link to the same page in
-                the "path" on the left of the same page. 
-                #TODO: remove it. I've left it here for reference, waiting for a final decision on it. 
-           <li id="panorama"> <a href="#"><%= "Panorama".t %> </a></li>
-           -->
+                    the "path" on the left of the same page. 
+                    #TODO: remove it. I've left it here for reference, waiting for a final decision on it. 
+               <li id="panorama"> <a href="#"><%= "Panorama".t %> </a></li>
+               -->
                 <li id="pdfdownload"> <a href="#"><%= "Download PDF".t %> </a></li>
               </ul>
             </div>
@@ -52,7 +52,7 @@
         </div>
         
         <%= yield %>
-                                        
+                                                        
         <!-- content -->
       </div>
       <!-- page_int -->

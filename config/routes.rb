@@ -69,19 +69,20 @@ ActionController::Routing::Routes.draw do |map|
   #              :location  => :nil,
   #              :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
 
-  map.connect 'facsimile_editions/:id/search',
+  map.connect "facsimile_editions/:id/search",
     :controller => 'facsimile_editions',
     :action => 'search'
 
   # Install the default route as the lowest priority.
   map.connect ':controller/:id', :action => 'show'
-  map.connect 'facsimile_editions/:id/:type/:subtype',
+  
+  map.connect "facsimile_editions/:id/:type/:subtype",
     :controller => 'facsimile_editions',
     :action => 'books',
     :requirements => { :type => /works|manuscripts|library|correspondence|pictures/ },
     :subtype => nil
 
-  map.connect 'facsimile_editions/:id/:book:dot:format',
+  map.connect "facsimile_editions/:id/:book:dot:format",
     :controller => 'facsimile_editions',
     :action => 'panorama',
     :dot => /\.?/,
@@ -91,7 +92,7 @@ ActionController::Routing::Routes.draw do |map|
   # it didn't work for me, I've changed it to do some testing, and as a 
   # reminder.
   # Are we sure we can use a comma as a separator?
-  map.connect 'facsimile_editions/:id/:book/:page:dot:format',
+  map.connect "facsimile_editions/:id/:book/:page:dot:format",
     :controller => 'facsimile_editions',
     :action => 'page',
     :dot => /\.?/,
@@ -99,6 +100,10 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'  
+
+  map.connect "facsimile_editions/:id/:book/:page/:page2",
+    :controller => 'facsimile_editions',
+    :action => 'facing_pages'
   
   map.resources :facsimile_edition do |facsimile_edition|
     facsimile_edition.resource :book do |book|

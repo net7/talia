@@ -1,6 +1,6 @@
 module TaliaCore 
   class FacsimileEdition < MacroContribution
-    # returns an array containing a list of the book types available and connected to this facsimile edition
+   # returns an array containing a list of the book types available and connected to this facsimile edition
     # (e.g.: 'Works', 'Manuscripts', ...)
     def types
       #TODO: everything
@@ -24,10 +24,10 @@ module TaliaCore
     # returns all the pages of the given book contained in this Facsimile Edition 
     def related_pages(book)
       
-      result =  ['N-IV-2,1','N-IV-2,2','N-IV-2,3', 'N-IV-2,4']
+      result =  ['N-IV-2,1', 'N-IV-2,2', 'N-IV-2,3', 'N-IV-2,4', 'N-IV-2,5', 'N-IV-2,6', 'N-IV-2,7', 'N-IV-2,8', 'N-IV-2,9', 'N-IV-2,10', 'N-IV-2,11', 'N-IV-2,12', 'N-IV-2,13', 'N-IV-2,14', 'N-IV-2,15', 'N-IV-2,16', 'N-IV-2,20']
     end
     
-    # returns the description of the book given as parameter, taken from the "material description" contribution
+    # returns the description of the book given as parameter, taken from the "material description" contributions
     # which is supposed to be related to this Facsimile Edition
     def material_description(book)
       #TODO: everything
@@ -41,11 +41,11 @@ module TaliaCore
       #TODO: everything
       case size
       when 'thumbnail'
-        fax = Source.find('egrepalysviola-1441')
-        fax.data('ImageData')[0]
+#        fax = Source.find(N::LOCAL + 'egrepalysviola-1441')
+#        fax.data('ImageData')[0]
       else
-        fax = Source.find('egrepalysviola-1439')
-        fax.data('ImageData')[0]
+#        fax = Source.find(N::LOCAL + 'egrepalysviola-1439')
+  #        fax.data('ImageData')[0]
       end
     end
 
@@ -78,12 +78,12 @@ module TaliaCore
         else
           # the book name has been passed, but we haven't the page name
           # we redirect to the "page" action of the first page of the book
-          book = Source.find("http://www.talia.discovery-project.org/sources/#{requested_book}") || nil
-#          this was used toghether with a different way of creating the redirection.
-#          please look at facsimile_editions_controller.rb 
-#          result = {:book => "#{book.id}"}
+          book = Source.find(N::LOCAL + "#{requested_book}") || nil
+          #          this was used toghether with a different way of creating the redirection.
+          #          please look at facsimile_editions_controller.rb 
+          #          result = {:book => "#{book.id}"}
           
-          result = [book.id]
+          result = [book.uri.local_name]
           #TODO: check that the book is part of the facsimile edition we're in
         end
       else 
@@ -96,18 +96,18 @@ module TaliaCore
         else
           # both the book name and the page name were given, we redirect 
           # the user right there, in the "page" action of it          
-          book = Source.find("http://www.talia.discovery-project.org/sources/#{requested_book}")
+          book = Source.find(N::LOCAL + "#{requested_book}")
           #TODO: it stopped working after the new backend creation
-          qry1 = RdfQuery.new(:EXPRESSION, N::HYPER::part_of, book)
-          qry2 = RdfQuery.new(:EXPRESSION, N::HYPER::position_name, requested_page)
+          qry1 = TaliaCore::RdfQuery.new(:EXPRESSION, N::HYPER::part_of, book)
+          qry2 = TaliaCore::RdfQuery.new(:EXPRESSION, N::HYPER::position_name, requested_page)
           #TODO: check that the page is in the facsimile edition 
-          qry = RdfQuery.new(:AND, qry1, qry2)
+          qry = TaliaCore::RdfQuery.new(:AND, qry1, qry2)
           page = qry.execute[0]
-#          this was used toghether with a different way of creating the redirection.
-#          please look at facsimile_editions_controller.rb 
-#          result = {:book => "#{book.id}", :page => "#{page.id}"}
+          #          this was used toghether with a different way of creating the redirection.
+          #          please look at facsimile_editions_controller.rb 
+          #          result = {:book => "#{book.id}", :page => "#{page.id}"}
            
-          result = [book.id, page.id]
+          result = [book.uri.local_name, page.uri.local_name]
         end
       end
       result

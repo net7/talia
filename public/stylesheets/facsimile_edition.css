@@ -374,7 +374,7 @@ ul#access_list li p {
 }
 
 
-/* scroll laterale ************************ */
+    /* scroll laterale ************************ */
 
 #scroll {
 	float: left;
@@ -385,7 +385,9 @@ ul#access_list li p {
 	border: 1px solid #e0e0e0;
 	overflow: auto;
 	text-align: center;
-	height: 550px;
+/*
+        height: 100%;
+        */
 }
 
 
@@ -403,6 +405,7 @@ ul#access_list li p {
 
 div#visore {
 	margin-left: 232px;
+        overflow:auto
 }
 
 

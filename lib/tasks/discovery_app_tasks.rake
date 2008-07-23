@@ -8,25 +8,11 @@ include TaliaUtil
 
 namespace :discovery_app do
   
-  # test
-  desc "Test task"
-  task :test => 'talia_core:talia_init' do
-    puts "Test, #{TaliaCore::ActiveSource.count} things in db"
-  end
-  
   desc "Init for this tasks"
   task :disco_init => 'talia_core:talia_init' do
     Dependencies.load_paths << File.join(File.dirname(__FILE__), '..', '..', 'app', 'models')
-
-  end
-  
-  
-  desc "test2"
-  task :test2 => 'disco_init' do 
-    #    fe = TaliaCore::FacsimileEdition.find("DEF")
-    #    puts fe.hyper::title
-    puts "#{N::LOCAL}"
-    
+    TaliaCore::FacsimileEdition
+    TaliaCore::CriticalEdition
   end
   
   # creates a facsimile edition
@@ -37,7 +23,7 @@ namespace :discovery_app do
     puts ENV['name']
     puts ENV['description']
         
-    fe = TaliaCore::FacsimileEdition.new("#{N::LOCAL}#{ENV['nick']}")
+    fe = TaliaCore::FacsimileEdition.new(N::LOCAL + ENV['nick'])
     fe.hyper::title << ENV['name']
     fe.hyper::description << ENV['description']
     fe.save!
@@ -46,7 +32,7 @@ namespace :discovery_app do
   desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> description=<short_description>"
   task :create_color_facsimile_edition => 'create_facsimile_edition' do
 
-    fe = TaliaCore::FacsimileEdition.find("#{N::LOCAL}#{ENV['nick']}")
+    fe = TaliaCore::FacsimileEdition.find(N::LOCAL + ENV['nick'])
  
     joins = "JOIN semantic_relations SR ON (`active_sources`.`id` = SR.subject_id AND SR.object_type = 'TaliaCore::ActiveSource' AND SR.predicate_uri = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type') JOIN active_sources AcS2 ON (SR.object_id = AcS2.id AND AcS2.uri = 'http://www.hypernietzsche.org/ontology/Facsimile')"
     conditions = "`active_sources`.`id` in ( select AcS3.id from active_sources AcS3 JOIN semantic_relations SR2 ON (AcS3.id = SR2.subject_id AND SR2.object_type = 'TaliaCore::ActiveSource' AND SR2.predicate_uri = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type') JOIN active_sources AcS4 ON (SR2.object_id = AcS4.id AND AcS4.uri = 'http://www.hypernietzsche.org/ontology/Color'))"    

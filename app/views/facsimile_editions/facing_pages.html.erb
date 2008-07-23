@@ -1,3 +1,19 @@
+<%= javascript_include_tag 'prototype' %>
+<%= javascript_include_tag 'facsimile_edition' %>
+<script language="javascript">
+    <!--
+    window.onresize = function () {
+        setHeight (); 
+    }
+   
+    window.onload = function () {
+        setHeight ();
+        go_to_anchor('<%= params[:page] %>');
+    }
+    //-->
+</script>
+
+
 <!-- navigate -->
 <div id="menulocation">
   <%= widget(:simple_mode_tabs, :tabs_elements => @tabs_elements) %>
@@ -16,10 +32,9 @@
 <div id="content" class="divided">
   <div id="visore">
     <div id="toolbar">
-      <p class="previous"><%= widget(:simple_mode_image, :page => @page1, :mode => 'previous') %></p>
-      <p class="sigla"><%= @page1 %></p>
+      <p class="previous"><%= previous_page %></p>
+      <p class="sigla"><%= params[:page] %></p>
       <p class="zoom"><select>
-          
           <option value="#">zoom</option>
           <option value="#">25%</option>
           <option value="#">50%</option>
@@ -29,14 +44,14 @@
         
       </p>
       <p class="tooltools"><a href="#" title="pdf" class="pdf">pdf</a>    <a href="#" title="print" class="print">print</a></p>
-      <p class="sigla"><%= @page2 %></p>
-          <p class="next"><%= widget(:simple_mode_image, :page => @page2, :mode => 'next') %></p>
+      <p class="sigla"><%= params[:page2]%></p>
+      <p class="next"><%= next_page %></p>
     </div>
     <div id="image_big">
-      <%= widget(:simple_mode_image, :page => @page1, :mode => 'show')%>
-
-      <%= widget(:simple_mode_image, :page => @page2, :mode => 'show')%>
-      <p>copyright</p>
+      <img src='<%= "/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{params[:book]}/#{params[:page]}.jpeg"%>' alt='<%=  params[:page] %>' height='488'/>
+      
+      <img src='<%= "/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{params[:book]}/#{params[:page2]}.jpeg"%>' alt='<%=  params[:page2] %>' height='488'/>
+      <p><%= copyright_note(params[:page]) %></p>
     </div>   
     
   </div>

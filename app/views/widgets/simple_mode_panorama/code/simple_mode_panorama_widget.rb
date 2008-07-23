@@ -9,7 +9,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
     result
   end
   
-  # called in the panorama page of Macrocontribuitons, it generates a panel
+  # used in the panorama page of Macrocontribuitons, it generates a panel
   # with all the thumbnails of the given set of pages (passed through the @elements var) 
   
   def horizontal_panorama(elements)
@@ -44,32 +44,37 @@ class SimpleModePanoramaWidget < Widgeon::Widget
   # generates a panel with all the thumbnails of the pages passed through the 
   # @elements var
   def vertical_panorama(elements)
+    #TODO: create a Book class to use the following
+    #    book = TaliaCore::Book.find(N::LOCAL + params[:book])
+    #    book_type = book.supertype 
+    #TODO: instead of this:
+    book_type = 'manuscript'
     result = ''
     last_element = ''
     elements.each do |element| 
       position = cycle('even', 'odd')
 
       if elements.first == element 
-        result << '<div class="view_block">
-        <p class="lonely">
-        '
+        result << "<div class='view_block'>
+        <p class='lonely' id='page_#{element}'>
+        "
         result << vertical_line(element)
         result << '
 </p>
       </div>'
       else 
         if position == 'odd' 
-          result << '<div class="view_block">'
+          result << "<div class='view_block'>"
         end 
-        result << '<p>
-        '
+        result << "<p id='page_#{element}'>
+        "
         result << vertical_line(element)
         result << '
 </p>'
         if position == 'even' || elements.last == element
           result << '</div>'
           if position == 'even' && elements.first != element
-            result <<  "<a href='fe_double_page_view?mc_uri=#{@mc_uri}&type=#{@mc_type}&material=#{@material}&page1=#{last_element[:siglum]}&page2=#{element[:siglum]}'>#{'facing pages'.t}</a>"
+            result <<  "<div><a href='/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{params[:book]}/#{last_element}/#{element}'>#{'facing pages'.t}</a></div>"
           end
           result << ' 
           <!--view_block-->'
@@ -82,8 +87,8 @@ class SimpleModePanoramaWidget < Widgeon::Widget
     
   private 
   def horizontal_line(element)
-    url = "#{params[:book]}/#{element}"
-    image_url = "/facsimile_editions/#{params[:id]}/#{params[:book]}/#{element}.jpeg?size=thumbnail"
+    url = "/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{params[:book]}/#{element}"
+    image_url = "/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{params[:book]}/#{element}.jpeg?size=thumbnail"
     #image_url = formatted_facsimile_edition_book_page(params[:id], params[:book], element)
 
     text = "<img src='#{image_url}'/>#{element}"
@@ -91,8 +96,8 @@ class SimpleModePanoramaWidget < Widgeon::Widget
   end
   
   def vertical_line(element)
-    url = "#{element}"
-    image_url = "/facsimile_editions/#{params[:id]}/#{params[:book]}/#{element}.jpeg?size=thumbnail"
+    url = "/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{params[:book]}/#{element}"
+    image_url = "/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{params[:book]}/#{element}.jpeg?size=thumbnail"
     text = "<img src='#{image_url}'/>#{element}"
     result = "#{titled_link(url, text)}"  
   end
