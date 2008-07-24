@@ -220,6 +220,10 @@ module TaliaUtil
         else
           assit(!hyper_type, "There was no mapping for the type/subtype (#{hyper_type}/#{hyper_subtype})")
         end
+        
+        # Little kludge: We also "hardwire" original types to the object
+        @source.hyper::subtype << hyper_subtype if(hyper_subtype)
+        @source.hyper::type << hyper_type if(hyper_type)
       end
       
       # Imports the file that is included in the xml, and all releant properties
