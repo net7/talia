@@ -1,7 +1,7 @@
 module TaliaCore
   
   # A catalog is a collection of AbstractWorkCard records. 
-  def Catalog
+  class Catalog
     
     # Returns all the elements, restricting the result to the given type
     # if one is given
