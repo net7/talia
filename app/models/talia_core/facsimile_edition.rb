@@ -1,5 +1,5 @@
 module TaliaCore 
-  class FacsimileEdition < MacroContribution
+  class FacsimileEdition < Catalog
    # returns an array containing a list of the book types available and connected to this facsimile edition
     # (e.g.: 'Works', 'Manuscripts', ...)
     def types
@@ -17,35 +17,10 @@ module TaliaCore
     # returns an array containing a list of all the books of the given type (manuscripts, works, etc.) 
     # and subtype (notebook, draft, etc.) belonging to this Facsimile Edition
     def books(type, subtype = nil)
-      Source.find(:find_through => [N::HYPER.is_in_macrocontribution, self.uri], :type => N::HYPER.book)
-      # FIXME: Check predicate values
-    end
-    
-    # returns all the pages of the given book contained in this Facsimile Edition 
-    def related_pages(book)
-      
-      result =  ['N-IV-2,1', 'N-IV-2,2', 'N-IV-2,3', 'N-IV-2,4', 'N-IV-2,5', 'N-IV-2,6', 'N-IV-2,7', 'N-IV-2,8', 'N-IV-2,9', 'N-IV-2,10', 'N-IV-2,11', 'N-IV-2,12', 'N-IV-2,13', 'N-IV-2,14', 'N-IV-2,15', 'N-IV-2,16', 'N-IV-2,20']
-    end
-    
-    # returns the description of the book given as parameter, taken from the "material description" contributions
-    # which is supposed to be related to this Facsimile Edition
-    def material_description(book)
-      #TODO: everything
-      result = "#{book} description"
-    end
-
-    # searches for the facsimile related to the page passed as a parameter
-    # which also belongs to the facsimile edition we're in.
-    # It then returns the first TaliaCore::ImageData object of it
-    def page_image_data(book, page, size)
-      #TODO: everything
-      case size
-      when 'thumbnail'
-#        fax = Source.find(N::LOCAL + 'egrepalysviola-1441')
-#        fax.data('ImageData')[0]
+      if(subtype)
+        Book.find(:all, :type => subtype)
       else
-#        fax = Source.find(N::LOCAL + 'egrepalysviola-1439')
-  #        fax.data('ImageData')[0]
+        Book.find(:all, :type => type)
       end
     end
 
@@ -58,16 +33,9 @@ module TaliaCore
       page_image_data(book, page, size)
     end
     
-    
-    # returns the copyright note of the facsimile related to the given page
-    # the copyright note is related to the archive where the material is kept
-    def copyright_note(page)
-      #TODO:everything
-      'copyright note'
-    end
-    
-
     def search(requested_book='', requested_page='')
+      # TODO: Rewrite on RDF queries...
+      
       result = ''
       case requested_page
       when ''
@@ -117,7 +85,7 @@ module TaliaCore
     # movement is expected in the form of "next" or "previous"
     # used, for instance, for browsing pages
     def neighbour_source(source, movement)
-      #TODO: everything
+      #TODO: Move to "Page"
       result = 'N-IV-2,3'
     end
     

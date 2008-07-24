@@ -10,6 +10,6 @@ class FabricaTmpTest < Test::Unit::TestCase
   end
   
   def test_types
-      assert_types(@src, N::HYPER + "Manuscript", N::HYPER + "Page")
+    assert_types(@src, N::HYPER + "Manuscript", N::HYPER + "Page")
   end
 end

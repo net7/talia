@@ -1,4 +1,4 @@
 module TaliaCore 
-  class CriticalEdition < MacroContribution
+  class CriticalEdition < Catalog
     end
 end

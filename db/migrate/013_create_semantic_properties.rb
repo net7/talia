@@ -5,7 +5,7 @@ class CreateSemanticProperties < ActiveRecord::Migration
       t.text :value, :null => false
     end
     
-    add_index :semantic_properties, :value, :unique => false
+    # add_index :semantic_properties, :value, :unique => false
   end
 
   def self.down
