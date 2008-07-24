@@ -65,6 +65,7 @@ module TaliaCore
     #    value/uri, to search for predicates that match the given predicate/value 
     #    combination
     #  * :type - specifically looks for sources with the given type.
+    #  * :find_through_inv - like :find_through, but for the "inverse" lookup
     def self.find(*args)
       prepare_options!(args.last) if(args.last.is_a?(Hash))
       if(args.size == 1 && (uri_s = uri_string_for(args[0])))
@@ -202,12 +203,20 @@ module TaliaCore
       join
     end
     
+    # Returns the "default" join for reverse lookups
+    def self.default_inv_joins
+      join = "LEFT JOIN semantic_relations ON semantic_relations.object_id = active_sources.id AND semantic_relations.object_type = 'TaliaCore::ActiveSource' "
+      join << " LEFT JOIN active_sources AS sub_sources ON semantic_relations.subject_id = sub_sources.id"
+      join
+    end
+    
     
     # Takes the "advanced" options that can be passed to the find method and
     # converts them into "standard" find options.
     def self.prepare_options!(options)
       check_for_find_through!(options)
       check_for_type_find!(options)
+      check_for_find_through_inv!(options)
     end
     
     # Checks if the :find_through option is set. If so, this expects the 
@@ -238,6 +247,24 @@ module TaliaCore
         end
       end
     end
+    
+    
+    # Check for the :find_through_inv option. This expects the 2 basic values
+    # in the same way as :find_through.
+    #
+    # find(:find_through_inv => [N::RDF::to_me, my_uri]
+    def self.check_for_find_through_inv!(options)
+      if(f_through = options.delete(:find_through_inv))
+        assit_kind_of(Array, f_through)
+        raise(ArgumentError, "Passed non-hash conditions with :find_through") if(options.has_key?(:conditions) && !options[:conditions].is_a?(Hash))
+        raise(ArgumentError, "Cannot pass custom join conditions with :find_through") if(options.has_key?(:joins))
+        options[:joins] = default_inv_joins
+        options[:conditions] ||= {}
+        options[:conditions]['semantic_relations.predicate_uri'] = f_through[0].to_s
+        options[:conditions]['sub_sources.uri'] = f_through[1].to_s
+      end
+    end
+    
     
     # Checks for the :type option in the find options. This is the same as
     # doing a :find_through on the rdf type
