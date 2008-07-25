@@ -349,6 +349,8 @@ module TaliaCore
         end
       end
       
+      klasses, updated = TaliaCore::RdfUpdate::rdfs_from_owl
+      
       puts "Ontologies autoloaded: #{loaded_ontos.join(', ')}"
     end
     
