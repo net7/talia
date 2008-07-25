@@ -4,16 +4,16 @@ class ImportControllerTest < ActionController::TestCase
   
   def test_should_create_manuscript
     authorize_as :hyper
-    assert_difference "Source.count", 2 do
+    assert_difference "TaliaCore::Source.count", 2 do
       post :create, :document => document('export')
       assert_response :created    
-      assert_kind_of Source, assigns(:document)      
+      assert_kind_of TaliaCore::Source, assigns(:document)      
     end
   end
   
   def test_should_return_client_error_on_nil_document
     authorize_as :hyper
-    assert_no_difference "Source.count" do
+    assert_no_difference "TaliaCore::Source.count" do
       post :create, :document => nil
       assert_response 400      
     end
@@ -21,7 +21,7 @@ class ImportControllerTest < ActionController::TestCase
   
   def test_should_return_client_error_on_empty_document
     authorize_as :hyper
-    assert_no_difference "Source.count" do
+    assert_no_difference "TaliaCore::Source.count" do
       post :create, :document => ''
       assert_response 400      
     end
@@ -29,7 +29,7 @@ class ImportControllerTest < ActionController::TestCase
   
   def test_should_return_client_error_on_malformed_document
     authorize_as :hyper
-    assert_no_difference "Source.count" do
+    assert_no_difference "TaliaCore::Source.count" do
       post :create, :document => 'book'
       assert_response 400      
     end

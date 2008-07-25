@@ -30,12 +30,12 @@ class Test::Unit::TestCase
   end
   
   def source_import(file, siglum)
-    assert(!Source::exists?(siglum), "#{siglum} must not exist before test")
+    assert(!TaliaCore::Source::exists?(siglum), "#{siglum} must not exist before test")
     authorize_as :hyper
     post :create, :document => document(file)
     assert_response :created  
-    assert(Source.exists?(siglum), "#{siglum} must exist after create")
-    src = Source.find(siglum) 
+    assert(TaliaCore::Source.exists?(siglum), "#{siglum} must exist after create")
+    src = TaliaCore::Source.find(siglum) 
     yield if(block_given?)
     src
   end

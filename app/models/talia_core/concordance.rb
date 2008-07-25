@@ -1,7 +1,8 @@
 module TaliaCore
   
+  
   # This describes a concordance between multiple elements
-  def concordant_elements
+  class Concordance < Source
     # TODO: Implementation
   end
   

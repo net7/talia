@@ -22,11 +22,13 @@ module TaliaCore
   #
   # An expression card is *always* part of *exactly* one catalog, even if it's
   # just the default catalog.
-  class ExpressionCard
+  class ExpressionCard < Source
     
     # The siglum of this element in the current catalog
     def siglum
-      # TODO: Implementation
+      siglum = predicate(:hyper, :siglum)
+      assit_equal(siglum.size, 1, "There should only exactly one siglum")
+      (siglum.size > 0) ? siglum[0] : uri.local_name
     end
     
     # Get the concordance record for this card. This will return the
@@ -36,25 +38,37 @@ module TaliaCore
       # TODO: Implementation
     end
     
-    # Get the cards that are concordant to this one
+    # Get the cards that are concordant to this one. This includes the current
+    # card itself.
     def concordant_cards
       # TODO: Implementation
     end
     
     # The catalog that this card belongs to
     def catalog
-      # TODO: Implementation
+      catalog = predicate(:hyper, :in_catalog)
+      assit_equal(catalog.size, 1, "The element must have exactly one catalog.")
+      (catalog.size > 0) ? catalog[0] : nil
     end
     
     # Assign a catalog to the card
     def catalog=(new_catalog)
-      # TODO: Implementation
+      raise(ArgumentError, "Must pass in existing catalog object") unless(new_catalog.is_a?(Catalog))
+      predicate(:hyper, :in_catalog).remove
+      predicate_set(:hyper, :in_catalog, new_catalog)
     end
     
-    # This returns the manifestations FIXME of this card. You may restrict
-    # this to a given type (e.g. "Facsimile")
-    def manifestations(type = nil)
-      # TODO: Implementation + Name
+    # This returns the manifestations of this card. 
+    def manifestations
+      type ||= Source
+      raise(ArgumentError, "Manifestation type should be a class") unless(type.is_a?(Class))
+      type.find(:all, :find_through_inv => [N::HYPER.manifestation_of, self])
+    end
+    
+    # Allows to add a manifestation
+    def add_manifestation(manifestation)
+      raise(ArgumentError, "Only manifestations can be added here") unless(manifestation.is_a?(Manifestation))
+      manifestation.predicate_set_uniq(:hyper, :manifestation_of, self)
     end
     
   end
