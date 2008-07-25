@@ -64,7 +64,7 @@ module TaliaUtil
       # Make a resource
       # Create a resource from the given type
       def make_res(type)
-        Module::RDFS::Resource.new(type.to_s)
+        ::RDFS::Resource.new(type.to_s)
       end
     end
   end

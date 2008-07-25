@@ -11,7 +11,7 @@ module TaliaCore
     
     def setup
       setup_once(:flush) do
-        TestHelper.flush_rdf
+        Util.flush_rdf
         true
       end
     end
