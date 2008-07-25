@@ -65,13 +65,13 @@ namespace :talia_core do
   # The real import task
   desc "Import RDF data directly into the triple store. Option: rdf_syntax={ntriples|rdfxml}"
   task :rdf_import => :talia_init do
-    RdfImport::import(ENV['rdf_syntax'], get_files)
+    RdfImport::import(ENV['rdf_syntax'], TaliaUtil::Util::get_files)
   end
   
   # Task for importing YAML data into the data store
   desc "Import YAML data file in Talia format."
   task :yaml_import => :talia_init do
-    YamlImport::import_multi_files(get_files)
+    YamlImport::import_multi_files(TaliaUtil::Util::get_files)
   end
   
   # Task for updating the OWL classes with RDFS class information
@@ -83,7 +83,7 @@ namespace :talia_core do
   # Task to import data files into the Talia system
   desc "Import data files. Options data_type=<data_type> replace_files={yes|no}"
   task :data_import => :talia_init do
-    DataImport::import(get_files, ENV['data_type'])
+    DataImport::import(TaliaUtil::Util::get_files, ENV['data_type'])
   end
   
   # Import from Hyper

@@ -138,6 +138,13 @@ module TaliaCore
       predicate(namespace, name) << value
     end
     
+    # Setter method that will only add the value if it doesn't exist already
+    def predicate_set_uniq(namespace, name, value)
+      pred = predicate(namespace, name)
+      value = value.value if(value.is_a?(SemanticProperty))
+      pred << value unless(pred.include?(value))
+    end
+    
     # Gets the direct predicates (using the database)
     def direct_predicates
       rels = SemanticRelation.find_by_sql("SELECT DISTINCT predicate_uri FROM semantic_relations WHERE subject_id = #{self.id}")
@@ -274,6 +281,9 @@ module TaliaCore
         check_for_find_through!(options)
       end
     end
+    
+    private 
+    
   end
   
 end

@@ -9,7 +9,7 @@ module TaliaCore
     
     def setup
       setup_once(:rdf_res) do
-        TestHelper.flush_rdf
+        TaliaUtil::Util.flush_rdf
         active_sources(:multirel).send(:create_rdf) # Update the rdf
         active_sources(:multirel).rdf
       end

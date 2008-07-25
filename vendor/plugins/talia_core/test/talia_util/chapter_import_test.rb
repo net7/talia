@@ -17,8 +17,9 @@ module TaliaUtil
     def setup
       setup_once(:flush) do
         clean_data_files
-        TaliaCore::TestHelper.flush_rdf
-        TaliaCore::TestHelper.flush_db
+        Util.flush_rdf
+        Util.flush_db
+        true
       end
       setup_once(:src) do
         hyper_import(load_doc('AC-[Text]'))

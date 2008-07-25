@@ -17,8 +17,9 @@ module TaliaUtil
     def setup
       setup_once(:flush) do
         clean_data_files
-        TaliaCore::TestHelper.flush_rdf
-        TaliaCore::TestHelper.flush_db
+        Util.flush_rdf
+        Util.flush_db
+        true
       end
       setup_once(:src) do
         hyper_import(load_doc('Mp-XIV-2'))
@@ -80,6 +81,11 @@ module TaliaUtil
     
     def test_copyright
       assert_property(@work_src.hyper::copyright_note, '© Stiftung Weimarer Klassik und Kunstsammlungen, Goethe- und Schiller-Archiv, Weimar 2003')
+    end
+    
+    def test_type_subtype # Test the weird hyper types
+      assert_property(@work_src.hyper::subtype, "printed_and_distributed")
+      assert_property(@work_src.hyper::type, "works")
     end
     
   end

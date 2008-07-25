@@ -116,6 +116,9 @@ module TaliaCore
       # Configure the data directory
       config_data_directory
       
+      # Configure the ontologies
+      load_ontologies
+      
       # set the $ASSERT flag
       if(@config["assert"])
         $ASSERT = true
@@ -137,7 +140,7 @@ module TaliaCore
     
     
     
-  protected
+    protected
   
     # Creates the default values for the config hash
     def self.create_default_config
@@ -318,6 +321,35 @@ module TaliaCore
       end
       
       @config['data_directory_location'] = data_directory
+    end
+    
+    # Autoload ontologies, if configured
+    def self.load_ontologies
+      return unless(@config['auto_ontologies'] && !['false', 'no'].include?(@config['auto_ontologies'].downcase))
+      onto_dir = File.join(TALIA_ROOT, @config['auto_ontologies'])
+      raise(SystemInitializationError, "Cannot find configured ontology dir #{onto_dir}") unless(File.directory?(onto_dir))
+      adapter = ConnectionPool.write_adapter
+      raise(SystemInitializationError, "Ontology autoloading without a context-aware adapter deletes all RDF data. This is only allowed in testing, please load the ontology manually.") unless(adapter.supports_context? || (@environment == 'testing'))
+      raise(SystemInitializationError, "Ontology autoloading requires 'load' capability on the adapter.") unless(adapter.respond_to?(:load))
+      
+      # Clear out the RDF
+      if(adapter.supports_context?)
+        adapter.clear(N::URI.new(N::LOCAL + 'ontology_space'))
+      else
+        adapter.respond_to?(:clear) ? adapter.clear : TaliaUtil::Util::flush_rdf
+      end
+      
+      loaded_ontos = []
+      
+      Dir.foreach(onto_dir) do |file|
+        if(file =~ /\.owl$|\.rdf$|\.rdfs$/)
+          file = File.expand_path(File.join(onto_dir, file))
+          adapter.supports_context? ? adapter.load(file, 'rdfxml', N::URI.new(N::LOCAL + 'ontology_space')) : adapter_load(file, 'rdfxml')
+          loaded_ontos << File.basename(file)
+        end
+      end
+      
+      puts "Ontologies autoloaded: #{loaded_ontos.join(', ')}"
     end
     
   end

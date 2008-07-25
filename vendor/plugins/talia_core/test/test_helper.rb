@@ -6,12 +6,10 @@ require 'active_support/testing'
 require 'active_support/test_case'
 require 'active_record/fixtures'
 
-@@flush_tables = [ 'active_sources', 'semantic_relations', 'semantic_properties', 'data_records', 'workflows' ]
-
 module TaliaCore
-#  class Source
-#    public :instantiate_source_or_rdf_object
-#  end
+  #  class Source
+  #    public :instantiate_source_or_rdf_object
+  #  end
   
   class TestHelper
     # Check if we have old (1.2.3-Rails) style ActiveRecord without fixture cache
@@ -24,20 +22,6 @@ module TaliaCore
         TaliaCore::Initializer.environment = "test"
         # run the initializer
         TaliaCore::Initializer.run("talia_core")
-      end
-    end
-    
-    # Flush the database
-    def self.flush_db
-      @@flush_tables.reverse.each { |f| ActiveRecord::Base.connection.execute "DELETE FROM #{f}" }
-      Fixtures.reset_cache if(@@new_ar) # We must reset the cache because the fixtures were deleted
-    end
-    
-    # Flush the RDF store
-    def self.flush_rdf
-      to_delete = Query.new.select(:s, :p, :o).where(:s, :p, :o).execute
-      to_delete.each do |s, p, o|
-        FederationManager.delete(s, p, o)
       end
     end
     

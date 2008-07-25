@@ -18,8 +18,8 @@ module TaliaUtil
     def setup
       setup_once(:src) do
         clean_data_files
-        TaliaCore::TestHelper.flush_rdf
-        TaliaCore::TestHelper.flush_db
+        Util.flush_rdf
+        Util.flush_db
         hyper_import(load_doc('igerikevzapf-539'))
       end
     end

@@ -39,10 +39,16 @@ module TaliaUtil
         puts("\nTaliaCore initialized")
     
         # # Flush the database if requested
-        flush_db if(flag?('reset_db'))
+        if(flag?('reset_db'))
+          flush_db
+          puts "DB flushed"
+        end
     
         # Flus the rdf if requested
-        flush_rdf if(flag?('reset_rdf'))
+        if(flag?('reset_rdf'))
+          flush_rdf
+          puts "RDF flushed"
+        end
       end
   
       # Get info from the Talia configuraion
@@ -62,10 +68,9 @@ module TaliaUtil
         puts "http://www.talia.discovery-project.eu/\n\n"
       end
   
-      # Flush the database
+      # Flush the database. This only flushes the main data tables!
       def flush_db
-        [ 'active_sources', 'data_records'].reverse.each { |f| ActiveRecord::Base.connection.execute "DELETE FROM #{f}" }
-        puts "All database records deleted"
+        [ 'active_sources', 'data_records', 'semantic_properties', 'semantic_relations'].reverse.each { |f| ActiveRecord::Base.connection.execute "DELETE FROM #{f}" }
       end
   
       # Flush the RDF store
@@ -74,7 +79,6 @@ module TaliaUtil
         to_delete.each do |s, p, o|
           FederationManager.delete(s, p, o)
         end
-        puts "All RDF records deleted"
       end
   
       # Load the fixtures

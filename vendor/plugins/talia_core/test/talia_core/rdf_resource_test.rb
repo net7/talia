@@ -10,8 +10,8 @@ module TaliaCore
 
     def setup
       setup_once(:flush) do
-        TestHelper.flush_rdf
-        TestHelper.flush_db
+        TaliaUtil::Util.flush_rdf
+        TaliaUtil::Util.flush_db
         true
       end
     end
