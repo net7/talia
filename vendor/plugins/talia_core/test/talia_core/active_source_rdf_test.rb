@@ -11,7 +11,7 @@ module TaliaCore
       setup_once(:rdf_res) do
         TaliaUtil::Util.flush_rdf
         active_sources(:multirel).send(:create_rdf) # Update the rdf
-        active_sources(:multirel).rdf
+        active_sources(:multirel).my_rdf
       end
     end
     

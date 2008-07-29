@@ -145,6 +145,13 @@ module TaliaCore
       pred << value unless(pred.include?(value))
     end
     
+    # Replaces the given predicate with the value. Good for one-value predicates
+    def predicate_replace(namespace, name, value)
+      pred = predicate(namespace, name)
+      pred.remove
+      pred << value
+    end
+    
     # Gets the direct predicates (using the database)
     def direct_predicates
       rels = SemanticRelation.find_by_sql("SELECT DISTINCT predicate_uri FROM semantic_relations WHERE subject_id = #{self.id}")
@@ -164,12 +171,31 @@ module TaliaCore
     
     private
     
-    
     # Helper to define a "additional type" in subclasses which will 
     # automatically be added on Object creation
-    def has_rdf_type(*types)
+    def self.has_rdf_type(*types)
       @additional_rdf_types ||= []
       types.each { |t| @additional_rdf_types << t.to_s }
+    end
+    
+    # Helper to define a "singular accessor" for something (e.g. siglum, catalog)
+    # This accessor will provide an "accessor" method that returns the
+    # single property value directly and an assignment method that replaces
+    # the property with the value
+    def self.singular_property(prop_name, property)
+      prop_name = prop_name.to_s
+      raise(ArgumentError, "Cannot overwrite method #{prop_name}") if(self.instance_methods.include?(prop_name) || self.instance_methods.include?("#{prop_name}="))
+      # define the accessor
+      define_method(prop_name) do
+        prop = self[property]
+        assit(prop.size <= 1, "Must have at most 1 value for singular property #{prop_name}")
+        prop.size > 0 ? prop[0] : nil
+      end
+      # define the writer
+      define_method("#{prop_name}=") do |value|
+        self[property].remove
+        self[property] << value
+      end
     end
     
     # Returns the related objects on the given predicate, adding the additional
@@ -243,7 +269,7 @@ module TaliaCore
         raise(ArgumentError, "Cannot pass custom join conditions with :find_through") if(options.has_key?(:joins))
         predicate = f_through[0]
         obj_val = f_through[1]
-        search_prop = (f_through.size > 2) ? f_through[2] : !(obj_val =~ /:/)
+        search_prop = (f_through.size > 2) ? f_through[2] : !(obj_val.to_s =~ /:/)
         options[:joins] = default_joins(!search_prop, search_prop)
         options[:conditions] ||= {}
         options[:conditions]['semantic_relations.predicate_uri'] = predicate.to_s
@@ -281,8 +307,6 @@ module TaliaCore
         check_for_find_through!(options)
       end
     end
-    
-    private 
     
   end
   

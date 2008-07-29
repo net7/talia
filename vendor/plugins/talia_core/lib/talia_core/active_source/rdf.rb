@@ -6,7 +6,7 @@ module TaliaCore
     after_save :create_rdf
     
     # Returns the RDF object to use for this ActiveSource
-    def rdf
+    def my_rdf
       @rdf_resource ||= begin
         src =RdfResource.new(uri)
         src.object_class = TaliaCore::ActiveSource
@@ -21,8 +21,8 @@ module TaliaCore
     # (Could be optimised ;-)
     def create_rdf
       # First remove all data on this
-      rdf.direct_predicates do |pred|
-        rdf[pred].remove
+      my_rdf.direct_predicates do |pred|
+        my_rdf[pred].remove
       end
       # Now create the new RDF subgraph
       semantic_relations.each do |sem_ref|
@@ -31,10 +31,10 @@ module TaliaCore
         # will add it as Resource.
         obj = sem_ref.object
         value = obj.is_a?(SemanticProperty) ? obj.value : obj
-        rdf[sem_ref.predicate_uri] << value
+        my_rdf[sem_ref.predicate_uri] << value
       end
-      rdf[N::RDF.type] << (N::TALIA + self.class.name)
-      rdf.save
+      my_rdf[N::RDF.type] << (N::TALIA + self.class.name)
+      my_rdf.save
     end
     
   end

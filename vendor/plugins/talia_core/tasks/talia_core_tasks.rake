@@ -5,6 +5,7 @@ require 'rake'
 require 'yaml'
 require 'talia_core'
 require 'talia_util'
+require 'talia_util/util'
 require 'rake/testtask'
 require 'rake/rdoctask'
 

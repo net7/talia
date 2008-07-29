@@ -3,6 +3,10 @@ require File.join(File.dirname(__FILE__), '..', 'test_helper')
 
 module TaliaCore
   
+  class SingularAccessorTest < ActiveSource
+    singular_property :siglum, N::RDFS.siglum
+  end
+  
   # Test the ActiveSource
   class ActiveSourceTest < Test::Unit::TestCase
     fixtures :active_sources, :semantic_properties, :semantic_relations
@@ -11,7 +15,7 @@ module TaliaCore
     
     def setup
       setup_once(:flush) do
-        Util.flush_rdf
+        TaliaUtil::Util.flush_rdf
         true
       end
     end
@@ -158,6 +162,21 @@ module TaliaCore
       assert_equal(src.uri, active_sources(:assoc_predicate_test)[N::AS_TEST_PREDS.test_rel][0].uri)
     end
     
+    def test_predicate_assign_uniq
+      src = active_sources(:assoc_predicate_test)
+      src.predicate_set(:as_test_preds, :test_uniq, "foo")
+      src.predicate_set_uniq(:as_test_preds, :test_uniq, "bar")
+      src.predicate_set_uniq(:as_test_preds, :test_uniq, "foo")
+      assert_property(src.predicate(:as_test_preds, :test_uniq), "foo", "bar")
+    end
+    
+    def test_predicate_replace
+      src = active_sources(:assoc_predicate_test)
+      src.predicate_set(:as_test_preds, :test_replace, "foo")
+      src.predicate_replace(:as_test_preds, :test_replace, "bar")
+      assert_property(src.predicate(:as_test_preds, :test_replace), "bar")
+    end
+    
     def test_direct_predicates
       preds = active_sources(:predicate_search_a).direct_predicates
       assert_equal(4, preds.size)
@@ -278,6 +297,16 @@ module TaliaCore
       result = ActiveSource.find(:all, :type => active_sources(:find_through_type).uri)
       assert_equal(1, result.size)
       assert_equal(active_sources(:find_through_test), result[0])
+    end
+    
+    def test_singular_accessor
+      src = SingularAccessorTest.new('http://testvalue.org/singular_acc_test')
+      assert_equal(nil, src.siglum)
+      src.siglum = 'foo'
+      src.save!
+      assert_equal('foo', src.siglum)
+      src.siglum = 'bar'
+      assert_equal('bar', src.siglum)
     end
     
   end
