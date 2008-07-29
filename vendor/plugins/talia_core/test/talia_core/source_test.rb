@@ -21,9 +21,7 @@ module TaliaCore
     N::Namespace.shortcut(:foaf, "http://www.foaf.org/")
     
     def setup
-      @predicates_attributes = [{"name"=>"uri", "uri"=>"#{N::LOCAL}Guinigi_Family", "namespace"=>"talia_db", "titleized"=>"Guinigi Family", "should_destroy" => ""},
-        {"name"=>"uri", "uri"=>"#{N::LOCAL}", "namespace"=>"talia_db", "titleized"=>%("Homer Simpson"), "should_destroy" => ""},
-        {"name"=>"uri", "uri"=>"#{N::LOCAL}", "namespace"=>"talia_db", "titleized"=>"http://springfield.org/Homer_Simpson", "should_destroy" => ""},
+      @predicates_attributes = [
         {"name"=>"type", "uri"=>"http://www.w3.org/2000/01/rdf-schema#Resource", "namespace"=>"rdf", "titleized"=>"Resource", "should_destroy" => ""},
         {"name"=>"type", "uri"=>"http://xmlns.com/foaf/0.1/Group", "should_destroy"=>"", "namespace"=>"rdf", "id"=>"Group", "titleized"=>"Group", "should_destroy" => ""}]
       
@@ -302,16 +300,16 @@ module TaliaCore
       source = TestHelper.make_dummy_source("http://lucca.org/")
       source.predicates_attributes = @predicates_attributes
 
-      assert_equal("#{N::LOCAL}Guinigi_Family", source.predicates_attributes.first['uri'])
-      assert_equal('talia_db', source.predicates_attributes.first['namespace'])
-      assert_equal('Guinigi Family', source.predicates_attributes.first['titleized'])
+      assert_equal("http://www.w3.org/2000/01/rdf-schema#Resource", source.predicates_attributes.first['uri'])
+      assert_equal('rdf', source.predicates_attributes.first['namespace'])
+      assert_equal('Resource', source.predicates_attributes.first['titleized'])
       assert_kind_of(Source, source.predicates_attributes.first['object'])
     end
 
     def test_save_predicates_attributes
       source = create_source('http://star-warz.org/')
-      @predicates_attributes[2] = @predicates_attributes[2].merge({'should_destroy' => '1'})
-      @predicates_attributes << {"name"=>"in_epoch", "uri"=> N::LOCAL.to_s, "should_destroy"=>"", "namespace"=>"talias", "id"=>"", "titleized"=>"Paolo Guinigi"}
+      @predicates_attributes[1] = @predicates_attributes[1].merge({'should_destroy' => '1'})
+      @predicates_attributes << {"name"=>"in_epoch", "uri"=> N::LOCAL.to_s, "should_destroy"=>"", "namespace"=>"talia", "id"=>"", "titleized"=>"Paolo Guinigi"}
       source.predicates_attributes = @predicates_attributes
       source.save_predicates_attributes
       
@@ -319,7 +317,7 @@ module TaliaCore
       source = create_source('http://star-warz.org/') # force the source reload
       # Expected size is equal to 5, because @predicates_attributes
       # contains 6 sources, but 1 is marked for destroy.
-      assert_equal(5, source.direct_predicates_objects.size)
+      assert_equal(2, source.direct_predicates_objects.size)
     end
 
     def test_normalize_uri
@@ -449,10 +447,6 @@ module TaliaCore
       safe.foo::some_property << "I should be safe!"
       safe.save!
       assert_equal("I should be safe!", safe.foo::some_property[0])
-    end
-    
-    def test_rdf_props
-      flunk
     end
     
     # Test if accessing the data on a Source works
