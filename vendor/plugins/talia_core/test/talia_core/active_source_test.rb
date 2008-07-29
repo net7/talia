@@ -39,7 +39,7 @@ module TaliaCore
     
     def test_create_vanilla
       src = ActiveSource.new
-      assert_equal('', src.uri)
+      assert_equal(nil, src.uri)
       assert(src.new_record?)
     end
     
