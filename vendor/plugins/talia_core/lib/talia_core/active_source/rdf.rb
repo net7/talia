@@ -8,7 +8,7 @@ module TaliaCore
     # Returns the RDF object to use for this ActiveSource
     def my_rdf
       @rdf_resource ||= begin
-        src =RdfResource.new(uri)
+        src = RdfResource.new(uri)
         src.object_class = TaliaCore::ActiveSource
         src
       end
@@ -20,6 +20,7 @@ module TaliaCore
     # may be an expensive operation since it removes the existing elements.
     # (Could be optimised ;-)
     def create_rdf
+      assit(!new_record?, "Record must exist here: #{self.uri}")
       # First remove all data on this
       my_rdf.direct_predicates do |pred|
         my_rdf[pred].remove
