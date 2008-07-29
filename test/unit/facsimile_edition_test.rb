@@ -5,9 +5,22 @@ module TaliaCore
     include TaliaUtil::TestHelpers
     include UnitTestHelpers
     
+    def setup
+      setup_once(:init) do
+        TaliaUtil::Util.flush_rdf
+        TaliaUtil::Util.flush_db
+        true
+      end
+    end
+    
     def test_can_create
       create_dummy_edition
       assert_not_nil(@fe)
+    end
+    
+    def test_has_books
+      create_dummy_edition
+      assert_equal(2, @fe.books.size)
     end
     
     protected

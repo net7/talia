@@ -24,42 +24,68 @@ module TaliaCore
   # just the default catalog.
   class ExpressionCard < Source
     
-    # The siglum of this element in the current catalog
-    def siglum
-      siglum = predicate(:hyper, :siglum)
-      assit_equal(siglum.size, 1, "There should only exactly one siglum")
-      (siglum.size > 0) ? siglum[0] : uri.local_name
-    end
+    singular_property :siglum, N::HYPER.siglum
+    singular_property :catalog, N::HYPER.in_catalog
     
     # Get the concordance record for this card. This will return the
     # concordance itself, so that the metadata of the concordance record
     # can be inspected.
     def concordance
-      # TODO: Implementation
+      concs = Concordance.find(:all, :find_through => [N::HYPER.concordant_to, self])
+      assit(concs.size <= 1, "Should not have more than 1 concordance object")
+      concs.size > 0 ? concs[0] : nil
     end
     
     # Get the cards that are concordant to this one. This includes the current
     # card itself.
     def concordant_cards
-      # TODO: Implementation
+      return [] unless(concordance)
+      concordance.concordant_cards
     end
     
-    # The catalog that this card belongs to
-    def catalog
-      catalog = predicate(:hyper, :in_catalog)
-      assit_equal(catalog.size, 1, "The element must have exactly one catalog.")
-      (catalog.size > 0) ? catalog[0] : nil
+    # Clone the current card and make the new one concordant to the current
+    # one
+    def clone_concordant(uri)
+      new_el = clone(uri)
+      make_concordant(new_el)
+      new_el
     end
     
-    # Assign a catalog to the card
-    def catalog=(new_catalog)
-      raise(ArgumentError, "Must pass in existing catalog object") unless(new_catalog.is_a?(Catalog))
-      predicate(:hyper, :in_catalog).remove
-      predicate_set(:hyper, :in_catalog, new_catalog)
+    # Clones the current card, with the properties and inverse properties that
+    # are configured for cloning.
+    def clone(uri)
+      new_el = self.class.new(uri)
+      self.class.props_to_clone.each { |p| new_el[p] << self[p] }
+      self.class.inverse_props_to_clone.each do |p|
+        self.inverse[p].each { |targ| targ[p] << new_el }
+      end
+      new_el
     end
     
-    # This returns the manifestations of this card. 
-    def manifestations
+    # Make the given card concordant to this one. Creating a new concordance
+    # saves the sources.
+    def make_concordant(c_card)
+      raise(ArgumentError, "Concordant element must be a card") unless(c_card.is_a?(ExpressionCard))
+      if(concordance && c_card.concordance)
+        # There are two concordances, merge them
+        concordance.merge(c_card.concordance)
+      elsif(concordance)
+        concordance.add_card(c_card) # concordance is on this, add the other card
+      elsif(c_card.concordance)
+        c_card.concordance.add_card(self) # c. is on the other, add this
+      else
+        # No concordance, create one. We'll try to make a unique URL for this,
+        # using a hash of the current URL
+        conc = Concordance.new(N::LOCAL + 'concordance_' + Digest::MD5.new.hexdigest(uri))
+        conc.add_card(self)
+        conc.add_card(c_card)
+        conc.save!
+      end
+    end
+    
+    # This returns the manifestations of this card. You can give an optional
+    # type which must be a class.
+    def manifestations(type = nil)
       type ||= Source
       raise(ArgumentError, "Manifestation type should be a class") unless(type.is_a?(Class))
       type.find(:all, :find_through_inv => [N::HYPER.manifestation_of, self])
@@ -67,8 +93,31 @@ module TaliaCore
     
     # Allows to add a manifestation
     def add_manifestation(manifestation)
-      raise(ArgumentError, "Only manifestations can be added here") unless(manifestation.is_a?(Manifestation))
+       raise(ArgumentError, "Only manifestations can be added here") unless(manifestation.is_a?(Manifestation))
       manifestation.predicate_set_uniq(:hyper, :manifestation_of, self)
+    end
+    
+    # Returns the properties that should be cloned when creating a new concordant
+    # clone
+    def self.props_to_clone
+      @props_to_clone ||= []
+    end
+    
+    # The inverse properties to clone
+    def self.inverse_props_to_clone
+      @inverse_props_to_clone ||= []
+    end
+    
+    protected
+    
+    # Helper to to register the properties that should be cloned
+    def self.clone_properties(*props)
+      props.each { |p| props_to_clone << p }
+    end
+    
+    # Helper to register inverse properties that should be cloned
+    def self.clone_inv_properties(*props)
+      props.each { |p| inverse_props_to_clone << p }
     end
     
   end

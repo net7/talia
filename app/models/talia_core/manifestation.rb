@@ -11,6 +11,11 @@ module TaliaCore
       # TODO: Implementation
     end
     
+    # The card of the expressions of which this is a manifestation
+    def expressions
+      Source.find(:all, :find_through => [N::HYPER.manifestation_of, self])
+    end
+    
   end
   
 end

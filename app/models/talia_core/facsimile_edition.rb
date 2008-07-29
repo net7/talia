@@ -28,11 +28,11 @@ module TaliaCore
     # (manuscripts, works, etc.) or subtype (notebook, draft, etc.) belonging 
     # to this Facsimile Edition. Books of a subtype also belong to the type
     # of which it is a subtype.
-    def books(type)
-      assit_quack(type, :uri)
-      qry = Query.new(N::Source).select(:b).distinct
-      qry.where(:b, N::RDF.type, type)
-      qry.where(:b, N::HYPER.is_part_of, self)
+    def books(type = nil)
+      assit_quack(type, :uri) if(type)
+      qry = Query.new(TaliaCore::Source).select(:b).distinct
+      qry.where(:b, N::RDF.type, type) if(type)
+      qry.where(:b, N::HYPER.in_catalog, self)
       qry.execute
     end
     
