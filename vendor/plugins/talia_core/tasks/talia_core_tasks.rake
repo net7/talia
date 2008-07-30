@@ -87,13 +87,6 @@ namespace :talia_core do
     DataImport::import(TaliaUtil::Util::get_files, ENV['data_type'])
   end
   
-  # Import from Hyper
-  desc "Import data from Hyper. Options: base_url=<base_url> [list_path=?get_list=all] [doc_path=?get=] [extension=] [user=<username> password=<pass>]"
-  task :hyper_import => :talia_init do
-    HyperXmlImport::set_auth(ENV['user'], ENV['password'])
-    HyperXmlImport::import(ENV['base_url'], ENV['list_path'], ENV['doc_path'], ENV['extension'])
-  end
-  
   # Task to import demo data from a demo directory
   desc "Import demo data (for default demo data). Opions: demodir=<dir> [owlify=no]"
   task :demo_import do
