@@ -26,7 +26,9 @@ module TaliaCore
       
       if(children)
         for_children_of(concordant_element) do |child|
-          add_from_concordant(child, true)
+          new_clone = add_from_concordant(child, true)
+          new_clone.hyper::is_part_of << new_el
+          new_clone.save!
         end
       end
       
