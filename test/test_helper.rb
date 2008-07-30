@@ -47,3 +47,6 @@ end
 
 require File.expand_path(File.dirname(__FILE__) + "/../lib/authenticated_test_helper")
 include AuthenticatedTestHelper
+
+# Set the data location for Talia
+TaliaCore::CONFIG["data_directory_location"] = File.join(File.expand_path(File.dirname(__FILE__)), 'talia_test_data' )

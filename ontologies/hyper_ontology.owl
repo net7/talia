@@ -1,0 +1,533 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns="http://trac.talia.discovery-project.eu/wiki/HyperOntology#"
+    xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xml:base="http://trac.talia.discovery-project.eu/wiki/HyperOntology">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://purl.org/dc/elements/1.1/"/>
+  </owl:Ontology>
+  <rdfs:Class rdf:ID="Source"/>
+  <rdfs:Class rdf:ID="Agent">
+    <rdfs:subClassOf rdf:resource="#Source"/>
+  </rdfs:Class>
+  <owl:Class rdf:ID="MaterialDescription">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Contribution"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#Contribution">
+    <rdfs:subClassOf rdf:resource="#Source"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Linear">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="ContributionContentType"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Copybook">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Manuscript"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="WordInteractive">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Lecture">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Ultradiplomatic">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Manuscript">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Material"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="PDF">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="PlainText">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="ConferencePaper">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="GreyScale">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="PrintedAndDistributed">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Work"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Thematic">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="BlackAndWhite">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Translation">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Editing">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Transcription">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="HNML">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="NotDistributed">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Work"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Review">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="ExternalObject">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="DocumentTransmission">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Unprinted">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Work"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Book">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="StructureElement"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Genetic">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Chapter">
+    <rdfs:subClassOf rdf:resource="#StructureElement"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Note">
+    <rdfs:subClassOf rdf:resource="#StructureElement"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Notebook">
+    <rdfs:subClassOf rdf:resource="#Manuscript"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Page">
+    <rdfs:subClassOf rdf:resource="#StructureElement"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Draft">
+    <rdfs:subClassOf rdf:resource="#Manuscript"/>
+    <owl:disjointWith rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    ></owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:ID="Facsimile">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Color">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Facsim">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Essay">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Work">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Material"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="EssayPage">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Dossier">
+    <rdfs:subClassOf rdf:resource="#Manuscript"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Diplomatic">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Material">
+    <rdfs:subClassOf rdf:resource="#Source"/>
+  </owl:Class>
+  <owl:Class rdf:ID="ParagraphInteractive">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="PathStep">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Edition">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="HTML">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Author">
+    <rdfs:subClassOf rdf:resource="#Agent"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Paragraph">
+    <rdfs:subClassOf rdf:resource="#StructureElement"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Iconography">
+    <rdfs:subClassOf rdf:resource="#Material"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Comments">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="RowInteractive">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Chronologic">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="TEI">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Path">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="ICN">
+    <rdfs:subClassOf rdf:resource="#Manuscript"/>
+  </owl:Class>
+  <owl:Class rdf:ID="GenericXML">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Interview">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="WitTEI">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Archive">
+    <rdfs:subClassOf rdf:resource="#Agent"/>
+  </owl:Class>
+  <owl:Class rdf:ID="ManuscriptForPrinting">
+    <rdfs:subClassOf rdf:resource="#Manuscript"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Dynamic">
+    <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+  </owl:Class>
+  <owl:Class rdf:ID="BibliographicalCard">
+    <rdfs:subClassOf rdf:resource="#Contribution"/>
+  </owl:Class>
+  <rdf:Property rdf:ID="position">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:domain rdf:resource="#Source"/>
+    <rdfs:comment xml:lang="en">Position in a collection of elements</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="path_source">
+    <rdfs:range rdf:resource="#Source"/>
+    <rdfs:comment xml:lang="en">The Source related to this path step</rdfs:comment>
+    <rdfs:domain rdf:resource="#PathStep"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="already_published">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Contribution"/>
+    <rdfs:comment xml:lang="en">Indicates if the contribution had already been published before being published in the Hyper</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="local_id">
+    <rdfs:comment xml:lang="en">An unique identifier that is only valid in the local system</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="zip">
+    <rdfs:comment xml:lang="en">Zip code</rdfs:comment>
+    <rdfs:domain rdf:resource="#Agent"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="email">
+    <rdfs:comment xml:lang="en">Email Address</rdfs:comment>
+    <rdfs:domain rdf:resource="#Agent"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="abstract">
+    <rdfs:comment xml:lang="en">Abstract of the Essay</rdfs:comment>
+    <rdfs:domain rdf:resource="#Essay"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="is_part_of">
+    <rdfs:domain rdf:resource="#Source"/>
+    <rdfs:comment xml:lang="en">Indicates that one element is part of another</rdfs:comment>
+    <rdfs:range rdf:resource="#Source"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="from_date">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:domain rdf:resource="#Author"/>
+    <rdfs:comment xml:lang="en">Registration date</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="copyright_note">
+    <rdfs:domain rdf:resource="#Source"/>
+    <rdfs:comment xml:lang="en">Copyright information on the Source</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="coordinates">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The coordinates of the vertex of the polygon which identifies this note in the page.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Note"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="resolution">
+    <rdfs:domain rdf:resource="#Facsimile"/>
+    <rdfs:comment xml:lang="en">Resolution of the Facsimile</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="height">
+    <rdfs:comment xml:lang="en">Height of the page in pixel or cm</rdfs:comment>
+    <rdfs:domain rdf:resource="#Page"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="language">
+    <rdfs:domain rdf:resource="#Contribution"/>
+    <owl:versionInfo xml:lang="en">TODO: Should use controlled vocabulary</owl:versionInfo>
+    <rdfs:comment xml:lang="en">Language of the contribuation</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="refers">
+    <rdfs:comment xml:lang="en">A reference to another source</rdfs:comment>
+    <rdfs:range rdf:resource="#Source"/>
+    <rdfs:domain rdf:resource="#Source"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="note">
+    <rdfs:domain rdf:resource="#Paragraph"/>
+    <rdfs:range rdf:resource="#Note"/>
+    <rdfs:comment xml:lang="en">A note for this paragraph</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="file_dimension">
+    <rdfs:comment xml:lang="en">Size of the Data file</rdfs:comment>
+    <rdfs:domain rdf:resource="#Contribution"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="author_name">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment xml:lang="en">First name of the Author</rdfs:comment>
+    <rdfs:domain rdf:resource="#Author"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="name">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The name of the element</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Source"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="date">
+    <rdfs:domain rdf:resource="#Book"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment xml:lang="en">Either the publishing date or a date where the material was created. Can be a date or range (e.g. 1984-11-23 or June 1976 - March 1977)</rdfs:comment>
+    <owl:versionInfo xml:lang="en">TODO: Should use controlled vocabulary</owl:versionInfo>
+  </rdf:Property>
+  <rdf:Property rdf:ID="dimension_units">
+    <rdfs:comment xml:lang="en">Identifies the unit type used for the elements physical dimensions.</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="address">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Agent"/>
+    <rdfs:comment xml:lang="en">Street Address</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="webpage">
+    <rdfs:domain rdf:resource="#Agent"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment xml:lang="en">Web address</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="chapter_name">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The "name" of a chapter (eg. II or 2)</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Chapter"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="translation_of">
+    <rdfs:subPropertyOf rdf:resource="#refers"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="material">
+    <rdfs:range rdf:resource="#Material"/>
+    <rdfs:comment xml:lang="en">Reference to a related material</rdfs:comment>
+    <rdfs:domain rdf:resource="#Contribution"/>
+    <rdfs:subPropertyOf rdf:resource="#refers"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="position_name">
+    <rdfs:comment xml:lang="en">A string describing the "name" of the current position.
+
+For Essay Pages:
+
+The page name in the original essay.
+
+For material pages:
+
+Subpart of this page siglum, which identified this page (eg: if this page has 'MA,1r' as siglum - being the page 1r of the MA work - this field will contain '1r') To be used when asking for a single page from within the book. (you may want to ask for the page 1r, this is where we know its "name").</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Source"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="first_page">
+    <rdfs:comment xml:lang="en">The first page of a chapter or other element</rdfs:comment>
+    <rdfs:domain rdf:resource="#Chapter"/>
+    <rdfs:range rdf:resource="#Page"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="publication_place">
+    <rdfs:domain rdf:resource="#Book"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Place where the book was published</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="filename">
+    <rdfs:domain rdf:resource="#Contribution"/>
+    <rdfs:comment xml:lang="en">File containing the contribution</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="file_content_type">
+    <rdfs:comment xml:lang="en">MIME type of the file's content</rdfs:comment>
+    <rdfs:domain rdf:resource="#Contribution"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="path">
+    <rdfs:range rdf:resource="#Path"/>
+    <rdfs:domain rdf:resource="#PathStep"/>
+    <rdfs:comment xml:lang="en">The path to which the step belongs</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="journal_information">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Information about the journal of which the element is a part.</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#ExternalObject"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="content_type">
+    <rdfs:domain rdf:resource="#Contribution"/>
+    <rdfs:range rdf:resource="#ContributionContentType"/>
+    <rdfs:comment xml:lang="en">Describes the content of the contribution</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="publisher">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Source"/>
+    <rdfs:comment xml:lang="en">Publisher</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="fax">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment xml:lang="en">Fax number</rdfs:comment>
+    <rdfs:domain rdf:resource="#Agent"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="to_date">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:domain rdf:resource="#Author"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="auhtor_institution">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Author"/>
+    <rdfs:comment xml:lang="en">Institution the author belongs to</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="author_status">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Author Status</rdfs:comment>
+    <rdfs:domain rdf:resource="#Author"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="curator_note">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Note by the curator</rdfs:comment>
+    <rdfs:domain rdf:resource="#Essay"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="width">
+    <rdfs:comment xml:lang="en">Width of the page in pixel or cm</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    <rdfs:domain rdf:resource="#Page"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="siglum">
+    <rdfs:comment xml:lang="en">The Siglum of the Source</rdfs:comment>
+    <rdfs:domain rdf:resource="#Source"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="publishing_date">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:domain rdf:resource="#Contribution"/>
+    <rdfs:comment xml:lang="en">The date on which the contribution was published in the Hyper</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="pages_information">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment xml:lang="en">Plaintext information about the pages in an object. (Usually the number of pages, or similiar information).</rdfs:comment>
+    <rdfs:domain rdf:resource="#ExternalObject"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="material_type">
+    <rdfs:domain rdf:resource="#Material"/>
+    <rdfs:comment xml:lang="en">Indicates the material type of the Material</rdfs:comment>
+    <rdfs:range rdf:resource="#StructureElement"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="state">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >State</rdfs:comment>
+    <rdfs:domain rdf:resource="#Agent"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="phone">
+    <rdfs:comment xml:lang="en">Phone number</rdfs:comment>
+    <rdfs:domain rdf:resource="#Agent"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="page">
+    <rdfs:domain rdf:resource="#Note"/>
+    <rdfs:range rdf:resource="#Page"/>
+    <rdfs:comment xml:lang="en">Page to which the Zone belongs</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="city">
+    <rdfs:comment xml:lang="en">City</rdfs:comment>
+    <rdfs:domain rdf:resource="#Agent"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="collocation">
+    <rdfs:comment xml:lang="en">Indicates where the (physical) object is found in the archive (e.g. CV-12, ...)</rdfs:comment>
+    <rdfs:domain rdf:resource="#Book"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="description">
+    <rdfs:comment xml:lang="en">A descriptive placeholder for the UI, to be translated</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="author_surname">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Surname of the author</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Author"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="country">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Agent"/>
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >TODO: Should use controlled vocabulary</owl:versionInfo>
+    <rdfs:comment xml:lang="en">Country</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="curator">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment xml:lang="en">Person who published the Essay in the Hyper</rdfs:comment>
+    <rdfs:domain rdf:resource="#Essay"/>
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >TODO: Should use controlled vocabulary</owl:versionInfo>
+  </rdf:Property>
+  <rdf:Property rdf:ID="collection_information">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Contains plaintext information about the collection of which the element is a part.</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#ExternalObject"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="author">
+    <rdfs:comment xml:lang="en">The author of a contribution</rdfs:comment>
+    <rdfs:range rdf:resource="#Author"/>
+    <rdfs:domain rdf:resource="#Contribution"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="last_page">
+    <rdfs:comment xml:lang="en">The last page of a logical element in a publication. May not always be used, even if first_page is present.</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="author_position">
+    <rdfs:domain rdf:resource="#Author"/>
+    <rdfs:comment xml:lang="en">Position of the author</rdfs:comment>
+  </rdf:Property>
+  <rdf:Property rdf:ID="cites">
+    <rdfs:subPropertyOf rdf:resource="#refers"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="is_in_archive">
+    <rdfs:domain rdf:resource="#Book"/>
+    <rdfs:comment xml:lang="en">the book is in this archive</rdfs:comment>
+    <rdfs:range rdf:resource="#Archive"/>
+  </rdf:Property>
+  <rdf:Property rdf:ID="related_contribution">
+    <rdfs:comment xml:lang="en">Indicates that a source is closely related to a contribution</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="#refers"/>
+  </rdf:Property>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 3.3.1, Build 430)  http://protege.stanford.edu -->

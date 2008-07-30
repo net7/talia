@@ -1,0 +1,128 @@
+manuscripts:
+
+ Mp-XIV-2
+ N-IV-1
+ N-IV-2
+ N-IV-4
+ M-I-2
+ M-I-3
+ N-IV-5
+ N-IV-3
+ N-V-1
+ N-V-2
+
+works:
+
+ WS
+ MA
+ AC
+ GT
+ BA
+ GM
+ GD
+ ST
+ WL
+ EH
+
+pages:
+
+ U-II-5,168
+ N-V-3,71
+ M-II-2,181
+ N-V-5,28
+ N-V-3,3
+ N-V-9,074
+ WS,144
+ N-VI-1,102
+ N-V-6,60
+ N-II-6,d4
+ 
+annotations:
+
+ M-I-3,42[1]
+ MA-125
+ M-II-1,170[3]
+ NW-VIII-1
+ Mp-XIV-2,58v[2]
+ MA-638
+ M-I-2,10[1]
+ WS-194
+ M-I-2,70[5]
+ N-IV-4,13[2]
+ (multi-note):
+ Mp-XIV-2,55v[2]et56r[1]
+ Mp-XIV-2,56v[6]et57r[1]
+ M-I-2,50[2]et51[2]
+ M-I-2,88[2]et89[1]
+ N-IV-1,6[2]et5[3]
+ K-6,12[2]et13[1]
+
+essays:
+
+ jgrzelczyk-4
+ afambrini-1
+ bzavatta-1
+ rmullerbuck-1
+ mkessler-1
+ mmontinari-15
+ pdiorio-3
+ jcardero-1
+ mmontinari-1
+ dsanchezmeca-1
+
+facsimilia:
+
+ egrepalysviola-3259
+ egrepalysviola-5629
+ egrepalysviola-1025
+ egrepalysviola-2991
+ egrepalysviola-3395
+ egrepalysviola-5105
+ egrepalysviola-2319
+ egrepalysviola-1885
+ egrepalysviola-41
+ aschwehregrepaly-2269
+
+paths:
+
+ igerike-907
+ vzapf-579
+ vzapf-277
+ vzapf-577
+ vzapf-859
+ vzapf-741
+ vzapf-873
+ vzapf-429
+ igerike-935
+ vzapf-591
+
+transcriptions:
+
+ igerikevzapf-539
+ chenkeszinigerike-885
+ sikrawehl-171
+ igerikemvdalfonso-89
+ awilliamsigerike-317
+ awilliamsigerike-341
+ awilliamsigerike-97
+ chenkeszinigerike-607
+ mvdalfonsovzapf-339
+ sikrawehl-105
+
+editions:
+
+ kbrunkhorst-93
+ ibetz-919
+ ibetz-1503
+ ibetz-3055
+ kbrunkhorst-437
+ ibetz-1919
+ ibetz-2949
+ ibetz-1237
+ kbrunkhorst-157
+ ibetz-2495
+
+comments:
+
+unluckily we don't have them
+

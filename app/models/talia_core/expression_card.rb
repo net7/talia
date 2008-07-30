@@ -88,7 +88,7 @@ module TaliaCore
     def manifestations(type = nil)
       type ||= Source
       raise(ArgumentError, "Manifestation type should be a class") unless(type.is_a?(Class))
-      type.find(:all, :find_through_inv => [N::HYPER.manifestation_of, self])
+      type.find(:all, :find_through => [N::HYPER.manifestation_of, self])
     end
     
     # Allows to add a manifestation

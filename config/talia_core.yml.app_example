@@ -19,6 +19,10 @@ db_file: database
 # If unset, the databse log will end up in the default log directory
 # db_log: database.log
 
+# The directory from whicht to load the ontologies. Unset or set to "false" if
+# the automatic ontology loading should be disabled
+auto_ontologies: ontologies
+
 # The location for data files (only set if you need to change
 # the default location)
 # data_directory_location: "/var/www/talia_data/"

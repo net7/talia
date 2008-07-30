@@ -68,5 +68,16 @@ module TaliaCore
       src.save!
       assert_equal(src.catalog, cat)
     end
+    
+    def test_manifestation
+      card = make_card('test_manifestation')
+      man = Manifestation.new('manifest-of-test_manifestation')
+      card.add_manifestation(man)
+      man.save!
+      card.save!
+      assert_equal(1, card.manifestations.size)
+      assert_equal(man, card.manifestations[0])
+    end
+    
   end
 end

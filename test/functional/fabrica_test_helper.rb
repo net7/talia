@@ -11,9 +11,13 @@ class Test::Unit::TestCase
       super
     end
   end
-      
+  
+  def fabrica_sample_dir
+    File.join(File.dirname(__FILE__), '..', 'fixtures', 'fabrica_samples')
+  end
+  
   def document(name)
-    File.open(File.join(talia_core_fixtures, name + '.xml'))
+    File.open(File.join(fabrica_sample_dir, name + '.xml'))
   end
     
   def talia_core_fixtures

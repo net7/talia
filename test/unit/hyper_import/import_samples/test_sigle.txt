@@ -1,0 +1,44 @@
+book_manuscript:
+Mp-XIV-2
+book_work:
+WS
+chapter:
+AC-[Text]
+edition:
+kbrunkhorst-93
+essay:
+jgrzelczyk-4
+rmullerbuck-1
+echaves-1
+facsimile:
+egrepalysviola-3259
+manuscript page:
+D-12,10r
+manuscript paragraph:
+D-12,10r[1]
+page:
+AC,1
+paragraph:
+AC-17
+K-6,101[1]
+paragraph multinotes:
+Mp-XIV-2,55v[2]et56r[1]
+paragraph work page annotation:
+WS-194
+transcription:
+igerikevzapf-539
+path:
+igerike-907
+external object:
+mmontinari-nmgii-1988
+mmontinari-zvlbn-1987
+hjmette-dhnfn-1932
+tandina-aodns-2001
+path_step:
+igerike-927,1
+archive:
+Goethe- und Schiller-Archiv
+author:
+pdiorio
+essay_page:
+aventurelli-1,1
