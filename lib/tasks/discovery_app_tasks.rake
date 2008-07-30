@@ -18,17 +18,14 @@ namespace :discovery_app do
   # creates a facsimile edition
   desc "Creates an empty Facsimile Edition. Options nick=<nick> name=<full_name> description=<short_description>"
   task  :create_facsimile_edition => 'disco_init' do
-        
-    puts ENV['nick']    
-    puts ENV['name']
-    puts ENV['description']
-        
+    
     fe = TaliaCore::FacsimileEdition.new(N::LOCAL + ENV['nick'])
     fe.hyper::title << ENV['name']
     fe.hyper::description << ENV['description']
     fe.save!
   end
   
+  # creates a facsimile edition and adds to it all the color facsimiles found in the DB
   desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> description=<short_description>"
   task :create_color_facsimile_edition => 'create_facsimile_edition' do
 
@@ -45,4 +42,12 @@ namespace :discovery_app do
     end
   end
   
+  desc "Creates and empty Critical Edition. Options nick=<nick> name=<full_name> description=<short_description>" 
+  task :create_critical_edition => 'disco_init' do
+    
+    ce = TaliaCore::CriticalEdition.new(N::LOCAL + ENV['nick'])
+    ce.hyper::title << ENV['name']
+    ce.hyper::desctiption << ENV['description']
+    ce.save!    
+  end
 end

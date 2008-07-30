@@ -1,4 +1,4 @@
-module TaliaCore
+  module TaliaCore
   
   
   # This refers to a book in a collection. Note that each book is 

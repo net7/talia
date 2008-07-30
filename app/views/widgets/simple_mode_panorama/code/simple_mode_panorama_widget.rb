@@ -1,4 +1,5 @@
 class SimpleModePanoramaWidget < Widgeon::Widget
+
   def panorama(elements)
     case @panorama_type
     when 'horizontal' 
@@ -9,7 +10,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
     result
   end
   
-  # used in the panorama page of Macrocontribuitons, it generates a panel
+  # used in the panorama page of Macrocontributions, it generates a panel
   # with all the thumbnails of the given set of pages (passed through the @elements var) 
   
   def horizontal_panorama(elements)

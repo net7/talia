@@ -1,1 +1,1 @@
-  <%= w.panorama(@facsimile_edition.related_pages(params[:book])) %>
+<%= w.panorama(TaliaCore::Book.find(params[:book]).pages) %>

@@ -44,6 +44,13 @@ module TaliaCore
       end
     end
     
+    def title
+      @title ||= self.hyper::title.last
+    end
+    
+    def description
+      @description ||= self.hyper::description.last
+    end
     protected
     
     

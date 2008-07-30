@@ -1,11 +1,11 @@
 module FacsimileEditionsHelper
   # creates the window title 
-  def page_title
+  def facsimile_edition_page_title
     case action_name
     when "show"
       "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.hyper::title}"
     when "books"      
-      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.hyper::title}, #{params[:type].t}"
+      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.hyper::title}, #{params[:type].t.titleize}"
     when "panorama"
       "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.hyper::title}, #{params[:book].t}" 
     when "page"
@@ -31,20 +31,20 @@ module FacsimileEditionsHelper
       path = [
         {:text => params[:id], :controller => 'facsimile_editions', :action => 'show', :id => params[:id]},
         {:text => @type.capitalize.t, :controller => 'facsimile_editions', :action => 'books', :id => params[:id], :type => @type},
-        {:text => params[:book]}
+        {:text => params[:book] + ' (panorama)'}
       ]
     when "page"
       path =[
         {:text => params[:id], :controller => 'facsimile_editions', :action => 'show', :id => params[:id]},
         {:text => @type.capitalize.t, :controller => 'facsimile_editions', :action => 'books', :id => params[:id], :type => @type},
-        {:text => params[:book], :controller => 'facsimile_editions', :action => 'panorama', :id => params[:id], :book => params[:book]},
+        {:text => params[:book] + ' (panorama)', :controller => 'facsimile_editions', :action => 'panorama', :id => params[:id], :book => params[:book]},
         {:text => params[:page]}
       ]
     when "facing_pages"
       path = [
         {:text => params[:id], :controller => 'facsimile_editions', :action => 'show', :id => params[:id]},
         {:text => @type.capitalize.t, :controller => 'facsimile_editions', :action => 'books', :id => params[:id], :type => @type},
-        {:text => params[:book], :controller => 'facsimile_editions', :action => 'panorama', :id => params[:id], :book => params[:book]},
+        {:text => params[:book] + ' (panorama)' , :controller => 'facsimile_editions', :action => 'panorama', :id => params[:id], :book => params[:book]},
         {:text => params[:page] + " | " + params[:page2]}
       ]
     end
@@ -73,7 +73,7 @@ module FacsimileEditionsHelper
   end
   
   def subtypes
-    @facsimile_edition.subtypes(@type)
+    @facsimile_edition.subtypes(N::LOCAL + @type)
   end  
   
   # creates the elements to be shown in the tabs, depending on the action we're in
@@ -83,7 +83,7 @@ module FacsimileEditionsHelper
     when "show"
       result = [{:link => "", :text => "Editor's Introduction".t, :selected => true}]
     when "books"
-      subtypes = @facsimile_edition.subtypes(params[:type])
+      subtypes = @facsimile_edition.subtypes(N::LOCAL + params[:type])
       selected_subtype = params[:subtype] || subtypes[0]
       subtypes.each do |subtype|
         if (subtype == selected_subtype)
@@ -120,7 +120,7 @@ module FacsimileEditionsHelper
   end
  
   # returns the copyright note to be shown below the facsimile images
-  def copyright_note(page)
+    def copyright_note(page)
     @facsimile_edition.copyright_note(page)
   end
 end

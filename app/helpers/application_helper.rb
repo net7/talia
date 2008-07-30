@@ -28,20 +28,6 @@ module ApplicationHelper
   
   # Returns the title for the whole page. This returns the value
   # set in the controller, or a default value
-  
-# 
-#  the old version, left here for reference, should be deleted
-#  #TODO: delete it! 
-#  def page_title
-#    if(@page_title)
-#      @page_title
-#    elsif(@source)
-#      short_name(@source)
-#    else
-#      "Talia | The Digital Library"
-#    end 
-#  end
-  
   def page_title
     @page_title || TaliaCore::SITE_NAME
   end

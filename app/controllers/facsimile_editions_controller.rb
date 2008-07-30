@@ -13,7 +13,8 @@ class FacsimileEditionsController < ApplicationController
   #
   # GET /facsimile_editions/1/manuscripts/copybooks
   def books
-    @books = @facsimile_edition.books(params[:type], params[:subtype])    
+    type = params[:subtype] || params[:type]
+    @books = @facsimile_edition.books(N::LOCAL + type)    
     @type = params[:type]
     @subtype = params[:subtype]
   end
@@ -26,8 +27,9 @@ class FacsimileEditionsController < ApplicationController
   def panorama
     respond_to do |format|
       format.html do
-        @description = @facsimile_edition.material_description(params[:id])
-        @pages = @facsimile_edition.related_pages(params[:id])
+        book = TaliaCore::Book.find(params[:book])
+        @description = book.material_description
+        @pages = book.pages
         #TODO: maybe a "Book" class for things like the following:
         # @type = TaliaCore::Book.find(params[:id]).supertype
         @type = 'manuscripts'
@@ -48,8 +50,9 @@ class FacsimileEditionsController < ApplicationController
   def page
     respond_to do |format|
       format.html do
-        @description = @facsimile_edition.material_description(params[:id])
-        @pages = @facsimile_edition.related_pages(params[:id])
+        book = TaliaCore::Book.find(params[:book])
+        @description = book.material_description
+        @pages = book.pages
         #TODO: retrieve these data from somewhere, maybe a "Page" class is required
         # @type = TaliaCore::Page.find(params[:page]).supertype
         @type = 'manuscripts'
@@ -63,8 +66,9 @@ class FacsimileEditionsController < ApplicationController
 
   # facsimile edition page showing two large images of two adjacent pages
   def facing_pages
-    @description = @facsimile_edition.material_description(params[:id])
-    @pages = @facsimile_edition.related_pages(params[:id])
+    book = TaliaCore::Book.find(params[:book])
+    @description = book.material_description
+    @pages = book.pages
     @page1 = params[:page]
     @page2 = params[:page2]
     #TODO: retrieve these data from somewhere, maybe a "Page" class is required
@@ -73,17 +77,16 @@ class FacsimileEditionsController < ApplicationController
   end
   
   def search 
-    searched_book = sanitize(params[:book])
-    searched_page = sanitize(params[:page])
+    searched_book = sanitize(params[:book]) unless params[:book].empty?
+    searched_page = sanitize(params[:page]) unless params[:page].empty?
     search_result = @facsimile_edition.search(searched_book, searched_page)
     url = "/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}" 
     search_result.each do |part|
       url << "/#{part}"
     end
-    redirect_to url and return
-  rescue ActiveRecord::RecordNotFound
+    redirect_to url and return unless (search_result.empty?)
     flash[:search_notice] = "Searched records weren't found".t
-    redirect_to(:back)
+    redirect_to(:back) and return
   end
   
   private
