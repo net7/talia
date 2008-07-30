@@ -25,6 +25,18 @@ module TaliaUtil
       end
     end
     
+    # Creates a dummy Source and saves it
+    def make_dummy_source(uri, *types)
+      src = TaliaCore::Source.new(uri)
+      src.primary_source = true
+      types.each do |t| 
+        TaliaCore::ActiveSource.new(t).save! unless(TaliaCore::ActiveSource.exists?(:uri => t.to_s))
+        src.types << t 
+      end
+      src.save!
+      return src
+    end
+    
     # Helper to create a variable only once. This should be used from the
     # setup method, and will assign the given block to the given class variable.
     # 
@@ -113,4 +125,26 @@ class Test::Unit::TestCase
   def self.obj_cache
     @obj_cache ||= {}
   end
+  
+  # Lets the class suppress the fixtures for the tests
+  def self.suppress_fixtures
+    @suppress_fixtures = true
+  end
+  
+  def self.suppress_fixtures?
+    @suppress_fixtures
+  end
+  
+  # Adds the possibility to completely disable the fixture mechanism of rails
+  if(method_defined?(:setup_with_fixtures) && method_defined?(:teardown_with_fixtures))
+    alias_method :setup_with_fixtures_orig, :setup_with_fixtures
+    define_method(:setup_with_fixtures) do
+      setup_with_fixtures_orig unless(self.class.suppress_fixtures?)
+    end
+    alias_method :teardown_with_fixtures_orig, :teardown_with_fixtures
+    define_method(:teardown_with_fixtures) do
+      teardown_with_fixtures_orig unless(self.class.suppress_fixtures?)
+    end
+  end
+  
 end

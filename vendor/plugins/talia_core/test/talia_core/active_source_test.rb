@@ -39,7 +39,8 @@ module TaliaCore
     
     def test_create_vanilla
       src = ActiveSource.new
-      assert_equal(nil, src.uri)
+      # Somehow this gives different results for JRuby/Ruby
+      assert(src.uri == nil || src.uri == '')
       assert(src.new_record?)
     end
     

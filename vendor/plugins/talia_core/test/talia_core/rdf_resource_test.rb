@@ -7,7 +7,7 @@ module TaliaCore
   
   # Test the RdfResource class
   class RdfResourceTest < Test::Unit::TestCase
-
+    
     def setup
       setup_once(:flush) do
         TaliaUtil::Util.flush_rdf
@@ -97,7 +97,7 @@ module TaliaCore
     
     # Make a dummy resource with a saved source in the background
     def make_dummy_resource(uri)
-      TestHelper.make_dummy_source(uri)
+      make_dummy_source(uri)
       RdfResource.new(uri)
     end
     

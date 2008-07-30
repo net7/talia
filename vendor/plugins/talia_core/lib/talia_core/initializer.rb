@@ -129,8 +129,6 @@ module TaliaCore
       # Set the environment to the configuration
       @config["environment"] = @@environment
       
-      # Configuration will be frozen and stored
-      @config.freeze
       
       # Make the configuration available as a constant
       TaliaCore.const_set(:CONFIG, @config)

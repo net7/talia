@@ -25,22 +25,6 @@ module TaliaCore
       end
     end
     
-    # Creates a dummy Source and saves it
-    def self.make_dummy_source(uri, *types)
-      src = Source.new(uri)
-      src.primary_source = true
-      types.each do |t| 
-        ActiveSource.new(t).save! unless(ActiveSource.exists?(:uri => t.to_s))
-        src.types << t 
-      end
-      src.save!
-      return src
-    end
-    
-    def self.data_record_files
-      return ['1', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13']
-    end
-    
   end
   
   TestHelper.startup

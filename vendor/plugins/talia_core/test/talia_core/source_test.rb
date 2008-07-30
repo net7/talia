@@ -104,7 +104,7 @@ module TaliaCore
     # Test if a source object can be created correctly
     def test_types
       # rec = SourceRecord.new
-      source = TestHelper.make_dummy_source("http://www.newstuff.org/createtypes", N::FOAF.Person, N::FOAF.Foe)
+      source = make_dummy_source("http://www.newstuff.org/createtypes", N::FOAF.Person, N::FOAF.Foe)
       assert_not_nil(source)
       assert_equal(2, source.types.size)
       assert_not_nil(source.types.each { |type| type.to_s == N::FOAF.Person.to_s} )
@@ -112,9 +112,9 @@ module TaliaCore
     
     # test grouping by types
     def test_grouping
-      TestHelper.make_dummy_source("http://groupme/source1", N::FOAF.Goat, N::FOAF.Bee)
-      TestHelper.make_dummy_source("http://groupme/source2", N::FOAF.Goat)
-      TestHelper.make_dummy_source("http://groupme/source3", N::FOAF.Bee)
+      make_dummy_source("http://groupme/source1", N::FOAF.Goat, N::FOAF.Bee)
+      make_dummy_source("http://groupme/source2", N::FOAF.Goat)
+      make_dummy_source("http://groupme/source3", N::FOAF.Bee)
       results = Source.groups_by_property(:type, [ N::FOAF.Goat, N::FOAF.Bee ])
       assert_equal(2, results.size)
       assert_equal(2, results[N::FOAF.Goat].size)
@@ -241,7 +241,7 @@ module TaliaCore
     
     # Test for direct predicates
     def test_direct_predicates
-      my_source = TestHelper.make_dummy_source("http://direct_predicate_haver/")
+      my_source = make_dummy_source("http://direct_predicate_haver/")
       my_source.default::author << "napoleon"
       # Expected size of direct predicates: One for the predicate set above
       # and one for the default type
@@ -251,8 +251,8 @@ module TaliaCore
     
     # Test for inverse predicates
     def test_inverse_predicates
-      source = TestHelper.make_dummy_source("http://predicate_source/")
-      target = TestHelper.make_dummy_source("http://predicate_target/")
+      source = make_dummy_source("http://predicate_source/")
+      target = make_dummy_source("http://predicate_target/")
       source.foo::invtest << target
       assert(target.inverse_predicates.size > 0, "No inverse predicates")
       assert(target.inverse_predicates.include?(N::FOO::invtest), "Inverse predicate not found.")
@@ -266,7 +266,7 @@ module TaliaCore
     end
     
     def test_grouped_direct_predicates_should_collect_rdf_objects
-      source = TestHelper.make_dummy_source("http://direct_predicate_for_napoleon/")
+      source = make_dummy_source("http://direct_predicate_for_napoleon/")
       source.default::historical_character << Source.new("#{N::LOCAL}napoleon")
       source.default::historical_character << "Giuseppe Garibaldi"
 
@@ -281,7 +281,7 @@ module TaliaCore
     end
     
     def test_direct_predicates_objects
-      source = TestHelper.make_dummy_source("http://star-wars.org/")
+      source = make_dummy_source("http://star-wars.org/")
       source.default::jedi_knight << Source.new("http://star-wars.org/luke-skywalker")
       source.default::jedi_knight << "Obi-Wan Kenobi"
 
@@ -290,14 +290,14 @@ module TaliaCore
     end
     
     def test_associated
-      source = TestHelper.make_dummy_source("http://star-wars.org/")
+      source = make_dummy_source("http://star-wars.org/")
       associated_source = Source.new("http://star-wars.org/luke-skywalker")
       source.default::jedi_knight << associated_source
       assert(source.associated?(associated_source))
     end
     
     def test_predicates_attributes_setter
-      source = TestHelper.make_dummy_source("http://lucca.org/")
+      source = make_dummy_source("http://lucca.org/")
       source.predicates_attributes = @predicates_attributes
 
       assert_equal("http://www.w3.org/2000/01/rdf-schema#Resource", source.predicates_attributes.first['uri'])
@@ -327,7 +327,7 @@ module TaliaCore
     end
     
     def test_extract_attributes
-      source = TestHelper.make_dummy_source("http://star-wars.org/")
+      source = make_dummy_source("http://star-wars.org/")
       attributes, rdf_attributes = source.send(:extract_attributes!, @params)
 
       assert_equal(%w( uri ), attributes.keys)
@@ -337,7 +337,7 @@ module TaliaCore
     end
     
     def test_instantiate_source_or_rdf_object
-      source = TestHelper.make_dummy_source("http://springfield.org/")
+      source = make_dummy_source("http://springfield.org/")
 
       attributes = { 'uri' => N::LOCAL.to_s, 'titleized' => 'Homer Simpson', 'source' => 'true' }
       result = source.send :instantiate_source_or_rdf_object, attributes
@@ -359,7 +359,7 @@ module TaliaCore
     end
     
     def test_each_predicate_attribute
-      source = TestHelper.make_dummy_source("http://star-wars.org/")
+      source = make_dummy_source("http://star-wars.org/")
       source.predicates_attributes = @predicates_attributes
       
       source.send(:each_predicate_attribute) do |namespace, name, object, should_destroy|
@@ -424,9 +424,9 @@ module TaliaCore
     
     # Test the inverse accessor
     def test_inverse
-      origin = TestHelper.make_dummy_source("http://inversetest.com/originating")
-      origin2 = TestHelper.make_dummy_source("http://inversetest.com/originating2")
-      target = TestHelper.make_dummy_source("http://inversetest.com/target")
+      origin = make_dummy_source("http://inversetest.com/originating")
+      origin2 = make_dummy_source("http://inversetest.com/originating2")
+      target = make_dummy_source("http://inversetest.com/target")
      
       
       origin.foo::my_friend << target
@@ -443,7 +443,7 @@ module TaliaCore
     
     # Test if the save method/db dupes wipes any rdf data
     def test_rdf_safe
-      safe = TestHelper.make_dummy_source("http://safehaven.com")
+      safe = make_dummy_source("http://safehaven.com")
       safe.foo::some_property << "I should be safe!"
       safe.save!
       assert_equal("I should be safe!", safe.foo::some_property[0])
