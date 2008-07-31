@@ -3,8 +3,6 @@ require 'open-uri'
 require 'net/http'
 require 'rexml/document'
 
-require 'talia_util/hyper_import/importer'
-
 module TaliaUtil
 
   # Imports the XML files which are produced by the old Hyper software

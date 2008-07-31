@@ -34,6 +34,10 @@ module TaliaUtil
       assert_kind_of(TaliaCore::Book, @src)
     end
     
+    def test_siglum
+      assert_equal(@src.siglum, 'Mp-XIV-2')
+    end
+    
     # Test if the types were imported correctly
     def test_types
       assert_types(@src, N::HYPER + "Dossier", N::HYPER + "Book")

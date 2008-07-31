@@ -30,12 +30,16 @@ module TaliaUtil
     
     # Test if the import succeeds
     def test_import
-      assert_kind_of(TaliaCore::Source, @src)
+      assert_kind_of(TaliaCore::Person, @src)
     end
     
-        # Test source name
-    def test_siglum
+    # Test source name
+    def test_uri
       assert_equal(N::LOCAL + "pdiorio", @src.uri)
+    end
+    
+    def test_siglum
+      assert_property(@src.hyper::siglum, "pdiorio")
     end
     
     # Test if the types were imported correctly

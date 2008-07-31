@@ -34,7 +34,7 @@ module TaliaUtil
     end
     
     def test_import
-      assert_kind_of(TaliaCore::Source, @src)
+      assert_kind_of(TaliaCore::Essay, @src)
     end
     
     # This used to break the import
@@ -54,8 +54,12 @@ module TaliaUtil
     end
     
     # Test source name
-    def test_siglum
+    def test_uri
       assert_equal(N::LOCAL + "jgrzelczyk-4", @src.uri)
+    end
+    
+    def test_siglum
+      assert_property(@src.hyper::siglum, 'jgrzelczyk-4')
     end
     
     # Test the publishing date

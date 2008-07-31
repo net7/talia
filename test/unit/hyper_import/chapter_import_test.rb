@@ -30,7 +30,7 @@ module TaliaUtil
     
     # Test if the import succeeds
     def test_import
-      assert_kind_of(TaliaCore::Source, @src)
+      assert_kind_of(TaliaCore::Chapter, @src)
     end
     
     # Test if the types were imported correctly
@@ -54,8 +54,12 @@ module TaliaUtil
     end
     
     # Test source name
-    def test_siglum
+    def test_uri
       assert_equal(N::LOCAL + "AC-[Text]", @src.uri)
+    end
+    
+    def test_siglum
+      assert_equal('AC-[Text]', @src.siglum)
     end
     
     # Test the name

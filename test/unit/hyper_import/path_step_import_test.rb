@@ -29,12 +29,16 @@ module TaliaUtil
     
     # Test if the import succeeds
     def test_import
-      assert_kind_of(TaliaCore::Source, @src)
+      assert_kind_of(TaliaCore::PathStep, @src)
     end
     
         # Test source name
-    def test_siglum
+    def test_uri
       assert_equal(N::LOCAL + "igerike-927,1", @src.uri)
+    end
+    
+    def test_siglum
+      assert_property(@src.hyper::siglum, 'igerike-927,1')
     end
     
     # Test if the types were imported correctly

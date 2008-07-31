@@ -32,7 +32,11 @@ module TaliaUtil
     
     # Test if the import succeeds
     def test_import
-      assert_kind_of(TaliaCore::Source, @paragraph)
+      assert_kind_of(TaliaCore::Paragraph, @paragraph)
+    end
+    
+    def test_siglum
+      assert_equal('Mp-XIV-2,55v[2]et56r[1]', @multinotes.siglum)
     end
     
     # Test if the types were imported correctly

@@ -30,7 +30,7 @@ module TaliaUtil
     
     # Test if the import succeeds
     def test_import
-      assert_kind_of(TaliaCore::Source, @src)
+      assert_kind_of(TaliaCore::Page, @src)
     end
     
     # Caused error during Hyper import tests
@@ -72,8 +72,12 @@ module TaliaUtil
     end
     
     # Test source name
-    def test_siglum
+    def test_uri
       assert_equal(N::LOCAL + "D-12,10r", @src.uri)
+    end
+    
+    def test_siglum
+      assert_equal('D-12,10r', @src.siglum)
     end
     
     def test_units

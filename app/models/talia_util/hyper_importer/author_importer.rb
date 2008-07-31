@@ -6,6 +6,7 @@ module TaliaUtil
     class AuthorImporter < Importer
       
       source_type 'hyper:Author'
+      source_class TaliaCore::Person
       title_required false
       
       def import!

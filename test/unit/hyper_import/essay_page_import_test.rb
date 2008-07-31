@@ -28,7 +28,11 @@ module TaliaUtil
     
     # Test if the import succeeds
     def test_import
-      assert_kind_of(TaliaCore::Source, @src)
+      assert_kind_of(TaliaCore::EssayPage, @src)
+    end
+    
+    def test_siglum
+      assert_property(@src.hyper::siglum, 'aventurelli-1,1')
     end
     
     # Test if the types were imported correctly

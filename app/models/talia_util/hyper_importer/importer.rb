@@ -26,6 +26,7 @@ module TaliaUtil
         assit(source_name && source_name != "", "Source with no name!")
         if(source_name && source_name != "")
           @source = get_source_with_class(source_name, get_class_for(element_xml))
+          @source.hyper::siglum << source_name
         end
       end
       
@@ -95,7 +96,7 @@ module TaliaUtil
       # Select the source class to be used for this importer. This overrides
       # the automatic setting (which is: use the Source class which matches
       # the name of the element, and fall back to TaliaCore::Source)
-      def self.use_source_class(klass)
+      def self.source_class(klass)
         @configured_source_class = klass
       end
       
@@ -190,7 +191,7 @@ module TaliaUtil
       # exists, it will add the given types to it
       def get_source(source_name, *types)
         
-        src = get_source_with_class(source_name, TaliaCore::Source)
+        src = get_source_with_class(source_name, nil)
         
         type_list = src.types
         touched = false
@@ -207,8 +208,14 @@ module TaliaUtil
         src
       end
       
-      # Gets a source with the given type (type must be a class)
+      # Gets a source with the given type (type must be a class). If the source
+      # already exists, this will change the Sources class (type property).
+      #
+      # If klass is nil, it will default to the Source class but will not
+      # attempt to change the type on existing sources.
       def get_source_with_class(source_name, klass)
+        set_class = (klass != nil) # this indicates if the class must be reset on an existing object
+        klass ||= TaliaCore::Source
         raise(ArgumentError, "This must have a klass as parameter: #{source_name}") unless(klass.is_a?(Class))
         source_uri = irify(N::LOCAL + source_name)
         src = nil
@@ -217,7 +224,7 @@ module TaliaUtil
           src = TaliaCore::Source.find(source_uri)
           # If the class
           klass_name = klass.to_s.demodulize
-          unless(src.type == klass_name)
+          if((src.type != klass_name) && set_class)
             # In this case we will have to change the STI type on the Source
             # this happens if the Source had been created before the import
             # as a referenced object on another Source
@@ -405,21 +412,5 @@ module TaliaUtil
       
     end
     
-  end
-end
-
-# Require all the importer class files from this directory
-# This automatically loads all files with importer classes
-$: << File.expand_path(File.dirname(__FILE__))
-
-# Require the superclasses first, cause the other depend on them
-# Require importer superclasses
-require File.join('contribution_importer')
-
-# Now require all the importes (requires the superclasses again, but no worries
-# that's what require is for ;-)
-Dir.entries(File.expand_path(File.dirname(__FILE__))).each do |file|
-  if(file =~ /_importer\.rb$/)
-    require file
   end
 end
