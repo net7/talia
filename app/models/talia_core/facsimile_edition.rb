@@ -1,6 +1,6 @@
 module TaliaCore 
   class FacsimileEdition < Catalog
-   # returns an array containing a list of the book types available and connected to this facsimile edition
+    # returns an array containing a list of the book types available and connected to this facsimile edition
     # (e.g.: 'Works', 'Manuscripts', ...)
     def types
       @types ||= begin
@@ -40,6 +40,7 @@ module TaliaCore
     # If the page is not given, this will return all pages of the book.
     # (FIXME: That behaviour ok?)
     def search(requested_book, requested_page = nil)
+      return [] unless requested_book
       qry = Query.new(TaliaCore::Source).select(:b, :p).distinct.limit(1) # distinct
       qry.where(:b, N::HYPER.siglum, requested_book)
       qry.where(:p, N::HYPER.is_part_of, :b)
@@ -51,9 +52,8 @@ module TaliaCore
     # returns the left or right "neighbour" source of the given source.
     # movement is expected in the form of "next" or "previous"
     # used, for instance, for browsing pages
-    def neighbour_source(source, movement)
-      #TODO: Move to "Page"
-      result = 'N-IV-2,3'
+    def neighbour_page(page, movement)
+      "N-IV-1,3"
     end
     
   end

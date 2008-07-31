@@ -10,21 +10,21 @@
 <!--[if !IE]>description<![endif]-->
 <div id="content">
   <ul id="access_list" class="minilist">
-    
     <% @books.each do |book| %>
       <li>
         <h1>
-          <% url = "/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{book}" %>
-          <% title = "#{book}" %>
-          <% text = "<img src='/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{book}.jpeg?size=thumbnail' alt='#{book}' border='0'/>#{book}" %>        
+          <%# url = "/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{book}" %>
+          <%# text = "<img src='/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{book}.jpeg?size=thumbnail' alt='#{book}' border='0'/>#{book}" %>        
+          <% url = book.uri.to_s %>        
+          <% title = book.uri.local_name %>
+          <% text = "<img src='#{book.uri.to_s}.jpeg?size=thumbnail' alt='#{book.uri.local_name}' border='0'/>#{book.uri.local_name}" %>        
           <%= titled_link(url, text, title)%>
         </h1>
         <p>
-          <%= @facsimile_edition.material_description(book) %>
+          <%= material_description(book) %>
         </p>
       </li>
     <%end%>    
-                 
   </ul>
 </div>
 

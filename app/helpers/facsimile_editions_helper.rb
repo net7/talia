@@ -55,15 +55,10 @@ module FacsimileEditionsHelper
   # be shown, based on the action we're in
   def display_buttons
     case action_name
-    when "show"
-    when "books"
+    when "show", "books", "facing_pages"
       result = false
-    when "panorama"
+    when "panorama", "page"
       result = true
-    when "page"
-      result = true
-    when "facing_pages"
-      result = false
     end
     result
   end
@@ -106,7 +101,7 @@ module FacsimileEditionsHelper
   # returns a link to the next page, used in the "page" action
   def next_page
     current_page = params[:page2] || params[:page]
-    page = @facsimile_edition.neighbour_source(current_page,'next')
+    page = @facsimile_edition.neighbour_page(N::HYPER + current_page,'next')
     result ="<p class='next'><a href='#{page}'></a></p>"
   end
  
@@ -115,12 +110,21 @@ module FacsimileEditionsHelper
     # in both single and facing pages view, params[:page] is set
     # In the single page case, it's the only page, in the facing pages one it's the
     # first page, and we want it's predecessor
-    page = @facsimile_edition.neighbour_source(params[:page],'previous')
+    page = @facsimile_edition.neighbour_page(N::HYPER + params[:page],'previous')
     result ="<p class='previous'><a href='#{page}'></a></p>"
   end
  
   # returns the copyright note to be shown below the facsimile images
-    def copyright_note(page)
-    @facsimile_edition.copyright_note(page)
+  def copyright_note(page)
+      qry = Query.new(TaliaCore::Facsimile).select(:f).distinct
+      qry.where(:f, N::HYPER.manifestation_of, page)
+#      qry.where(:f, N::HYPER.type, N::HYPER + "Facsimile")
+      facsimile = qry.execute
+      facsimile[0].copyright_note if !facsimile.empty?
+  end
+  
+  # returns the material descirption of the given book
+  def material_description(book)
+    TaliaCore::Book.find(book).material_description
   end
 end

@@ -37,16 +37,46 @@ namespace :discovery do
   task :create_color_facsimile_edition => 'create_facsimile_edition' do
 
     fe = TaliaCore::FacsimileEdition.find(N::LOCAL + ENV['nick'])
- 
-    joins = "JOIN semantic_relations SR ON (`active_sources`.`id` = SR.subject_id AND SR.object_type = 'TaliaCore::ActiveSource' AND SR.predicate_uri = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type') JOIN active_sources AcS2 ON (SR.object_id = AcS2.id AND AcS2.uri = 'http://www.hypernietzsche.org/ontology/Facsimile')"
-    conditions = "`active_sources`.`id` in ( select AcS3.id from active_sources AcS3 JOIN semantic_relations SR2 ON (AcS3.id = SR2.subject_id AND SR2.object_type = 'TaliaCore::ActiveSource' AND SR2.predicate_uri = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type') JOIN active_sources AcS4 ON (SR2.object_id = AcS4.id AND AcS4.uri = 'http://www.hypernietzsche.org/ontology/Color'))"    
 
-    color_facsimile = TaliaCore::Source.find(:all, :joins => joins, :conditions => conditions)
-    
-    color_facsimile.each do |cf|
-      puts "adding #{cf.uri}"
-      fe.add(cf.uri)
+    qry = Query.new(N::Book).select(:b).distinct
+    qry.where(:p, N::HYPER.is_part_of, :b)
+    qry.where(:f, N::HYPER.manifestation_of, :p)
+    qry.where(:f, N::RDFS.type, N::HPYER + 'Facsimile')
+    qry.where(:f, N::RDFS.type, N::HYPER + 'Color')
+    qry.execute.each do |book|
+      fe.add_from_concordant(book, true)
+      book.pages.each do |page|
+        # here these pages have different URI and no relations to the "old" ones 
+        # I've just retrieved with the query.
+        #
+        # this will not work, then:
+        qry = Query.new(TaliaCore::Source).select(:f).distinct
+        qry.where(:f, N::HYPER.manifestation_of, page)
+        qry.where(:f, N::RDFS.type, N::HPYER + 'Facsimile')
+        qry.where(:f, N::RDFS.type, N::HYPER + 'Color')
+        #
+      end
     end
+    
+    #but even with:
+    # ( or a better query... )
+    qry = Query.new(TaliaCore::Source).select(:p,:f).distinct 
+    qry.where(:f, N::HYPER.manifestation_of, :p)
+    qry.where(:f, N::RDFS.type, N::HPYER + 'Facsimile')
+    qry.where(:f, N::RDFS.type, N::HYPER + 'Color')
+    # how should I recognize the newly created pages corresponding to :p in the result ?    
+     
+    
+    
+    #        joins = "JOIN semantic_relations SR ON (`active_sources`.`id` = SR.subject_id AND SR.object_type = 'TaliaCore::ActiveSource' AND SR.predicate_uri = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type') JOIN active_sources AcS2 ON (SR.object_id = AcS2.id AND AcS2.uri = 'http://www.hypernietzsche.org/ontology/Facsimile')"
+    #        conditions = "`active_sources`.`id` in ( select AcS3.id from active_sources AcS3 JOIN semantic_relations SR2 ON (AcS3.id = SR2.subject_id AND SR2.object_type = 'TaliaCore::ActiveSource' AND SR2.predicate_uri = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type') JOIN active_sources AcS4 ON (SR2.object_id = AcS4.id AND AcS4.uri = 'http://www.hypernietzsche.org/ontology/Color'))"    
+    #    
+    #        color_facsimile = TaliaCore::Source.find(:all, :joins => joins, :conditions => conditions)
+    #        
+    #        color_facsimile.each do |cf|
+    #          puts "adding #{cf.uri}"
+    #          fe.add(cf.uri)
+    #        end
   end
   
   desc "Creates and empty Critical Edition. Options nick=<nick> name=<full_name> description=<short_description>" 

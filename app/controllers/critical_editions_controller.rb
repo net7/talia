@@ -4,7 +4,7 @@ class CriticalEditionsController < ApplicationController
   # GET /critical_editions/1
   def show  
     #TODO: load all the books and create the left menu
-    # the right zone will contain the description/some info
+    # the right zone of the web page will contain the description/some info
     @menu_items = []
     @books = @critical_edition.books
     @books.each do |book|

@@ -27,13 +27,12 @@ class FacsimileEditionsController < ApplicationController
   def panorama
     respond_to do |format|
       format.html do
-        book = TaliaCore::Book.find(params[:book])
+        book = TaliaCore::Book.find(request.url)
         @description = book.material_description
         @pages = book.pages
-        #TODO: maybe a "Book" class for things like the following:
-        # @type = TaliaCore::Book.find(params[:id]).supertype
-        @type = 'manuscripts'
-        
+        #TODO: maybe a supertype method of the "Book" class for doing:
+        # book.supertype
+        @type = 'manuscripts'        
       end
       format.jpeg do
         image = @facsimile_edition.book_image_data(params[:book], params[:size]) 
@@ -50,29 +49,45 @@ class FacsimileEditionsController < ApplicationController
   def page
     respond_to do |format|
       format.html do
-        book = TaliaCore::Book.find(params[:book])
+        qry = Query.new(TaliaCore::Book).select(:b).distinct
+        qry.where(:p, N::HYPER.is_part_of, :b)
+        qry.where(:p, N::HYPER.siglum, params[:page])
+        result=qry.execute
+        book = result[0]
         @description = book.material_description
         @pages = book.pages
         #TODO: retrieve these data from somewhere, maybe a "Page" class is required
-        # @type = TaliaCore::Page.find(params[:page]).supertype
+        # @type = TaliaCore::Page.find(request.url).supertype
         @type = 'manuscripts'
       end
       format.jpeg do
-        image = @facsimile_edition.page_image_data(params[:book], params[:page], params[:size]) 
-        send_data image.content_string, :type => 'image/jpeg', :disposition => 'inline' 
+        facsimile = TaliaCore::Page.find(request.url).manifestations(TaliaCore::Facsimile)
+        facsimile.iip_path
+        #TODO: as soon as the iip_path method is ready, implement the missing part here
+        # and/or in the view which uses this (namely the panorama widget and the page and 
+        # the facing_pages views)
+        # 
+        # here as a reference what used to be done here, when the image was supposed to be
+        # taken from the DB
+        #        image = @facsimile_edition.page_image_data(params[:book], params[:page], params[:size]) 
+        #        send_data image.content_string, :type => 'image/jpeg', :disposition => 'inline' 
       end
     end
   end
 
   # facsimile edition page showing two large images of two adjacent pages
   def facing_pages
-    book = TaliaCore::Book.find(params[:book])
+    qry = Query.new(TaliaCore::Book).select(:b).distinct
+    qry.where(:p, N::HYPER.is_part_of, :b)
+    qry.where(:p, N::HYPER.siglum, params[:page])
+    book = qry.execute[0]
     @description = book.material_description
     @pages = book.pages
     @page1 = params[:page]
     @page2 = params[:page2]
+    
     #TODO: retrieve these data from somewhere, maybe a "Page" class is required
-    # @type = TaliaCore::Page.find(params[:page]).supertype
+    # @type = TaliaCore::Page.find(??).supertype
     @type = 'manuscripts'
   end
   

@@ -16,7 +16,7 @@
 
 <!-- navigate -->
 <div id="menulocation">
-  <%= widget(:simple_mode_tabs, :tabs_elements => @tabs_elements) %>
+  <%= widget(:simple_mode_tabs, :tabs_elements => tabs_elements) %>
 </div>
 <!-- menulocation -->
 
@@ -33,7 +33,7 @@
   <div id="visore">
     <div id="toolbar">
       <p class="previous"><%= previous_page %></p>
-      <p class="sigla"><%= params[:page] %></p>
+      <p class="sigla"><%= @page.uri.local_name %></p>
       <p class="zoom"><select>
           <option value="#">zoom</option>
           <option value="#">25%</option>
@@ -44,14 +44,14 @@
         
       </p>
       <p class="tooltools"><a href="#" title="pdf" class="pdf">pdf</a>    <a href="#" title="print" class="print">print</a></p>
-      <p class="sigla"><%= params[:page2]%></p>
+      <p class="sigla"><%= @page2.uri.local_name%></p>
       <p class="next"><%= next_page %></p>
     </div>
     <div id="image_big">
-      <img src='<%= "/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{params[:book]}/#{params[:page]}.jpeg"%>' alt='<%=  params[:page] %>' height='488'/>
+      <img src='<%= "#{@page.uri.to_s}.jpeg"%>' alt='<%= @page.uri.local_name %>' height='488'/>
       
-      <img src='<%= "/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{params[:book]}/#{params[:page2]}.jpeg"%>' alt='<%=  params[:page2] %>' height='488'/>
-      <p><%= copyright_note(params[:page]) %></p>
+      <img src='<%= "#{@page2.uri.to_s}.jpeg"%>' alt='<%= @page2.uri.local_name %>' height='488'/>
+      <p><%= copyright_note(@page) %></p>
     </div>   
     
   </div>
