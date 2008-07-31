@@ -25,7 +25,7 @@ module TaliaUtil
         source_name = get_text(element_xml, "siglum")
         assit(source_name && source_name != "", "Source with no name!")
         if(source_name && source_name != "")
-          @source = get_source(source_name)
+          @source = get_source_with_class(source_name, get_class_for(element_xml))
         end
       end
       
@@ -85,6 +85,18 @@ module TaliaUtil
         assit(self.class != Importer, "Should never be called on the base class")
         @my_source_type = type
         assit_not_nil(@my_source_type)
+      end
+      
+      # The Source class that should be used for Source created by this importer
+      def self.configured_source_class
+        @configured_source_class
+      end
+      
+      # Select the source class to be used for this importer. This overrides
+      # the automatic setting (which is: use the Source class which matches
+      # the name of the element, and fall back to TaliaCore::Source)
+      def self.use_source_class(klass)
+        @configured_source_class = klass
       end
       
       # Get the source type
@@ -157,26 +169,69 @@ module TaliaUtil
         property ||= name.underscore
       end
       
+      # Gets the class of Source that the importer produces
+      def get_class_for(element)
+        config_class = self.class.configured_source_class
+        return config_class if(config_class) # If a class was hard-coded
+        
+        # Try to select a class by type
+        type_class = nil
+        begin
+          type = element.name.camelize
+          type_class = TaliaCore.const_get(type)
+        rescue NameError
+          type_class = TaliaCore::Source # if nothing was found, use the Source class
+        end
+        
+        type_class
+      end
+      
       # Gets or creates the Source with the given name. If the Source already
       # exists, it will add the given types to it
       def get_source(source_name, *types)
+        
+        src = get_source_with_class(source_name, TaliaCore::Source)
+        
+        type_list = src.types
+        touched = false
+        types.each do |type|
+          unless(type_list.include?(type))
+            type_list << type 
+            touched = true
+          end
+        end
+        # Only save if there were types modified
+        src.save! if(touched)
+        
+        assit_kind_of(TaliaCore::Source, src)
+        src
+      end
+      
+      # Gets a source with the given type (type must be a class)
+      def get_source_with_class(source_name, klass)
+        raise(ArgumentError, "This must have a klass as parameter: #{source_name}") unless(klass.is_a?(Class))
         source_uri = irify(N::LOCAL + source_name)
         src = nil
         if(TaliaCore::Source.exists?(source_uri))
           # If the Source already exists, push the types in
           src = TaliaCore::Source.find(source_uri)
-          type_list = src.types
-          types.each do |type|
-            type_list << type unless(type_list.include?(type))
+          # If the class
+          klass_name = klass.to_s.demodulize
+          unless(src.type == klass_name)
+            # In this case we will have to change the STI type on the Source
+            # this happens if the Source had been created before the import
+            # as a referenced object on another Source
+            assit(src.type == 'Source', "Source should not change from #{src.type} to #{klass_name}: #{src.uri} ")
+            src.type = klass_name 
+            src.save!
+            src = klass.find(src.id)
           end
         else
-          src = TaliaCore::Source.new(source_uri)
-          src.types << types
+          src = klass.new(source_uri)
           src.primary_source = primary_source?
           src.save!
         end
         
-        assit_kind_of(TaliaCore::Source, src)
         src
       end
       

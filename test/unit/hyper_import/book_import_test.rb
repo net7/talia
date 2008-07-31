@@ -31,7 +31,7 @@ module TaliaUtil
     
     # Test if the import succeeds
     def test_import
-      assert_kind_of(TaliaCore::Source, @src)
+      assert_kind_of(TaliaCore::Book, @src)
     end
     
     # Test if the types were imported correctly
