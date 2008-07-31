@@ -27,7 +27,7 @@ module TaliaCore
       if(children)
         for_children_of(concordant_element) do |child|
           new_clone = add_from_concordant(child, true)
-          new_clone.hyper::is_part_of << new_el
+          new_clone.hyper::part_of << new_el
           new_clone.save!
         end
       end
@@ -58,7 +58,7 @@ module TaliaCore
     
     # Goes through the children of the given element
     def for_children_of(element)
-      children = Source.find(:all, :find_through => [N::HYPER.is_part_of, element])
+      children = Source.find(:all, :find_through => [N::HYPER.part_of, element])
       children.each { |child| yield(child) }
     end
     

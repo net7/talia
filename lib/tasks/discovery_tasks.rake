@@ -39,7 +39,7 @@ namespace :discovery do
     fe = TaliaCore::FacsimileEdition.find(N::LOCAL + ENV['nick'])
 
     qry = Query.new(N::Book).select(:b).distinct
-    qry.where(:p, N::HYPER.is_part_of, :b)
+    qry.where(:p, N::HYPER.part_of, :b)
     qry.where(:f, N::HYPER.manifestation_of, :p)
     qry.where(:f, N::RDFS.type, N::HPYER + 'Facsimile')
     qry.where(:f, N::RDFS.type, N::HYPER + 'Color')

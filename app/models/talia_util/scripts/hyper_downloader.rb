@@ -9,8 +9,8 @@ require File.join(File.dirname(__FILE__), '..', 'hyper_download')
 output_path = ARGV[0]
 output_path ||= "."
 
-list_file = [ ARGV[1] ] if(ARGV[1])
-list_file ||= [ "http://www.nietzschesource.org/exportToTalia.php?getList=all", :http_basic_authentication => ["nietzsche", "source"] ]
+list_file = [ ARGV[2] ] if(ARGV[2])
+list_file ||= [ "http://www.nietzschesource.org/exportToTalia.php?getList=all", { :http_basic_authentication => ["nietzsche", "source"] } ]
 
 
 dl = HyperDownload::Downloader.new(output_path)

@@ -27,6 +27,8 @@ module TaliaCore
     singular_property :siglum, N::HYPER.siglum
     singular_property :catalog, N::HYPER.in_catalog
     
+    # Cloned properties are defined at the END OF THIS FILE!
+    
     # Get the concordance record for this card. This will return the
     # concordance itself, so that the metadata of the concordance record
     # can be inspected.
@@ -119,6 +121,10 @@ module TaliaCore
     def self.clone_inv_properties(*props)
       props.each { |p| inverse_props_to_clone << p }
     end
+    
+    clone_properties N::RDF.type,
+      N::HYPER.type,
+      N::HYPER.subtype
     
   end
 end

@@ -5,9 +5,18 @@
   # exactly in one Catalog/Macrocontribution (see AbstractWorkCard).
   class Book < ExpressionCard
     
+    # NOT cloned: in_archive
+    clone_properties N::DCNS.title,
+      N::HYPER.position,
+      N::DCNS.description,
+      N::DCNS.date,
+      N::DCNS.publisher,
+      N::HYPER.publication_place,
+      N::HYPER.copyright_note
+    
     # The pages of this book
     def pages
-      Page.find(:all, :find_through => [N::HYPER.is_part_of, self])
+      Page.find(:all, :find_through => [N::HYPER.part_of, self])
     end
     
     # A descriptive text about this book

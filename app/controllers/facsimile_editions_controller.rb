@@ -50,7 +50,7 @@ class FacsimileEditionsController < ApplicationController
     respond_to do |format|
       format.html do
         qry = Query.new(TaliaCore::Book).select(:b).distinct
-        qry.where(:p, N::HYPER.is_part_of, :b)
+        qry.where(:p, N::HYPER.part_of, :b)
         qry.where(:p, N::HYPER.siglum, params[:page])
         result=qry.execute
         book = result[0]
@@ -78,7 +78,7 @@ class FacsimileEditionsController < ApplicationController
   # facsimile edition page showing two large images of two adjacent pages
   def facing_pages
     qry = Query.new(TaliaCore::Book).select(:b).distinct
-    qry.where(:p, N::HYPER.is_part_of, :b)
+    qry.where(:p, N::HYPER.part_of, :b)
     qry.where(:p, N::HYPER.siglum, params[:page])
     book = qry.execute[0]
     @description = book.material_description

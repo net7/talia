@@ -38,7 +38,7 @@ module TaliaCore
       book.save!
       page_count.times do |n|
         page = Page.new("http://test_book/#{name}/page#{n}")
-        page.hyper::is_part_of << book
+        page.hyper::part_of << book
         page.save!
       end
       book

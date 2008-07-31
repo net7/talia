@@ -43,7 +43,7 @@ module TaliaCore
       return [] unless requested_book
       qry = Query.new(TaliaCore::Source).select(:b, :p).distinct.limit(1) # distinct
       qry.where(:b, N::HYPER.siglum, requested_book)
-      qry.where(:p, N::HYPER.is_part_of, :b)
+      qry.where(:p, N::HYPER.part_of, :b)
       qry.where(:p, N::HYPER.position_name, requested_page) if(requested_page)
       qry.sort(:p, N::HYPER.position, :pos)
       qry.execute 
