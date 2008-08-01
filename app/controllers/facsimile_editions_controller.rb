@@ -35,6 +35,7 @@ class FacsimileEditionsController < ApplicationController
         @type = 'manuscripts'        
       end
       format.jpeg do
+        #TODO: change to use the iip when it's ready
         image = @facsimile_edition.book_image_data(params[:book], params[:size]) 
         send_data image.content_string, :type => 'image/jpeg', :disposition => 'inline'
       end

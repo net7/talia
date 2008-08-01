@@ -3,15 +3,15 @@ module FacsimileEditionsHelper
   def facsimile_edition_page_title
     case action_name
     when "show"
-      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.hyper::title}"
+      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.title}"
     when "books"      
-      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.hyper::title}, #{params[:type].t.titleize}"
+      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.title}, #{params[:type].t.titleize}"
     when "panorama"
-      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.hyper::title}, #{params[:book].t}" 
+      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.title}, #{params[:book].t}" 
     when "page"
-      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.hyper::title}, #{params[:page].t}"      
+      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.title}, #{params[:page].t}"      
     when "facing_pages"
-      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.hyper::title}, #{params[:page].t} - #{params[:page2].t}"  
+      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.title}, #{params[:page].t} - #{params[:page2].t}"  
 
     end
   end

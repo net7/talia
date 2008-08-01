@@ -26,7 +26,8 @@ namespace :discovery do
   # creates a facsimile edition
   desc "Creates an empty Facsimile Edition. Options nick=<nick> name=<full_name> description=<short_description>"
   task  :create_facsimile_edition => 'disco_init' do
-    
+    #FIXME: should we include some classes for making this work?
+    #    validate_format_of ENV['nick'], :with => /[^ ]/, :message => "Nickames can't contain spaces"
     fe = TaliaCore::FacsimileEdition.new(N::LOCAL + ENV['nick'])
     fe.hyper::title << ENV['name']
     fe.hyper::description << ENV['description']
@@ -36,48 +37,31 @@ namespace :discovery do
   # creates a facsimile edition and adds to it all the color facsimiles found in the DB
   desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> description=<short_description>"
   task :create_color_facsimile_edition => 'create_facsimile_edition' do
-
+ 
     fe = TaliaCore::FacsimileEdition.find(N::LOCAL + ENV['nick'])
 
-    qry = Query.new(N::Book).select(:b).distinct
+    qry = Query.new(TaliaCore::Book).select(:b).distinct
     qry.where(:p, N::HYPER.part_of, :b)
-    qry.where(:f, N::HYPER.manifestation_of, :p)
-    qry.where(:f, N::RDFS.type, N::HPYER + 'Facsimile')
-    qry.where(:f, N::RDFS.type, N::HYPER + 'Color')
+    #    qry.where(:f, N::HYPER.manifestation_of, :p)
+    #TODO: for testing I'm using N::HYPER.cites 
+    # remove it and uncomment the above line when it works 
+    qry.where(:f, N::HYPER.cites, :p)
+    qry.where(:f, N::RDF.type, N::HYPER + 'Facsimile')
+    qry.where(:f, N::RDF.type, N::HYPER + 'Color')
     qry.execute.each do |book|
       fe.add_from_concordant(book, true)
       book.pages.each do |page|
-        # here these pages have different URI and no relations to the "old" ones 
-        # I've just retrieved with the query.
-        #
-        # this will not work, then:
-        qry = Query.new(TaliaCore::Source).select(:f).distinct
-        qry.where(:f, N::HYPER.manifestation_of, page)
-        qry.where(:f, N::RDFS.type, N::HPYER + 'Facsimile')
+        fe_page = TaliaCore::Page.find(fe.uri + '/' + page.hyper::siglum)
+        qry = Query.new(TaliaCore::Source).select(:f).distinct.limit(1)
+        #    qry.where(:f, N::HYPER.manifestation_of, page)
+        #TODO: for testing I'm using N::HYPER.cites 
+        # remove it and uncomment the above line when it works 
+        qry.where(:f, N::HYPER.cites, :p)       
+        qry.where(:f, N::RDFS.type, N::HYPER + 'Facsimile')
         qry.where(:f, N::RDFS.type, N::HYPER + 'Color')
-        #
+        fe_page.add_manifestation(qry.execute[0])
       end
     end
-    
-    #but even with:
-    # ( or a better query... )
-    qry = Query.new(TaliaCore::Source).select(:p,:f).distinct 
-    qry.where(:f, N::HYPER.manifestation_of, :p)
-    qry.where(:f, N::RDFS.type, N::HPYER + 'Facsimile')
-    qry.where(:f, N::RDFS.type, N::HYPER + 'Color')
-    # how should I recognize the newly created pages corresponding to :p in the result ?    
-     
-    
-    
-    #        joins = "JOIN semantic_relations SR ON (`active_sources`.`id` = SR.subject_id AND SR.object_type = 'TaliaCore::ActiveSource' AND SR.predicate_uri = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type') JOIN active_sources AcS2 ON (SR.object_id = AcS2.id AND AcS2.uri = 'http://www.hypernietzsche.org/ontology/Facsimile')"
-    #        conditions = "`active_sources`.`id` in ( select AcS3.id from active_sources AcS3 JOIN semantic_relations SR2 ON (AcS3.id = SR2.subject_id AND SR2.object_type = 'TaliaCore::ActiveSource' AND SR2.predicate_uri = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type') JOIN active_sources AcS4 ON (SR2.object_id = AcS4.id AND AcS4.uri = 'http://www.hypernietzsche.org/ontology/Color'))"    
-    #    
-    #        color_facsimile = TaliaCore::Source.find(:all, :joins => joins, :conditions => conditions)
-    #        
-    #        color_facsimile.each do |cf|
-    #          puts "adding #{cf.uri}"
-    #          fe.add(cf.uri)
-    #        end
   end
   
   desc "Creates and empty Critical Edition. Options nick=<nick> name=<full_name> description=<short_description>" 

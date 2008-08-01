@@ -38,10 +38,9 @@ module TaliaCore
     
     # Search for the given book and page (only the book if no page is given).
     # If the page is not given, this will return all pages of the book.
-    # (FIXME: That behaviour ok?)
     def search(requested_book, requested_page = nil)
       return [] unless requested_book
-      qry = Query.new(TaliaCore::Source).select(:b, :p).distinct.limit(1) # distinct
+      qry = Query.new(TaliaCore::Source).select(:p).distinct.limit(1)
       qry.where(:b, N::HYPER.siglum, requested_book)
       qry.where(:p, N::HYPER.part_of, :b)
       qry.where(:p, N::HYPER.position_name, requested_page) if(requested_page)

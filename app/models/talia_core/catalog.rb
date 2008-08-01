@@ -19,8 +19,10 @@ module TaliaCore
     # 
     # The URI of the new element will be <catalog_uri>/<siglum>
     def add_from_concordant(concordant_element, children = false, new_siglum = nil)
-      raise(ArgumentError, "Can only create concordant catalog elements from Cards") unless(concordant_element.is_a?(ExpressionCard))
-      siglum = new_siglum || concordant_element.siglum || concordant_element.uri.local_name
+#  FIXME: uncomment after Danilo's test!
+#        raise(ArgumentError, "Can only create concordant catalog elements from Cards") unless(concordant_element.is_a?(ExpressionCard))
+#FIXME : check if the concordant_element.hyper::siglum is correct (was concordant_element.siglum )
+      siglum = new_siglum || concordant_element.hyper::siglum || concordant_element.uri.local_name
       new_el = concordant_element.clone_concordant(self.uri + '/' + siglum)
       new_el.catalog = self
       
