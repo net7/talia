@@ -171,6 +171,11 @@ module TaliaCore
     
     private
     
+    # Takes over the validation for ActiveSources
+    def validate
+      self.class
+    end
+    
     # Helper to define a "additional type" in subclasses which will 
     # automatically be added on Object creation
     def self.has_rdf_type(*types)
