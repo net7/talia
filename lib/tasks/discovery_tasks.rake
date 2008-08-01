@@ -28,7 +28,7 @@ namespace :discovery do
   task  :create_facsimile_edition => 'disco_init' do
     #FIXME: should we include some classes for making this work?
     #    validate_format_of ENV['nick'], :with => /[^ ]/, :message => "Nickames can't contain spaces"
-    fe = TaliaCore::FacsimileEdition.new(N::LOCAL + ENV['nick'])
+    fe = TaliaCore::FacsimileEdition.new(N::LOCAL +  TaliaCore::FACSIMILE_EDITION_PREFIX + '/' + ENV['nick'])
     fe.hyper::title << ENV['name']
     fe.hyper::description << ENV['description']
     fe.save!
@@ -38,31 +38,36 @@ namespace :discovery do
   desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> description=<short_description>"
   task :create_color_facsimile_edition => 'create_facsimile_edition' do
  
-    fe = TaliaCore::FacsimileEdition.find(N::LOCAL + ENV['nick'])
+    # loads the TaliaCore::Page class, so the "add_from_concordant method of the Catalog class
+    # an find them. Here we'll need just pages (this is the Nietzsche case)
+    TaliaCore::Page   
 
+    fe = TaliaCore::FacsimileEdition.find(N::LOCAL + TaliaCore::FACSIMILE_EDITION_PREFIX + '/' + ENV['nick'])
     qry = Query.new(TaliaCore::Book).select(:b).distinct
+    qry.where(:b, N::RDF.type, N::HYPER.Book)
     qry.where(:p, N::HYPER.part_of, :b)
     #    qry.where(:f, N::HYPER.manifestation_of, :p)
     #TODO: for testing I'm using N::HYPER.cites 
     # remove it and uncomment the above line when it works 
     qry.where(:f, N::HYPER.cites, :p)
-    qry.where(:f, N::RDF.type, N::HYPER + 'Facsimile')
-    qry.where(:f, N::RDF.type, N::HYPER + 'Color')
-    qry.execute.each do |book|
-      fe.add_from_concordant(book, true)
+    qry.where(:f, N::RDF.type, N::HYPER.Facsimile)
+    qry.where(:f, N::RDF.type, N::HYPER.Color)
+    qry.execute.each do |book| 
+      fe.add_from_concordant(book, true) 
       book.pages.each do |page|
-        fe_page = TaliaCore::Page.find(fe.uri + '/' + page.hyper::siglum)
+        fe_page = TaliaCore::Page.find(fe.uri + '/' + page.siglum)
         qry = Query.new(TaliaCore::Facsimile).select(:f).distinct.limit(1)
         #    qry.where(:f, N::HYPER.manifestation_of, page)
         #TODO: for testing I'm using N::HYPER.cites 
         # remove it and uncomment the above line when it works 
-        qry.where(:f, N::HYPER.cites, :p)       
-        qry.where(:f, N::RDF.type, N::HYPER + 'Facsimile')
-        qry.where(:f, N::RDF.type, N::HYPER + 'Color')
+        qry.where(:f, N::HYPER.cites, fe_page)       
+        qry.where(:f, N::RDF.type, N::HYPER.Facsimile)
+        qry.where(:f, N::RDF.type, N::HYPER.Color)
         fe_page.add_manifestation(qry.execute[0])
       end
     end
   end
+
   
   desc "Creates and empty Critical Edition. Options nick=<nick> name=<full_name> description=<short_description>" 
   task :create_critical_edition => 'disco_init' do

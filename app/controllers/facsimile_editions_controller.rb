@@ -30,9 +30,7 @@ class FacsimileEditionsController < ApplicationController
         book = TaliaCore::Book.find(request.url)
         @description = book.material_description
         @pages = book.pages
-        #TODO: maybe a supertype method of the "Book" class for doing:
-        # book.supertype
-        @type = 'manuscripts'        
+        @type = book.hyper::type
       end
       format.jpeg do
         #TODO: change to use the iip when it's ready
@@ -43,23 +41,23 @@ class FacsimileEditionsController < ApplicationController
   end
     
   # TODO DRYup w/ panorama
-  # GET /facsimile_editions/1/1,1
+  # GET /facsimile_editions/1,1
   # 
-  # GET /facsimile_editions/1/1,1.jpeg
-  # GET /facsimile_editions/1/1,1.jpeg?size=thumbnail
+  # GET /facsimile_editions/1,1.jpeg
+  # GET /facsimile_editions/1,1.jpeg?size=thumbnail
   def page
     respond_to do |format|
       format.html do
         qry = Query.new(TaliaCore::Book).select(:b).distinct
-        qry.where(:p, N::HYPER.part_of, :b)
-        qry.where(:p, N::HYPER.siglum, params[:page])
+        qry.where(request.url, N::HYPER.part_of, :b)
+        #        qry.where(:p, N::HYPER.part_of, :b)
+        #        qry.where(:p, N::HYPER.siglum, params[:page])
         result=qry.execute
         book = result[0]
+        @page = TaliaCore::Page.find(request.url)
         @description = book.material_description
         @pages = book.pages
-        #TODO: retrieve these data from somewhere, maybe a "Page" class is required
-        # @type = TaliaCore::Page.find(request.url).supertype
-        @type = 'manuscripts'
+        @type = book.hyper::type
       end
       format.jpeg do
         facsimile = TaliaCore::Page.find(request.url).manifestations(TaliaCore::Facsimile)
@@ -84,12 +82,9 @@ class FacsimileEditionsController < ApplicationController
     book = qry.execute[0]
     @description = book.material_description
     @pages = book.pages
-    @page1 = params[:page]
-    @page2 = params[:page2]
-    
-    #TODO: retrieve these data from somewhere, maybe a "Page" class is required
-    # @type = TaliaCore::Page.find(??).supertype
-    @type = 'manuscripts'
+    @page = TaliaCore::Page(N::LOCAL + TaliaCore::FACSIMILE_EDITION_PREFIX + '/' + params[:page])
+    @page2 = TaliaCore::Page(N::LOCAL + TaliaCore::FACSIMILE_EDITION_PREFIX + '/' + params[:page2])
+    @type = book.hyper::type
   end
   
   def search 
@@ -107,6 +102,6 @@ class FacsimileEditionsController < ApplicationController
   
   private
   def find_facsimile_edition
-    @facsimile_edition = TaliaCore::FacsimileEdition.find("#{N::LOCAL}#{params[:id]}")
+    @facsimile_edition = TaliaCore::FacsimileEdition.find("#{N::LOCAL}/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}")
   end
 end

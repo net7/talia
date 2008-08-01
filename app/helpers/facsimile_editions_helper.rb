@@ -24,27 +24,27 @@ module FacsimileEditionsHelper
       path = [{:text => params[:id]}]
     when "books"
       path = [
-        {:text => params[:id], :controller => 'facsimile_editions', :action => 'show', :id => params[:id]},
+        {:text => params[:id], :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'show', :id => params[:id]},
         {:text => @type.capitalize.t}
       ]
     when "panorama"
       path = [
-        {:text => params[:id], :controller => 'facsimile_editions', :action => 'show', :id => params[:id]},
-        {:text => @type.capitalize.t, :controller => 'facsimile_editions', :action => 'books', :id => params[:id], :type => @type},
+        {:text => params[:id], :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'show', :id => params[:id]},
+        {:text => @type.capitalize.t, :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'books', :id => params[:id], :type => @type},
         {:text => params[:book] + ' (panorama)'}
       ]
     when "page"
       path =[
-        {:text => params[:id], :controller => 'facsimile_editions', :action => 'show', :id => params[:id]},
-        {:text => @type.capitalize.t, :controller => 'facsimile_editions', :action => 'books', :id => params[:id], :type => @type},
-        {:text => params[:book] + ' (panorama)', :controller => 'facsimile_editions', :action => 'panorama', :id => params[:id], :book => params[:book]},
+        {:text => params[:id], :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'show', :id => params[:id]},
+        {:text => @type.capitalize.t, :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'books', :id => params[:id], :type => @type},
+        {:text => params[:book] + ' (panorama)', :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'panorama', :id => params[:id], :book => params[:book]},
         {:text => params[:page]}
       ]
     when "facing_pages"
       path = [
-        {:text => params[:id], :controller => 'facsimile_editions', :action => 'show', :id => params[:id]},
-        {:text => @type.capitalize.t, :controller => 'facsimile_editions', :action => 'books', :id => params[:id], :type => @type},
-        {:text => params[:book] + ' (panorama)' , :controller => 'facsimile_editions', :action => 'panorama', :id => params[:id], :book => params[:book]},
+        {:text => params[:id], :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'show', :id => params[:id]},
+        {:text => @type.capitalize.t, :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'books', :id => params[:id], :type => @type},
+        {:text => params[:book] + ' (panorama)' , :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'panorama', :id => params[:id], :book => params[:book]},
         {:text => params[:page] + " | " + params[:page2]}
       ]
     end
@@ -101,7 +101,7 @@ module FacsimileEditionsHelper
   # returns a link to the next page, used in the "page" action
   def next_page
     current_page = params[:page2] || params[:page]
-    page = @facsimile_edition.neighbour_page(N::HYPER + current_page,'next')
+    page = @facsimile_edition.neighbour_page(N::HYPER + current_page, 'next')
     result ="<p class='next'><a href='#{page}'></a></p>"
   end
  
@@ -110,15 +110,15 @@ module FacsimileEditionsHelper
     # in both single and facing pages view, params[:page] is set
     # In the single page case, it's the only page, in the facing pages one it's the
     # first page, and we want it's predecessor
-    page = @facsimile_edition.neighbour_page(N::HYPER + params[:page],'previous')
+    page = @facsimile_edition.neighbour_page(N::HYPER + params[:page], 'previous')
     result ="<p class='previous'><a href='#{page}'></a></p>"
   end
  
   # returns the copyright note to be shown below the facsimile images
   def copyright_note(page)
-      qry = Query.new(TaliaCore::Facsimile).select(:f).distinct
+      qry = Query.new(TaliaCore::Source).select(:f).distinct
       qry.where(:f, N::HYPER.manifestation_of, page)
-#      qry.where(:f, N::HYPER.type, N::HYPER + "Facsimile")
+      qry.where(:f, N::HYPER.type, N::HYPER.Facsimile)
       facsimile = qry.execute
       facsimile[0].copyright_note if !facsimile.empty?
   end

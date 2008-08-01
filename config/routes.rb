@@ -69,6 +69,7 @@ ActionController::Routing::Routes.draw do |map|
   #              :location  => :nil,
   #              :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
 
+  #TODO: find a way for usin
   map.connect "facsimile_editions/:id/search",
     :controller => 'facsimile_editions',
     :action => 'search'
@@ -92,11 +93,12 @@ ActionController::Routing::Routes.draw do |map|
   # it didn't work for me, I've changed it to do some testing, and as a 
   # reminder.
   # Are we sure we can use a comma as a separator?
-  map.connect "facsimile_editions/:id/:book/:page:dot:format",
+  map.connect "facsimile_editions/:id/:page:dot:format",
     :controller => 'facsimile_editions',
     :action => 'page',
     :dot => /\.?/,
-    :format => nil
+    :format => nil,
+    :requirements => {:page => /.*\,.*/}
 
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'  

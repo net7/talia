@@ -1,5 +1,5 @@
 class CriticalEditionsController < ApplicationController
-  before_filter :find_critical_edition
+#  before_filter :find_critical_edition
   
   # GET /critical_editions/1
   def show  

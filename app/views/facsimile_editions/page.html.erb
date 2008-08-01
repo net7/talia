@@ -23,7 +23,7 @@
 </div>
 <!--[if !IE]>description<![endif]-->
 <div id="scroll">
-  <%= widget(:simple_mode_panorama, :elements => @elements, :panorama_type => 'vertical', :mc_uri => @mc_uri, :mc_type => @type, :material => @material) %>
+  <%= widget(:simple_mode_panorama, :elements => @pages, :panorama_type => 'vertical') %>
 </div>
 <!--[if !IE]>scrol<![endif]-->   
 
@@ -44,7 +44,7 @@
       <p class="next"><%= next_page %></p>
     </div>
     <div id="image_big">
-      <img src='<%= "/#{@page.uri.to_s}.jpeg"%>' alt='<%=  params[:page] %>' height='488'/>
+      <img src='<%= "#{@page.uri.to_s}.jpeg"%>' alt='<%=  params[:page] %>' height='488'/>
       <p><%= copyright_note(@page) %></p>
     </div>   
     
