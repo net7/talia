@@ -9,8 +9,9 @@ include TaliaUtil
 namespace :discovery do
   
   desc "Init for this tasks"
-  task :disco_init => 'talia_core:talia_init' do
-    Dependencies.load_paths << File.join(File.dirname(__FILE__), '..', '..', 'app', 'models')
+  task :disco_init do # => 'talia_core:talia_init' do
+    # Dependencies.load_paths << File.join(File.dirname(__FILE__), '..', '..', 'app', 'models')
+    require File.expand_path(File.dirname(__FILE__) + "/../../config/environment")
     TaliaCore::FacsimileEdition
     TaliaCore::CriticalEdition
   end

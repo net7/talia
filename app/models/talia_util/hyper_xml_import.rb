@@ -47,7 +47,7 @@ module TaliaUtil
           progress.inc
           begin
             sig_uri = base_uri + sig_request + URI.escape(siglum.text.strip) + file_ext
-            HyperImporter::Importer.import(REXML::Document.new(read_from(sig_uri)))
+            TaliaUtil::HyperImporter::Importer.import(REXML::Document.new(read_from(sig_uri)))
           rescue Exception => e
             $stderr.puts("Error when importing #{sig_uri}: #{e}\nBacktrace: #{e.backtrace.join("\n")}")
           end

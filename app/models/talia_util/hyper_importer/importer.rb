@@ -224,12 +224,12 @@ module TaliaUtil
           src = TaliaCore::Source.find(source_uri)
           # If the class
           klass_name = klass.to_s.demodulize
-          if((src.type != klass_name) && set_class)
+          if((src[:type] != klass_name) && set_class)
             # In this case we will have to change the STI type on the Source
             # this happens if the Source had been created before the import
             # as a referenced object on another Source
             assit(src.type == 'Source', "Source should not change from #{src.type} to #{klass_name}: #{src.uri} ")
-            src.type = klass_name 
+            src[:type] = klass_name 
             src.save!
             src = klass.find(src.id)
           end
