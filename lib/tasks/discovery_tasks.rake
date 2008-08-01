@@ -52,13 +52,13 @@ namespace :discovery do
       fe.add_from_concordant(book, true)
       book.pages.each do |page|
         fe_page = TaliaCore::Page.find(fe.uri + '/' + page.hyper::siglum)
-        qry = Query.new(TaliaCore::Source).select(:f).distinct.limit(1)
+        qry = Query.new(TaliaCore::Facsimile).select(:f).distinct.limit(1)
         #    qry.where(:f, N::HYPER.manifestation_of, page)
         #TODO: for testing I'm using N::HYPER.cites 
         # remove it and uncomment the above line when it works 
         qry.where(:f, N::HYPER.cites, :p)       
-        qry.where(:f, N::RDFS.type, N::HYPER + 'Facsimile')
-        qry.where(:f, N::RDFS.type, N::HYPER + 'Color')
+        qry.where(:f, N::RDF.type, N::HYPER + 'Facsimile')
+        qry.where(:f, N::RDF.type, N::HYPER + 'Color')
         fe_page.add_manifestation(qry.execute[0])
       end
     end
