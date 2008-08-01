@@ -34,7 +34,7 @@ module TaliaCore
         value = obj.is_a?(SemanticProperty) ? obj.value : obj
         my_rdf[sem_ref.predicate_uri] << value
       end
-      my_rdf[N::RDF.type] << (N::TALIA + self.class.name)
+      my_rdf[N::RDF.type] << (N::TALIA + self.class.name.demodulize)
       my_rdf.save
     end
     
