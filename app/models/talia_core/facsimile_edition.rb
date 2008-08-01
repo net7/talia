@@ -24,16 +24,24 @@ module TaliaCore
       end
     end
     
-    # returns an array containing a list of all the books of the given type 
-    # (manuscripts, works, etc.) or subtype (notebook, draft, etc.) belonging 
-    # to this Facsimile Edition. Books of a subtype also belong to the type
-    # of which it is a subtype.
-    def books(type = nil)
-      assit_quack(type, :uri) if(type)
-      qry = Query.new(TaliaCore::Source).select(:b).distinct
-      qry.where(:b, N::RDF.type, type) if(type)
-      qry.where(:b, N::HYPER.in_catalog, self)
+    # Returns an array containing a list of all the elements of the given type 
+    # (manuscripts, works, etc.). Types can also contain subtypes (notebook, draft, etc.) 
+    # 
+    # The types should be a list of N::URI elements indicating the RDF classes.
+    def elements(*types)
+      qry = Query.new(TaliaCore::Source).select(:element).distinct
+      types.each do |type|
+        assit_quack(type, :uri)
+        qry.where(:element, N::RDF.type, type)
+      end
+      qry.where(:element, N::HYPER.in_catalog, self)
       qry.execute
+    end
+    
+    # Returns all the books in the catalog. See elements
+    def books(*types)
+      types << N::TALIA.Book
+      elements(*types)
     end
     
     # Search for the given book and page (only the book if no page is given).

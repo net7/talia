@@ -31,18 +31,5 @@ module TaliaCore
       assert_equal(book.material_description, description)
     end
     
-    protected
-    
-    def make_book(name, page_count = 0)
-      book = Book.new("http://test_book/#{name}")
-      book.save!
-      page_count.times do |n|
-        page = Page.new("http://test_book/#{name}/page#{n}")
-        page.hyper::part_of << book
-        page.save!
-      end
-      book
-    end
-    
   end
 end
