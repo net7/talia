@@ -1,4 +1,4 @@
-  module TaliaCore
+module TaliaCore
   
   
   # This refers to a book in a collection. Note that each book is 
@@ -12,8 +12,11 @@
       N::DCNS.date,
       N::DCNS.publisher,
       N::HYPER.publication_place,
-      N::HYPER.copyright_note
-    
+      N::HYPER.copyright_note,
+      N::RDF.type,
+      N::HYPER.siglum,
+      N::HYPER.type,
+      N::HYPER.subtype
     # The pages of this book
     def pages
       Page.find(:all, :find_through => [N::HYPER.part_of, self])

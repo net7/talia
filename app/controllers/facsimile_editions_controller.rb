@@ -14,7 +14,7 @@ class FacsimileEditionsController < ApplicationController
   # GET /facsimile_editions/1/manuscripts/copybooks
   def books
     type = params[:subtype] || params[:type]
-    @books = @facsimile_edition.books(N::LOCAL + type)    
+    @books = @facsimile_edition.books(type  )    
     @type = params[:type]
     @subtype = params[:subtype]
   end
@@ -27,10 +27,9 @@ class FacsimileEditionsController < ApplicationController
   def panorama
     respond_to do |format|
       format.html do
-        book = TaliaCore::Book.find(request.url)
-        @description = book.material_description
-        @pages = book.pages
-        @type = book.hyper::type
+        @book = TaliaCore::Book.find(request.url)
+        @pages = @book.pages
+        @type = @book.hyper::type[0]
       end
       format.jpeg do
         #TODO: change to use the iip when it's ready
@@ -48,16 +47,16 @@ class FacsimileEditionsController < ApplicationController
   def page
     respond_to do |format|
       format.html do
+        @page = TaliaCore::Page.find(request.url)
         qry = Query.new(TaliaCore::Book).select(:b).distinct
-        qry.where(request.url, N::HYPER.part_of, :b)
+        qry.where(@page, N::HYPER.part_of, :b)
         #        qry.where(:p, N::HYPER.part_of, :b)
         #        qry.where(:p, N::HYPER.siglum, params[:page])
         result=qry.execute
-        book = result[0]
-        @page = TaliaCore::Page.find(request.url)
-        @description = book.material_description
-        @pages = book.pages
-        @type = book.hyper::type
+        @book = result[0]
+        @description = @book.material_description
+        @pages = @book.pages
+        @type = @book.hyper::type[0]
       end
       format.jpeg do
         facsimile = TaliaCore::Page.find(request.url).manifestations(TaliaCore::Facsimile)
@@ -79,29 +78,26 @@ class FacsimileEditionsController < ApplicationController
     qry = Query.new(TaliaCore::Book).select(:b).distinct
     qry.where(:p, N::HYPER.part_of, :b)
     qry.where(:p, N::HYPER.siglum, params[:page])
-    book = qry.execute[0]
-    @description = book.material_description
-    @pages = book.pages
+    @book = qry.execute[0]
+    @description = @book.material_description
+    @pages = @book.pages
     @page = TaliaCore::Page(N::LOCAL + TaliaCore::FACSIMILE_EDITION_PREFIX + '/' + params[:page])
     @page2 = TaliaCore::Page(N::LOCAL + TaliaCore::FACSIMILE_EDITION_PREFIX + '/' + params[:page2])
-    @type = book.hyper::type
+    @type = @book.hyper::type[0]
   end
   
   def search 
     searched_book = sanitize(params[:book]) unless params[:book].empty?
     searched_page = sanitize(params[:page]) unless params[:page].empty?
     search_result = @facsimile_edition.search(searched_book, searched_page)
-    url = "/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}" 
-    search_result.each do |part|
-      url << "/#{part}"
-    end
-    redirect_to url and return unless (search_result.empty?)
+    url = search_result[0].uri.to_s
+      redirect_to url and return unless (search_result.empty?)
     flash[:search_notice] = "Searched records weren't found".t
     redirect_to(:back) and return
   end
   
   private
   def find_facsimile_edition
-    @facsimile_edition = TaliaCore::FacsimileEdition.find("#{N::LOCAL}/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}")
+    @facsimile_edition = TaliaCore::FacsimileEdition.find("#{N::LOCAL}#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}")
   end
 end

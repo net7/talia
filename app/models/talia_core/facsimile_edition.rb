@@ -5,8 +5,16 @@ module TaliaCore
     def types
       @types ||= begin
         qry = Query.new(N::SourceClass).select(:t).distinct
-        qry.where(:t, N::RDFS.subClassOf, N::HYPER.Material)
-        qry.where(self, N::HYPER.usedType, :t)
+        #FIXME: the next two lines were here.
+        # Didn't manage to check for the presence of types in the Onotolgy and 
+        # if they equal the ones used in the RDF for storage
+        #                qry.where(:t, N::RDFS.subClassOf, N::HYPER.Material)
+        # There isn't something like N::HYPER.usedType in the RDF, yet
+        # I substituted it with the lines below
+        #        qry.where(self, N::HYPER.usedType, :t)
+        qry.where(:b, N::RDF.type, N::TALIA.Book)
+        qry.where(:b, N::HYPER.in_catalog, self)        
+        qry.where(:b, N::HYPER.type, :t)
         qry.execute
       end
     end
@@ -14,12 +22,16 @@ module TaliaCore
     # returns an array containing a list of available subtypes of the given type. Of course they must
     # be present in the facsimile edition we're in
     def subtypes(type)
-      assit_quack(type, :uri)
+      #      assit_quack(type, :uri)
       @subtypes ||= {}
       @subtypes[type.to_s] ||= begin
         qry = Query.new(N::SourceClass).select(:t).distinct
-        qry.where(:t, N::RDFS.subClassOf, type)
-        qry.where(self, N::HYPER.usedType, :t)
+        #        qry.where(:t, N::RDFS.subClassOf, type)
+        #        qry.where(self, N::HYPER.usedType, :t)
+        qry.where(:b, N::RDF.type, N::TALIA.Book)
+        qry.where(:b, N::HYPER.in_catalog, self)        
+        qry.where(:b, N::HYPER.subtype, :t)
+        qry.where(:b, N::HYPER.type, type)
         qry.execute
       end
     end
@@ -31,8 +43,17 @@ module TaliaCore
     def elements(*types)
       qry = Query.new(TaliaCore::Source).select(:element).distinct
       types.each do |type|
-        assit_quack(type, :uri)
-        qry.where(:element, N::RDF.type, type)
+        # I've found manuscripts, notebook, etc as plain text in the RDF, they don't 
+        # pass the quack test below
+        #        assit_quack(type, :uri)
+        if (type.is_a?(N::URI))
+          qry.where(:element, N::RDF.type, type)
+        else
+          # very ugly but we've added 'manuscripts', 'copybook', etc. just like that (without an URI)
+          qry.where(:element, N::HYPER.type, type)
+     #TODO: the type may actually be found in the N::HYPER.subtype predicate, we'd need an OR here...
+
+        end
       end
       qry.where(:element, N::HYPER.in_catalog, self)
       qry.execute
@@ -40,6 +61,9 @@ module TaliaCore
     
     # Returns all the books in the catalog. See elements
     def books(*types)
+      #FIXME: I load the TaliaCore::Book class so the elements method will return 
+      # proper objects
+      TaliaCore::Book
       types << N::TALIA.Book
       elements(*types)
     end
@@ -49,6 +73,7 @@ module TaliaCore
     def search(requested_book, requested_page = nil)
       return [] unless requested_book
       qry = Query.new(TaliaCore::Source).select(:p).distinct.limit(1)
+      qry.where(:b, N::HYPER.in_catalog, self)
       qry.where(:b, N::HYPER.siglum, requested_book)
       qry.where(:p, N::HYPER.part_of, :b)
       qry.where(:p, N::HYPER.position_name, requested_page) if(requested_page)

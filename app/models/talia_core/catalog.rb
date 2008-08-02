@@ -23,7 +23,7 @@ module TaliaCore
       siglum = new_siglum || concordant_element.siglum || concordant_element.uri.local_name
       new_el = concordant_element.clone_concordant(self.uri + '/' + siglum)
       new_el.catalog = self
-      
+      new_el.save!
       if(children)
         for_children_of(concordant_element) do |child|
           new_clone = add_from_concordant(child, true)

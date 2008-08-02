@@ -82,13 +82,7 @@ ActionController::Routing::Routes.draw do |map|
     :action => 'books',
     :requirements => { :type => /works|manuscripts|library|correspondence|pictures/ },
     :subtype => nil
-
-  map.connect "facsimile_editions/:id/:book:dot:format",
-    :controller => 'facsimile_editions',
-    :action => 'panorama',
-    :dot => /\.?/,
-    :format => nil
-
+  
   #TODO: bring it back to 'facsimile_editions/:id/:book,:page'
   # it didn't work for me, I've changed it to do some testing, and as a 
   # reminder.
@@ -98,7 +92,14 @@ ActionController::Routing::Routes.draw do |map|
     :action => 'page',
     :dot => /\.?/,
     :format => nil,
-    :requirements => {:page => /.*\,.*/}
+    :requirements => {:page => /.*,.*/}
+  
+  map.connect "facsimile_editions/:id/:book:dot:format",
+    :controller => 'facsimile_editions',
+    :action => 'panorama',
+    :dot => /\.?/,
+    :format => nil
+
 
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'  

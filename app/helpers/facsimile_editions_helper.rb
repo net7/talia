@@ -37,14 +37,14 @@ module FacsimileEditionsHelper
       path =[
         {:text => params[:id], :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'show', :id => params[:id]},
         {:text => @type.capitalize.t, :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'books', :id => params[:id], :type => @type},
-        {:text => params[:book] + ' (panorama)', :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'panorama', :id => params[:id], :book => params[:book]},
+        {:text => @book.uri.local_name + ' (panorama)', :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'panorama', :id => params[:id], :book => @book.uri.local_name},
         {:text => params[:page]}
       ]
     when "facing_pages"
       path = [
         {:text => params[:id], :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'show', :id => params[:id]},
         {:text => @type.capitalize.t, :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'books', :id => params[:id], :type => @type},
-        {:text => params[:book] + ' (panorama)' , :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'panorama', :id => params[:id], :book => params[:book]},
+        {:text => @book.uri.local_name + ' (panorama)' , :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'panorama', :id => params[:id], :book => @book.uri.local_name},
         {:text => params[:page] + " | " + params[:page2]}
       ]
     end
@@ -68,7 +68,7 @@ module FacsimileEditionsHelper
   end
   
   def subtypes
-    @facsimile_edition.subtypes(N::LOCAL + @type)
+    @facsimile_edition.subtypes(@type)
   end  
   
   # creates the elements to be shown in the tabs, depending on the action we're in
@@ -78,7 +78,7 @@ module FacsimileEditionsHelper
     when "show"
       result = [{:link => "", :text => "Editor's Introduction".t, :selected => true}]
     when "books"
-      subtypes = @facsimile_edition.subtypes(N::LOCAL + params[:type])
+      subtypes = @facsimile_edition.subtypes(params[:type])
       selected_subtype = params[:subtype] || subtypes[0]
       subtypes.each do |subtype|
         if (subtype == selected_subtype)
@@ -91,7 +91,7 @@ module FacsimileEditionsHelper
     when "panorama"
       result = [{:link => "", :text => params[:book], :selected => true}] 
     when "page"
-      result = [{:link => "", :text => params[:book], :selected => true}]       
+      result = [{:link => "", :text => @book.uri.local_name, :selected => true}]       
     when "facing_pages"
       result = [{:link => "", :text => params[:book], :selected => true}]
     end
@@ -125,6 +125,6 @@ module FacsimileEditionsHelper
   
   # returns the material descirption of the given book
   def material_description(book)
-    TaliaCore::Book.find(book).material_description
+    book.material_description
   end
 end

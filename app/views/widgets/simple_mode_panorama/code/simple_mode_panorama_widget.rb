@@ -21,7 +21,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         result << "
       <div class='block'>
         <p class='lonely'>"
-        result << horizontal_line(element)
+        result << panorama_element(element)
         result << '</p></div>
       </div>
         '
