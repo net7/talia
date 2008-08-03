@@ -5,6 +5,10 @@ module TaliaCore
     include TaliaUtil::TestHelpers
     include UnitTestHelpers
     
+    test_cloning N::RDF.type, N::HYPER.position, N::DCNS.description,
+      N::DCNS.date, N::DCNS.publisher, N::HYPER.publication_place, 
+      N::HYPER.copyright_note, N::HYPER.siglum
+    
     def setup
       setup_once(:init) do
         TaliaUtil::Util.flush_rdf

@@ -37,6 +37,19 @@ module TaliaCore
       assert_equal(src1.concordance, src2.concordance)
     end
     
+    def test_clone_default
+      src = make_card('clone_default')
+      src.types << N::RDF.mytype_test
+      src.hyper::type << N::HYPER.mytype_test.to_s
+      src.hyper::subtype << N::HYPER.my_subtype_test.to_s
+      src.save!
+      clone = src.clone('http://expression_card_test/test_clone_default')
+      clone.save!
+      assert_property(clone.hyper::type, N::HYPER.mytype_test.to_s)
+      assert_property(clone.hyper::subtype, N::HYPER.my_subtype_test.to_s)
+      assert(clone.types.include?(N::RDF.mytype_test))
+    end
+    
     def test_clone
       src = CloneTest.new('http://expression_card_test/test_clone')
       src_rel = ExpressionCard.new('http://expression_card_test/test_clone_rel')

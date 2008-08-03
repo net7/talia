@@ -8,9 +8,7 @@ module TaliaCore
       N::HYPER.position,
       N::HYPER.position_name,
       N::HYPER.height, N::HYPER.width,
-      N::HYPER.dimension_units,
-      N::HYPER.siglum,
-      N::RDF.type
+      N::HYPER.dimension_units
     
   end
 end

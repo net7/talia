@@ -26,6 +26,22 @@ module TaliaCore
     
     singular_property :siglum, N::HYPER.siglum
     singular_property :catalog, N::HYPER.in_catalog
+    singular_property :title, N::DCNS.title
+    
+        # Returns the properties that should be cloned when creating a new concordant
+    # clone
+    class_inheritable_accessor :props_to_clone_var
+    def self.props_to_clone
+      self.props_to_clone_var ||= []
+      self.props_to_clone_var
+    end
+    
+    # The inverse properties to clone
+    class_inheritable_accessor :inverse_props_to_clone_var
+    def self.inverse_props_to_clone
+      self.inverse_props_to_clone_var ||= []
+      self.inverse_props_to_clone_var
+    end
     
     # Cloned properties are defined at the END OF THIS FILE!
     
@@ -99,17 +115,6 @@ module TaliaCore
       manifestation.predicate_set_uniq(:hyper, :manifestation_of, self)
     end
     
-    # Returns the properties that should be cloned when creating a new concordant
-    # clone
-    def self.props_to_clone
-      @props_to_clone ||= []
-    end
-    
-    # The inverse properties to clone
-    def self.inverse_props_to_clone
-      @inverse_props_to_clone ||= []
-    end
-    
     protected
     
     # Helper to to register the properties that should be cloned
@@ -124,7 +129,8 @@ module TaliaCore
     
     clone_properties N::RDF.type,
       N::HYPER.type,
-      N::HYPER.subtype
+      N::HYPER.subtype,
+      N::HYPER.siglum
     
   end
 end

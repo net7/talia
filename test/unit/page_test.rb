@@ -5,6 +5,13 @@ module TaliaCore
     include TaliaUtil::TestHelpers
     include UnitTestHelpers
     
+    test_cloning N::DCNS.title, 
+      N::HYPER.position, N::HYPER.position_name, 
+      N::HYPER.height, N::HYPER.width,
+      N::HYPER.dimension_units,
+      N::HYPER.siglum, 
+      N::RDF.type 
+    
     def test_true
       assert(true)
     end

@@ -12,11 +12,7 @@ module TaliaCore
       N::DCNS.date,
       N::DCNS.publisher,
       N::HYPER.publication_place,
-      N::HYPER.copyright_note,
-      N::RDF.type,
-      N::HYPER.siglum,
-      N::HYPER.type,
-      N::HYPER.subtype
+      N::HYPER.copyright_note
     # The pages of this book
     def pages
       Page.find(:all, :find_through => [N::HYPER.part_of, self])
