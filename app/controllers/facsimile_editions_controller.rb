@@ -28,7 +28,7 @@ class FacsimileEditionsController < ApplicationController
     respond_to do |format|
       format.html do
         @book = TaliaCore::Book.find(request.url)
-        @pages = @book.pages
+        @pages = @book.ordered_pages
         @type = @book.hyper::type[0]
       end
       format.jpeg do
@@ -47,20 +47,26 @@ class FacsimileEditionsController < ApplicationController
   def page
     respond_to do |format|
       format.html do
-        @page = TaliaCore::Page.find(request.url)
+        # if a 'pages' params with 'double' as a value and a 'page2' param with
+        # the siglum of a page have been passed, we need to show the large images of both pages 
+        if (params[:pages] == 'double')
+          @page = TaliaCore::Page.find(N::LOCAL + TaliaCore::FACSIMILE_EDITION_PREFIX + '/' + params[:id] + '/' + params[:page])
+          @page2 = TaliaCore::Page.find(N::LOCAL + TaliaCore::FACSIMILE_EDITION_PREFIX + '/' + params[:id] + '/' + params[:page2])
+        else
+          @page = TaliaCore::Page.find(request.url)
+        end         
         qry = Query.new(TaliaCore::Book).select(:b).distinct
         qry.where(@page, N::HYPER.part_of, :b)
-        #        qry.where(:p, N::HYPER.part_of, :b)
-        #        qry.where(:p, N::HYPER.siglum, params[:page])
         result=qry.execute
         @book = result[0]
         @description = @book.material_description
-        @pages = @book.pages
+        @pages = @book.ordered_pages
         @type = @book.hyper::type[0]
       end
       format.jpeg do
         facsimile = TaliaCore::Page.find(request.url).manifestations(TaliaCore::Facsimile)
         facsimile.iip_path
+        ''
         #TODO: as soon as the iip_path method is ready, implement the missing part here
         # and/or in the view which uses this (namely the panorama widget and the page and 
         # the facing_pages views)
@@ -73,25 +79,13 @@ class FacsimileEditionsController < ApplicationController
     end
   end
 
-  # facsimile edition page showing two large images of two adjacent pages
-  def facing_pages
-    qry = Query.new(TaliaCore::Book).select(:b).distinct
-    qry.where(:p, N::HYPER.part_of, :b)
-    qry.where(:p, N::HYPER.siglum, params[:page])
-    @book = qry.execute[0]
-    @description = @book.material_description
-    @pages = @book.pages
-    @page = TaliaCore::Page(N::LOCAL + TaliaCore::FACSIMILE_EDITION_PREFIX + '/' + params[:page])
-    @page2 = TaliaCore::Page(N::LOCAL + TaliaCore::FACSIMILE_EDITION_PREFIX + '/' + params[:page2])
-    @type = @book.hyper::type[0]
-  end
   
   def search 
     searched_book = sanitize(params[:book]) unless params[:book].empty?
     searched_page = sanitize(params[:page]) unless params[:page].empty?
     search_result = @facsimile_edition.search(searched_book, searched_page)
     url = search_result[0].uri.to_s
-      redirect_to url and return unless (search_result.empty?)
+    redirect_to url and return unless (search_result.empty?)
     flash[:search_notice] = "Searched records weren't found".t
     redirect_to(:back) and return
   end

@@ -30,7 +30,7 @@
 <div id="content" class="divided">
   <div id="visore">
     <div id="toolbar">
-      <p class="previous"><%= previous_page %></p>
+     <%= previous_page %>
       <p class="sigla"><%= @page.uri.local_name %></p>
       <p class="zoom"><select>
           <option value="#">zoom</option>
@@ -41,11 +41,16 @@
         </select>
       </p>
       <p class="tooltools"><a href="#" title="pdf" class="pdf">pdf</a>    <a href="#" title="print" class="print">print</a></p>
-      <p class="next"><%= next_page %></p>
+      <% if (params[:pages] == 'double') %>
+        <p class="sigla"><%= @page2.uri.local_name %></p>
+      <% end %> 
+      <%= next_page %>
     </div>
     <div id="image_big">
-      <img src='<%= "#{@page.uri.to_s}.jpeg"%>' alt='<%=  params[:page] %>' height='488'/>
-      <p><%= copyright_note(@page) %></p>
+      <%= render :partial => 'page_image', :locals => {:page => @page} %>
+      <% if (params[:pages] == 'double') %>
+        <%= render :partial => 'page_image', :locals => {:page => @page2} %>
+      <% end %> 
     </div>   
     
   </div>

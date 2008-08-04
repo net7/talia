@@ -80,13 +80,7 @@ module TaliaCore
       qry.sort(:p, N::HYPER.position, :pos)
       qry.execute 
     end
-  
-    # returns the left or right "neighbour" source of the given source.
-    # movement is expected in the form of "next" or "previous"
-    # used, for instance, for browsing pages
-    def neighbour_page(page, movement)
-      "N-IV-1,3"
-    end
+
     
   end
 end

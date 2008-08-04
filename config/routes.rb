@@ -83,16 +83,12 @@ ActionController::Routing::Routes.draw do |map|
     :requirements => { :type => /works|manuscripts|library|correspondence|pictures/ },
     :subtype => nil
   
-  #TODO: bring it back to 'facsimile_editions/:id/:book,:page'
-  # it didn't work for me, I've changed it to do some testing, and as a 
-  # reminder.
-  # Are we sure we can use a comma as a separator?
   map.connect "facsimile_editions/:id/:page:dot:format",
     :controller => 'facsimile_editions',
     :action => 'page',
     :dot => /\.?/,
     :format => nil,
-    :requirements => {:page => /.*,.*/}
+    :requirements => {:page => /.*,[^\.]*/}
   
   map.connect "facsimile_editions/:id/:book:dot:format",
     :controller => 'facsimile_editions',
@@ -103,10 +99,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'  
-
-  map.connect "facsimile_editions/:id/:book/:page/:page2",
-    :controller => 'facsimile_editions',
-    :action => 'facing_pages'
   
   map.resources :facsimile_edition do |facsimile_edition|
     facsimile_edition.resource :book do |book|

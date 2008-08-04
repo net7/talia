@@ -17,7 +17,24 @@ module TaliaCore
     def pages
       Page.find(:all, :find_through => [N::HYPER.part_of, self])
     end
+        
+    def order_pages!
+      ordered_pages = OrderedSource.new(self.uri.to_s + '_ordered_pages')
+      qry = Query.new(TaliaCore::Page).select(:p).distinct
+      qry.where(:p, N::HYPER.part_of, self)
+      qry.where(:p, N::HYPER.position, :pos)
+      qry.sort(:pos)
+      pages = qry.execute
+      pages.each do |page| 
+        ordered_pages.add(page)
+        ordered_pages.save!
+      end
+
+    end
     
+    def ordered_pages
+      OrderedSource.find(self.uri.to_s + '_ordered_pages')
+    end
     # A descriptive text about this book
     def material_description
       description = inverse[N::HYPER.description_of]
@@ -29,6 +46,6 @@ module TaliaCore
     def pdf
       # TODO: Implementation
     end
-    
+   
   end
 end

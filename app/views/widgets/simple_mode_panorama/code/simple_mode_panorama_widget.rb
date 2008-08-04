@@ -70,7 +70,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         if position == 'even' || elements.last == element
           result << '</div>'
           if position == 'even' && elements.first != element
-            result <<  "<div><a href='#{last_element.uri.to_s}/#{element.siglum}'>#{'facing pages'.t}</a></div>"
+            result <<  "<div><a href='#{last_element.uri.to_s}?pages=double&page2=#{element.siglum}'>#{'facing pages'.t}</a></div>"
           end
           result << ' 
           <!--view_block-->'
