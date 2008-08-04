@@ -44,7 +44,7 @@ module TaliaCore
         # In this case, it's a generic "new" call
         the_source = super
       end
-      the_source.types << the_source.class.additional_rdf_types
+      the_source.types << the_source.class.additional_rdf_types if(the_source.new_record?)
       the_source
     end
     
@@ -166,7 +166,9 @@ module TaliaCore
     
     # Gets the types
     def types
-      get_objects_on(N::RDF.type.to_s, { :object_type => 'TaliaCore::ActiveSource'}, TypesWrapper)
+      # Constraint conditions make no sense on newly created record (and cause an assert)
+      constraint = new_record? ? {} : { :object_type => 'TaliaCore::ActiveSource'}
+      get_objects_on(N::RDF.type.to_s, constraint, TypesWrapper)
     end
     
     private
@@ -193,7 +195,7 @@ module TaliaCore
       # define the accessor
       define_method(prop_name) do
         prop = self[property]
-        assit(prop.size <= 1, "Must have at most 1 value for singular property #{prop_name}")
+        assit_block { |err| (prop.size > 1) ? err << "Must have at most 1 value for singular property #{prop_name} on #{self.uri}. Values #{self[property]}" : true }
         prop.size > 0 ? prop[0] : nil
       end
       # define the writer
@@ -206,13 +208,17 @@ module TaliaCore
     # Returns the related objects on the given predicate, adding the additional
     # conditions to the query.
     def get_objects_on(predicate, conditions = {}, wrapper = SemanticCollectionWrapper)
-      conditions.merge!( :predicate_uri => predicate.to_s )
-      obs = if(new_record?) # A new record cannot have properties attached
-        []
+      wrapped_obs = if(new_record?) # A new record cannot have properties attached, but we'll store the ones that have been added
+        @new_record_obs ||= {}
+        @new_record_obs[predicate] ||= wrapper.new([], self, predicate)
+        assit(conditions.size == 0, 'Should not call newly created object with conditions')
+        @new_record_obs[predicate]
       else
-        objects.find(:all, :conditions => conditions )
+        conditions.merge!( :predicate_uri => predicate.to_s )
+        obs = objects.find(:all, :conditions => conditions )
+        wrapper.new(obs, self, predicate)
       end
-      wrapper.new(obs, self, predicate)
+      wrapped_obs
     end
     
     # This gets the URI string from the given value. This will just return
