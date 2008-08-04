@@ -22,7 +22,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
     login_as :admin
 
     assert_difference('User.count') do
-      post :create, :user => user_params
+      post :create, :user => params
     end
 
     assert_redirected_to :action => "show", :id => assigns(:user)
@@ -45,7 +45,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
   def test_should_update_user
     login_as :admin
     
-    put :update, :id => Fixtures.identify(:someone), :user => { }
+    put :update, :id => users(:someone).id, :user => params
     assert_redirected_to :action => "show", :id => assigns(:user)
   end
   
@@ -60,8 +60,8 @@ class Admin::UsersControllerTest < ActionController::TestCase
   end
   
   private
-  def user_params
-    { :login => 'luca', :email => 'luca@talia.org',
-      :password => 'luca', :password_confirmation => 'luca' }
-  end
+    def params
+      { :login => 'luca', :email => 'luca@talia.org',
+        :password => 'luca', :password_confirmation => 'luca' }
+    end
 end
