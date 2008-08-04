@@ -5,7 +5,6 @@ require 'core_ext'
 require 'talia_util/data_import'
 require 'talia_util/rdf_import'
 require 'talia_util/yaml_import'
-require 'talia_util/hyper_xml_import'
 require 'talia_util/rdf_update'
 require 'talia_util/progressbar'
 
