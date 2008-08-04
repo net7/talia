@@ -26,7 +26,7 @@ module TaliaUtil
         assit(source_name && source_name != "", "Source with no name!")
         if(source_name && source_name != "")
           @source = get_source_with_class(source_name, get_class_for(element_xml))
-          @source.hyper::siglum << source_name
+          @source.hyper::siglum << source_name if(@source.hyper::siglum.size == 0)
         end
       end
       
@@ -338,7 +338,7 @@ module TaliaUtil
             result = data_record.create_from_data(location, io) 
           end
         rescue Exception => e
-          raise(IOError, "Error loading #{url} (when file: #{File.expand_path(url)}: #{e}")
+          raise(IOError, "Error loading #{url} (when file: #{File.expand_path(url)}, open_args: [#{open_args.join(', ')}]) #{e}")
         end
         
         result

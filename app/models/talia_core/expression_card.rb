@@ -28,6 +28,8 @@ module TaliaCore
     singular_property :catalog, N::HYPER.in_catalog
     singular_property :title, N::DCNS.title
     
+    before_create :set_default_catalog
+    
         # Returns the properties that should be cloned when creating a new concordant
     # clone
     class_inheritable_accessor :props_to_clone_var
@@ -116,6 +118,11 @@ module TaliaCore
     end
     
     protected
+    
+    # Assign the default catalog
+    def set_default_catalog
+      self.catalog = Catalog.default_catalog unless(self.catalog)
+    end
     
     # Helper to to register the properties that should be cloned
     def self.clone_properties(*props)

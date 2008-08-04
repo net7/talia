@@ -92,5 +92,10 @@ module TaliaCore
       assert_equal(man, card.manifestations[0])
     end
     
+    def test_default_catalog
+      card = make_card('test_default_catalog')
+      assert_equal(card.catalog, Catalog.default_catalog)
+    end
+    
   end
 end

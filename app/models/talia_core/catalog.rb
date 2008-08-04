@@ -3,6 +3,8 @@ module TaliaCore
   # A catalog is a collection of AbstractWorkCard records. 
   class Catalog < Source
     
+    DEFAULT_CATALOG_NAME = N::LOCAL + 'system_default_catalog'
+    
     # Returns all the elements, restricting the result to the given type
     # if one is given. The type should be a class.
     def elements(type = nil)
@@ -53,6 +55,15 @@ module TaliaCore
     def description
       @description ||= self.hyper::description.last
     end
+    
+    # Returns the default catalog that will be used if no other catalog is
+    # specified
+    def self.default_catalog
+      catalog = Catalog.new(Catalog::DEFAULT_CATALOG_NAME)
+      catalog.save! if(catalog.new_record?)
+      catalog
+    end
+    
     protected
     
     
