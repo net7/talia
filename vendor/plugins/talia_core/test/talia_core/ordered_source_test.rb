@@ -195,7 +195,71 @@ module TaliaCore
       assert_equal @item_2.uri, @ordered_source.at(2).uri
       assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(3)
       assert_equal @item_3.uri, @ordered_source.at(3).uri
-    end  
+    end
+    
+    def test_add_more_then_10_items
+      # create new OrderedSource
+      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set')
+      @ordered_source.save!
+      assert @ordered_source.elements.empty?
+      
+      # the size must be 0
+      assert_equal 0, @ordered_source.size
+      
+      # create 3 items
+      @item_1 = ActiveSource.new('http://testvalue.org/item_1')
+      @item_2 = ActiveSource.new('http://testvalue.org/item_2')
+      @item_3 = ActiveSource.new('http://testvalue.org/item_3')
+      @item_4 = ActiveSource.new('http://testvalue.org/item_4')
+      @item_5 = ActiveSource.new('http://testvalue.org/item_5')
+      @item_6 = ActiveSource.new('http://testvalue.org/item_6')
+      @item_7 = ActiveSource.new('http://testvalue.org/item_7')
+      @item_8 = ActiveSource.new('http://testvalue.org/item_8')
+      @item_9 = ActiveSource.new('http://testvalue.org/item_9')
+      @item_10 = ActiveSource.new('http://testvalue.org/item_10')
+      @item_11 = ActiveSource.new('http://testvalue.org/item_11')
+      @item_12 = ActiveSource.new('http://testvalue.org/item_12')
+      
+      # add items to OrderedSource
+      @ordered_source.add @item_1
+      @ordered_source.add @item_2
+      @ordered_source.add @item_3
+      @ordered_source.add @item_4
+      @ordered_source.add @item_5
+      @ordered_source.add @item_6
+      @ordered_source.add @item_7
+      @ordered_source.add @item_8
+      @ordered_source.add @item_9
+      @ordered_source.add @item_10
+      @ordered_source.add @item_11
+      @ordered_source.add @item_12
+      
+      # check at method
+      assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(1)
+      assert_equal @item_1.uri, @ordered_source.at(1).uri
+      assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(2)
+      assert_equal @item_2.uri, @ordered_source.at(2).uri
+      assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(3)
+      assert_equal @item_3.uri, @ordered_source.at(3).uri
+      assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(4)
+      assert_equal @item_4.uri, @ordered_source.at(4).uri
+      assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(5)
+      assert_equal @item_5.uri, @ordered_source.at(5).uri
+      assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(6)
+      assert_equal @item_6.uri, @ordered_source.at(6).uri
+      assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(7)
+      assert_equal @item_7.uri, @ordered_source.at(7).uri
+      assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(8)
+      assert_equal @item_8.uri, @ordered_source.at(8).uri
+      assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(9)
+      assert_equal @item_9.uri, @ordered_source.at(9).uri
+      assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(10)
+      assert_equal @item_10.uri, @ordered_source.at(10).uri
+      assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(11)
+      assert_equal @item_11.uri, @ordered_source.at(11).uri
+      assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(12)
+      assert_equal @item_12.uri, @ordered_source.at(12).uri
+    end
   end
   
 end

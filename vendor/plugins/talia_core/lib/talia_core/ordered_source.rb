@@ -50,8 +50,9 @@ module TaliaCore
       if result.empty?
         return 0
       else
-        index = predicate_to_index result.last.predicate_uri
-        return index.to_i
+        # convert all predicate into integer
+        index = result.collect { |item| predicate_to_index(item.predicate_uri).to_i  }
+        return index.max.to_i
       end
     end
     
