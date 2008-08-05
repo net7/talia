@@ -22,11 +22,13 @@ module TaliaCore
     def create_rdf
       assit(!new_record?, "Record must exist here: #{self.uri}")
       # First remove all data on this
-      my_rdf.direct_predicates do |pred|
+      my_rdf.direct_predicates.each do |pred|
         my_rdf[pred].remove
       end
-      # Now create the new RDF subgraph
-      semantic_relations.each do |sem_ref|
+      # Now create the new RDF subgraph. Force reloading so that no dupes are
+      # created
+      s_rels = semantic_relations(true)
+      s_rels.each do |sem_ref|
         # We pass the object on. If it's a SemanticProperty, we need to add
         # the value. If not the RDF handler will detect the #uri method and
         # will add it as Resource.

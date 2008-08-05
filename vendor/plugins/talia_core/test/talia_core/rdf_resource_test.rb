@@ -93,6 +93,16 @@ module TaliaCore
       assert(rdfs_prop.include?(N::RDFS.Resource))
     end
     
+    def test_remove
+      res = make_dummy_resource('http://test_remove')
+      res[N::RDF::test] << 'value'
+      res.save
+      assert_equal(1, res[N::RDF::test].size)
+      res[N::RDF::test].remove
+      # res.save
+      assert_equal(0, res[N::RDF::test].size)
+    end
+    
     private
     
     # Make a dummy resource with a saved source in the background
