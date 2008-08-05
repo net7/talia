@@ -48,81 +48,81 @@ module FacsimileEditionsHelper
       path
     end  
   end  
-    # decides whether or not the buttons on the top-right of the layout should
-    # be shown, based on the action we're in
-    def display_buttons
-      case action_name
-      when "show", "books"
-        result = false
-      when "panorama", "page"
-        result = true
-      end
-      result
+  # decides whether or not the buttons on the top-right of the layout should
+  # be shown, based on the action we're in
+  def display_buttons
+    case action_name
+    when "show", "books"
+      result = false
+    when "panorama", "page"
+      result = true
     end
-   
-    def types
-      @facsimile_edition.types    
-    end
-  
-    def subtypes
-      @facsimile_edition.subtypes(@type)
-    end  
-  
-    # creates the elements to be shown in the tabs, depending on the action we're in
-    def tabs_elements
-      result = []
-      case action_name
-      when "show"
-        result = [{:link => "", :text => "Editor's Introduction".t, :selected => true}]
-      when "books"
-        subtypes = @facsimile_edition.subtypes(params[:type])
-        selected_subtype = params[:subtype] || subtypes[0]
-        subtypes.each do |subtype|
-          if (subtype == selected_subtype)
-            selected = true
-          else 
-            selected = false
-          end
-          result << {:link => "/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{params[:type]}/#{subtype}", :text => subtype.t, :selected => selected}
-        end
-      when "panorama"
-        result = [{:link => "", :text => params[:book], :selected => true}] 
-      when "page"
-        result = [{:link => "", :text => @book.uri.local_name, :selected => true}]       
-      end
-      result
-    end
-  
-    # returns a link to the next page, used in the "page" action
-    def next_page
-      current_page = @page2 || @page
-      page = current_page.next_page
-      #    result ="<p class='next'><a href='#{page}'></a></p>"
-#      result ="<p class='next'><a href='#{page.uri.to_s}'></a></p>"
-      ''
-    end
- 
-    # returns a link to the previous page, used in the "page" action
-    def previous_page
-      # in both single and double pages cases, params[:page] is set
-      # In the single page case, it's the only page, in the double pages one it's the
-      # first page, and we want it's predecessor
-      page = @page.previous_page
-#      result ="<p class='previous'><a href='#{page.uri.to_s}'></a></p>"
-      ''
-    end
- 
-    # returns the copyright note to be shown below the facsimile images
-    def copyright_note(page)
-      qry = Query.new(TaliaCore::Source).select(:f).distinct
-      qry.where(:f, N::HYPER.manifestation_of, page)
-      qry.where(:f, N::HYPER.type, N::HYPER.Facsimile)
-      facsimile = qry.execute
-      facsimile[0].copyright_note if !facsimile.empty?
-    end
-  
-    # returns the material descirption of the given book
-    def material_description(book)
-      book.material_description
-    end
+    result
   end
+   
+  def types
+    @facsimile_edition.types    
+  end
+  
+  def subtypes
+    @facsimile_edition.subtypes(@type)
+  end  
+  
+  # creates the elements to be shown in the tabs, depending on the action we're in
+  def tabs_elements
+    result = []
+    case action_name
+    when "show"
+      result = [{:link => "", :text => "Editor's Introduction".t, :selected => true}]
+    when "books"
+      subtypes = @facsimile_edition.subtypes(params[:type])
+      selected_subtype = params[:subtype] || subtypes[0]
+      subtypes.each do |subtype|
+        if (subtype == selected_subtype)
+          selected = true
+        else 
+          selected = false
+        end
+        result << {:link => "/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{params[:type]}/#{subtype}", :text => subtype.t, :selected => selected}
+      end
+    when "panorama"
+      result = [{:link => "", :text => params[:book], :selected => true}] 
+    when "page"
+      result = [{:link => "", :text => @book.uri.local_name, :selected => true}]       
+    end
+    result
+  end
+  
+  # returns a link to the next page, used in the "page" action
+  def next_page
+    # if we have the @page2 var set, this is the case where two pages are
+    # shown (facing pages), otherwise, we'll use the @page one, which is set
+    # in any case
+    current_page = @page2 || @page
+    page = current_page.next_page
+    result ="<p class='next'><a href='#{page.uri.to_s}'></a></p>"
+  end
+ 
+  # returns a link to the previous page, used in the "page" action
+  def previous_page
+    # in both single and double pages cases, params[:page] is set
+    # In the single page case, it's the only page, in the double pages one it's the
+    # first page, and we want it's predecessor
+    page = @page.previous_page
+    result ="<p class='previous'><a href='#{page.uri.to_s}'></a></p>"
+  end
+ 
+  # returns the copyright note to be shown below the facsimile images
+  def copyright_note(page)
+    qry = Query.new(TaliaCore::Source).select(:f).distinct
+    qry.where(:f, N::HYPER.manifestation_of, page)
+    qry.where(:f, N::HYPER.type, N::HYPER.Facsimile)
+    facsimile = qry.execute
+    facsimile[0].copyright_note if !facsimile.empty?
+  end
+  
+  # returns the material descirption of the given book
+  def material_description(book)
+    book.material_description
+  end
+end

@@ -14,7 +14,7 @@ class FacsimileEditionsController < ApplicationController
   # GET /facsimile_editions/1/manuscripts/copybooks
   def books
     type = params[:subtype] || params[:type]
-    @books = @facsimile_edition.books(type  )    
+    @books = @facsimile_edition.books(type)    
     @type = params[:type]
     @subtype = params[:subtype]
   end
@@ -28,13 +28,13 @@ class FacsimileEditionsController < ApplicationController
     respond_to do |format|
       format.html do
         @book = TaliaCore::Book.find(request.url)
-        @pages = @book.ordered_pages
         @type = @book.hyper::type[0]
       end
       format.jpeg do
         #TODO: change to use the iip when it's ready
-        image = @facsimile_edition.book_image_data(params[:book], params[:size]) 
-        send_data image.content_string, :type => 'image/jpeg', :disposition => 'inline'
+#        image = @facsimile_edition.book_image_data(params[:book], params[:size]) 
+#        send_data image.content_string, :type => 'image/jpeg', :disposition => 'inline'
+result = ''
       end
     end
   end
@@ -59,14 +59,12 @@ class FacsimileEditionsController < ApplicationController
         qry.where(@page, N::HYPER.part_of, :b)
         result=qry.execute
         @book = result[0]
-        @description = @book.material_description
-        @pages = @book.ordered_pages
         @type = @book.hyper::type[0]
       end
       format.jpeg do
-        facsimile = TaliaCore::Page.find(request.url).manifestations(TaliaCore::Facsimile)
+        facsimile = TaliaCore::Page.find(N::LOCAL + TaliaCore::FACSIMILE_EDITION_PREFIX + '/' + params[:id] + '/' + params[:page]).manifestations(TaliaCore::Facsimile)
         facsimile.iip_path
-        ''
+        result = ''
         #TODO: as soon as the iip_path method is ready, implement the missing part here
         # and/or in the view which uses this (namely the panorama widget and the page and 
         # the facing_pages views)
@@ -84,8 +82,7 @@ class FacsimileEditionsController < ApplicationController
     searched_book = sanitize(params[:book]) unless params[:book].empty?
     searched_page = sanitize(params[:page]) unless params[:page].empty?
     search_result = @facsimile_edition.search(searched_book, searched_page)
-    url = search_result[0].uri.to_s
-    redirect_to url and return unless (search_result.empty?)
+    redirect_to search_result[0].uri.to_s and return unless (search_result.empty?)
     flash[:search_notice] = "Searched records weren't found".t
     redirect_to(:back) and return
   end

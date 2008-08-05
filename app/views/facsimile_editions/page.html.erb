@@ -32,14 +32,6 @@
     <div id="toolbar">
      <%= previous_page %>
       <p class="sigla"><%= @page.uri.local_name %></p>
-      <p class="zoom"><select>
-          <option value="#">zoom</option>
-          <option value="#">25%</option>
-          <option value="#">50%</option>
-          <option>75%</option>
-          <option>100%</option>
-        </select>
-      </p>
       <p class="tooltools"><a href="#" title="pdf" class="pdf">pdf</a>    <a href="#" title="print" class="print">print</a></p>
       <% if (params[:pages] == 'double') %>
         <p class="sigla"><%= @page2.uri.local_name %></p>

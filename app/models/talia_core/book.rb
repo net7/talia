@@ -34,6 +34,8 @@ module TaliaCore
     
     def ordered_pages
       OrderedSource.find(self.uri.to_s + '_ordered_pages')
+      #TODO: fix the ordered_page, by adding an "each" method to it
+      result = []      
     end
     # A descriptive text about this book
     def material_description

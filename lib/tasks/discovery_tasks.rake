@@ -66,6 +66,9 @@ namespace :discovery do
         fe_page.add_manifestation(qry.execute[0])
       end
     end
+    fe.books.each do |book|
+      book.order_pages!
+    end
   end
 
   
