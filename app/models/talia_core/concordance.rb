@@ -21,9 +21,18 @@ module TaliaCore
       Concordance.delete(concord.id)
     end
     
-    # Gives all cards that are concordant to this one
-    def concordant_cards
-      predicate(:hyper, :concordant_to)
+    # Gives all cards that are concordant to this one. If a catalog is given,
+    # only cards from that catalog should be returned; in this case the
+    # returned list should be treated as read-only
+    def concordant_cards(catalog = nil)
+      if(catalog)
+        qry = Query.new(TaliaCore::Source).select(:card).distinct
+        qry.where(self, N::HYPER.concordant_to, :card)
+        qry.where(:card, N::HYPER.in_catalog, catalog)
+        qry.execute
+      else
+        predicate(:hyper, :concordant_to)
+      end
     end
     
   end

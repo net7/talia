@@ -58,9 +58,9 @@ module TaliaCore
     
     # Get the cards that are concordant to this one. This includes the current
     # card itself.
-    def concordant_cards
+    def concordant_cards(catalog = nil)
       return [] unless(concordance)
-      concordance.concordant_cards
+      concordance.concordant_cards(catalog)
     end
     
     # Clone the current card and make the new one concordant to the current
@@ -96,7 +96,7 @@ module TaliaCore
       else
         # No concordance, create one. We'll try to make a unique URL for this,
         # using a hash of the current URL
-        conc = Concordance.new(N::LOCAL + 'concordance_' + Digest::MD5.new.hexdigest(uri))
+        conc = Concordance.new(N::LOCAL + 'concordance_' + Digest::MD5.new.hexdigest(uri.to_s))
         conc.add_card(self)
         conc.add_card(c_card)
         conc.save!

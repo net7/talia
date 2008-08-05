@@ -5,6 +5,8 @@ module TaliaCore
     include TaliaUtil::TestHelpers
     include UnitTestHelpers
     
+    suppress_fixtures
+    
     def setup
       setup_once(:init) do
         TaliaUtil::Util.flush_rdf
@@ -43,6 +45,22 @@ module TaliaCore
       concord1.save!
       assert_equal(2, concord1.concordant_cards.size)
       assert(!Concordance.exists?(concord2.id))
+    end
+    
+    def test_concord_from_catalog
+      concord = make_concord('test_from_catalog')
+      card1 = make_card('test_from_cat1_card')
+      card2 = make_card('test_from_cat2_card')
+      cat = make_catalog('catalog_for_test')
+      card2.catalog = cat
+      card2.save!
+      concord.add_card(card1)
+      concord.add_card(card2)
+      concord.save!
+      assert_equal(2, concord.concordant_cards.size)
+      assert_equal(1, concord.concordant_cards(cat.uri).size)
+      assert_equal(1, concord.concordant_cards(Catalog.default_catalog).size)
+      assert_equal(card2, concord.concordant_cards(cat)[0])
     end
     
     

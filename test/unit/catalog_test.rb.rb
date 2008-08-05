@@ -64,11 +64,5 @@ module TaliaCore
       @cards.each_value { |v| v.save! }
     end
     
-    def make_catalog(name)
-      cat = Catalog.new("http://catalog_test/#{name}")
-      cat.save!
-      cat
-    end
-    
   end
 end

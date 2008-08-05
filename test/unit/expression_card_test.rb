@@ -37,6 +37,15 @@ module TaliaCore
       assert_equal(src1.concordance, src2.concordance)
     end
     
+    def test_concordance_from_catalog
+      src = make_card('concordance_from_catalog')
+      cat = make_catalog('test_for_concordance')
+      clone = src.clone_concordant(src.uri + 'concord_from_catalog')
+      clone.catalog = cat
+      assert(0, src.concordant_cards(Catalog.default_catalog).size)
+      assert(1, src.concordant_cards(cat))
+    end
+    
     def test_clone_default
       src = make_card('clone_default')
       src.types << N::RDF.mytype_test

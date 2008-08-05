@@ -28,6 +28,13 @@ module TaliaCore
       book
     end
     
+    # Make a catalog
+    def make_catalog(name)
+      cat = Catalog.new("http://#{klass_name}/#{name}")
+      cat.save!
+      cat
+    end
+    
     # Get the class that is tested here
     def tested_klass
       return @tested_klass if(@tested_klass)
