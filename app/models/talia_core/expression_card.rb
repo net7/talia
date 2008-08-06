@@ -29,6 +29,7 @@ module TaliaCore
     singular_property :title, N::DCNS.title
     
     before_create :set_default_catalog
+    after_save :update_concordance_rdf
     
         # Returns the properties that should be cloned when creating a new concordant
     # clone
@@ -123,6 +124,11 @@ module TaliaCore
     # Assign the default catalog
     def set_default_catalog
       self.catalog = Catalog.default_catalog unless(self.catalog)
+    end
+    
+    # Update the concordance's rdf after save
+    def update_concordance_rdf
+      self.concordance.create_rdf if(self.concordance)
     end
     
     # Helper to to register the properties that should be cloned

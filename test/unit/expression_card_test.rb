@@ -91,6 +91,7 @@ module TaliaCore
       assert_equal(src.concordance, clone.concordance)
       assert_equal(clone2.concordance, clone.concordance)
       assert_equal(3, src.concordance[N::HYPER.concordant_to].size)
+      # The RDF update caused problems...
       assert_equal(3, src.concordance.my_rdf[N::HYPER.concordant_to].size)
     end
     

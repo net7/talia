@@ -302,8 +302,10 @@ module TaliaUtil
               TaliaCore::DataTypes::XmlData.new
             elsif(%w(.jpg .gif .jpeg .png .tif).include?(file_ext))
               TaliaCore::DataTypes::ImageData.new
-            elsif(%w(txt).include?(file_ext))
+            elsif(%w(.txt).include?(file_ext))
               TaliaCore::DataTypes::SimpleText.new
+            elsif(%w(.pdf).include?(file_ext))
+              TaliaCore::DataTypes::PdfData.new
             end
             
             # Check if we really got a data object, otherwise bail out

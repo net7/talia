@@ -10,13 +10,12 @@ require 'talia_util/hyper_download'
 output_path = ARGV[0]
 output_path ||= File.join(File.dirname(__FILE__), '..', '..', 'hyper_download')
 
-list_file = [ ARGV[2] ] if(ARGV[2])
-list_file ||= [ "http://www.nietzschesource.org/exportToTalia.php?getList=all", { :http_basic_authentication => ["nietzsche", "source"] } ]
-
-
 dl = HyperDownload::Downloader.new(output_path)
 # Set the file mode if there is one
 dl.file_mode = ARGV[1] if(ARGV[1])
+
+list_file = [ ARGV[2] ] if(ARGV[2])
+list_file ||= [ "http://www.nietzschesource.org/exportToTalia.php?getList=all", { :http_basic_authentication => ["nietzsche", "source"] } ]
 
 xml_doc = nil
 
