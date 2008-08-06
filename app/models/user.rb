@@ -1,6 +1,7 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
   include ActsAsRoled
+  ADMIN_ROLE = :admin
   has_and_belongs_to_many :roles
   attr_accessor :roles_attributes
   attr_accessible :roles_attributes
@@ -9,8 +10,7 @@ class User < ActiveRecord::Base
   # authorized_as? simply needs to return true or false whether a user has a role or not.  
   # It may be a good idea to have "admin" roles return true always
   def authorized_as?(role_name)
-    return true if role_names.include?("admin")
-    role_names.include?(role_name.to_s)
+    has_role?(role_name) || has_role?(ADMIN_ROLE)
   end
 
   def has_role?(name)
