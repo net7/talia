@@ -106,6 +106,24 @@ class UserTest < Test::Unit::TestCase
     assert_equal("#{@open_id}/", users(:quentin).open_id)
   end
 
+  def test_has_role
+    assert users(:quentin).has_role?(:user)
+    assert_false users(:quentin).has_role?(:admin)
+  end
+
+  def test_admin_should_always_be_authorized
+    assert users(:admin).authorized_as?(:translator)
+    assert users(:admin).authorized_as?(:unexistent_role)
+  end
+
+  def test_user_should_only_be_authorized_for_given_roles
+    user = users(:quentin)
+    assert user.authorized_as?(:user)
+    assert_false user.authorized_as?(:translator)
+    assert_false user.authorized_as?(:admin)
+    assert_false user.authorized_as?(:unexistent_role)
+  end
+
   def test_should_respond_to_roles_methods
     # Forcing ActsAsRoled inclusion
     User.class_eval { include ActsAsRoled }

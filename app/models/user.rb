@@ -9,16 +9,12 @@ class User < ActiveRecord::Base
   # authorized_as? simply needs to return true or false whether a user has a role or not.  
   # It may be a good idea to have "admin" roles return true always
   def authorized_as?(role_name)
-    has_role?([ 'admin', role_name ])
+    return true if role_names.include?("admin")
+    role_names.include?(role_name.to_s)
   end
 
   def has_role?(name)
-    case name
-    when Array
-      name.each { |role_name| has_role?(role_name) }
-    else
-      role_names.include? name.to_s
-    end
+    role_names.include?(name.to_s)
   end
 
   def roles_to_sentence

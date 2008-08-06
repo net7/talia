@@ -26,7 +26,7 @@ class ApplicationControllerTest < Test::Unit::TestCase
     assert @controller.globalize?
   end
   
-  def _ignore_test_should_turn_off_translation_mode_for_not_allowed_user_roles
+  def test_should_turn_off_translation_mode_for_not_allowed_user_roles
     login_as :quentin
     get :index # forcing request and session creation
     assert_false @controller.globalize?
