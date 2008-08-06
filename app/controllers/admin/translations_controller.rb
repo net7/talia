@@ -4,7 +4,7 @@ class Admin::TranslationsController < ApplicationController
 
   # GET /admin/translations
   def index
-    redirect_to :action => 'edit', :id => Locale.active.code
+    redirect_to edit_admin_translation_path(Locale.active.code)
   end
 
   # GET /admin/translations/edit/en-US
@@ -21,6 +21,6 @@ class Admin::TranslationsController < ApplicationController
       flash[:error]  = 'There was some problems'
     end
 
-    redirect_to :action => 'edit', :id => params[:id], :page => params[:page]
+    redirect_to edit_admin_translation_path(params[:id], {:page => params[:page]})
   end
 end

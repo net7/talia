@@ -4,7 +4,7 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
   def test_should_redirect_to_active_locale_edit
     login_as :admin
     get :index
-    assert_redirected_to :action => 'edit', :id => Locale.active.code
+    assert_redirected_to edit_admin_translation_path(Locale.active.code)
   end
   
   def test_should_get_edit_page
@@ -13,7 +13,7 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
     assert_response :success
     
     assert_select 'form' do
-      assert_select '[action=?]', "/admin/translations/update/#{locale}?method=put"
+      assert_select '[action=?]', "/admin/translations/#{locale}"
       assert_select 'input[type=?]', 'hidden'
     end
   end
@@ -21,7 +21,7 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
   def test_should_update_translations
     login_as :admin
     put :update, params
-    assert_redirected_to :action => 'edit', :id => locale, :page => "2"
+    assert_redirected_to edit_admin_translation_path(locale, {:page => 2})
     
     # TODO why it doesn't find this element?
     # assert_select "div#notice", "Your translations has been saved"
@@ -32,7 +32,7 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
       ViewTranslation.expects(:update).returns false
       login_as :admin
       put :update, params
-      assert_redirected_to :action => 'edit', :id => locale
+      assert_redirected_to edit_admin_translation_path(locale, {:page => 2})
      
       # TODO why it doesn't find this element?
       # assert_select "div#error", "There was some problems"

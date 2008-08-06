@@ -30,6 +30,9 @@ ActionController::Routing::Routes.draw do |map|
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
   map.root :controller => 'sources', :action => 'show', :id => 'Lucca'
   
+  map.namespace :admin do |admin|
+    admin.resources :translations
+  end
 
   # Routes for login and users handling
   map.resources :users
