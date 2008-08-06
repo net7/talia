@@ -80,4 +80,46 @@ namespace :discovery do
     ce.hyper::desctiption << ENV['description']
     ce.save!    
   end
+  
+  namespace :pdf do
+    desc "Create pdf books"
+    task :create => [ 'disco_init', 'talia_core:talia_init' ] do
+      require 'pdf/writer'
+      require 'benchmark'
+      
+      # TODO Choose a directory where to place the generated books.
+      #
+      # TODO Should each generated book be a source?
+      # In this case, should pdf be placed under 'data/PdfData'?
+      FileUtils.mkdir_p 'pdf'
+      TaliaCore::Book.find(:all).each do |book|
+        # TODO is the right way to address a book? Is there a 'title' attribute?
+        title = book.uri.local_name
+        print title.titleize
+
+        elapsed = Benchmark.realtime do
+          PDF::Writer.new do |pdf|
+            book.pages.each do |page|
+              # TODO We have to implement a 'image' method, to retrive the image representation
+              # of the page
+              #
+              # TODO should we consider to decrease the image quality? Each page is about 5Mb,
+              # this means to generate documents of houndreds of Mb, that's are hard to create,
+              # move, and distribute.
+              # If we choose to maintain the actual quality, I advise to serve those files with
+              # a static webserver (apache httpd, nginx, lighthttpd).
+              #
+              # TODO In order to make the image fit inside the page I have to resize it with this
+              # "magic number" (0.85), because the original pages doesn't have the same proportion
+              # of an A4 format.
+              # This means to have (for now) ugly and wide white borders.
+              pdf.image page.image, :justification => :center, :resize => 0.85
+            end
+          end.save_as "pdf/#{title}.pdf"
+        end
+
+        puts " %.2f" % elapsed
+      end
+    end
+  end
 end
