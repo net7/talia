@@ -191,6 +191,8 @@ module TaliaCore
     # the property with the value
     def self.singular_property(prop_name, property)
       prop_name = prop_name.to_s
+      @singular_props ||= []
+      return if(@singular_props.include?(prop_name))
       raise(ArgumentError, "Cannot overwrite method #{prop_name}") if(self.instance_methods.include?(prop_name) || self.instance_methods.include?("#{prop_name}="))
       # define the accessor
       define_method(prop_name) do
@@ -203,6 +205,9 @@ module TaliaCore
         self[property].remove
         self[property] << value
       end
+      
+      @singular_props << prop_name
+      true
     end
     
     # Returns the related objects on the given predicate, adding the additional

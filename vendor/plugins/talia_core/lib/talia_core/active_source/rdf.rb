@@ -14,8 +14,6 @@ module TaliaCore
       end
     end
     
-    private
-    
     # This creates the RDF subgraph for this Source and saves it to disk. This
     # may be an expensive operation since it removes the existing elements.
     # (Could be optimised ;-)
