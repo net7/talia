@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
   # Uncomment the :secret if you're not using the cookie session store
   # protect_from_forgery :secret => '55167f74a02e580cb66ed22f880ed014'
   
+  self.languages = { :english => 'en-US' }
+  
   # Override to allow the translations only to the translators
   def globalize?
     current_user.authorized_as?('translator') if current_user

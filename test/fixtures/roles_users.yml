@@ -9,3 +9,7 @@ quentin_is_user:
 aaron_is_translator:
   user_id: 2
   role_id: 3
+
+translator_is_translator:
+  user_id: 5
+  role_id: 3

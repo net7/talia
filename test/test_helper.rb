@@ -34,6 +34,11 @@ class Test::Unit::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  # Assert the given condition is false
+  def assert_not(condition, message = nil)
+    assert !condition, message
+  end
+  alias_method :assert_false, :assert_not
 end
 
 def uses_mocha(description)
