@@ -75,16 +75,12 @@ module TaliaUtil
   
       # Flush the RDF store
       def flush_rdf
-        if(ConnectionPool.write_adapter.respond_to?(:clear))
-          # Use the clear method if available
-          ConnectionPool.write_adapter.clear
-        else
-          # Delete "by hand" if clear is not available
-          # TODO: Could be moved into the main "clear" method
-          to_delete = Query.new.select(:s, :p, :o).where(:s, :p, :o).execute
-          to_delete.each do |s, p, o|
-            FederationManager.delete(s, p, o)
-          end
+        # Delete "by hand" if clear is not available
+        # TODO: Could be moved into the main "clear" method
+        # TODO: Clear doesn't work on sesame, so we do all by hand
+        to_delete = Query.new.select(:s, :p, :o).where(:s, :p, :o).execute
+        to_delete.each do |s, p, o|
+          FederationManager.delete(s, p, o)
         end
       end
   
