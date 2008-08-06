@@ -99,11 +99,11 @@ namespace :discovery do
 
         elapsed = Benchmark.realtime do
           PDF::Writer.new do |pdf|
-            book.pages.each do |page|
-              # TODO We have to implement a 'image' method, to retrive the image representation
+            book.ordered_pages.each do |page|
+              # TODO We have to implement a Page#image method, to retrive the image representation
               # of the page
               #
-              # TODO should we consider to decrease the image quality? Each page is about 5Mb,
+              # TODO Should we consider to decrease the image quality? Each page is about 5Mb,
               # this means to generate documents of houndreds of Mb, that's are hard to create,
               # move, and distribute.
               # If we choose to maintain the actual quality, I advise to serve those files with
@@ -111,7 +111,7 @@ namespace :discovery do
               #
               # TODO In order to make the image fit inside the page I have to resize it with this
               # "magic number" (0.85), because the original pages doesn't have the same proportion
-              # of an A4 format.
+              # of the A4 format.
               # This means to have (for now) ugly and wide white borders.
               pdf.image page.image, :justification => :center, :resize => 0.85
             end
