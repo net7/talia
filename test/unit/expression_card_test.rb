@@ -76,11 +76,22 @@ module TaliaCore
     end
     
     def test_clone_concordant
-      src = ExpressionCard.new('http://expression_card_test/test_clone_concordant')
-      src.save!
+      src = make_card('clone_concordant')
       clone = src.clone_concordant('http://expression_card_test/test_clone_concordant/conc')
       clone.save!
       assert_property(src.concordance.concordant_cards, src, clone)
+    end
+    
+    def test_clone_concordant_multi
+      src = make_card('clone_concordant')
+      clone = src.clone_concordant('http://expression_card_test/test_clone_concordant/conc')
+      clone.save!
+      clone2 = src.clone_concordant('http://expression_card_test/test_clone_concordant/conc2')
+      clone2.save!
+      assert_equal(src.concordance, clone.concordance)
+      assert_equal(clone2.concordance, clone.concordance)
+      assert_equal(3, src.concordance[N::HYPER.concordant_to].size)
+      assert_equal(3, src.concordance.my_rdf[N::HYPER.concordant_to].size)
     end
     
     def test_catalog

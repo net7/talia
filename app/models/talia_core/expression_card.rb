@@ -74,6 +74,7 @@ module TaliaCore
     # Clones the current card, with the properties and inverse properties that
     # are configured for cloning.
     def clone(uri)
+      raise(ArgumentError, "Element cannot be cloned #{self.uri} - target already exists #{uri}") if(ActiveSource.exists?(uri))
       new_el = self.class.new(uri)
       self.class.props_to_clone.each { |p| new_el[p] << self[p] }
       self.class.inverse_props_to_clone.each do |p|

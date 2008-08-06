@@ -76,6 +76,10 @@ module TaliaUtil
       assert_equal('N-V-4,97.jpeg', @src.data_records[0].location)
     end
    
+    def test_manifestation_of
+      assert_property(@src.hyper::manifestation_of, N::LOCAL + 'N-V-4,97')
+    end
+    
     # And now: already_published
     def test_already_published
       assert_property(@src.hyper::already_published, "no")

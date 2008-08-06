@@ -63,6 +63,23 @@ module TaliaCore
       assert_equal(card2, concord.concordant_cards(cat)[0])
     end
     
+    def test_rdf_update
+      concord = make_concord('test_rdf_update')
+      (1..4).each do |num|
+        card = make_card("test_card_rdf_update_#{num}")
+        concord.add_card(card)
+      end
+      concord.save!
+      concord1 = make_concord('test_rdf_update_b')
+      (1..4).each do |num|
+        card = make_card("test_card_rdf_update_b_#{num}")
+        concord1.add_card(card)
+      end
+      concord.merge(concord1)
+      concord.save!
+      assert_equal(concord[N::HYPER.concordant_to].size, concord.my_rdf[N::HYPER.concordant_to].size)
+    end
+    
     
     protected
     

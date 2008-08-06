@@ -50,6 +50,7 @@ module TaliaCore
       cat.add_from_concordant(@cards[:parent], true)
       assert_equal(3, cat.elements.size)
       cat.elements.each { |el| assert(el.uri.to_s =~ Regexp.new("^#{cat.uri}"), "Wrong: #{el.uri}")}
+      cat.elements.each { |el| assert_equal(2, el.concordant_cards.size, "Element #{el.uri} has #{el.concordant_cards}")}
     end
     
     protected
@@ -59,8 +60,8 @@ module TaliaCore
       @cards[:parent] = ExpressionCard.new('http://catalog_test/parent_card')
       @cards[:child_a] = ExpressionCard.new('http://catalog_test/child_a')
       @cards[:child_b] = ExpressionCard.new('http://catalog_test/child_b')
-      @cards[:child_a].hyper::is_part_of << @cards[:parent]
-      @cards[:child_b].hyper::is_part_of << @cards[:parent]
+      @cards[:child_a].hyper::part_of << @cards[:parent]
+      @cards[:child_b].hyper::part_of << @cards[:parent]
       @cards.each_value { |v| v.save! }
     end
     

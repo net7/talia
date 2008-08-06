@@ -12,12 +12,14 @@ module HyperDownload
     def initialize(output_path,
                    url = 'http://www.nietzschesource.org/exportToTalia.php?get=',
                    login = 'nietzsche',
-                   password = 'source'
+                   password = 'source',
+                   proxy = nil
         )
       @output_path = output_path
       @fetch_url = url # URL to fetch from
       @auth = [login, password] # HTTP authentication for url
       @data_path = File.join(@output_path, 'data')
+      @proxy = proxy
       FileUtils.mkpath(@data_path)
     end
     
@@ -39,7 +41,7 @@ module HyperDownload
     def grab_siglum(siglum)
       begin
         siglum_enc = URI.escape(siglum)
-        open(@fetch_url + siglum_enc, :http_basic_authentication => @auth) do |io|
+        open(@fetch_url + siglum_enc, :http_basic_authentication => @auth, :proxy => @proxy) do |io|
   
           xml_el_doc = REXML::Document.new(io)
           load_file(xml_el_doc) unless(file_mode == :skip)
@@ -78,7 +80,7 @@ module HyperDownload
       file_url.gsub!(/\[/, '%5B') # URI class doesn't like unescaped brackets
       file_url.gsub!(/\]/, '%5D')
       begin
-        open(file_url, :http_basic_authentication => ["nietzsche", "source"]) do |io|
+        open(file_url, :http_basic_authentication => @auth, :proxy => @proxy) do |io|
           open(File.join(@data_path, file_name), 'w') do |file|
             file << io.read
           end

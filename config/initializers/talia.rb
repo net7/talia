@@ -3,8 +3,8 @@ TaliaCore::Initializer.run("talia_core")
 
 TaliaCore::SITE_NAME = 'DiscoverySource'
 
-TaliaCore::FACSIMILE_EDITION_PREFIX = 'facsimile_editions'
-TaliaCore::CRITICAL_EDITION_PREFIX = 'critical_editions'
+TaliaCore::FacsimileEdition::EDITION_PREFIX = 'facsimile_editions'
+TaliaCore::CriticalEdition::EDITION_PREFIX = 'critical_editions'
 
 # Load all the internal model classes so that subclass-aware ActiveRecord
 # operations don't run into problems

@@ -31,7 +31,7 @@ module TaliaCore
     end
     
     def test_pages
-      assert_equal(12, @full_edition.elements(N::TALIA.Page).size)
+      assert_equal(12, @full_edition.elements_by_type(N::TALIA.Page).size)
     end
     
     def test_can_create

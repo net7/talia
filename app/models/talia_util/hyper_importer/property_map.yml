@@ -22,3 +22,5 @@ copyrightnote: ":copyright_note"
 street: ":address"
 state: ":country"
 telephone: ":phone"
+isManifestationOf: ":manifestation_of"
+relatedMaterial: ':related_material'

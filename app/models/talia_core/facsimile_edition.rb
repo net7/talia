@@ -2,9 +2,9 @@ module TaliaCore
   class FacsimileEdition < Catalog
     # returns an array containing a list of the book types available and connected to this facsimile edition
     # (e.g.: 'Works', 'Manuscripts', ...)
-    def types
+    def book_types
       @types ||= begin
-        qry = Query.new(N::SourceClass).select(:t).distinct
+        qry = Query.new(N::SourceClass).select(:type).distinct
         #FIXME: the next two lines were here.
         # Didn't manage to check for the presence of types in the Onotolgy and 
         # if they equal the ones used in the RDF for storage
@@ -12,16 +12,16 @@ module TaliaCore
         # There isn't something like N::HYPER.usedType in the RDF, yet
         # I substituted it with the lines below
         #        qry.where(self, N::HYPER.usedType, :t)
-        qry.where(:b, N::RDF.type, N::TALIA.Book)
-        qry.where(:b, N::HYPER.in_catalog, self)        
-        qry.where(:b, N::HYPER.type, :t)
+        qry.where(:book, N::RDF.type, N::TALIA.Book)
+        qry.where(:book, N::HYPER.in_catalog, self)        
+        qry.where(:book, N::HYPER.type, :type)
         qry.execute
       end
     end
     
     # returns an array containing a list of available subtypes of the given type. Of course they must
     # be present in the facsimile edition we're in
-    def subtypes(type)
+    def book_subtypes(type)
       #      assit_quack(type, :uri)
       @subtypes ||= {}
       @subtypes[type.to_s] ||= begin
@@ -40,7 +40,7 @@ module TaliaCore
     # (manuscripts, works, etc.). Types can also contain subtypes (notebook, draft, etc.) 
     # 
     # The types should be a list of N::URI elements indicating the RDF classes.
-    def elements(*types)
+    def elements_by_type(*types)
       qry = Query.new(TaliaCore::Source).select(:element).distinct
       types.each do |type|
         # I've found manuscripts, notebook, etc as plain text in the RDF, they don't 
@@ -65,7 +65,7 @@ module TaliaCore
       # proper objects
       TaliaCore::Book
       types << N::TALIA.Book
-      elements(*types)
+      elements_by_type(*types)
     end
     
     # Search for the given book and page (only the book if no page is given).

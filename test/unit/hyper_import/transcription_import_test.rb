@@ -79,6 +79,10 @@ module TaliaUtil
       assert_property(@src.hyper::already_published, "no")
     end
     
+    def test_manifestation
+      assert_property(@src.hyper::manifestation_of, N::LOCAL + 'N-IV-1,16[4]')
+    end
+    
   end
 end
 

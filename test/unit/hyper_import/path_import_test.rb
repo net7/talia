@@ -84,5 +84,9 @@ module TaliaUtil
       assert_equal(0, @src.dcns::description.size)
     end
     
+    def test_related_material
+      assert_property(@src.hyper::related_material) # shouldn't exist any more
+    end
+    
   end
 end

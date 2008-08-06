@@ -34,6 +34,8 @@ module TaliaCore
         end
       end
       
+      
+      assit_equal(new_el.concordance[N::HYPER.concordant_to].size, new_el.concordance.my_rdf[N::HYPER.concordant_to].size)
       new_el
     end
     
@@ -69,7 +71,7 @@ module TaliaCore
     
     # Goes through the children of the given element
     def for_children_of(element)
-      children = Source.find(:all, :find_through => [N::HYPER.part_of, element])
+      children = Source.find(:all, :find_through => [N::HYPER.part_of, element]).uniq
       children.each { |child| yield(child) }
     end
     

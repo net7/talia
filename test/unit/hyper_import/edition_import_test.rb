@@ -85,6 +85,10 @@ module TaliaUtil
       assert_property(@src.hyper::already_published, "no")
     end
     
+    def test_manifestation
+      assert_property(@src.hyper::manifestation_of, N::LOCAL + 'GD-Sokrates-2')
+    end
+    
   end
 end
 

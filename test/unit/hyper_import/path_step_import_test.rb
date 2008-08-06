@@ -61,8 +61,8 @@ module TaliaUtil
       assert_property(@src.hyper::part_of, N::LOCAL + 'igerike-927')
     end
     
-    def related_document
-      assert_property(@src.hyper::cites, N::LOCAL + 'N-IV-1,17[2]')
+    def test_related_document
+      assert_property(@src.hyper::related_material, N::LOCAL + 'N-IV-1,17[2]')
     end
     
   end
