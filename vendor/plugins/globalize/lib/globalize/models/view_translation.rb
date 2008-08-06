@@ -19,5 +19,10 @@ module Globalize
       self.connection.select_values(sql).compact
     end
 
+    # Find and paginate translations for given locale.
+    def self.find_by_locale(locale, page, per_page)
+      locale = Locale.new(locale)
+      self.paginate_by_language_id(locale.language.id, :page => page, :per_page => per_page)
+    end
   end
 end

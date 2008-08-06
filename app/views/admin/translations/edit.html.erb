@@ -1,0 +1,18 @@
+<% form_tag(:action => 'update', :id => @locale_code, :method => :put) do -%>
+<table border="0" cellspacing="5" cellpadding="5">
+  <tr>
+    <th>Key</th>
+    <th>Translation</th>
+  </tr>
+  <% for translation in @translations %>
+  <tr>
+    <td><%= text_field_tag "translations[#{translation.id}][tr_key]", translation.tr_key %></td>
+    <td><%= text_field_tag "translations[#{translation.id}][text]", translation.text, :size => 48 %></td>
+  </tr>
+  <% end %>
+</table>
+<p><%= hidden_field_tag 'page', @translations.current_page %></p>
+<p><%= submit_tag %></p>
+<% end -%>
+
+<p><%= will_paginate @translations %></p>
