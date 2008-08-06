@@ -89,3 +89,10 @@ thirteen:
   type: TaliaCore::DataTypes::ImageData
   location: temp6.tif
   mime: image/tiff
+
+fourteen:
+  id: 14
+  source: something
+  type: TaliaCore::DataTypes::PdfData
+  location: temp1.pdf
+  mime: application/pdf

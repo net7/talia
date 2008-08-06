@@ -189,6 +189,7 @@ module TaliaCore
           when :jpg, :jpeg, :gif,
               :png, :tiff, :bmp:    'ImageData'
           when :xml:              'XmlData'
+          when :pdf:              'PdfData'
           else name.demodulize
           end
         end

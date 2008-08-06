@@ -17,7 +17,7 @@ module TaliaCore
     # test not nil and records numbers
     def test_records_numbers
       assert_not_equal [], @test_records
-      assert_equal 13, @test_records.size
+      assert_equal 14, @test_records.size
     end
   
     # test class type and mime_type and subtype
@@ -43,7 +43,7 @@ module TaliaCore
       assert_equal(base_dir_name(@test_records[7].id), dir_for_test)
       assert(File.exists?(dir_for_test))
       assert_equal(File.join(base_dir_name(@test_records[7].id), 'temp1.bmp'), File.join(dir_for_test, @test_records[7].location))
-      assert( File.exists?(File.join(dir_for_test, @test_records[7].id.to_s)), "#{File.join(dir_for_test, @test_records[7].location)} does not exist" )
+      assert( File.exists?(File.join(dir_for_test, @test_records[7].id.to_s)), "#{File.join(dir_for_test, @test_records[7].id.to_s)} does not exist" )
     end
 
     # test file size
