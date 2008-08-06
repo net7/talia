@@ -50,8 +50,8 @@ result = ''
         # if a 'pages' params with 'double' as a value and a 'page2' param with
         # the siglum of a page have been passed, we need to show the large images of both pages 
         if (params[:pages] == 'double')
-          @page = TaliaCore::Page.find(N::LOCAL + TaliaCore::FACSIMILE_EDITION_PREFIX + '/' + params[:id] + '/' + params[:page])
-          @page2 = TaliaCore::Page.find(N::LOCAL + TaliaCore::FACSIMILE_EDITION_PREFIX + '/' + params[:id] + '/' + params[:page2])
+          @page = TaliaCore::Page.find(N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page])
+          @page2 = TaliaCore::Page.find(N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page2])
         else
           @page = TaliaCore::Page.find(request.url)
         end         
@@ -62,7 +62,7 @@ result = ''
         @type = @book.hyper::type[0]
       end
       format.jpeg do
-        facsimile = TaliaCore::Page.find(N::LOCAL + TaliaCore::FACSIMILE_EDITION_PREFIX + '/' + params[:id] + '/' + params[:page]).manifestations(TaliaCore::Facsimile)
+        facsimile = TaliaCore::Page.find(N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page]).manifestations(TaliaCore::Facsimile)
         facsimile.iip_path
         result = ''
         #TODO: as soon as the iip_path method is ready, implement the missing part here
@@ -89,6 +89,6 @@ result = ''
   
   private
   def find_facsimile_edition
-    @facsimile_edition = TaliaCore::FacsimileEdition.find("#{N::LOCAL}#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}")
+    @facsimile_edition = TaliaCore::FacsimileEdition.find("#{N::LOCAL}#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}")
   end
 end

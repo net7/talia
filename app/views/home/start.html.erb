@@ -54,7 +54,7 @@
                   
                   <% @facsimile_editions.each do |fe| %>
                     <li id="collimontinari">
-                      <%= link_to(fe.hyper::title, :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'show', :id => fe.uri.local_name) %>
+                      <%= link_to(fe.hyper::title, :controller => TaliaCore::FacsimileEdition::EDITION_PREFIX, :action => 'show', :id => fe.uri.local_name) %>
                     </li>
                   <% end %>
                 </ul>

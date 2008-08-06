@@ -17,7 +17,9 @@ module TaliaCore
     def pages
       Page.find(:all, :find_through => [N::HYPER.part_of, self])
     end
-        
+    
+    # Creates an OrderedSource object for this book containing all its pages, 
+    # ordered by their position
     def order_pages!
       ordered_pages = OrderedSource.new(self.uri.to_s + '_ordered_pages')
       qry = Query.new(TaliaCore::Page).select(:p).distinct
@@ -32,11 +34,11 @@ module TaliaCore
 
     end
     
+    # Returns an array containing all the pages in this book, ordered
     def ordered_pages
-      OrderedSource.find(self.uri.to_s + '_ordered_pages')
-      #TODO: fix the ordered_page, by adding an "each" method to it
-      result = []      
+      OrderedSource.find(self.uri.to_s + '_ordered_pages').elements
     end
+
     # A descriptive text about this book
     def material_description
       description = inverse[N::HYPER.description_of]

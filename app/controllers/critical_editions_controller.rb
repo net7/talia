@@ -5,7 +5,7 @@ class CriticalEditionsController < ApplicationController
   def show  
  
     @result = []
-    fe = TaliaCore::FacsimileEdition.find(N::LOCAL + TaliaCore::FACSIMILE_EDITION_PREFIX + '/DEF')
+    fe = TaliaCore::FacsimileEdition.find(N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/DEF')
     qry = Query.new(TaliaCore::Book).select(:b).distinct
     qry.where(:b, N::RDF.type, N::HYPER.Book)
     qry.where(:p, N::HYPER.part_of, :b)

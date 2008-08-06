@@ -25,20 +25,20 @@ module FacsimileEditionsHelper
       path = [{:text => params[:id]}]
     when "books"
       path = [
-        {:text => params[:id], :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'show', :id => params[:id]},
+        {:text => params[:id], :controller => TaliaCore::FacsimileEdition::EDITION_PREFIX, :action => 'show', :id => params[:id]},
         {:text => @type.capitalize.t}
       ]
     when "panorama"
       path = [
-        {:text => params[:id], :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'show', :id => params[:id]},
-        {:text => @type.capitalize.t, :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'books', :id => params[:id], :type => @type},
+        {:text => params[:id], :controller => TaliaCore::FacsimileEdition::EDITION_PREFIX, :action => 'show', :id => params[:id]},
+        {:text => @type.capitalize.t, :controller => TaliaCore::FacsimileEdition::EDITION_PREFIX, :action => 'books', :id => params[:id], :type => @type},
         {:text => params[:book] + ' (panorama)'}
       ]
     when "page"
       path =[
-        {:text => params[:id], :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'show', :id => params[:id]},
-        {:text => @type.capitalize.t, :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'books', :id => params[:id], :type => @type},
-        {:text => @book.uri.local_name + ' (panorama)', :controller => TaliaCore::FACSIMILE_EDITION_PREFIX, :action => 'panorama', :id => params[:id], :book => @book.uri.local_name},
+        {:text => params[:id], :controller => TaliaCore::FacsimileEdition::EDITION_PREFIX, :action => 'show', :id => params[:id]},
+        {:text => @type.capitalize.t, :controller => TaliaCore::FacsimileEdition::EDITION_PREFIX, :action => 'books', :id => params[:id], :type => @type},
+        {:text => @book.uri.local_name + ' (panorama)', :controller => TaliaCore::FacsimileEdition::EDITION_PREFIX, :action => 'panorama', :id => params[:id], :book => @book.uri.local_name},
       ]
       text = params[:page]
       if (params[:page2])
@@ -83,7 +83,7 @@ module FacsimileEditionsHelper
         else 
           selected = false
         end
-        result << {:link => "/#{TaliaCore::FACSIMILE_EDITION_PREFIX}/#{params[:id]}/#{params[:type]}/#{subtype}", :text => subtype.t, :selected => selected}
+        result << {:link => "/#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}/#{params[:type]}/#{subtype}", :text => subtype.t, :selected => selected}
       end
     when "panorama"
       result = [{:link => "", :text => params[:book], :selected => true}] 
