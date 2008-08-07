@@ -48,7 +48,7 @@
                 <ul>
                   <% @critical_editions.each do |ce| %>
                     <li id="diorio">
-                      <%= link_to(ce.hyper::title, :controller => TaliaCore::CRITICAL_EDITION_PREFIX, :action => 'show', :id => ce.uri.local_name) %>
+                      <%= link_to(ce.hyper::title, :controller => TaliaCore::CriticalEdition::EDITION_PREFIX, :action => 'show', :id => ce.uri.local_name) %>
                     </li>
                   <% end %>
                   

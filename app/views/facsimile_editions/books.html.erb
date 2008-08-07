@@ -13,8 +13,6 @@
     <% @books.each do |book| %>
       <li>
         <h1>
-          <%# url = "/#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}/#{book}" %>
-          <%# text = "<img src='/#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}/#{book}.jpeg?size=thumbnail' alt='#{book}' border='0'/>#{book}" %>        
           <% url = book.uri.to_s %>        
           <% title = book.uri.local_name %>
           <% text = "<img src='#{url}.jpeg?size=thumbnail' alt='#{title}' border='0'/>#{title}" %>        

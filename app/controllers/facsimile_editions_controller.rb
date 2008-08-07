@@ -32,9 +32,9 @@ class FacsimileEditionsController < ApplicationController
       end
       format.jpeg do
         #TODO: change to use the iip when it's ready
-#        image = @facsimile_edition.book_image_data(params[:book], params[:size]) 
-#        send_data image.content_string, :type => 'image/jpeg', :disposition => 'inline'
-result = ''
+        #        image = @facsimile_edition.book_image_data(params[:book], params[:size]) 
+        #        send_data image.content_string, :type => 'image/jpeg', :disposition => 'inline'
+        result = ''
       end
     end
   end
@@ -50,8 +50,10 @@ result = ''
         # if a 'pages' params with 'double' as a value and a 'page2' param with
         # the siglum of a page have been passed, we need to show the large images of both pages 
         if (params[:pages] == 'double')
-          @page = TaliaCore::Page.find(N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page])
-          @page2 = TaliaCore::Page.find(N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page2])
+          page = N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page]
+          page2 = N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page2]  
+          @page = TaliaCore::Page.find(page)
+          @page2 = TaliaCore::Page.find(page2)
         else
           @page = TaliaCore::Page.find(request.url)
         end         
@@ -62,6 +64,7 @@ result = ''
         @type = @book.hyper::type[0]
       end
       format.jpeg do
+        page = N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page]
         facsimile = TaliaCore::Page.find(N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page]).manifestations(TaliaCore::Facsimile)
         facsimile.iip_path
         result = ''
@@ -89,6 +92,7 @@ result = ''
   
   private
   def find_facsimile_edition
-    @facsimile_edition = TaliaCore::FacsimileEdition.find("#{N::LOCAL}#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}")
+    edition = "#{N::LOCAL}#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}" 
+    @facsimile_edition = TaliaCore::FacsimileEdition.find(edition)
   end
 end
