@@ -27,11 +27,12 @@ module TaliaCore
     singular_property :siglum, N::HYPER.siglum
     singular_property :catalog, N::HYPER.in_catalog
     singular_property :title, N::DCNS.title
+    singular_property :material_description, N::HYPER.material_description
     
     before_create :set_default_catalog
     after_save :update_concordance_rdf
     
-        # Returns the properties that should be cloned when creating a new concordant
+    # Returns the properties that should be cloned when creating a new concordant
     # clone
     class_inheritable_accessor :props_to_clone_var
     def self.props_to_clone
@@ -105,6 +106,13 @@ module TaliaCore
       end
     end
     
+    # A descriptive text about this element
+    def material_description
+      description = inverse[N::HYPER.description_of]
+      assit(description.size <= 1, "There shouldn't be multiple descriptions")
+      (description.size > 0) ? description[0] : ''
+    end
+    
     # This returns the manifestations of this card. You can give an optional
     # type which must be a class.
     def manifestations(type = nil)
@@ -115,7 +123,7 @@ module TaliaCore
     
     # Allows to add a manifestation
     def add_manifestation(manifestation)
-       raise(ArgumentError, "Only manifestations can be added here") unless(manifestation.is_a?(Manifestation))
+      raise(ArgumentError, "Only manifestations can be added here") unless(manifestation.is_a?(Manifestation))
       manifestation.predicate_set_uniq(:hyper, :manifestation_of, self)
     end
     

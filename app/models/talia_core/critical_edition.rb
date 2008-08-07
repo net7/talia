@@ -1,6 +1,8 @@
 module TaliaCore 
   class CriticalEdition < Catalog
     
+    # Prefix for edition URIS
+    EDITION_PREFIX = 'critical_editions'
     
     # returns an array containing a list of all the books of the given type 
     # (manuscripts, works, etc.) or subtype (notebook, draft, etc.) belonging 

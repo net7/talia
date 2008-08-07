@@ -61,11 +61,11 @@ module FacsimileEditionsHelper
   end
    
   def types
-    @facsimile_edition.types    
+    @facsimile_edition.book_types    
   end
   
   def subtypes
-    @facsimile_edition.subtypes(@type)
+    @facsimile_edition.book_subtypes(@type)
   end  
   
   # creates the elements to be shown in the tabs, depending on the action we're in
@@ -75,7 +75,7 @@ module FacsimileEditionsHelper
     when "show"
       result = [{:link => "", :text => "Editor's Introduction".t, :selected => true}]
     when "books"
-      subtypes = @facsimile_edition.subtypes(params[:type])
+      subtypes = @facsimile_edition.book_subtypes(params[:type])
       selected_subtype = params[:subtype] || subtypes[0]
       subtypes.each do |subtype|
         if (subtype == selected_subtype)

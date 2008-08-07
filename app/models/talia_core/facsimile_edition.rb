@@ -1,5 +1,9 @@
 module TaliaCore 
   class FacsimileEdition < Catalog
+    
+    # URI prefix for editions
+    EDITION_PREFIX = 'facsimile_editions'
+    
     # returns an array containing a list of the book types available and connected to this facsimile edition
     # (e.g.: 'Works', 'Manuscripts', ...)
     def book_types
@@ -41,7 +45,7 @@ module TaliaCore
     # 
     # The types should be a list of N::URI elements indicating the RDF classes.
     def elements_by_type(*types)
-      qry = Query.new(TaliaCore::Source).select(:element).distinct
+      qry = Query.new(TaliaCore::ActiveSource).select(:element).distinct
       types.each do |type|
         # I've found manuscripts, notebook, etc as plain text in the RDF, they don't 
         # pass the quack test below

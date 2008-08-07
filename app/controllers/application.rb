@@ -8,6 +8,11 @@ class ApplicationController < ActionController::Base
 
   helper :all # include all helpers, all the time
 
+  # Require some model classes that should always be present
+  %w( source expression_card catalog facsimile_edition critical_edition manifestation book page paragraph facsimile).each do |klass|
+    require_dependency "talia_core/#{klass}"
+  end
+  
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
   # protect_from_forgery :secret => '55167f74a02e580cb66ed22f880ed014'

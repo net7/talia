@@ -66,6 +66,13 @@ module TaliaCore
       catalog
     end
     
+    # A descriptive text about this element
+    def material_description
+      description = inverse[N::HYPER.description_of]
+      assit(description.size <= 1, "There shouldn't be multiple descriptions")
+      (description.size > 0) ? description[0] : ''
+    end
+    
     protected
     
     
