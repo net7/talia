@@ -44,8 +44,12 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
       'en-US'
     end
     
+    def translations
+      [ { "id" => "1", "tr_key" => "hello", "text" => "Hello!" },
+        { "id" => "",  "tr_key" => "rabbit", "text" => "Rabbit" } ]
+    end
+    
     def params
-      { "id" => locale, "page" => "2",
-        "translations" => { "1" => { "tr_key" => "hello_world", "text" => "Hello, World!" }} }
+      { "id" => locale, "page" => "2", "translations" => translations }
     end
 end

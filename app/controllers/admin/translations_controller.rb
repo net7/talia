@@ -15,7 +15,7 @@ class Admin::TranslationsController < ApplicationController
 
   # PUT /admin/translations/update/en-US
   def update
-    if ViewTranslation.update(params[:translations].keys, params[:translations].values)
+    if ViewTranslation.create_or_update(params[:translations], params[:id])
       flash[:notice] = 'Your translations has been saved'
     else
       flash[:error]  = 'There was some problems'
