@@ -13,8 +13,13 @@ class FacsimileEditionsController < ApplicationController
   #
   # GET /facsimile_editions/1/manuscripts/copybooks
   def books
-    type = params[:subtype] || params[:type]
-    @books = @facsimile_edition.books(type)    
+    if (params[:subtype])
+      subtype = N::SourceClass.new(N::HYPER + params[:subtype])
+      type = subtype.supertypes[0]
+    else
+      type = N::SourceClass.new(N::HYPER + params[:type]).subtypes[0]
+    end
+    @books = @facsimile_edition.books(type)
     @type = params[:type]
     @subtype = params[:subtype]
   end
@@ -31,10 +36,15 @@ class FacsimileEditionsController < ApplicationController
         @type = @book.hyper::type[0]
       end
       format.jpeg do
-        #TODO: change to use the iip when it's ready
-        #        image = @facsimile_edition.book_image_data(params[:book], params[:size]) 
-        #        send_data image.content_string, :type => 'image/jpeg', :disposition => 'inline'
-        result = ''
+        book_uri = N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:book]
+        qry = Query.new(TaliaCore::Source).select(:f).distinct.limit(1)
+        qry.where(:p, N::HYPER.part_of, book_uri)
+        qry.where(:f, N::HYPER.manifestation_of, :p)
+        qry.where(:p, N::HYPER.position, :pos)
+        qry.sort(:pos)
+        facsimile = qry.execute[0]
+        return facsimile.iip_path unless (params[:size] == 'thumbnail')
+        return facsimile.thumb
       end
     end
   end
@@ -67,15 +77,8 @@ class FacsimileEditionsController < ApplicationController
         page = N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page]
         facsimile = TaliaCore::Page.find(N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page]).manifestations(TaliaCore::Facsimile)
         facsimile.iip_path
-        result = ''
-        #TODO: as soon as the iip_path method is ready, implement the missing part here
-        # and/or in the view which uses this (namely the panorama widget and the page and 
-        # the facing_pages views)
-        # 
-        # here as a reference what used to be done here, when the image was supposed to be
-        # taken from the DB
-        #        image = @facsimile_edition.page_image_data(params[:book], params[:page], params[:size]) 
-        #        send_data image.content_string, :type => 'image/jpeg', :disposition => 'inline' 
+        return facsimile.iip_path unless (params[:size] == 'thumbnail')
+        return facsimile.thumb
       end
     end
   end

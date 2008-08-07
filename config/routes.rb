@@ -69,7 +69,6 @@ ActionController::Routing::Routes.draw do |map|
   #              :location  => :nil,
   #              :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
 
-  #TODO: find a way for usin
   map.connect "facsimile_editions/:id/search",
     :controller => 'facsimile_editions',
     :action => 'search'
@@ -80,7 +79,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "facsimile_editions/:id/:type/:subtype",
     :controller => 'facsimile_editions',
     :action => 'books',
-    :requirements => { :type => /works|manuscripts|library|correspondence|pictures/ },
+    :requirements => { :type => /Work|Manuscript|Iconography|Library|Correspondence|Picture/ },
     :subtype => nil
   
   map.connect "facsimile_editions/:id/:page:dot:format",

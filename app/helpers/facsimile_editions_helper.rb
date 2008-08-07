@@ -65,7 +65,7 @@ module FacsimileEditionsHelper
   end
   
   def subtypes
-    @facsimile_edition.book_subtypes(@type)
+    @facsimile_edition.book_subtypes(N::HYPER + @type)
   end  
   
   # creates the elements to be shown in the tabs, depending on the action we're in
@@ -75,15 +75,19 @@ module FacsimileEditionsHelper
     when "show"
       result = [{:link => "", :text => "Editor's Introduction".t, :selected => true}]
     when "books"
-      subtypes = @facsimile_edition.book_subtypes(params[:type])
-      selected_subtype = params[:subtype] || subtypes[0]
+      subtypes = @facsimile_edition.book_subtypes(N::HYPER + params[:type])
+      if (params[:subtype])
+        selected_subtype = N::HYPER + params[:subtype]
+      else
+        selected_subtype = subtypes[0]
+      end
       subtypes.each do |subtype|
         if (subtype == selected_subtype)
           selected = true
         else 
           selected = false
         end
-        result << {:link => "/#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}/#{params[:type]}/#{subtype}", :text => subtype.t, :selected => selected}
+        result << {:link => "/#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}/#{params[:type]}/#{subtype.local_name}", :text => subtype.local_name.t, :selected => selected}
       end
     when "panorama"
       result = [{:link => "", :text => params[:book], :selected => true}] 

@@ -12,14 +12,14 @@
 <div id="content">
   <ul id="access_list">    
     <% types.each do |type| %>
-      <li id="<%= type%>">
+      <li id="<%= type.local_name %>">
         <h1>
-          <% url = "#{params[:id]}/#{type}" %>
-          <% title = "#{type}" %>
-          <% text = "<img src='/images/facsimile_edition/ico_#{type}.jpg' alt='link to #{type} section' width='78' height='70' border='0'/>#{type.capitalize.t}" %>
+          <% url = "#{params[:id]}/#{type.local_name}" %>
+          <% title = "#{type.local_name}" %>
+          <% text = "<img src='/images/facsimile_edition/ico_#{type.local_name}.jpg' alt='link to #{type.local_name} section' width='78' height='70' border='0'/>#{type.local_name.capitalize.t}" %>
           <%= titled_link(url, text, title) %>
         </h1>
-        <p><%= "Facsimile Edition #{type.capitalize} Description".t %></p>
+        <p><%= "Facsimile Edition #{type.local_name.capitalize} Description".t %></p>
       </li>
     <% end %>        
   </ul>  

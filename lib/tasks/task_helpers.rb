@@ -5,7 +5,7 @@ class TaskHelper
   # pages by :page. 
   # You may add additional conditions to this query before executing
   def self.default_book_query
-    qry = Query.new(TaliaCore::Source).select(:book).distinct
+    qry = Query.new(TaliaCore::Book).select(:book).distinct
     qry.where(:book, N::RDF.type, N::HYPER.Book)
     # only select from the default catalog
     qry.where(:book, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)

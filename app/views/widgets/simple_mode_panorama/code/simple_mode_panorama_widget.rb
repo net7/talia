@@ -15,9 +15,12 @@ class SimpleModePanoramaWidget < Widgeon::Widget
   
   def horizontal_panorama(elements)
     result = ''
-    elements.each do |element| 
+    elements.each do |el| 
+      # elements contains an array of semanticRelations, given by orderedSource
+      # we need the _objects_ in there (the actual pages)
+      element = el.object
       position = cycle('even', 'odd') 
-      if (elements.first == element) 
+      if (elements.first.object == element) 
         result << "
       <div class='block'>
         <p class='lonely'>"
@@ -31,7 +34,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
           result << '<div class="block">' 
         end 
         result << "<p>#{panorama_element(element)}</p>"    
-        if position == 'even' || elements.last == element 
+        if position == 'even' || elements.last.object == element 
           result << '</div>
           ' 
         end   
@@ -47,7 +50,10 @@ class SimpleModePanoramaWidget < Widgeon::Widget
   def vertical_panorama(elements)
     result = ''
     last_element = ''
-    elements.each do |element| 
+    elements.each do |el| 
+      # elements contains an array of semanticRelations, given by orderedSource
+      # we need the _objects_ in there (the actual pages)
+      element = el.object
       position = cycle('even', 'odd')
 
       if elements.first == element 
@@ -67,9 +73,12 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         result << panorama_element(element)
         result << '
 </p>'
-        if position == 'even' || elements.last == element
+        if position == 'even' || elements.last.object == element
           result << '</div>'
-          if position == 'even' && elements.first != element
+          if position == 'even' && elements.first.object != element
+            # let's create the "facing pages" link. only when tha page has even position
+            # and only if it isn't the first one, as the first is displayed on it's on
+            # being the cover
             result <<  "<div><a href='#{last_element.uri.to_s}?pages=double&page2=#{element.uri.local_name}'>#{'facing pages'.t}</a></div>"
           end
           result << ' 

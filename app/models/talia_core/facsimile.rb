@@ -7,12 +7,14 @@ module TaliaCore
     # The IIP path (identifier) that the IIP frontend uses to display the
     # facsimile
     def iip_path
-      # TODO: Impelementation
+      # TODO: Implementation
     end
     
     # Returns the thumbnail ("minifax") of this element
     def thumb
       # TODO: Implementation
+      # the views wait for something like:
+      # send_data image.content_string, :type => 'image/jpeg', :disposition => 'inline'
     end
     
   end
