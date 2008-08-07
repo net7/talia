@@ -1,13 +1,17 @@
 module Admin::TranslationsHelper
   def add_translation
-    link_to_function "Add" do |page|
+    link_to_function "Add a translation" do |page|
       page.insert_html :bottom, "translations", :partial => 'translation', :object => ViewTranslation.new
+      page['translations'].select('.translation').last.focus
     end
   end
   
   def languages_menu
     content_tag(:div, :id => 'languages_menu') do
-      "Pick a language: " << select_tag("languages", languages_options_tags, :onchange => goto_language_page_function)
+      returning result = "Pick a language: " do
+        result << select_tag("languages", languages_options_tags, :onchange => goto_language_page_function)
+        result << " | #{add_translation}"
+      end
     end
   end
   
