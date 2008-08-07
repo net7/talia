@@ -12,6 +12,11 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
     get :edit, :id => locale
     assert_response :success
     
+    assert_select "#languages_menu", /^Pick a language:/
+    assert_select "#languages_menu" do
+      assert_select "select"
+    end
+    
     assert_select 'form' do
       assert_select '[action=?]', "/admin/translations/#{locale}"
       assert_select 'input[type=?]', 'hidden'
