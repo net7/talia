@@ -1,2 +1,20 @@
-        <img src='<%= "#{page.uri.to_s}.jpeg"%>' alt='<%= page.uri.local_name %>' height='488'/>
-      <p><%= copyright_note(page) %></p>
+<%= javascript_include_tag "swfobject.js"  %>
+
+<div id="flashcontent"></div>
+
+<script type="text/javascript">
+    
+    // More info on: http://blog.deconcept.com/swfobject/
+    window.onload = function() { 
+        var so = new SWFObject("fliipish.swf", "flashZoomer", "400", "400", "9", "#ffffff");
+	so.addParam("quality", "high");
+	so.addParam("scale", "noscale");
+	so.addParam("salign", "tl");
+	so.addVariable("imgSrc", <% "/absolute/path/to/the/image.tif" %> );
+	so.addVariable("zoomSteps", "3");
+        so.addVariable("imgSrv", "/fcgi-bin/iipsrv4.fcgi");
+	so.write("flashcontent");		
+    }
+</script>
+
+
