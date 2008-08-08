@@ -96,3 +96,10 @@ fourteen:
   type: TaliaCore::DataTypes::PdfData
   location: temp1.pdf
   mime: application/pdf
+
+fifteen:
+  id: 15
+  source: something
+  type: TaliaCore::DataTypes::IipData
+  location: PATH/TO/IIPSERVER
+  mime: image/tiff
