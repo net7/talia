@@ -4,6 +4,11 @@ module TaliaCore
     # Class to manage IIP Image data type
     class IipData < DataRecord
 
+      # Returns the IIP server configured for the application
+      def self.iip_server_uri
+        'http://localhost/fcgi-bin/iipsrv.fcgi'
+      end
+      
       # return the mime_type for a file
       def extract_mime_type(location)
         'image/tiff'
