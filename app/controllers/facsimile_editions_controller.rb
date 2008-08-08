@@ -14,8 +14,7 @@ class FacsimileEditionsController < ApplicationController
   # GET /facsimile_editions/1/manuscripts/copybooks
   def books
     if (params[:subtype])
-      subtype = N::SourceClass.new(N::HYPER + params[:subtype])
-      type = subtype.supertypes[0]
+      type = N::SourceClass.new(N::HYPER + params[:subtype])
     else
       type = N::SourceClass.new(N::HYPER + params[:type]).subtypes[0]
     end
