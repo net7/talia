@@ -16,6 +16,7 @@ namespace :discovery do
   task :disco_init do # => 'talia_core:talia_init' do
     # Dependencies.load_paths << File.join(File.dirname(__FILE__), '..', '..', 'app', 'models')
     require File.expand_path(File.dirname(__FILE__) + "/../../config/environment")
+    TaskHelper::load_consts
   end
   
   # Import from Hyper
