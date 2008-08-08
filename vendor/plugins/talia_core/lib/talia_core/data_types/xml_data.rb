@@ -138,7 +138,7 @@ module TaliaCore
       end
     
       # Add data as string into file
-      # * location: destination file to write
+      # * location: location
       # * data: data to write
       # * options: options
       # * options[:tidy]: enable or disable tidy (convert html into xhtml). Default value is true

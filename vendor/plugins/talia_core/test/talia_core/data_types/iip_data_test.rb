@@ -34,7 +34,52 @@ module TaliaCore
         assert_equal(base_dir_name(@test_records[14].id), dir_for_test)
         assert(File.exists?(dir_for_test))
         assert_equal('PATH/TO/IIPSERVER', @test_records[14].location)
-        assert(File.exists?(File.join(dir_for_test, @test_records[14].id.to_s) + '_256x256'), "#{File.join(dir_for_test, @test_records[14].id.to_s) + '_256x256'} does not exist" )
+        assert_equal('PATH/TO/IIPSERVER', @test_records[14].iip_server_path)
+        assert(File.exists?(File.join(dir_for_test, @test_records[14].id.to_s)), "#{File.join(dir_for_test, @test_records[14].id.to_s)} does not exist" )
+      end
+      
+      # test file size
+      def test_file_size
+        assert_equal(208077, @test_records[14].size)
+      end
+      
+      # test binary access
+      def test_binary_access
+        # Check initial position
+        assert_equal(0, @test_records[14].position)
+      
+        # Try to read all bytes
+        bytes = @test_records[14].all_bytes
+        assert_equal(208077, bytes.size)
+        assert_equal(false, @test_records[14].is_file_open?)
+
+        # Try to read all bytes by alias method
+        bytes = @test_records[14].get_thumbnail
+        assert_equal(208077, bytes.size)
+        assert_equal(false, @test_records[14].is_file_open?)
+      
+        # Re-check position (it should be 0)
+        assert_equal(0, @test_records[14].position)
+      end
+      
+      # test create from data method
+      def test_create_from_data
+        data = @test_records[14].all_text
+        
+        new_record = DataTypes::IipData.new
+        new_record.source_id = "something"
+        new_record.create_from_data('PATH/TO/IIPSERVER', data)
+        new_record.save!
+        
+        # Try to read all bytes by alias method
+        bytes = new_record.get_thumbnail
+        assert_equal(210729, bytes.size)
+        assert_equal(false, new_record.is_file_open?)
+        
+        # delete record and file
+        File.delete(new_record.get_file_path)
+        Dir.delete new_record.data_directory
+        DataTypes::IipData.delete new_record.id
       end
           
       private
