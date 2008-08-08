@@ -6,10 +6,11 @@
         setHeight (); 
     }
    
-    window.onload = function () {
+   Event.observe(window, 'load', 
+   function () {
         setHeight ();
         go_to_anchor('<%= @page %>');
-    }
+    });
     //-->
 </script>
 
@@ -39,9 +40,9 @@
       <%= next_page %>
     </div>
     <div id="image_big">
-      <%= render :partial => 'page_image', :locals => {:page => @page} %>
+      <%= iip_flash_viewer('/Library/WebServer/IIP/test.tif') %>
       <% if (params[:pages] == 'double') %>
-        <%= render :partial => 'page_image', :locals => {:page => @page2} %>
+        <%= iip_flash_viewer(@page2.iip_path) %>
       <% end %> 
     </div>   
     

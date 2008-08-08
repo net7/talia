@@ -1,6 +1,16 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   
+  
+  def iip_flash_viewer(image_path, height = 400, width = 400)
+    render :partial => 'shared/iip_flash_viewer', :locals => {
+      :image_path => image_path,
+      :height => height.to_s,
+      :width => width.to_s,
+      :element_id => "iip_viewer_#{rand 10E16}" # Random name so that multiple instances can be used 
+    }
+  end
+  
   def header
     render :partial => 'shared/main_header'
   end

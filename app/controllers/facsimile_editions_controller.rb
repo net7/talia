@@ -16,7 +16,7 @@ class FacsimileEditionsController < ApplicationController
     if (params[:subtype])
       type = N::SourceClass.new(N::HYPER + params[:subtype])
     else
-      type = N::SourceClass.new(N::HYPER + params[:type]).subtypes[0]
+      type = @facsimile_edition.book_subtypes(N::HYPER + params[:type])[0]
     end
     @books = @facsimile_edition.books(type)
     @type = params[:type]
