@@ -102,7 +102,7 @@ module TaliaCore
       
       # Generates a unique filename for a Tempfile. 
       def random_tempfile_filename
-        "#{rand 100000}"
+        "#{rand 10E20}"
       end
       
     end
