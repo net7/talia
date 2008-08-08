@@ -12,7 +12,7 @@ class UploadedFile < File
 end
 
 module TaliaCore
-  # Test te DataRecord storage class
+  # Test the DataRecord storage class
   class DataRecordTest < Test::Unit::TestCase
     
     fixtures :active_sources, :data_records
@@ -43,7 +43,7 @@ module TaliaCore
     # test not nil and records numbers
     def test_records_numbers
       assert_not_equal [], @test_records
-      assert_equal 14, @test_records.size
+      assert_equal 15, @test_records.size
     end
   
     # test class type and mime_type
