@@ -6,7 +6,7 @@ module TaliaCore
 
       # Returns the IIP server configured for the application
       def self.iip_server_uri
-        'http://localhost/fcgi-bin/iipsrv.fcgi'
+        @iip_server_uri ||= 'http://localhost/fcgi-bin/iipsrv.fcgi'
       end
       
       # return the mime_type for a file
@@ -102,7 +102,7 @@ module TaliaCore
       
       # Generates a unique filename for a Tempfile. 
       def random_tempfile_filename
-        "#{rand Time.now.to_i}"
+        "#{rand 100000}"
       end
       
     end
