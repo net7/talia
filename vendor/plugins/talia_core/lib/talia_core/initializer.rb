@@ -116,6 +116,9 @@ module TaliaCore
       # Configure the data directory
       config_data_directory
       
+      # Configure the iip root directory
+      config_iip_root_directory
+      
       # Configure the ontologies
       load_ontologies
       
@@ -319,6 +322,18 @@ module TaliaCore
       end
       
       @config['data_directory_location'] = data_directory
+    end
+    
+    # Configure the data directory
+    def self.config_iip_root_directory
+      data_directory = if(@config['iip_root_directory_location'])
+        # Replace the iip root directory location variables
+        @config["iip_root_directory_location"].gsub!(/TALIA_ROOT/, TALIA_ROOT)
+      else
+        File.join(TALIA_ROOT, 'iip_root')
+      end
+      
+      @config['iip_root_directory_location'] = data_directory
     end
     
     # Autoload ontologies, if configured

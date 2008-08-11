@@ -16,6 +16,15 @@ module TaliaCore
         @test_records = DataTypes::DataRecord.find_data_records(Fixtures.identify(:something))
       end
       
+      def teardown
+        # remove all subdirectory of iip root
+        Dir.foreach(TaliaCore::CONFIG["iip_root_directory_location"]) do |entry|
+          unless ['.', '..', '.svn'].include? entry
+            FileUtils.remove_dir File.join(TaliaCore::CONFIG["iip_root_directory_location"], entry)
+          end
+        end
+      end
+      
       # test not nil and records numbers
       def test_records_numbers
         assert_not_equal [], @test_records
@@ -40,7 +49,7 @@ module TaliaCore
       
       # test file size
       def test_file_size
-        assert_equal(208077, @test_records[14].size)
+        assert_equal(711, @test_records[14].size)
       end
       
       # test binary access
@@ -50,12 +59,12 @@ module TaliaCore
       
         # Try to read all bytes
         bytes = @test_records[14].all_bytes
-        assert_equal(208077, bytes.size)
+        assert_equal(711, bytes.size)
         assert_equal(false, @test_records[14].is_file_open?)
 
         # Try to read all bytes by alias method
         bytes = @test_records[14].get_thumbnail
-        assert_equal(208077, bytes.size)
+        assert_equal(711, bytes.size)
         assert_equal(false, @test_records[14].is_file_open?)
       
         # Re-check position (it should be 0)
@@ -68,12 +77,12 @@ module TaliaCore
         
         new_record = DataTypes::IipData.new
         new_record.source_id = "something"
-        new_record.create_from_data('PATH/TO/IIPSERVER', data)
+        new_record.create_from_data(data)
         new_record.save!
         
         # Try to read all bytes by alias method
         bytes = new_record.get_thumbnail
-        assert_equal(210729, bytes.size)
+        assert_equal(3743, bytes.size)
         assert_equal(false, new_record.is_file_open?)
         
         # delete record and file
