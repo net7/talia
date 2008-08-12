@@ -308,6 +308,23 @@ module TaliaCore
       assert_raise(RuntimeError) {@ordered_source.previous}
       assert_equal 1, @ordered_source.current_index
       
+      # test next with index
+      @next = @ordered_source.next(2)
+      assert_kind_of TaliaCore::ActiveSource, @next
+      assert_equal @item_3.uri, @next.uri
+      assert_equal 3, @ordered_source.current_index
+      
+      assert_raise(RuntimeError) {@ordered_source.next(3)}
+      assert_equal 3, @ordered_source.current_index
+      
+      # test previous with index
+      @previous = @ordered_source.previous(2)
+      assert_kind_of TaliaCore::ActiveSource, @next
+      assert_equal @item_1.uri, @previous.uri
+      assert_equal 1, @ordered_source.current_index
+      
+      assert_raise(RuntimeError) {@ordered_source.previous(1)}
+      assert_equal 1, @ordered_source.current_index
     end
     
   end

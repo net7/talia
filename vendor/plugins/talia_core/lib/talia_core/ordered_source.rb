@@ -44,15 +44,10 @@ module TaliaCore
       end
     end
     
-    def previous
-      if (@current_index > 1)
-        return at(@current_index - 1)
-      else
-        raise "First item reached"
-      end
-    end
-    
-    def next
+    # return next item
+    # * index: int. Current index. If nil, the index is the last integer used with at method
+    def next(index = nil)
+      @current_index = index unless index.nil?
       if (@current_index < size)
         return at(@current_index + 1)
       else
@@ -60,6 +55,17 @@ module TaliaCore
       end
     end
 
+    # return previous item
+    # * index: int. Current index. If nil, the index is the last integer used with at method
+    def previous(index = nil)
+      @current_index = index unless index.nil?
+      if (@current_index > 1)
+        return at(@current_index - 1)
+      else
+        raise "First item reached"
+      end
+    end
+    
     # return size of SeqContainer
     #
     # return value: int
