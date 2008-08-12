@@ -10,29 +10,28 @@ module TaliaCore
       N::HYPER.height, N::HYPER.width,
       N::HYPER.dimension_units
 
+    # returns the following page
     def next_page
-      #TODO: as soon as ordered_source supports movements, use it
-      #ordered_page.next
-      TaliaCore::Page.find('N-IV-1,2')
-    end
-    
-    def previous_page
-      #TODO: as soon as ordered_source supports movements, use it
-      #ordered_page.previous
-      TaliaCore::Page.find('N-IV-1,2')
+      ordered_pages.next_element(self)      
     end
 
+    # returns the previous page
+    def previous_page
+      ordered_pages.previous_element(self)      
+    end
+    
     private
+    # returns the Book this page is part of
     def book_i_am_in
       qry = Query.new(TaliaCore::Book).select(:b).distinct
       qry.where(self, N::HYPER.part_of, :b)
       qry.execute[0]
     end
 
-    def ordered_page
-      book = book_i_am_in
-      ordered_pages = OrderedSource.find(book.uri.to_s + '_ordered_pages')
-      ordered_pages.find(self)
+    # returns an OrderedSource object containig the pages in this book
+    def ordered_pages
+      book_i_am_in.ordered_pages
     end
+
   end
 end
