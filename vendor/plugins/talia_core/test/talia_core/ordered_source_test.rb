@@ -260,6 +260,55 @@ module TaliaCore
       assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(12)
       assert_equal @item_12.uri, @ordered_source.at(12).uri
     end
+    
+    def test_next_and_previous
+      # create new OrderedSource
+      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set')
+      @ordered_source.save!
+      assert @ordered_source.elements.empty?
+      
+      # the size must be 0
+      assert_equal 0, @ordered_source.size
+      
+      # create 3 items
+      @item_1 = ActiveSource.new('http://testvalue.org/item_1')
+      @item_2 = ActiveSource.new('http://testvalue.org/item_2')
+      @item_3 = ActiveSource.new('http://testvalue.org/item_3')
+      
+      # add items to OrderedSource
+      @ordered_source.add @item_1
+      @ordered_source.add @item_2
+      @ordered_source.add @item_3
+      
+      # test next method
+      @item = @ordered_source.at(2)
+      assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(2)
+      assert_equal @item_2.uri, @ordered_source.at(2).uri
+      assert_equal 2, @ordered_source.current_index
+      
+      @next = @ordered_source.next
+      assert_kind_of TaliaCore::ActiveSource, @next
+      assert_equal @item_3.uri, @next.uri
+      assert_equal 3, @ordered_source.current_index
+      
+      assert_raise(RuntimeError) {@ordered_source.next}
+      assert_equal 3, @ordered_source.current_index
+            
+      # test previous method
+      @item = @ordered_source.at(2)
+      assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(2)
+      assert_equal @item_2.uri, @ordered_source.at(2).uri
+      assert_equal 2, @ordered_source.current_index
+      
+      @previous = @ordered_source.previous
+      assert_kind_of TaliaCore::ActiveSource, @previous
+      assert_equal @item_1.uri, @previous.uri
+      assert_equal 1, @ordered_source.current_index
+      
+      assert_raise(RuntimeError) {@ordered_source.previous}
+      assert_equal 1, @ordered_source.current_index
+      
+    end
+    
   end
-  
 end

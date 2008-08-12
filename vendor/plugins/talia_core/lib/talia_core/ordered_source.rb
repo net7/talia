@@ -1,6 +1,8 @@
 module TaliaCore
   class OrderedSource < ActiveSource
     
+    attr_reader :current_index
+    
     # Initialize SeqContainer
     def self.new(uri)
       @resource = super(uri)
@@ -22,6 +24,7 @@ module TaliaCore
     #  * index: int
     #  * return value: TaliaCore::ActiveSource
     def at(index)
+      @current_index = index
       # get predicate for next item
       predicate =  index_to_predicate(index)
 
@@ -41,6 +44,22 @@ module TaliaCore
       end
     end
     
+    def previous
+      if (@current_index > 1)
+        return at(@current_index - 1)
+      else
+        raise "First item reached"
+      end
+    end
+    
+    def next
+      if (@current_index < size)
+        return at(@current_index + 1)
+      else
+        raise "Last item reached"
+      end
+    end
+
     # return size of SeqContainer
     #
     # return value: int
