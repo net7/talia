@@ -45,9 +45,34 @@ module TaliaCore
     end
     
     # return next item
-    # * index: int. Current index. If nil, the index is the last integer used with at method
-    def next(index = nil)
-      @current_index = index unless index.nil?
+    # * current_element: int or string. Current element. If nil, the index is the last integer used with at method
+    def next(current_element = nil)
+      # check current_element item class
+      unless current_element.nil?
+        case current_element
+        when Fixnum   then @current_index = current_element
+        when String   then @current_index = predicate_to_index(current_element)
+        when TaliaCore::ActiveSource
+          # find semantic relation
+          pos = find_position_by_object(current_element)
+          # if no relations is found
+          if pos.nil?
+            raise "Object isn't in current OrderedSource"
+            # if many relation is found
+          elsif pos.is_a?(Array)
+            raise "Found more the one object in current OrderedSource"
+            # if one relation is found
+          else
+            @current_index = pos
+          end
+        else
+          raise "Class #{current_element.class} not supported"
+        end
+      end
+      
+      # if current element is nil, next must return first value
+      @current_index = 0 if @current_index.nil?
+      
       if (@current_index < size)
         return at(@current_index + 1)
       else
@@ -56,9 +81,34 @@ module TaliaCore
     end
 
     # return previous item
-    # * index: int. Current index. If nil, the index is the last integer used with at method
-    def previous(index = nil)
-      @current_index = index unless index.nil?
+    # * current_element: int or string. Current element. If nil, the index is the last integer used with at method
+    def previous(current_element = nil)
+      # check current_element item class
+      unless current_element.nil?
+        case current_element
+        when Fixnum   then @current_index = current_element
+        when String   then @current_index = predicate_to_index(current_element)
+        when TaliaCore::ActiveSource
+          # find semantic relation
+          pos = find_position_by_object(current_element)
+          # if no relations is found
+          if pos.nil?
+            raise "Object isn't in current OrderedSource"
+            # if many relation is found
+          elsif pos.is_a?(Array)
+            raise "Found more the one object in current OrderedSource"
+            # if one relation is found
+          else
+            @current_index = pos
+          end
+        else
+          raise "Class #{current_element.class} not supported"
+        end
+      end
+      
+      # if current element is nil, next must return first value
+      @current_index = (size + 1) if @current_index.nil?
+      
       if (@current_index > 1)
         return at(@current_index - 1)
       else
@@ -123,6 +173,27 @@ module TaliaCore
       self[predicate] << object
     end
     
+    # -----------------------------------------
+    # CLASS METHOD
+    # -----------------------------------------
+    # returns the object position
+    # return 
+    def find_position_by_object(object)
+      # find semantic relation with predicate that match with string and object_id is 'object'
+      result = self.semantic_relations.find(:all, :conditions => ['(predicate_uri LIKE ?) AND (object_id = ?)', "http://www.w3.org/1999/02/22-rdf-syntax-ns#_%", object.id], :order => :predicate_uri)
+      # if object is not found, return nil
+      if result.empty?
+        return nil
+      elsif result.size == 1
+        return predicate_to_index(result[0].predicate_uri)
+      else
+        result.collect {|item| predicate_to_index(item.predicate_uri) }
+      end
+      
+      #result = self.semantic_relations.find(:all) #, :conditions => ['predicate_uri LIKE ?', "http://www.w3.org/1999/02/22-rdf-syntax-ns#_%"]).uniq
+      #result.collect { |item| OrderedSource.new item.subject.uri}
+    end
+    
     private
     # execute query and return the result
     def query
@@ -137,7 +208,7 @@ module TaliaCore
       
     # return index of predicate
     def predicate_to_index(predicate)
-      predicate.sub('http://www.w3.org/1999/02/22-rdf-syntax-ns#_', '')
+      predicate.sub('http://www.w3.org/1999/02/22-rdf-syntax-ns#_', '').to_i
     end
     
   end

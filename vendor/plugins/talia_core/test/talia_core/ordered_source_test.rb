@@ -317,14 +317,50 @@ module TaliaCore
       assert_raise(RuntimeError) {@ordered_source.next(3)}
       assert_equal 3, @ordered_source.current_index
       
+      # test next with element
+      @next = @ordered_source.next(@item_2)
+      assert_kind_of TaliaCore::ActiveSource, @next
+      assert_equal @item_3.uri, @next.uri
+      assert_equal 3, @ordered_source.current_index
+      
       # test previous with index
       @previous = @ordered_source.previous(2)
-      assert_kind_of TaliaCore::ActiveSource, @next
+      assert_kind_of TaliaCore::ActiveSource, @previous
       assert_equal @item_1.uri, @previous.uri
       assert_equal 1, @ordered_source.current_index
       
       assert_raise(RuntimeError) {@ordered_source.previous(1)}
       assert_equal 1, @ordered_source.current_index
+
+      # test previous with element
+      @previous = @ordered_source.previous(@item_2)
+      assert_kind_of TaliaCore::ActiveSource, @previous
+      assert_equal @item_1.uri, @previous.uri
+      assert_equal 1, @ordered_source.current_index
+
+    end
+    
+    def test_find_ordered_source
+      # create new OrderedSource
+      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set')
+      @ordered_source.save!
+      assert @ordered_source.elements.empty?
+      
+      # the size must be 0
+      assert_equal 0, @ordered_source.size
+      
+      # create 3 items
+      @item_1 = ActiveSource.new('http://testvalue.org/item_1')
+      @item_2 = ActiveSource.new('http://testvalue.org/item_2')
+      @item_3 = ActiveSource.new('http://testvalue.org/item_3')
+      
+      # add items to OrderedSource
+      @ordered_source.add @item_1
+      @ordered_source.add @item_2
+      @ordered_source.add @item_3
+      
+      # test find method
+      assert_equal 2, @ordered_source.find_position_by_object(@item_2)
     end
     
   end
