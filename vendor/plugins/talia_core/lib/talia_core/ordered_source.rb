@@ -173,11 +173,8 @@ module TaliaCore
       self[predicate] << object
     end
     
-    # -----------------------------------------
-    # CLASS METHOD
-    # -----------------------------------------
     # returns the object position
-    # return 
+    # return value is Fixnum if only one relation is found for current ordered source, otherwise it will be an Array of Fixnum
     def find_position_by_object(object)
       # find semantic relation with predicate that match with string and object_id is 'object'
       result = self.semantic_relations.find(:all, :conditions => ['(predicate_uri LIKE ?) AND (object_id = ?)', "http://www.w3.org/1999/02/22-rdf-syntax-ns#_%", object.id], :order => :predicate_uri)
