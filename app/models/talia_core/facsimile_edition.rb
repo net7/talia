@@ -31,21 +31,8 @@ module TaliaCore
         qry.execute
       end
     end
-    
-    # Returns an array containing a list of all the elements of the given type 
-    # (manuscripts, works, etc.). Types can also contain subtypes (notebook, draft, etc.) 
-    # 
-    # The types should be a list of N::URI elements indicating the RDF classes.
-    def elements_by_type(*types)
-      qry = Query.new(TaliaCore::ActiveSource).select(:element).distinct
-      types.each do |type|
-        qry.where(:element, N::RDF.type, type)
-      end
-      qry.where(:element, N::HYPER.in_catalog, self)
-      qry.execute
-    end
-    
-    # Returns all the books in the catalog. See elements
+     
+  # Returns all the books in the catalog. See elements
     def books(*types)
       types << N::TALIA.Book
       elements_by_type(*types)
@@ -64,7 +51,5 @@ module TaliaCore
       qry.sort(:pos)
       qry.execute 
     end
-
-    
   end
 end

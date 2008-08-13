@@ -18,7 +18,7 @@ module FacsimileEditionsHelper
   end
   
   # creates the elements to be shown in the path
-  def path    
+  def facsimile_edition_path    
     path = []
     case action_name
     when "show"
@@ -50,7 +50,7 @@ module FacsimileEditionsHelper
   end  
   # decides whether or not the buttons on the top-right of the layout should
   # be shown, based on the action we're in
-  def display_buttons
+  def facsimile_edition_display_buttons
     case action_name
     when "show", "books"
       result = false
@@ -60,11 +60,11 @@ module FacsimileEditionsHelper
     result
   end
    
-  def types
+  def facsimile_edition_types
     @facsimile_edition.book_types    
   end
   
-  def subtypes
+  def facsimile_edition_subtypes
     @facsimile_edition.book_subtypes(N::HYPER + @type)
   end  
   
@@ -98,17 +98,17 @@ module FacsimileEditionsHelper
   end
   
   # returns a link to the next page, used in the "page" action
-  def next_page
+  def facsimile_edition_next_page
     # if we have the @page2 var set, this is the case where two pages are
     # shown (facing pages), otherwise, we'll use the @page one, which is set
     # in any case
     current_page = @page2 || @page
-    page = current_page.next_page
+    page = @page.next_page
     result ="<p class='next'><a href='#{page.uri.to_s}'></a></p>"
   end
  
   # returns a link to the previous page, used in the "page" action
-  def previous_page
+  def facsimile_edition_previous_page
     # in both single and double pages cases, params[:page] is set
     # In the single page case, it's the only page, in the double pages one it's the
     # first page, and we want it's predecessor

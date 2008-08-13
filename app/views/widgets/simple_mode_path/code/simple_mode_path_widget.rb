@@ -7,7 +7,7 @@ class SimpleModePathWidget < Widgeon::Widget
   end
   
 
-  def breadcrumbs
+  def breadcrumbs 
     # It creates the html of the "navigation path" in the header of the pages
     result = ''
     # @path_elements is an array of hashes, containing all the "steps" in the 

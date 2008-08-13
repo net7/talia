@@ -33,6 +33,9 @@ namespace :discovery do
   # creates a facsimile edition and adds to it all the color facsimiles found in the DB
   desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> description=<short_description>"
   task :create_color_facsimile_edition => :disco_init do 
+    TaliaCore::Book
+    TaliaCore::Page
+    TaliaCore::Facsimile
     fe = TaskHelper::create_edition(TaliaCore::FacsimileEdition)
     qry = TaskHelper::default_book_query
     qry.where(:facsimile, N::HYPER.manifestation_of, :page)

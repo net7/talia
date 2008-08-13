@@ -21,23 +21,26 @@ module TaliaCore
     # Creates an OrderedSource object for this book containing all its pages, 
     # ordered by their position
     def order_pages!
-      ordered_pages = OrderedSource.new(self.uri.to_s + '_ordered_pages')
+      ordered = ordered_pages
       qry = Query.new(TaliaCore::Page).select(:p).distinct
       qry.where(:p, N::HYPER.part_of, self)
       qry.where(:p, N::HYPER.position, :pos)
       qry.sort(:pos)
       pages = qry.execute
       pages.each do |page| 
-        ordered_pages.add(page)
-        ordered_pages.save!
+        ordered.add(page)
+        ordered.save!
       end
 
     end
     
     # Returns an array containing all the pages in this book, ordered
     def ordered_pages
-      OrderedSource.find(self.uri.to_s + '_ordered_pages').elements
-
+      OrderedSource.find(self.uri.to_s + '_ordered_pages')
+    end
+    
+    def ordered_pages_elements
+      ordered_pages.elements      
     end
     
     # Returns the PDF representation of this book

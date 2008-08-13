@@ -11,7 +11,7 @@
 <!--[if !IE]>description<![endif]-->
 <div id="content">
   <ul id="access_list">    
-    <% types.each do |type| %>
+    <% facsimile_edition_types.each do |type| %>
       <li id="<%= type.local_name %>">
         <h1>
           <% url = "#{params[:id]}/#{type.local_name}" %>

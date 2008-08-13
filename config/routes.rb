@@ -73,6 +73,10 @@ ActionController::Routing::Routes.draw do |map|
     :controller => 'facsimile_editions',
     :action => 'search'
 
+    map.connect "critical_editions/test",
+    :controller => 'critical_editions',
+    :action => 'test'
+  
   # Install the default route as the lowest priority.
   map.connect ':controller/:id', :action => 'show'
   
@@ -96,6 +100,9 @@ ActionController::Routing::Routes.draw do |map|
     :format => nil
 
 
+
+  
+  
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'  
   

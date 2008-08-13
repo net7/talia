@@ -6,8 +6,7 @@
         setHeight (); 
     }
    
-   Event.observe(window, 'load', 
-   function () {
+   document.observe('dom:loaded', function () {
         setHeight ();
         go_to_anchor('<%= @page %>');
     });
@@ -31,13 +30,13 @@
 <div id="content" class="divided">
   <div id="visore">
     <div id="toolbar">
-     <%= previous_page %>
+     <%= facsimile_edition_previous_page %>
       <p class="sigla"><%= @page.uri.local_name %></p>
       <p class="tooltools"><a href="#" title="pdf" class="pdf">pdf</a>    <a href="#" title="print" class="print">print</a></p>
       <% if (params[:pages] == 'double') %>
         <p class="sigla"><%= @page2.uri.local_name %></p>
       <% end %> 
-      <%= next_page %>
+      <%= facsimile_edition_next_page %>
     </div>
     <div id="image_big">
       <%= iip_flash_viewer('/Library/WebServer/IIP/test.tif') %>

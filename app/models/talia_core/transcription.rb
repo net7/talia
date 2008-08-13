@@ -1,7 +1,7 @@
 module TaliaCore
   
   # Refers to a transcription of some other object
-  class Transcription < Manifestation
+  class Transcription < HyperEdition
     
   end
 end

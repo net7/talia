@@ -6,7 +6,7 @@ module TaliaUtil
     class TranscriptionImporter < ContributionImporter
       
       source_type 'hyper:Transcription'
-      
+
       def import!
         contribution_import!
       end

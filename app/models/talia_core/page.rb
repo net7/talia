@@ -12,12 +12,12 @@ module TaliaCore
 
     # returns the following page
     def next_page
-      ordered_pages.next_element(self)      
+      ordered_pages.next(self)      
     end
 
     # returns the previous page
     def previous_page
-      ordered_pages.previous_element(self)      
+      ordered_pages.previous(self)      
     end
     
     private

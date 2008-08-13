@@ -13,6 +13,20 @@ module TaliaCore
       type.find(:all, :find_through => [N::HYPER.in_catalog, self])
     end
     
+    
+     # Returns an array containing a list of all the elements of the given type 
+    # (manuscripts, works, etc.). Types can also contain subtypes (notebook, draft, etc.) 
+    # 
+    # The types should be a list of N::URI elements indicating the RDF classes.
+    def elements_by_type(*types)
+      qry = Query.new(TaliaCore::ActiveSource).select(:element).distinct
+      types.each do |type|
+        qry.where(:element, N::RDF.type, type)
+      end
+      qry.where(:element, N::HYPER.in_catalog, self)
+      qry.execute
+    end
+    
     # Creates a new concordant record for the given element and adds it 
     # to the catalog. This will also copy the properties of the given 
     # element.

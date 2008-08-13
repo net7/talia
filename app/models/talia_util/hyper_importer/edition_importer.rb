@@ -6,7 +6,7 @@ module TaliaUtil
     class EditionImporter < ContributionImporter
       
       source_type 'hyper:Edition'
-      source_class TaliaCore::HyperEdition
+#      source_class TaliaCore::HyperEdition
       
       def import!
         contribution_import!

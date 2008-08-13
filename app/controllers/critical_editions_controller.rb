@@ -5,11 +5,18 @@ class CriticalEditionsController < ApplicationController
   def show  
     #TODO: load all the books and create the left menu
     # the right zone of the web page will contain the description/some info
-    @menu_items = []
-    @books = @critical_edition.books
-    @books.each do |book|
-      @menu_items << {:uri => book, :title => TaliaCore.Book.find(book).dcns::title}
-    end
+    #    @menu_items = []
+    #    @books = @critical_edition.books
+    #    @books.each do |book|
+    #      @menu_items << {:uri => book, :title => TaliaCore.Book.find(book).dcns::title}
+    #    end
+  end
+  
+  #TODO: remove 
+  def test
+    editions = TaliaCore::Edition.find(:all)
+    ed = editions[0]
+    @out = ed.to_html
   end
   
   private
