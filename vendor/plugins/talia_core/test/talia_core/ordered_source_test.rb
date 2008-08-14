@@ -259,6 +259,23 @@ module TaliaCore
       assert_equal @item_11.uri, @ordered_source.at(11).uri
       assert_kind_of TaliaCore::ActiveSource, @ordered_source.at(12)
       assert_equal @item_12.uri, @ordered_source.at(12).uri
+      
+      # test order
+      elements = @ordered_source.elements.collect { |item| item.object.uri}
+      elements_array = []
+      elements_array << 'http://testvalue.org/item_1'
+      elements_array << 'http://testvalue.org/item_2'
+      elements_array << 'http://testvalue.org/item_3'
+      elements_array << 'http://testvalue.org/item_4'
+      elements_array << 'http://testvalue.org/item_5'
+      elements_array << 'http://testvalue.org/item_6'
+      elements_array << 'http://testvalue.org/item_7'
+      elements_array << 'http://testvalue.org/item_8'
+      elements_array << 'http://testvalue.org/item_9'
+      elements_array << 'http://testvalue.org/item_10'
+      elements_array << 'http://testvalue.org/item_11'
+      elements_array << 'http://testvalue.org/item_12'
+      assert_equal elements_array, elements
     end
     
     def test_next_and_previous

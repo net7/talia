@@ -200,7 +200,7 @@ module TaliaCore
 
     # return string for index
     def index_to_predicate(index)
-      'http://www.w3.org/1999/02/22-rdf-syntax-ns#_' + "#{index}"
+      'http://www.w3.org/1999/02/22-rdf-syntax-ns#_' + "#{("000000" + index.to_s)[-6..-1]}"
     end
       
     # return index of predicate
