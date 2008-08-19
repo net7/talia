@@ -3,12 +3,20 @@ module TaliaCore
     
     # Class to manage IIP Image data type
     class IipData < DataRecord
-
-      after_save :upload_pyramid_file_after_save
         
       # Returns the IIP server configured for the application
       def self.iip_server_uri
         @iip_server_uri ||= 'http://localhost/fcgi-bin/iipsrv.fcgi'
+      end
+      
+      # Returns the command that is used for converting images
+      def convert_command
+        @convert_command ||= '/opt/local/bin/vips'
+      end
+      
+      # Returns the options for the thumbnail
+      def thumb_options
+        { :width => '128', :height => '128' }
       end
       
       # return the mime_type for a file
@@ -62,78 +70,78 @@ module TaliaCore
         self.location
       end
       
-      # Add data as string into file
-      # * data: data to write
-      # * options: options
-      #   *  options[:thumbnail_size]: Hash. Size of thumbnail file (it must be a multiple of 16.
-      def create_from_data(data, options = {:thumbnail_size => {:width => 128, :height => 128}})
-       
+      def write_file_after_save
+        return unless(@file_data_to_write)
+        
         # create name for orginal temp file and destination temp file
         original_file_path = File.join(Dir.tmpdir, "original_#{random_tempfile_filename}")
         destination_thumbnail_file_path = File.join(Dir.tmpdir, "thumbnail_#{random_tempfile_filename}.tif")
         destination_pyramid_file_path = File.join(Dir.tmpdir, "pyramid_#{random_tempfile_filename}.tif")
         
-        # write the original file
-        original_file = File.open(original_file_path, 'w')
-        original_file << data
-        original_file.close
+        begin # Begin the file creation operationo
+          # write the original file
+          File.open(original_file_path, 'w') do |original_file|
+            if(@file_data_to_write.respond_to?(:read))
+              original_file << @file_data_to_write.read
+            else
+              original_file << @file_data_to_write
+            end
+          end
         
-        # execute vips command for create thumbnail
-        # TODO: to add options, such as size, we can modify this row
-        thumbnail_size = "#{options[:thumbnail_size][:width]}x#{options[:thumbnail_size][:height]}"
-        system_result = system("vips im_vips2tiff #{original_file_path} #{destination_thumbnail_file_path}:jpeg:75,tile:#{thumbnail_size}")
+          # execute vips command for create thumbnail
+          # TODO: to add options, such as size, we can modify this row
+          thumbnail_size = "#{thumb_options[:width]}x#{thumb_options[:height]}"
+          thumbnail_command = "#{convert_command} im_vips2tiff #{original_file_path} #{destination_thumbnail_file_path}:jpeg:75,tile:#{thumbnail_size}"
+          system_result = system(thumbnail_command)
 
-        # check if thumbnails file is created
-        raise "Vips command failed (#{$?})." unless (File.exists?(destination_thumbnail_file_path) || system_result == false)
+          # check if thumbnails file is created
+          raise(IOError, "Vips command failed (#{$?}).") unless (File.exists?(destination_thumbnail_file_path) || !system_result)
         
-        # execute vips command for create pyramid image
-        # TODO: to add options, such as size, we can modify this row
-        system_result = system("vips im_vips2tiff #{original_file_path} #{destination_pyramid_file_path}:jpeg,tile,pyramid")
+          # execute vips command for create pyramid image
+          # TODO: to add options, such as size, we can modify this row
+          pyramid_command = "#{convert_command} im_vips2tiff #{original_file_path} #{destination_pyramid_file_path}:jpeg,tile,pyramid"
+          system_result = system(pyramid_command)
 
-        # check if thumbnails file is created
-        raise "Vips command failed (#{$?})." unless (File.exists?(destination_pyramid_file_path) || system_result == false)
+          # check if thumbnails file is created
+          raise(IOError, "Vips command failed (#{$?}).") unless (File.exists?(destination_pyramid_file_path) || !system_result)
         
-        # read thumbnails file
-        thumbnails_file = File.open(destination_thumbnail_file_path, 'rb')
-        thumbnails_data = thumbnails_file.read(File.size(destination_thumbnail_file_path))
-        thumbnails_file.close
-        
-        # delete temp file
-        File.delete original_file_path
-        File.delete destination_thumbnail_file_path
-        
-        # store pyramid file path to temp variable
-        @pyramid_file = destination_pyramid_file_path
-      
-        # write data
-        super("", thumbnails_data, options)
+          # Run the super implementation for the thumbnail
+          File.open(destination_thumbnail_file_path, 'rb') do |thumb_file|
+            @file_data_to_write = thumb_file
+            super
+          end
+          
+          # Copy the pyramid image to the final location
+          move_pyramid_file(destination_pyramid_file_path)
+          
+        ensure
+          # delete temp files
+          File.delete original_file_path if(File.exists?(original_file_path))
+          File.delete destination_thumbnail_file_path if(File.exists?(destination_thumbnail_file_path))
+          File.delete destination_pyramid_file_path if(File.exists?(destination_pyramid_file_path))
+        end
       end
       
       private
       
-      # upload pyramid file to IIP Server
-      def upload_pyramid_file_after_save
-        # check if there are file to move
-        unless @pyramid_file.nil?
-          # check if file already exists
-          raise(RuntimeError, "File already exists: #{get_iip_root_file_path}") if(File.exists?(get_iip_root_file_path))
+      # Copy the pyramid file to the IIP directory
+      def move_pyramid_file(pyramid_file)
+        # check if file already exists
+        raise(IOError, "File already exists: #{get_iip_root_file_path}") if(File.exists?(get_iip_root_file_path))
           
-          begin
-            # set location
-            self.location = get_iip_root_file_path(true)
+        begin
+          # set location
+          self.location = get_iip_root_file_path(true)
             
-            # create data directory path
-            FileUtils.mkdir_p(iip_root_directory)
+          # create data directory path
+          FileUtils.mkdir_p(iip_root_directory)
             
-            # move file
-            FileUtils.cp @pyramid_file, get_iip_root_file_path
-            FileUtils.rm @pyramid_file
-            @pyramid_file = nil
-          rescue Exception => e
-            assit_fail("Exception on moving file from #{@pyramid_file} to #{get_iip_root_file_path}: #{e}")
-          end
+          # move file
+          FileUtils.cp pyramid_file, get_iip_root_file_path
+          FileUtils.rm pyramid_file
+        rescue Exception => e
+          assit_fail("Exception on moving file from #{pyramid_file} to #{get_iip_root_file_path}: #{e}")
         end
-
       end
       
       # Return the iip root directory for a specific iip image file

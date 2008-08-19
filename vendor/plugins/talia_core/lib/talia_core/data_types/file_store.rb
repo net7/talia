@@ -29,29 +29,29 @@ module FileStore
     
   end
   
-  def write_file_after_save
+  def write_file_after_save  
     # check if there are data to write
-    unless @file_data_to_write.nil?
-      # check if file already exists
-      raise(RuntimeError, "File already exists: #{get_file_path}") if(File.exists?(get_file_path))
+    return unless(@file_data_to_write)
+    
+    # check if file already exists
+    raise(RuntimeError, "File already exists: #{get_file_path}") if(File.exists?(get_file_path))
           
-      begin
-        # create data directory path
-        FileUtils.mkdir_p(data_directory)
+    begin
+      # create data directory path
+      FileUtils.mkdir_p(data_directory)
     
-        # open file for writing
-        @file_handle = File.open(get_file_path, 'w')
+      # open file for writing
+      @file_handle = File.open(get_file_path, 'w')
       
-        # write data string into file
-        @file_handle << @file_data_to_write
+      # write data string into file
+      @file_handle << (@file_data_to_write.respond_to?(:read) ? @file_data_to_write.read : @file_data_to_write)
     
-        # close file
-        close_file
+      # close file
+      close_file
     
-        @file_data_to_write = nil
-      rescue Exception => e
-        assit_fail("Exception on writing file #{self.location}: #{e}")
-      end
+      @file_data_to_write = nil
+    rescue Exception => e
+      assit_fail("Exception on writing file #{self.location}: #{e}")
     end
 
   end

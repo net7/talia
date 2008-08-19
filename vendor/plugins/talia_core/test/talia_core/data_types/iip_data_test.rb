@@ -77,7 +77,7 @@ module TaliaCore
         
         new_record = DataTypes::IipData.new
         new_record.source_id = "something"
-        new_record.create_from_data(data)
+        new_record.create_from_data('', data)
         new_record.save!
         
         # Try to read all bytes by alias method
