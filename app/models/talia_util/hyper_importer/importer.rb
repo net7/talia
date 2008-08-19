@@ -301,7 +301,7 @@ module TaliaUtil
             data_obj = if(%w(.xml .hnml .tei .html .htm).include?(file_ext))
               TaliaCore::DataTypes::XmlData.new
             elsif(%w(.jpg .gif .jpeg .png .tif).include?(file_ext))
-              TaliaCore::DataTypes::ImageData.new
+              TaliaCore::DataTypes::IipData.new
             elsif(%w(.txt).include?(file_ext))
               TaliaCore::DataTypes::SimpleText.new
             elsif(%w(.pdf).include?(file_ext))

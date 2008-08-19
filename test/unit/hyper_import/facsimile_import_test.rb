@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + '/../unit_test_helpers'
+
 require 'test/unit'
 require 'rexml/document'
 require 'fileutils'
@@ -10,10 +12,11 @@ require 'talia_util'
 
 module TaliaUtil
 
-  # Test te DataRecord storage class
+  # Test the DataRecord storage class
   class FacsimileImportTest < Test::Unit::TestCase
   
     include UtilTestMethods
+    include TaliaCore::UnitTestHelpers
     
     suppress_fixtures
     
@@ -23,11 +26,16 @@ module TaliaUtil
         clean_data_files
         Util.flush_rdf
         Util.flush_db
+        setup_iip
         true
       end
       setup_once(:src) do
         hyper_import(load_doc('egrepalysviola-3259'))
       end
+    end
+    
+    def teardown
+      clean_iip
     end
     
     # Test if the import succeeds
@@ -72,7 +80,7 @@ module TaliaUtil
     # Test if the data file was imported
     def test_data
       assert_equal(1, @src.data_records.size)
-      assert_kind_of(TaliaCore::DataTypes::ImageData, @src.data_records[0])
+      assert_kind_of(TaliaCore::DataTypes::IipData, @src.data_records[0])
       assert_equal('N-V-4,97.jpeg', @src.data_records[0].location)
     end
    

@@ -1,5 +1,6 @@
 require 'test/unit'
 require File.dirname(__FILE__) + '/../test_helper'
+require 'fileutils'
 
 module TaliaCore
   
@@ -7,6 +8,18 @@ module TaliaCore
     
     def klass_name
       self.class.to_s.gsub(/:+/, '_')
+    end
+    
+    # Set up the IIP directory
+    def setup_iip
+      TaliaCore::CONFIG["iip_root_directory_location"] = File.join(File.expand_path(File.dirname(__FILE__)), '..', 'fixtures', 'iip_test_data')
+      clean_iip
+    end
+    
+    # Clean out the IIP directory
+    def clean_iip
+      iip_dir = TaliaCore::CONFIG["iip_root_directory_location"]
+      FileUtils.rm_rf(iip_dir) if(File.exists?(iip_dir))
     end
     
     # Creates a dummy expression card
@@ -46,7 +59,7 @@ module TaliaCore
         klass = nil
       end
       @tested_klass = klass
-    end
+    end 
     
     # Runs an automatic test on the cloning if the class supports it
     def test_cloning_autotest

@@ -24,8 +24,11 @@ module HyperDownload
     end
     
     # Mode used for linked files. :skip will just skip them, :touch will create
-    # an empty file (instead of actually downloading the file) and :load will
-    # actually download the whole file. Default is :load.
+    # an emptys file (instead of actually downloading the file) and :load will
+    # actually download the whole file, but only if it doesn't exist yet. 
+    # :overwrite will re-download the file even if it exists 
+    # 
+    # Default is :load.
     def file_mode
       @file_mode || :load
     end
@@ -33,7 +36,7 @@ module HyperDownload
     # Sets the mode to load files
     def file_mode=(mode)
       mode = mode.to_sym
-      raise(ArgumentError, "Illegal mode #{mode}") unless([:skip, :touch, :load].include?(mode))
+      raise(ArgumentError, "Illegal mode #{mode}") unless([:skip, :touch, :load, :overwrite].include?(mode))
       @file_mode = mode
     end
     
