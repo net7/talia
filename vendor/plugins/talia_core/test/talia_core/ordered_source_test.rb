@@ -303,12 +303,12 @@ module TaliaCore
       assert_equal @item_2.uri, @ordered_source.at(2).uri
       assert_equal 2, @ordered_source.current_index
       
-      @next = @ordered_source.next
+      @next = @ordered_source.next_element
       assert_kind_of TaliaCore::ActiveSource, @next
       assert_equal @item_3.uri, @next.uri
       assert_equal 3, @ordered_source.current_index
       
-      assert_raise(RuntimeError) {@ordered_source.next}
+      assert_raise(RuntimeError) {@ordered_source.next_element}
       assert_equal 3, @ordered_source.current_index
             
       # test previous method
@@ -317,7 +317,7 @@ module TaliaCore
       assert_equal @item_2.uri, @ordered_source.at(2).uri
       assert_equal 2, @ordered_source.current_index
       
-      @previous = @ordered_source.previous
+      @previous = @ordered_source.previous_element
       assert_kind_of TaliaCore::ActiveSource, @previous
       assert_equal @item_1.uri, @previous.uri
       assert_equal 1, @ordered_source.current_index
@@ -326,12 +326,12 @@ module TaliaCore
       assert_equal 1, @ordered_source.current_index
       
       # test next with index
-      @next = @ordered_source.next(2)
+      @next = @ordered_source.next_element(2)
       assert_kind_of TaliaCore::ActiveSource, @next
       assert_equal @item_3.uri, @next.uri
       assert_equal 3, @ordered_source.current_index
       
-      assert_raise(RuntimeError) {@ordered_source.next(3)}
+      assert_raise(RuntimeError) {@ordered_source.next_element(3)}
       assert_equal 3, @ordered_source.current_index
       
       # test next with element
@@ -341,12 +341,12 @@ module TaliaCore
       assert_equal 3, @ordered_source.current_index
       
       # test previous with index
-      @previous = @ordered_source.previous(2)
+      @previous = @ordered_source.previous_element(2)
       assert_kind_of TaliaCore::ActiveSource, @previous
       assert_equal @item_1.uri, @previous.uri
       assert_equal 1, @ordered_source.current_index
       
-      assert_raise(RuntimeError) {@ordered_source.previous(1)}
+      assert_raise(RuntimeError) {@ordered_source.previous_element(1)}
       assert_equal 1, @ordered_source.current_index
 
       # test previous with element
