@@ -77,12 +77,72 @@ namespace :discovery do
 
   
   desc "Creates and empty Critical Edition. Options nick=<nick> name=<full_name> description=<short_description>" 
-  task :create_critical_edition => :disco_init do
-    
-    ce = TaliaCore::CriticalEdition.new(N::LOCAL + ENV['nick'])
-    ce.hyper::title << ENV['name']
-    ce.hyper::desctiption << ENV['description']
-    ce.save!    
+  task :create_paragraph_critical_edition => :disco_init do
+    TaliaCore::Book
+    TaliaCore::Page
+    TaliaCore::Chapter
+    TaliaCore::Paragraph
+    TaliaCore::Edition
+    TaliaCore::Transcription
+    TaliaCore::HyperEdition
+    ce = TaskHelper::create_edition(TaliaCore::CriticalEdition)
+
+    qry = TaskHelper::default_book_query
+    qry.where(:paragraph, N::HYPER.part_of, :page)
+    qry.where(:edition, N::HYPER.manifestation_of, :paragraph)
+    qry.where(:edition, N::RDF.type, N::TALIA + 'HyperEdition')
+    # Add the books to the edition
+    TaskHelper::add_books_to_edition(ce, qry.execute)
+    # Go through the paragraphs and add the manifestations
+    paragraphs = ce.elements_by_type(N::TALIA.Paragraph)
+    puts "Found #{paragraphs.size} paragraphs in the new edition. Adding HyperEdition."
+
+    progress = ProgressBar.new('Editions', paragraphs.size)
+    editions = 0
+    paragraphs.each do |paragraph|
+      assit_kind_of(TaliaCore::Paragraph, paragraph)
+      # Select the manifestations
+      qry_edi = Query.new(TaliaCore::Source).select(:edition).distinct
+      qry_edi.where(:concordance, N::HYPER.concordant_to, paragraph)
+      qry_edi.where(:concordance, N::HYPER.concordant_to, :def_paragraph)
+      qry_edi.where(:def_paragraph, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
+      qry_edi.where(:edition, N::HYPER.manifestation_of, :def_paragraph)
+      qry_edi.where(:edition, N::RDF.type, N::TALIA + 'HyperEdition')
+      
+      qry_edi.execute.each do |edition|
+        paragraph.add_manifestation(edition)
+        editions += 1
+      end
+      paragraph.save!
+      
+      progress.inc
+    end
+    progress.finish
+    puts "Importing Chapters and ordering Book pages..."
+    ce.books.each do |book|    
+     
+      qry_chapt = Query.new(TaliaCore::Source).select(:chapter).distinct
+      qry_chapt.where(:concordance, N::HYPER.concordant_to, book)
+      qry_chapt.where(:concordance, N::HYPER.concordant_to, :def_book)
+      qry_chapt.where(:def_book, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
+      qry_chapt.where(:chapter, N::HYPER.book, :def_book)
+      qry_chapt.where(:edition, N::RDF.type, N::TALIA.Chapter)
+      
+      qry_chapt.execute.each do |chapter|
+        ce.add_from_concordant(chapter, false) #don't import subelements
+      end
+      
+      
+      
+      book.order_pages!
+      book.pages.each do |page|
+        page.calculate_chapter!
+        page.paragraphs.each do |paragraph| 
+          paragraph.calculate_chapter!
+        end
+      end
+    end
+    puts "Edition created with #{editions} editions."
   end
   
   namespace :pdf do

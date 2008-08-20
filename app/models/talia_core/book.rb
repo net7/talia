@@ -18,7 +18,17 @@ module TaliaCore
       Page.find(:all, :find_through => [N::HYPER.part_of, self])
     end
     
-    # Creates an OrderedSource object for this book containing all its pages, 
+    # The chapters of this book
+    def chapters
+      qry = Query.new(TaliaCore::Chapter).select(:c).distinct
+      qry.where(:c, N::HYPER.book, self)
+      qry.where(:c, N::HYPER.first_page, :p)
+      qry.where(:p, N::HYPER.position, :pos)
+      qry.sort(:pos)
+      qry.execute  
+    end
+    
+    # Creates an OrderedSource object for this` book containing all its pages, 
     # ordered by their position
     def order_pages!
       ordered = ordered_pages
@@ -36,7 +46,12 @@ module TaliaCore
     
     # Returns an array containing all the pages in this book, ordered
     def ordered_pages
-      OrderedSource.find(self.uri.to_s + '_ordered_pages')
+      uri = self.uri.to_s + '_ordered_pages'
+      if OrderedSource.exists?(uri)
+        OrderedSource.find(uri)
+      else
+        OrderedSource.new(uri)
+      end
     end
     
     def ordered_pages_elements

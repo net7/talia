@@ -8,7 +8,7 @@ module TaliaCore
       N::HYPER.position,
       N::HYPER.position_name,
       N::HYPER.height, N::HYPER.width,
-      N::HYPER.dimension_units
+      N::HYPER.dimension_units 
 
     # returns the following page
     def next_page
@@ -20,9 +20,28 @@ module TaliaCore
       ordered_pages.previous(self)      
     end
     
+    # returns all the paragraphs belonging to this page
+    def paragraphs
+      qry = Query.new(TaliaCore::Paragraph).select(:a).distinct
+      qry.where(:a, N::HYPER.note, :n)
+      qry.where(:n, N::HYPER.page, self)
+      qry.execute     
+    end
+    
+    # adds the information about the chapter this page is in (if any) 
+    def calculate_chapter!
+      candidate = nil
+      book.chapters.each do |chapter| 
+        if   (chapter.first_page.hyper.position[0] < self.hyper.position[0])
+           candidate = chapter 
+        end
+      end 
+      self[N::HYPER.chapter] = candidate unless candidate.nil?            
+    end
+    
     private
     # returns the Book this page is part of
-    def book_i_am_in
+    def book
       qry = Query.new(TaliaCore::Book).select(:b).distinct
       qry.where(self, N::HYPER.part_of, :b)
       qry.execute[0]
@@ -30,7 +49,7 @@ module TaliaCore
 
     # returns an OrderedSource object containig the pages in this book
     def ordered_pages
-      book_i_am_in.ordered_pages
+      book.ordered_pages
     end
 
   end

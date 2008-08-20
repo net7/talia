@@ -8,28 +8,7 @@ module TaliaCore
   class Edition < HyperEdition
     
     def to_html
-      
-          self.data[0].get_content :xsl_file => 'edition_hnml_linear.xsl'
-
-#      @data = self.data[0]
-      
-      self.data[0].get_content 
-      
-      #      
-      #      xslt = XML::XSLT.new() 
-      #      xslt.xml = self.data.content_string
-      #      case self.hyper::subtype
-      #      when "hnml"
-      #        xslt.xsl = "edition_hnml_linear.xsl"
-      #      when "TEI"
-      #      when "WitTEI"
-      #      when "Generic XML"
-      #      end
-      #                
-      #      
-      #      out = xslt.serve()
-      #      
-
+      self.data[0].get_content :xsl_file => '/xsl/edition_hnml_linear.xsl'
     end
     
   end

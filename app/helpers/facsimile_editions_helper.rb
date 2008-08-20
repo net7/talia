@@ -104,7 +104,11 @@ module FacsimileEditionsHelper
     # in any case
     current_page = @page2 || @page
     page = @page.next_page
-    result ="<p class='next'><a href='#{page.uri.to_s}'></a></p>"
+    result = "<p class='next'><a href='#{page.uri.to_s}'></a></p>"
+  rescue
+    # @page.next_page will raise an exception if this is the last page
+    # no next button should be shown, then
+    result = ''
   end
  
   # returns a link to the previous page, used in the "page" action
@@ -114,6 +118,10 @@ module FacsimileEditionsHelper
     # first page, and we want it's predecessor
     page = @page.previous_page
     result ="<p class='previous'><a href='#{page.uri.to_s}'></a></p>"
+  rescue
+    # @page.previous_page will raise an exception if this is the first page
+    # no previous button should be shown, then
+    result = ''
   end
  
   # returns the copyright note to be shown below the facsimile images

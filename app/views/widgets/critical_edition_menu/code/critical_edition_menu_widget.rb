@@ -4,6 +4,7 @@ class CriticalEditionMenuWidget < Widgeon::Widget
   # for the widget as class variables, and all class variables that
   # you set will be available as accessors in the template.
   def on_init
+   books = @books
   end
   
   # Example callback for javascript
