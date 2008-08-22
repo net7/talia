@@ -1,14 +1,35 @@
 class CriticalEditionMenuWidget < Widgeon::Widget
   
-  # This will run during the widget initialization. You can use all options
-  # for the widget as class variables, and all class variables that
-  # you set will be available as accessors in the template.
-  def on_init
-   books = @books
+  def menu
+    @out =  "<ul class='toplevel book'>"
+    @books.each do |book|
+      @out << "<li><a href='#{book.uri.to_s}'>#{book.dcns.title}</a></li>"
+      if @chosen_book == book
+        @out << "<ul class='secondlevel pages'>"
+        if !book.chapters.empty? 
+          book.chapters.each do |chapter| 
+            @out << "<li><a href='#{chapter.uri.to_s}'>#{chapter.dcns.title}</a></li>"
+            if @chosen_chapter == chapter 
+              @out << "<ul class='thirdlevel page'>"
+              chapter.subparts_with_manifestation(N::TALIA.HyperEdition).each do |part|
+                @out << "<li><a href='#{part.uri.to_s}'>#{part.dcns.title}</a></li>"
+              end
+              @out << '</ul>'
+            end
+          end
+          @out << '</ul>'
+        else
+          unless book.parts.emtpy? 
+            book.subparts_with_manifestations(N::TALIA.HyperEdition).each do |part|
+              @out << "<ul class='thirdlevel page'>"
+              @out << "<li><a href='#{part.uri.to_s}'>#{part.dcns.title}</a></li>"
+              @out << '</ul>'
+            end 
+          end 
+        end
+      end
+    end
+    @out << '</ul>'
   end
   
-  # Example callback for javascript
-  # callback :first_callback do |page|
-  #   page.insert_html(options)
-  # end
 end

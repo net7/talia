@@ -1,0 +1,24 @@
+<div class="floatclear"></div>
+
+
+
+<div id="content" class="divided grey">
+  <div id="visore">
+    
+    
+    <div class="txt_block">
+    <%= @chapter_content %>
+    </div>
+
+  </div>
+  
+  <!--[if !IE]>visore<![endif]-->  
+</div>
+<!-- content -->
+
+<div id="scroll">
+  <%= widget(:critical_edition_menu, :books => @critical_edition.books, :chosen_book => @book, :chosen_chapter => @chapter) %>
+</div>
+
+
+

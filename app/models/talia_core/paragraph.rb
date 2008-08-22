@@ -4,15 +4,27 @@ module TaliaCore
   class Paragraph < ExpressionCard
 
 
-    # adds the information about the chapter this annotation is in (if any)
-    # It is asked to the page this paragraph is in.
-    def calculate_chapter!
-      qry = Query.new(TaliaCore::Source).select(:c).distinct.limit(1)
-      qry.where(self, N::HYPER.note, :n)
-      qry.where(:n, N::HYPER.page, :p)
-      qry.where(:p, N::HYPER.chapter, :c)
-      chapters = qry.execute
-      self[N::HYPER.chapter] = chapters[0] unless chapters.empty?  
+    # returns the chapter this paragraph is in (if any)
+    def chapter
+      candidate = nil
+      qry = Query.new(TaliaCore::Source).select(:p).distinct.limit(1)
+      qry.where(self, N::HYPER.part_of, :p)
+      page = qry.execute[0]
+      book.chapters.each do |chapter| 
+        if   (chapter.first_page.hyper.position[0] <= page.hyper.position[0])
+          candidate = chapter 
+        end
+      end 
+      candidate
     end
+    
+    # returns the book this paragraph is in
+    def book
+      qry = Query.new(TaliaCore::Book).select(:b).distinct
+      qry.where(self, N::HYPER.part_of, :p)
+      qry.where(:p, N::HYPER.part_of, :b)
+      qry.execute[0]
+    end
+    
   end
 end

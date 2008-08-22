@@ -73,9 +73,19 @@ ActionController::Routing::Routes.draw do |map|
     :controller => 'facsimile_editions',
     :action => 'search'
 
-    map.connect "critical_editions/test",
+    map.connect "critical_editions/:id/test",
     :controller => 'critical_editions',
     :action => 'test'
+
+    map.connect "critical_editions/:id/:chapter",
+    :controller => 'critical_editions',
+    :action => 'chapter',
+    :requirements => {:chapter => /.*-(I|II|III|IV|V|VI|VII|VIII|IX|X|XII)/}
+  
+    map.connect "critical_editions/:id/:book",
+    :controller => 'critical_editions',
+    :action => 'book'
+ 
   
   # Install the default route as the lowest priority.
   map.connect ':controller/:id', :action => 'show'

@@ -96,7 +96,6 @@ namespace :discovery do
     # Go through the paragraphs and add the manifestations
     paragraphs = ce.elements_by_type(N::TALIA.Paragraph)
     puts "Found #{paragraphs.size} paragraphs in the new edition. Adding HyperEdition."
-
     progress = ProgressBar.new('Editions', paragraphs.size)
     editions = 0
     paragraphs.each do |paragraph|
@@ -118,28 +117,21 @@ namespace :discovery do
       progress.inc
     end
     progress.finish
-    puts "Importing Chapters and ordering Book pages..."
+    puts "Importing Chapters..."
     ce.books.each do |book|    
-     
+      book.order_pages!   
       qry_chapt = Query.new(TaliaCore::Source).select(:chapter).distinct
       qry_chapt.where(:concordance, N::HYPER.concordant_to, book)
       qry_chapt.where(:concordance, N::HYPER.concordant_to, :def_book)
       qry_chapt.where(:def_book, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
       qry_chapt.where(:chapter, N::HYPER.book, :def_book)
       qry_chapt.where(:edition, N::RDF.type, N::TALIA.Chapter)
-      
+
       qry_chapt.execute.each do |chapter|
         ce.add_from_concordant(chapter, false) #don't import subelements
       end
-      
-      
-      
-      book.order_pages!
-      book.pages.each do |page|
-        page.calculate_chapter!
-        page.paragraphs.each do |paragraph| 
-          paragraph.calculate_chapter!
-        end
+      book.chapters.each do |chapter|
+        chapter.order_pages!
       end
     end
     puts "Edition created with #{editions} editions."

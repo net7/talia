@@ -67,18 +67,29 @@ module TaliaCore
     
     # Clone the current card and make the new one concordant to the current
     # one
-    def clone_concordant(uri)
-      new_el = clone(uri)
+    def clone_concordant(uri, convert_objects = false, catalog = nil)
+      new_el = clone(uri, convert_objects, catalog)
       make_concordant(new_el)
       new_el
     end
     
     # Clones the current card, with the properties and inverse properties that
     # are configured for cloning.
-    def clone(uri)
+    def clone(uri, convert_objects = false, catalog = nil)
       raise(ArgumentError, "Element cannot be cloned #{self.uri} - target already exists #{uri}") if(ActiveSource.exists?(uri))
       new_el = self.class.new(uri)
-      self.class.props_to_clone.each { |p| new_el[p] << self[p] }
+      self.class.props_to_clone.each do |p|
+        property = self[p]
+        if convert_objects && catalog
+          # property here is a semantic_collection_wrapper, the first element will contain the object
+          # of the relation if it is a source
+          if property[0].is_a?(TaliaCore::Source)
+            old_source = property[0]
+            property[0] = old_source.concordant_cards(catalog)[0] unless old_source.concordant_cards(catalog)[0].nil?
+          end
+        end 
+        new_el[p] << property 
+      end
       self.class.inverse_props_to_clone.each do |p|
         self.inverse[p].each { |targ| targ[p] << new_el }
       end
@@ -126,6 +137,24 @@ module TaliaCore
       raise(ArgumentError, "Only manifestations can be added here") unless(manifestation.is_a?(Manifestation))
       manifestation.predicate_set_uniq(:hyper, :manifestation_of, self)
     end
+    
+    # returns all the subpart of this expression card which have some manifestation of them
+    # of the given type. manifestation_type must be an URI
+    def subparts (manifestation_type = nil)
+      qry = Query.new(TaliaCore::Source).select(:part).distinct
+      qry.where(:part, N::HYPER.part_of, self)
+      unless manifestation_type.nil?
+        qry.where(:m, N::TALIA.manifestation_of, :part)
+        qry.where(:m, N::RDF.type, manifestation_type) 
+      end
+      qry.execute
+    end
+    
+    def subparts_with_manifestations(manifestation_type)
+      assert_not_nil manifestation_type
+      subparts(manifestation_type)
+    end
+    
     
     protected
     

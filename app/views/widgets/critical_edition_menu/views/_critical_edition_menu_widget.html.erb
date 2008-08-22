@@ -1,16 +1,2 @@
-<%#= w.out %>
-
 <h1>List of works </h1>
-<ul class="toplevel book">
-  <% w.books.each do |book| %>
-    <li><a href="#"><%= book.dcns.title %> </a></li>
-    <ul class="secondlevel pages">
-      <% book.chapters.each do |chapter|  %>
-        <li><a href="#"><%= chapter.dcns.title %></a></li>
-        <ul class="thirdlevel page">
-          <li><a href="#">Una Pagina</a></li>
-        </ul>
-      <% end %>
-    </ul>
-  <% end %>
-</ul>  
+<%= w.menu %>

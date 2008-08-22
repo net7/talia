@@ -37,7 +37,7 @@ module TaliaCore
     def add_from_concordant(concordant_element, children = false, new_siglum = nil)
       raise(ArgumentError, "Can only create concordant catalog elements from Cards, this was a #{concordant_element.class}: #{concordant_element.uri}") unless(concordant_element.is_a?(ExpressionCard))
       siglum = new_siglum || concordant_element.siglum || concordant_element.uri.local_name
-      new_el = concordant_element.clone_concordant(self.uri + '/' + siglum)
+      new_el = concordant_element.clone_concordant(self.uri + '/' + siglum, true, self) # it will convert relation objects to use source part of the present catalog
       new_el.catalog = self
       new_el.save!
       if(children)

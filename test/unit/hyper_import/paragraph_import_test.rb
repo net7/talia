@@ -63,7 +63,7 @@ module TaliaUtil
     # Test if the properties of a paragraph were imported correctly
     def test_paragraph_notes_position
       note = @coord_para.hyper::note[0]
-      assert_property(note.hyper::position, "1")
+      assert_property(note.hyper::position, "000001")
     end
     
     

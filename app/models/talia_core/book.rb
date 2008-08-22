@@ -43,7 +43,7 @@ module TaliaCore
       end
 
     end
-    
+      
     # Returns an array containing all the pages in this book, ordered
     def ordered_pages
       uri = self.uri.to_s + '_ordered_pages'

@@ -27,19 +27,18 @@ module TaliaCore
       qry.where(:n, N::HYPER.page, self)
       qry.execute     
     end
-    
-    # adds the information about the chapter this page is in (if any) 
-    def calculate_chapter!
+
+    # returns the chapter this page is in (if any)
+    def chapter
       candidate = nil
       book.chapters.each do |chapter| 
-        if   (chapter.first_page.hyper.position[0] < self.hyper.position[0])
-           candidate = chapter 
+        if   (chapter.first_page.hyper.position[0] <= self.hyper.position[0])
+          candidate = chapter 
         end
       end 
-      self[N::HYPER.chapter] = candidate unless candidate.nil?            
+      candidate
     end
     
-    private
     # returns the Book this page is part of
     def book
       qry = Query.new(TaliaCore::Book).select(:b).distinct
@@ -47,6 +46,7 @@ module TaliaCore
       qry.execute[0]
     end
 
+    private
     # returns an OrderedSource object containig the pages in this book
     def ordered_pages
       book.ordered_pages
