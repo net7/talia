@@ -6,17 +6,17 @@ module TaliaCore
         
       # Returns the IIP server configured for the application
       def self.iip_server_uri
-        @iip_server_uri ||= 'http://localhost/fcgi-bin/iipsrv.fcgi'
+        TaliaCore::CONFIG['iip_server_uri'] ||= 'http://localhost/fcgi-bin/iipsrv.fcgi'
       end
       
       # Returns the command that is used for converting images
       def convert_command
-        @convert_command ||= '/opt/local/bin/vips'
+        TaliaCore::CONFIG['iip_command'] ||= '/opt/local/bin/vips'
       end
       
       # Returns the options for the thumbnail
       def thumb_options
-        { :width => '128', :height => '128' }
+        TaliaCore::CONFIG['thumb_options'] ||= { :width => '128', :height => '128' }
       end
       
       # return the mime_type for a file
