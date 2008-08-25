@@ -9,7 +9,7 @@ module Admin::TranslationsHelper
   def languages_menu
     content_tag(:div, :id => 'languages_menu') do
       returning result = "Pick a language: " do
-        result << select_tag("languages", languages_options_tags, :onchange => goto_language_page_function)
+        result << select_tag("languages", languages_options_tags, :onchange => change_language_function)
         result << " | #{add_translation}"
       end
     end
@@ -22,9 +22,5 @@ module Admin::TranslationsHelper
       value = edit_admin_translation_url(locale)
       content_tag(:option, language, :value => value, :selected => selected)
     end
-  end
-  
-  def goto_language_page_function
-    "javascript:window.location.href = this.options[this.selectedIndex].value;"
   end
 end

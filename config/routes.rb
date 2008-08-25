@@ -40,6 +40,7 @@ ActionController::Routing::Routes.draw do |map|
   map.logout 'logout', :controller => 'sessions', :action => 'destroy'
   map.open_id_complete 'session', :controller => 'sessions', :action => 'create', :requirements => { :method => :get }
   map.resource :session
+  map.resources :languages, :member => { :change => :get }
 
   # Routes for the sources
   map.resources :sources do |sources|

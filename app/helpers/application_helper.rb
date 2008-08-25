@@ -88,6 +88,25 @@ module ApplicationHelper
   # Show the logout box if the user is loggedin.
   # TODO: in future should handle even the login link.
   def login_box
-    %(<div id="login_box">#{link_to("Logout", logout_path)}</div>) if logged_in?
+    %(<div id="login_box">#{languages_box} | #{link_to("Logout", logout_path)}</div>) if logged_in?
+  end
+  
+  def languages_box
+    content_tag(:div, :id => 'languages_box') do
+      select_tag("languages", languages_box_options_tags, :onchange => change_language_function)
+    end
+  end
+  
+  def languages_box_options_tags
+    languages.map do |language, locale|
+      language = language.to_s.titleize
+      selected = locale == Locale.active.code
+      value = change_language_path(locale)
+      content_tag(:option, language, :value => value, :selected => selected)
+    end
+  end
+  
+  def change_language_function
+    "javascript:window.location.href = this.options[this.selectedIndex].value;"
   end
 end
