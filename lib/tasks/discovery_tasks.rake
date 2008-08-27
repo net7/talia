@@ -61,7 +61,9 @@ namespace :discovery do
       
       qry_man.execute.each do |facsimile|
         page.add_manifestation(facsimile)
+        facsimile.save!
         facsimiles += 1
+        
       end
       page.save!
       
@@ -76,8 +78,8 @@ namespace :discovery do
   end
 
   
-  desc "Creates and empty Critical Edition. Options nick=<nick> name=<full_name> description=<short_description>" 
-  task :create_paragraph_critical_edition => :disco_init do
+  desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> description=<short_description>" 
+  task :create_critical_edition => :disco_init do
     TaliaCore::Book
     TaliaCore::Page
     TaliaCore::Chapter
@@ -87,12 +89,21 @@ namespace :discovery do
     TaliaCore::HyperEdition
     ce = TaskHelper::create_edition(TaliaCore::CriticalEdition)
 
-    qry = TaskHelper::default_book_query
-    qry.where(:paragraph, N::HYPER.part_of, :page)
-    qry.where(:edition, N::HYPER.manifestation_of, :paragraph)
-    qry.where(:edition, N::RDF.type, N::TALIA + 'HyperEdition')
+    par_qry = TaskHelper::default_book_query
+    par_qry.where(:paragraph, N::HYPER.part_of, :page)
+    par_qry.where(:edition, N::HYPER.manifestation_of, :paragraph)
+    par_qry.where(:edition, N::RDF.type, N::TALIA + 'HyperEdition')
+    
+    pag_qry = TaskHelper::default_book_query
+    pag_qry.where(:edition, N::HYPER.manifestation_of, :page)
+    pag_qry.where(:edition, N::RDF.type, N::TALIA + 'HyperEdition')
+    
+    pag_books = pag_qry.execute
+    par_books = par_qry.execute
+    books = par_books + (pag_books - par_books)
+    
     # Add the books to the edition
-    TaskHelper::add_books_to_edition(ce, qry.execute)
+    TaskHelper::add_books_to_edition(ce, books)
     # Go through the paragraphs and add the manifestations
     paragraphs = ce.elements_by_type(N::TALIA.Paragraph)
     puts "Found #{paragraphs.size} paragraphs in the new edition. Adding HyperEdition."
@@ -110,6 +121,7 @@ namespace :discovery do
       
       qry_edi.execute.each do |edition|
         paragraph.add_manifestation(edition)
+        edition.save!
         editions += 1
       end
       paragraph.save!
@@ -117,6 +129,31 @@ namespace :discovery do
       progress.inc
     end
     progress.finish
+ 
+    pages = ce.elements_by_type(N::TALIA.Page)
+    puts "Found #{pages.size} pages in the new edition. Adding HyperEdition."
+    progress = ProgressBar.new('Page Editions', pages.size)
+    page_editions = 0
+    pages.each do |page|
+      assit_kind_of(TaliaCore::Page, page)
+      # Select the manifestations
+      qry_edi = Query.new(TaliaCore::Source).select(:edition).distinct
+      qry_edi.where(:concordance, N::HYPER.concordant_to, page)
+      qry_edi.where(:concordance, N::HYPER.concordant_to, :def_page)
+      qry_edi.where(:def_page, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
+      qry_edi.where(:edition, N::HYPER.manifestation_of, :def_page)
+      qry_edi.where(:edition, N::RDF.type, N::TALIA + 'HyperEdition')
+      
+      qry_edi.execute.each do |edition|
+        page.add_manifestation(edition)
+        edition.save!
+        page_editions += 1
+      end
+      page.save!
+      progress.inc
+    end
+    progress.finish
+ 
     puts "Importing Chapters..."
     ce.books.each do |book|    
       book.order_pages!   
@@ -132,6 +169,10 @@ namespace :discovery do
       end
       book.chapters.each do |chapter|
         chapter.order_pages!
+        if chapter.ordered_pages.size == 0
+          #TODO: it may happen that a chapter is added even if there are no HyperEdition
+          # in it, either we delete it now or we don't add it in the first place
+        end
       end
     end
     puts "Edition created with #{editions} editions."

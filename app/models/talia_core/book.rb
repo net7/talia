@@ -13,6 +13,7 @@ module TaliaCore
       N::DCNS.publisher,
       N::HYPER.publication_place,
       N::HYPER.copyright_note
+
     # The pages of this book
     def pages
       Page.find(:all, :find_through => [N::HYPER.part_of, self])
@@ -56,6 +57,24 @@ module TaliaCore
     
     def ordered_pages_elements
       ordered_pages.elements      
+    end
+
+    # returns the RDF.type of this book (e.g. Manuscript, Work, etc.)
+    def type 
+      qry = Query.new(TaliaCore::Source).select(:type).distinct
+      qry.where(:self, N::RDF.type, :subtype)
+      qry.where(:subtype, N::RDFS.subClassOf, :type)
+      qry.where(:type, N::RDFS.subClassOf, N::HYPER.Material)
+      qry.execute[0]
+    end
+  
+    # returns the subClass of the RDF.type of this book (e.g. Copybook, Notebook, etc.) 
+    def subtype 
+      qry = Query.new(TaliaCore::Source).select(:subtype).distinct
+      qry.where(:self, N::RDF.type, :subtype)
+      qry.where(:subtype, N::RDFS.subClassOf, :type)
+      qry.where(:type, N::RDFS.subClassOf, N::HYPER.Material)
+      qry.execute[0]
     end
     
     # Returns the PDF representation of this book

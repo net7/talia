@@ -138,25 +138,31 @@ module TaliaCore
       manifestation.predicate_set_uniq(:hyper, :manifestation_of, self)
     end
     
-    # returns all the subpart of this expression card which have some manifestation of them
-    # of the given type. manifestation_type must be an URI
-    def subparts (manifestation_type = nil)
-      qry = Query.new(TaliaCore::Source).select(:part).distinct
-      qry.where(:part, N::HYPER.part_of, self)
-      unless manifestation_type.nil?
-        qry.where(:m, N::TALIA.manifestation_of, :part)
-        qry.where(:m, N::RDF.type, manifestation_type) 
-      end
-      qry.execute
+    # returns all the subpart of this expression card
+    def subparts
+      subparts_qry.execute
     end
     
-    def subparts_with_manifestations(manifestation_type)
-      assert_not_nil manifestation_type
-      subparts(manifestation_type)
+    # returns all the subpart of this expression card that have some manifestations 
+    # of the given type related to them. Manifestation_type must be an URI
+    def subparts_with_manifestations(manifestation_type, subpart_type = nil)
+      assit_not_nil manifestation_type #TODO check that manifestation_type is an URI
+      qry = subparts_query
+      qry.where(:m, N::HYPER.manifestation_of, :part)
+      qry.where(:m, N::RDF.type, manifestation_type) 
+      qry.where(:part, N::TALIA.type, subpart_type) unless subpart_type.nil?
+      qry.execute
     end
     
     
     protected
+
+    # default query for subparts 
+    def subparts_query
+      qry = Query.new(TaliaCore::Source).select(:part).distinct
+      qry.where(:part, N::HYPER.part_of, self)
+      qry
+    end
     
     # Assign the default catalog
     def set_default_catalog

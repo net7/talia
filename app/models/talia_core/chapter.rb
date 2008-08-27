@@ -56,7 +56,7 @@ module TaliaCore
     end
 
     
-    # overrides the expression_card method, as chapters have different relations
+    # overrides the expression_card method as chapters have different relations
     # with their subparts
     def subparts_with_manifestations(manifestation_type)
       # if there are manifestations of both pages and annotations it'll return
@@ -66,7 +66,7 @@ module TaliaCore
       annotations = []
       ordered_pages_elements.each do |page|
         qry_page = Query.new(TaliaCore::Source).select(:m).distinct
-        qry_page.where(:m, N::HYPER.manifestation_of, page)
+        qry_page.where(:m, N::HYPER.manifestation_of, page.object)
         qry_page.where(:m, N::RDF.type, manifestation_type)
         pages << page.object unless qry_page.execute.empty?
         

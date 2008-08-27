@@ -18,27 +18,28 @@ module FacsimileEditionsHelper
   end
   
   # creates the elements to be shown in the path
-  def facsimile_edition_path    
+  def facsimile_edition_path  
+    prefix = N::LOCAL.to_s + TaliaCore::FacsimileEdition::EDITION_PREFIX
     path = []
     case action_name
     when "show"
       path = [{:text => params[:id]}]
     when "books"
       path = [
-        {:text => params[:id], :controller => TaliaCore::FacsimileEdition::EDITION_PREFIX, :action => 'show', :id => params[:id]},
+        {:text => params[:id], :link => prefix + "/#{params[:id]}"},
         {:text => @type.capitalize.t}
       ]
     when "panorama"
       path = [
-        {:text => params[:id], :controller => TaliaCore::FacsimileEdition::EDITION_PREFIX, :action => 'show', :id => params[:id]},
-        {:text => @type.capitalize.t, :controller => TaliaCore::FacsimileEdition::EDITION_PREFIX, :action => 'books', :id => params[:id], :type => @type},
+        {:text => params[:id], :link => prefix + "/#{params[:id]}"},
+        {:text => @type.capitalize.t, :link => prefix + "/#{params[:id]}/#{@type}"},
         {:text => params[:book] + ' (panorama)'}
       ]
     when "page"
       path =[
-        {:text => params[:id], :controller => TaliaCore::FacsimileEdition::EDITION_PREFIX, :action => 'show', :id => params[:id]},
-        {:text => @type.capitalize.t, :controller => TaliaCore::FacsimileEdition::EDITION_PREFIX, :action => 'books', :id => params[:id], :type => @type},
-        {:text => @book.uri.local_name + ' (panorama)', :controller => TaliaCore::FacsimileEdition::EDITION_PREFIX, :action => 'panorama', :id => params[:id], :book => @book.uri.local_name},
+        {:text => params[:id], :link => prefix + "/#{params[:id]}"},
+        {:text => @type.capitalize.t, :link => prefix + "/#{params[:id]}/#{@type}"},
+        {:text => @book.uri.local_name + ' (panorama)', :link => prefix + "/#{params[:id]}/#{@book.uri.local_name}"}
       ]
       text = params[:page]
       if (params[:page2])

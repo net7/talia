@@ -16,11 +16,13 @@ class CriticalEditionsController < ApplicationController
     @book = @chapter.book
   end
   
-  def test
-    chapter = TaliaCore::Chapter.find(@critical_edition.uri.to_s + "/DD-I")
-    @out = chapter.subparts_with_manifestations(N::TALIA.HyperEdition) 
+  # pages or paragraphs are dealt-with here.
+  def part
+    @part = TaliaCore::Source.find(request.url) 
+    @book = @part.book
+    @chapter = @part.chapter
   end
-
+  
   private
   def find_critical_edition
     edition = "#{N::LOCAL}#{TaliaCore::CriticalEdition::EDITION_PREFIX}/#{params[:id]}"

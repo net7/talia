@@ -14,13 +14,15 @@ class SimpleModePathWidget < Widgeon::Widget
     # navigation path
     @path_elements.each do |element|
       result << ' &gt; '
-      text = element.delete(:text)
-      if (element.empty?)
+      url = element[:link]
+      text = element[:text]
+      if url.nil?
         # if link data are not passed, only the text, with no links, is displayed
         result << text
       else
         # if link data are passed, also a link is created
-        result << link_to(text, element)       
+        #        result << link_to(text, element)       
+        result << "<a href='#{url}'>#{text}</a>"
       end
     end
     result

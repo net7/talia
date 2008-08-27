@@ -32,7 +32,7 @@ class FacsimileEditionsController < ApplicationController
     respond_to do |format|
       format.html do
         @book = TaliaCore::Book.find(request.url)
-        @type = @book.hyper::type[0]
+        @type = @book.type.uri.local_name
       end
       format.jpeg do
         book_uri = N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:book]
@@ -70,7 +70,7 @@ class FacsimileEditionsController < ApplicationController
         qry.where(@page, N::HYPER.part_of, :b)
         result=qry.execute
         @book = result[0]
-        @type = @book.hyper::type[0]
+        @type = @book.type.uri.local_name
       end
       format.jpeg do
         page = N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page]

@@ -73,10 +73,11 @@ ActionController::Routing::Routes.draw do |map|
     :controller => 'facsimile_editions',
     :action => 'search'
 
-    map.connect "critical_editions/:id/test",
+   map.connect "critical_editions/:id/:part",
     :controller => 'critical_editions',
-    :action => 'test'
-
+    :action => 'part',
+    :requirements => {:part => /(.*-\d+)|(.*,[^\[]*)|(.*,.*\[.*)/}
+  
     map.connect "critical_editions/:id/:chapter",
     :controller => 'critical_editions',
     :action => 'chapter',
