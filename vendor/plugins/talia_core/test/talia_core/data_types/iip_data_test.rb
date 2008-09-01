@@ -84,6 +84,8 @@ module TaliaCore
         bytes = new_record.get_thumbnail
         assert_equal(3743, bytes.size)
         assert_equal(false, new_record.is_file_open?)
+        # Check if the mime was written correctly
+        assert_equal('image/tiff', DataTypes::IipData.find(new_record.id).mime_type)
         
         # delete record and file
         File.delete(new_record.get_file_path)

@@ -10,18 +10,23 @@ module TaliaCore
       end
       
       # Returns the command that is used for converting images
+      def vips_command
+        TaliaCore::CONFIG['vips_command'] ||= '/opt/local/bin/vips'
+      end
+      
+      # Returns the command that is used for converting thumbnails
       def convert_command
-        TaliaCore::CONFIG['iip_command'] ||= '/opt/local/bin/vips'
+        TaliaCore::CONFIG['convert_command'] ||= '/opt/local/bin/convert'
       end
       
       # Returns the options for the thumbnail
       def thumb_options
-        TaliaCore::CONFIG['thumb_options'] ||= { :width => '128', :height => '128' }
+        TaliaCore::CONFIG['thumb_options'] ||= { 'width' => '128', 'height' => '128' }
       end
       
-      # return the mime_type for a file
-      def extract_mime_type(location)
-        'image/tiff'
+      # This is the mime type for the thumbnail - always tiff
+      def set_mime_type
+        self.mime = 'image/jpeg'
       end
       
       # returns all bytes in the object as an array
@@ -75,7 +80,7 @@ module TaliaCore
         
         # create name for orginal temp file and destination temp file
         original_file_path = File.join(Dir.tmpdir, "original_#{random_tempfile_filename}")
-        destination_thumbnail_file_path = File.join(Dir.tmpdir, "thumbnail_#{random_tempfile_filename}.tif")
+        destination_thumbnail_file_path = File.join(Dir.tmpdir, "thumbnail_#{random_tempfile_filename}.jpg")
         destination_pyramid_file_path = File.join(Dir.tmpdir, "pyramid_#{random_tempfile_filename}.tif")
         
         begin # Begin the file creation operationo
@@ -90,8 +95,8 @@ module TaliaCore
         
           # execute vips command for create thumbnail
           # TODO: to add options, such as size, we can modify this row
-          thumbnail_size = "#{thumb_options[:width]}x#{thumb_options[:height]}"
-          thumbnail_command = "#{convert_command} im_vips2tiff #{original_file_path} #{destination_thumbnail_file_path}:jpeg:75,tile:#{thumbnail_size}"
+          thumbnail_size = "#{thumb_options['width']}x#{thumb_options['height']}"
+          thumbnail_command = "#{convert_command} #{original_file_path} -resize #{thumbnail_size} #{destination_thumbnail_file_path}"
           system_result = system(thumbnail_command)
 
           # check if thumbnails file is created
@@ -99,7 +104,7 @@ module TaliaCore
         
           # execute vips command for create pyramid image
           # TODO: to add options, such as size, we can modify this row
-          pyramid_command = "#{convert_command} im_vips2tiff #{original_file_path} #{destination_pyramid_file_path}:jpeg,tile,pyramid"
+          pyramid_command = "#{vips_command} im_vips2tiff #{original_file_path} #{destination_pyramid_file_path}:deflate,tile,pyramid"
           system_result = system(pyramid_command)
 
           # check if thumbnails file is created

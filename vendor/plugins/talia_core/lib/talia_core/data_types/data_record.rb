@@ -11,8 +11,9 @@ module TaliaCore
       include FileStore
       belongs_to :source, :class_name => 'TaliaCore::Source'
     
+      before_create :set_mime_type # Mime type must be saved before the record is written
       after_save :save_attachment
-      after_create :write_file_after_save, :set_mime_type
+      after_create :write_file_after_save # TODO: Is this really only for create operations
    
       before_destroy :destroy_attachment
 
@@ -270,9 +271,11 @@ module TaliaCore
       
       # set mime type 
       def set_mime_type
+        assit_not_nil(self.location, "Location for #{self} should not be nil")
         if !self.location.nil?
           # Set mime type for the record
           self.mime = extract_mime_type(self.location)
+          assit_not_nil(self.mime, "Mime should not be nil!")
         end
       end
       
