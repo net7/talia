@@ -4,9 +4,9 @@ module TaliaUtil
     
     # Import class for paragraphs
     class EditionImporter < ContributionImporter
-      
-      source_type 'hyper:Edition'
-      source_class TaliaCore::HyperEdition
+
+      source_type 'hyper:HyperEdition'
+      source_class TaliaCore::Edition
       
       def import!
         contribution_import!

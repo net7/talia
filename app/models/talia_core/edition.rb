@@ -8,7 +8,26 @@ module TaliaCore
   class Edition < HyperEdition
     
     def to_html
-      self.data[0].get_content :xsl_file => '/xsl/edition_hnml_linear.xsl'
+      require 'JXslt/jxslt'
+      xalan = JXslt::Xalan.new
+
+      infile = self.data[0].get_file_path
+      outfile = '/tmp/tmp.xml'
+      case self.hyper.file_content_type[0]
+      when "hnml"
+        xsl = 'public/xsl/hnml/edition_hnml_linear.xsl'
+        xalan.transform(xsl, infile, outfile)
+        xsl = 'public/xsl/hnml/edition_hnml_linear_2.xsl'
+        xalan.transform(xsl, outfile, outfile)
+      when "TEI"
+        xsl = 'public/xsl/TEI/p4/html/tei.xsl'
+        xalan.transform(xsl, infile, outfile)          
+      end
+      
+     
+      outfile
+      
+      #      self.data[0].get_content :xsl_file => '/xsl/edition_hnml_linear.xsl'
     end
     
   end
@@ -27,7 +46,7 @@ module TaliaCore
     xslt.xsl = xsl_file
 
     # return transformation output
-    return xslt.ser
+    return xslt.serve()
   end
         
   

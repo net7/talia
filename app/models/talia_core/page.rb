@@ -39,6 +39,13 @@ module TaliaCore
       candidate
     end
     
+    def position_within_chapter
+      unless chapter.nil?
+        position = self.hyper.position[0].to_i - chapter.first_page.hyper.position[0].to_i  
+        ("000000" + position)[-6..-1]
+      end
+    end
+    
     # returns the Book this page is part of
     def book
       qry = Query.new(TaliaCore::Book).select(:b).distinct

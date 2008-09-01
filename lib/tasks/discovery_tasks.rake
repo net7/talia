@@ -92,11 +92,11 @@ namespace :discovery do
     par_qry = TaskHelper::default_book_query
     par_qry.where(:paragraph, N::HYPER.part_of, :page)
     par_qry.where(:edition, N::HYPER.manifestation_of, :paragraph)
-    par_qry.where(:edition, N::RDF.type, N::TALIA + 'HyperEdition')
+    par_qry.where(:edition, N::RDF.type, N::HYPER + 'HyperEdition')
     
     pag_qry = TaskHelper::default_book_query
     pag_qry.where(:edition, N::HYPER.manifestation_of, :page)
-    pag_qry.where(:edition, N::RDF.type, N::TALIA + 'HyperEdition')
+    pag_qry.where(:edition, N::RDF.type, N::HYPER + 'HyperEdition')
     
     pag_books = pag_qry.execute
     par_books = par_qry.execute
@@ -117,7 +117,7 @@ namespace :discovery do
       qry_edi.where(:concordance, N::HYPER.concordant_to, :def_paragraph)
       qry_edi.where(:def_paragraph, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
       qry_edi.where(:edition, N::HYPER.manifestation_of, :def_paragraph)
-      qry_edi.where(:edition, N::RDF.type, N::TALIA + 'HyperEdition')
+      qry_edi.where(:edition, N::RDF.type, N::HYPER + 'HyperEdition')
       
       qry_edi.execute.each do |edition|
         paragraph.add_manifestation(edition)
@@ -142,7 +142,7 @@ namespace :discovery do
       qry_edi.where(:concordance, N::HYPER.concordant_to, :def_page)
       qry_edi.where(:def_page, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
       qry_edi.where(:edition, N::HYPER.manifestation_of, :def_page)
-      qry_edi.where(:edition, N::RDF.type, N::TALIA + 'HyperEdition')
+      qry_edi.where(:edition, N::RDF.type, N::HYPER + 'HyperEdition')
       
       qry_edi.execute.each do |edition|
         page.add_manifestation(edition)

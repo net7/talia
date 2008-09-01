@@ -160,6 +160,7 @@ module TaliaCore
     # default query for subparts 
     def subparts_query
       qry = Query.new(TaliaCore::Source).select(:part).distinct
+      #TODO make the query returns also subparts of subparts or self
       qry.where(:part, N::HYPER.part_of, self)
       qry
     end

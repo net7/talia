@@ -74,6 +74,9 @@ module TaliaCore
         qry_ann.where(:p, N::HYPER.part_of, page.object)
         qry_ann.where(:m, N::HYPER.manifestation_of, :p)
         qry_ann.where(:m, N::RDF.type, manifestation_type)
+        qry_page.where(:p, N::HYPER.position, :pos)
+        qry_page.sort(:pos)
+
         qry_ann.execute.each do |a|
           annotations << a
         end
