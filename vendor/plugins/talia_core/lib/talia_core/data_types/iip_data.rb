@@ -104,7 +104,7 @@ module TaliaCore
         
           # execute vips command for create pyramid image
           # TODO: to add options, such as size, we can modify this row
-          pyramid_command = "#{vips_command} im_vips2tiff #{original_file_path} #{destination_pyramid_file_path}:deflate,tile,pyramid"
+          pyramid_command = "#{vips_command} im_vips2tiff #{original_file_path} #{destination_pyramid_file_path}:deflate  ,tile,pyramid"
           system_result = system(pyramid_command)
 
           # check if thumbnails file is created
@@ -127,6 +127,20 @@ module TaliaCore
         end
       end
       
+      # Return the iip root directory for a specific iip image file
+      def iip_root_directory(relative = false)
+        if relative == false
+          File.join(TaliaCore::CONFIG["iip_root_directory_location"], ("00" + self.id.to_s)[-3..-1])
+        else
+          File.join(("00" + self.id.to_s)[-3..-1])
+        end
+      end
+      
+      # Return the full file path related to the data directory
+      def get_iip_root_file_path(relative = false)
+        File.join(iip_root_directory(relative), self.id.to_s + '.tif')
+      end
+      
       private
       
       # Copy the pyramid file to the IIP directory
@@ -147,20 +161,6 @@ module TaliaCore
         rescue Exception => e
           assit_fail("Exception on moving file from #{pyramid_file} to #{get_iip_root_file_path}: #{e}")
         end
-      end
-      
-      # Return the iip root directory for a specific iip image file
-      def iip_root_directory(relative = false)
-        if relative == false
-          File.join(TaliaCore::CONFIG["iip_root_directory_location"], ("00" + self.id.to_s)[-3..-1])
-        else
-          File.join(("00" + self.id.to_s)[-3..-1])
-        end
-      end
-      
-      # Return the full file path related to the data directory
-      def get_iip_root_file_path(relative = false)
-        File.join(iip_root_directory(relative), self.id.to_s + '.tif')
       end
   
       # Generates a unique filename for a Tempfile. 
