@@ -29,8 +29,10 @@ auto_ontologies: ontologies
 
 # URI for the IIP server instance
 iip_server_uri: 'http://localhost/fcgi-bin/iipsrv.fcgi'
-# The external vips command that needs to be called to create the pyramid images
-iip_command: /opt/local/bin/vips
+# The external vips/convert commands that need to be called to create the pyramid images and thumbnails
+vips_command: /opt/local/bin/vips
+convert_command: /opt/local/bin/convert
+
 # Thumbnail size for IIP thumbnails 
 thumb_options:
     width: '128'

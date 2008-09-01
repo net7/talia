@@ -2,9 +2,12 @@
 module ApplicationHelper
   
   
-  def iip_flash_viewer(image_path, height = 400, width = 400)
+  def iip_flash_viewer(element, height = 400, width = 400)
+    iip_data = get_iip_data_for(element)
+    return "No iip data for #{element.uri}" unless(iip_data)
+    
     render :partial => 'shared/iip_flash_viewer', :locals => {
-      :image_path => image_path,
+      :image_path => iip_data.get_iip_root_file_path,
       :height => height.to_s,
       :width => width.to_s,
       :element_id => "iip_viewer_#{rand 10E16}" # Random name so that multiple instances can be used 
@@ -108,12 +111,8 @@ module ApplicationHelper
     url = element.uri.to_s
     title = element.uri.local_name
     
-    # Check for the manifestation of this expression card
-    return titled_link(url, "missing image for #{title}", title) unless(element.manifestations.size > 0)
-    assit_equal(1, element.manifestations.size)
-    
     # Try to get the iip data record for the manifestation of the element
-    iip_data = TaliaCore::DataTypes::IipData.find(:first, :conditions => { :source_id => element.manifestations.first.id })
+    iip_data = get_iip_data_for(element)
     return titled_link(url, "missing image for #{title}", title) unless(iip_data)
 
     img_options = { :alt => title }.merge(img_options)
@@ -131,6 +130,14 @@ module ApplicationHelper
   
   def action_name
     controller.action_name
+  end
+  
+  private
+  
+  def get_iip_data_for(expression_card)
+    return nil unless(expression_card.manifestations.size > 0)
+    iip_data = TaliaCore::DataTypes::IipData.find(:first, :conditions => { :source_id => expression_card.manifestations.first.id })
+    iip_data
   end
   
 end

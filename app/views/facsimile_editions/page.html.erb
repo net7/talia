@@ -39,9 +39,9 @@
       <%= facsimile_edition_next_page %>
     </div>
     <div id="image_big">
-      <%= iip_flash_viewer('/Library/WebServer/IIP/test.tif') %>
+      <%= iip_flash_viewer(@page) %>
       <% if (params[:pages] == 'double') %>
-        <%= iip_flash_viewer(@page2.iip_path) %>
+        <%= iip_flash_viewer(@page) %>
       <% end %> 
     </div>   
     

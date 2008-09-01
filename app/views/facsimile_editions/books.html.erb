@@ -14,10 +14,6 @@
       <li>
         <h1>
           <%= thumb_link(book, :border => '0' ) %>
-          <% url = book.uri.to_s %>        
-          <% title = book.uri.local_name %>
-          <% text = "<img src='#{url}.jpeg?size=thumbnail' alt='#{title}' border='0'/>#{title}" %>        
-          <%= titled_link(url, text, title)%>
         </h1>
         <p>
           <%= material_description(book) %>
