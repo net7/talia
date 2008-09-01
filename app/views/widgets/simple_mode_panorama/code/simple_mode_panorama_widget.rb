@@ -24,7 +24,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         result << "
       <div class='block'>
         <p class='lonely'>"
-        result << panorama_element(element)
+        result << thumb_link(element)
         result << '</p></div>
       </div>
         '
@@ -33,7 +33,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         if (position == 'odd') 
           result << '<div class="block">' 
         end 
-        result << "<p>#{panorama_element(element)}</p>"    
+        result << "<p>#{thumb_link(element)}</p>"    
         if position == 'even' || elements.last.object == element 
           result << '</div>
           ' 
@@ -60,7 +60,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         result << "<div class='view_block'>
         <p class='lonely' id='page_#{element}'>
         "
-        result << panorama_element(element)
+        result << thumb_link(element)
         result << '
 </p>
       </div>'
@@ -70,7 +70,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         end 
         result << "<p id='page_#{element}'>
         "
-        result << panorama_element(element)
+        result << thumb_link(element)
         result << '
 </p>'
         if position == 'even' || elements.last.object == element
@@ -88,15 +88,6 @@ class SimpleModePanoramaWidget < Widgeon::Widget
       last_element = element      
     end 
     result
-  end
-    
-  private 
-  def panorama_element(element)
-    url = "#{element.uri.to_s}"
-    image_url = "#{url}.jpeg?size=thumbnail"
-    text = "<img src='#{image_url}'/>#{element.uri.local_name}"
-    result = "#{titled_link(url, text)}"    
-  end
-    
+  end  
         
 end

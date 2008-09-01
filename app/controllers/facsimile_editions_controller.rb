@@ -43,7 +43,7 @@ class FacsimileEditionsController < ApplicationController
         qry.sort(:pos)
         facsimile = qry.execute[0]
         return facsimile.iip_path unless (params[:size] == 'thumbnail')
-        return facsimile.thumb
+        return url_for(:controller => 'source_data', :id => facsimile.id)
       end
     end
   end

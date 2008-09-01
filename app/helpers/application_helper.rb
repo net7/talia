@@ -101,6 +101,27 @@ module ApplicationHelper
       ] )
   end
   
+  # Get a link that contains the (thumbnail) image for the iip data record
+  # of the first manifestation of the given expression card. The img_options
+  # are added to the image tag.
+  def thumb_link(element, img_options = {})
+    url = element.uri.to_s
+    title = element.uri.local_name
+    
+    # Check for the manifestation of this expression card
+    return titled_link(url, "missing image for #{title}", title) unless(element.manifestations.size > 0)
+    assit_equal(1, element.manifestations.size)
+    
+    # Try to get the iip data record for the manifestation of the element
+    iip_data = TaliaCore::DataTypes::IipData.find(:first, :conditions => { :source_id => element.manifestations.first.id })
+    return titled_link(url, "missing image for #{title}", title) unless(iip_data)
+
+    img_options = { :alt => title }.merge(img_options)
+    img_tag = image_tag(url_for(:controller => 'source_data', :action => 'show', :id => iip_data.id), img_options)
+
+    titled_link(url, img_tag, title)
+  end
+  
   def titled_link (url, text, title='')
     title ||= text
     text = text.t

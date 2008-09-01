@@ -27,6 +27,17 @@ auto_ontologies: ontologies
 # the default location)
 # data_directory_location: "/var/www/talia_data/"
 
+# URI for the IIP server instance
+iip_server_uri: 'http://localhost/fcgi-bin/iipsrv.fcgi'
+# The external vips command that needs to be called to create the pyramid images
+iip_command: /opt/local/bin/vips
+# Thumbnail size for IIP thumbnails 
+thumb_options:
+    width: '128'
+    height: '128'
+# The root directory for the IIP-served images
+# iip_root_directory_location: TALIA_ROOT/iip_root
+
 # Configure the namespaces for use with RDF
 namespaces:
     # Default namespaces rdf, rdfs, xsd, owl are defined in the semantic_naming

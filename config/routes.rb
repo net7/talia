@@ -47,8 +47,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :types
 
   # Routes for the source data
+  map.connect 'source_data/:id', :controller => 'source_data',
+    :action => 'show'
   map.connect 'source_data/:type/:location', :controller => 'source_data',
-    :action => 'show',
+    :action => 'show_tloc',
     :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
 
   map.resources :data_records, :controller => 'source_data'

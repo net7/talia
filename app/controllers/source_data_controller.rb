@@ -4,10 +4,12 @@ class SourceDataController < ApplicationController
   
   # GET /source_data/1
   def show
+    send_record_data(TaliaCore::DataTypes::DataRecord.find(params[:id]))
+  end
+  
+  def show_tloc
     @source_data = TaliaCore::DataTypes::DataRecord.find_by_type_and_location!(params[:type], params[:location])
-    send_data @source_data.content_string, :type => @source_data.mime_type,
-                                    :disposition => 'inline',
-                                    :filename => params[:location]
+    send_record_data(@source_data)
   end
   
   # POST /source_data
@@ -29,4 +31,12 @@ class SourceDataController < ApplicationController
       page.delay(3.1) { page.remove :data_notice }
     end
   end
+  
+  # Send the record to the browser
+  def send_record_data(record)
+    send_data record.content_string, :type => record.mime_type,
+      :disposition => 'inline',
+      :filename => "#{params[:location]}.tif"
+  end
+  
 end

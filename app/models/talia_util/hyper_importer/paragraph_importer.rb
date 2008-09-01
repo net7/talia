@@ -43,7 +43,8 @@ module TaliaUtil
           note.hyper::position << ('000000' + position.to_s)[-6..-1]
           # Add a relation to the page
           add_source_rel(N::HYPER::page, page, note)
-          add_source_rel(N::HYPER::part_of, page, @source)
+          # TODO: Cannot be part_of, check if this causes trouble
+          # add_source_rel(N::HYPER::part_of, page, @source)
           # Create a data object for the coordinates
           if(coordinates && coordinates != '')
             coord_data = TaliaCore::DataTypes::SimpleText.new
