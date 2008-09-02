@@ -39,7 +39,7 @@
       <%= facsimile_edition_next_page %>
     </div>
     <div id="image_big">
-      <%= iip_flash_viewer(@page) %>
+      <%= iip_flash_viewer(@page, 600, 600) %>
       <% if (params[:pages] == 'double') %>
         <%= iip_flash_viewer(@page) %>
       <% end %> 

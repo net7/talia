@@ -51,4 +51,4 @@ namespaces:
     taliadom: "http://trac.talia.discovery-project.eu/wiki/SampleDomainOntology#"
     luccadom: "http://trac.talia.discovery-project.eu/wiki/LuccaOntology#"
     # HyperNietzsche namespace
-    hyper: "http://www.hypernietzsche.org/ontology/"
+    hyper: "http://trac.talia.discovery-project.eu/wiki/HyperOntology#"
