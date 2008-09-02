@@ -104,7 +104,7 @@ module TaliaCore
         
           # execute vips command for create pyramid image
           # TODO: to add options, such as size, we can modify this row
-          pyramid_command = "#{vips_command} im_vips2tiff #{original_file_path} #{destination_pyramid_file_path}:deflate  ,tile,pyramid"
+          pyramid_command = "#{vips_command} im_vips2tiff #{original_file_path} #{destination_pyramid_file_path}:deflate,tile,pyramid"
           system_result = system(pyramid_command)
 
           # check if thumbnails file is created
