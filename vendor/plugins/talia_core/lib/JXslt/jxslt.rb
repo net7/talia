@@ -7,9 +7,30 @@ module JXslt
   include_class "java.lang.System"
 
   class XsltProcessor
-    def transform(xslt,infile,outfile)
+
+    def transform(xslt, infile, outfile, options)
+      if options[:in] == "stream"
+        in_var = StreamSource.new(infile)
+      else
+        sr = java.io.StringReader.new(infile)
+        in_var =  StreamSource.new(sr)
+      end
+      if options[:out] == "stream"
+        out_var = StreamResult.new(outfile)
+      else
+        sw = java.io.StringWriter.new()
+        out_var = StreamResult.new(sw)
+      end
       transformer = @tf.newTransformer(StreamSource.new(xslt))
-      transformer.transform(StreamSource.new(infile), StreamResult.new(outfile))
+      unless options[:transformer_parameters].nil?
+        options[:transformer_parameters].each do |key, value|
+            transformer.setParameter(key, java.lang.String.new(value))
+        end
+      end
+      transformer.transform(in_var, out_var)
+      if options[:out] != "stream"
+        outfile = sw.toString()
+      end
     end 
   end # XsltProcessor  
   class Saxon < XsltProcessor
