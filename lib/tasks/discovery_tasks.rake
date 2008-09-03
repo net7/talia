@@ -80,6 +80,7 @@ namespace :discovery do
   
   desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> description=<short_description>" 
   task :create_critical_edition => :disco_init do
+
     TaliaCore::Book
     TaliaCore::Page
     TaliaCore::Chapter
@@ -90,7 +91,8 @@ namespace :discovery do
     ce = TaskHelper::create_edition(TaliaCore::CriticalEdition)
 
     par_qry = TaskHelper::default_book_query
-    par_qry.where(:paragraph, N::HYPER.part_of, :page)
+    par_qry.where(:paragraph, N::HYPER.note, :note)
+    par_qry.where(:note, N::HYPER.page, :page)
     par_qry.where(:edition, N::HYPER.manifestation_of, :paragraph)
     par_qry.where(:edition, N::RDF.type, N::HYPER + 'HyperEdition')
     
@@ -102,29 +104,40 @@ namespace :discovery do
     par_books = par_qry.execute
     books = par_books + (pag_books - par_books)
     
-    # Add the books to the edition
+    # Add the books to the edition (it will add pages too)
     TaskHelper::add_books_to_edition(ce, books)
     # Go through the paragraphs and add the manifestations
-    paragraphs = ce.elements_by_type(N::TALIA.Paragraph)
+    query = Query.new(TaliaCore::Source).select(:paragraph).distinct
+    query.where(:book, N::RDF.type, N::HYPER.Book)
+    # only select from the default catalog
+    query.where(:book, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
+    query.where(:page, N::HYPER.part_of, :book)
+    query.where(:paragraph, N::HYPER.note, :note)
+    query.where(:note, N::HYPER.page, :page)
+    query.where(:edition, N::HYPER.manifestation_of, :paragraph)
+    query.where(:edition, N::RDF.type, N::HYPER + 'HyperEdition')
+    
+    paragraphs = query.execute
     puts "Found #{paragraphs.size} paragraphs in the new edition. Adding HyperEdition."
     progress = ProgressBar.new('Editions', paragraphs.size)
     editions = 0
     paragraphs.each do |paragraph|
+      new_paragraph = ce.add_from_concordant(paragraph, false) # no children imported
       assit_kind_of(TaliaCore::Paragraph, paragraph)
       # Select the manifestations
       qry_edi = Query.new(TaliaCore::Source).select(:edition).distinct
-      qry_edi.where(:concordance, N::HYPER.concordant_to, paragraph)
+      qry_edi.where(:concordance, N::HYPER.concordant_to, new_paragraph)
       qry_edi.where(:concordance, N::HYPER.concordant_to, :def_paragraph)
       qry_edi.where(:def_paragraph, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
       qry_edi.where(:edition, N::HYPER.manifestation_of, :def_paragraph)
       qry_edi.where(:edition, N::RDF.type, N::HYPER + 'HyperEdition')
       
       qry_edi.execute.each do |edition|
-        paragraph.add_manifestation(edition)
+        new_paragraph.add_manifestation(edition)
         edition.save!
         editions += 1
       end
-      paragraph.save!
+      new_paragraph.save!
       
       progress.inc
     end

@@ -20,16 +20,18 @@ class CriticalEditionMenuWidget < Widgeon::Widget
               end
               @out << '</ul>'
             end
+       
           end
-          @out << '</ul>'
         else
           # the book has no chapters, we'll add pages/paragraphs directly under the book itself
           book.subparts_with_manifestations(N::HYPER.HyperEdition).each do |part|
             @out << "<ul class='thirdlevel page'>"
-            @out << "<li><a href='#{part.uri.to_s}'>#{part.dcns.title}</a></li>"
+            title = part.dcns.title.empty? ? part.uri.local_name : part.dcns.title
+            @out << "<li><a href='#{part.uri.to_s}'>#{title}</a></li>"
             @out << '</ul>'
           end 
         end
+        @out << '</ul>'
       end
     end
     @out << '</ul>'

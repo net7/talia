@@ -1,4 +1,4 @@
-class FacsimileEditionsController < ApplicationController
+  class FacsimileEditionsController < ApplicationController
   before_filter :find_facsimile_edition
  
   # GET /facsimile_editions/1

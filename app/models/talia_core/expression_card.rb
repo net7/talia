@@ -140,31 +140,16 @@ module TaliaCore
     
     # returns all the subpart of this expression card
     def subparts
-      subparts_qry.execute
     end
     
     # returns all the subpart of this expression card that have some manifestations 
     # of the given type related to them. Manifestation_type must be an URI
     def subparts_with_manifestations(manifestation_type, subpart_type = nil)
-      assit_not_nil manifestation_type #TODO check that manifestation_type is an URI
-      qry = subparts_query
-      qry.where(:m, N::HYPER.manifestation_of, :part)
-      qry.where(:m, N::RDF.type, manifestation_type) 
-      qry.where(:part, N::TALIA.type, subpart_type) unless subpart_type.nil?
-      qry.execute
     end
     
     
-    protected
-
-    # default query for subparts 
-    def subparts_query
-      qry = Query.new(TaliaCore::Source).select(:part).distinct
-      #TODO make the query returns also subparts of subparts or self
-      qry.where(:part, N::HYPER.part_of, self)
-      qry
-    end
-    
+  protected
+  
     # Assign the default catalog
     def set_default_catalog
       self.catalog = Catalog.default_catalog unless(self.catalog)

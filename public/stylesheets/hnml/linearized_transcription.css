@@ -1,0 +1,142 @@
+body  {  }
+
+/*testo base dell'edizione*/
+
+.edition-text  { font-family: Verdana,Arial,Helvetica; font-size:13pt; text-align: justify; line-height: 23pt;  }
+p  {  margin-bottom: 0px; background-color:inherit; }
+.center { text-indent:120pt; }
+
+
+/*salto di pagina*/
+.pb {text-align: center;
+	background-color:#FFFFFF;
+	background-image:url(filetto.gif);
+	background-repeat:repeat-x;
+	background-position:left center;
+	width:100%;
+	vertical-align:middle;
+	padding-top:2px;
+	padding-bottom:0px;}
+	
+.pb_number { background-color: #FFFFFF;
+	padding-right: 5px;
+	padding-left: 5px;
+	margin: 0px;}
+
+
+.line {}
+
+
+
+/*tipo di scrittura*/
+
+
+.gr {font-family: "New Athena Unicode", "Athenian"; }
+.ts { background-color:beige; font-size:10pt; font-family:Verdana, Arial; color:black; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*sottolineature, spaziato e corsivo*/
+.hu {text-decoration: underline}
+.u  { letter-spacing:3pt; }
+.u2 { letter-spacing:3pt; }
+.u3 { letter-spacing:3pt; }
+.u4 { letter-spacing:3pt; }
+
+.sp { letter-spacing:3pt; }
+.it { font-style:italic }
+/*cancellature*/
+.str {display:none}
+.del {display:none}
+
+
+/*sovrascrittura*/
+.ovr {display:none}
+
+.sup {vertical-align: super;}
+/*aggiunte*/
+.addout {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.corr {}
+
+/*abbreviazioni*/
+.abbr {display:none}
+.expan {} 
+
+/*giunzione*/
+.joint {display:none}
+
+/*interventi dell'editore*/
+.fnumber { vertical-align:super; font-size:smaller;}
+.enote:before {content:" - "}

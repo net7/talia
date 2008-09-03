@@ -77,10 +77,79 @@ module TaliaCore
       qry.execute[0]
     end
     
+    # returns all the subpart of this expression card
+    def subparts
+      pages = pages_query.execute
+      paragraphs = paragraphs_query.execute
+      subparts = pages + paragraphs
+    end
+    
+    # returns all the subpart of this expression card that have some manifestations 
+    # of the given type related to them. Manifestation_type must be an URI
+    def subparts_with_manifestations(manifestation_type, subpart_type = nil)
+      assit_not_nil manifestation_type #TODO check that manifestation_type is an URI
+      pages_qry = pages_query
+      pages_qry.where(:m, N::HYPER.manifestation_of, :part)
+      pages_qry.where(:m, N::RDF.type, manifestation_type) 
+      pages_qry.where(:part, N::TALIA.type, subpart_type) unless subpart_type.nil?
+      pages = pages_qry.execute
+      
+      para_qry = paragraphs_query
+      para_qry.where(:m, N::HYPER.manifestation_of, :part)
+      para_qry.where(:m, N::RDF.type, manifestation_type) 
+      para_qry.where(:part, N::TALIA.type, subpart_type) unless subpart_type.nil?
+      paragraphs = para_qry.execute
+      
+      subparts = pages + paragraphs
+    end
+    
+    
     # Returns the PDF representation of this book
     def pdf
       # TODO: Implementation
     end
    
+    private
+  
+    # default query for subparts 
+    def pages_query
+      qry = Query.new(TaliaCore::Source).select(:part).distinct
+      qry.where(:part, N::HYPER.part_of, self)
+      qry.where(:part, N::HYPER.position, :pos)
+      qry.sort(:pos)
+      qry
+    end
+    
+    def paragraphs_query
+      qry = Query.new(TaliaCore::Source).select(:part).distinct
+      qry.where(:page, N::HYPER.part_of, self)
+      qry.where(:page, N::RDF.type, N::HYPER.Page)
+      
+      if (self.catalog != TaliaCore::Catalog.default_catalog)  
+        qry.where(:note, N::HYPER.page, :def_page)
+        qry.where(:def_page, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
+        qry.where(:page_concordance, N::HYPER.concordant_to, :def_page)
+        qry.where(:page_concordance, N::HYPER.concordant_to, :page)
+        qry.where(:def_para, N::HYPER.note, :note)
+        qry.where(:para_concordance, N::HYPER.concordant_to, :def_para)
+        qry.where(:para_concordance, N::HYPER.concordant_to, :part)
+        qry.where(:part, N::HYPER.in_catalog, self.catalog)        
+        qry.where(:def_page, N::HYPER.position, :page_pos)
+        qry.where(:note, N::HYPER.position, :note_pos)
+        qry.sort(:page_pos)
+        #qry.sort(:note_pos)
+      else
+        qry.where(:note, N::HYPER.page, :page)
+        qry.where(:part, N::HYPER.note, :note)
+        qry.where(:page, N::HYPER.position, :page_pos)
+        qry.where(:note, N::HYPER.position, :note_pos)
+        qry.sort(:page_pos)
+        #qry.sort(:note_pos)
+          
+      end
+      qry
+      
+    end
+  
   end
 end
