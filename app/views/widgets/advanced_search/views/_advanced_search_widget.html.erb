@@ -1,0 +1,14 @@
+<div id="search_adv">
+  <form>
+    <div id="src_line_head" class="src_line">
+      <p><label>Enter word(s) or phrase(s) to search for</label> <input type="text" /> <input type="radio" name="adv_search_type" /><label class="toradio"> any</label> <input checked type="radio" name="adv_search_type" /><label class="toradio"> all</label></p>
+      <%= w.partial :advanced_search_adder, :locals => {:current_size => 0} %>
+    </div>
+    <!--[if !IE]> linea ricerca<![endif]-->
+
+    <div id="src_line_tail" class="src_line">
+      <p class="avvia"><label>search</label> <input type="button" value="search" /> 
+    </div>
+    <!--[if !IE]> linea ricerca<![endif]-->
+  </form>
+</div>

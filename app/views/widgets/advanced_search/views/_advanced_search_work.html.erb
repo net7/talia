@@ -1,0 +1,27 @@
+<div id="<%= "src_line_#{current_size}" %>" name="src_line" class="src_line">	
+  <p><label><%= field_1_label %></label> 
+    <select>
+      <%= field_1.collect do |item|
+        "<option value=#{item}>#{item}</option>"
+      end
+    %>
+    </select>
+    <label>in <%= field_2_label %></label> 
+    <select>
+      <%= field_2.collect do |item|
+        "<option value=#{item}>#{item}</option>"
+      end
+    %>
+    </select>
+    <label><%= field_3_label %></label> 
+    <select>
+      <%= field_3.collect do |item|
+        "<option value=#{item}>#{item}</option>"
+      end
+    %>
+    </select>
+  </p>
+  <%= w.partial :advanced_search_adder, :locals => {:current_size => current_size} %>
+      
+</div>
+<!--[if !IE]> linea ricerca<![endif]-->  

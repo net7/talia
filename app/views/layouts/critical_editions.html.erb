@@ -4,7 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
     <title><%= critical_edition_page_title %></title>
     <%= stylesheet_link_tag 'critical_edition' %>
-              
+    
+    <%= javascript_include_tag 'prototype' %>
   </head>
   <body>
     <div id="page_ext">
@@ -20,7 +21,7 @@
                 <label class="invia"><%= "Search".t %></label>
                 <input type="submit" class="invia"/>
               </p>
-              <a href="#" class="advsrch">advanced search</a>
+              <a href="#" onclick="Element.toggle('advanced_search');" class="advsrch">advanced search</a>
             
             <% end -%>
           </div>
@@ -33,11 +34,16 @@
               <li id="print"> <a href="#"><%= "Print".t %></a></li>
             </ul>
           </div>
-          <!-- tools -->  
+          <!-- tools -->
          <%= widget(:simple_mode_path, :path_elements => critical_edition_path)%>
         </div>
         <!-- navigate -->
-
+        
+        <!-- advanced search -->
+        <div id="advanced_search" style="display: none;">
+          <%= widget(:advanced_search, :id => 'search_adv', :options => {:field_1 => ['AC', 'AD', 'AF', 'AG'], :field_2 => [6,7,8,9], :field_3 => [12,20,26,300]}) %>
+        </div>
+        
 <%= yield %>
 
 
