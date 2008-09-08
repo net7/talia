@@ -3,8 +3,8 @@
 development:
   adapter: jdbcmysql
   database: Talia_development
-  username: !SQL_USER!
-  password: !SQL_PASS!
+  username: sql_user
+  password: sql_pass
   host: localhost
 
 # Warning: The database defined as 'test' will be erased and
@@ -13,13 +13,13 @@ development:
 test:
   adapter: jdbcmysql
   database: Talia_test
-  username: !SQL_USER!
-  password: !SQL_PASS!
+  username: sql_user
+  password: sql_pass
   host: localhost
 
 production:
   adapter: jdcbcmysql
   database: Talia_production
-  username: !SQL_USER!
-  password: !SQL_PASS!
+  username: sql_user
+  password: sql_pass
   host: localhost

@@ -1,0 +1,129 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+gem 'activerecord'
+require 'active_record'
+
+rails_dir = File.join(File.dirname(__FILE__), '..', '..')
+talia_dir = File.join(rails_dir, 'vendor', 'plugins', 'talia_core')
+Dependencies.load_paths << File.join(talia_dir, 'lib')
+
+config_dir = File.join(rails_dir, 'config')
+
+
+
+def readl
+  gets[0..-2]
+end
+
+def read_yn(question)
+  question = question + " (yn) "
+  print question
+  while(!(result = readl) || result == '') 
+    print question
+  end
+  (result[0..0].downcase == 'y')
+end
+
+puts
+puts "Talia Configuration Tool for Discovery"
+puts
+puts "This script will assist you in deploying your Talia instance for deployment"
+puts
+
+mysql_setup = TaliaUtil::Configuration::MysqlDatabaseSetup.new
+mysql_setup.host = 'localhost'
+mysql_setup.app_name = 'discovery_talia'
+
+print "Enter the mySQL root pasword: "
+root_pw = readl
+mysql_setup.root_credentials('root', root_pw)
+if(root_pw == '')
+  puts 
+  puts "Your root password is empty. This is not good."
+  if(read_yn("Do you want to set a new one?"))
+    print "Enter new root password: "
+    new_root_pw = readl
+    if(mysql_setup.assign_root_pw(new_root_pw)) 
+      puts "... password successfully changed."
+    else
+      puts "... seems there was a problem changing the password."
+      exit 1
+    end
+  end
+end
+
+puts
+puts "Enter the mySQL username for your application. This account will be created automatically."
+print "mySQL account for the application: "
+rails_user = readl
+print "Enter the password for this account: "
+rails_pw = readl
+
+mysql_setup.rails_credentials(rails_user, rails_pw)
+
+puts
+if(read_yn("Do you want to create the databases now?"))
+  puts
+  print "Creating databases..."
+  mysql_setup.create_default_databases
+  mysql_setup.execute
+  puts " done."
+end
+
+print "Loading the configuration templates..."
+db_config = TaliaUtil::Configuration::DatabaseConfig.new(File.join(config_dir, 'database.yml.discovery_template'))
+rdf_config = TaliaUtil::Configuration::ConfigFile.new(File.join(config_dir, 'rdfstore.yml.app_example'))
+talia_config = TaliaUtil::Configuration::ConfigFile.new(File.join(config_dir, 'talia_core.yml.app_example'))
+talia_test_config = TaliaUtil::Configuration::ConfigFile.new(File.join(talia_dir, 'test', 'config', 'talia_core.yml_example'))
+puts " done."
+
+db_config.set_adapter('jdbcmysql')
+db_config.set_credentials(rails_user, rails_pw)
+db_config.set_database_names('discovery_talia')
+
+puts
+print "Enter the URI for your site: "
+site_url = readl
+
+talia_config.local_uri = site_url
+
+# These are the locations containing config files
+locations = [config_dir, File.join(talia_dir, 'config'), File.join(talia_dir, 'test', 'config')]
+
+if(read_yn("Do you want to write the configuration now? (Overwrites the existing config!)"))
+  print "Writing config files..."
+  # Writing database and rdf config to all locations
+  locations.each do |dir| 
+    db_config.write(File.join(dir, 'database.yml')) 
+    rdf_config.write(File.join(dir, 'rdfstore.yml'))
+  end
+  # Write the talia configurations
+  talia_config.write(File.join(config_dir, 'talia_core.yml'))
+  talia_config.write(File.join(talia_dir, 'config', 'talia_core.yml'))
+  talia_test_config.rdf_connection = nil
+  talia_test_config.rdf_connection_file = 'rdfstore'
+  talia_test_config.write(File.join(talia_dir, 'test', 'config', 'talia_core.yml'))
+  puts " done."
+else
+  puts "Writing config samples to config dir."
+  talia_config.write(File.join(config_dir, 'talia_core_auto.yml'))
+  rdf_config.write(File.join(config_dir, 'rdfstore_auto.yml'))
+  db_config.write(File.join(config_dir, 'database_auto.yml'))
+end
+
+puts 
+puts "Now migrating the databases"
+%w(test development production).each do |env|
+  raise("Error migrating #{env}") unless(system("rake db:migrate RAILS_ENV=#{env}"))
+  raise("Error creating globalize tables in #{env}") unless(system("rake globalize:create_tables RAILS_ENV=#{env}"))
+  puts "Migrated #{env}"
+end
+
+puts
+puts "Building the war file"
+system("warble")
+
+puts
+puts "Configuration complete"
+puts

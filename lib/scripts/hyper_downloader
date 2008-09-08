@@ -7,6 +7,11 @@ $: << File.join(File.dirname(__FILE__), '..', '..', 'app', 'models')
 require 'progressbar'
 require 'talia_util/hyper_download'
 
+if(ARGV[0] == '--help')
+  puts "Usage: hyper_downloader <output_path> <file_mode> <list_file>"
+  exit 1
+end
+
 output_path = ARGV[0]
 output_path ||= File.join(File.dirname(__FILE__), '..', '..', 'hyper_download')
 
