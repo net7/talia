@@ -22,6 +22,11 @@ module TaliaCore
       assert(Source.exists?(book.uri))
     end
     
+#    def test_has_type
+#      book =  make_book('test_type')
+#      assert_not_nil(book.type)
+#    end
+#    
     def test_has_pages
       book =  make_book('test_has_pages', 4)
       assert_equal(4, book.pages.size)

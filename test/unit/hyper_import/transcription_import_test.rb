@@ -28,12 +28,12 @@ module TaliaUtil
     
     # Test if the import succeeds
     def test_import
-      assert_kind_of(TaliaCore::Source, @src)
+      assert_kind_of(TaliaCore::Transcription, @src)
     end
     
     # Test if the types were imported correctly
     def test_types
-      assert_types(@src, N::HYPER + "Transcription", N::HYPER + "HNML")
+      assert_types(@src, N::HYPER + "HyperEdition", N::HYPER + "HNML")
     end
     
     # Test the title property

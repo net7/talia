@@ -8,17 +8,8 @@ class Feeder
     root = REXML::Element.new("talia:source")
     root.add_namespace("talia", "http://www.talia.org")
     doc.add_element(root)
-    
-    #    qry = Query.new(TaliaCore::Source).select(:contr).distinct
-    #    qry.where(:contr, N::HYPER.manifestation_of, :mat)
-    #    qry.where(:mat, N::HYPER.in_catalog, :cat)
-    #    qry.where(:cat, N::RDF.type, N::TALIA.CriticalEdition)
-    #    contributions = qry.execute
-    #    
-    #    contributions.each do |contribution|
 
     contribution = TaliaCore::Source.find(contribution_uri)
-    
     metadata = root.add_element(REXML::Element.new("talia:metadata"))
     metadata.add_element(REXML::Element.new("talia:maintype").add_text("contribution"))
 
@@ -69,6 +60,63 @@ class Feeder
     metadata.add_element(REXML::Element.new("talia:date").add_text(date))
       
     versions = root.add_element(REXML::Element.new("talia::versions"))
+    
+    case contribution
+    when TaliaCore::HyperEdition
+      contribution.available_versions.each do |content_version|
+        if contribution.hyper.file_content_type[0] == 'hnml'
+          # special case for HNML editions/transcriptions (HyperEditions) which have layers
+          max_layer = contribution.hnml_max_layer
+          if !max_layer.empty?
+            i = 1
+            while i <= max_layer
+              version = versions.add_element(REXML::Element.new("talia::version"))
+              version.add_element(REXML::Element.new("talia:version_type").add_text(content_version))
+              version.add_element(REXML::Element.new("talia:version_layer").add_text(i))
+              version.add_element(REXML::Element.new("talia:preferred").add_text("true")) unless i != max_layer
+              content = contribution.to_html(content_version, i) # calls the XSLT transformation for this version and this layer
+              version.add_element(REXML::Element.new("talia:content").add_text(content))
+            end
+          else
+            # there are no layers, it'll add the only layer with value "1", it will be the 
+            # preferred version too
+            version = versions.add_element(REXML::Element.new("talia::version"))
+            version.add_element(REXML::Element.new("talia:version_type").add_text(content_version))
+            version.add_element(REXML::Element.new("talia:version_layer").add_text('1'))
+            version.add_element(REXML::Element.new("talia:preferred").add_text("true"))
+            content = contribution.to_html(content_version) # calls the XSLT transformation for this version and this layer
+            version.add_element(REXML::Element.new("talia:content").add_text(content))         
+          end
+          version = versions.add_element(REXML::Element.new("talia::version"))
+        else # it's not HNML
+          version = versions.add_element(REXML::Element.new("talia::version"))
+          version.add_element(REXML::Element.new("talia:version_type").add_text(content_version))
+          version.add_element(REXML::Element.new("talia:version_layer").add_text('1'))
+          version.add_element(REXML::Element.new("talia:preferred").add_text("true"))
+          content = contribution.to_html(content_version) # calls the XSLT transformation for this version and this layer
+          version.add_element(REXML::Element.new("talia:content").add_text(content))         
+        end
+      end
+    
+    when TaliaCore::Facsimile 
+      # no versions for Facsimiles
+    when TaliaCore::Essay
+      # for essays it will send an URL for the content or several URLs in the case the 
+      # essay has several image/PDF, one for each of its page
+      
+      version = versions.add_element(REXML::Element.new("talia::version"))
+      version.add_element(REXML::Element.new("talia:version_type").add_text(content_version))
+      version.add_element(REXML::Element.new("talia:version_layer").add_text('1'))
+      version.add_element(REXML::Element.new("talia:preferred").add_text("true"))
+      url = '' #TODO 
+      version.add_element(REXML::Element.new("talia:url").add_text(url))         
+ 
+    when TaliaCore::Comment
+      #TODO: implementation
+    when TaliaCore::Path
+      #TODO: implementation
+    end
+    
     macrocontributions = root.add_element(REXML::Element.new("talia::macrocontributions"))
       
     mc_qry = Query.new(TaliaCore::Source).select(:mc, :m).distinct
@@ -91,7 +139,7 @@ class Feeder
    
         unless book.nil?
           node = path.add_element(REXML::Element.new("talia:node"))
-          node.add_element(REXML::Element.new("talia:granularity").add_text("book"))
+          node.add_element(REXML::Element.new("talia:granularity").add_text("Book"))
           node.add_element(REXML::Element.new("talia:uri").add_text(book.uri.to_s))
           node.add_element(REXML::Element.new("talia:title").add_text(book.dcns.title.to_s))
           position = ("000000" + book.hyper.position.to_s)[-6..-1]
@@ -100,7 +148,7 @@ class Feeder
         
         unless chapter.nil?
           node = path.add_element(REXML::Element.new("talia:node"))
-          node.add_element(REXML::Element.new("talia:granularity").add_text("chapter"))
+          node.add_element(REXML::Element.new("talia:granularity").add_text("Chapter"))
           node.add_element(REXML::Element.new("talia:uri").add_text(chapter.uri.to_s))
           node.add_element(REXML::Element.new("talia:title").add_text(chapter.dcns.title.to_s))
           position = ("000000" + chapter.hyper.position.to_s)[-6..-1]
@@ -120,25 +168,14 @@ class Feeder
         when TaliaCore::Page
           tmp_position = material.hyper.position.to_s
         when TaliaCore::Paragraph
-          tmp_pos_qry = Query.new(TaliaCore::Source).select(:page_pos, :note_pos).distinct
-          tmp_pos_qry.where(material, N::HYPER.note, :n)
-          tmp_pos_qry.where(:n, N::HYPER.page, :page)
-          tmp_pos_qry.where(:page, N::HYPER.position, :page_pos)
-          tmp_pos_qry.where(:n, N::HYPER.position, :note_pos)
-          res = tmp_pos_qry.execute[0]
-          tmp_position = res[0] + res[1]
+          tmp_position = material.position_in_book
         else
-          tmp_position =''
+          tmp_position = ''
         end
         position = ("000000" + tmp_position)[-6..-1]
         node.add_element(REXML::Element.new("talia:position").add_text(position))
-          
-          
       end
     end
     doc
-      
   end
-    
-  #  end
 end

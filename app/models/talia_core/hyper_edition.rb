@@ -9,6 +9,18 @@ module TaliaCore
       # to be overridden by subclasses
     end
     
+    def available_layers
+      if  self.hyper.file_content_type[0] == 'hnml'
+        layers = hnml_max_layer 
+      end
+      layers
+    end
+    
+    def available_versions
+      assit_fail("Should never call base class version of available_versions.")
+      # to be overridden by subclasses
+    end
+      
     # for HNML documents. It uses a special XSL to get the highest "layer" value
     def hnml_max_layer
       require 'JXslt/jxslt'

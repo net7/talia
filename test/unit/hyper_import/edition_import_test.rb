@@ -31,12 +31,12 @@ module TaliaUtil
     
     # Test if the import succeeds
     def test_import
-      assert_kind_of(TaliaCore::HyperEdition, @src)
+      assert_kind_of(TaliaCore::Edition, @src)
     end
     
     # Test if the types were imported correctly
     def test_types
-      assert_types(@src, N::HYPER + "Edition", N::HYPER + "TEI")
+      assert_types(@src, N::HYPER + "HyperEdition", N::HYPER + "TEI")
     end
     
     # Test the title property

@@ -53,7 +53,7 @@ module TaliaCore
       candidate
     end
     
-    def position_within_chapter
+    def position_in_chapter
       unless chapter.nil?
         position = self.hyper.position[0].to_i - chapter.first_page.hyper.position[0].to_i  
         ("000000" + position)[-6..-1]

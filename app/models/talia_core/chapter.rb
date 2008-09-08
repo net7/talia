@@ -57,7 +57,7 @@ module TaliaCore
 
     
     # overrides the expression_card method 
-    def subparts_with_manifestations(manifestation_type)
+    def subparts_with_manifestations(manifestation_type, subpart_type = nil)
       # if there are manifestations of both pages and annotations it'll return
       # all the pages first, and then all the annotations (ordering annotations
       # between pages may result in unproper orders)
@@ -69,35 +69,37 @@ module TaliaCore
         qry_page.where(:m, N::RDF.type, manifestation_type)
         pages << page.object unless qry_page.execute.empty?
         
-        qry_ann = Query.new(TaliaCore::Paragraph).select(:p).distinct
+        qry_para = Query.new(TaliaCore::Paragraph).select(:p).distinct
         if (self.catalog != TaliaCore::Catalog.default_catalog)
   
-          qry_ann.where(:note, N::HYPER.page, :def_page)
-          qry_ann.where(:def_page, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
-          qry_ann.where(:page_concordance, N::HYPER.concordant_to, :def_page)
-          qry_ann.where(:page_concordance, N::HYPER.concordant_to, page.object)
-          qry_ann.where(:def_para, N::HYPER.note, :note)
-          qry_ann.where(:para_concordance, N::HYPER.concordant_to, :def_para)
-          qry_ann.where(:para_concordance, N::HYPER.concordant_to, :p)
-          qry_ann.where(:p, N::HYPER.in_catalog, self.catalog)        
-          qry_ann.where(:m, N::HYPER.manifestation_of, :p)
-          qry_ann.where(:m, N::RDF.type, manifestation_type)
-          qry_ann.where(:def_page, N::HYPER.position, :page_pos)
-          qry_ann.where(:note, N::HYPER.position, :note_pos)
-          qry_ann.sort(:page_pos)
-          qry_ann.sort(:note_pos)
+          qry_para.where(:note, N::HYPER.page, :def_page)
+          qry_para.where(:def_page, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
+          qry_para.where(:page_concordance, N::HYPER.concordant_to, :def_page)
+          qry_para.where(:page_concordance, N::HYPER.concordant_to, page.object)
+          qry_para.where(:def_para, N::HYPER.note, :note)
+          qry_para.where(:para_concordance, N::HYPER.concordant_to, :def_para)
+          qry_para.where(:para_concordance, N::HYPER.concordant_to, :p)
+          qry_para.where(:p, N::HYPER.in_catalog, self.catalog)
+          qry_para.where(:p, N::RDF.type, subpart_type) unless subpart_type.nil?
+          qry_para.where(:m, N::HYPER.manifestation_of, :p)
+          qry_para.where(:m, N::RDF.type, manifestation_type)
+          qry_para.where(:def_page, N::HYPER.position, :page_pos)
+          qry_para.where(:note, N::HYPER.position, :note_pos)
+          qry_para.sort(:page_pos)
+          qry_para.sort(:note_pos)
         else
-          qry_ann.where(:note, N::HYPER.page, page.object)
-          qry_ann.where(:p, N::HYPER.note, :note)
-          qry_ann.where(:m, N::HYPER.manifestation_of, :p)
-          qry_ann.where(:m, N::RDF.type, manifestation_type)
-          qry_ann.where(page.object, N::HYPER.position, :page_pos)
-          qry_ann.where(:note, N::HYPER.position, :note_pos)
-          qry_ann.sort(:page_pos)
-          qry_ann.sort(:note_pos)
+          qry_para.where(:note, N::HYPER.page, page.object)
+          qry_para.where(:p, N::HYPER.note, :note)
+          qry_para.where(:p, N::RDF.type, subpart_type) unless subpart_type.nil?
+          qry_para.where(:m, N::HYPER.manifestation_of, :p)
+          qry_para.where(:m, N::RDF.type, manifestation_type)
+          qry_para.where(page.object, N::HYPER.position, :page_pos)
+          qry_para.where(:note, N::HYPER.position, :note_pos)
+          qry_para.sort(:page_pos)
+          qry_para.sort(:note_pos)
           
         end
-        qry_ann.execute.each do |a|
+        qry_para.execute.each do |a|
           annotations << a
         end
       end

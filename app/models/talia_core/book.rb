@@ -88,17 +88,17 @@ module TaliaCore
     # of the given type related to them. Manifestation_type must be an URI
     def subparts_with_manifestations(manifestation_type, subpart_type = nil)
       assit_not_nil manifestation_type #TODO check that manifestation_type is an URI
-      pages_qry = pages_query
-      pages_qry.where(:m, N::HYPER.manifestation_of, :part)
-      pages_qry.where(:m, N::RDF.type, manifestation_type) 
-      pages_qry.where(:part, N::TALIA.type, subpart_type) unless subpart_type.nil?
-      pages = pages_qry.execute
+      qry_pages = pages_query
+      qry_pages.where(:m, N::HYPER.manifestation_of, :part)
+      qry_pages.where(:m, N::RDF.type, manifestation_type) 
+      qry_pages.where(:part, N::RDF.type, subpart_type) unless subpart_type.nil?
+      pages = qry_pages.execute
       
-      para_qry = paragraphs_query
-      para_qry.where(:m, N::HYPER.manifestation_of, :part)
-      para_qry.where(:m, N::RDF.type, manifestation_type) 
-      para_qry.where(:part, N::TALIA.type, subpart_type) unless subpart_type.nil?
-      paragraphs = para_qry.execute
+      qry_para = paragraphs_query
+      qry_para.where(:m, N::HYPER.manifestation_of, :part)
+      qry_para.where(:m, N::RDF.type, manifestation_type) 
+      qry_para.where(:part, N::RDF.type, subpart_type) unless subpart_type.nil?
+      paragraphs = qry_para.execute
       
       subparts = pages + paragraphs
     end
@@ -137,14 +137,14 @@ module TaliaCore
         qry.where(:def_page, N::HYPER.position, :page_pos)
         qry.where(:note, N::HYPER.position, :note_pos)
         qry.sort(:page_pos)
-        #qry.sort(:note_pos)
+        qry.sort(:note_pos)
       else
         qry.where(:note, N::HYPER.page, :page)
         qry.where(:part, N::HYPER.note, :note)
         qry.where(:page, N::HYPER.position, :page_pos)
         qry.where(:note, N::HYPER.position, :note_pos)
         qry.sort(:page_pos)
-        #qry.sort(:note_pos)
+        qry.sort(:note_pos)
           
       end
       qry

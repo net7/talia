@@ -11,6 +11,13 @@ module TaliaCore
       # TODO: Implementation
     end
     
+    # to be used by the feeder, this is the common one, some subclasses (like HyperEditions) 
+    # will have a specialization for it
+    def available_versions
+      versions = ['standard']
+    end
+    
+    
     # The card of the expressions of which this is a manifestation
     def expressions      
       #      Source.find(:all, :find_through => [N::HYPER.manifestation_of, self])

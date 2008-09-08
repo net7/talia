@@ -2,6 +2,20 @@ module TaliaCore
   
   # Refers to a transcription of a Manuscript subpart
   class Transcription < HyperEdition
+    
+    
+    def available_versions
+      case self.hyper.file_content_type[0]
+      when 'hnml'
+        versions = ['diplomatic', 'linear']
+      when 'TEI'
+        versions = ['standard']
+      when 'WitTEI'
+        versions = ['dipl', 'study', 'norm']
+      end
+    end
+    
+    
     def to_html(version=nil, layer=nil)
       require 'JXslt/jxslt'
       xalan = JXslt::Xalan.new
