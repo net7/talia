@@ -22,12 +22,18 @@ namespace :discovery do
   # Import from Hyper
   desc "Import data from Hyper. Options: base_url=<base_url> [list_path=?get_list=all] [doc_path=?get=] [extension=] [user=<username> password=<pass>]"
   task :hyper_import => :disco_init do
+    # The list file will be relative to the current dir, not the doc dir
+    list_path = ENV['list_path']
+    if((!ENV['base_url'] || ENV['base_url'] == '') && File.exist?(list_uri))
+      list_path = File.expand_path(list_uri)
+    end
+    if(File)
     if(File.directory?(doc_dir = File.join(ENV['base_url'], ENV['doc_path'])))
       puts "Setting directory to #{doc_dir}"
       FileUtils.cd(doc_dir)
     end
     TaliaUtil::HyperXmlImport::set_auth(ENV['user'], ENV['password'])
-    TaliaUtil::HyperXmlImport::import(ENV['base_url'], ENV['list_path'], ENV['doc_path'], ENV['extension'])
+    TaliaUtil::HyperXmlImport::import(ENV['base_url'], list_path, ENV['doc_path'], ENV['extension'])
   end
   
   # creates a facsimile edition and adds to it all the color facsimiles found in the DB
