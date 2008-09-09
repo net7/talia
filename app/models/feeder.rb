@@ -1,8 +1,29 @@
 class Feeder
-  require "rexml/document"  
-  
+
   def feed_contribution(contribution_uri)
-    
+    require 'net/http'
+    xml = create_contribution_xml(contribution_uri)
+    #    #TODO move it in some configuration file
+    servlet_url = URI.parse("http://gandalf.aksis.uib.no:8080/nietzsche/FeedExist/store")
+    login = 'oystein'
+    password = 'arm14erf'
+    params = {'xml' => xml}
+    user_params =  { :http_basic_authentication => [login, password] }
+    req = Net::HTTP::Post.new(servlet_url.path)
+    req.basic_auth login, password
+    req.set_form_data(params)
+    res = Net::HTTP.new(servlet_url.host, servlet_url.port).start {|http| http.request(req) }
+    case res
+    when Net::HTTPSuccess, Net::HTTPRedirection
+      res.body
+    else
+      res.error!
+    end
+  end
+  
+  def create_contribution_xml(contribution_uri)
+    require "rexml/document"  
+  
     doc = REXML::Document.new
     doc << REXML::XMLDecl.new
     root = REXML::Element.new("talia:source")
@@ -59,7 +80,7 @@ class Feeder
     date = contribution.dcns.date.to_s
     metadata.add_element(REXML::Element.new("talia:date").add_text(date))
       
-    versions = root.add_element(REXML::Element.new("talia::versions"))
+    versions = root.add_element(REXML::Element.new("talia:versions"))
     
     case contribution
     when TaliaCore::HyperEdition
@@ -70,31 +91,21 @@ class Feeder
           if !max_layer.empty?
             i = 1
             while i <= max_layer
-              version = versions.add_element(REXML::Element.new("talia::version"))
-              version.add_element(REXML::Element.new("talia:version_type").add_text(content_version))
-              version.add_element(REXML::Element.new("talia:version_layer").add_text(i))
-              version.add_element(REXML::Element.new("talia:preferred").add_text("true")) unless i != max_layer
+              preferred = true unless i != max_layer
               content = contribution.to_html(content_version, i) # calls the XSLT transformation for this version and this layer
-              version.add_element(REXML::Element.new("talia:content").add_text(content))
+              add_version(versions, content_version, i, "talia:content", content, preferred)
             end
           else
             # there are no layers, it'll add the only layer with value "1", it will be the 
             # preferred version too
-            version = versions.add_element(REXML::Element.new("talia::version"))
-            version.add_element(REXML::Element.new("talia:version_type").add_text(content_version))
-            version.add_element(REXML::Element.new("talia:version_layer").add_text('1'))
-            version.add_element(REXML::Element.new("talia:preferred").add_text("true"))
-            content = contribution.to_html(content_version) # calls the XSLT transformation for this version and this layer
-            version.add_element(REXML::Element.new("talia:content").add_text(content))         
+            content = contribution.to_html(content_version ) # calls the XSLT transformation for this version and this layer
+            add_version(versions, content_version, "1", "talia:content", content, true)
           end
-          version = versions.add_element(REXML::Element.new("talia::version"))
         else # it's not HNML
-          version = versions.add_element(REXML::Element.new("talia::version"))
-          version.add_element(REXML::Element.new("talia:version_type").add_text(content_version))
-          version.add_element(REXML::Element.new("talia:version_layer").add_text('1'))
-          version.add_element(REXML::Element.new("talia:preferred").add_text("true"))
-          content = contribution.to_html(content_version) # calls the XSLT transformation for this version and this layer
-          version.add_element(REXML::Element.new("talia:content").add_text(content))         
+          # there are no layers, it'll add the only layer with value "1", it will be the 
+          # preferred version too
+          content = contribution.to_html(content_version ) # calls the XSLT transformation for this version and this layer
+          add_version(versions, content_version, "1", "talia:content", content, true)
         end
       end
     
@@ -103,22 +114,17 @@ class Feeder
     when TaliaCore::Essay
       # for essays it will send an URL for the content or several URLs in the case the 
       # essay has several image/PDF, one for each of its page
-      
-      version = versions.add_element(REXML::Element.new("talia::version"))
-      version.add_element(REXML::Element.new("talia:version_type").add_text(content_version))
-      version.add_element(REXML::Element.new("talia:version_layer").add_text('1'))
-      version.add_element(REXML::Element.new("talia:preferred").add_text("true"))
-      url = '' #TODO 
-      version.add_element(REXML::Element.new("talia:url").add_text(url))         
- 
+      content_version = '' # TODO: ??
+      url = '' #TODO
+      add_version(versions, content_version, "1", "talia:url", content, true)
     when TaliaCore::Comment
       #TODO: implementation
     when TaliaCore::Path
       #TODO: implementation
     end
     
-    macrocontributions = root.add_element(REXML::Element.new("talia::macrocontributions"))
-      
+    macrocontributions = root.add_element(REXML::Element.new("talia:macrocontributions"))
+
     mc_qry = Query.new(TaliaCore::Source).select(:mc, :m).distinct
     mc_qry.where(contribution, N::HYPER.manifestation_of, :m)
     mc_qry.where(:m, N::HYPER.in_catalog, :mc)
@@ -178,4 +184,19 @@ class Feeder
     end
     doc
   end
+  
+  private
+ 
+  def add_version(versions_node, content_version, layer, content_tag_name, content, preferred)
+    version = versions_node.add_element(REXML::Element.new("talia:version"))
+    version.add_element(REXML::Element.new("talia:version_type").add_text(content_version))
+    version.add_element(REXML::Element.new("talia:version_layer").add_text(layer))
+    version.add_element(REXML::Element.new("talia:preferred").add_text("true")) if preferred
+    t = REXML::Text.new(content) 
+    content_tag = version.add_element(REXML::Element.new(content_tag_name, nil, {:raw => :all}))
+    content_tag.add(t)
+    version
+  end
+  
+  
 end

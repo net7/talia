@@ -129,7 +129,7 @@ namespace :discovery do
     editions = 0
     paragraphs.each do |paragraph|
       new_paragraph = ce.add_from_concordant(paragraph, false) # no children imported
-      assit_kind_of(TaliaCore::Paragraph, paragraph)
+      assit_kind_of(TaliaCore::Paragraph, new_paragraph)
       # Select the manifestations
       qry_edi = Query.new(TaliaCore::Source).select(:edition).distinct
       qry_edi.where(:concordance, N::HYPER.concordant_to, new_paragraph)

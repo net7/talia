@@ -38,6 +38,7 @@
         book_uri = N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:book]
         qry = Query.new(TaliaCore::Source).select(:f).distinct.limit(1)
         qry.where(:p, N::HYPER.part_of, book_uri)
+        qry.where(:p, N::RDF.type, N::HYPER.Page)
         qry.where(:f, N::HYPER.manifestation_of, :p)
         qry.where(:p, N::HYPER.position, :pos)
         qry.sort(:pos)

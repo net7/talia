@@ -17,10 +17,9 @@ module TaliaCore
       end
     end
     
-    
     def to_html(version=nil, layer=nil)
       require 'JXslt/jxslt'
-      xalan = JXslt::Xalan.new
+      saxon = JXslt::Saxon.new
       infile = self.data[0].get_file_path
       output = ''
       case self.hyper.file_content_type[0]
@@ -32,18 +31,17 @@ module TaliaCore
           transformer_parameters = {'layer' => shown_layer}
         end
         xsl = 'public/xsl/hnml/edition_hnml_linear.xsl'
-        middle_output = xalan.transform(xsl, infile, nil, options = {:in => "stream", :out => "string", :transformer_parameters => transformer_parameters})
+        middle_output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string", :transformer_parameters => transformer_parameters})
         xsl = 'public/xsl/hnml/edition_hnml_linear_2.xsl'
-        output = xalan.transform(xsl, middle_output, nil, options = {:in => "string", :out => "string", :transformer_parameters => transformer_parameters})
+        output = saxon.transform(xsl, middle_output, nil, options = {:in => "string", :out => "string", :transformer_parameters => transformer_parameters})
       when "TEI"
-        
         xsl = 'public/xsl/TEI/p4/html/tei.xsl'
-        output = xalan.transform(xsl, infile, nil, options = {:in => "stream", :out => "string"})
+        output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string"})
       when "WitTEI"
         xsl = 'public/xsl/WitTEI/wab-transform.xsl'
         version = 'diplo' if version.nil?
         transformer_parameters = {'layer' => shown_layer}
-        output = xalan.transform(xsl, infile, nil, options = {:in => "stream", :out => "string", :transformer_parameters => transformer_parameters})          
+        output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string", :transformer_parameters => transformer_parameters})          
       end
       output
     end

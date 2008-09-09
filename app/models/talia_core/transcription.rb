@@ -18,7 +18,7 @@ module TaliaCore
     
     def to_html(version=nil, layer=nil)
       require 'JXslt/jxslt'
-      xalan = JXslt::Xalan.new
+      saxon = JXslt::Saxon.new
       
       infile = self.data[0].get_file_path
       output = ''
@@ -32,7 +32,6 @@ module TaliaCore
         when 'linear'   
           xsl1 = 'transcription_linear.xsl'
           xsl2 = 'transcription_linear_2.xsl'
-
         end
         max_layer = hnml_max_layer
         middle_output = ''       
@@ -41,15 +40,15 @@ module TaliaCore
           transformer_parameters = {'layer' => shown_layer}
         end
         xsl = 'public/xsl/hnml/' + xsl1
-        middle_output = xalan.transform(xsl, infile, nil, options = {:in => "stream", :out => "string", :transformer_parameters => transformer_parameters})
+        middle_output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string", :transformer_parameters => transformer_parameters})
         xsl = 'public/xsl/hnml/' + xsl2 
-        output = xalan.transform(xsl, middle_output, nil, options = {:in => "string", :out => "string", :transformer_parameters => transformer_parameters})
+        output = saxon.transform(xsl, middle_output, nil, options = {:in => "string", :out => "string", :transformer_parameters => transformer_parameters})
       when "TEI"
         xsl = 'public/xsl/TEI/p4/html/tei.xsl'
-        output = xalan.transform(xsl, infile, nil, options = {:in => "stream", :out => "string"})
+        output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string"})
       when "WitTEI"
         xsl = 'public/xsl/WitTEI/wab-transform.xsl'
-        output = xalan.transform(xsl, infile, nil, options = {:in => "stream", :out => "string"})          
+        output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string"})          
       end
       output
     end
