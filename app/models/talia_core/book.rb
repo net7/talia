@@ -54,10 +54,6 @@ module TaliaCore
         OrderedSource.new(uri)
       end
     end
-    
-    def ordered_pages_elements
-      ordered_pages.elements      
-    end
 
     # returns the RDF.type of this book (e.g. Manuscript, Work, etc.)
     def type 

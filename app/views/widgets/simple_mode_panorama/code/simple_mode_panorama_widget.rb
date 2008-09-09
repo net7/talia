@@ -1,3 +1,4 @@
+# TODO: This could use some cleaning
 class SimpleModePanoramaWidget < Widgeon::Widget
 
   def panorama(elements)
@@ -15,12 +16,9 @@ class SimpleModePanoramaWidget < Widgeon::Widget
   
   def horizontal_panorama(elements)
     result = ''
-    elements.each do |el| 
-      # elements contains an array of semanticRelations, given by orderedSource
-      # we need the _objects_ in there (the actual pages)
-      element = el.object
+    elements.each do |element| 
       position = cycle('even', 'odd') 
-      if (elements.first.object == element) 
+      if (elements.first == element) 
         result << "
       <div class='block'>
         <p class='lonely'>"
@@ -34,7 +32,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
           result << '<div class="block">' 
         end 
         result << "<p>#{thumb_link(element)}</p>"    
-        if position == 'even' || elements.last.object == element 
+        if position == 'even' || elements.last == element 
           result << '</div>
           ' 
         end   
@@ -50,10 +48,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
   def vertical_panorama(elements)
     result = ''
     last_element = ''
-    elements.each do |el| 
-      # elements contains an array of semanticRelations, given by orderedSource
-      # we need the _objects_ in there (the actual pages)
-      element = el.object
+    elements.each do |element|
       position = cycle('even', 'odd')
 
       if elements.first == element 
@@ -73,9 +68,9 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         result << thumb_link(element)
         result << '
 </p>'
-        if position == 'even' || elements.last.object == element
+        if position == 'even' || elements.last == element
           result << '</div>'
-          if position == 'even' && elements.first.object != element
+          if position == 'even' && elements.first != element
             # let's create the "facing pages" link. only when tha page has even position
             # and only if it isn't the first one, as the first is displayed on it's on
             # being the cover

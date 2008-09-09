@@ -111,8 +111,15 @@ module ApplicationHelper
     url = element.uri.to_s
     title = element.uri.local_name
     
+    # If this is a book we need to use the first page as a thumbnail
+    data_element = if(element.is_a?(TaliaCore::Book))
+      element.ordered_pages.first
+    else
+      element
+    end
+    
     # Try to get the iip data record for the manifestation of the element
-    iip_data = get_iip_data_for(element)
+    iip_data = get_iip_data_for(data_element)
     return titled_link(url, "missing image for #{title}", title) unless(iip_data)
 
     img_options = { :alt => title }.merge(img_options)
