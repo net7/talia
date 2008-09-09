@@ -11,12 +11,16 @@ module TaliaCore
       #      @resource
     end
     
-    # return all elements contained into SeqContainer
-    #
-    # return value: Array
+    # Returns all elements (not the relations) in an ordered array.
     def elements
       # execute query
-      query
+      query.collect { |relation| relation.object }
+    end
+    
+    # Returns the first element of the collection
+    def first
+      relation = query(:first)
+      relation ? relation.object : nil
     end
     
     # return the item at position index.
@@ -193,9 +197,9 @@ module TaliaCore
     
     private
     # execute query and return the result
-    def query
+    def query(scope = :all)
       # execute query
-      self.semantic_relations.find(:all, :conditions => ['predicate_uri LIKE ?', "http://www.w3.org/1999/02/22-rdf-syntax-ns#_%"], :order => :predicate_uri)
+      self.semantic_relations.find(scope, :conditions => ['predicate_uri LIKE ?', "http://www.w3.org/1999/02/22-rdf-syntax-ns#_%"], :order => :predicate_uri)
     end
 
     # return string for index
