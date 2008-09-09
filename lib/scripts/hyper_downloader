@@ -22,6 +22,9 @@ dl.file_mode = ARGV[1] if(ARGV[1])
 list_file = [ ARGV[2] ] if(ARGV[2])
 list_file ||= [ "http://www.nietzschesource.org/exportToTalia.php?getList=all", { :http_basic_authentication => ["nietzsche", "source"] } ]
 
+success_sigla = []
+failed_sigla = []
+
 xml_doc = nil
 
 open(*list_file) do |io|
@@ -34,8 +37,21 @@ progress = ProgressBar.new("Downloading", xml_doc.root.elements.size)
 
 xml_doc.root.elements.each("siglum") do |element|
   progress.inc
-  dl.grab_siglum(element.text.strip)
+  siglum = element.text.strip
+  if(dl.grab_siglum(siglum))
+    success_sigla << siglum
+  else
+    failed_sigla << siglum
+  end
 end
+
+puts
+puts "Download finished. Downloaded #{success_sigla.size} elements sucessfully, #{failed_sigla.size} failed."
+puts "Index files will be written to the output directory named index*.xml"
+
+dl.write_index_file('index_success.xml', success_sigla)
+dl.write_index_file('index_failed.xml', failed_sigla)
+File.open(File.join(output_path, 'index.xml'), 'w') { |io| xml_doc.write(io) }
 
 progress.finish
   

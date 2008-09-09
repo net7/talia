@@ -2,6 +2,8 @@
 require 'rexml/document'
 require 'open-uri'
 require 'fileutils'
+require 'rubygems'
+require 'builder'
 
 module HyperDownload
   
@@ -10,11 +12,11 @@ module HyperDownload
     # Creates a new downloader. Data will be read from the given URL and
     # save it to the given path.
     def initialize(output_path,
-                   url = 'http://www.nietzschesource.org/exportToTalia.php?get=',
-                   login = 'nietzsche',
-                   password = 'source',
-                   proxy = nil
-        )
+        url = 'http://www.nietzschesource.org/exportToTalia.php?get=',
+        login = 'nietzsche',
+        password = 'source',
+        proxy = nil
+      )
       @output_path = output_path
       @fetch_url = url # URL to fetch from
       @auth = [login, password] # HTTP authentication for url
@@ -42,6 +44,7 @@ module HyperDownload
     
     # Grabs the siglum from the export URL
     def grab_siglum(siglum)
+      success = false
       begin
         siglum_enc = URI.escape(siglum)
         open(@fetch_url + siglum_enc, :http_basic_authentication => @auth, :proxy => @proxy) do |io|
@@ -52,11 +55,25 @@ module HyperDownload
             xml_el_doc.write(file)
           end
         end
+        success = true
       rescue Exception => e
         puts "Had an exception #{e} while loading siglum #{siglum}"
       end
+      success
     end
 
+    def write_index_file(file, sigla_list)
+      File.open(File.join(@output_path, file), 'w') do |io|
+        builder = Builder::XmlMarkup.new(:target => io, :indent => 2)
+        builder.instruct!(:xml, :version => '1.0', :encoding => 'UTF-8')
+        builder.sigla do 
+          sigla_list.each do |siglum|
+            builder.siglum(siglum)
+          end
+        end
+      end
+    end
+    
     private
     
     # Checks for and loads a connected data file
