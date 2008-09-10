@@ -24,8 +24,8 @@ namespace :discovery do
   task :hyper_import => :disco_init do
     # The list file will be relative to the current dir, not the doc dir
     list_path = ENV['list_path']
-    if((!ENV['base_url'] || ENV['base_url'] == '') && File.exist?(list_uri))
-      list_path = File.expand_path(list_uri)
+    if((!ENV['base_url'] || ENV['base_url'] == '') && File.exist?(list_path))
+      list_path = File.expand_path(list_path)
     end
     if(File.directory?(doc_dir = File.join(ENV['base_url'], ENV['doc_path'])))
       puts "Setting directory to #{doc_dir}"
