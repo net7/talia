@@ -21,7 +21,7 @@
                 <label class="invia"><%= "Search".t %></label>
                 <input type="submit" class="invia"/>
               </p>
-              <a href="#" onclick="Element.toggle('advanced_search'); return false;" class="advsrch">advanced search</a>
+              <a href="#" onclick="Element.toggle('search_adv'); return false;" class="advsrch">advanced search</a>
             
             <% end -%>
           </div>
@@ -35,18 +35,16 @@
             </ul>
           </div>
           <!-- tools -->
-         <%= widget(:simple_mode_path, :path_elements => critical_edition_path)%>
+          <%= widget(:simple_mode_path, :path_elements => critical_edition_path)%>
         </div>
         <!-- navigate -->
         
         <!-- advanced search -->
-        <div id="advanced_search" style="display: none;">
-          <%= widget(:advanced_search, :id => 'search_adv', :options => {:field_1 => ['AC', 'AD', 'AF', 'AG'], :field_2 => [6,7,8,9], :field_3 => [12,20,26,300]}) %>
-        </div>
-        
+        <%= widget(:advanced_search, :id => 'search_adv', :options => {:work => @critical_edition.books, :visible => false}) %>
+
 <%= yield %>
-
-
+        
+        
       </div>
       <!-- page_int -->
     </div>
