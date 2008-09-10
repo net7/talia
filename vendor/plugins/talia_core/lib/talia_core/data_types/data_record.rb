@@ -52,6 +52,7 @@ module TaliaCore
       end
       
       def extract_mime_type(location)
+        'text'
       end
     
       # class methods ============================================
@@ -275,7 +276,7 @@ module TaliaCore
         if !self.location.nil?
           # Set mime type for the record
           self.mime = extract_mime_type(self.location)
-          assit_not_nil(self.mime, "Mime should not be nil!")
+          assit_not_nil(self.mime, "Mime should not be nil (location was #{self.location})!")
         end
       end
       

@@ -115,7 +115,7 @@ module TaliaCore
       test_uri = 'http://testy.com/xml_attach'
       src = Source.new(test_uri)
       data_record = DataTypes::XmlData.new do |dr|
-        dr.location = 'my_file.'
+        dr.location = 'my_file.xml'
       end
       src.data_records << data_record
       src.save!

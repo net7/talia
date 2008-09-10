@@ -17,7 +17,7 @@ module TaliaCore
     end
     
     def test_resource_type
-      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set')
+      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set/type')
       # check class
       assert_kind_of OrderedSource, @ordered_source
       # check type
@@ -26,7 +26,7 @@ module TaliaCore
     
     def test_elements
       # create new OrderedSource
-      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set')
+      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set/elenments')
       @ordered_source.save!
       assert @ordered_source.elements.empty?
       
@@ -42,9 +42,9 @@ module TaliaCore
       
       # check if all items are inserted
       assert_equal 3, @ordered_source.elements.size
-      assert_equal @item_1.uri, @ordered_source.elements[0].object.uri
-      assert_equal @item_2.uri, @ordered_source.elements[1].object.uri
-      assert_equal @item_3.uri, @ordered_source.elements[2].object.uri
+      assert_equal @item_1.uri, @ordered_source.elements[0].uri
+      assert_equal @item_2.uri, @ordered_source.elements[1].uri
+      assert_equal @item_3.uri, @ordered_source.elements[2].uri
     end
     
     def test_add
@@ -62,18 +62,18 @@ module TaliaCore
       
       # check if all items are inserted
       assert_equal 1, @ordered_source.elements.size
-      assert_equal @item_1.uri, @ordered_source.elements[0].object.uri
+      assert_equal @item_1.uri, @ordered_source.elements[0].uri
       
       @ordered_source.add @item_2
       # check if all items are inserted
       assert_equal 2, @ordered_source.elements.size
-      assert_equal @item_1.uri, @ordered_source.elements[0].object.uri
-      assert_equal @item_2.uri, @ordered_source.elements[1].object.uri
+      assert_equal @item_1.uri, @ordered_source.elements[0].uri
+      assert_equal @item_2.uri, @ordered_source.elements[1].uri
     end
     
     def test_remove
       # create new OrderedSource
-      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set')
+      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set_remove')
       @ordered_source.save!
       assert @ordered_source.elements.empty?
       
@@ -87,15 +87,15 @@ module TaliaCore
       
       # check if all items are inserted
       assert_equal 2, @ordered_source.elements.size
-      assert_equal @item_1.uri, @ordered_source.elements[0].object.uri
-      assert_equal @item_2.uri, @ordered_source.elements[1].object.uri
+      assert_equal @item_1.uri, @ordered_source.elements[0].uri
+      assert_equal @item_2.uri, @ordered_source.elements[1].uri
       
       # test delete item 1
       @ordered_source.delete 1
       
       # check if item1 is been deleted
       assert_equal 1, @ordered_source.elements.size
-      assert_equal @item_2.uri, @ordered_source.elements[0].object.uri
+      assert_equal @item_2.uri, @ordered_source.elements[0].uri
       
       # test delete item 1
       @ordered_source.delete 2
@@ -118,7 +118,7 @@ module TaliaCore
         
     def test_replace
       # create new OrderedSource
-      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set')
+      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set/replace')
       @ordered_source.save!
       assert @ordered_source.elements.empty?
       
@@ -133,22 +133,22 @@ module TaliaCore
       
       # check if all items are inserted
       assert_equal 2, @ordered_source.elements.size
-      assert_equal @item_1.uri, @ordered_source.elements[0].object.uri
-      assert_equal @item_2.uri, @ordered_source.elements[1].object.uri
+      assert_equal @item_1.uri, @ordered_source.elements[0].uri
+      assert_equal @item_2.uri, @ordered_source.elements[1].uri
       
       # test delete item 1
       @ordered_source.replace 1,@item_3
       
       # check if item1 is been replaced
       assert_equal 2, @ordered_source.elements.size
-      assert_not_equal @item_1.uri, @ordered_source.elements[0].object.uri
-      assert_equal @item_3.uri, @ordered_source.elements[0].object.uri
-      assert_equal @item_2.uri, @ordered_source.elements[1].object.uri
+      assert_not_equal @item_1.uri, @ordered_source.elements[0].uri
+      assert_equal @item_3.uri, @ordered_source.elements[0].uri
+      assert_equal @item_2.uri, @ordered_source.elements[1].uri
     end
     
     def test_size
       # create new OrderedSource
-      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set')
+      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set/size')
       @ordered_source.save!
       assert @ordered_source.elements.empty?
       
@@ -171,7 +171,7 @@ module TaliaCore
     
     def test_at
       # create new OrderedSource
-      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set')
+      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set/at')
       @ordered_source.save!
       assert @ordered_source.elements.empty?
       
@@ -199,9 +199,9 @@ module TaliaCore
     
     def test_add_more_then_10_items
       # create new OrderedSource
-      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set')
+      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set/tenit')
       @ordered_source.save!
-      assert @ordered_source.elements.empty?
+      assert_equal 0, @ordered_source.elements.size, "#{@ordered_source.elements.collect { |el| el.uri }}"
       
       # the size must be 0
       assert_equal 0, @ordered_source.size
@@ -261,7 +261,7 @@ module TaliaCore
       assert_equal @item_12.uri, @ordered_source.at(12).uri
       
       # test order
-      elements = @ordered_source.elements.collect { |item| item.object.uri}
+      elements = @ordered_source.elements.collect { |el| el.uri }
       elements_array = []
       elements_array << 'http://testvalue.org/item_1'
       elements_array << 'http://testvalue.org/item_2'
@@ -280,7 +280,7 @@ module TaliaCore
     
     def test_next_and_previous
       # create new OrderedSource
-      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set')
+      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set/nextprev')
       @ordered_source.save!
       assert @ordered_source.elements.empty?
       
@@ -359,7 +359,7 @@ module TaliaCore
     
     def test_find_ordered_source
       # create new OrderedSource
-      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set')
+      @ordered_source = OrderedSource.new('http://testvalue.org/ordered_set/find')
       @ordered_source.save!
       assert @ordered_source.elements.empty?
       
