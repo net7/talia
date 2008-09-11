@@ -13,11 +13,13 @@ module TaliaCore
       when 'TEI'
         versions = ['standard']
       when 'WitTEI'
-        versions = ['dipl', 'study', 'norm']
+        versions = ['norm', 'dipl', 'study']
       end
     end
     
     def to_html(version=nil, layer=nil)
+      # if no version is specified, it takes the first available
+      version = available_versions[0] if version.nil?
       require 'JXslt/jxslt'
       saxon = JXslt::Saxon.new
       infile = self.data[0].get_file_path
@@ -38,9 +40,9 @@ module TaliaCore
         xsl = 'public/xsl/TEI/p4/html/tei.xsl'
         output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string"})
       when "WitTEI"
-        xsl = 'public/xsl/WitTEI/wab-transform.xsl'
-        version = 'diplo' if version.nil?
-        transformer_parameters = {'layer' => shown_layer}
+        xsl = 'public/xsl/WitTEI/wab-transform.xsl'    
+        # visning is the parameter for the version in the wab-transform.xsl file        
+        transformer_parameters = {'visning' => version}
         output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string", :transformer_parameters => transformer_parameters})          
       end
       output

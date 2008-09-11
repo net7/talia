@@ -7,24 +7,24 @@ module TaliaCore
     def available_versions
       case self.hyper.file_content_type[0]
       when 'hnml'
-        versions = ['diplomatic', 'linear']
+        versions = ['linear', 'diplomatic']
       when 'TEI'
         versions = ['standard']
       when 'WitTEI'
-        versions = ['dipl', 'study', 'norm']
+        versions = ['norm', 'dipl', 'study']
       end
     end
     
     
     def to_html(version=nil, layer=nil)
+      # if no version is specified, it takes the first available
+      version = available_versions[0] if version.nil?
       require 'JXslt/jxslt'
       saxon = JXslt::Saxon.new
-      
       infile = self.data[0].get_file_path
       output = ''
       case self.hyper.file_content_type[0]
       when "hnml"
-        version = 'diplomatic' if version.nil?
         case version
         when 'diplomatic'
           xsl1 = 'transcription_diplomatic.xsl'
@@ -48,7 +48,9 @@ module TaliaCore
         output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string"})
       when "WitTEI"
         xsl = 'public/xsl/WitTEI/wab-transform.xsl'
-        output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string"})          
+        # visning is the parameter for the version in the wab-transform.xsl file
+        transformer_parameters = {'visning' => version }
+        output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string", :transformer_parameters => transformer_parameters})
       end
       output
     end

@@ -3,16 +3,15 @@ class Feeder
   def feed_contribution(contribution_uri)
     require 'net/http'
     xml = create_contribution_xml(contribution_uri)
-    #    #TODO move it in some configuration file
-    servlet_url = URI.parse("http://gandalf.aksis.uib.no:8080/nietzsche/FeedExist/store")
-    login = 'oystein'
-    password = 'arm14erf'
+    #TODO move URL and login/pass in some configuration file
+    exist_servlet_url = URI.parse("http://gandalf.aksis.uib.no:8080/nietzsche/FeedExist/store")
+    exist_login = 'oystein'
+    exist_password = 'arm14erf'
     params = {'xml' => xml}
-    user_params =  { :http_basic_authentication => [login, password] }
-    req = Net::HTTP::Post.new(servlet_url.path)
-    req.basic_auth login, password
+    req = Net::HTTP::Post.new(exist_servlet_url.path)
+    req.basic_auth exist_login, exist_password
     req.set_form_data(params)
-    res = Net::HTTP.new(servlet_url.host, servlet_url.port).start {|http| http.request(req) }
+    res = Net::HTTP.new(exist_servlet_url.host, exist_servlet_url.port).start {|http| http.request(req) }
     case res
     when Net::HTTPSuccess, Net::HTTPRedirection
       res.body
