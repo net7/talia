@@ -27,8 +27,7 @@ module HyperDownload
     
     # Mode used for linked files. :skip will just skip them, :touch will create
     # an emptys file (instead of actually downloading the file) and :load will
-    # actually download the whole file, but only if it doesn't exist yet. 
-    # :overwrite will re-download the file even if it exists 
+    # actually download the whole file.
     # 
     # Default is :load.
     def file_mode
@@ -38,7 +37,7 @@ module HyperDownload
     # Sets the mode to load files
     def file_mode=(mode)
       mode = mode.to_sym
-      raise(ArgumentError, "Illegal mode #{mode}") unless([:skip, :touch, :load, :overwrite].include?(mode))
+      raise(ArgumentError, "Illegal mode #{mode}") unless([:skip, :touch, :load].include?(mode))
       @file_mode = mode
     end
     
@@ -83,7 +82,7 @@ module HyperDownload
       return unless(file_url_el && file_name_el)
       
       file_url = file_url_el.text
-      file_name = file_name_el.text
+      file_name = find_filename(file_name_el.text)
       
       # Update the XML
       file_url_el.text = File.join('data', file_name)
@@ -109,7 +108,22 @@ module HyperDownload
         puts("Exception #{e} while loading #{file_url}. Passing up exception.")
         raise
       end
-      
     end
+    
+    # Finds the next "free" filename - unfortunately the export will give 
+    # some duplicate filenames, so we have to see if the file already exists
+    # in order not to overwrite it
+    def find_filename(file)
+      file_name = file
+      extension = File.extname(file)
+      base_name = File.basename(file, extension)
+      index = 1
+      while(File.exists?(File.join(@data_path, file_name)))
+        index += 1
+        file_name = "#{base_name}_#{index}#{extension}"
+      end
+      file_name
+    end
+    
   end
 end
