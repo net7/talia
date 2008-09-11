@@ -5,6 +5,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title><%= h(yield(:title) || "Talia | The Digital Library") %></title>
     <%= stylesheet_link_tag :all, :cache => true %>
+    <%= yield(:stylesheet) %>
   </head>
   <body class="open">
     <%= render :partial => 'shared/container' %>

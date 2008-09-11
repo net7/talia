@@ -38,26 +38,11 @@ module ApplicationHelper
     end 
   end
   
-  # Returns the subtitle for the page. See page_title
-  def page_subtitle
-    @page_subtitle ? @page_subtitle : "Let's discover what's out there"
-  end
-  
   # Creates a link to the given source
   def source_link(text, source)
     link_to(text, :controller => 'sources', :action => 'show', :id => source.uri.local_name)
   end
-  
-  def javascript(*file_names)
-    file_names.each {|fn| content_for :javascript, javascript_include_tag(fn.to_s)}
-    nil
-  end
-  
-  def stylesheet(*file_names)
-    file_names.each {|fn| content_for :stylesheet, stylesheet_link_tag(fn.to_s)}
-    nil
-  end
-  
+
   # Helper to get the short name of a source
   def short_name(source) 
     assit_kind_of(TaliaCore::Source, source)
