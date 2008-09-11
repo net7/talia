@@ -65,7 +65,7 @@ module TaliaUtil
     end
     
     def test_position
-      assert_property(@src.hyper::author_position)
+      assert_property(@src.hyper::position, '000000')
     end
     
     def test_address

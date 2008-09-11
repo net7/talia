@@ -48,7 +48,7 @@ module TaliaUtil
     
     # Test the ordering
     def test_ordering
-      assert_property(@src.hyper::position, "1")
+      assert_property(@src.hyper::position, "000001")
     end
     
     # Test the description field

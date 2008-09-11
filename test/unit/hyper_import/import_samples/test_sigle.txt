@@ -42,3 +42,5 @@ author:
 pdiorio
 essay_page:
 aventurelli-1,1
+bibliographical_card:
+chenkeszinigerike-930

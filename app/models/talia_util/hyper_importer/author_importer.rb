@@ -14,7 +14,7 @@ module TaliaUtil
         add_author_property('surname')
         add_author_property('status')
         add_author_property('institution')
-        add_author_property('position')
+        add_property_from(@element_xml, 'position')
         add_property_from(@element_xml, 'street')
         add_property_from(@element_xml, 'zip')
         add_property_from(@element_xml, 'city')
