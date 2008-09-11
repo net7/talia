@@ -16,6 +16,6 @@ class ApplicationController < ActionController::Base
   
   # Override to allow the translations only to the translators
   def globalize?
-    current_user.authorized_as?('translator') if current_user
+    current_user.authorized_as?('translator') if logged_in?
   end
 end
