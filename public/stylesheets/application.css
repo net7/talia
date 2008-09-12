@@ -533,6 +533,7 @@ div#html_data img{
 
 #login_box {
 	float: right;
+	margin: 10px;
 }
 
 #openid_login p input[type=text] {

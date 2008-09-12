@@ -9,16 +9,6 @@ module ApplicationHelper
     render :partial => 'shared/main_footer'
   end
   
-  def sidebar
-    sidebar_title = nil
-    sidebar_title = "#{@source.label} is" if(@source)
-    widget(:sidebar,
-        'active_tab' => 'context',
-        'active_tab_options' => { :source => @source },
-        'sidebar_title' => sidebar_title
-        )
-  end
-  
   def talia_footer
     %( <div id="footer" class="open">
        <h1>Talia | Discovery</h1>
@@ -77,9 +67,7 @@ module ApplicationHelper
   end
   
   def languages_box
-    content_tag(:div, :id => 'languages_box') do
-      select_tag("languages", languages_box_options_tags, :onchange => change_language_function)
-    end
+    select_tag("languages", languages_box_options_tags, :onchange => change_language_function)
   end
   
   def languages_box_options_tags

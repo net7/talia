@@ -37,4 +37,11 @@ module SourcesHelper
         ["Print Page", "javascript:print();"]
       ] )
   end
+  
+  def source_javascripts
+    javascript(:mainElementPositioning, :toolbar, :window_onresize_event,
+      :window_onload_event, :text_onresize_event, :handleSearchField,
+      :utilities)
+    widget_javascript_links :all
+  end
 end

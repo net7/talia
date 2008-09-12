@@ -1,3 +1,5 @@
+<% hide_sidebar %>
+
 <% for link in @links %>
 <%= link_to h(link.titleize), :controller => "admin/#{h(link)}" %>
 <% end %>

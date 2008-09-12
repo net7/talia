@@ -8,6 +8,7 @@
     <%= yield(:stylesheet) %>
   </head>
   <body class="open">
+    <%= sidebar %>
     <%= render :partial => 'shared/container' %>
     <%= yield %>
     <%= render :partial => 'shared/footer' %>
