@@ -2,7 +2,8 @@
 class AdvancedSearchWidget < Widgeon::Widget
   
   # Initialize the widget
-  # * work => work object, for example TaliaCore::Book.
+  # * servlet => string. Servelet URL
+  # * work => work object, for example TaliaCore::Book
   # * field_1_label => text for first field (default value is 'work')
   # * field_2_label => text for first field (default value is 'aphorisms')
   # * field_3_label => text for first field (default value is 'through')
@@ -61,6 +62,7 @@ class AdvancedSearchWidget < Widgeon::Widget
     end
   end
   
+  # return onchange link for work field
   def onchange_link(current_size)
    remote_function(:with => "'src_line_#{current_size}_field_1_value=' + $F('src_line_#{current_size}_field_1')",
       :url => {:controller => "widgeon", 
@@ -147,18 +149,24 @@ class AdvancedSearchWidget < Widgeon::Widget
     paragraphs = paragraphs(book_uri)
     
     # replace select field 2
-    page.replace "src_line_#{@current_size}_field_2", partial(:advanced_search_select, 
-      :locals => {:field_name=> 'field_2', 
+    page.replace "src_line_#{current_size}_mc_from[]", partial(:advanced_search_select, 
+      :locals => {:field_name=> 'mc_from[]', 
         :current_size => @current_size,
         :selected_index => :first,
         :data => paragraphs})
 
     # replace select field 3
-    page.replace "src_line_#{@current_size}_field_3", partial(:advanced_search_select, 
-      :locals => {:field_name=> 'field_3', 
+    page.replace "src_line_#{current_size}_mc_to[]", partial(:advanced_search_select, 
+      :locals => {:field_name=> 'mc_to[]', 
         :current_size => @current_size, 
         :selected_index => :last,
         :data => paragraphs})
+  end
+  
+  callback :advanced_search_succeed do |page|
+    
+    puts "aaaaa"
+    
   end
   
 end

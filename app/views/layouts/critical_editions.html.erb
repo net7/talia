@@ -40,7 +40,7 @@
         <!-- navigate -->
         
         <!-- advanced search -->
-        <%= widget(:advanced_search, :id => 'search_adv', :options => {:work => @critical_edition.books, :visible => false}) %>
+        <%= widget(:advanced_search, :id => 'search_adv', :options => {:servlet => "http://gandalf.aksis.uib.no:8080/nietzsche/Search", :work => @critical_edition.books, :visible => false}) %>
 
 <%= yield %>
         
