@@ -5,10 +5,11 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title><%= h(yield(:title) || "Talia | The Digital Library") %></title>
     <%= stylesheet_link_tag :all, :cache => true %>
+    <%= widget_stylesheet_links :all %>
     <%= yield(:stylesheet) %>
   </head>
   <body class="open">
-    <%= sidebar %>
+    <%= sidebar || yield(:sidebar) %>
     <%= render :partial => 'shared/container' %>
     <%= yield %>
     <%= render :partial => 'shared/footer' %>
