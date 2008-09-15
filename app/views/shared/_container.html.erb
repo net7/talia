@@ -14,8 +14,8 @@
     <!-- header: contains title of the project - upper part -->
     <div id="header">
       <div id="title_bar">
-        <h1><a href="#" title=""><%= page_title %></a></h1>
-        <p class="header_subtitle"><%= page_subtitle %></p>
+        <h1><a href="#" title=""><%= h(yield(:title) || "Talia | The Digital Library") %></a></h1>
+        <p class="header_subtitle"><%= h(subtitle) %></p>
       </div>
       <div id="top_bar">
         <div id="top_bar_search">

@@ -515,7 +515,7 @@ div#html_data img{
     margin: 3em 0em 3em 3em;
 }
 
-#error, #errorExplanation, #errorExplanation h2 {
+#flash_error, #errorExplanation, #errorExplanation h2 {
 	color: #f00;
 }
 
@@ -523,7 +523,7 @@ div#html_data img{
 	list-style-type: none;
 }
 
-#notice, .notice {
+#flash_notice, .notice {
 	color: #0c0;
 }
 
