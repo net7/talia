@@ -38,6 +38,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
   map.login  'login',  :controller => 'sessions', :action => 'create'
   map.logout 'logout', :controller => 'sessions', :action => 'destroy'
+  map.admin  'admin',  :controller => 'admin',    :action => 'index'
   map.open_id_complete 'session', :controller => 'sessions', :action => 'create', :requirements => { :method => :get }
   map.resource :session
   map.resources :languages, :member => { :change => :get }

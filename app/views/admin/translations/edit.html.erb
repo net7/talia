@@ -1,4 +1,6 @@
 <%= languages_menu %>
+<% hide_sidebar %>
+
 <% form_tag(admin_translation_path(@locale_code), :method => :put) do -%>
 <table id="translations" border="0" cellspacing="5" cellpadding="5">
   <tr>

@@ -1,3 +1,5 @@
+<% hide_sidebar %>
+
 <%= error_messages_for :user %>
 <h1>Edit User</h1>
 <% form_for(:user, @user, :url => {:controller => 'admin/users', :action => 'update', :id => @user}, :html => {:method => :put}) do |f| %>
