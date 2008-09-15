@@ -6,8 +6,8 @@ module Admin::TranslationsHelper
     end
   end
   
-  def languages_menu
-    content_tag(:div, :id => 'languages_menu') do
+  def languages_picker
+    content_tag(:div, :id => 'languages_picker') do
       returning result = "Pick a language: " do
         result << select_tag("languages", languages_options_tags, :onchange => change_language_function)
         result << " | #{add_translation}"

@@ -12,9 +12,9 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
     get :edit, :id => locale
     assert_response :success
     
-    assert_select "#languages_menu", /^Pick a language:/
-    assert_select "#languages_menu", /Add a translation$/
-    assert_select "#languages_menu" do
+    assert_select "#languages_picker", /^Pick a language:/
+    assert_select "#languages_picker", /Add a translation$/
+    assert_select "#languages_picker" do
       assert_select "select"
     end
     
