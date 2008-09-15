@@ -22,10 +22,9 @@ Rails::Initializer.run do |config|
   # To use Rails without a database, you must remove the Active Record framework
   # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
 
-  # Only load the plugins named here, in the order given. By default, all plugins 
-  # in vendor/plugins are loaded in alphabetical order.
-  # :all can be used as a placeholder for all plugins not explicitly named
-  config.plugins = [ :globalize, :all]
+  # We push will_paginate to the beginning, it may be used by other plugins
+  # We push globalize to the beginning, it's used by Click to Globalize
+  config.plugins = [ :will_paginate, :globalize, :all ]
 
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
@@ -47,9 +46,6 @@ Rails::Initializer.run do |config|
   # which shouldn't be used to store highly confidential information
   # (create the session table with 'rake db:sessions:create')
   config.action_controller.session_store = :active_record_store
-  
-  # We push will_paginate to the beginning, it may be used by other plugins
-  config.plugins = [ :will_paginate, :all ]
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper,
