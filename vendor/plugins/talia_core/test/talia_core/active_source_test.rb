@@ -310,6 +310,16 @@ module TaliaCore
       assert_equal('bar', src.siglum)
     end
     
+    def test_singular_accessor_finder
+      src = SingularAccessorTest.new('http://testvalue.org/singular_find_test')
+      src.siglum = 'foo'
+      src.save!
+      src2 = SingularAccessorTest.new('http://testvalue.org/singular_find_test2')
+      src2.siglum = 'bar'
+      src2.save!
+      assert_equal(SingularAccessorTest.find_by_siglum('foo'), [ src ])
+    end
+    
   end
   
 end

@@ -200,10 +200,21 @@ module TaliaCore
         assit_block { |err| (prop.size > 1) ? err << "Must have at most 1 value for singular property #{prop_name} on #{self.uri}. Values #{self[property]}" : true }
         prop.size > 0 ? prop[0] : nil
       end
+      
       # define the writer
       define_method("#{prop_name}=") do |value|
         self[property].remove
         self[property] << value
+      end
+      
+      # define the finder
+      (class << self ; self; end).module_eval do
+        define_method("find_by_#{prop_name}") do |value, *optional|
+          raise(ArgumentError, "Too many options") if(optional.size > 1)
+          options = optional.last || {}
+          finder = options.merge( :find_through => [property, value] )
+          find(:all, finder)
+        end
       end
       
       @singular_props << prop_name
