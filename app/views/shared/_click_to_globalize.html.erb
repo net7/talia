@@ -1,4 +1,4 @@
-<%= javascript :click_to_globalize %>
+<%= javascript_include_tag 'click_to_globalize', :cache => true %>
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
   var ctg = new ClickToGlobalize('<%= authenticity_token %>', '<%= request_forgery_protection_token %>');
