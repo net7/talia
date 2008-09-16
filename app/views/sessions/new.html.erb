@@ -1,4 +1,5 @@
 <% hide_sidebar %>
+<% javascript :session %>
 
 <div id="password_login">
   <% form_tag session_path do -%>
@@ -31,5 +32,3 @@
   <% end -%>
   <a href="#">switch to username/password login</a>
 </div>
-
-<%= javascript :session %>
