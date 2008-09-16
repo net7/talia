@@ -28,7 +28,7 @@ end
 puts
 puts "Talia Configuration Tool for Discovery"
 puts
-puts "This script will assist you in deploying your Talia instance for deployment"
+puts "This script will assist you in setting up your Talia instance for deployment"
 puts
 
 mysql_setup = TaliaUtil::Configuration::MysqlDatabaseSetup.new
@@ -85,6 +85,33 @@ db_config.set_database_names('discovery_talia')
 puts
 print "Enter the URI for your site: "
 site_url = readl
+
+puts
+print "Enter the URL of your IIP server, or the port number (for default URL on localhost): "
+iip_url = readl
+
+# If only numerals, we'll create the URL
+if(iip_url =~ /^\d*$/)
+  iip_url = "http://localhost:#{iip_url}/fcgi-bin/iipsrv.fcgi"
+end
+puts "Setting IIP URL to: #{iip_url}"
+
+talia_config.iip_server_uri = iip_url
+
+puts
+print "Enter the path to store the IIP image files (return for default): "
+iip_directory = readl
+
+if(iip_directory.strip != '')
+  talia_config.iip_root_directory_location = iip_directory
+end
+
+print "Enter the path to store all other data files (return for default): "
+data_directory = readl
+
+if(data_directory.strip != '')
+  talia_config.data_directory_location = data_directory
+end
 
 talia_config.local_uri = site_url
 

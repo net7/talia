@@ -1,0 +1,6 @@
+To update the test files, just run
+
+./downloader test_sigle.txt
+
+in this directory. This will download the current version of the exported data 
+from the web.

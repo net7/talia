@@ -232,6 +232,7 @@ module TaliaUtil
             src[:type] = klass_name 
             src.save!
             src = klass.find(src.id)
+            src.catalog = TaliaCore::Catalog.default_catalog if(src.is_a?(TaliaCore::ExpressionCard))
           end
         else
           src = klass.new(source_uri)
