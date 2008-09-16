@@ -31,6 +31,9 @@ function setElementsVerticalSettings() {
 // importan elements of the page
 function loadFunctionSettings() {
 
+		// Make sure sidebar is in the page
+		if (!$$('.sidebar_widget').any()) return;
+
     // GIULIO
     // $("bottom_menu").style.marginTop = 290 +"px";
     $("top_menu").style.marginTop = 60 +"px";
