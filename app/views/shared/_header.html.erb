@@ -14,7 +14,7 @@
     <!-- header: contains title of the project - upper part -->
     <div id="header">
       <div id="title_bar">
-        <h1><a href="#" title=""><%= h(yield(:title) || "Talia | The Digital Library") %></a></h1>
+        <h1><%= link_to h(yield(:title) || "Talia | The Digital Library"), root_path, :title => 'Home page'%></h1>
         <p class="header_subtitle"><%= h(subtitle) %></p>
       </div>
       <div id="top_bar">
@@ -36,7 +36,7 @@
               <label>Password</label>
               <input name="password" id="password" type="text" />
               <input id="login" type="submit" value="Entra">
-              <br>Dimaneticato la <a href="#">password</a>?
+              <br>Dimenticato la <a href="#">password</a>?
             </form>
           </div>
         </div>
