@@ -94,7 +94,7 @@ module AuthenticatedSystem
 
     # Called from #current_user.  First attempt to login by the user id stored in the session.
     def login_from_session
-      self.current_user = User.find(session[:user_id]) if session[:user_id]
+      self.current_user = User.find(session[:user_id], :include => :roles) if session[:user_id]
     end
 
     # Called from #current_user.  Now, attempt to login by basic authentication information.
@@ -106,7 +106,7 @@ module AuthenticatedSystem
 
     # Called from #current_user.  Finaly, attempt to login by an expiring token in the cookie.
     def login_from_cookie
-      user = cookies[:auth_token] && User.find_by_remember_token(cookies[:auth_token])
+      user = cookies[:auth_token] && User.find_by_remember_token(cookies[:auth_token], :include => :roles)
       if user && user.remember_token?
         user.remember_me
         cookies[:auth_token] = { :value => user.remember_token, :expires => user.remember_token_expires_at }
