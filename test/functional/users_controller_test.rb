@@ -17,6 +17,20 @@ class UsersControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
+  def test_should_get_new
+    get :new
+    assert_response :success
+    assert_layout :application
+    # assert assigns(:hidden_sidebar)
+    
+    assert_select "form" do
+      assert_select "[action=?]", "/users"
+      assert_select "form[action=/users] input[type=text]", :count => 2
+      assert_select "form[action=/users] input[type=password]", :count => 2
+      # assert_select "form[action=/users] input[type=submit]", "Sign up"
+    end
+  end
+
   def test_should_allow_signup
     assert_difference 'User.count' do
       create_user

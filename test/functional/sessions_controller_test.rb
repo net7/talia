@@ -17,6 +17,11 @@ class SessionsControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
+  def test_should_use_application_layout
+    get :new
+    assert_layout :application
+  end
+
   def test_should_login_and_redirect
     post :create, :login => 'quentin', :password => 'test'
     assert session[:user_id]

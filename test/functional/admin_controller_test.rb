@@ -11,5 +11,6 @@ class AdminControllerTest < ActionController::TestCase
     
     get :index
     assert_response :success
+    assert_layout :application
   end
 end

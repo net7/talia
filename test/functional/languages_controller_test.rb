@@ -15,6 +15,12 @@ class LanguagesControllerTest < ActionController::TestCase
     assert_equal 'en-US', Locale.active.code
   end
   
+  def test_should_not_use_layout
+    prepare_test
+    get :change
+    assert_layout nil
+  end
+  
   private
     def prepare_test
       # For some strange reason #setup isn't called.

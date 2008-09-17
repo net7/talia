@@ -36,6 +36,7 @@ class SourceDataControllerTest < Test::Unit::TestCase
       DataRecord.any_instance.stubs(:mime_type).returns Mime::TEXT
       get :show, { :type => 'DataRecord', :location => 'testlocation' }
       assert_response :success
+      assert_layout nil
     end
   end
   

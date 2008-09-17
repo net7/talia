@@ -39,6 +39,12 @@ class Test::Unit::TestCase
     assert !condition, message
   end
   alias_method :assert_false, :assert_not
+  
+  # Assert the current response is served with the given layout.
+  def assert_layout(actual, message = nil)
+    expected = @response.layout.gsub(/layouts\//, '') if @response.layout
+    assert_equal expected.to_s, actual.to_s, message
+  end
 end
 
 def uses_mocha(description)

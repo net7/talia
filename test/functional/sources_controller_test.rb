@@ -48,8 +48,9 @@ class SourcesControllerTest < Test::Unit::TestCase
   def test_show
     get :show, {:id => @source_name}
     assert_response :success
-    
-    # No content checks, the pages change too often
+    assert_layout :application
+
+    # TODO assert template elements
   end
   
   # SHOW_ATTRIBUTE
