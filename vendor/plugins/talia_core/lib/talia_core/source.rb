@@ -224,12 +224,6 @@ module TaliaCore
       
     end
     
-    # To string: Just return the URI. Use to_xml if you need something more
-    # involved.
-    def to_s
-      uri.to_s
-    end
-    
     # Return the titleized uri local name.
     #
     #   http://localnode.org/source # => Source

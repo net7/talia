@@ -83,8 +83,13 @@ module TaliaCore
       prepare_options!(args.last) if(args.last.is_a?(Hash))
       super
     end
-    
-    
+
+    # To string: Just return the URI. Use to_xml if you need something more
+    # involved.
+    def to_s
+      uri.to_s
+    end
+
     # This will work in the normal way for database attributes. If the value
     # is not an attribute, it tries to find objects related to this source
     # with the value as a predicate URL and returns a collection of those.

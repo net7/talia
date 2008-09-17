@@ -97,6 +97,10 @@ module TaliaCore
       assert_equal("http://testy.com/testme/hard", active_sources(:testy).uri)
     end
     
+    def test_to_s
+      assert_equal active_sources(:testy).uri, active_sources(:testy).to_s
+    end
+    
     def test_create
       src = ActiveSource.new
       src.uri = "http://www.testy.org/create_test"
