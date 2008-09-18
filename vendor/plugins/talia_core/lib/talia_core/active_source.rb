@@ -21,6 +21,19 @@ module TaliaCore
     
     validates_format_of :uri, :with => /\A\S*:.*\Z/
     validates_uniqueness_of :uri
+
+    # We may wish to use the following Regexp.
+    # It matches:
+    #   http://discovery-project.eu
+    #   http://www.discovery-project.eu
+    #   http://trac.talia.discovery-project.eu
+    #   http://trac.talia.discovery-project.eu/source
+    #   http://trac.talia.discovery-project.eu/namespace#predicate
+    #
+    # validates_format_of :uri,
+    #   :with => /^(http|https):\/\/[a-z0-9\_\-\.]*[a-z0-9_-]{1,}\.[a-z]{2,4}[\/\w\d\_\-\.\?\&\#]*$/i
+    
+    validate :check_uri
     
     # Accessor for addtional rdf types that will automatically be added to each
     # object of that Source class
@@ -181,6 +194,12 @@ module TaliaCore
     # Takes over the validation for ActiveSources
     def validate
       self.class
+    end
+
+    # Check the uri should be different than N::LOCAL, this could happen when an user
+    # leaves the input text blank.
+    def check_uri
+      self.errors.add(:uri, "Cannot be blank") if self.uri == N::LOCAL.to_s
     end
     
     # Helper to define a "additional type" in subclasses which will 

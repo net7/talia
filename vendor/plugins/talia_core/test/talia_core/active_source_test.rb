@@ -139,7 +139,15 @@ module TaliaCore
       src.uri = active_sources(:testy).uri
       assert_raise(ActiveRecord::RecordInvalid) { src.save! }
     end
-    
+
+    def test_validate_uri
+      source = ActiveSource.new(:uri => N::LOCAL.to_s)
+      assert !source.valid?
+      
+      source = ActiveSource.new(:uri => "#{N::LOCAL}#{source}")
+      assert source.valid?
+    end
+
     def test_inverse
       assert_equal(2, active_sources(:assoc_inverse_start).inverse['http://testvalue.org/inverse_test'].size)
       second_rel = active_sources(:assoc_inverse_start).inverse['http://testvalue.org/inverse_test_rel2']
