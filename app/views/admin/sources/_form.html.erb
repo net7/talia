@@ -1,8 +1,6 @@
 <% field_set_tag 'Attributes' do %>
   <p><label for="source_uri">Uri</label><br/>
   <%= text_field 'source', 'uri', :value => @source.uri, :tabindex => 10 %></p>
-  <p><label for="source_primary_source">Primary Source</label><br/>
-  <%= select 'source', 'primary_source', %w(true false), :tabindex => 20 %></p>
 <% end %>
 <h2>RDF Predicates</h2>
 <div id="predicates">
