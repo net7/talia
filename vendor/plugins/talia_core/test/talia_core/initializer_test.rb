@@ -26,5 +26,8 @@ module TaliaCore
       assert(Source.exists?("http://localnode.org/something"))
     end
     
+    def test_core_ext_loading
+      assert 'string'.respond_to?(:to_permalink)
+    end
   end
 end

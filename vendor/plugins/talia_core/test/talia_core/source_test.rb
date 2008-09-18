@@ -210,6 +210,13 @@ module TaliaCore
       assert_equal(2, result.size)
     end
     
+    def test_find_or_instantiate_by_uri
+      unexistent = Source.find_or_instantiate_by_uri('unexistent', 'Foo Bar')
+      assert unexistent.new_record?
+      assert_equal N::LOCAL.to_s + 'Foo_Bar', unexistent.uri.to_s
+      assert !Source.find_or_instantiate_by_uri(@valid_source.uri.to_s, nil).new_record?
+    end
+
     def test_should_return_a_list_of_sources_for_given_uri_token
       assert_not_empty Source.find_by_uri_token('1') # source1 fixture
       assert_empty Source.find_by_uri_token('org')

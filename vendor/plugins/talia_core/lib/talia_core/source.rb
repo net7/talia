@@ -91,6 +91,20 @@ module TaliaCore
       results
     end
     
+    # Try to find a source for the given uri, if not exists it instantiate
+    # a new one, combining the N::LOCAL namespace and the given local name
+    #
+    # Example:
+    #   ActiveSource.find_or_instantiate_by_uri('http://talia.org/existent')
+    #     # => #<TaliaCore::ActiveSource id: 1, uri: "http://talia.org/existent">
+    #
+    #   ActiveSource.find_or_instantiate_by_uri('http://talia.org/unexistent', 'Foo Bar')
+    #     # => #<TaliaCore::ActiveSource id: nil, uri: "http://talia.org/Foo_Bar">
+    def self.find_or_instantiate_by_uri(uri, local_name)
+      result = find_by_uri(uri)
+      result ||= self.new(N::LOCAL.to_s + local_name.to_permalink)
+    end
+    
     # Find a list of sources which contains the given token inside the local name.
     # This means that the namespace it will be excluded.
     #
@@ -273,15 +287,9 @@ module TaliaCore
       elsif attributes['uri'].blank? and attributes['source'].blank?
         name_or_uri
       elsif /^http:\/\//.match name_or_uri
-        # TODO remove the block, setting those defaults into the related migration.
-        source = Source.new(name_or_uri)
-        source.primary_source = false
-        source
+        Source.new(name_or_uri)
       else
-        # TODO remove the block, setting those defaults into the related migration.
-        source = Source.new(normalize_uri(attributes['uri'], name_or_uri))
-        source.primary_source = false
-        source
+        Source.find_or_instantiate_by_uri(normalize_uri(attributes['uri']), name_or_uri)
       end
     end
     

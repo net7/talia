@@ -121,7 +121,10 @@ module TaliaCore
       
       # Configure the ontologies
       load_ontologies
-      
+
+      # Load the Ruby Core extensions
+      load_core_ext
+
       # set the $ASSERT flag
       if(@config["assert"])
         $ASSERT = true
@@ -366,6 +369,10 @@ module TaliaCore
       
       puts "Ontologies autoloaded: #{loaded_ontos.join(', ')} (#{updated} of #{klasses} updated)"
     end
-    
+
+    def self.load_core_ext
+      path_to_core_ext = File.join(TALIA_ROOT, 'vendor', 'plugins', 'talia_core', 'lib', 'core_ext')
+      Dir[path_to_core_ext + '/**/*.rb'].each { |f| require f}
+    end
   end
 end
