@@ -160,6 +160,7 @@ module Globalize # :nodoc:
       # request is processed.
       # <tt>LocaleObserver</tt> catches all translations and pass them to the session.
       def observe_locale
+        yield and return unless globalize?
         locale_observer = LocaleObserver.new
         Globalize::Locale.add_observer(locale_observer)
         yield

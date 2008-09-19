@@ -31,4 +31,13 @@ class ApplicationControllerTest < Test::Unit::TestCase
     get :index # forcing request and session creation
     assert_false @controller.globalize?
   end
+  
+  uses_mocha 'ApplicationControllerTest' do
+    def test_should_turn_off_translation_mode_for_not_allowed_controllers
+      @controller.stubs(:controller_name).returns('widgeon')
+      login_as :quentin
+      get :index # forcing request and session creation
+      assert_false @controller.globalize?
+    end    
+  end
 end

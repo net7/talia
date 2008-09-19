@@ -16,6 +16,7 @@ class ApplicationController < ActionController::Base
   
   # Override to allow the translations only to the translators
   def globalize?
-    current_user.authorized_as?('translator') if logged_in?
+    !%w( widgeon ).include?(self.controller_name) && logged_in? &&
+      current_user.authorized_as?('translator')
   end
 end
