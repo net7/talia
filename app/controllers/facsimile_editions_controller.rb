@@ -1,4 +1,4 @@
-  class FacsimileEditionsController < ApplicationController
+class FacsimileEditionsController < ApplicationController
   before_filter :find_facsimile_edition
  
   # GET /facsimile_editions/1
@@ -31,7 +31,8 @@
   def panorama
     respond_to do |format|
       format.html do
-        @book = TaliaCore::Book.find(request.url)
+        require 'cgi'
+        @book = TaliaCore::Book.find(CGI::unescape(request.url))
         @type = @book.type.uri.local_name
       end
       format.jpeg do
@@ -65,7 +66,8 @@
           @page = TaliaCore::Page.find(page)
           @page2 = TaliaCore::Page.find(page2)
         else
-          @page = TaliaCore::Page.find(request.url)
+          require 'cgi'
+          @page = TaliaCore::Page.find(CGI::unescape(request.url))
         end         
         qry = Query.new(TaliaCore::Book).select(:b).distinct
         qry.where(@page, N::HYPER.part_of, :b)
@@ -82,7 +84,6 @@
       end
     end
   end
-
   
   def search 
     searched_book = sanitize(params[:book]) unless params[:book].empty?

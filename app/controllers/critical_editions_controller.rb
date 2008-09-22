@@ -2,7 +2,9 @@ class CriticalEditionsController < ApplicationController
   before_filter :find_critical_edition
   
   def dispatcher
-    @source = TaliaCore::Source.find(request.url)
+    require 'cgi'
+    @request_url = CGI::unescape(request.url)
+    @source = TaliaCore::Source.find(@request_url)
     case @source
     when TaliaCore::Book
       send("render_book")
@@ -25,20 +27,20 @@ class CriticalEditionsController < ApplicationController
   end
   
   def render_book
-    @book = TaliaCore::Book.find(request.url)
+    @book = @source
     render :template => 'critical_editions/book'    
   end
   
   def render_chapter
-    @chapter = TaliaCore::Chapter.find(request.url)
+    @chapter = @source
     @href_for_text = @chapter.subparts_with_manifestations(N::HYPER.HyperEdition)[0] 
     @book = @chapter.book
     render :template => 'critical_editions/chapter'
   end
   
   def render_part
-    @part = TaliaCore::Source.find(request.url) 
-    @href_for_text = request.url 
+    @part = @source
+    @href_for_text = @request_url 
     @book = @part.book
     @chapter = @part.chapter
     render :template => 'critical_editions/part'

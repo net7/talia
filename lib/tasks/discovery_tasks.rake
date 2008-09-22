@@ -93,6 +93,7 @@ namespace :discovery do
     TaliaCore::Edition
     TaliaCore::Transcription
     TaliaCore::HyperEdition
+    
     ce = TaskHelper::create_edition(TaliaCore::CriticalEdition)
 
     # HyperEditions may be manifestations of both pages and paragraphs
@@ -112,7 +113,11 @@ namespace :discovery do
     
     # Add the books to the edition (it will add pages too)
     TaskHelper::add_books_to_edition(ce, books)
-    # Go through the paragraphs and add the manifestations
+    # Paragraphs are not added by the add_from_concordant catalog's method called 
+    # in the TaskHelper::add_books_to_edition one as they are not in a relation
+    # of the kind N::HYPER.part_of with the books. 
+    # Paragraphs are related to notes which, in turns, are related to pages.
+    # Notes are not cloned and, as such, they are related to pages _in the default catalog_.
     query = Query.new(TaliaCore::Source).select(:paragraph).distinct
     query.where(:book, N::RDF.type, N::HYPER.Book)
     # only select from the default catalog
@@ -123,29 +128,29 @@ namespace :discovery do
     query.where(:note, N::HYPER.page, :page)
     query.where(:edition, N::HYPER.manifestation_of, :paragraph)
     query.where(:edition, N::RDF.type, N::HYPER + 'HyperEdition')
-    
     paragraphs = query.execute
     puts "Found #{paragraphs.size} paragraphs in the new edition. Adding HyperEdition."
     progress = ProgressBar.new('Editions', paragraphs.size)
     editions = 0
+    # Let's add the paragraphs to the critical edition...
     paragraphs.each do |paragraph|
       new_paragraph = ce.add_from_concordant(paragraph, false) # no children imported
       assit_kind_of(TaliaCore::Paragraph, new_paragraph)
-      # Select the manifestations
+      # Select the manifestations of the paragraphs, we are interested in just
+      # Editions and Transcriptions (that is N::HYPER.HyperEdition)
       qry_edi = Query.new(TaliaCore::Source).select(:edition).distinct
       qry_edi.where(:concordance, N::HYPER.concordant_to, new_paragraph)
       qry_edi.where(:concordance, N::HYPER.concordant_to, :def_paragraph)
       qry_edi.where(:def_paragraph, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
       qry_edi.where(:edition, N::HYPER.manifestation_of, :def_paragraph)
       qry_edi.where(:edition, N::RDF.type, N::HYPER + 'HyperEdition')
-      
+      # Manifestations of the old, cloned, paragraphs are added to the new clones
       qry_edi.execute.each do |edition|
         new_paragraph.add_manifestation(edition)
         edition.save!
         editions += 1
       end
       new_paragraph.save!
-      
       progress.inc
     end
     progress.finish
@@ -156,14 +161,15 @@ namespace :discovery do
     page_editions = 0
     pages.each do |page|
       assit_kind_of(TaliaCore::Page, page)
-      # Select the manifestations
+      # Select the manifestations of the pages to be added, again only HyperEditions 
+      # are interesting here
       qry_edi = Query.new(TaliaCore::Source).select(:edition).distinct
       qry_edi.where(:concordance, N::HYPER.concordant_to, page)
       qry_edi.where(:concordance, N::HYPER.concordant_to, :def_page)
       qry_edi.where(:def_page, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
       qry_edi.where(:edition, N::HYPER.manifestation_of, :def_page)
       qry_edi.where(:edition, N::RDF.type, N::HYPER + 'HyperEdition')
-      
+      # Let's add manifestation to the new pages
       qry_edi.execute.each do |edition|
         page.add_manifestation(edition)
         edition.save!
@@ -174,9 +180,11 @@ namespace :discovery do
     end
     progress.finish
  
+    # Now it's chapters' turn. 
     puts "Importing Chapters..."
     ce.books.each do |book|    
-      # it creates l'ordered_source for the pages
+      # it creates ordered_source for the pages (it's needed anyway, but also the chapters
+      # need them)
       book.order_pages!   
       # it searches for chapters and adds them to the Critical Edition
       qry_chapt = Query.new(TaliaCore::Source).select(:chapter).distinct
@@ -188,14 +196,14 @@ namespace :discovery do
 
       chapters = qry_chapt.execute
       chapters.each do |chapter| 
-        ce.add_from_concordant(chapter, false) #don't import subelements
+        ce.add_from_concordant(chapter, false) # don't import subelements
       end unless chapters.empty?
       book_chapters = book.chapters
       book_chapters.each do |chapter| 
         chapter.order_pages!
         if chapter.ordered_pages.size == 0
           #TODO: it may happen that a chapter is added even if there are no HyperEdition
-          # in it, either we delete it now or we don't add it in the first place
+          # in it, either we delete it now or we don't add it in the first place (how?)
         end
       end unless book_chapters.empty?
       puts "Creating html_data of #{book}"
