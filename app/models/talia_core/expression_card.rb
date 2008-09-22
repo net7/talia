@@ -84,8 +84,11 @@ module TaliaCore
           # property here is a semantic_collection_wrapper, the first element will contain the object
           # of the relation if it is a source
           if property[0].is_a?(TaliaCore::Source)
-            old_source = property[0]
-            property[0] = old_source.concordant_cards(catalog)[0] unless old_source.concordant_cards(catalog)[0].nil?
+            i = 0
+            property.each do |prop|
+              property[i] = prop.concordant_cards(catalog)[0] unless prop.concordant_cards(catalog)[0].nil?
+              i += 1
+            end
           end
         end 
         new_el[p] << property 
@@ -148,7 +151,7 @@ module TaliaCore
     end
     
     
-  protected
+    protected
   
     # Assign the default catalog
     def set_default_catalog

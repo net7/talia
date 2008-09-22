@@ -26,7 +26,8 @@ class Feeder
     doc = REXML::Document.new
     doc << REXML::XMLDecl.new
     root = REXML::Element.new("talia:source")
-    root.add_namespace("talia", "http://www.talia.org")
+    #FIXME: must the namespace e set in some constant ?
+    root.add_namespace("talia", "http://trac.talia.discovery-project.eu/wiki/Exist#")
     doc.add_element(root)
 
     contribution = TaliaCore::Source.find(contribution_uri)

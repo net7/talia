@@ -99,6 +99,22 @@ module TaliaCore
       subparts = pages + paragraphs
     end
     
+    def html_data=(html_data)
+      self.add_manifestation(html_data)
+    end
+    
+    def html_data
+      html_data = TaliaCore::BookHtml.find(:all, :find_through => [N::HYPER.manifestation_of , self])
+      html_data[0].html
+    end
+    
+    
+    def create_html_data!
+      html_data_uri = self.uri.to_s + "_html_data"
+      html_data = TaliaCore::BookHtml.new(html_data_uri)
+      html_data.create_html_version_of(self)
+      self.html_data=html_data
+    end
     
     # Returns the PDF representation of this book
     def pdf
@@ -117,10 +133,15 @@ module TaliaCore
     end
     
     def paragraphs_query
+      # when paragraphs are cloned, the notes it is related to are not cloned too,
+      # so we have that said notes are related to pages in the default catalog, even if the paragraph
+      # itslef is not. 
+      # We must separate, then, the two cases where the book (and so the paragraphs and
+      # all the book's subparts) are in the default catalog or not.
+      # In the latter case we have to refer to paragraphs and pages in the default catalog.
       qry = Query.new(TaliaCore::Source).select(:part).distinct
       qry.where(:page, N::HYPER.part_of, self)
       qry.where(:page, N::RDF.type, N::HYPER.Page)
-      
       if (self.catalog != TaliaCore::Catalog.default_catalog)  
         qry.where(:note, N::HYPER.page, :def_page)
         qry.where(:def_page, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
@@ -141,11 +162,8 @@ module TaliaCore
         qry.where(:note, N::HYPER.position, :note_pos)
         qry.sort(:page_pos)
         qry.sort(:note_pos)
-          
       end
       qry
-      
     end
-  
   end
 end

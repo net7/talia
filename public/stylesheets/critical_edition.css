@@ -383,15 +383,18 @@ div#visore.extended h1 {
 } 
 
 div#visore p{
-	font-size: 1.2em;
+/*    
+        font-size: 1.2em;
+    */
 	color: #000;
 	line-height: 2em;
 	padding-bottom: 20px;
 }
 
 div#visore p.editedby {
-	font-size: 1.6em;
+/*	font-size: 1.6em;
 	line-height: 1em;
+    */
 	border-bottom: 1px solid #e5e5e5;
 	padding-bottom: 20px;
 	margin-bottom: 20px;

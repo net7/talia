@@ -85,7 +85,7 @@ namespace :discovery do
   
   desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> description=<short_description>" 
   task :create_critical_edition => :disco_init do
-
+ 
     TaliaCore::Book
     TaliaCore::Page
     TaliaCore::Chapter
@@ -95,6 +95,7 @@ namespace :discovery do
     TaliaCore::HyperEdition
     ce = TaskHelper::create_edition(TaliaCore::CriticalEdition)
 
+    # HyperEditions may be manifestations of both pages and paragraphs
     par_qry = TaskHelper::default_book_query
     par_qry.where(:paragraph, N::HYPER.note, :note)
     par_qry.where(:note, N::HYPER.page, :page)
@@ -117,6 +118,7 @@ namespace :discovery do
     # only select from the default catalog
     query.where(:book, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
     query.where(:page, N::HYPER.part_of, :book)
+    query.where(:paragraph, N::RDF.type, N::TALIA.Paragraph)
     query.where(:paragraph, N::HYPER.note, :note)
     query.where(:note, N::HYPER.page, :page)
     query.where(:edition, N::HYPER.manifestation_of, :paragraph)
@@ -149,7 +151,7 @@ namespace :discovery do
     progress.finish
  
     pages = ce.elements_by_type(N::TALIA.Page)
-    puts "Found #{pages.size} pages in the new edition. Adding HyperEdition."
+    puts "Found #{pages.size} pages in the new edition. Adding HyperEditions."
     progress = ProgressBar.new('Page Editions', pages.size)
     page_editions = 0
     pages.each do |page|
@@ -174,24 +176,30 @@ namespace :discovery do
  
     puts "Importing Chapters..."
     ce.books.each do |book|    
+      # it creates l'ordered_source for the pages
       book.order_pages!   
+      # it searches for chapters and adds them to the Critical Edition
       qry_chapt = Query.new(TaliaCore::Source).select(:chapter).distinct
       qry_chapt.where(:concordance, N::HYPER.concordant_to, book)
       qry_chapt.where(:concordance, N::HYPER.concordant_to, :def_book)
       qry_chapt.where(:def_book, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
       qry_chapt.where(:chapter, N::HYPER.book, :def_book)
-      qry_chapt.where(:edition, N::RDF.type, N::TALIA.Chapter)
+      qry_chapt.where(:chapter, N::RDF.type, N::TALIA.Chapter)
 
-      qry_chapt.execute.each do |chapter|
+      chapters = qry_chapt.execute
+      chapters.each do |chapter| 
         ce.add_from_concordant(chapter, false) #don't import subelements
-      end
-      book.chapters.each do |chapter|
+      end unless chapters.empty?
+      book_chapters = book.chapters
+      book_chapters.each do |chapter| 
         chapter.order_pages!
         if chapter.ordered_pages.size == 0
           #TODO: it may happen that a chapter is added even if there are no HyperEdition
           # in it, either we delete it now or we don't add it in the first place
         end
-      end
+      end unless book_chapters.empty?
+      puts "Creating html_data of #{book}"
+      book.create_html_data!
     end
     puts "Edition created with #{editions} editions."
   end

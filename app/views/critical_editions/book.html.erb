@@ -1,38 +1,5 @@
-<div class="floatclear"></div>
-
-
-
-<div id="content" class="divided grey">
-  <div id="visore">
-    
-    
-    <div class="txt_block">
-      <p class="pg_number">- 22 -</p>
-      
-      <p><strong>Princip des Gleichgewichts. –</strong> Der Räuber und der Mächtige, welcher einer Gemeinde verspricht, sie gegen den Räuber zu schützen, sind wahrscheinlich im Grunde ganz ähnliche Wesen, nur dass der zweite seinen Vortheil anders, als der erste erreicht: nämlich durch regelmässige Abgaben, welche die Gemeinde an ihn entrichtet, und nicht mehr durch Brandschatzungen. (Es ist das nämliche Verhältniss wie zwischen Handelsmann und Seeräuber, welche lange Zeit ein und dieselbe Person sind: wo ihr die eine Function nicht räthlich scheint, da übt sie die andere aus. Eigentlich ist ja selbst jetzt noch alle Kaufmanns-Moral nur die Verklügerung der Seeräuber-Moral: so wohlfeil wie möglich kaufen – womöglich für Nichts, als die Unternehmungskosten –, so theuer wie möglich verkaufen.) Das Wesentliche ist: jener Mächtige verspricht, gegen den Räuber Gleichgewicht zu halten; darin sehen die Schwachen eine Möglichkeit, zu leben. Denn entweder müssen sie sich selber zu einer gleichwiegenden Macht zusammenthun oder sich einem Gleichwiegenden unterwerfen (ihm für seine Leistungen Dienste leisten). Dem letzteren Verfahren wird gern der Vorzug gegeben, weil es im Grunde zwei gefährliche Wesen in Schach hält: das erste durch das zweite und das zweite durch den Gesichtspunct des Vortheils; letzteres hat nämlich seinen Gewinn davon, die Unterworfenen gnädig oder leidlich zu behandeln, damit sie nicht nur sich, sondern auch ihren Beherrscher ernähren können. Thatsächlich kann es dabei immer noch hart und grausam genug zugehen, aber verglichen mit der früher immer möglichen völligen Vernichtung athmen die Menschen schon in diesem Zustande auf. – Die Gemeinde ist im Anfang die Organisation der Schwachen zum Gleichgewicht mit gefahrdrohenden Mächten. Eine Organisation zum Uebergewicht wäre räthlicher, wenn man dabei so stark würde, um die Gegenmacht auf einmal zu 
-      </p>
-      <p class="addons"><a href="#">1 facsimile </a>| <a href="#">2 commentaries</a> in <a href="#">Scholar Mode</a></p>        
-      
-    </div>
-    <!--[if !IE]>txtblock<![endif]-->   
-
-           
-    <div class="txt_block">
-      <%= @book_content %>
-    </div>
-    <!--[if !IE]>txtblock<![endif]-->  
-   
-   
-   
-  </div>
-  
-  <!--[if !IE]>visore<![endif]-->  
-</div>
-<!-- content -->
+<%= render(:partial => "html_data_pane") %>
 
 <div id="scroll">
   <%= widget(:critical_edition_menu, :books => @critical_edition.books, :chosen_book => @book) %>
 </div>
-
-
-

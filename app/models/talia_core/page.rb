@@ -22,6 +22,12 @@ module TaliaCore
     
     # returns all the paragraphs belonging to this page
     def paragraphs
+      # when paragraphs are cloned, the notes it is related to are not cloned too,
+      # so we have that said notes are related to pages in the default catalog, even if the paragraph
+      # itslef is not. 
+      # We must separate, then, the two cases where the book (and so the paragraphs and
+      # all the book's subparts) are in the default catalog or not.
+      # In the latter case we have to refer to paragraphs and pages in the default catalog.
       qry = Query.new(TaliaCore::Paragraph).select(:p).distinct
       if self.catalog == TaliaCore::Catalog.default_catalog
         qry.where(:p, N::HYPER.note, :n)

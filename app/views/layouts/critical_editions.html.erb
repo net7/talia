@@ -4,10 +4,19 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
     <title><%= critical_edition_page_title %></title>
     <%= stylesheet_link_tag 'critical_edition' %>
-    
     <%= javascript_include_tag 'prototype' %>
+    <%= javascript_include_tag 'critical_edition' %>
   </head>
   <body>
+    <script> 
+        window.onresize = function () {
+            set_height (); 
+        }
+        document.observe('dom:loaded', function() {
+            set_height();        
+            go_to_anchor('<%= @href_for_text %>');
+        });
+    </script>
     <div id="page_ext">
       <div id="page_int">
         <div id="header">
@@ -35,12 +44,13 @@
             </ul>
           </div>
           <!-- tools -->
-          <%= widget(:simple_mode_path, :path_elements => critical_edition_path)%>
+<%= widget(:simple_mode_path, :path_elements => critical_edition_path) %>
         </div>
         <!-- navigate -->
         
         <!-- advanced search -->
-        <%= widget(:advanced_search, :id => 'search_adv', :options => {:servlet => "http://gandalf.aksis.uib.no:8080/nietzsche/Search", :work => @critical_edition.books, :visible => false}) %>
+
+<%= widget(:advanced_search, :id => 'search_adv', :options => {:servlet => "http://gandalf.aksis.uib.no:8080/nietzsche/Search", :work => @critical_edition.books, :visible => false}) %>
 
 <%= yield %>
         
