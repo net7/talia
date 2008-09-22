@@ -62,41 +62,19 @@ ActionController::Routing::Routes.draw do |map|
     
   # Routes for import
   map.connect 'import/:action', :controller => 'import', :action => 'start_import'
-  
-  #  map.connect ':controller/:id/:data_type/:location', 
-  #              :controller => 'sources', 
-  #              :action => 'show_source_data',
-  #              :id => :nil,
-  #              :data_type => :nil,
-  #              :location  => :nil,
-  #              :requirements => { :location => /[^\/]+/ } # Force the location to match also filenames with points etc.
 
+  map.connect "critical_editions/:id",
+    :controller => 'critical_editions',
+    :action => 'show'
+    
+  map.connect "critical_editions/:id/:part",
+    :controller => 'critical_editions',
+    :action => 'dispatcher'
+  
   map.connect "facsimile_editions/:id/search",
     :controller => 'facsimile_editions',
     :action => 'search'
 
-   map.connect "critical_editions/:id/test",
-    :controller => 'critical_editions',
-    :action => 'test'
-  
-   map.connect "critical_editions/:id/:part",
-    :controller => 'critical_editions',
-    :action => 'part',
-    :requirements => {:part => /(.*-\d+)|(.*,[^\[]*)|(.*,.*\[.*)/}
-  
-    map.connect "critical_editions/:id/:chapter",
-    :controller => 'critical_editions',
-    :action => 'chapter',
-    :requirements => {:chapter => /.*-(I|II|III|IV|V|VI|VII|VIII|IX|X|XII)/}
-  
-    map.connect "critical_editions/:id/:book",
-    :controller => 'critical_editions',
-    :action => 'book'
- 
-  
-  # Install the default route as the lowest priority.
-  map.connect ':controller/:id', :action => 'show'
-  
   map.connect "facsimile_editions/:id/:type/:subtype",
     :controller => 'facsimile_editions',
     :action => 'books',
@@ -115,10 +93,6 @@ ActionController::Routing::Routes.draw do |map|
     :action => 'panorama',
     :dot => /\.?/,
     :format => nil
-
-
-
-  
   
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'  
