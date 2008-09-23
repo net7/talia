@@ -73,8 +73,7 @@ class Feeder
     std_title_qry.where(contribution, N::HYPER.manifestation_of, :m)
     std_title_qry.where(:m, N::HYPER.siglum, :s)
     material_siglum = std_title_qry.execute[0]
-    standard_title = "#{type} of #{material_siglum}"
-    metadata.add_element(REXML::Element.new("talia:standard_title").add_text(standard_title))      
+    metadata.add_element(REXML::Element.new("talia:standard_title").add_text(material_siglum))      
       
     metadata.add_element(REXML::Element.new("talia:language").add_text(""))
     date = contribution.dcns.date.to_s
