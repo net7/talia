@@ -2,7 +2,6 @@
 class AdvancedSearchWidget < Widgeon::Widget
   
   # Initialize the widget
-  # * servlet => string. Servelet URL
   # * work => work object, for example TaliaCore::Book
   # * field_1_label => text for first field (default value is 'work')
   # * field_2_label => text for first field (default value is 'aphorisms')
@@ -29,7 +28,7 @@ class AdvancedSearchWidget < Widgeon::Widget
       widget_session[:field_1_label] = @options[:field_1_label] || 'work'
       widget_session[:field_2_label] = @options[:field_2_label] || 'aphorisms'
       widget_session[:field_3_label] = @options[:field_3_label] || 'through'
-      
+    
     end
   end
   
@@ -64,7 +63,7 @@ class AdvancedSearchWidget < Widgeon::Widget
   
   # return onchange link for work field
   def onchange_link(current_size)
-   remote_function(:with => "'src_line_#{current_size}_field_1_value=' + $F('src_line_#{current_size}_field_1')",
+    remote_function(:with => "'src_line_#{current_size}_field_1_value=' + $F('src_line_#{current_size}_field_1')",
       :url => {:controller => "widgeon", 
         :action => "callback", 
         :call_options =>  WidgeonEncoding.encode_options({:javascript => 'retrieve_work_content', 
@@ -161,12 +160,6 @@ class AdvancedSearchWidget < Widgeon::Widget
         :current_size => @current_size, 
         :selected_index => :last,
         :data => paragraphs})
-  end
-  
-  callback :advanced_search_succeed do |page|
-    
-    puts "aaaaa"
-    
   end
   
 end

@@ -18,6 +18,42 @@ class CriticalEditionsController < ApplicationController
   # GET /critical_editions/1
   def show  
   end
+  
+  def advanced_search
+    # if user has clicked on seach button, execute search method
+    unless params[:advanced_search_submission].nil?
+      # collect data to post
+      data = {
+        'search_type' => params[:search_type],
+        'words' => params[:words] || '',
+        'operator' => params[:operator],
+        'mc[]' => (params[:mc] || []),
+        'mc_from[]' => (params[:mc_from] || []),
+        'mc_to[]' => (params[:mc_to] || [])
+      }
+    
+      # execute post to servlet
+      resp = Net::HTTP.post_form URI.parse("http://gandalf.aksis.uib.no:8080/nietzsche/Search"), data
+      
+      # error check
+      raise "#{resp.code}: #{resp.message}" unless resp.kind_of?(Net::HTTPSuccess)
+     
+      # get response xml document
+      doc = REXML::Document.new resp.body
+      
+      # total item
+      @result_count = doc.root.attribute('total').value
+      # search word
+      @words = params[:words]
+      
+      # get level 2 group
+      groups = doc.get_elements('/*/*/*/talia:group/talia:entry')
+      # collect result. It create an array of hash {title, description}
+      @result = groups.collect do |item|
+        {:title => item.elements['talia:metadata/talia:standard_title'].text, :description => item.elements['talia:excerpt'].children.to_s}
+      end
+    end
+  end
 
   private
 

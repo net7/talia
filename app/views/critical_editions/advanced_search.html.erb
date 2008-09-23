@@ -1,0 +1,43 @@
+<% if @result.nil? %>
+  <div id="visore" class="extended">
+    <h1>Advanced search description</h1>
+  
+    <p>Sed libero dolor, cursus et, varius eu, interdum sed, risus. Nam condimentum, est vitae tempus luctus, eros justo auctor pede, at tincidunt sem orci et nibh. In aliquet lacus sed diam. Duis rutrum. Aliquam erat volutpat. Mauris malesuada nunc non dui. Nullam congue laoreet mi. Nunc metus massa, viverra eget, rhoncus ac, ornare at, lorem. Curabitur suscipit, mauris non ultrices sollicitudin, sem elit mattis orci, eget dictum quam urna sit amet orci. Donec ut quam. Aenean vitae magna. Mauris massa nibh, viverra eu, volutpat sed, commodo sed, dolor. Nunc sit amet arcu. Sed vitae dui. Etiam feugiat diam eu lacus. Donec varius laoreet sem. Integer in nisl. Quisque tempus blandit magna.</p>
+  
+    <p> Fusce vitae tortor vel libero auctor tristique. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam at eros a nisi faucibus pellentesque. In nec velit. Aliquam pretium, metus ut eleifend commodo, dui ipsum ullamcorper elit, quis blandit mauris ipsum dignissim lorem. In tempor. Nulla facilisi. Donec vel lorem. Donec dictum, nibh ac semper rhoncus, quam odio rutrum dolor, nec mattis justo odio ut justo. Maecenas odio risus, lacinia sagittis, vestibulum eget, mattis et, elit. Vestibulum quis erat.<br />
+    Nunc ornare tincidunt dolor. Proin gravida. Integer arcu. Maecenas felis. Phasellus laoreet sodales enim. Suspendisse eget ante non tortor dignissim accumsan. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam eget arcu in dolor accumsan varius. Maecenas ut nunc non eros consectetuer suscipit. In porttitor diam in purus. Donec consectetuer. Ut quis diam id diam tristique ultrices.</p>
+    <p class="about"><a href="#">about the edition</a></p>
+  </div>
+<% else %>
+  <div class="floatclear"></div>
+  <div id="content" class="divided grey">
+    <div id="visore">
+      <h2><%= @result_count %>  occurrences of the words <span class="red">'<%= @words  %>'</span> in the <%= @critical_edition.hyper::title %></h2>
+    
+    
+      <div class="resultstools"> <div class="print"><a href="#" title="print">print results</a></div>
+        <a href="#" title="select all">Select all</a> | <a href="#" title="deselect">deselect all</a>
+      </div>
+      <!--[if !IE]>resultstools<![endif]-->  
+
+      <ul class="results">
+        <% @result.each_with_index do |item,index| %>
+          <li>            
+            <h3><%= index + 1  %> <label> select to print</label><input type="checkbox" /> <span><%=  item[:title] %></span></h3>
+            <p><%= item[:description] %></p>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+    <!--[if !IE]>visore<![endif]-->
+  </div>
+  <!-- content -->
+  
+  <div id="scroll">
+    <%= widget(:critical_edition_menu, :books => @critical_edition.books) %>
+  </div>
+<% end %>
+
+
+
+

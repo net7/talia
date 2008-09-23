@@ -66,7 +66,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "critical_editions/:id",
     :controller => 'critical_editions',
     :action => 'show'
-    
+  
+  map.connect "critical_editions/:id/advanced_search",
+    :controller => 'critical_editions',
+    :action => 'advanced_search'
+  
   map.connect "critical_editions/:id/:part",
     :controller => 'critical_editions',
     :action => 'dispatcher'
@@ -97,7 +101,7 @@ ActionController::Routing::Routes.draw do |map|
     :action => 'panorama',
     :dot => /\.?/,
     :format => nil
-  
+
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'  
   
