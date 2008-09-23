@@ -123,7 +123,13 @@ module ApplicationHelper
     return titled_link(url, "missing image for #{title}", title) unless(iip_data)
 
     img_options = { :alt => title }.merge(img_options)
-    img_tag = image_tag(url_for(:controller => 'source_data', :action => 'show', :id => iip_data.id), img_options)
+    static_prefix = TaliaCore::CONFIG['static_data_prefix']
+    img_tag = if(!static_prefix || static_prefix == '' || static_prefix == 'disabled')
+      image_tag(url_for(:controller => 'source_data', :action => 'show', :id => iip_data.id), img_options)
+    else
+      static_url = static_prefix + '/' << iip_data.get_file_path(true)
+      image_tag(static_url, img_options)
+    end
 
     titled_link(url, img_tag, title)
   end

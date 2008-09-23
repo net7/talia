@@ -33,6 +33,11 @@ iip_server_uri: 'http://localhost/fcgi-bin/iipsrv.fcgi'
 vips_command: /opt/local/bin/vips
 convert_command: /opt/local/bin/convert
 
+# If you set this prefix, the application will try to load "data" elements
+# as static content from that location (instead of going through a controller).
+# Disable this feature by not setting the prefix, or setting "disable"
+# static_data_prefix: /public
+
 # Thumbnail size for IIP thumbnails 
 thumb_options:
     width: '128'
