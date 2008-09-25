@@ -31,7 +31,10 @@ puts
 puts "This script will assist you in setting up your Talia instance for deployment"
 puts
 
-print "MySQL sock file (/tmp/mysql.sock): "
+puts "Enter the location of the mysql sock file."
+puts "For the self-installed mySQL version on MacOS enter /tmp/mysql.sock"
+puts "Keep the default if you use the builtin mySQL of MacOS X Server."
+print "MySQL sock file (/var/mysql/mysql.sock): "
 sock_file = readl
 sock_file = '/tmp/mysql.sock' if(sock_file.strip == '')
 puts
