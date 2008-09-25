@@ -90,7 +90,7 @@ puts " done."
 db_config.set_adapter('jdbcmysql')
 db_config.set_credentials(rails_user, rails_pw)
 db_config.set_database_names('discovery_talia')
-db_config.socket = sock_file
+db_config.set_socket(sock_file)
 
 puts
 print "Enter the URI for your site: "
