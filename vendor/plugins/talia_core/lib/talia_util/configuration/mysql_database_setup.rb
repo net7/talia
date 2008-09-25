@@ -92,8 +92,8 @@ module TaliaUtil
           :host => @host || "localhost",
           :username => @root_user,
           :password => @root_pw,
-          :database => database,
-          :socket => @sock || '/tmp/mysql.sock'
+          :database => database
+          # :socket => @sock || '/tmp/mysql.sock'
         }
       end
       
