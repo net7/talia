@@ -29,6 +29,11 @@ module TaliaUtil
         @environments.each { |env| @config_doc[env]['database'] = "#{app_name}_#{env}" }
       end
       
+      # Sets the socket file for the db
+      def set_socket(socket)
+        @environments.each { |env| @config_doc[env]['socket'] = socket  }
+      end
+      
     end
     
   end
