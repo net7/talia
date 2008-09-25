@@ -93,7 +93,7 @@ module TaliaUtil
           :username => @root_user,
           :password => @root_pw,
           :database => database,
-          :sock => @sock || '/tmp/mysql.sock'
+          :socket => @sock || '/tmp/mysql.sock'
         }
       end
       
