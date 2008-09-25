@@ -36,7 +36,7 @@ puts "For the self-installed mySQL version on MacOS enter /tmp/mysql.sock"
 puts "Keep the default if you use the builtin mySQL of MacOS X Server."
 print "MySQL sock file (/var/mysql/mysql.sock): "
 sock_file = readl
-sock_file = '/tmp/mysql.sock' if(sock_file.strip == '')
+sock_file = '/var/mysql/mysql.sock' if(sock_file.strip == '')
 puts
 
 mysql_setup = TaliaUtil::Configuration::MysqlDatabaseSetup.new
