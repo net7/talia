@@ -14,6 +14,7 @@ module TaliaUtil
       
       attr_accessor :host
       attr_accessor :app_name
+      attr_accessor :sock
       
       # Set the root user/pw
       def root_credentials(root_user = 'root', root_pw = nil)
@@ -91,7 +92,8 @@ module TaliaUtil
           :host => @host || "localhost",
           :username => @root_user,
           :password => @root_pw,
-          :database => database
+          :database => database,
+          :sock => @sock || '/tmp/mysql.sock'
         }
       end
       
