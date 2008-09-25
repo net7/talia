@@ -31,9 +31,15 @@ puts
 puts "This script will assist you in setting up your Talia instance for deployment"
 puts
 
+print "MySQL sock file (/tmp/mysql.sock): "
+sock_file = readl
+sock_file = '/tmp/mysql.sock' if(sock_file.strip == '')
+puts
+
 mysql_setup = TaliaUtil::Configuration::MysqlDatabaseSetup.new
 mysql_setup.host = 'localhost'
 mysql_setup.app_name = 'discovery_talia'
+mysql_setup.sock = sock_file
 
 print "Enter the mySQL root pasword: "
 root_pw = readl

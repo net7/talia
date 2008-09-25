@@ -1,0 +1,64 @@
+#!/usr/bin/env ruby
+
+$: << File.join(File.dirname(__FILE__), '..')
+require 'fileutils'
+require 'progressbar'
+
+# Prepares the image files for the IIP server
+VIPS_COMMAND='/opt/local/bin/vips'
+CONVERT_COMMAND='/opt/local/bin/convert'
+THUMB_SIZE = '128x128'
+
+# Create the thumbnail by running the configured creation command.
+def create_thumb(source, destination)
+  # execute vips command for create thumbnail
+  # TODO: to add options, such as size, we can modify this row
+  thumbnail_command = "#{CONVERT_COMMAND} #{source} -resize #{THUMB_SIZE} #{destination}"
+  system_result = system(thumbnail_command)
+
+  # check if thumbnails file is created
+  puts "Error for #{source}: Command #{CONVERT_COMMAND} failed (#{$?})." unless (File.exists?(destination) || !system_result)
+end
+      
+# Creates the pyramid image for IIP by running the configured system
+# command. This automatically creates the file in the correct location 
+# (IIP root)
+def create_pyramid(source, destination)
+  
+  # execute vips command for create pyramid image
+  # TODO: to add options, such as size, we can modify this row
+  pyramid_command = "#{VIPS_COMMAND} im_vips2tiff #{source} #{destination}:deflate,tile,pyramid"
+  system_result = system(pyramid_command)
+
+  # check if thumbnails file is created
+  puts "Error for #{source}: Command #{VIPS_COMMAND} failed (#{$?})." unless (File.exists?(destination) || !system_result)
+end
+
+if(ARGV.size == 0 || ARGV[0] == '--help')
+  puts 'Usage: prepare_images <image_data_directory> [<output_dir>]'
+  exit 1
+end
+
+source_dir = File.expand_path(ARGV[0])
+destination = ARGV.size > 1 ? File.expand_path(ARGV[1]) : File.join(source_dir, 'iip_staging')
+
+files = Dir["#{source_dir}/*.{jpg,gif,png,tif,jpeg}"] 
+
+puts "Will process #{files.size} files."
+
+progress = ProgressBar.new('Processing', files.size)
+# create data directory path
+FileUtils.mkdir_p(destination) 
+FileUtils.mkdir_p(File.join(destination, 'pyramids'))
+FileUtils.mkdir_p(File.join(destination, 'thumbs'))
+
+
+files.each do |file|
+  create_thumb(file, File.join(destination, 'thumbs', File.basename(file)))
+  create_pyramid(file, File.join(destination, 'pyramids', "#{File.basename(file, File.extname(file))}.tif"))
+  progress.inc
+end
+
+progress.finish
+puts "Finished"
+
