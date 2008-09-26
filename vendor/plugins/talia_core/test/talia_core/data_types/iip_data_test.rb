@@ -81,6 +81,14 @@ module TaliaCore
           record.create_from_file('', data_file)
         end
       end
+      
+      def test_create_from_existing
+        creation_test do |record|
+          data_file = File.join(File.dirname(__FILE__), '..', '..', 'data_for_test', 'test.jpg')
+          data_file = File.expand_path(data_file)
+          record.create_from_existing(data_file, data_file)
+        end
+      end
           
       private
       def base_dir_name(id=nil)
@@ -89,6 +97,7 @@ module TaliaCore
       
       def creation_test
         new_record = DataTypes::IipData.new
+        new_record.location = ''
         new_record.source_id = "something"
         yield(new_record)
         new_record.save!

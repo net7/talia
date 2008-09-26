@@ -31,6 +31,13 @@ module TaliaCore
       
       alias :get_thumbnail :all_bytes
      
+      # Create from existing thumb and pyramid images
+      def create_from_existing(thumb, pyramid, delete_originals = false)
+        @file_data_to_write = [thumb, pyramid]
+        @delete_original_file = delete_originals
+        self.location = ''
+      end
+      
       # return IIP Server Path
       def iip_server_path
         self.location
@@ -38,6 +45,10 @@ module TaliaCore
       
       def write_file_after_save
         return unless(@file_data_to_write)
+        
+        # Check if we have the images already given, in this case we prepare
+        # them and call the super method
+        return super if(direct_write!)
         
         # create name for orginal temp file and destination temp file
         original_file_path, orig_is_temp = prepare_original_file
@@ -63,6 +74,26 @@ module TaliaCore
         end
       end
       
+      
+      # Checks if we have file paths given to directly copy thum and image file.
+      # Will always return true if such paths were given.
+      def direct_write!
+        return false unless(@file_data_to_write.kind_of?(Array))
+        
+        thumb, pyramid = @file_data_to_write
+        
+        prepare_for_pyramid
+        
+        if(@delete_original_file)
+          FileUtils.move(pyramid, get_iip_root_file_path)
+        else
+          FileUtils.copy(pyramid, get_iip_root_file_path)
+        end
+        
+        @file_data_to_write = DataPath.new(thumb)
+        
+        true
+      end
 
       # This prepares the original file that needs to be converted. This will
       # see if the data to be written is binary data or a file path. If this
@@ -102,18 +133,23 @@ module TaliaCore
         raise(IOError, "Command #{convert_command} failed (#{$?}).") unless (File.exists?(destination) || !system_result)
       end
       
+      # Prepare for copying or creating the pyramid image
+      def prepare_for_pyramid
+        # set location
+        self.location = get_iip_root_file_path(true)
+        
+        # create data directory path
+        FileUtils.mkdir_p(iip_root_directory)
+      end
+      
       # Creates the pyramid image for IIP by running the configured system
       # command. This automatically creates the file in the correct location 
       # (IIP root)
       def create_pyramid(source)
         # check if file already exists
         raise(IOError, "File already exists: #{get_iip_root_file_path}") if(File.exists?(get_iip_root_file_path))
-        
-        # set location
-        self.location = get_iip_root_file_path(true)
-        
-        # create data directory path
-        FileUtils.mkdir_p(iip_root_directory)
+       
+        prepare_for_pyramid
         
         # execute vips command for create pyramid image
         # TODO: to add options, such as size, we can modify this row

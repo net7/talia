@@ -3,7 +3,21 @@ module TaliaCore
   # This file contains the RDF handling elements of the ActiveSource class
 
     # Handler for creating the rdf
-    after_save :create_rdf
+    after_save :auto_create_rdf
+       
+    # This can be used to turn of automatic rdf creation. *Attention:* Improperly
+    # used this may compromise the integrity of the RDF data. However, it may
+    # be used in order to speed up "create" operations that save a record
+    # several times and don't need the RDF data in the meantime.
+    def autosave_rdf?
+      @autosave_rdf = true unless(defined?(@autosave_rdf))
+      @autosave_rdf
+    end
+    
+    # Set the autosave property. See autosave_rdf?
+    def autosave_rdf=(value)
+      @autosave_rdf = value
+    end
     
     # Returns the RDF object to use for this ActiveSource
     def my_rdf
@@ -36,6 +50,14 @@ module TaliaCore
       end
       my_rdf[N::RDF.type] << (N::TALIA + self.class.name.demodulize)
       my_rdf.save
+    end
+    
+    private 
+    
+    def auto_create_rdf
+      if(autosave_rdf?)
+        create_rdf
+      end
     end
     
   end

@@ -332,6 +332,13 @@ module TaliaCore
       assert_equal(SingularAccessorTest.find_by_siglum('foo'), [ src ])
     end
     
+    def test_autosave_rdf
+      src = ActiveSource.new('http://testautosaverdf/')
+      assert(src.autosave_rdf?)
+      src.autosave_rdf = false
+      assert(src.autosave_rdf? == false)
+    end
+    
   end
   
 end

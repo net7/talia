@@ -135,14 +135,18 @@ module TaliaCore
       end
     end
     
-    # add new item to ordered source
-    # * object = TaliaCore::ActiveSource
-    def add(object)
-      # get predicate for next item
-      predicate =  index_to_predicate(size + 1)
+        # Inserts an element at the given index.
+    def insert_at(index, object)
+      predicate =  index_to_predicate(index)
 
       # add new object to ordered set
       self[predicate] << object
+    end
+    
+    # add new item to ordered source
+    # * object = TaliaCore::ActiveSource
+    def add(object)
+      insert_at(size + 1, object)
     end
     
     # remove an existing object to ordered source
@@ -194,6 +198,16 @@ module TaliaCore
       #result = self.semantic_relations.find(:all) #, :conditions => ['predicate_uri LIKE ?', "http://www.w3.org/1999/02/22-rdf-syntax-ns#_%"]).uniq
       #result.collect { |item| OrderedSource.new item.subject.uri}
     end
+
+    # return string for index
+    def index_to_predicate(index)
+      'http://www.w3.org/1999/02/22-rdf-syntax-ns#_' << ("%06d" % index.to_i) 
+    end
+      
+    # return index of predicate
+    def predicate_to_index(predicate)
+      predicate.sub('http://www.w3.org/1999/02/22-rdf-syntax-ns#_', '').to_i
+    end
     
     private
     # execute query and return the result
@@ -202,15 +216,6 @@ module TaliaCore
       self.semantic_relations.find(scope, :conditions => ['predicate_uri LIKE ?', "http://www.w3.org/1999/02/22-rdf-syntax-ns#_%"], :order => :predicate_uri)
     end
 
-    # return string for index
-    def index_to_predicate(index)
-      'http://www.w3.org/1999/02/22-rdf-syntax-ns#_' + "#{("000000" + index.to_s)[-6..-1]}"
-    end
-      
-    # return index of predicate
-    def predicate_to_index(predicate)
-      predicate.sub('http://www.w3.org/1999/02/22-rdf-syntax-ns#_', '').to_i
-    end
     
   end
 end
