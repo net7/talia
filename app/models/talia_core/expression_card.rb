@@ -49,6 +49,9 @@ module TaliaCore
     
     # Cloned properties are defined at the END OF THIS FILE!
     
+    # Callbacks for the clone method
+    class_inheritable_accessor :clone_callbacks
+    
     # Get the concordance record for this card. This will return the
     # concordance itself, so that the metadata of the concordance record
     # can be inspected.
@@ -67,35 +70,28 @@ module TaliaCore
     
     # Clone the current card and make the new one concordant to the current
     # one
-    def clone_concordant(uri, convert_objects = false, catalog = nil)
-      new_el = clone(uri, convert_objects, catalog)
+    def clone_concordant(uri, callback_options = {})
+      new_el = clone(uri, callback_options)
       make_concordant(new_el)
       new_el
     end
     
     # Clones the current card, with the properties and inverse properties that
-    # are configured for cloning.
-    def clone(uri, convert_objects = false, catalog = nil)
+    # are configured for cloning. The options hash is not used by the
+    # clone method itself, but will be passed to the callback(s).
+    def clone(uri, callback_options = {})
       raise(ArgumentError, "Element cannot be cloned #{self.uri} - target already exists #{uri}") if(ActiveSource.exists?(uri))
       new_el = self.class.new(uri)
-      self.class.props_to_clone.each do |p|
-        property = self[p]
-        if convert_objects && catalog
-          # property here is a semantic_collection_wrapper, the first element will contain the object
-          # of the relation if it is a source
-          if property[0].is_a?(TaliaCore::Source)
-            i = 0
-            property.each do |prop|
-              property[i] = prop.concordant_cards(catalog)[0] unless prop.concordant_cards(catalog)[0].nil?
-              i += 1
-            end
-          end
-        end 
-        new_el[p] << property 
-      end
+      self.class.props_to_clone.each { |p| new_el[p] << self[p] }
       self.class.inverse_props_to_clone.each do |p|
         self.inverse[p].each { |targ| targ[p] << new_el }
       end
+      
+      # Execute the callback methods.
+      if(self.clone_callbacks)
+        self.clone_callbacks.each { |cb| self.send(cb, new_el, callback_options) }
+      end
+      
       new_el
     end
     
@@ -103,6 +99,8 @@ module TaliaCore
     # saves the sources.
     def make_concordant(c_card)
       raise(ArgumentError, "Concordant element must be a card") unless(c_card.is_a?(ExpressionCard))
+      will_rdf_autosave = self.autosave_rdf? # Disable the autosaving for concordance, since this will not cause new rdf on this card
+      
       if(concordance && c_card.concordance)
         # There are two concordances, merge them
         concordance.merge(c_card.concordance)
@@ -118,6 +116,8 @@ module TaliaCore
         conc.add_card(c_card)
         conc.save!
       end
+      
+      self.autosave_rdf = will_rdf_autosave
     end
     
     # A descriptive text about this element
@@ -153,6 +153,13 @@ module TaliaCore
     
     protected
   
+    # Adds a new callback. Callback methods must accept two parameters:
+    # The new element and an options array. (The original element is self)
+    def self.on_clone(callback_method)
+      self.clone_callbacks ||= []
+      self.clone_callbacks << callback_method.to_sym
+    end
+    
     # Assign the default catalog
     def set_default_catalog
       self.catalog = Catalog.default_catalog unless(self.catalog)

@@ -14,7 +14,7 @@ module TaliaCore
     end
     
     
-     # Returns an array containing a list of all the elements of the given type 
+    # Returns an array containing a list of all the elements of the given type 
     # (manuscripts, works, etc.). Types can also contain subtypes (notebook, draft, etc.) 
     # 
     # The types should be a list of N::URI elements indicating the RDF classes.
@@ -34,20 +34,25 @@ module TaliaCore
     # If no siglum is given, this will use the same siglum as the element given.
     # 
     # The URI of the new element will be <catalog_uri>/<siglum>
+    #
+    # Any block given will be run after the new element was completely created
+    # but before it is saved, it will receive the new element as the only parameter.
     def add_from_concordant(concordant_element, children = false, new_siglum = nil)
       raise(ArgumentError, "Can only create concordant catalog elements from Cards, this was a #{concordant_element.class}: #{concordant_element.uri}") unless(concordant_element.is_a?(ExpressionCard))
       siglum = new_siglum || concordant_element.siglum || concordant_element.uri.local_name
-      new_el = concordant_element.clone_concordant(self.uri + '/' + siglum, true, self) # it will convert relation objects to use source part of the present catalog
+      new_el = concordant_element.clone_concordant(self.uri + '/' + siglum, :catalog => self)
       new_el.catalog = self
+      
+      yield(new_el) if(block_given?)
+      
       new_el.save!
       if(children)
         for_children_of(concordant_element) do |child|
-          new_clone = add_from_concordant(child, true)
-          new_clone.hyper::part_of << new_el
-          new_clone.save!
+          add_from_concordant(child, true) do |child_clone|
+            child_clone.hyper::part_of << new_el
+          end
         end
       end
-      
       
       assit_equal(new_el.concordance[N::HYPER.concordant_to].size, new_el.concordance.my_rdf[N::HYPER.concordant_to].size)
       new_el

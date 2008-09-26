@@ -7,6 +7,7 @@ require 'rake'
 require 'talia_util'
 require 'fileutils'
 require 'progressbar'
+require 'benchmark'
 
 include TaliaUtil
 
@@ -14,13 +15,32 @@ namespace :discovery do
   
   desc "Init for this tasks"
   task :disco_init do # => 'talia_core:talia_init' do
-    # Dependencies.load_paths << File.join(File.dirname(__FILE__), '..', '..', 'app', 'models')
-    require File.expand_path(File.dirname(__FILE__) + "/../../config/environment")
-    TaskHelper::load_consts
+    unless(@talia_is_init)
+      # Dependencies.load_paths << File.join(File.dirname(__FILE__), '..', '..', 'app', 'models')
+      require File.expand_path(File.dirname(__FILE__) + "/../../config/environment")
+      TaskHelper::load_consts
+      @talia_is_init = true
+    end
   end
   
+  desc "Prepares the environment for the test server"
+  task :prep_testserver => :disco_init do
+    ENV['base_url'] = ''
+    ENV['list_path'] = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'vendor', 'plugins', 'talia_core', 'lib', 'talia_util', 'some_sigla.xml'))
+    ENV['doc_path'] = 'http://www.nietzschesource.org/exportToTalia.php?get='
+    ENV['nick'] = 'nietzsche'
+    ENV['name'] = 'Nietzsche Edition for automated tests'
+    ENV['description'] = 'Edition of two nietzsche books. Made for automated tests.'
+    Util.flush_db
+    Util.flush_rdf
+  end
+  
+  
+  desc "Import data and prepare the test server. Downloads data directly from the net."
+  task :setup_testserver => [:prep_testserver, :hyper_import, :create_color_facsimile_edition]
+  
   # Import from Hyper
-  desc "Import data from Hyper. Options: base_url=<base_url> [list_path=?get_list=all] [doc_path=?get=] [extension=] [user=<username> password=<pass>]"
+  desc "Import data from Hyper. Options: base_url=<base_url> [list_path=?get_list=all] [doc_path=?get=] [extension=] [user=<username> password=<pass>] [prepared_images=<directory>]"
   task :hyper_import => :disco_init do
     # The list file will be relative to the current dir, not the doc dir
     list_path = ENV['list_path']
@@ -31,55 +51,64 @@ namespace :discovery do
       puts "Setting directory to #{doc_dir}"
       FileUtils.cd(doc_dir)
     end
+    TaliaUtil::HyperXmlImport::options[:prepared_images] = ENV['prepared_images'] if(ENV['prepared_images'])
     TaliaUtil::HyperXmlImport::set_auth(ENV['user'], ENV['password'])
     TaliaUtil::HyperXmlImport::import(ENV['base_url'], list_path, ENV['doc_path'], ENV['extension'])
   end
   
   # creates a facsimile edition and adds to it all the color facsimiles found in the DB
   desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> description=<short_description>"
-  task :create_color_facsimile_edition => :disco_init do 
-    TaliaCore::Book
-    TaliaCore::Page
-    TaliaCore::Facsimile
-    fe = TaskHelper::create_edition(TaliaCore::FacsimileEdition)
-    qry = TaskHelper::default_book_query
-    qry.where(:facsimile, N::HYPER.manifestation_of, :page)
-    qry.where(:facsimile, N::RDF.type, N::HYPER + 'Facsimile')
-    qry.where(:facsimile, N::RDF.type, N::HYPER + 'Color')
-    # Add the books to the edition
-    TaskHelper::add_books_to_edition(fe, qry.execute)
-    # Go through the pages and add the manifestations
-    pages = fe.elements_by_type(N::TALIA.Page)
-    puts "Found #{pages.size} pages in the new edition. Adding Facsimiles."
-    progress = ProgressBar.new('Facsimiles', pages.size)
+  task :create_color_facsimile_edition => :disco_init do
     facsimiles = 0
-    pages.each do |page|
-      assit_kind_of(TaliaCore::Page, page)
-      # Select the manifestations
-      qry_man = Query.new(TaliaCore::Source).select(:facsimile).distinct
-      qry_man.where(:concordance, N::HYPER.concordant_to, page)
-      qry_man.where(:concordance, N::HYPER.concordant_to, :def_page)
-      qry_man.where(:def_page, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
-      qry_man.where(:facsimile, N::HYPER.manifestation_of, :def_page)
-      qry_man.where(:facsimile, N::RDF.type, N::HYPER + 'Facsimile')
-      qry_man.where(:facsimile, N::RDF.type, N::HYPER + 'Color')
+    elapsed = Benchmark.realtime do
+      TaliaCore::Book
+      TaliaCore::Page
+      TaliaCore::Facsimile
+      fe = TaskHelper::create_edition(TaliaCore::FacsimileEdition)
       
-      qry_man.execute.each do |facsimile|
-        page.add_manifestation(facsimile)
-        facsimile.save!
-        facsimiles += 1
-        
+      qry = TaskHelper::default_book_query
+      qry.where(:facsimile, N::HYPER.manifestation_of, :page)
+      qry.where(:facsimile, N::RDF.type, N::HYPER + 'Facsimile')
+      qry.where(:facsimile, N::RDF.type, N::HYPER + 'Color')
+      
+      facs_q = Query.new(N::URI).select(:facsimile).distinct
+      facs_q.where(:facsimile, N::RDF.type, N::HYPER.Facsimile)
+      facs_q.where(:facsimile, N::RDF.type, N::HYPER.Color)
+      facs_q.where(:facsimile, N::HYPER.manifestation_of, :page)
+      facs_q.where(:page, N::HYPER.part_of, :book)
+      facs_q.where(:book, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
+      
+      facs_size = facs_q.execute.size
+      
+      # Process all the books
+      TaskHelper::process_books(qry.execute, facs_size) do |book, progress|
+        # Add a clone to the FE, and execute the block for each page.
+        book.clone_to(fe) do |page|
+          assit_kind_of(TaliaCore::Page, page)
+          # Select the manifestations
+          qry_man = Query.new(TaliaCore::Source).select(:facsimile).distinct
+          qry_man.where(:concordance, N::HYPER.concordant_to, page)
+          qry_man.where(:concordance, N::HYPER.concordant_to, :def_page)
+          qry_man.where(:def_page, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
+          qry_man.where(:facsimile, N::HYPER.manifestation_of, :def_page)
+          qry_man.where(:facsimile, N::RDF.type, N::HYPER + 'Facsimile')
+          qry_man.where(:facsimile, N::RDF.type, N::HYPER + 'Color')
+      
+          qry_man.execute.each do |facsimile|
+            # We just have to add the manifestation element - this is done
+            # "manually" to avoid uneccessary calls to re-create the RDF
+            facsimile.autosave_rdf = false
+            facsimile.hyper::manifestation_of << page
+            facsimile.save!
+            facsimile.my_rdf[N::HYPER.manifestation_of] << page
+            facsimile.my_rdf.save
+            facsimiles += 1
+            progress.inc
+          end
+        end
       end
-      page.save!
-      
-      progress.inc
     end
-    progress.finish
-    puts "Ordering Book pages..."
-    fe.books.each do |book|
-      book.order_pages!
-    end
-    puts "Edition created with #{facsimiles} facsimiles."
+    puts "Edition created with #{facsimiles} facsimiles. Creation time: %.2f" % elapsed
   end
 
   
@@ -216,7 +245,6 @@ namespace :discovery do
     desc "Create pdf books"
     task :create => [ 'disco_init', 'talia_core:talia_init' ] do
       require 'pdf/writer'
-      require 'benchmark'
       
       # TODO Choose a directory where to place the generated books.
       #

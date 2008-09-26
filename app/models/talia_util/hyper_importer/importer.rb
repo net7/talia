@@ -17,6 +17,9 @@ module TaliaUtil
     # while the assertions can be used to report error conditions, if needed.
     class Importer
       
+      # Any additional options for the import
+      attr_accessor :import_options
+      
       # Creates a new importer, using the given element to initialize it. This
       # reads the information from the xml element into the object.
       def initialize(element_xml)
@@ -32,7 +35,7 @@ module TaliaUtil
       
       # Sets the credentials that are use for HTTP downloading files. If this
       # isn't set, it will just be ignored
-      def set_credentials(login, password)
+      def set_credentials(login, password)password
         @credentials = { :http_basic_authentication => [login, password] }
       end
       
@@ -44,6 +47,7 @@ module TaliaUtil
         import_types!
         add_property_from(@element_xml, 'title', self.class.needs_title) # The title should always exist
         import! # Calls the import features of the subclass
+        @source.autosave_rdf = true # Reactivate rdf creation for final save
         @source.save! # Save the source when the import is complete
       end
       
@@ -59,9 +63,10 @@ module TaliaUtil
       
       # This is called to do the actual import. It will take the XML Element
       # of the element to be imported and return a new Source object
-      def self.import(element_xml)
+      def self.import(element_xml, options = {})
         assit_real_string(element_xml.root.name, "XML root element must have a name")
         importer = importer_for_element(element_xml.root)
+        importer.import_options = options if(options)
         importer.do_import!
         importer.source
       end
@@ -113,6 +118,25 @@ module TaliaUtil
       
       def self.needs_title
         @title_required = true unless(defined?(@title_required))
+      end
+      
+      # Allows to add a hook that will be called if the given relation is imported.
+      # This can be used to directly add more stuff (like sorting) to a related
+      # object, so that it doesn't have to be re-retrieved later on.
+      #
+      # NOTE: The object source that it passed to the callback will *not* be
+      # saved automatically.
+      def self.on_import_relation(relation, target = nil, &block)
+        @import_rel_callbacks ||= {}
+        raise(ArgumentError, "Must give either block or symbol for the callback.") if(target && block)
+        callback = target.to_sym if(target)
+        callback = block if(block)
+        raise(ArgumentError, "Must give block or symbol for the callback.") unless(callback)
+        @import_rel_callbacks[relation] = callback
+      end
+      
+      def self.import_callback_for(relation)
+        @import_rel_callbacks[relation] if(@import_rel_callbacks)
       end
       
       # Gets the content of an element as a string. This looks for the direct
@@ -192,6 +216,9 @@ module TaliaUtil
       def get_source(source_name, *types)
         
         src = get_source_with_class(source_name, nil)
+        assit_kind_of(TaliaCore::Source, src)
+        
+        return src unless(types.size > 0) # Bail out if there are no types
         
         type_list = src.types
         touched = false
@@ -204,7 +231,6 @@ module TaliaUtil
         # Only save if there were types modified
         src.save! if(touched)
         
-        assit_kind_of(TaliaCore::Source, src)
         src
       end
       
@@ -213,6 +239,9 @@ module TaliaUtil
       #
       # If klass is nil, it will default to the Source class but will not
       # attempt to change the type on existing sources.
+      #
+      # The sources from the method will *not* automatically create their RDF
+      # on save!
       def get_source_with_class(source_name, klass)
         set_class = (klass != nil) # this indicates if the class must be reset on an existing object
         klass ||= TaliaCore::Source
@@ -222,6 +251,7 @@ module TaliaUtil
         if(TaliaCore::Source.exists?(source_uri))
           # If the Source already exists, push the types in
           src = TaliaCore::Source.find(source_uri)
+          src.autosave_rdf = false
           # If the class
           klass_name = klass.to_s.demodulize
           if((src[:type] != klass_name) && set_class)
@@ -229,14 +259,16 @@ module TaliaUtil
             # this happens if the Source had been created before the import
             # as a referenced object on another Source
             assit(src.type == 'Source', "Source should not change from #{src.type} to #{klass_name}: #{src.uri} ")
-            src[:type] = klass_name 
+            src[:type] = klass_name
             src.save!
             src = klass.find(src.id)
+            src.autosave_rdf = false
             src.catalog = TaliaCore::Catalog.default_catalog if(src.is_a?(TaliaCore::ExpressionCard))
           end
         else
           src = klass.new(source_uri)
-          src.primary_source = primary_source?
+          src.primary_source = primary_source? if(src.is_a?(TaliaCore::Source))
+          src.autosave_rdf = false
           src.save!
         end
         
@@ -256,7 +288,22 @@ module TaliaUtil
               # Now we need to create/get the source for the relation,
               # and assign it to the current source
               predicate_uri = N::URI.make_uri(predicate, ':', N::HYPER)
-              add_source_rel(predicate_uri, object)
+              
+              object_source = get_source(object)
+              
+              @source[predicate_uri] << object_source
+              
+              if(callback = self.class.import_callback_for(predicate_uri))
+                case callback
+                when Symbol
+                  self.send(callback, object_source)
+                when Proc
+                  callback.call(object_source)
+                else
+                  raise(ArgumentError, "Illegal callback.")
+                end
+              end
+              
             else
               # Skip empty object for relation
             end
@@ -328,20 +375,46 @@ module TaliaUtil
         end
       end
       
+      # Attempts to create an IipData object with pre-prepared images if possible
+      # Returns true if (and only if) the object has been created with existing
+      # data. Always fals if the data_record is not an IipData object or the
+      # :prepared_images option is not set.
+      def prepare_data_from_existing!(data_record, url)
+        return false unless(data_record.is_a?(TaliaCore::DataTypes::IipData))
+        return false unless(import_options && import_options[:prepared_images])
+        
+        thumb_file = File.join(import_options[:prepared_images], 'thumbs', File.basename(url))
+        pyramid_file = File.join(import_options[:prepared_images], 'pyramids', "#{File.basename(url, File.extname(url))}.tif")
+        
+        data_record.create_from_existing(thumb_file, pyramid_file)
+        true
+      end
+      
       # Loads a data file from the given URL. This passes creates the given
       # record from the data at the given URL, using the given location string
       # on the data record.
       def load_from_data_url!(data_record, location, url)
         result = nil
-        open_args = [ url ]
-        open_args << @credentials if(@credentials)
         
-        begin
-          open(*open_args) do |io|
-            result = data_record.create_from_data(location, io) 
+        return if(prepare_data_from_existing!(data_record, url))
+        
+        # Let's first try if the url is a real file. In this case, we can
+        # save ourselves a lot of heavy lifting.
+        if(File.exist?(url))
+          result = data_record.create_from_file(location, url)
+        else
+          # This means we're loading from the web - so we need to cache the
+          # results
+          open_args = [ url ]
+          open_args << @credentials if(@credentials)
+          
+          begin
+            open(*open_args) do |io|
+              result = data_record.create_from_data(location, io) 
+            end
+          rescue Exception => e
+            raise(IOError, "Error loading #{url} (when file: #{File.expand_path(url)}, open_args: [#{open_args.join(', ')}]) #{e}")
           end
-        rescue Exception => e
-          raise(IOError, "Error loading #{url} (when file: #{File.expand_path(url)}, open_args: [#{open_args.join(', ')}]) #{e}")
         end
         
         result
@@ -360,6 +433,9 @@ module TaliaUtil
         origin ||= @source
         object_source = get_source(destination)
         origin[relation] << object_source
+        # Make sure that 'external' sources are saved with RDF data. For
+        # the member source this will automatically be called on import
+        origin.autosave_rdf = true if(origin != @source)
       end
       
       # Checks for the hy_nietzsche namespace, which must be defined for the

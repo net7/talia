@@ -9,13 +9,9 @@ module TaliaCore
       N::HYPER.name,
       N::HYPER.first_page,
       N::HYPER.book
-    def first_page
-      Page.find(self.hyper.first_page).uniq[0]
-    end
-       
-    def book
-      Book.find(self.hyper.book).uniq[0]
-    end  
+    
+    singular_property :first_page, N::HYPER.first_page
+    singular_property :book, N::HYPER.book
         
     def ordered_pages_elements
       ordered_pages.elements      

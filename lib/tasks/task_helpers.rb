@@ -26,13 +26,13 @@ class TaskHelper
     edition
   end
   
-  # Adds the books from the array that is passed to the method
-  def self.add_books_to_edition(edition, books)
-    puts "Found #{books.size} matching books. Adding them recursively."
-    progress = ProgressBar.new('Books', books.size)
+  # Loops through the given books (with a progress meter).
+  def self.process_books(books, progress_size = nil)
+    progress_size ||= books.size
+    puts "Processing #{books.size} books (#{progress_size} elements to process)..."
+    progress = ProgressBar.new('Books', progress_size)
     books.each do |book|
-      edition.add_from_concordant(book, true) # add with children
-      progress.inc
+      yield(book,progress)
     end
     progress.finish
   end

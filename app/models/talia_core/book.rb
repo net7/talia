@@ -122,6 +122,32 @@ module TaliaCore
       # TODO: Implementation
     end
    
+    # Clones a book into the given catalog. This will clone all pages and also
+    # create the page order on the fly. It is possible to pass a block
+    # to this method, which will be run for each _page_ that is added 
+    # to the catalog (not for this element itself. The block will
+    # receive the cloned page object.
+    def clone_to(catalog)
+      my_clone = catalog.add_from_concordant(self)
+      pages = ordered_pages.elements
+      cloned_order = my_clone.ordered_pages
+      
+      pages.each do |page|
+        page_clone = catalog.add_from_concordant(page)
+        page_clone.hyper::part_of << my_clone
+        cloned_order.add(page_clone)
+        
+        yield(page_clone) if(block_given?)
+        
+        page_clone.save!
+      end
+      
+      cloned_order.save!
+      my_clone.save!
+      
+      my_clone
+    end
+    
     private
   
     # default query for subparts 

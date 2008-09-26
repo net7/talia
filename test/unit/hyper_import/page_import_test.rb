@@ -84,5 +84,14 @@ module TaliaUtil
       assert_property(@src.hyper::dimension_units, 'pixel')
     end
     
+    def test_ordering_import
+      # We have to "cast" this, because the import will only create a dummy
+      # source, not a real book object
+      raw_book = @src.hyper::part_of[0]
+      assert(raw_book)
+      book = TaliaCore::Book.new(raw_book)
+      assert_equal(@src, book.ordered_pages.at(15))
+    end
+    
   end
 end

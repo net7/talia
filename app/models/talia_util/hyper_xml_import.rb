@@ -9,6 +9,10 @@ module TaliaUtil
   class HyperXmlImport
     class << self
       
+      def options
+        @options ||= {}
+      end
+      
       # Set the authentication credentials for http (if needed)
       def set_auth(user, password)
         @user = user
@@ -47,7 +51,7 @@ module TaliaUtil
           progress.inc
           begin
             sig_uri = base_uri + sig_request + URI.escape(siglum.text.strip) + file_ext
-            TaliaUtil::HyperImporter::Importer.import(REXML::Document.new(read_from(sig_uri)))
+            TaliaUtil::HyperImporter::Importer.import(REXML::Document.new(read_from(sig_uri)), options)
           rescue Exception => e
             $stderr.puts("Error when importing #{sig_uri}: #{e}\nBacktrace: #{e.backtrace.join("\n")}")
           end

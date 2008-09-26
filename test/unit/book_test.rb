@@ -32,6 +32,17 @@ module TaliaCore
       assert_equal(4, book.pages.size)
     end
     
+    def test_clone_book
+      book = make_book('test_for_clone', 4)
+      ordered = book.ordered_pages
+      book.pages.each { |p| ordered.add(p) }
+      ordered.save!
+      catalog = make_catalog('test_cat_for_clone')
+      clone = book.clone_to(catalog)
+      assert_equal(4, clone.pages.size)
+      assert_equal(4, clone.ordered_pages.elements.size)
+    end
+    
     def test_has_material_description
       book = make_book('test_material_description')
       description = Source.new('desc-of_test_material_description')
