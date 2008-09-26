@@ -154,7 +154,7 @@ puts
 puts "Now migrating the databases"
 %w(test development production).each do |env|
   raise("Error migrating #{env}") unless(system("rake db:migrate RAILS_ENV=#{env}"))
-  raise("Error creating globalize tables in #{env}") unless(system("rake globalize:create_tables RAILS_ENV=#{env}"))
+  raise("Error creating globalize tables in #{env}") unless(system("rake globalize:setup RAILS_ENV=#{env}"))
   puts "Migrated #{env}"
 end
 
