@@ -1,0 +1,53 @@
+<%= login_box %>
+
+<div class="hidden">
+  <ul>
+    <li><a href="#menu" title="Go straight to the navigation">Main navigation</a></li>
+    <li><a href="#contenutoSinistra" title="Go straight to the main content">Main content</a></li>
+  </ul>
+</div>
+<!-- End of main header area -->
+
+<div id="ext_page"> <!-- ext_page: elemento esterno a tutto -->
+  <div id="int_page"> <!-- int_page: elemento esterno a tutto, interno solo a ext_page -->
+    
+    <!-- header: contains title of the project - upper part -->
+    <div id="header">
+      <div id="title_bar">
+        <h1><%= link_to h(yield(:title) || "Talia | The Digital Library"), root_path, :title => 'Home page'%></h1>
+        <p class="header_subtitle"><%= h(subtitle) %></p>
+      </div>
+      <div id="top_bar">
+        <div id="top_bar_search">
+          <form id="searchform" method="get" action="">
+            <p>
+              <input type="text" name="s" id="s" size="20" />
+              <button type="submit" name="searchbutton" id="searchbutton" value="Go">go</button>
+            </p>
+          </form>
+        </div>
+        <div id="top_bar_login">
+          <p><%= link_to '', admin_path, :class => 'login_icon' %>
+            <!-- a class="login_icon" href="#" title="Login">Login</a --></p>
+          <div id="login_baloon">
+            <form method="post" action="">
+              <label>Log In</label>
+              <input name="label" id="label" type="text" />
+              <label>Password</label>
+              <input name="password" id="password" type="text" />
+              <input id="login" type="submit" value="Entra">
+              <br>Dimenticato la <a href="#">password</a>?
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- header end -->
+    <!-- contents: main part of the page - divided into external and internal -->
+    <div id="contents_ext" class="open">
+      <div id="contents_int">
+        <p id="contents_loader" style="display: none" class="side_bar_loader">Caricamento in corso</p>
+        <!-- Dummy toolbar call. This uses arrays instead of hashes, so that the button order is preserved. -->
+        <!-- %= toolbar % -->
+        <%= yield(:container) %>
+        <%= show_flash %>

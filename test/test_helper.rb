@@ -35,6 +35,11 @@ class Test::Unit::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  # Assert the current response is served with the given layout.
+  def assert_layout(actual, message = nil)
+    expected = @response.layout.gsub(/layouts\//, '') if @response.layout
+    assert_equal expected.to_s, actual.to_s, message
+  end
 end
 
 def uses_mocha(description)

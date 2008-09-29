@@ -1,0 +1,17 @@
+<%= languages_picker %>
+<% hide_sidebar %>
+
+<% form_tag(admin_translation_path(@locale_code), :method => :put) do -%>
+<table id="translations" border="0" cellspacing="5" cellpadding="5">
+  <tr>
+    <th>Key</th>
+    <th>Translation</th>
+  </tr>
+  <%= render :partial => 'translation', :collection => @translations %>
+</table>
+<p><%= add_translation %></p>
+<p><%= hidden_field_tag 'page', @translations.current_page %></p>
+<p><%= submit_tag %></p>
+<% end -%>
+
+<p><%= will_paginate @translations %></p>
