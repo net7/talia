@@ -420,15 +420,15 @@ module TaliaUtil
         result
       end
       
-      # Adds a relation to another source to the Source that is imported.
-      # If the related Source does not yet exist it will be created.
+      # Adds a relation to another source from the Source that is imported.
+      # If the related Source does not yet exist it will be created. This
+      # means that a relation <tt>origin -[relation]-> destination</tt> is 
+      # created.
       #
-      # The destination parameter is a string or URI for the target Source;
-      # the same goes for the predicate parameter.
+      # All parameters should be URI objects or URI strings.
       #
-      # The origin is optional, if it is given, the property will be added to
-      # the origin. Otherwise, the currently imported element will be used as
-      # the origin.
+      # The origin is optional. If it isn't given, the origin (subject) of
+      # the relation will be the currently imported Source.
       def add_source_rel(relation, destination, origin = nil)
         origin ||= @source
         object_source = get_source(destination)

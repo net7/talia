@@ -37,22 +37,18 @@ module TaliaUtil
         n_name = note_name(position)
         # Check if the note already exists - this should never happen!
         if(!TaliaCore::Source.exists?(n_name))
-          note = get_source(n_name.local_name, N::HYPER + 'Note')
+          note = get_source_with_class(n_name.local_name, TaliaCore::Note)
           # positions are dealt with as if they were strings, we add some leading zeros to be able
           # to order on them even if they are strings
-          note.hyper::position << ('000000' + position.to_s)[-6..-1]
+          note.position = "%06d" % position.to_i
+          note.siglum = n_name.local_name
           # Add a relation to the page
           add_source_rel(N::HYPER::page, page, note)
-          # Create a data object for the coordinates
-          if(coordinates && coordinates != '')
-            coord_data = TaliaCore::DataTypes::SimpleText.new
-            # Create a somewhat unique filename for the coordinates
-            coord_file_location = "#{n_name.to_name_s.gsub(/\W/, '+')}-coords.txt"
-            coord_data.create_from_data(coord_file_location, coordinates)
-            note.data_records << coord_data
-          end
+          # Add the coordinates, if any
+          note.coordinates = coordinates if(coordinates && coordinates != '')
           
           @source.hyper::note << note
+          note.autosave_rdf = true
           note.save!
         else
           assit_fail("Duplicate note #{n_name}")

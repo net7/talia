@@ -39,9 +39,8 @@ module TaliaCore
     # but before it is saved, it will receive the new element as the only parameter.
     def add_from_concordant(concordant_element, children = false, new_siglum = nil)
       raise(ArgumentError, "Can only create concordant catalog elements from Cards, this was a #{concordant_element.class}: #{concordant_element.uri}") unless(concordant_element.is_a?(ExpressionCard))
-      siglum = new_siglum || concordant_element.siglum || concordant_element.uri.local_name
-      new_el = concordant_element.clone_concordant(self.uri + '/' + siglum, :catalog => self)
-      new_el.catalog = self
+      
+      new_el = concordant_element.clone_concordant(concordant_uri_for(concordant_element, new_siglum), :catalog => self)
       
       yield(new_el) if(block_given?)
       
@@ -56,6 +55,14 @@ module TaliaCore
       
       assit_equal(new_el.concordance[N::HYPER.concordant_to].size, new_el.concordance.my_rdf[N::HYPER.concordant_to].size)
       new_el
+    end
+    
+    # This creates the new uri that a concordant clone of the given element 
+    # would have by default. The siglum (which will be part of the URI) may
+    # be specified optionally.
+    def concordant_uri_for(element, new_siglum = nil)
+      siglum = new_siglum || element.siglum || element.uri.local_name
+      self.uri + '/' + siglum
     end
     
     # This adds the element to this catalog. This disassociates the elements

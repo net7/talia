@@ -70,17 +70,19 @@ module TaliaCore
     
     # Clone the current card and make the new one concordant to the current
     # one
-    def clone_concordant(uri, callback_options = {})
-      new_el = clone(uri, callback_options)
+    def clone_concordant(uri, options = {})
+      new_el = clone(uri, options)
       make_concordant(new_el)
       new_el
     end
     
     # Clones the current card, with the properties and inverse properties that
-    # are configured for cloning. The options hash is not used by the
-    # clone method itself, but will be passed to the callback(s).
-    def clone(uri, callback_options = {})
+    # are configured for cloning. The options hash will be passed to the 
+    # callback(s). Then only option that is recognized by the clone
+    # method itself is :catalog, which sets the clone's catalog.
+    def clone(uri, options = {})
       raise(ArgumentError, "Element cannot be cloned #{self.uri} - target already exists #{uri}") if(ActiveSource.exists?(uri))
+      raise(ArgumentError, "Target element already exists #{uri}") if(ActiveSource.exists?(uri))
       new_el = self.class.new(uri)
       self.class.props_to_clone.each { |p| new_el[p] << self[p] }
       self.class.inverse_props_to_clone.each do |p|
@@ -89,8 +91,10 @@ module TaliaCore
       
       # Execute the callback methods.
       if(self.clone_callbacks)
-        self.clone_callbacks.each { |cb| self.send(cb, new_el, callback_options) }
+        self.clone_callbacks.each { |cb| self.send(cb, new_el, options) }
       end
+      
+      new_el.catalog = options[:catalog] if(options[:catalog])
       
       new_el
     end

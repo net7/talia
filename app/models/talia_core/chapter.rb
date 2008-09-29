@@ -6,9 +6,7 @@ module TaliaCore
     # NOT cloned: first_page
     clone_properties N::DCNS.title,
       N::HYPER.position,
-      N::HYPER.name,
-      N::HYPER.first_page,
-      N::HYPER.book
+      N::HYPER.name
     
     singular_property :first_page, N::HYPER.first_page
     singular_property :book, N::HYPER.book

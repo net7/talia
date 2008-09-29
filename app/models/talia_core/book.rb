@@ -19,12 +19,12 @@ module TaliaCore
       Page.find(:all, :find_through => [N::HYPER.part_of, self])
     end
     
-    # The chapters of this book
+    # The chapters of this book, sorted by position
     def chapters
-      qry = Query.new(TaliaCore::Chapter).select(:c).distinct
-      qry.where(:c, N::HYPER.book, self)
-      qry.where(:c, N::HYPER.first_page, :p)
-      qry.where(:p, N::HYPER.position, :pos)
+      qry = Query.new(TaliaCore::Chapter).select(:chapter).distinct
+      qry.where(:chapter, N::HYPER.book, self)
+      qry.where(:chapter, N::HYPER.first_page, :page)
+      qry.where(:page, N::HYPER.position, :pos)
       qry.sort(:pos)
       qry.execute  
     end
@@ -137,7 +137,7 @@ module TaliaCore
         page_clone.hyper::part_of << my_clone
         cloned_order.add(page_clone)
         
-        yield(page_clone) if(block_given?)
+        yield(page, page_clone) if(block_given?)
         
         page_clone.save!
       end
