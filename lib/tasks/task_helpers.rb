@@ -50,8 +50,8 @@ class TaskHelper
   # of the target. 
   def self.clone_editions(original, destination)
     # Find all HyperEditions that exist on the original paragraph
-    ed_qry = manifestation_query_for(original)
-    ed_qry.where(:manifestation, N::RDF.type, N::HYPER + 'HyperEdition')
+    ed_qry = manifestations_query_for(original)
+    ed_qry.where(:manifestation, N::RDF.type, N::HYPER.HyperEdition)
     # Add the editions to the new paragraph
     ed_qry.execute.each do |edition|
       destination.add_manifestation(edition)
@@ -67,7 +67,7 @@ class TaskHelper
       paragraph = TaliaCore::Paragraph.find(catalog.concordant_uri_for(orig_paragraph))
       quick_add_property(paragraph, N::HYPER.note, new_note)
     else
-      paragraph = ce.add_from_concordant(orig_paragraph)
+      paragraph = catalog.add_from_concordant(orig_paragraph)
       clone_editions(orig_paragraph, paragraph)
       paragraph.hyper::note << new_note
       paragraph.save!
@@ -76,7 +76,7 @@ class TaskHelper
   
   # Returns the count of paragraphs that are attached to books in the given
   # catalog
-  def self.count_paragraphs_in(catalog)
+  def self.count_notes_in(catalog)
     query = Query.new(N::URI).select(:note).distinct
     query.where(:book, N::RDF.type, N::HYPER.Book)
     # only select from the default catalog

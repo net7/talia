@@ -22,7 +22,7 @@ module TaliaCore
       # object is a bit tricky
       ordered = ordered_pages
       book_chapters = book.chapters
-      chapter_index = book_chapters.index(self)
+      chapter_index = book_chapters.index(self) 
       next_chapter = book_chapters[chapter_index + 1]
       starting_page = self.hyper.first_page[0]
       ending_page = next_chapter.hyper.first_page[0] unless next_chapter.nil?  

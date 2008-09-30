@@ -21,7 +21,7 @@
                     </span>
                 </xsl:if>
             </xsl:template>
-            <xsl:include href="edition_hnml_linear_core_2.xsl"/>
+            <xsl:include href="edition_linear_core_2.xsl"/>
         </body>
     </html>
 </xsl:stylesheet>

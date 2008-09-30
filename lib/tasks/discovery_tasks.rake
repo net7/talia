@@ -111,11 +111,11 @@ namespace :discovery do
     ce = TaskHelper::create_edition(TaliaCore::CriticalEdition)
 
     # HyperEditions may be manifestations of both pages and paragraphs
-    book_qry = TaskHelper::default_book_query
-    book_qry.where(:paragraph, N::HYPER.note, :note)
-    book_qry.where(:note, N::HYPER.page, :page)
-    book_qry.where(:edition, N::HYPER.manifestation_of, :paragraph)
-    book_qry.where(:edition, N::RDF.type, N::HYPER + 'HyperEdition')
+    par_qry = TaskHelper::default_book_query
+    par_qry.where(:paragraph, N::HYPER.note, :note)
+    par_qry.where(:note, N::HYPER.page, :page)
+    par_qry.where(:edition, N::HYPER.manifestation_of, :paragraph)
+    par_qry.where(:edition, N::RDF.type, N::HYPER + 'HyperEdition')
     
     pag_qry = TaskHelper::default_book_query
     pag_qry.where(:edition, N::HYPER.manifestation_of, :page)
@@ -128,7 +128,7 @@ namespace :discovery do
     note_count = TaskHelper::count_notes_in(TaliaCore::Catalog.default_catalog)
     notes = 0
     
-    TaksHelper::process_books(books, note_count) do |book, progress|
+    TaskHelper::process_books(books, note_count) do |book, progress|
       new_book = book.clone_to(ce) do |orig_page, new_page|
         assit_kind_of(TaliaCore::Page, new_page)
         
@@ -153,9 +153,11 @@ namespace :discovery do
         first_page = chapter.first_page.concordant_cards(ce).first
         assit(first_page, "Must have a first page on the chapter #{chapter.uri}.")
         cloned_chapt.first_page = first_page
-        cloned_chapt.order_pages!
+  #        cloned_chapt.save!
+      end          
+      new_book.chapters.each do |chapter|
+        chapter.order_pages!
       end
-      
       new_book.create_html_data!
       
     end

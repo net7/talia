@@ -14,7 +14,7 @@ module TaliaCore
           book_text += div_header + manifestation.to_html() + div_footer
         end
       end 
-      book_text += '</div></div>'
+      book_text += ''
       if !self.data_records.empty? 
         data = self.data_records[0]
       else

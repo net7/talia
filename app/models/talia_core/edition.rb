@@ -32,9 +32,9 @@ module TaliaCore
           shown_layer = layer.nil? ? max_layer : layer
           transformer_parameters = {'layer' => shown_layer}
         end
-        xsl = 'public/xsl/hnml/edition_hnml_linear.xsl'
+        xsl = 'public/xsl/hnml/edition_linear.xsl'
         middle_output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string", :transformer_parameters => transformer_parameters})
-        xsl = 'public/xsl/hnml/edition_hnml_linear_2.xsl'
+        xsl = 'public/xsl/hnml/edition_linear_2.xsl'
         output = saxon.transform(xsl, middle_output, nil, options = {:in => "string", :out => "string", :transformer_parameters => transformer_parameters})
       when "TEI"
         xsl = 'public/xsl/TEI/p4/html/tei.xsl'

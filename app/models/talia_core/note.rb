@@ -15,7 +15,7 @@ module TaliaCore
     
     # The paragraph to which this note belongs
     def paragraph
-      Paragraph.find(:first, :find_through[N::HYPER.note, self])
+      Paragraph.find(:first, :find_through => [N::HYPER.note, self])
     end
     
   end

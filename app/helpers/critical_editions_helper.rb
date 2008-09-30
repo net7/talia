@@ -21,21 +21,21 @@ module CriticalEditionsHelper
       when TaliaCore::Book
         path = [
           {:text => params[:id], :link => @critical_edition.uri.to_s}, 
-          {:text => @book.dcns.title.to_s}        
+          {:text => @book.dcns.title[0].to_s}        
         ]
       when TaliaCore::Chapter
         path = [
           {:text => params[:id], :link => @critical_edition.uri.to_s}, 
-          {:text => @book.dcns.title.to_s, :link => @book.uri.to_s},
-          {:text => @chapter.dcns.title.to_s}
+          {:text => @book.dcns.title[0].to_s, :link => @book.uri.to_s},
+          {:text => @chapter.dcns.title[0].to_s}
         ]
       when TaliaCore::Page, TaliaCore::Paragraph
         path = [
           {:text => params[:id], :link => @critical_edition.uri.to_s}, 
-          {:text => @book.dcns.title.to_s, :link => @book.uri.to_s}
+          {:text => @book.dcns.title[0].to_s, :link => @book.uri.to_s}
         ]
-        path << {:text => @chapter.dcns.title.to_s, :link => @chapter.uri.to_s} unless @chapter.nil?
-        path << {:text => @part.dcns.title.empty? ? @part.uri.local_name.to_s : @part.dcns.title.to_s}
+        path << {:text => @chapter.dcns.title[0].to_s, :link => @chapter.uri.to_s} unless @chapter.nil?
+        path << {:text => @part.dcns.title.empty? ? @part.uri.local_name.to_s : @part.dcns.title[0].to_s}
       end    
     end
     path

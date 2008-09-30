@@ -2,7 +2,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:output
 	method="xml"
-	indent="no"
+	indent="yes"
 	encoding="UTF-8"
 />
     <xsl:template match="/">
@@ -12,5 +12,5 @@
             </text>
         </edition>
     </xsl:template>
-    <xsl:include href="edition_hnml_linear_core.xsl"/>
+    <xsl:include href="edition_linear_core.xsl"/>
 </xsl:stylesheet>

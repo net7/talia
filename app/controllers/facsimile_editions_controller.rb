@@ -31,8 +31,7 @@ class FacsimileEditionsController < ApplicationController
   def panorama
     respond_to do |format|
       format.html do
-        require 'cgi'
-        @book = TaliaCore::Book.find(CGI::unescape(request.url))
+        @book = TaliaCore::Book.find(URI::decode(request.url))
         @type = @book.type.uri.local_name
       end
       format.jpeg do
@@ -67,7 +66,7 @@ class FacsimileEditionsController < ApplicationController
           @page2 = TaliaCore::Page.find(page2)
         else
           require 'cgi'
-          @page = TaliaCore::Page.find(CGI::unescape(request.url))
+          @page = TaliaCore::Page.find(URI::decode(request.url))
         end         
         qry = Query.new(TaliaCore::Book).select(:b).distinct
         qry.where(@page, N::HYPER.part_of, :b)
