@@ -1,0 +1,3 @@
+<li id="<%= edition.siglum %>">
+  <%= link_to(edition.title, :controller => prefix_for(edition), :action => 'show', :id => edition.uri.local_name) %>
+</li>

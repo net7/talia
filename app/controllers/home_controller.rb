@@ -1,9 +1,13 @@
 class HomeController < ApplicationController
-     
+  
+  # The types of edition that should be shown on the start page
+  @@editions_show = [:facsimile, :critical]
+  
   def start
-
-    @facsimile_editions = TaliaCore::FacsimileEdition.find(:all)
-    @critical_editions = TaliaCore::CriticalEdition.find(:all)
+    @editions = {}
+    for edition in @@editions_show
+      @editions[edition] = "TaliaCore::#{edition.to_s.camelize}Edition".constantize.find(:all)
+    end
     
     @page_title = "Welcome to #{TaliaCore::SITE_NAME}".t
   end

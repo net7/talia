@@ -1,3 +1,5 @@
+<% load_customization :start_page %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   
@@ -19,9 +21,9 @@
         
         <div id="top_menu">
           <ul>
-            <li><%= titled_link('http://unknown.com','About The Project')%>&nbsp;|&nbsp;</li>
-            <li><%= titled_link('http://unknown.com','Committee Of Scholars')%>&nbsp;|&nbsp;</li>
-            <li><%= titled_link('http://unknown.com','Development Team')%>&nbsp;|&nbsp;</li>
+            <% for link in @title_links %>
+              <li><%= titled_link(link[1], link[0])%>&nbsp;|&nbsp;</li>
+            <% end %>
           </ul>
         </div>
         
@@ -29,11 +31,12 @@
         </div>
         
         <div id="menu">
-          <ul> 
-            <li><%= select_language('Deutsch', 'de-DE', '1')  %></li>
-            <li><%= select_language('English', 'en-US', '2') %></li>
-            <li><%= select_language('Fran&ccedil;ais', 'fr-FR', '3')%></li>
-            <li><%= select_language('Italiano', 'it-IT', '4') %></li>
+          <ul>
+            <% shortkey = 1 %>
+            <% for language in @languages %>
+              <li><%= select_language(language[0], language[1], shortkey.to_s)  %></li>
+              <% shortkey += 1 %>
+            <% end %>
           </ul>
         </div>
         
@@ -43,29 +46,11 @@
           
           <div id="contenutoDoppio_ext">
             <div id="contenutoDoppio_int"> <div id="contenutoSinistra">
-                <h2><%= "Simple Mode".t %> </h2>
-                <p><%= "Simple Mode Home Description".t %></p>
-                <ul>
-                  <% @critical_editions.each do |ce| %>
-                    <li id="diorio">
-                      <%= link_to(ce.hyper::title, :controller => TaliaCore::CriticalEdition::EDITION_PREFIX, :action => 'show', :id => ce.uri.local_name) %>
-                    </li>
-                  <% end %>
-                  
-                  <% @facsimile_editions.each do |fe| %>
-                    <li id="collimontinari">
-                      <%= link_to(fe.hyper::title, :controller => TaliaCore::FacsimileEdition::EDITION_PREFIX, :action => 'show', :id => fe.uri.local_name) %>
-                    </li>
-                  <% end %>
-                </ul>
+                <%= yield :left_box %>
               </div>
               
               <div id="contenutoDestra">
-                <h2><%= "Full Mode".t %> </h2>
-                <p><%= "Full Mode Home Description".t %></p>
-                <ul>
-                  <li><%= titled_link('http://www.insidePageURL.com', 'Enter in Scholar mode') %></li>
-                </ul>
+                <%= yield :right_box %>
               </div>
             </div>
           </div>
@@ -76,7 +61,7 @@
         
         <div id="piede">
           <p>
-            <%= titled_link('http://somewhere.com', 'Contacts') %>
+            <%= titled_link(@footer_link[1], @footer_link[0]) %>
           </p>
         </div>
       </div>

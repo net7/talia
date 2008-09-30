@@ -39,6 +39,11 @@ module ApplicationHelper
        </div> )
   end
   
+  # To include the customization template with the given name
+  def load_customization(template, options = {})
+    render(options.merge(:partial => "custom/#{template}"))
+  end
+  
   # Returns the title for the whole page. This returns the value
   # set in the controller, or a default value
   def page_title
