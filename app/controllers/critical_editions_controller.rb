@@ -25,13 +25,26 @@ class CriticalEditionsController < ApplicationController
       # collect data to post
       data = {
         'search_type' => params[:search_type],
-        'words' => params[:words] || '',
-        'operator' => params[:operator],
-        'mc[]' => (params[:mc] || []),
-        'mc_from[]' => (params[:mc_from] || []),
-        'mc_to[]' => (params[:mc_to] || [])
+        'operator' => params[:operator]
       }
-    
+      
+      # check if words field is empty 
+      if params[:words]
+        data['words'] = params[:words]
+      end
+      
+      # add mc - mc_from - mc_to if specified
+      if params[:mc]
+        data['mc[]'] = params[:mc]
+        data['mc_from[]'] = params[:mc_from]
+        data['mc_to[]'] = params[:mc_to]
+      end
+
+      # add mc_single if specified
+      if params[:mc_single]
+       data['mc_single'] = (params[:mc_single])
+      end
+      
       # execute post to servlet
       resp = Net::HTTP.post_form URI.parse("http://gandalf.aksis.uib.no:8080/nietzsche/Search"), data
       
@@ -51,6 +64,24 @@ class CriticalEditionsController < ApplicationController
       # collect result. It create an array of hash {title, description}
       @result = groups.collect do |item|
         {:title => item.elements['talia:metadata/talia:standard_title'].text, :description => item.elements['talia:excerpt'].children.to_s}
+      end
+      
+      @exist_result = doc.get_elements('/talia:result/talia:group')
+      
+      # get chosen_book for menu
+      if params[:mc_single]
+        @source = TaliaCore::Source.find(params[:mc_single])
+        case @source
+        when TaliaCore::Book
+          @book = @source
+        when TaliaCore::Chapter
+          @chapter = @source
+          @book = @chapter.book
+        else
+          @part = @source
+          @book = @part.book
+          @chapter = @part.chapter
+        end
       end
     end
   end
