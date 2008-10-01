@@ -6,10 +6,9 @@ module TaliaUtil
     # database only contain redundant data and are ignored
     class BibliographicalCardImporter
       
-      def initialize(element_xml)
-      end
+      cattr_accessor :import_options
       
-      def import_options
+      def initialize(element_xml)
       end
       
       def do_import!
