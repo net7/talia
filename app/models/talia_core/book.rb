@@ -135,7 +135,9 @@ module TaliaCore
       pages.each do |page|
         page_clone = catalog.add_from_concordant(page)
         page_clone.hyper::part_of << my_clone
-        cloned_order.add(page_clone)
+        # TODO: This must use #insert_at, since #add() will (at the moment)
+        # only work correctly if you'd save after each iteration
+        cloned_order.insert_at(page.position.to_i, page_clone)
         
         yield(page, page_clone) if(block_given?)
         
