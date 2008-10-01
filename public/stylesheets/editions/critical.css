@@ -177,12 +177,6 @@ a:hover {
 
 /* SEARCH ADVANCED */
 
-/* highlight results */
-
-.match {
-    font-weight: bold;
-}
-
 div#search_adv {
 	border-top: 1px solid #bababa;
 }

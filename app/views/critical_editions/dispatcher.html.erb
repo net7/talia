@@ -1,0 +1,5 @@
+<%= render(:partial => "html_data_pane") %>
+
+<div id="scroll">
+  <%= widget(:critical_edition_menu, :books => @edition.books, :chosen_book => @book, :chosen_chapter => @chapter, :chosen_part => @part) %>
+</div>

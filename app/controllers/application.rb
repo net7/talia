@@ -24,4 +24,5 @@ class ApplicationController < ActionController::Base
     !%w( widgeon ).include?(self.controller_name) && logged_in? &&
       current_user.authorized_as?('translator')
   end
+  
 end

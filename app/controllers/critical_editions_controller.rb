@@ -1,22 +1,24 @@
-class CriticalEditionsController < ApplicationController
-  before_filter :find_critical_edition
+require 'cgi'
+
+class CriticalEditionsController < SimpleEditionController
+  set_edition_type :critical
   
   def dispatcher
-    require 'cgi'
     @request_url = CGI::unescape(request.url)
     @source = TaliaCore::Source.find(@request_url)
     case @source
     when TaliaCore::Book
-      send("render_book")
+      prepare_for_book
     when TaliaCore::Chapter
-      send("render_chapter")
+      prepare_for_chapter
     else
-      send("render_part")
+      prepare_for_part
     end
   end
   
   # GET /critical_editions/1
-  def show  
+  def show 
+    @path = [{:text => params[:id]}]
   end
   
   def advanced_search
@@ -87,30 +89,37 @@ class CriticalEditionsController < ApplicationController
   end
 
   private
-
-  def find_critical_edition
-    edition = "#{N::LOCAL}#{TaliaCore::CriticalEdition::EDITION_PREFIX}/#{params[:id]}"
-    @critical_edition = TaliaCore::CriticalEdition.find(edition)
-  end
   
-  def render_book
+  def prepare_for_book
     @book = @source
-    render :template => 'critical_editions/book'    
+    @path = [
+      {:text => params[:id], :link => @edition.uri.to_s}, 
+      {:text => @book.dcns.title.first.to_s}        
+    ]  
   end
   
-  def render_chapter
+  def prepare_for_chapter
     @chapter = @source
     @href_for_text = @chapter.subparts_with_manifestations(N::HYPER.HyperEdition)[0] 
     @book = @chapter.book
-    render :template => 'critical_editions/chapter'
+    @path = [
+      {:text => params[:id], :link => @edition.uri.to_s}, 
+      {:text => @book.dcns.title.first.to_s, :link => @book.uri.to_s},
+      {:text => @chapter.dcns.title.first.to_s}
+    ]
   end
   
-  def render_part
+  def prepare_for_part
     @part = @source
     @href_for_text = @request_url 
     @book = @part.book
     @chapter = @part.chapter
-    render :template => 'critical_editions/part'
+    @path = [
+      {:text => params[:id], :link => @edition.uri.to_s}, 
+      {:text => @book.dcns::title.first.to_s, :link => @book.uri.to_s}
+    ]
+    @path << {:text => @chapter.dcns::title.first.to_s, :link => @chapter.uri.to_s} unless @chapter.nil?
+    @path << {:text => @part.dcns::title.empty? ? @part.uri.local_name.to_s : @part.dcns.title.first.to_s}
   end
 end
  

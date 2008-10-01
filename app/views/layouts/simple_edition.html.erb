@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title><%= edition_page_title %></title>
+    <%= edition_style_link %>
+    <%= javascript_include_tag 'prototype' %>
+    <%= edition_javascript_include %>
+    <% for js in @javascripts %>
+       <%= javascript_include_tag js %> 
+    <% end %>
+  </head>
+  <body>
+    <%= edition_partial :script %>
+    <div id="page_ext">
+      <div id="page_int">
+        <div id="header">
+          <h1><%= edition_page_title %></h1>
+          <h2><%= "Simple Mode".t %></h2>
+          <%= edition_partial :search_box %>
+        </div>
+        <!-- header -->
+        <div id="navigate">
+          <div id="tools">
+            <ul>
+              <% for tool in (@tools || []) %>
+                <li id=" <%= tool[0] %>"> <a href="#"><%= tool[1].t %></a></li>
+              <% end  %>
+            </ul>
+          </div>
+          <!-- tools -->
+<%= widget(:simple_mode_path, :path_elements => @path) %>
+        </div>
+        <!-- navigate -->
+        
+        <!-- advanced search -->
+<%= edition_partial :header_extension %>
+
+<%= yield %>
+        
+        
+      </div>
+      <!-- page_int -->
+    </div>
+    <!-- page_ext -->
+  </body>
+</html>

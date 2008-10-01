@@ -8,4 +8,3 @@ function go_to_anchor(name){
     div_name = 'page_' + name;
     $('scroll').scrollTop = $(div_name).offsetTop;
 }
-    

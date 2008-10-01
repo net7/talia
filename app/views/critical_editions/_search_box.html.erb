@@ -1,0 +1,12 @@
+<div id="search_box">
+  <% form_tag :action => "search" do -%>
+    <p class="head_search">
+      <label><%= "Search".t %></label> 
+      <input type="text" name="words"/>
+      <label class="invia"><%= "Search".t %></label>
+      <input type="submit" class="invia"/>
+    </p>
+    <a href="#" onclick="Element.toggle('search_adv'); return false;" class="advsrch">advanced search</a>
+  
+  <% end -%>
+</div>

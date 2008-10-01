@@ -4,14 +4,14 @@
 
 <div id="content" class="divided">
     <div id="visore">
-  	<%=  @critical_edition.description %>   
+  	<%=  @edition.description %>   
    </div>
     <!--[if !IE]>visore<![endif]-->
 </div>
 <!-- content -->
   
 <div id="scroll">
-   <%= widget(:critical_edition_menu, :books => @critical_edition.books) %>
+   <%= widget(:critical_edition_menu, :books => @edition.books) %>
 </div>
 
 

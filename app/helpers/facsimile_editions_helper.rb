@@ -1,72 +1,11 @@
 module FacsimileEditionsHelper
-  # creates the window title 
-  def facsimile_edition_page_title
-    case action_name
-    when "show"
-      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.title}"
-    when "books"      
-      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.title}, #{params[:type].t.titleize}"
-    when "panorama"
-      "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.title}, #{params[:book].t}" 
-    when "page"
-      result = "#{TaliaCore::SITE_NAME} | #{@facsimile_edition.title}, #{params[:page].t}"
-      if (params[:page2])
-        result << " - #{params[:page2]}"
-      end
-      result
-    end
-  end
-  
-  # creates the elements to be shown in the path
-  def facsimile_edition_path  
-    prefix = N::LOCAL.to_s + TaliaCore::FacsimileEdition::EDITION_PREFIX
-    path = []
-    case action_name
-    when "show"
-      path = [{:text => params[:id]}]
-    when "books"
-      path = [
-        {:text => params[:id], :link => prefix + "/#{params[:id]}"},
-        {:text => @type.capitalize.t}
-      ]
-    when "panorama"
-      path = [
-        {:text => params[:id], :link => prefix + "/#{params[:id]}"},
-        {:text => @type.capitalize.t, :link => prefix + "/#{params[:id]}/#{@type}"},
-        {:text => params[:book] + ' (panorama)'}
-      ]
-    when "page"
-      path =[
-        {:text => params[:id], :link => prefix + "/#{params[:id]}"},
-        {:text => @type.capitalize.t, :link => prefix + "/#{params[:id]}/#{@type}"},
-        {:text => @book.uri.local_name + ' (panorama)', :link => prefix + "/#{params[:id]}/#{@book.uri.local_name}"}
-      ]
-      text = params[:page]
-      if (params[:page2])
-        text << " | #{params[:page2]}"
-      end
-      path << {:text => text}
-      path
-    end  
-  end  
-  # decides whether or not the buttons on the top-right of the layout should
-  # be shown, based on the action we're in
-  def facsimile_edition_display_buttons
-    case action_name
-    when "show", "books"
-      result = false
-    when "panorama", "page"
-      result = true
-    end
-    result
-  end
-   
+
   def facsimile_edition_types
-    @facsimile_edition.book_types    
+    @edition.book_types    
   end
   
   def facsimile_edition_subtypes
-    @facsimile_edition.book_subtypes(N::HYPER + @type)
+    @edition.book_subtypes(N::HYPER + @type)
   end  
   
   # creates the elements to be shown in the tabs, depending on the action we're in
@@ -76,7 +15,7 @@ module FacsimileEditionsHelper
     when "show"
       result = [{:link => "", :text => "Editor's Introduction".t, :selected => true}]
     when "books"
-      subtypes = @facsimile_edition.book_subtypes(N::HYPER + params[:type])
+      subtypes = @edition.book_subtypes(N::HYPER + params[:type])
       if (params[:subtype])
         selected_subtype = N::HYPER + params[:subtype]
       else
@@ -134,8 +73,4 @@ module FacsimileEditionsHelper
     facsimile[0].copyright_note if !facsimile.empty?
   end
   
-  # returns the material descirption of the given book
-  def material_description(book)
-    book.material_description
-  end
 end

@@ -1,8 +1,20 @@
-class FacsimileEditionsController < ApplicationController
-  before_filter :find_facsimile_edition
+require 'cgi'
+
+# 
+# Variables set for the template:
+#
+# @edition - the currently active edition
+# @page_title_suff - a suffix that will be appended to the page title
+# @path - an array of elements that will be used for the "breadcrumb path"
+# @tools - an array of elements that will be used for the "toolbar icons"
+#
+class FacsimileEditionsController < SimpleEditionController
+  set_edition_type :facsimile
+  add_javascripts 'swfobject', 'iip_flashclient'
  
   # GET /facsimile_editions/1
   def show
+    @path = [{:text => params[:id]}]
   end
 
   # GET /facsimile_editions/1/works
@@ -16,11 +28,16 @@ class FacsimileEditionsController < ApplicationController
     if (params[:subtype])
       type = N::SourceClass.new(N::HYPER + params[:subtype])
     else
-      type = @facsimile_edition.book_subtypes(N::HYPER + params[:type])[0]
+      type = @edition.book_subtypes(N::HYPER + params[:type])[0]
     end
-    @books = @facsimile_edition.books(type)
+    @books = @edition.books(type)
     @type = params[:type]
     @subtype = params[:subtype]
+    @page_title_suff = ", #{params[:type].t.titleize}"
+    @path = [
+      {:text => params[:id], :link => edition_prefix + "/#{params[:id]}"},
+      {:text => @type.capitalize.t}
+    ]
   end
   
   # GET /facsimile_editions/1/1
@@ -33,6 +50,13 @@ class FacsimileEditionsController < ApplicationController
       format.html do
         @book = TaliaCore::Book.find(URI::decode(request.url))
         @type = @book.type.uri.local_name
+        @path = [
+          {:text => params[:id], :link => edition_prefix + "/#{params[:id]}"},
+          {:text => @type.capitalize.t, :link => edition_prefix + "/#{params[:id]}/#{@type}"},
+          {:text => params[:book] + ' (panorama)'}
+        ]
+        print_tool # Enable the print button
+        @page_title_suff = ", #{params[:book].t}"
       end
       format.jpeg do
         book_uri = N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:book]
@@ -65,7 +89,6 @@ class FacsimileEditionsController < ApplicationController
           @page = TaliaCore::Page.find(page)
           @page2 = TaliaCore::Page.find(page2)
         else
-          require 'cgi'
           @page = TaliaCore::Page.find(URI::decode(request.url))
         end         
         qry = Query.new(TaliaCore::Book).select(:b).distinct
@@ -73,6 +96,10 @@ class FacsimileEditionsController < ApplicationController
         result=qry.execute
         @book = result[0]
         @type = @book.type.uri.local_name
+        @path = page_path
+        @page_title_suff = ", #{params[:page].t}"
+        @page_title_suff += "- #{params[:page2].t}" if(params[:page2])
+        print_tool # Enable the print button
       end
       format.jpeg do
         page = N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page]
@@ -87,15 +114,32 @@ class FacsimileEditionsController < ApplicationController
   def search 
     searched_book = sanitize(params[:book]) unless params[:book].empty?
     searched_page = sanitize(params[:page]) unless params[:page].empty?
-    search_result = @facsimile_edition.search(searched_book, searched_page)
+    search_result = @edition.search(searched_book, searched_page)
     redirect_to search_result[0].uri.to_s and return unless (search_result.empty?)
     flash[:search_notice] = "Searched records weren't found".t
     redirect_to(:back) and return
   end
   
   private
-  def find_facsimile_edition
-    edition = "#{N::LOCAL}#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}" 
-    @facsimile_edition = TaliaCore::FacsimileEdition.find(edition)
+  
+  # Activates the print button
+  def print_tool
+    @tools = [['print', 'Print']]
   end
+  
+  # Makes the path for the page
+  def page_path
+    path =[
+      {:text => params[:id], :link => edition_prefix + "/#{params[:id]}"},
+      {:text => @type.capitalize.t, :link => edition_prefix + "/#{params[:id]}/#{@type}"},
+      {:text => @book.uri.local_name + ' (panorama)', :link => edition_prefix + "/#{params[:id]}/#{@book.uri.local_name}"}
+    ]
+    text = params[:page]
+    if (params[:page2])
+      text << " | #{params[:page2]}"
+    end
+    path << {:text => text}
+    path
+  end
+
 end

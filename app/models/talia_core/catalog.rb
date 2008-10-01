@@ -3,8 +3,6 @@ module TaliaCore
   # A catalog is a collection of AbstractWorkCard records. 
   class Catalog < Source
     
-    singular_property :siglum, N::HYPER.siglum
-    
     DEFAULT_CATALOG_NAME = N::LOCAL + 'system_default_catalog'
     
     # Returns all the elements, restricting the result to the given type

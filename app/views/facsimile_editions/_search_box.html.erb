@@ -1,0 +1,15 @@
+<div id="search_box">
+  <% form_tag :action => "search" do -%>
+    <p>
+      <label><%= "Manuscript".t %></label> 
+      <input type="text" name="book"/>
+      <label><%= "Page".t %></label> 
+      <input type="text" name="page"/>
+      <label class="invia"><%= "Search".t %></label>
+      <input type="submit" class="invia"/>
+    </p>
+  <% end -%>
+  <% if flash[:search_notice] %> 
+    <p><label type="text"><%= flash[:search_notice] %></label></p>
+  <% end %>                        
+</div>
