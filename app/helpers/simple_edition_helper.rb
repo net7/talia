@@ -25,6 +25,8 @@ module SimpleEditionHelper
   def edition_style_link
     style_path = File.join(RAILS_ROOT, 'public', 'stylesheets', edition_include_name + '.css')
     stylesheet_link_tag edition_include_name if(File.exists?(style_path))
+    edition_style_path = File.join(RAILS_ROOT, 'public', 'stylesheets', 'editions', @edition.uri.local_name)
+    stylesheet_link_tag "editions/#{@edition.uri.local_name}" if(File.exists?(edition_style_path))
   end
   
 end

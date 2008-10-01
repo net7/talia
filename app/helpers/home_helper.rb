@@ -22,4 +22,13 @@ module HomeHelper
     edition.class::EDITION_PREFIX
   end
   
+  def home_styles
+    result = ''
+    Dir[File.join(RAILS_ROOT, 'public', 'stylesheets', 'home_custom_styles', '*.css')].each do |file|
+      result << (stylesheet_link_tag "home_custom_styles/#{File.basename(file, '.css')}")
+      result << "/n"
+    end
+    result
+  end
+  
 end
