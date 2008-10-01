@@ -9,6 +9,9 @@ module TaliaUtil
       def initialize(element_xml)
       end
       
+      def import_options
+      end
+      
       def do_import!
       end
       
