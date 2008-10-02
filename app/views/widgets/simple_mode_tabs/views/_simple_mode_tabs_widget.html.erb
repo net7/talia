@@ -1,1 +1,11 @@
-<%= w.tabs %>
+<% if w.tabs_elements && !w.tabs_elements.empty? %>
+
+<ul>
+  <% for element in w.tabs_elements %>
+    <li <%= 'class="selected"' if(element[:selected]) %>>
+        <%= titled_link(element[:link], element[:text]) %>
+    </li>
+  <% end %>
+</ul>
+
+<% end %>

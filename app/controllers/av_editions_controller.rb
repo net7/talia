@@ -1,0 +1,2 @@
+class AvEditionsController < ApplicationController
+end

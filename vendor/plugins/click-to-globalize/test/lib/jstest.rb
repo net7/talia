@@ -270,23 +270,23 @@ end
 class JavaScriptTestTask < ::Rake::TaskLib
 
   def initialize(name=:test)
-    @name = name
-    @tests = []
-    @browsers = []
-
-    @queue = Queue.new
-
-    @server = WEBrick::HTTPServer.new(:Port => 4711) # TODO: make port configurable
-    @server.mount_proc("/results") do |req, res|
-      @queue.push(req)
-      res.body = "OK"
-    end
-    @server.mount("/response", BasicServlet)
-    @server.mount("/slow", SlowServlet)
-    @server.mount("/down", DownServlet)
-    @server.mount("/inspect", InspectionServlet)
-    yield self if block_given?
-    define
+#    @name = name
+#    @tests = []
+#    @browsers = []
+#
+#    @queue = Queue.new
+#
+#    @server = WEBrick::HTTPServer.new(:Port => 4711) # TODO: make port configurable
+#    @server.mount_proc("/results") do |req, res|
+#      @queue.push(req)
+#      res.body = "OK"
+#    end
+#    @server.mount("/response", BasicServlet)
+#    @server.mount("/slow", SlowServlet)
+#    @server.mount("/down", DownServlet)
+#    @server.mount("/inspect", InspectionServlet)
+#    yield self if block_given?
+#    define
   end
 
   def define

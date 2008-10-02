@@ -9,32 +9,35 @@ module FacsimileEditionsHelper
   end  
   
   # creates the elements to be shown in the tabs, depending on the action we're in
-  def tabs_elements
-    result = []
-    case action_name
-    when "show"
-      result = [{:link => "", :text => "Editor's Introduction".t, :selected => true}]
-    when "books"
-      subtypes = @edition.book_subtypes(N::HYPER + params[:type])
-      if (params[:subtype])
-        selected_subtype = N::HYPER + params[:subtype]
-      else
-        selected_subtype = subtypes[0]
-      end
-      subtypes.each do |subtype|
-        if (subtype == selected_subtype)
-          selected = true
-        else 
-          selected = false
-        end
-        result << {:link => "/#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}/#{params[:type]}/#{subtype.local_name}", :text => subtype.local_name.t, :selected => selected}
-      end
-    when "panorama"
-      result = [{:link => "", :text => params[:book], :selected => true}] 
-    when "page"
-      result = [{:link => "", :text => @book.uri.local_name, :selected => true}]       
+  def books_tabs
+    subtypes = @edition.book_subtypes(N::HYPER + params[:type])
+    tabs = []
+    if (params[:subtype])
+      selected_subtype = N::HYPER + params[:subtype]
+    else
+      selected_subtype = subtypes[0]
     end
-    result
+    subtypes.each do |subtype|
+      if (subtype == selected_subtype)
+        selected = true
+      else 
+        selected = false
+      end
+      tabs << {:link => "/#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}/#{params[:type]}/#{subtype.local_name}", :text => subtype.local_name.t, :selected => selected}
+    end
+    tabs
+  end
+    
+  def show_tabs
+    [{:link => "", :text => "Editor's Introduction".t, :selected => true}]
+  end
+  
+  def panorama_tabs
+    [{:link => "", :text => params[:book], :selected => true}] 
+  end
+  
+  def page_tabs
+    [{:link => "", :text => @book.uri.local_name, :selected => true}]
   end
   
   # returns a link to the next page, used in the "page" action
