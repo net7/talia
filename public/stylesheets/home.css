@@ -1,6 +1,23 @@
 /* CSS per Standard layout Ver.1.0
 Versione fullScreen con menu sulla sinistra, news sulla destra */
 
+/* 
+   To CUSTOMIZE THE HEADER BANNER:
+   copy the image to public/images/start_page/header_bg.jpg 
+*/
+
+/* 
+
+To CUSTOMIZE EDITION LISTINGS, add them below like this:
+
+#contenuti ul li#diorio a {
+    background: url(/images/start_page/edizionediorio.gif) left center no-repeat;
+}
+
+*/
+
+/* --- No editing after this point should be necessary ---------------------- */
+
 /* ***************** ************** ************** */
 /* ***************** TAG GENERICI ************** */
 /* ***************** ************** ************** */
@@ -230,12 +247,6 @@ a:hover{
 	#contenuti ul li a:hover{
 	}
 
-	#contenuti ul li#diorio a {
-	background: url(/images/start_page/edizionediorio.gif) left center no-repeat;
-	}
-	#contenuti ul li#collimontinari a {
-	background: url(/images/start_page/edizionecollimontinari.gif) no-repeat left center;
-	}
 /* ***************** ************** ************** */
 /* ***************** Piede ************** */
 /* ***************** ************** ************** */
