@@ -9,7 +9,7 @@ module FacsimileEditionsHelper
   end  
   
   # creates the elements to be shown in the tabs, depending on the action we're in
-  def books_tabs
+  def book_tabs
     subtypes = @edition.book_subtypes(N::HYPER + params[:type])
     tabs = []
     if (params[:subtype])
