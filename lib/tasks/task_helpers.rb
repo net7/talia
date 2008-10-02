@@ -53,7 +53,7 @@ class TaskHelper
     ed_qry.where(:manifestation, N::RDF.type, N::HYPER.HyperEdition)
     # Add the editions to the new paragraph
     ed_qry.execute.each do |edition|
-      destination.add_manifestation(edition)
+      quick_add_property(edition, N::HYPER.manifestation_of, destination)
     end
   end
   

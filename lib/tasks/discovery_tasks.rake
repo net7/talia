@@ -155,7 +155,6 @@ namespace :discovery do
         first_page = chapter.first_page.concordant_cards(ce).first
         assit(first_page, "Must have a first page on the chapter #{chapter.uri}.")
         cloned_chapt.first_page = first_page
-        #        cloned_chapt.save!
       end          
       new_book.chapters.each do |chapter|
         chapter.order_pages!
