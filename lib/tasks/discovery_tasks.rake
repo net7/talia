@@ -148,13 +148,15 @@ namespace :discovery do
         end
       end
       
-      # Now clone the chapters on the book
+      # Now clone the chapters on the book      
       book.chapters.each do |chapter|
-        cloned_chapt = ce.add_from_concordant(chapter)
-        cloned_chapt.book = new_book
-        first_page = chapter.first_page.concordant_cards(ce).first
-        assit(first_page, "Must have a first page on the chapter #{chapter.uri}.")
-        cloned_chapt.first_page = first_page
+        ce.add_from_concordant(chapter) do |cloned_chapt|
+          cloned_chapt.book = new_book
+          first_page = chapter.first_page.concordant_cards(ce).first
+          assit(first_page, "Must have a first page on the chapter #{chapter.uri}.")
+          cloned_chapt.first_page = first_page
+          cloned_chapt.save!
+        end
       end          
       new_book.chapters.each do |chapter|
         chapter.order_pages!
