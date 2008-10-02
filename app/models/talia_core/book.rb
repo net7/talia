@@ -105,7 +105,7 @@ module TaliaCore
     
     def html_data
       html_data = TaliaCore::BookHtml.find(:all, :find_through => [N::HYPER.manifestation_of , self])
-      html_data[0].html
+      html_data[0].html unless html_data.empty?
     end
     
     # creates or update, the HTML document containing the whole Book text, starting
@@ -172,13 +172,13 @@ module TaliaCore
       qry.where(:page, N::HYPER.part_of, self)
       qry.where(:page, N::RDF.type, N::HYPER.Page)
       if (self.catalog != TaliaCore::Catalog.default_catalog)  
-        qry.where(:note, N::HYPER.page, :def_page)
+        qry.where(:def_note, N::HYPER.page, :def_page)
         qry.where(:def_page, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
         qry.where(:page_concordance, N::HYPER.concordant_to, :def_page)
         qry.where(:page_concordance, N::HYPER.concordant_to, :page)
-        qry.where(:def_para, N::HYPER.note, :note)
-        qry.where(:para_concordance, N::HYPER.concordant_to, :def_para)
-        qry.where(:para_concordance, N::HYPER.concordant_to, :part)
+        qry.where(:note_concordance, N::HYPER.concordant_to, :note)
+        qry.where(:note_concordance, N::HYPER.concordant_to, :def_note)
+        qry.where(:part, N::HYPER.note, :note)
         qry.where(:part, N::HYPER.in_catalog, self.catalog)        
         qry.where(:def_page, N::HYPER.position, :page_pos)
         qry.where(:note, N::HYPER.position, :note_pos)

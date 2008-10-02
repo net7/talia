@@ -1,10 +1,8 @@
-require 'cgi'
-
 class CriticalEditionsController < SimpleEditionController
   set_edition_type :critical
   
   def dispatcher
-    @request_url = CGI::unescape(request.url)
+    @request_url = URI::decode(request.url)
     @source = TaliaCore::Source.find(@request_url)
     case @source
     when TaliaCore::Book

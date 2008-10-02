@@ -27,8 +27,7 @@ class TaskHelper
     ed_uri = N::LOCAL +  ed_klass::EDITION_PREFIX + '/' + ENV['nick']
     raise(RuntimeError, "Edition does already exist: #{ed_uri}") if(TaliaCore::ActiveSource.exists?(ed_uri))
     edition = ed_klass.new(ed_uri)
-    edition.hyper::title << ENV['name']
-    edition.hyper::description << ENV['description']
+    edition.hyper::title << ENV['name'] 
     edition.save!
     edition
   end

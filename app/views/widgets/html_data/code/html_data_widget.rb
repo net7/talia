@@ -6,7 +6,7 @@ class HtmlDataWidget < Widgeon::Widget
     assit(@data || @location) # we must have either the data object itself, or a location
     
     @data ||= DataRecord.find(:first, :conditions => ["type = 'XmlData' AND location = ?", @location ])
-    assit_kind_of(TaliaCore::XmlData, @data)
+    assit_kind_of(TaliaCore::DataTypes::XmlData, @data)
     
     if(@data.mime_type == 'text/html')
       @content = data.get_content_string
