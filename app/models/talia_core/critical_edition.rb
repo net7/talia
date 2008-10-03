@@ -14,21 +14,6 @@ module TaliaCore
       types = [N::TALIA.Book]
       elements_by_type(*types)
     end
-    
-    def html_description=(html_description)
-      html_description.hyper::description_of << self
-      
-    end
-    
-    def html_description
-      html_description = TaliaCore::CatalogHtmlDescription.find(:all, :find_through => [N::HYPER.description_of , self])
-      if (html_description.empty?)
-        result = ''
-      else
-        result = html_description[0].html
-      end
-      result
-    end    
  
     # it reads the HTML from the given file and create a new CatalogHtmlDescription object
     # which will have a DataRecord related to it, containing the HTML itself.
@@ -43,7 +28,7 @@ module TaliaCore
       html_description_uri = self.uri.to_s + "_html_description"
       html_description = TaliaCore::CatalogHtmlDescription.new(html_description_uri)
       html_description.create_html(html, self)
-      self.html_description=(html_description)
+      self.material_description = html_description
     end
     
   end

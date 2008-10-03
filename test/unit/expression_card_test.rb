@@ -118,5 +118,30 @@ module TaliaCore
       assert_equal(card.catalog, Catalog.default_catalog)
     end
     
+    def test_material_description
+      card = make_card('test_material_description')
+      card.material_description = 'describe_me'
+      card.save!
+      assert_equal('describe_me', card.material_description)
+    end
+    
+    def test_keywords
+      card = make_card('test_keywords')
+      keyw_strs = (1..3).collect { |n| "exp_test_keyword_#{n}" }
+      keywords = keyw_strs.collect { |str| TaliaCore::Keyword.get_with_key_value!(str) }
+      card.keywords << keywords
+      card.save!
+      card_n = TaliaCore::ExpressionCard.find(card.id)
+      assert_equal(card_n.keywords, keywords)
+      assert_equal(card_n.keywords_as_strings, keyw_strs)
+    end
+    
+    def test_add_keyword
+      card = make_card('test_add_keyword')
+      card.add_keyword('exp_test_keyword_add')
+      card.save!
+      assert_equal(card.keywords_as_strings, [ 'exp_test_keyword_add' ])
+    end
+    
   end
 end

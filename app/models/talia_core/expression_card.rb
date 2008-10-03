@@ -28,6 +28,8 @@ module TaliaCore
     singular_property :catalog, N::HYPER.in_catalog
     singular_property :title, N::DCNS.title
     singular_property :material_description, N::HYPER.material_description
+    singular_property :category, N::HYPER.category
+    singular_property :series, N::HYPER.series
     
     before_create :set_default_catalog
     after_save :update_concordance_rdf
@@ -124,13 +126,6 @@ module TaliaCore
       self.autosave_rdf = will_rdf_autosave
     end
     
-    # A descriptive text about this element
-    def material_description
-      description = inverse[N::HYPER.description_of]
-      assit(description.size <= 1, "There shouldn't be multiple descriptions")
-      (description.size > 0) ? description[0] : ''
-    end
-    
     # This returns the manifestations of this card. You can give an optional
     # type which must be a class.
     def manifestations(type = nil)
@@ -153,6 +148,24 @@ module TaliaCore
     # of the given type related to them. Manifestation_type must be an URI
     def subparts_with_manifestations(manifestation_type, subpart_type = nil)
     end
+    
+    # Add a keyword from a keyword string. If necessary the keyword object
+    # will be created.
+    def add_keyword(keyword)
+      kw_object = Keyword.get_with_key_value!(keyword)
+      self[N::HYPER.keyword] << kw_object
+    end
+    
+    # Returns all keywords (as an array of strings)
+    def keywords_as_strings
+      self[N::HYPER.keyword].collect { |kw| kw.keyword_value }
+    end
+    
+    # Returns all keywords (as an array of objects)
+    def keywords
+      self[N::HYPER.keyword]
+    end
+    
     
     
     protected
@@ -191,7 +204,9 @@ module TaliaCore
       N::HYPER.siglum,
       N::HYPER.position,
       N::HYPER.position_name,
-     
+      N::HYPER.category,
+      N::HYPER.keyword,
+      # series not cloned since the series object itself may need to be cloned
       N::HYPER.publication_place,
       N::HYPER.copyright_note,
       N::HYPER.name,

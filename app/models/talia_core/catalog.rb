@@ -3,6 +3,8 @@ module TaliaCore
   # A catalog is a collection of AbstractWorkCard records. 
   class Catalog < Source
     
+    singular_property :material_description, N::HYPER.material_description
+    
     DEFAULT_CATALOG_NAME = N::LOCAL + 'system_default_catalog'
     
     # Returns all the elements, restricting the result to the given type
@@ -80,23 +82,12 @@ module TaliaCore
       @title ||= self.hyper::title.last
     end
     
-    def description
-      @description ||= self.hyper::description.last
-    end
-    
     # Returns the default catalog that will be used if no other catalog is
     # specified
     def self.default_catalog
       catalog = Catalog.new(Catalog::DEFAULT_CATALOG_NAME)
       catalog.save! if(catalog.new_record?)
       catalog
-    end
-    
-    # A descriptive text about this element
-    def material_description
-      description = inverse[N::HYPER.description_of]
-      assit(description.size <= 1, "There shouldn't be multiple descriptions")
-      (description.size > 0) ? description[0] : ''
     end
     
     protected

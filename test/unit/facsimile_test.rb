@@ -13,8 +13,10 @@ module TaliaCore
       end
     end
     
-    def test_true
-      assert(true)
+    private
+    
+    def make_keyword(name)
+      make_card(name, true, Keyword)
     end
     
   end

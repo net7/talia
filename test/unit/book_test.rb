@@ -43,13 +43,5 @@ module TaliaCore
       assert_equal(4, clone.ordered_pages.elements.size)
     end
     
-    def test_has_material_description
-      book = make_book('test_material_description')
-      description = Source.new('desc-of_test_material_description')
-      description.predicate_set(:hyper, :material_description, book)
-      description.save!
-      assert_equal(book.material_description, description)
-    end
-    
   end
 end

@@ -23,18 +23,20 @@ module TaliaCore
     end
     
     # Creates a dummy expression card
-    def make_card(name, save = true)
-      card = ExpressionCard.new("http://#{klass_name}/#{name}")
+    def make_card(name, save = true, klass = ExpressionCard)
+      kname = klass_name
+      kname += klass.name.underscore unless(klass == ExpressionCard)
+      card = klass.new("http://#{kname}/#{name}")
       card.save! if(save)
       card
     end
     
     # Creates a dummy book with a number of pages
     def make_book(name, page_count = 0)
-      book = Book.new("http://#{klass_name}/#{name}_book")
+      book = make_card(name, true, Book)
       book.save!
       page_count.times do |n|
-        page = Page.new("http://#{klass_name}/#{name}-page#{n}")
+        page = make_card("#{name}_page_#{n}", true, Page)
         page.hyper::part_of << book
         page.save!
       end
@@ -43,9 +45,7 @@ module TaliaCore
     
     # Make a catalog
     def make_catalog(name)
-      cat = Catalog.new("http://#{klass_name}/#{name}")
-      cat.save!
-      cat
+      make_card(name, true, Catalog)
     end
     
     # Get the class that is tested here
