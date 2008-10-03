@@ -44,7 +44,8 @@ module TaliaCore
     # This helps the "new" method to either return an existing element or
     # instead create a new object with the given uri.
     # 
-    # We know that this is a hack.
+    # We know that this is a hack. TODO: No real reason for this, should probably
+    # be removed.
     def self.new(*args)
       the_source = nil
       if(args.size == 1 && ( uri_s = uri_string_for(args[0]))) # One string argument should be the uri
