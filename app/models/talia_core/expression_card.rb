@@ -184,10 +184,22 @@ module TaliaCore
       props.each { |p| inverse_props_to_clone << p }
     end
     
+    # Standard properties to clone for all cards
     clone_properties N::RDF.type,
       N::HYPER.type,
       N::HYPER.subtype,
-      N::HYPER.siglum
+      N::HYPER.siglum,
+      N::HYPER.position,
+      N::HYPER.position_name,
+     
+      N::HYPER.publication_place,
+      N::HYPER.copyright_note,
+      N::HYPER.name,
+      # Dublin Core properties
+      N::DCNS.title,
+      N::DCNS.description,
+      N::DCNS.date,
+      N::DCNS.publisher
     
   end
 end

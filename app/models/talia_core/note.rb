@@ -11,7 +11,7 @@ module TaliaCore
     singular_property :coordinates, N::HYPER.coordinates
     singular_property :page, N::HYPER.page
     
-    clone_properties N::HYPER.position, N::HYPER.coordinates
+    clone_properties N::HYPER.coordinates
     
     # The paragraph to which this note belongs
     def paragraph

@@ -3,3 +3,6 @@ Partners.
 
 All customizations should be done here - NO partner-specific modifications
 to the rest of the code!
+
+Some sample customizations are provided here. It's recommended to delete any 
+unused files from this folder.

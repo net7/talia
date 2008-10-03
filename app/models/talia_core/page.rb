@@ -10,10 +10,7 @@ module TaliaCore
     singular_property :position_name, N::HYPER.position_name
     
     # NOT cloned: part-of relationship
-    clone_properties N::DCNS.title,
-      N::HYPER.position,
-      N::HYPER.position_name,
-      N::HYPER.height, N::HYPER.width,
+    clone_properties N::HYPER.height, N::HYPER.width,
       N::HYPER.dimension_units
    
     # returns the following page
