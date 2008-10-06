@@ -48,7 +48,10 @@ module TaliaCore
       end
       
       def extract_mime_type(location)
-        'text'
+        # Lookup the mime type for the extension (removing the dot
+        # in front of the file extension) Works only for the file
+        # types supported by Rails' Mime class.
+        Mime::Type.lookup_by_extension(File.extname(location)[1..-1]).to_s
       end
     
       # class methods ============================================
@@ -84,15 +87,30 @@ module TaliaCore
           raise ActiveRecord::RecordNotFound if source_data.nil?
           source_data
         end
+        
+        # Return the class name associated to the given mime-type. 
+        # TODO: We should provide a kind of registration of subclasses, 
+        # because now associations are hardcoded. 
+        def class_type_from(content_type) 
+          case Mime::Type.lookup(content_type).to_sym 
+          when :text:             'SimpleText' 
+          when :jpg, :jpeg, :gif, 
+              :png, :tiff, :bmp:    'ImageData' 
+          when :xml:              'XmlData' 
+          when :pdf:              'PdfData' 
+          else name.demodulize 
+          end 
+        end 
 
       end
 
       # Assign the STI subclass, perfoming a mime-type lookup.
       def assign_type(content_type)
-        self.type = self.class.mime_type(content_type)
+        self.type = self.class.class_type_from(content_type)
       end
 
       private
+      
     
       # Returns demodulized type or class name.
       def class_name

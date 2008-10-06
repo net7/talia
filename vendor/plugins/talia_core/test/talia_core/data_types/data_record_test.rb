@@ -44,18 +44,18 @@ module TaliaCore
       assert_equal(line, @test_records[0].get_line)
     end
     
-    def test_mime_type
+    def test_class_type_from
       ['text/plain'].each do |mime|
-        assert_equal('SimpleText', DataTypes::DataRecord.mime_type(mime))
+        assert_equal('SimpleText', DataTypes::DataRecord.class_type_from(mime))
       end
 
-      @image_mime_types.each { |mime| assert_equal('ImageData', DataTypes::DataRecord.mime_type(mime)) }
+      @image_mime_types.each { |mime| assert_equal('ImageData', DataTypes::DataRecord.class_type_from(mime)) }
       
       ['text/xml', 'application/xml'].each do |mime|
-        assert_equal('XmlData', DataTypes::DataRecord.mime_type(mime))
+        assert_equal('XmlData', DataTypes::DataRecord.class_type_from(mime))
       end
       
-      assert_equal('DataRecord', DataTypes::DataRecord.mime_type('application/rtf'))
+      assert_equal('DataRecord', DataTypes::DataRecord.class_type_from('application/rtf'))
     end
 
   end  
