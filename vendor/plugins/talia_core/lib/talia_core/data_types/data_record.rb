@@ -85,20 +85,6 @@ module TaliaCore
           source_data
         end
 
-        # Return the class name associated to the given mime-type.
-        # TODO: We should provide a kind of registration of subclasses,
-        # because now associations are hardcoded.
-        def mime_type(content_type)
-          case Mime::Type.lookup(content_type).to_sym
-          when :text:             'SimpleText'
-          when :jpg, :jpeg, :gif,
-              :png, :tiff, :bmp:    'ImageData'
-          when :xml:              'XmlData'
-          when :pdf:              'PdfData'
-          else name.demodulize
-          end
-        end
-
       end
 
       # Assign the STI subclass, perfoming a mime-type lookup.
