@@ -17,6 +17,11 @@ module HomeHelper
     render(:partial => 'edition', :collection => @editions[type]) if(@editions[type])
   end
   
+  # Pust the category links for the AvEdition
+  def av_category_links
+    render(:partial => 'category', :collection => @editions[:av].first.elements(TaliaCore::Category))
+  end
+  
   # The edition prefix for the given edition
   def prefix_for(edition)
     edition.class::EDITION_PREFIX

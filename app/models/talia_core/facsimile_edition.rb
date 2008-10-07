@@ -34,7 +34,7 @@ module TaliaCore
      
   # Returns all the books in the catalog. See elements
     def books(*types)
-      types = [N::TALIA.Book]
+      types = [N::TALIA.Book] if(types.empty?)
       elements_by_type(*types)
     end
     

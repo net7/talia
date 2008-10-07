@@ -22,7 +22,7 @@ class SimpleModePathWidget < Widgeon::Widget
       else
         # if link data are passed, also a link is created
         #        result << link_to(text, element)       
-        result << "<a href='#{url}'>#{text}</a>"
+        result << "<a href='/#{url}'>#{text}</a>"
       end
     end
     result

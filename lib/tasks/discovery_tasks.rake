@@ -8,6 +8,9 @@ require 'talia_util'
 require 'fileutils'
 require 'progressbar'
 require 'benchmark'
+require 'csv'
+require 'cgi'
+require 'digest/md5'
 
 include TaliaUtil
 
@@ -21,6 +24,47 @@ namespace :discovery do
       TaskHelper::load_consts
       @talia_is_init = true
     end
+  end
+  
+  desc "Import from Sophiavision CSV file. Options csvfile=<file>"
+  task :sophia_csv => :disco_init do
+    ENV['nick'] = 'default'
+    ENV['name'] = 'default'
+    ed = TaskHelper::create_edition(TaliaCore::AvEdition)
+    CSV::Reader.parse(File.open(ENV['csvfile']), ';', "\r") do |row|
+      series = TaskHelper::series_for(row[0])
+      author, title, year, length = row[1], row[2], row[3], row[4]
+      wmv_file, mp4_file, download = row[5], row[6], row[7]
+      category = TaskHelper::category_for(row[8], ed)
+      keywords = TaskHelper::keywords_from(row[9])
+      bibliography = row[10]
+      abstract = row[11]
+      
+      element_uri = N::LOCAL + 'media_sources/' + CGI::escape(title)
+      element = TaliaCore::Media.new(element_uri)
+      element.series = series
+      element.dcns::creator << author
+      element.title = title
+      element.dcns::date << year
+      element.play_length = length
+      wmv_data = TaliaCore::DataTypes::WmvMedia.new
+      wmv_data.location = wmv_file
+      mp4_data = TaliaCore::DataTypes::Mp4Media.new
+      mp4_data.location = mp4_file
+      element.data_records << [wmv_data, mp4_data]
+      element.downloadable = download
+      element.category = category
+      element.hyper::keyword << keywords
+      element.hyper::bibliography << bibliography if(bibliography)
+      element.dcns::abstract << abstract if(abstract)
+      element.catalog = ed
+      element.save!
+      wmv_data.save!
+      mp4_data.save!
+      print '.'
+    end
+    puts
+    puts 'done'
   end
   
   desc "Prepares the environment for the test server"

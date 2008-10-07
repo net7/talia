@@ -28,18 +28,14 @@
   <h2><%= "Simple Mode".t %> </h2>
   <p><%= "Simple Mode Home Description".t %></p>
   <ul>
-    <%= edition_links :critical %>
-    <%= edition_links :facsimile %>
+    <%= av_category_links %>
   </ul>
   <!-- End left content box -->
 <% end  %>
 
 <% content_for :right_box do %>
       <!-- right content box -->
-  <h2><%= "Full Mode".t %> </h2>
-  <p><%= "Full Mode Home Description".t %></p>
-  <ul>
-    <li><%= titled_link('http://www.insidePageURL.com', 'Enter in Scholar mode') %></li>
-  </ul>
+  <h2><%= "Sophiavision".t %> </h2>
+  <p>Sophiavision does not have a full mode</p>
   <!-- End right content box -->
 <% end %>

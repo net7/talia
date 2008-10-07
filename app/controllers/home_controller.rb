@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   
   # The types of edition that should be shown on the start page
-  @@editions_show = [:facsimile, :critical]
+  @@editions_show = [:facsimile, :critical, :av]
   
   def start
     @editions = {}

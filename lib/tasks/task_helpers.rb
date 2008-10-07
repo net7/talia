@@ -1,3 +1,5 @@
+require 'cgi'
+
 class TaskHelper
   
   # Returns a preset RDF query that will select all books that have pages
@@ -115,6 +117,40 @@ class TaskHelper
     # Require some model classes that should always be present
     %w( source expression_card catalog facsimile_edition critical_edition manifestation book page paragraph facsimile).each do |klass|
       require_dependency "talia_core/#{klass}"
+    end
+  end
+  
+  # Gets keywords for the slash-separated values in the string
+  def self.keywords_from(key_string)
+    key_string.split('/').collect { |key_s| TaliaCore::Keyword.get_with_key_value!(key_s.strip)}
+  end
+  
+  # Creates or gets a series for the given name
+  def self.series_for(name)
+    create_or_find(name, TaliaCore::Series, 'series') do |ser|
+      ser.hyper::name << name
+    end
+  end
+  
+  # Creates or get a category for the given name
+  def self.category_for(name, edition)
+    create_or_find(name, TaliaCore::Category, 'categories') do |cat|
+      cat.name = name
+      cat.catalog = edition
+    end
+  end
+  
+  # Helper to create or get an element of the given class in the 
+  # given 'namespace'. Can inject a block into the 'creation' phase.
+  def self.create_or_find(name, klass, namespace)
+    uri = N::LOCAL + "#{namespace}/" + CGI::escape(name)
+    if(klass.exists?(uri))
+      klass.find(uri)
+    else
+      el = TaliaCore::Category.new(uri)
+      yield el if(block_given?)
+      el.save!
+      el
     end
   end
   

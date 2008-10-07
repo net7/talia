@@ -2,7 +2,7 @@ module TaliaCore
   
   # A category may group Sources by a user-defined selection. Each Source
   # should only have a single category.
-  class Category < Source
+  class Category < ExpressionCard
     
     singular_property :name, N::HYPER.name
     singular_property :description, N::DCNS.description
