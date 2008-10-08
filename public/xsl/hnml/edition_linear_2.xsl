@@ -5,14 +5,14 @@
 	indent="yes"
 	encoding="UTF-8"
 />
-    <html>
-        <head>
-            <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
-            <link rel="stylesheet" href="stylesheet/hnml/work.css"/>
-            <link rel="stylesheet" href="stylesheet/hnml/transcr.css"/>
-        </head>
-        <body>
-            <xsl:template match="/">
+    <xsl:template match="/">
+        <html>
+            <head>
+                <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+                <link rel="stylesheet" href="stylesheet/hnml/work.css"/>
+                <link rel="stylesheet" href="stylesheet/hnml/transcr.css"/>
+            </head>
+            <body>
                 <xsl:apply-templates select="/edition/text"/>
                 <xsl:if test="count(//enote) != 0">
                     <hr/>
@@ -20,8 +20,8 @@
                         <xsl:call-template name="enote"/>
                     </span>
                 </xsl:if>
-            </xsl:template>
-            <xsl:include href="edition_linear_core_2.xsl"/>
-        </body>
-    </html>
+            </body>
+        </html>
+    </xsl:template>
+    <xsl:include href="edition_linear_core_2.xsl"/>
 </xsl:stylesheet>

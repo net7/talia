@@ -23,6 +23,7 @@ module TaliaCore
       ending_page = next_chapter.hyper.first_page[0] unless next_chapter.nil?  
       starting_page_position = book.ordered_pages.find_position_by_object(starting_page)        
       if ending_page.nil? 
+        # this is the last chapter of the book
         ending_page_position = book.ordered_pages.size 
       else 
         ending_page_position = book.ordered_pages.find_position_by_object(ending_page) - 1
@@ -34,7 +35,7 @@ module TaliaCore
       ordered.save!
     end
     
-    # Returns an array containing all the pages in this book, ordered
+    # Returns an array containing all the pages in this chapter, ordered
     def ordered_pages
       uri = self.uri.to_s + '_ordered_pages'
       if OrderedSource.exists?(uri)
@@ -51,52 +52,54 @@ module TaliaCore
       # all the pages first, and then all the annotations (ordering annotations
       # between pages may result in unproper orders)
       pages = []
-      annotations = []
-      ordered_pages_elements.each do |page|
+      paragraphs = []
+      ordered_pages.elements.each do |page|
         # when paragraphs are cloned, the notes it is related to are not cloned too,
         # so we have that said notes are related to pages in the default catalog, even if the paragraph
         # itslef is not. 
         # We must separate, then, the two cases where the book (and so the paragraphs and
         # all the book's subparts) are in the default catalog or not.
         # In the latter case we have to refer to paragraphs and pages in the default catalog.
-        qry_page = Query.new(TaliaCore::Source).select(:m).distinct
-        qry_page.where(:m, N::HYPER.manifestation_of, page)
-        qry_page.where(:m, N::RDF.type, manifestation_type)
-        pages << page unless qry_page.execute.empty?
-        
-        qry_para = Query.new(TaliaCore::Paragraph).select(:p).distinct
-        if (self.catalog != TaliaCore::Catalog.default_catalog)
-          qry_para.where(:note, N::HYPER.page, :def_page)
-          qry_para.where(:def_page, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
-          qry_para.where(:page_concordance, N::HYPER.concordant_to, :def_page)
-          qry_para.where(:page_concordance, N::HYPER.concordant_to, page)
-          qry_para.where(:def_para, N::HYPER.note, :note)
-          qry_para.where(:para_concordance, N::HYPER.concordant_to, :def_para)
-          qry_para.where(:para_concordance, N::HYPER.concordant_to, :p)
-          qry_para.where(:p, N::HYPER.in_catalog, self.catalog)
-          qry_para.where(:p, N::RDF.type, subpart_type) unless subpart_type.nil?
-          qry_para.where(:m, N::HYPER.manifestation_of, :p)
-          qry_para.where(:m, N::RDF.type, manifestation_type)
-          qry_para.where(:def_page, N::HYPER.position, :page_pos)
-          qry_para.where(:note, N::HYPER.position, :note_pos)
-          qry_para.sort(:page_pos)
-          qry_para.sort(:note_pos)
-        else
-          qry_para.where(:note, N::HYPER.page, page)
-          qry_para.where(:p, N::HYPER.note, :note)
-          qry_para.where(:p, N::RDF.type, subpart_type) unless subpart_type.nil?
-          qry_para.where(:m, N::HYPER.manifestation_of, :p)
-          qry_para.where(:m, N::RDF.type, manifestation_type)
-          qry_para.where(page, N::HYPER.position, :page_pos)
-          qry_para.where(:note, N::HYPER.position, :note_pos)
-          qry_para.sort(:page_pos)
-          qry_para.sort(:note_pos)
-        end
-        qry_para.execute.each do |a|
-          annotations << a
+        if (subpart_type == nil || subpart_type == N::HYPER.Page) 
+          qry_page = Query.new(TaliaCore::Source).select(:m).distinct
+          qry_page.where(:m, N::HYPER.manifestation_of, page)
+          qry_page.where(:m, N::RDF.type, manifestation_type)
+          pages << page unless qry_page.execute.empty?
+        end 
+
+        if (subpart_type == nil || subpart_type == N::HYPER.Paragraph)
+          qry_para = Query.new(TaliaCore::Paragraph).select(:p).distinct
+          if (self.catalog != TaliaCore::Catalog.default_catalog)
+            qry_para.where(:note, N::HYPER.page, :def_page)
+            qry_para.where(:def_page, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
+            qry_para.where(:page_concordance, N::HYPER.concordant_to, :def_page)
+            qry_para.where(:page_concordance, N::HYPER.concordant_to, page)
+            qry_para.where(:def_para, N::HYPER.note, :note)
+            qry_para.where(:para_concordance, N::HYPER.concordant_to, :def_para)
+            qry_para.where(:para_concordance, N::HYPER.concordant_to, :p)
+            qry_para.where(:p, N::HYPER.in_catalog, self.catalog)
+            qry_para.where(:m, N::HYPER.manifestation_of, :p)
+            qry_para.where(:m, N::RDF.type, manifestation_type)
+            qry_para.where(:def_page, N::HYPER.position, :page_pos)
+            qry_para.where(:note, N::HYPER.position, :note_pos)
+            qry_para.sort(:page_pos)
+            qry_para.sort(:note_pos)
+          else
+            qry_para.where(:note, N::HYPER.page, page)
+            qry_para.where(:p, N::HYPER.note, :note)
+            qry_para.where(:m, N::HYPER.manifestation_of, :p)
+            qry_para.where(:m, N::RDF.type, manifestation_type)
+            qry_para.where(page, N::HYPER.position, :page_pos)
+            qry_para.where(:note, N::HYPER.position, :note_pos)
+            qry_para.sort(:page_pos)
+            qry_para.sort(:note_pos)
+          end
+          qry_para.execute.each do |par|
+            paragraphs << par
+          end
         end
       end
-      subparts = pages + annotations
+      subparts = pages + paragraphs
     end    
     
   end

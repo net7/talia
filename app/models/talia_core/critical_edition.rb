@@ -14,7 +14,7 @@ module TaliaCore
       types = [N::TALIA.Book]
       elements_by_type(*types)
     end
- 
+    
     # it reads the HTML from the given file and create a new CatalogHtmlDescription object
     # which will have a DataRecord related to it, containing the HTML itself.
     # The HTML description is then shown in the first page of a critical edition UI -

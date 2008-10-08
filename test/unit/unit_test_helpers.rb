@@ -42,12 +42,150 @@ module TaliaCore
       end
       book
     end
+
+     # Make a chapter
+    def make_chapter(name)
+      chapter = Chapter.new("http://#{klass_name}/#{name}")
+      chapter.save!
+      chapter      
+    end
+    
+    # Make a paragraph
+    def make_paragraph(name)
+      paragraph = Paragraph.new("http://#{klass_name}/#{name}")
+      paragraph.save!
+      paragraph      
+    end
+
+    # Make a note
+    def make_note(name)
+      note = Note.new("http://#{klass_name}/#{name}")
+      note.save!
+      note     
+    end
+
+    # Make a page
+    def make_page(name)
+      page = Page.new("http://#{klass_name}/#{name}")
+      page.save!
+      page     
+    end
+
+    
+    # Make an edition
+    def make_edition(name)
+      edition = Edition.new("http://#{klass_name}/#{name}")
+      edition.save!
+      edition.types << N::HYPER.Edition
+      edition.types << N::HYPER.HyperEdition
+      edition.save!
+      edition
+    end
+
+    # Make an transcription
+    def make_transcription(name)
+      transcription = Transcription.new("http://#{klass_name}/#{name}")
+      transcription.save!
+      transcription.types << N::HYPER.Transcription
+      transcription.types << N::HYPER.HyperEdition
+      transcription.save!
+      transcription
+    end
     
     # Make a catalog
     def make_catalog(name)
       make_card(name, true, Catalog)
     end
     
+    # Make a book with 5 pages, 2 chapters and 7 paragraphs.
+    # Each other page has two paragraphs, the even ones have one paragrahs each.
+    # Chapters start on the first and on the fourth page.
+    def make_big_book(name)
+      book = make_book(name)
+      book.save!
+      5.times do |i|
+        page = make_page("#{name}-page#{i}")
+        page.save!        
+        page.types << N::HYPER.Page
+        page.hyper::part_of << book
+        page.position = "%06d" % i
+        page.save!
+        note1 = make_note("#{name}-page#{i}-paragraph1-note1")
+        note1.save!
+        note1.types << N::HYPER.Note
+        note1.position = '000001'
+        note1.siglum = "#{name}-page#{i}-paragraph1-note1"
+        note1.hyper::page << page
+        note1.save!
+        paragraph1 = make_paragraph("#{name}-page#{i}-paragraph1")
+        paragraph1.save!
+        paragraph1.types << N::HYPER.Paragraph
+        paragraph1.siglum = "#{name}-page#{i}-paragraph1"
+        paragraph1.hyper::note << note1
+        paragraph1.save!
+        if i.odd?
+          note2 = make_note("#{name}-page#{i}-paragraph2-note1")
+          note2.save!
+          note2.types << N::HYPER.Note
+          note2.position = '000002'
+          note2.siglum = "#{name}-page#{i}-paragraph2-note1"
+          note2.hyper::page << page
+          note2.save!
+          paragraph2 = make_paragraph("#{name}-page#{i}-paragraph2")
+          paragraph2.save!
+          paragraph2.types << N::HYPER.Paragraph
+          paragraph2.siglum = "#{name}-page#{i}-paragraph2"
+          paragraph2.hyper::note << note2
+          paragraph2.save!
+        end
+        if i == 0
+          chapter1 = make_chapter("#{name}-chapter1")
+          chapter1.save!
+          chapter1.types << N::HYPER.Chapter
+          chapter1.book = book
+          chapter1.first_page = page
+          chapter1.save!
+        end
+        if i == 3
+          chapter2 = make_chapter("#{name}-chapter2")
+          chapter2.save!          
+          chapter2.types << N::HYPER.Chapter
+          chapter2.book = book
+          chapter2.first_page = page
+          chapter2.save!          
+        end
+      end
+      book
+    end
+    
+    def make_big_book_with_editions(name)
+      book = make_big_book(name)
+      book.pages.each do |page|
+        edition = make_edition("#{page.uri.local_name}-edition")
+        quick_add_property(edition, N::HYPER.manifestation_of, page)
+        edition.save!
+      end
+      book.paragraphs.each do |paragraph|
+        edition = make_edition("#{paragraph.uri.local_name}-edition")
+        quick_add_property(edition, N::HYPER.manifestation_of, paragraph)
+        edition.save!
+      end
+      book
+    end
+    
+   # Quick hack to "quickly" add a new property to the given Source. This
+  # will bypass the usual rdf creation routines and simply add the new
+  # property both to the db and rdf "manually" (which is quicker than recreating
+  # the rdf fully.
+  def quick_add_property(subject, predicate, object)
+    autosave = subject.autosave_rdf?
+    subject.autosave_rdf = false if(autosave)
+    subject[predicate] << object
+    subject.save!
+    subject.my_rdf[predicate] << object
+    subject.my_rdf.save
+    subject.autosave_rdf = autosave
+  end
     # Get the class that is tested here
     def tested_klass
       return @tested_klass if(@tested_klass)

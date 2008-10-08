@@ -23,7 +23,7 @@ class CriticalEditionMenuWidget < Widgeon::Widget
     
       # if current item is the chosen book, show book's chapters
       if (!@chosen_book.nil? && @chosen_book.uri.to_s == item_uri)
-        # get chpaters
+        # get chapters
         if !@advanced_search
           chapters = item.chapters
         else

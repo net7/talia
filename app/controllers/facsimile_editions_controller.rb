@@ -1,5 +1,3 @@
-require 'cgi'
-
 # 
 # Variables set for the template:
 #
@@ -11,8 +9,8 @@ require 'cgi'
 class FacsimileEditionsController < SimpleEditionController
   set_edition_type :facsimile
   add_javascripts 'swfobject', 'iip_flashclient'
- 
-  # GET /facsimile_editions/1
+    
+    # GET /facsimile_editions/1
   def show
     @path = [{:text => params[:id]}]
   end
@@ -33,10 +31,10 @@ class FacsimileEditionsController < SimpleEditionController
     @books = @edition.books(type)
     @type = params[:type]
     @subtype = params[:subtype]
-    @page_title_suff = ", #{params[:type].t.titleize}"
+    @page_title_suff = ", #{params[:type].pluralize.t.titleize}"
     @path = [
-      {:text => params[:id], :link => edition_prefix + "/#{params[:id]}"},
-      {:text => @type.capitalize.t}
+      {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"},
+      {:text => @type.capitalize.pluralize.t}
     ]
   end
   
@@ -51,15 +49,15 @@ class FacsimileEditionsController < SimpleEditionController
         @book = TaliaCore::Book.find(URI::decode(request.url))
         @type = @book.type.uri.local_name
         @path = [
-          {:text => params[:id], :link => edition_prefix + "/#{params[:id]}"},
-          {:text => @type.capitalize.t, :link => edition_prefix + "/#{params[:id]}/#{@type}"},
+          {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"},
+          {:text => @type.capitalize.pluralize.t, :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@type}"},
           {:text => params[:book] + ' (panorama)'}
         ]
         print_tool # Enable the print button
         @page_title_suff = ", #{params[:book].t}"
       end
       format.jpeg do
-        book_uri = N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:book]
+        book_uri = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:book]
         qry = Query.new(TaliaCore::Source).select(:f).distinct.limit(1)
         qry.where(:p, N::HYPER.part_of, book_uri)
         qry.where(:p, N::RDF.type, N::HYPER.Page)
@@ -84,8 +82,8 @@ class FacsimileEditionsController < SimpleEditionController
         # if a 'pages' params with 'double' as a value and a 'page2' param with
         # the siglum of a page have been passed, we need to show the large images of both pages 
         if (params[:pages] == 'double')
-          page = N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page]
-          page2 = N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page2]  
+          page = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]
+          page2 = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page2]  
           @page = TaliaCore::Page.find(page)
           @page2 = TaliaCore::Page.find(page2)
         else
@@ -102,8 +100,8 @@ class FacsimileEditionsController < SimpleEditionController
         print_tool # Enable the print button
       end
       format.jpeg do
-        page = N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page]
-        facsimile = TaliaCore::Page.find(N::LOCAL + TaliaCore::FacsimileEdition::EDITION_PREFIX + '/' + params[:id] + '/' + params[:page]).manifestations(TaliaCore::Facsimile)
+        page = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]
+        facsimile = TaliaCore::Page.find("#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]).manifestations(TaliaCore::Facsimile)
         facsimile.iip_path
         return facsimile.iip_path unless (params[:size] == 'thumbnail')
         return facsimile.thumb
@@ -130,9 +128,9 @@ class FacsimileEditionsController < SimpleEditionController
   # Makes the path for the page
   def page_path
     path =[
-      {:text => params[:id], :link => edition_prefix + "/#{params[:id]}"},
-      {:text => @type.capitalize.t, :link => edition_prefix + "/#{params[:id]}/#{@type}"},
-      {:text => @book.uri.local_name + ' (panorama)', :link => edition_prefix + "/#{params[:id]}/#{@book.uri.local_name}"}
+      {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"},
+      {:text => @type.capitalize.pluralize.t, :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@type}"},
+      {:text => @book.uri.local_name + ' (panorama)', :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@book.uri.local_name}"}
     ]
     text = params[:page]
     if (params[:page2])

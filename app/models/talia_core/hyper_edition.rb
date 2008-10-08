@@ -25,7 +25,7 @@ module TaliaCore
     def hnml_max_layer
       require 'JXslt/jxslt'
       saxon = JXslt::Saxon.new
-      infile = self.data[0].get_file_path
+      infile = self.data[0].file_path
       xsl = 'public/xsl/hnml/get_max_layer.xsl'
       saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string"})
     end

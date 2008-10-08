@@ -39,16 +39,21 @@ module TaliaCore
 
     # returns the chapter this page is in (if any)
     def chapter
+      candidate = nil
       book.chapters.each do |chapter| 
-        return chapter if (chapter.first_page.hyper.position[0] <= self.hyper.position[0])
+        # We only know the first page of a chapter.
+        # To know if this page belongs to a chapter, we need to go through all the chapters
+        # of the book (which are ordered on their first_page position) and select the _last one_
+        # whose first page has a position lesser than the position of this page.
+        candidate = chapter if (chapter.first_page.hyper.position[0].to_i <= self.hyper.position[0].to_i)
       end 
-      nil
+      candidate
     end
     
     def position_in_chapter
       unless chapter.nil?
-        position = self.hyper.position[0].to_i - chapter.first_page.hyper.position[0].to_i  
-        ("000000" + position)[-6..-1]
+        position = self.hyper.position[0].to_i - chapter.first_page.hyper.position[0].to_i + 1
+        "%0.6d" % position
       end
     end
     

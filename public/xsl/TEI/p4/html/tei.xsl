@@ -58,20 +58,14 @@
     -->
     
     <xsl:template match="/">
-     <!--
      <html>
             <head>
-            -->
                 <link  rel="stylesheet"  type="text/css" href="/stylesheets/TEI/tei_style.css" />
-     <!--
             </head>
             <body>
-             -->
                 <xsl:apply-templates select="tei:TEI" />
-<!--
             </body>
             </html>
-            -->
     </xsl:template>
     
     <xsl:template match="tei:TEI">

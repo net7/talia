@@ -36,7 +36,7 @@ module TaliaCore
     def books(*types)
       types = [N::TALIA.Book] if(types.empty?)
       elements_by_type(*types)
-    end
+    end 
     
     # Search for the given book and page (only the book if no page is given).
     # If the page is not given, this will return all pages of the book.

@@ -3,7 +3,7 @@ function go_to_anchor(name){
     div_name_menu = name + '_menu';
     header_height = 185;
     // scrolls the text, on the right
-    $('visore').scrollTop = $(div_name_text).offsetTop - header_height - 15; // adding 15 pixels helps in presenting it a bit niecer 
+    $('visore').scrollTop = $(div_name_text).offsetTop - header_height - 15; // adding 15 pixels helps in presenting it a bit nicer 
     // scrolls the menu, on the left
     $('scroll').scrollTop = $(div_name_menu).offsetTop - header_height;
 }

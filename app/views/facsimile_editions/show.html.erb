@@ -15,11 +15,11 @@
       <li id="<%= type.local_name %>">
         <h1>
           <% url = "#{params[:id]}/#{type.local_name}" %>
-          <% title = "#{type.local_name}" %>
-          <% text = "<img src='/images/facsimile_edition/ico_#{type.local_name}.jpg' alt='link to #{type.local_name} section' width='78' height='70' border='0'/>#{type.local_name.capitalize.t}" %>
+          <% title = "#{type.local_name.capitalize.pluralize.t}" %>
+          <% text = "<img src='/images/facsimile_edition/ico_#{type.local_name}.jpg' alt='link to #{type.local_name.capitalize.pluralize.t} section' width='78' height='70' border='0'/>#{type.local_name.capitalize.pluralize.t}" %>
           <%= titled_link(url, text, title) %>
         </h1>
-        <p><%= "Facsimile Edition #{type.local_name.capitalize} Description".t %></p>
+        <p><%= "Facsimile Edition #{type.local_name.capitalize.pluralize} Description".t %></p>
       </li>
     <% end %>        
   </ul>  

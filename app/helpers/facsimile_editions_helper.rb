@@ -23,7 +23,7 @@ module FacsimileEditionsHelper
       else 
         selected = false
       end
-      tabs << {:link => "/#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}/#{params[:type]}/#{subtype.local_name}", :text => subtype.local_name.t, :selected => selected}
+      tabs << {:link => "/#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}/#{params[:type]}/#{subtype.local_name}", :text => subtype.local_name.capitalize.pluralize.t, :selected => selected}
     end
     tabs
   end

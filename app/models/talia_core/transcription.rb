@@ -21,7 +21,7 @@ module TaliaCore
       version = available_versions[0] if version.nil?
       require 'JXslt/jxslt'
       saxon = JXslt::Saxon.new
-      infile = self.data[0].get_file_path
+      infile = self.data[0].file_path
       output = ''
       case self.hyper.file_content_type[0]
       when "hnml"
