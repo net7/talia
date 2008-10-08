@@ -26,11 +26,6 @@ module TaliaCore
         end
       end
       
-      # Test the file name
-      def test_get_file_path
-        assert_equal(File.join('IipData', '015', '15.jpg'), @test_record.file_path(true))
-      end
-      
       def test_get_static_path
         TaliaCore::CONFIG['static_data_prefix'] = nil
         assert_nil(@test_record.static_image_path)
@@ -51,7 +46,7 @@ module TaliaCore
         assert(File.exists?(dir_for_test))
         assert_equal('PATH/TO/IIPSERVER', @test_record.location)
         assert_equal('PATH/TO/IIPSERVER', @test_record.iip_server_path)
-        assert(File.exists?(File.join(dir_for_test, @test_record.id.to_s + '.jpg')), "#{File.join(dir_for_test, @test_record.id.to_s)} does not exist" )
+        assert(File.exists?(File.join(dir_for_test, @test_record.id.to_s)), "#{File.join(dir_for_test, @test_record.id.to_s)} does not exist" )
       end
       
       # test file size

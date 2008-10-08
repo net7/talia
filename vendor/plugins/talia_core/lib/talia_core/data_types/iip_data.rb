@@ -3,12 +3,6 @@ module TaliaCore
     
     # Class to manage IIP Image data type
     class IipData < FileRecord
-        
-      # Overwrite this to provide a default file suffix (to ease static serving
-      # of thumbs)
-      def file_path(relative = false)
-        "#{super}.jpg"
-      end
       
       # Gets the path that will be used for serving the image as a static
       # resource. Nil if the prefix isn't set
