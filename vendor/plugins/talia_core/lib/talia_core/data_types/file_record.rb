@@ -25,7 +25,7 @@ module TaliaCore
       
       # returns the next byte from the object, or nil at EOS
       def get_byte(close_after_single_read=false)
-        get_next_byte(close_after_single_read)
+        next_byte(close_after_single_read)
       end
 
       # returns the current position of the read cursor (binary access)
@@ -45,7 +45,7 @@ module TaliaCore
     
       # returns the size of the object in bytes
       def size
-        get_data_size
+        data_size
       end
       
     end

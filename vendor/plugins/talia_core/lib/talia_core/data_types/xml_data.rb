@@ -61,7 +61,7 @@ module TaliaCore
         if (!options.nil?)
           # if xsl_file option is specified, execute transformation
           if (!options[:xsl_file].nil?)
-            text_to_parse = xslt_transform(get_file_path, options[:xsl_file])
+            text_to_parse = xslt_transform(file_path, options[:xsl_file])
           end
         end
       

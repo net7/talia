@@ -88,7 +88,7 @@ module TaliaCore
         return unless(@file_data_to_write)
     
         # check if file already exists
-        raise(RuntimeError, "File already exists: #{get_file_path}") if(File.exists?(get_file_path))
+        raise(RuntimeError, "File already exists: #{file_path}") if(File.exists?(file_path))
           
         begin
           # create data directory path
@@ -119,7 +119,7 @@ module TaliaCore
       # This saves the cached data from the file creation
       def save_cached_data
         # open file for writing
-        @file_handle = File.open(get_file_path, 'w')
+        @file_handle = File.open(file_path, 'w')
       
         # write data string into file
         @file_handle << (@file_data_to_write.respond_to?(:read) ? @file_data_to_write.read : @file_data_to_write)
@@ -133,15 +133,15 @@ module TaliaCore
       # actual storage lcoation
       def copy_data_file
         if(@delete_original_file)
-          FileUtils.move(@file_data_to_write, get_file_path)
+          FileUtils.move(@file_data_to_write, file_path)
         else
-          FileUtils.copy(@file_data_to_write, get_file_path)
+          FileUtils.copy(@file_data_to_write, file_path)
         end
       end
       
       # Open a specified file name and return a file handle.
       # If the file is already opened, return the file handle
-      def open_file(file_name = get_file_path, options = 'rb')
+      def open_file(file_name = file_path, options = 'rb')
         # chek if the file name really exists, otherwise raise an exception
         if !File.exists?(file_name)
           raise(IOError, "File #{file_name} could not be opened.", caller)
@@ -191,7 +191,7 @@ module TaliaCore
       end
 
       # return the next_byte
-      def get_next_byte(close)
+      def next_byte(close)
         if !is_file_open?
           open_file
         end
@@ -216,8 +216,8 @@ module TaliaCore
       end
 
       # Return the data size
-      def get_data_size
-        File.size(get_file_path)
+      def data_size
+        File.size(file_path)
       end
 
       # set the position of the reading cursor

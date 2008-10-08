@@ -4,6 +4,20 @@ module TaliaCore
     # Class to manage IIP Image data type
     class IipData < FileRecord
         
+      # Overwrite this to provide a default file suffix (to ease static serving
+      # of thumbs)
+      def file_path(relative = false)
+        "#{super}.jpg"
+      end
+      
+      # Gets the path that will be used for serving the image as a static
+      # resource. Nil if the prefix isn't set
+      def static_image_path
+        prefix = TaliaCore::CONFIG['static_data_prefix']
+        return unless(prefix)
+        "#{prefix}/#{class_name}/#{"%03d" % self.id}/#{self.id}.jpg"
+      end
+      
       # Returns the IIP server configured for the application
       def self.iip_server_uri
         TaliaCore::CONFIG['iip_server_uri'] ||= 'http://localhost/fcgi-bin/iipsrv.fcgi'

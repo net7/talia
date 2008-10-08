@@ -25,7 +25,7 @@ module TaliaCore
       end      
       
       # Return the full file path related to the data directory
-      def get_file_path(relative = false)
+      def file_path(relative = false)
         File.join(data_directory(relative), self.id.to_s)
       end
       
@@ -53,7 +53,7 @@ module TaliaCore
       
       # Return the full path of the current attachment.
       def full_filename
-        @full_filename ||= self.get_file_path #File.join(data_path, class_name, location)
+        @full_filename ||= self.file_path #File.join(data_path, class_name, location)
       end
       
       # Extract the filename.
