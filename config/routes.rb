@@ -111,6 +111,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'categories/:id',
     :controller => 'categories',
     :action => 'show'
+  
+  map.connect 'media_sources/:id',
+    :controller => 'media_sources',
+    :action => 'show'
 
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'  

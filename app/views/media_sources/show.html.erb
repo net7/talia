@@ -1,0 +1,24 @@
+<!-- navigate -->
+<div id="menulocation">
+</div>
+<!-- menulocation -->
+
+<div id="description">
+  <p><%= @element.material_description %></p>
+</div>
+
+<div id="content" class="divided">
+  <div id="visore">
+    <div id="video">
+      <%= video_box  %>
+      <%= render(:partial => 'movie_selector') %>
+    </div>   
+    <%= render(:partial => 'info_box') %>
+    <!--[if !IE]>infomovie<![endif]-->  
+    <div class="float_clear"></div>
+    <p class="text_long">
+      <%= @element.dcns::abstract.first %>
+    </p>
+  </div>
+  <!--[if !IE]>visore<![endif]-->  
+</div>

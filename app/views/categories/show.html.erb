@@ -9,11 +9,11 @@
 </div>
 
 <!--[if !IE]>description<![endif]-->
-<div id="content" class="minilist">
-  <ul id="access_list">    
+<div id="content">
+  <ul id="access_list"  class="minilist">    
     <% for element in @category.members(TaliaCore::Media) %>
       <li>
-        <h1><a href="#" title="thumb"><%= image_tag('video_thumb', :alt => 'thumb') %><%= element.play_length  %></a></h1>
+        <h1><a href="<%= element.uri %>" title="thumb"><%= image_tag('thumbvideo.jpg', :alt => 'thumb') %><%= element.play_length  %></a></h1>
         <p class="title"><%= element.title %></p>
         <p class="text"><%= element.material_description %></p>
         <p class="data"><em>Author:</em> <%= element.dcns::creator.join(', ') %> <em>Date</em> <%= element.dcns::date.first  %> </p>
