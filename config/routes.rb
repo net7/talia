@@ -107,6 +107,10 @@ ActionController::Routing::Routes.draw do |map|
     :action => 'panorama',
     :dot => /\.?/,
     :format => nil
+  
+  map.connect 'categories/:id',
+    :controller => 'categories',
+    :action => 'show'
 
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'  

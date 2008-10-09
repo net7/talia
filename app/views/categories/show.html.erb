@@ -1,0 +1,28 @@
+<!-- navigate -->
+<div id="menulocation">
+  <%= category_tabs %>
+</div>
+<!-- menulocation -->
+
+<div id="description">
+  <p><%= @category.material_description %></p>
+</div>
+
+<!--[if !IE]>description<![endif]-->
+<div id="content" class="minilist">
+  <ul id="access_list">    
+    <% for element in @category.members(TaliaCore::Media) %>
+      <li>
+        <h1><a href="#" title="thumb"><%= image_tag('video_thumb', :alt => 'thumb') %><%= element.play_length  %></a></h1>
+        <p class="title"><%= element.title %></p>
+        <p class="text"><%= element.material_description %></p>
+        <p class="data"><em>Author:</em> <%= element.dcns::creator.join(', ') %> <em>Date</em> <%= element.dcns::date.first  %> </p>
+        <p class="keys">
+          <% for keyword in element.keywords %>
+            <%= titled_link(keyword.uri, keyword.keyword_value) %>
+          <% end %>
+        </p>
+      </li>
+    <% end %>   
+  </ul>  
+</div>

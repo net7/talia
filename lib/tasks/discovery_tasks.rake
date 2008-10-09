@@ -30,12 +30,11 @@ namespace :discovery do
   task :sophia_csv => :disco_init do
     ENV['nick'] = 'default'
     ENV['name'] = 'default'
-    ed = TaskHelper::create_edition(TaliaCore::AvEdition)
     CSV::Reader.parse(File.open(ENV['csvfile']), ';', "\r") do |row|
       series = TaskHelper::series_for(row[0])
       author, title, year, length = row[1], row[2], row[3], row[4]
       wmv_file, mp4_file, download = row[5], row[6], row[7]
-      category = TaskHelper::category_for(row[8], ed)
+      category = TaskHelper::category_for(row[8])
       keywords = TaskHelper::keywords_from(row[9])
       bibliography = row[10]
       abstract = row[11]
@@ -57,7 +56,6 @@ namespace :discovery do
       element.hyper::keyword << keywords
       element.hyper::bibliography << bibliography if(bibliography)
       element.dcns::abstract << abstract if(abstract)
-      element.catalog = ed
       element.save!
       wmv_data.save!
       mp4_data.save!

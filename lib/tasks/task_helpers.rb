@@ -133,21 +133,20 @@ class TaskHelper
   end
   
   # Creates or get a category for the given name
-  def self.category_for(name, edition)
+  def self.category_for(name)
     create_or_find(name, TaliaCore::Category, 'categories') do |cat|
       cat.name = name
-      cat.catalog = edition
     end
   end
   
   # Helper to create or get an element of the given class in the 
   # given 'namespace'. Can inject a block into the 'creation' phase.
   def self.create_or_find(name, klass, namespace)
-    uri = N::LOCAL + "#{namespace}/" + CGI::escape(name)
+    uri = N::LOCAL + "#{namespace}/" + CGI::escape(name.strip)
     if(klass.exists?(uri))
       klass.find(uri)
     else
-      el = TaliaCore::Category.new(uri)
+      el = klass.new(uri)
       yield el if(block_given?)
       el.save!
       el

@@ -1,0 +1,244 @@
+@charset "ISO-8859-1";
+
+body {
+    background:#fff url(/images/categories/bg_head.gif) repeat-x  top /*sfondo di testata */ /*sfondo di testata */;
+}
+
+#header {
+    height: 150px;
+    width: 100%;
+    position: relative;	
+    background: url(/images/categories/bg_mainhead.jpg) no-repeat left top /*grafica di testata */;
+    
+}
+
+.float_clear {
+    clear: both;
+}
+
+
+/* search_box */
+#search_box {
+    position: absolute;
+    top: 2.5em;
+    right: 2em;
+}
+
+#search_box p {
+    text-align: left;
+    font-size: 1.2em;
+    color: #fff;
+}
+
+#search_box p label {
+    padding: .4em;
+}
+
+ul#access_list.minilist h1 {
+    font-size: 1em;
+    float: left;
+    text-align: left;
+    text-transform: uppercase;
+    font-weight: normal;
+    color: #3c3c3c;
+    padding: 0 15px;
+}
+
+ul#access_list li h1 a {
+    color: #6a615d	;
+}
+ul#access_list.minilist h1 a {
+    color: #3c3c3c;
+}
+ul#access_list li h1 img {
+    float: left;
+    display: inline;
+    padding-right: 30px;
+}
+ul#access_list.minilist li h1 img {
+    float: none;
+    display: block;
+    margin-bottom: 4px;
+    padding-right: 0;
+    border:1px solid #808080;
+}
+
+ul#access_list li p.title{
+    padding: 0 0 0 0;
+    margin-left: 130px;
+    display:block;
+    float: none;	
+    font-weight: bold;
+    font-size: 1.4em;
+    line-height: 1.6em;
+}
+
+ul#access_list li p.text{
+    padding: 5px 0 0 0;
+    margin-left: 130px;
+    display:block;
+    float: none;	
+    
+    font-size: 1.2em;
+    line-height: 1.6em;
+}
+
+ul#access_list li p.data{
+    padding: 5px 0 0 0;
+    margin-left: 130px;
+    display:block;
+    float: none;	
+    
+    font-size: 1.1em;
+    line-height: 1.6em;
+}
+
+ul#access_list li p.keys{
+    padding: 10px 0 0 0;
+    margin-left: 130px;
+    display:block;
+    float: none;	
+    
+    font-size: 1.1em;
+    line-height: 1.6em;
+    color: #808080;
+}
+
+ul#access_list li p.keys a{
+    line-height: 1.6em;
+    text-decoration: underline;
+    color: #808080;
+}
+
+#scroll div.view_block {
+    width: 210px;
+    margin:0 5px;
+    padding-bottom: 5px;
+    background: url(/images/dot_orizz.gif) repeat-x 0 bottom}
+/*#block_container div.block p, #scroll div.view_block p  {
+margin: 10px 4px 5px 4px;
+float: left;
+width: 186px;
+display: inline;	
+text-align: left;
+}
+#scroll div.view_block p {
+width: 192px;
+}*/
+
+#scroll div.view_block h3 {
+    margin-top: 4px;
+    padding: 3px;
+}
+#scroll div.view_block p.descript {
+    font-size: 1.2em;
+}
+#scroll div.view_block p.img {
+    padding:0 ;
+    float: left;
+    width: 100px;
+    margin-top: 4px;
+    margin-right: 4px;
+    margin-bottom: 20px;
+}
+#scroll div.view_block p.img a {
+    float: left;
+    display: block;
+    margin-bottom: 4px;
+    border: 1px solid #808080;
+}
+#scroll div.view_block p.img a:hover, #scroll div.view_block p.img a.selected {
+    border: 1px solid #c00;
+}
+/*#block_container div.block p.lonely, #scroll div.view_block p.lonely {
+width:176px;
+margin-left: 0;
+margin-right: 0;}*/
+#block_container div.block p.lonely, #scroll div.view_block p.lonely {
+    /*	text-align: right;
+    */	
+}
+#block_container div.block p.img img, #scroll div.view_block p.img img {
+    float: left;
+}
+
+
+#content.divided {
+    float: right;
+    margin-left: -242px;
+    width: 100%;
+}
+
+/* image_big */
+
+#video {
+    margin:15px 10px;
+    clear: both;
+    float: left;
+}
+#video img {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#video p {
+    font-size: 1.2em;
+    color: #656565;
+}
+#video p a{
+    color: #000;
+    text-decoration: underline;
+}
+
+
+
+/* infomovie */
+#infomovie {
+    margin: 15px 10px;
+    float: left;
+}
+
+#infomovie h2 {
+    font-size: 1.4em;
+    margin-bottom: 1em;
+}
+#infomovie h2 span {
+    font-weight: normal;
+    display: block;
+    padding-bottom: .6em;
+}
+
+#infomovie p.info {
+    font-size: 1.2em;
+    line-height: 1.8em;
+}
+#infomovie p {
+    padding: 1em 0;
+    background: url(/images/dot_orizz.gif) repeat-x bottom;
+    
+}
+#infomovie p.tags {
+    font-size: 1.1em;
+    line-height: 1.6em;
+    color: #808080;
+}
+#infomovie p.tags a{
+    color: #808080;
+}
+#infomovie p a {
+    color: #000;
+    text-decoration: underline;
+}
+
+#infomovie p.downl  a{
+    padding:10px 30px ;
+    background: url(/images/categories/pdfdownload_dark.gif) no-repeat left;
+    color: #666;
+}
+
+
+p.text_long {
+    padding: 1em 10px;
+    font-size: 1.2em;
+    line-height: 1.5em;
+}

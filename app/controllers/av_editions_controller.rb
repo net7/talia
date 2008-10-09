@@ -1,2 +1,0 @@
-class AvEditionsController < ApplicationController
-end

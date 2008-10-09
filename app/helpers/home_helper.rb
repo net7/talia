@@ -18,8 +18,8 @@ module HomeHelper
   end
   
   # Pust the category links for the AvEdition
-  def av_category_links
-    render(:partial => 'category', :collection => @editions[:av].first.elements(TaliaCore::Category))
+  def category_links
+    render(:partial => 'category', :collection => @editions[:categories])
   end
   
   # The edition prefix for the given edition

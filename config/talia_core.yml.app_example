@@ -38,6 +38,12 @@ convert_command: /opt/local/bin/convert
 # Disable this feature by not setting the prefix, or setting "disable"
 # static_data_prefix: /public
 
+# These are the types of editions that can be shown on the start page.
+# (Add 'categories' to make categories available for the home page).
+# Note that this setting will not change the appearance of the start page -
+# it will simply control which data will be made available to the templates.
+start_page_editions: facsimile, critical, categories
+
 # Thumbnail size for IIP thumbnails 
 thumb_options:
     width: '128'
