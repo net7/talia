@@ -1,8 +1,0 @@
-<% w.each_group do |group_name, contents|%>
-  <h3><%= group_name %></h3>
-  <% for referenced in contents %>
-      <div>
-      <%= link_to(short_name(referenced), :controller => 'sources', :action => 'show', :id => referenced.uri.local_name) %>
-      </div>
-  <% end %>
-<% end %>
