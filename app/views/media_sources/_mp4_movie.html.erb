@@ -1,6 +1,22 @@
-<%#
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-%>
-
-<%= "_mp4_movie.html" %>
+<object
+CLASSID="CLSID:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B"
+WIDTH="384"
+ HEIGHT="352"
+CODEBASE="http://www.apple.com/qtactivex/qtplugin.cab"
+>
+<param name="src" value="empty.mov"> 
+<param name="qtsrc" value="<%=  @element.media(:mp4_media).first.location %>">
+<param name="autoplay" value="true">
+<param name="loop" value="false">
+<param name="controller" value="true">
+<embed
+ src="empty.mov"
+qtsrc="<%= @element.media(:mp4_media).first.location  %>"
+width="384"
+height="352"
+autoplay="true"
+loop="false"
+controller="true"
+pluginspage="http://www.apple.com/quicktime/"
+/>
+</object>

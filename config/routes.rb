@@ -108,13 +108,10 @@ ActionController::Routing::Routes.draw do |map|
     :dot => /\.?/,
     :format => nil
   
-  map.connect 'categories/:id',
-    :controller => 'categories',
-    :action => 'show'
-  
-  map.connect 'media_sources/:id',
-    :controller => 'media_sources',
-    :action => 'show'
+  map.resources :media_sources
+  map.resources :categories
+  map.resources :keywords
+  map.resources :series
 
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'  

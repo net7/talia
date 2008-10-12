@@ -1,0 +1,15 @@
+<!-- navigate -->
+<div id="menulocation">
+</div>
+<!-- menulocation -->
+
+<div id="description">
+  <p><%= tag_cloud(@keys) %></p>
+</div>
+
+<!--[if !IE]>description<![endif]-->
+<div id="content">
+  <ul id="access_list"  class="minilist">    
+    <%= render(:partial => 'shared/video_list_item', :collection => @element.tagged_sources(TaliaCore::Media)) %>
+  </ul>  
+</div>

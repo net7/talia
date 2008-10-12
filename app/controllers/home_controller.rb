@@ -6,7 +6,7 @@ class HomeController < ApplicationController
     if(eds = TaliaCore::CONFIG['start_page_editions'])
       @editions_to_show = eds.collect { |v| v.to_sym }
     else
-      @editions_to_show = [:facsimile, :critical, :categories]
+      @editions_to_show = [:facsimile, :critical, :categories, :series]
     end
     @editions_to_show
   end
@@ -14,8 +14,11 @@ class HomeController < ApplicationController
   def start
     @editions = {}
     for edition in self.class.editions_to_show
-      if(edition == :categories)
+      case edition
+      when :categories
         @editions[:categories] = TaliaCore::Category.find(:all)
+      when :series
+        @editions[:series] = TaliaCore::Series.find(:all)
       else
         @editions[edition] = "TaliaCore::#{edition.to_s.camelize}Edition".constantize.find(:all)
       end

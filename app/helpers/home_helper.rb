@@ -17,9 +17,14 @@ module HomeHelper
     render(:partial => 'edition', :collection => @editions[type]) if(@editions[type])
   end
   
-  # Pust the category links for the AvEdition
+  # Puts the category links for the AvEdition
   def category_links
     render(:partial => 'category', :collection => @editions[:categories])
+  end
+  
+  # Puts the series links for the AvEdition
+  def series_links
+    render(:partial => 'series', :collection => @editions[:series])
   end
   
   # The edition prefix for the given edition

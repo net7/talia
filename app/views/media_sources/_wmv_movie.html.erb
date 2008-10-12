@@ -1,25 +1,35 @@
-
-<!-- codice passato da daniel -->
-<OBJECT
-  CLASSID="CLSID:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B"
-  WIDTH="384"
-  HEIGHT="352"
-  CODEBASE=http://www.apple.com/qtactivex/qtplugin.cab
-  >
-  <param name="src" value=""> 
-  <param name="qtsrc" value="<URL OF MP4 VIDEO>"
-         <param name="autoplay" value="true">
-  <param name="loop" value="false">
-  <param name="controller" value="true">
-  <embed
-    src=""
-    qtsrc="<URL OF MP4 VIDEO>"
-    width="384"
-    height="352"
-    autoplay="true"
-    loop="false"
-    controller="true"
-    pluginspage=http://www.apple.com/quicktime/
+<object
+  id="mediaPlayer"
+  classid="CLSID:6BF52A52-394A-11D3-B153-00C04F79FAA6"
+  width="384"
+  height="352"
+  codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701"
+  standby="Loading Microsoft Windows Media Player components..."
+  type="application/x-oleobject"
+  > 
+  <param name="URL" value="<%= @element.media(:wmv_media).first.location  %>">
+  <param name="animationatStart" value="true">
+  <param name="transparentatStart" value="true">
+  <param name="autoStart" value="true">
+  <param name="controls" value="imagewindow">
+  <param name="ShowControls" value="true">
+  <param name="ShowStatusBar" value="true">
+  <param name="ShowDisplay" value="true">
+  <param name="bgcolor" value="#B4BBCA"/>
+  <!-- mostra la barra di stato -->
+  <EMBED
+    type="application/x-mplayer2" pluginspage = "http://www.microsoft.com/windows/mediaPlayer/"
+    src="<%= @element.media(:wmv_media).first.location  %>"
+    animationatStart="true"
+    transparentatStart="true"
+    autoStart="true"
+    controls="imagewindow"
+    ShowControls="true"
+    ShowStatusBar="true"
+    ShowDisplay="true"
+    NAME="MediaPlayer"
+    bgcolor="#B4BBCA"
+    WIDTH="384"
+    HEIGHT="352"
     />
-  </object>
-<!-- fine codice passato da daniel -->
+</object>

@@ -1,5 +1,7 @@
 @charset "ISO-8859-1";
 
+/** CSS for "plain pages" - category, keyword and series listings, etc */
+
 body {
     background:#fff url(/images/categories/bg_head.gif) repeat-x  top /*sfondo di testata */ /*sfondo di testata */;
 }

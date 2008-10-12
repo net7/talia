@@ -2,16 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-    <title>Category | <%= @category.name  %></title>
+    <title><%= @title  %></title>
     <%= stylesheet_link_tag 'main' %>
-    <%= stylesheet_link_tag 'categories' %>
+    <%= stylesheet_link_tag 'plain_shared' %>
   </head>
   <body>
     <div id="page_ext">
       <div id="page_int">
         <div id="header">
-          <h1>Category | <%= @category.name  %></h1>
-          <h2><%= "Categories".t %></h2>
+          <h1><%= @title  %></h1>
+          <h2><%= @subtitle %></h2>
           <!-- %= edition_partial :search_box % -->
         </div>
         <!-- header -->

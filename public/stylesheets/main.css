@@ -290,7 +290,8 @@ ul#access_list li h1 img {
 
 div#visore {
     margin-left: 232px;
-    overflow:auto
+    overflow:auto;
+    text-align: left;
 }
 
 

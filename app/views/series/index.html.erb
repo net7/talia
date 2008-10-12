@@ -1,0 +1,19 @@
+<!-- navigate -->
+<div id="menulocation">
+</div>
+<!-- menulocation -->
+
+<div id="description">
+  <p></p>
+</div>
+
+<!--[if !IE]>description<![endif]-->
+<div id="content">
+  <ul id="access_list"  class="minilist">    
+    <% for series in @series %>
+      <li>
+        <h1><%= titled_link(series.uri, series.hyper::name.first) %></h1>
+      </li>
+    <% end %>   
+  </ul>  
+</div>

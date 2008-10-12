@@ -4,13 +4,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
     <title><%= @element.title  %></title>
     <%= stylesheet_link_tag 'main' %>
-    <%= stylesheet_link_tag 'media_sources' %>
+    <%= stylesheet_link_tag 'plain_shared' %>
   </head>
   <body>
     <div id="page_ext">
       <div id="page_int">
         <div id="header">
-          <h1><%= @element.title_  %></h1>
+          <h1><%= @element.title  %></h1>
           <h2><%= "Media Source".t %></h2>
           <!-- %= edition_partial :search_box % -->
         </div>

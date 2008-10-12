@@ -1,4 +1,4 @@
-<div id="infomovie"> <h2><span class="author"><%= @element.author %></span>
+<div id="infomovie"> <h2><span class="author"><%= @element.dcns::creator.first %></span>
   <%= @element.title %></h2>
   <p class="info"><em>Realizzato</em>: <%= @element.dcns::date.first %> <br />
   <em>Pubblicato</em>: <!-- Missing from data so far --></p>
@@ -6,7 +6,7 @@
     <%= @element.play_length %> <br />           
     Tags. 
     <% for keyword in (keys = @element.keywords) %>
-      <a href="<%= keyword.uri %>"><%= keyword.name %></a><%= ',' if(keyword != keys.last) %>
+      <a href="<%= keyword.uri %>"><%= keyword.keyword_value %></a><%= ',' if(keyword != keys.last) %>
     <% end %>
   </p>
   <% if(@element.downloadable == 'yes') %>

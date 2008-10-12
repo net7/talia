@@ -22,3 +22,7 @@
   </div>
   <!--[if !IE]>visore<![endif]-->  
 </div>
+
+<div id="scroll">
+  <%= render(:partial => 'side_item', :collection => @element.series.parts) %>
+</div>
