@@ -81,6 +81,10 @@ ActionController::Routing::Routes.draw do |map|
     :controller => 'critical_editions',
     :action => 'dispatcher'
   
+  map.connect "critical_editions/:id/:part/print",
+    :controller => 'critical_editions',
+    :action => 'print'
+  
   map.connect "facsimile_editions/:id",
     :controller => 'facsimile_editions',
     :action => 'show'

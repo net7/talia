@@ -8,7 +8,7 @@
     <%= javascript_include_tag 'prototype' %>
     <%= edition_javascript_include %>
     <% for js in @javascripts %>
-       <%= javascript_include_tag js %> 
+      <%= javascript_include_tag js %> 
     <% end %>
   </head>
   <body>
@@ -25,7 +25,7 @@
           <div id="tools">
             <ul>
               <% for tool in (@tools || []) %>
-                <li id=" <%= tool[0] %>"> <a href="#"><%= tool[1].t %></a></li>
+                <li id="<%= tool[:id] %>"> <a href="<%= tool[:link] %>" <%= "target='#{tool[:target]}'"if tool[:target] %>><%= tool[:text].t %></a></li>
               <% end  %>
             </ul>
           </div>

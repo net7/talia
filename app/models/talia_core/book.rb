@@ -10,6 +10,11 @@ module TaliaCore
       Page.find(:all, :find_through => [N::HYPER.part_of, self])
     end
     
+    # The paragraphs of this book
+    def paragraphs
+      paragraphs_query.execute
+    end
+    
     # The chapters of this book, sorted by position
     def chapters
       qry = Query.new(TaliaCore::Chapter).select(:chapter).distinct
@@ -74,18 +79,23 @@ module TaliaCore
     # returns all the subpart of this expression card that have some manifestations 
     # of the given type related to them. Manifestation_type must be an URI
     def subparts_with_manifestations(manifestation_type, subpart_type = nil)
-      assit_not_nil manifestation_type #TODO check that manifestation_type is an URI
-      qry_pages = pages_query
-      qry_pages.where(:m, N::HYPER.manifestation_of, :part)
-      qry_pages.where(:m, N::RDF.type, manifestation_type) 
-      qry_pages.where(:part, N::RDF.type, subpart_type) unless subpart_type.nil?
-      pages = qry_pages.execute
+      assit_not_nil manifestation_type #TODO check that manifestation_type is an URI     
+      pages = []
+      paragraphs = []
+
+      if (subpart_type == nil || subpart_type == N::HYPER.Page)
+        qry_pages = pages_query
+        qry_pages.where(:m, N::HYPER.manifestation_of, :part)
+        qry_pages.where(:m, N::RDF.type, manifestation_type) 
+        pages = qry_pages.execute 
+      end
       
-      qry_para = paragraphs_query
-      qry_para.where(:m, N::HYPER.manifestation_of, :part)
-      qry_para.where(:m, N::RDF.type, manifestation_type) 
-      qry_para.where(:part, N::RDF.type, subpart_type) unless subpart_type.nil?
-      paragraphs = qry_para.execute
+      if (subpart_type == nil || subpart_type == N::HYPER.Paragraph)
+        qry_para = paragraphs_query
+        qry_para.where(:m, N::HYPER.manifestation_of, :part)
+        qry_para.where(:m, N::RDF.type, manifestation_type) 
+        paragraphs = qry_para.execute 
+      end
       
       subparts = pages + paragraphs
     end
@@ -147,6 +157,7 @@ module TaliaCore
     def pages_query
       qry = Query.new(TaliaCore::Source).select(:part).distinct
       qry.where(:part, N::HYPER.part_of, self)
+      qry.where(:page, N::RDF.type, N::HYPER.Page)
       qry.where(:part, N::HYPER.position, :pos)
       qry.sort(:pos)
       qry
@@ -162,6 +173,7 @@ module TaliaCore
       qry = Query.new(TaliaCore::Source).select(:part).distinct
       qry.where(:page, N::HYPER.part_of, self)
       qry.where(:page, N::RDF.type, N::HYPER.Page)
+      qry.where(:part, N::RDF.type, N::HYPER.Paragraph)
       if (self.catalog != TaliaCore::Catalog.default_catalog)  
         qry.where(:def_note, N::HYPER.page, :def_page)
         qry.where(:def_page, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)

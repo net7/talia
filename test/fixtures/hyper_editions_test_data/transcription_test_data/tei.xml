@@ -1,0 +1,53 @@
+      <TEI xmlns="http://www.tei-c.org/ns/1.0">
+        <teiHeader>
+          <fileDesc>
+            <titleStmt>
+              <title>Menschliches, Allzumenschliches</title>
+              <author>Friedrich Nietzsche</author>
+            </titleStmt>
+
+            <publicationStmt>
+              <distributor>Nietzsche Source</distributor>
+            </publicationStmt>
+            <sourceDesc>
+              <p>Electronic text</p>
+            </sourceDesc>
+          </fileDesc>
+          <profileDesc>
+
+            <langUsage>
+              <language ident="ger"/>
+            </langUsage>
+          </profileDesc>
+          <revisionDesc>
+            <change>
+              <name>Fabio Ciotti</name>
+              <date>2007-11-15T01:29:35</date>
+
+            </change>
+          </revisionDesc>
+        </teiHeader>
+        <text>
+          <div type="div2" xml:id="MA-372">
+            <head>372.</head>
+            <head type="Aphorismus">Ironie.</head>
+            <p>
+
+              <hi rend="bold">Ironie. — </hi>Die Ironie ist nur als pädagogisches Mittel am Platze, von seiten eines
+              Lehrers im Verkehr mit Schülern irgend welcher Art: ihr Zweck ist Demüthigung, Beschämung, aber von jener
+              heilsamen Art, welche gute Vorsätze erwachen lässt und Dem, welcher uns so behandelte, Verehrung,
+              Dankbarkeit als einem Arzte entgegenbringen heisst. Der Ironische stellt sich unwissend und zwar so gut,
+              dass die sich mit ihm unterredenden Schüler, getäuscht sind und in ihrem guten Glauben an ihr eigenes
+              Besserwissen dreist werden und sich Blössen aller Art geben; sie verlieren die Behutsamkeit und zeigen
+              sich, wie sie sind, — bis in einem Augenblick die Leuchte, die sie dem Lehrer in’s Gesicht hielten, ihre
+              Strahlen sehr demüthigend auf sie selbst zurückfallen lässt. — Wo ein solches Verhältniss, wie zwischen
+              Lehrer und Schüler, nicht stattfindet, ist sie eine Unart, ein gemeiner Affect. Alle ironischen
+              Schriftsteller rechnen auf die alberne Gattung von Menschen, welche sich gerne allen Anderen mit dem Autor
+              zusammen überlegen fühlen wollen, als welchen sie für das Mundstück ihrer Anmaassung ansehen. Die
+              Gewöhnung an Ironie, ebenso wie die an Sarkasmus, verdirbt übrigens den Charakter, sie verleiht allmählich
+              die Eigenschaft einer schadenfrohen Ueberlegenheit: man ist zuletzt einem bissigen Hunde gleich, der noch
+              das Lachen gelernt hat, ausser dem Beissen.</p>
+          </div>
+        </text>
+      </TEI>
+    

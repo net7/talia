@@ -12,11 +12,23 @@ class CriticalEditionsController < SimpleEditionController
     else
       prepare_for_part
     end
+    print_tool # Enable the print button
   end
-  
+ 
   # GET /critical_editions/1
   def show 
     @path = [{:text => params[:id]}]
+  end
+  
+  def print
+    source_uri = "#{N::LOCAL}#{edition_prefix}/#{params[:id]}/#{params[:part]}"    
+    source = TaliaCore::Source.find(source_uri)
+    if source.class == TaliaCore::Book
+      @book = source 
+    else
+      @book = source.book
+    end
+    render :layout => false    
   end
   
   def advanced_search
@@ -42,7 +54,7 @@ class CriticalEditionsController < SimpleEditionController
 
       # add mc_single if specified
       if params[:mc_single]
-       data['mc_single'] = (params[:mc_single])
+        data['mc_single'] = (params[:mc_single])
       end
       
       # execute post to servlet
@@ -87,6 +99,11 @@ class CriticalEditionsController < SimpleEditionController
   end
 
   private
+   
+  # Activates the print button
+  def print_tool
+    @tools = [{:id =>'print', :text=> 'Print', :target => 'blank', :link => "#{@book.uri.to_s}/print"}]
+  end
   
   def prepare_for_book
     @book = @source

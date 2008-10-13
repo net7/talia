@@ -122,7 +122,8 @@ class FacsimileEditionsController < SimpleEditionController
   
   # Activates the print button
   def print_tool
-    @tools = [['print', 'Print']]
+    #TODO: PDF integration. the next line should add a call to the pdf.
+    @tools = [:id => 'print', :text => 'Print', :link => '#TODO: PDF creation']
   end
   
   # Makes the path for the page
