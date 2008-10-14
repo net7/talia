@@ -1,12 +1,12 @@
 <div id="search_box">
   <% form_tag :action => "search" do -%>
     <p class="head_search">
-      <label><%= "Search".t %></label> 
+      <label><%= t(:'talia.global.search') %></label> 
       <input type="text" name="words"/>
-      <label class="invia"><%= "Search".t %></label>
+      <label class="invia"><%= t(:'talia.global.search') %></label>
       <input type="submit" class="invia"/>
     </p>
-    <a href="#" onclick="Element.toggle('search_adv'); return false;" class="advsrch">advanced search</a>
+    <a href="#" onclick="Element.toggle('search_adv'); return false;" class="advsrch"><%=  t(:'talia.global.search_advanced') %></a>
   
   <% end -%>
 </div>

@@ -23,13 +23,13 @@ module FacsimileEditionsHelper
       else 
         selected = false
       end
-      tabs << {:link => "/#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}/#{params[:type]}/#{subtype.local_name}", :text => subtype.local_name.capitalize.pluralize.t, :selected => selected}
+      tabs << {:link => "/#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}/#{params[:type]}/#{subtype.local_name}", :text => t(:"talia.types.#{subtype.local_name.underscore}"), :selected => selected}
     end
     tabs
   end
     
   def show_tabs
-    [{:link => "", :text => "Editor's Introduction".t, :selected => true}]
+    [{:link => "", :text => t(:'talia.facsimile_edition.editors_introduction'), :selected => true}]
   end
   
   def panorama_tabs

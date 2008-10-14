@@ -25,4 +25,9 @@ class ApplicationController < ActionController::Base
       current_user.authorized_as?('translator')
   end
   
+  # Translate the symbol
+  def t(symbol)
+    symbol.to_s.t
+  end
+  
 end

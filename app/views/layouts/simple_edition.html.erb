@@ -17,8 +17,8 @@
       <div id="page_int">
         <div id="header">
           <h1><%= edition_page_title %></h1>
-          <h2><%= "Simple Mode".t %></h2>
-          <h3>Edition</h3>
+          <h2><%= t(:'talia.global.simple_mode') %></h2>
+          <h3><%= @edition.title  %></h3>
           <%= edition_partial :search_box %>
         </div>
         <!-- header -->

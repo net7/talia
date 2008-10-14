@@ -8,16 +8,16 @@ class KeywordsController < ApplicationController
     
     @element = TaliaCore::Keyword.find(element_uri)
     @keys = TaliaCore::Keyword.find(:all)
-    val = @element.keyword_value
-    @path = [ { :text => 'Keywords', :link => 'keywords/' }, { :text => val } ]
-    @title = "Keyword | #{val}"
-    @subtitle = "Keyword"
+    val = t(:"talia.keywords.#{@element.keyword_value}")
+    @path = [ { :text => t(:'talia.global.keyword'), :link => '/keywords/' }, { :text => val } ]
+    @title = t(:'talia.global.keyword') + " | #{val}"
+    @subtitle = t(:'talia.global.keyword')
   end
 
   def index
     @path = [ { :text => 'Keywords'}]
     @keys = TaliaCore::Keyword.find(:all)
-    @title = "Keywords"
-    @subtitle = "Keywords"
+    @title = t(:'talia.global.keywords')
+    @subtitle = t(:'talia.global.keywords')
   end
 end

@@ -1,11 +1,11 @@
 <div id="search_box">
   <% form_tag :action => "search" do -%>
     <p>
-      <label><%= "Manuscript".t %></label> 
+      <label><%= t(:'talia.facsimile_edition.manuscript') %></label> 
       <input type="text" name="book"/>
-      <label><%= "Page".t %></label> 
+      <label><%= t(:'talia.facsimile_edition.page') %></label> 
       <input type="text" name="page"/>
-      <label class="invia"><%= "Search".t %></label>
+      <label class="invia"><%= t(:'talia.global.search') %></label>
       <input type="submit" class="invia"/>
     </p>
   <% end -%>

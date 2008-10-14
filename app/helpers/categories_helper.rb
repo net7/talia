@@ -5,7 +5,7 @@ module CategoriesHelper
     for cat in @all_categories
       cat_el = {}
       cat_el[:link] = N::LOCAL + 'categories/' + cat.uri.local_name
-      cat_el[:text] = cat.name
+      cat_el[:text] = translate_name_for(cat)
       cat_el[:selected] = (cat == @category)
       tabs << cat_el
     end

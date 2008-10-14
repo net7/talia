@@ -8,14 +8,14 @@ class SeriesController < ApplicationController
     
     @element = TaliaCore::Series.find(element_uri)
     @path = [ { :text => 'Series', :link => 'series/' }, { :text => @element.hyper::name.first } ]
-    @title = "Series | #{@element.hyper::name.first }"
-    @subtitle = "Series"
+    @title = t(:'talia.global.series') + " | #{@element.hyper::name.first }"
+    @subtitle = t(:'talia.global.series')
   end
 
   def index
     @path = [ { :text => 'Series' }]
     @series = TaliaCore::Series.find(:all)
-    @title = "Series"
-    @subtitle = "Series"
+    @title = t(:'talia.global.series')
+    @subtitle = t(:'talia.global.series')
   end
 end

@@ -25,30 +25,6 @@ module LayoutHelper
     shortname
   end
   
-  def sidebar
-    return if hidden_sidebar?
-    sidebar_title = "#{@source.label} is" if @source
-    @content_for_sidebar = widget :sidebar, 'active_tab' => 'context',
-      'active_tab_options' => { :source => @source },
-      'sidebar_title' => sidebar_title
-  end
-  
-  def types_sidebar
-    hide_sources_sidebar
-    @content_for_sidebar = widget :sidebar, 
-      'active_tab' => 'navigation',
-      'active_tab_options' => { :source_class => @type }
-  end
-  
-  def hide_sidebar
-    @hidden_sidebar = true
-  end
-  alias_method :hide_sources_sidebar, :hide_sidebar
-  
-  def hidden_sidebar?
-    !!@hidden_sidebar
-  end
-  
   # Show flash messages.
   def show_flash
     return if flash.empty?

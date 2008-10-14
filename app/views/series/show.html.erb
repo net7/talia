@@ -4,7 +4,7 @@
 <!-- menulocation -->
 
 <div id="description">
-  <p><%= @element.material_description %></p>
+  <p><%= material_description(@element) %></p>
 </div>
 
 <!--[if !IE]>description<![endif]-->
@@ -14,8 +14,8 @@
       <li>
         <h1><a href="<%= element.uri %>" title="thumb"><%= image_tag('thumbvideo.jpg', :alt => 'thumb') %><%= element.play_length  %></a></h1>
         <p class="title"><%= element.title %></p>
-        <p class="text"><%= element.material_description %></p>
-        <p class="data"><em>Author:</em> <%= element.dcns::creator.join(', ') %> <em>Date</em> <%= element.dcns::date.first  %> </p>
+        <p class="text"><%= material_description(element) %></p>
+        <p class="data"><em><%= t(:'talia.global.author')  %> </em> <%= element.dcns::creator.join(', ') %> <em>Date</em> <%= element.dcns::date.first  %> </p>
         <p class="keys">
           <% for keyword in element.keywords %>
             <%= titled_link(keyword.uri, keyword.keyword_value) %>

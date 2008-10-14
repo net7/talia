@@ -1,4 +1,5 @@
 require 'cgi'
+require 'uri'
 
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
@@ -16,29 +17,21 @@ module ApplicationHelper
     }
   end
   
-  def header
-    render :partial => 'shared/main_header'
+  # The (translated) material description for the element
+  def material_description(element)
+    return nil unless(description = element.material_description)
+    description.to_s.t
   end
   
-  def footer
-    render :partial => 'shared/main_footer'
+  # Gets the translated type description
+  def type_description(type)
+    t(:"talia.types.#{type.local_name.underscore}_description")
   end
   
-  def sidebar
-    sidebar_title = nil
-    sidebar_title = "#{@source.label} is" if(@source)
-    widget(:sidebar,
-      'active_tab' => 'context',
-      'active_tab_options' => { :source => @source },
-      'sidebar_title' => sidebar_title
-    )
-  end
-  
-  def talia_footer
-    %( <div id="footer" class="open">
-       <h1>Talia | Discovery</h1>
-       <p>Let's discover things</p>
-       </div> )
+  # Gets the translated name of the given element (category or series)
+  def translate_name_for(element)
+    return nil unless(element.name)
+    t(:"talia.names.#{element.class.name.underscore}.#{element.name.underscore}")
   end
   
   # To include the customization template with the given name
@@ -105,12 +98,6 @@ module ApplicationHelper
     %(<div id="login_box">#{link_to("Logout", logout_path)}</div>) if logged_in?
   end
   
-  def default_toolbar
-    widget(:toolbar, :buttons => [ 
-        ["Home", {:controller => 'sources', :action => 'show', :id => 'Lucca'}]
-      ] )
-  end
-  
   # Get a link that contains the (thumbnail) image for the iip data record
   # of the first manifestation of the given expression card. The img_options
   # are added to the image tag.
@@ -145,7 +132,7 @@ module ApplicationHelper
     title ||= CGI::escape(text)
     text = text.t
     title = title.t
-    "<a href='#{url}' title='#{title}'>#{text}</a>" 
+    "<a href='#{URI::encode(url.to_s)}' title='#{title}'>#{text}</a>" 
   end
   
   def action_name

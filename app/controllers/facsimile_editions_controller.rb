@@ -31,10 +31,10 @@ class FacsimileEditionsController < SimpleEditionController
     @books = @edition.books(type)
     @type = params[:type]
     @subtype = params[:subtype]
-    @page_title_suff = ", #{params[:type].pluralize.t.titleize}"
+    @page_title_suff = ", #{t_type.titleize}"
     @path = [
       {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"},
-      {:text => @type.capitalize.pluralize.t}
+      {:text => t_type.capitalize}
     ]
   end
   
@@ -50,8 +50,8 @@ class FacsimileEditionsController < SimpleEditionController
         @type = @book.type.uri.local_name
         @path = [
           {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"},
-          {:text => @type.capitalize.pluralize.t, :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@type}"},
-          {:text => params[:book] + ' (panorama)'}
+          {:text => t_type, :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@type}"},
+          {:text => params[:book] + " (#{t(:'talia.facsimile_edition.panorama')})"}
         ]
         print_tool # Enable the print button
         @page_title_suff = ", #{params[:book].t}"
@@ -114,24 +114,28 @@ class FacsimileEditionsController < SimpleEditionController
     searched_page = sanitize(params[:page]) unless params[:page].empty?
     search_result = @edition.search(searched_book, searched_page)
     redirect_to search_result[0].uri.to_s and return unless (search_result.empty?)
-    flash[:search_notice] = "Searched records weren't found".t
+    flash[:search_notice] = t(:'talia.search.records_not_found')
     redirect_to(:back) and return
   end
   
   private
   
+  def t_type
+    t(:"talia.types.#{@type.underscore}")
+  end
+  
   # Activates the print button
   def print_tool
     #TODO: PDF integration. the next line should add a call to the pdf.
-    @tools = [:id => 'print', :text => 'Print', :link => '#TODO: PDF creation']
+    @tools = [:id => 'print', :text => t(:'talia.global.print'), :link => '#TODO: PDF creation']
   end
   
   # Makes the path for the page
   def page_path
     path =[
       {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"},
-      {:text => @type.capitalize.pluralize.t, :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@type}"},
-      {:text => @book.uri.local_name + ' (panorama)', :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@book.uri.local_name}"}
+      {:text => t_type, :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@type}"},
+      {:text => @book.uri.local_name + " (#{t(:'talia.facsimile_edition.panorama')})", :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@book.uri.local_name}"}
     ]
     text = params[:page]
     if (params[:page2])

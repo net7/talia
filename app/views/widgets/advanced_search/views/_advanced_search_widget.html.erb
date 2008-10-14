@@ -2,13 +2,13 @@
   <form action="<%= url_for(:action => 'advanced_search') %>" method="post" >
     <div name="src_line_head" class="src_line">
       <%= hidden_field_tag 'search_type', 'mc' %>
-      <p><label>Enter word(s) or phrase(s) to search for</label> <input type="text" name= "words" /> <input checked type="radio" name="operator" value="or" /><label class="toradio"> any</label> <input type="radio" name="operator" value="and" /><label class="toradio"> all</label></p>
+      <p><label><%=  t(:'talia.search.search_phrase_prompt') %></label> <input type="text" name= "words" /> <input checked type="radio" name="operator" value="or" /><label class="toradio"> <%= t(:'talia.search.any') %></label> <input type="radio" name="operator" value="and" /><label class="toradio"> <%= t(:'talia.search.all')  %> </label></p>
       <%= w.partial :advanced_search_adder, :locals => {:current_size => 0} %>
     </div>
     <!--[if !IE]> linea ricerca<![endif]-->
 
     <div id="src_line_tail" class="src_line">
-      <p class="avvia"><label>search</label> <input type="submit" value="search" name="advanced_search_submission" />
+      <p class="avvia"><label><%=  t(:'talia.global.search') %></label> <input type="submit" value="search" name="advanced_search_submission" />
     </div>
     <!--[if !IE]> linea ricerca<![endif]-->
   </form>

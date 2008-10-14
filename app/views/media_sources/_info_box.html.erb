@@ -1,15 +1,15 @@
 <div id="infomovie"> <h2><span class="author"><%= @element.dcns::creator.first %></span>
   <%= @element.title %></h2>
-  <p class="info"><em>Realizzato</em>: <%= @element.dcns::date.first %> <br />
-  <em>Pubblicato</em>: <!-- Missing from data so far --></p>
+  <p class="info"><em><%=  t(:'talia.media.creation_date') %></em>: <%= @element.dcns::date.first %> <br />
+  <em><%= t(:'talia.media.publication_date')  %> </em>: <!-- Missing from data so far --></p>
   <p class="tags">
     <%= @element.play_length %> <br />           
     Tags. 
     <% for keyword in (keys = @element.keywords) %>
-      <a href="<%= keyword.uri %>"><%= keyword.keyword_value %></a><%= ',' if(keyword != keys.last) %>
+      <a href="<%= keyword.uri %>"><%= t(keyword.keyword_value) %></a><%= ',' if(keyword != keys.last) %>
     <% end %>
   </p>
   <% if(@element.downloadable == 'yes') %>
-  <p class="downl"><a href="#">Scarica il filmato</a></p>
+  <p class="downl"><a href="#"><%= t(:'talia.media.download') %></a></p>
   <% end %>
 </div>
