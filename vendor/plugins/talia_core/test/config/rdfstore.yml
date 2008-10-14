@@ -1,9 +1,0 @@
---- 
-production: 
-  type: sesame
-  location: ./db/sesame_production.db
-test: 
-  type: rdflite
-development: 
-  type: sesame
-  location: ./db/sesame_development.db
