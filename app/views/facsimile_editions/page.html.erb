@@ -1,11 +1,5 @@
-<%= javascript_include_tag 'prototype' %>
-<%= javascript_include_tag 'facsimile_edition' %>
 <script language="javascript">
     <!--
-    window.onresize = function () {
-        set_height (); 
-    }
-   
     document.observe('dom:loaded', function () {
         set_height ();
         go_to_anchor('<%= @page %>');
@@ -38,8 +32,9 @@
       <% end %> 
       <%= facsimile_edition_next_page %>
     </div>
+    
     <div id="image_big">
-      <%= iip_flash_viewer(@page, 600, 600) %>
+      <%= iip_flash_viewer(@page, "100%", "100%"    ) %>
       <% if (params[:pages] == 'double') %>
         <%= iip_flash_viewer(@page) %>
       <% end %> 

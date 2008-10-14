@@ -6,9 +6,10 @@
     border: 0;
 }
 
+/* TAG SETTINGS */
 body {
     font-size: 62.5%;
-    font-family: Arial, "Lucida Grande", Verdana, "Bitstream Vera Sans", Avenir, Helvetica, sans-serif;
+    font-family: Arial, "Lucida Grande", "Bitstream Vera Sans", Avenir, Helvetica, sans-serif;
 }
 
 h1, h2, h3, h4, p, ul, li {
@@ -20,10 +21,19 @@ a {
 }
 a:hover {
     text-decoration: underline;
+    background-color: transparent !important;
 }
+
+/* MAIN ELEMENTS */
 #page_ext {
     width: 100%;
     
+}
+
+#header {
+	height: 150px;
+	width: 100%;
+	position: relative;	
 }
 
 #header h1 {
@@ -32,11 +42,33 @@ a:hover {
     margin-right: 200px;
     outline: none;
 }
+    #header h2 {
+            position: absolute;
+            margin: 0; padding: 0;
+            top: 75px;
+            left: 398px;
+            font-size: 2.2em;
+            font-weight: normal;
+            text-transform: uppercase;
+            color: white;
+            font-family: Georgia, "Times New Roman", Times, serif;
+            display: block;
+            width: 400px;
+    }
 
-
-#header h2 {
-    display: none;
-} 
+    #header h3 {
+            position: absolute;
+            margin: 0; padding: 0;
+            top: 103px;
+            left: 398px;
+            font-size: 1.6em;
+            font-weight: normal;
+            text-transform: uppercase;
+            color: white;
+            font-family: Georgia, "Times New Roman", Times, serif;
+            display: block;
+            width: 400px;
+    } 
 
 /* search_box */
 #search_box {
@@ -44,19 +76,17 @@ a:hover {
     top: 2.5em;
     right: 2em;
 }
+    #search_box p {
+        text-align: left;
+        font-size: 1.2em;
+        color: #fff;
+    }
 
-#search_box p {
-    text-align: left;
-    font-size: 1.2em;
-    color: #fff;
-}
-
-#search_box p label {
-    padding: .4em;
-}
+    #search_box p label {
+        padding: .4em;
+    }
 
 /* bottone switch */
-
 #switch {
     position: absolute;
     right: 3em;
@@ -64,34 +94,34 @@ a:hover {
     z-index: 3;	
 }
 
+    #switch a {
+        display: block;	
 
+        outline: none;	
+        text-indent: -9999px;
+        cursor:pointer;
+        font-size:2em;
+        width: 140px;
+        height: 30px;	
+        background: url(/images/scholarmode.gif) ;
+    }
 
-#switch a {
-    display: block;	
-    
-    outline: none;	
-    text-indent: -9999px;
-    cursor:pointer;
-    font-size:2em;
-    width: 140px;
-    height: 30px;	
-    background: url(/images/scholarmode.gif) ;
-}
-
+/* BARRA NAVIGATE / QUELLA SOTTO LA TESTATA CON IL PATH ED I TOOLS */
 #navigate {
     background:#433934 url(/images/bg_first_line.gif) repeat-x top;
     width: 100%;
     float: left;
 }
-#navigate a {
-    color: #e0e0e0;
-}
+    #navigate a {
+        color: #e0e0e0;
+        text-decoration: underline;
+    }
 
-#navigate p {
-    padding: 10px;
-    color: #fff;
-    font-size: 1.2em;
-}
+    #navigate p {
+        padding: 10px;
+        color: #fff;
+        font-size: 1.2em;
+    }
 
 .simple_mode_path_widget {
     padding: 10px;
@@ -103,19 +133,19 @@ a:hover {
     float: right;
     margin:5px 10px;
 }
-#navigate #tools ul {
-    float: left;
-    list-style: none;
-    padding: 0 20px;
-    border-left:1px dotted #fff
-}
+    #navigate #tools ul {
+        float: left;
+        list-style: none;
+        padding: 0 20px;
+        border-left:1px dotted #fff
+    }
 
-#navigate #tools ul li {
-    float: left;
-    padding:6px 6px 6px 30px;
-    font-size: 1em; 
-    display: block;
-}
+    #navigate #tools ul li {
+        float: left;
+        padding:6px 6px 6px 30px;
+        font-size: 1em; 
+        display: block;
+    }
 
 #navigate #tools ul li#panorama {
     background: url(images/panorama.gif) no-repeat left center;
@@ -129,7 +159,6 @@ a:hover {
 }
 
 /* MENU LOCATION *******************************/
-
 #menulocation {
     background: #e9e9e9;
     width: 100%;
@@ -177,7 +206,6 @@ a:hover {
 }
 
 /* DESCRIPTION*******************************/
-
 #description {
     float: left;
     background:#f2f1f1;
@@ -198,7 +226,6 @@ a:hover {
 }
 
 /* LISTONA ***********************************/
-
 ul#access_list {
     margin: 15px 4%;
     padding: 0;
@@ -244,65 +271,154 @@ ul#access_list li h1 img {
     padding-right: 30px;
 }
 
-/* blocchi paginanti */
 
-#block_container  {
-    margin: 15px 5%;
-    float: left;
-    display: inline;
-    width: 90%;
-    text-align: left;
-}
 
-#block_container div.block, #scroll div.view_block  {
-    width: 176px;
-    float: left;
-    margin: 10px 10px 0 10px;
-    display: inline;
-    background: url(/images/bg_divblock.gif) no-repeat center top;
-}
+/* ********************************* */
+/* blocchi paginanti contenenti le preview delle pagine */
+/* Dimensione preview pagine: 80 x 120 px */
+/* ********************************* */
+    #block_container {
+        margin: 15px 5%;
+        float: left;
+        display: inline;
+        width: 90%;
+        text-align: left;
+    }
+    #block_container div.block, #scroll div.view_block  {
+        width: 170px;
+        /* height: 140px; */
+        float: left;
+        display: inline;
+        padding: 5px 0 2px 5px;
+        /* background: url(/images/bg_divblock.gif) no-repeat center top; */
+        border: 1px solid #e0e0e0;
+        background-color: #f3f3f3;
+    }
+    #block_container div.block {
+      margin: 0 10px 10px 0;
+    }
+    #scroll div.view_block  {
+      margin: 0 10px 3px 0;
+    }
+    #view div.view_block p img {
+        /* margin-bottom: 5px; */
+    }
+    #block_container div.block p, #scroll div.view_block p {
+          margin:0 5px 0 0 !important; padding: 0 !important;
+          text-align: center;
+          color: #848484;
+           float: left;
+        width: 80px;
+        display: inline;
+        font-size: 0.9em;
+    }
+    #block_container div.block p.lonely, #scroll div.view_block p.lonely {
+      margin:0 !important; padding: 0 !important;
+      text-align: center;
+      color: #848484;
+        font-size: 0.9em;
+    }
+    #block_container div.block p.lonely img, #scroll div.view_block p.lonely img  {
+       /* width: 80px; height: 120px; */
+        margin:0 auto;
+    }
+    #block_container div.block p img, #scroll div.view_block p img  {
+       /* width: 80px; height: 120px; */
+        margin:0 auto;
+        border: none;
+        /* margin: 10px 4px 5px 4px; */
+    }
+    #block_container div.block p a, #scroll div.view_block p a{
+      text-align: center;
+      color: #848484;
+    }
+    #block_container div.block p a img, #scroll div.view_block p a img, #block_container div.block p a:hover img, #scroll div.view_block p a:hover img{
+      border: none;
+    }
+    /*
+    #scroll div.view_block p.lonely img {
+        margin-right: 0;
+    }
+    */
+    /* FACING PAGES */
+    div#scroll div.simple_mode_panorama_widget div.facing_pages {
+        width: 170px;
+        /* height: 140px; */
+        float: left;
+        text-align: center;
+        margin: 0 10px 10px 0;
+        display: inline;
+    }
+    div#scroll div.simple_mode_panorama_widget div.facing_pages a{
+        display: block;
+        width: 170px;
+        border: 1px solid #e0e0e0;
+        background-color: #f3f3f3;
+        padding: 2px 0 2px 5px;
+        color: #848484;
+    }
+    div#scroll div.simple_mode_panorama_widget div.facing_pages a:hover{
+        text-decoration: none;
+        display: block;
+        width: 170px;
+        border: 1px solid #b8b8b8;
+        background-color: #f3f3f3;
+    }
+/* ********************************* */
+/* ********************************* */
+    
 
-#view div.view_block p img {
-    margin-bottom: 5px;
-}
-#block_container div.block p.lonely img, #scroll div.view_block p.lonely img  {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#scroll div.view_block p.lonely img {
-    margin-right: 0;
-}
 
 /* scroll laterale ************************ */
-
 #scroll {
     float: left;
-    width: 220px;
+    width: 192px;
     display: inline;
-    margin:15px 10px;
+    margin: 0 0 0 0;
+    padding: 5px;
     background: #f4f4f4;
     border: 1px solid #e0e0e0;
     overflow: auto;
     text-align: left;
+    /* andrà messa che cambia con prototype o qualche cosa del genere */
     height: 550px;
+    /* SOLUZIONE */
+    position: relative;
+    z-index: 100;
+    /* SOLUZIONE */
+}
+
+/*  ******************************************/
+/* CONTENT ***********************************/
+/*  ******************************************/
+#content {	
+  width: 100%;
+  float: left;
+  text-align: center;
+  margin: 0; padding: 0;
+}
+
+#content.divided {
+    float: right;
+    margin-left: -242px;
+    width: 100%;
+    /* SOLUZIONE */
+    z-index: -1;
+    /* SOLUZIONE */
 }
 
 div#visore {
-    margin-left: 232px;
+    margin-left: 242px;
     overflow:auto;
-    text-align: left;
+    text-align: center;
 }
-
 
 /* TOOLBAR */
-
 #toolbar {
-    margin: 15px auto;
-    width: 400px;
-    border: 0;
+    margin: 15px 15px;
+    width: auto;
+    float: left;
 }
-
 #toolbar p {
     float: left;
     display: block;
@@ -312,12 +428,9 @@ div#visore {
     color: #757575;
     
 }
-
-
 #toolbar p.previous {
     background: url(/images/previous.gif) no-repeat left top;
 }
-
 #toolbar p.next{
     background: url(/images/next.gif) no-repeat right top;
 }
@@ -349,7 +462,6 @@ div#visore {
     display: block;
     float: left;	
     width: 40px;
-    
 }
 #toolbar p.tooltools a.pdf{	
     background: url(/images/ico_download.gif) no-repeat center;
@@ -362,15 +474,4 @@ div#visore {
     height: 32px;
     width: 28px;
     text-indent: -9999px;
-}
-
-
-/*  ******************************************/
-/* CONTENT ***********************************/
-/*  ******************************************/
-
-#content {	
-    width: 100%;
-    float: left;
-    text-align: center;
 }

@@ -74,7 +74,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
             # let's create the "facing pages" link. only when tha page has even position
             # and only if it isn't the first one, as the first is displayed on it's on
             # being the cover
-            result <<  "<div><a href='#{last_element.uri.to_s}?pages=double&page2=#{element.uri.local_name}'>#{'facing pages'.t}</a></div>"
+            result <<  "<div class='facing_pages'><a href='#{last_element.uri.to_s}?pages=double&page2=#{element.uri.local_name}'>#{'facing pages'.t}</a></div>"
           end
           result << ' 
           <!--view_block-->'

@@ -1,12 +1,14 @@
 @charset "ISO-8859-1";
 
 body {
-    background:#fff url(/images/facsimile_edition/bg_head.gif) repeat-x  top /*sfondo di testata */;
+    /* sfondo di testata */
+    background:#fff url(/images/facsimile_edition/bg_head.gif) top left repeat-x;
 }
 
-/* IIP Viewer */
-.iipfview {
-    padding: 10ex;
+/* CUSTOMIZZAZI)ONE IMMAGINE PRINCICPALE DELL'HEADER */
+#header {
+  /*grafica di testata */
+  background: url(/images/facsimile_edition/bg_mainhead.jpg) top left no-repeat;
 }
 
 #search_box p input {
@@ -46,39 +48,50 @@ ul#access_list li p {
     font-size: 1.2em;
     line-height: 1.6em;
 }
-
+/* -*/
 #scroll div.view_block {
-    width: 190px;
+    /* width: 190px;
     margin:0;
     background: 0;
+    */
 }
+
 #block_container div.block p, #scroll div.view_block p  {
-    margin: 10px 4px 5px 4px;
-    float: left;
+     /*float: left;
     width: 80px;
-    display: inline;	
+    display: inline;	*/
 }
 #scroll div.view_block p {
-    width: 85px;
+    /* width: 85px; */
 }
 
 #block_container div.block p.lonely, #scroll div.view_block p.lonely {
-    width:176px;
+    /*
+   width:176px;
     margin-left: 0;
-    margin-right: 0;}
+    margin-right: 0;
+   */
+}
 #block_container div.block p.lonely, #scroll div.view_block p.lonely {
-    text-align: right;
-    
+    /*
+        text-align: right;
+    */
 }
 #block_container div.block p img, #scroll div.view_block p img {
-    display: block;
+    /*
+        display: block;
     margin-bottom: 15px;
-}
-
+    */
+        }
+/* - -*/
+        
+/*
+in main.css:
 div#visore {
     margin-left: 232px;
     overflow:auto
 }
+*/
 
 /* image_big */
 
@@ -89,4 +102,14 @@ div#visore {
 #image_big img {
     clear: both;
     margin-top: 15px;
+}
+
+/* ******************* */
+/* IIP Viewer */
+/* ******************* */
+.iipfview {
+    /* padding: 10ex; */
+    margin: 10px 0;
+    border: 1px solid #666;
+    padding: 2px;
 }
