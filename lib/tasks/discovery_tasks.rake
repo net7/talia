@@ -26,6 +26,45 @@ namespace :discovery do
     end
   end
   
+  desc "Export given language to csv file. Options language=<iso 639.1 lang code>"
+  task :export_language => :disco_init do
+    language = Globalize::Language.find(:first, :conditions => { :iso_639_1 => ENV['language']})
+    unless(language)
+      puts "Language #{ENV['language']} not found."
+      exit 1
+    end
+    translations = Globalize::ViewTranslation.find(:all, :conditions => ['language_id = ? AND id > 7068', language.id])
+    
+    File.open("#{ENV['language']}_glob.csv", 'w') do |io|
+      CSV::Writer.generate(io) do |csv|
+        for trans in translations
+          csv << [trans.tr_key, trans.text]
+        end
+      end
+    end
+  end
+  
+  desc "Import the given language from the csv file. Options language=<iso 639.1 lang code"
+  task :import_language => :disco_init do
+    language = Globalize::Language.find(:first, :conditions => { :iso_639_1 => ENV['language']})
+    unless(language)
+      puts "Language #{ENV['language']} not found."
+      exit 1
+    end
+    
+    File.open("#{ENV['language']}_glob.csv") do |io|
+      CSV::Reader.parse(io) do |row|
+        trans = ViewTranslation.new
+        trans.tr_key = row[0]
+        trans.text = row[1]
+        trans.language = language
+        trans.pluralization_index = 1
+        trans.save!
+      end
+    end
+    
+  end
+  
   desc "Import from Sophiavision CSV file. Options csvfile=<file>"
   task :sophia_csv => :disco_init do
     ENV['nick'] = 'default'
