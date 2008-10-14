@@ -1,35 +1,9 @@
-## RDF store setup for rdland
-#development:
-#  type: redland
-#  name: dbl
-#  location: mysql
-#  database: Talia_development_rdf
-#  user: rails
-#  password: slilRuAmNep3
-#  host: localhost
-
-# Configuration example for redland with hashes(bdb) store
-# You may also use "memory" instead of "hashes" for the memory-only store
-#
-development:
-  type: sesame
-  location: ./db/sesame_development.db
-
-# Warning: The database defined as 'test' will be erased and
-# re-generated from your development database when you run 'rake'.
-# Do not set this db to the same as development or production.
-test:
-  type: sesame
-
-production:
-  development:
+--- 
+production: 
   type: sesame
   location: ./db/sesame_production.db
-
-#production:
-#  type: redland
-#  location: hashes
-#  name: talia_production
-#  hash-type: bdb
-#  dir: .
-
+test: 
+  type: rdflite
+development: 
+  type: sesame
+  location: ./db/sesame_development.db
