@@ -3,6 +3,7 @@ module TaliaCore
   # A page in a book. Note that cloning a page will not automatically clone 
   # paragraphs and notes belonging to this page.
   class Page < ExpressionCard
+    DATA_PATH = File.join(TALIA_ROOT, "data")
     
     singular_property :position, N::HYPER.position
     singular_property :height, N::HYPER.height
@@ -60,6 +61,15 @@ module TaliaCore
     # returns the Book this page is part of
     def book
       Book.find(:first, :find_through_inv => [N::HYPER.part_of, self])
+    end
+
+    # Returns the 
+    def to_image
+      @image ||= manifestations(ImageData).first
+    end
+
+    def image_path
+      File.join(DATA_PATH, to_image.class.name, to_image.location)
     end
 
     private
