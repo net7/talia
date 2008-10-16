@@ -62,3 +62,13 @@ Rails::Initializer.run do |config|
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
 end
+
+
+require 'oai'
+class BookProvider < OAI::Provider::Base
+    repository_name "My OAI Provider"
+    repository_url 'http://localhost:3100/oaicontroller'
+    record_prefix 'oai:talia'
+    admin_email 'root@localhost'
+    source_model OAI::Provider::ActiveRecordWrapper.new(TaliaCore::Book)
+end
