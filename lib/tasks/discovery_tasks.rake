@@ -26,43 +26,52 @@ namespace :discovery do
     end
   end
   
-  desc "Export given language to csv file. Options language=<iso 639.1 lang code>"
+  desc "Export given language to csv file. Options language=<iso 639.1 lang code> [file=<filename>]"
   task :export_language => :disco_init do
     language = Globalize::Language.find(:first, :conditions => { :iso_639_1 => ENV['language']})
     unless(language)
       puts "Language #{ENV['language']} not found."
       exit 1
     end
-    translations = Globalize::ViewTranslation.find(:all, :conditions => ['language_id = ? AND id > 7068', language.id])
     
-    File.open("#{ENV['language']}_glob.csv", 'w') do |io|
-      CSV::Writer.generate(io) do |csv|
+    translations = Globalize::ViewTranslation.find(:all, :conditions => ['language_id = ? AND id > 7068', language.id])
+    progress = ProgressBar.new('Exporting', translations.size)
+    filename = ENV['file'] || "#{ENV['language']}_glob.csv"
+    
+    File.open(filename, 'w') do |io|
+      CSV::Writer.generate(io, ';', "\r") do |csv|
         for trans in translations
           csv << [trans.tr_key, trans.text]
+          progress.inc
         end
       end
     end
+    progress.finish
   end
   
-  desc "Import the given language from the csv file. Options language=<iso 639.1 lang code"
+  desc "Import the given language from the csv file. Options language=<iso 639.1 lang code> [file=<filename>]"
   task :import_language => :disco_init do
     language = Globalize::Language.find(:first, :conditions => { :iso_639_1 => ENV['language']})
     unless(language)
       puts "Language #{ENV['language']} not found."
       exit 1
     end
-    
-    File.open("#{ENV['language']}_glob.csv") do |io|
-      CSV::Reader.parse(io) do |row|
-        trans = ViewTranslation.new
-        trans.tr_key = row[0]
+    filename = ENV['file'] || "#{ENV['language']}_glob.csv" 
+    File.open(filename) do |io|
+      CSV::Reader.parse(io, ';', "\r") do |row|
+        trans = nil
+        unless(trans = (ViewTranslation.find(:first, :conditions => {:tr_key => row[0], :language_id => language.id})))
+          trans = ViewTranslation.new
+          trans.tr_key = row[0]
+          trans.language = language
+          trans.pluralization_index = 1
+        end
         trans.text = row[1]
-        trans.language = language
-        trans.pluralization_index = 1
         trans.save!
+        print '.'
       end
     end
-    
+    puts 'Done'
   end
   
   desc "Import from Sophiavision CSV file. Options csvfile=<file>"
