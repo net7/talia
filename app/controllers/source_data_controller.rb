@@ -14,7 +14,7 @@ class SourceDataController < ApplicationController
   
   # POST /source_data
   def create
-    status = TaliaCore::DataTypes::DataRecord.find_or_create_and_assign_file(params[:data_record]) ? 200 : 500
+    status = TaliaCore::DataTypes::FileRecord.find_or_create_and_assign_file(params[:data_record]) ? 200 : 500
     render :inline => '', :status => status
   end
 

@@ -1,7 +1,7 @@
 module HomeHelper
   
   def select_language(name, locale, accesskey)
-    link_to(name, { :controller => 'locale', :action => 'set', :id => locale }, { :title => "#{name}, AccessKey: #{accesskey}", :accesskey => accesskey })
+    link_to(name, { :controller => 'languages', :action => 'change', :id => locale }, { :title => "#{name}, AccessKey: #{accesskey}", :accesskey => accesskey })
   end
   
   def render_home(options)

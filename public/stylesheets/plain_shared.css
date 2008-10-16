@@ -18,6 +18,10 @@ body {
     clear: both;
 }
 
+div#visore {
+    text-align: left;
+}
+
 
 /* search_box */
 #search_box {
