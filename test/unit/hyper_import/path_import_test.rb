@@ -66,7 +66,7 @@ module TaliaUtil
 
     # Test if the curator was imported correctly
     def test_author
-      assert_property(@src.hyper::author, N::LOCAL::igerike)
+      assert_property(@src.dcns::creator, N::LOCAL::igerike)
     end
 
     # And now: already_published

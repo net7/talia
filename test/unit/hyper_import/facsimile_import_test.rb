@@ -74,7 +74,7 @@ module TaliaUtil
 
     # Test if the curator was imported correctly
     def test_author
-      assert_property(@src.hyper::author, N::LOCAL::sviola, N::LOCAL::egrepaly)
+      assert_property(@src.dcns::creator, N::LOCAL::sviola, N::LOCAL::egrepaly)
     end
     
     # Test if the data file was imported

@@ -27,7 +27,7 @@ module TaliaUtil
         @element_xml.root.elements.each('authors/author') do |author|
           if(author_sig = author.text)
             author_sig = author_sig.strip
-            add_source_rel(N::HYPER::author, author_sig)
+            add_source_rel(N::DCNS.creator, author_sig)
           else
             assit_fail("Empty author found for #{src.uri.local_name}")
           end

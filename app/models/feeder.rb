@@ -52,7 +52,7 @@ class Feeder
     metadata.add_element(REXML::Element.new("talia:uri").add_text(contribution.uri.to_s))
 
     authors_query = Query.new(TaliaCore::Source).select(:n, :s, :a).distinct
-    authors_query.where(contribution, N::HYPER.author, :a)
+    authors_query.where(contribution, N::DCNS.creator, :a)
     authors_query.where(:a, N::HYPER.author_name, :n)
     authors_query.where(:a, N::HYPER.author_surname, :s)
   
