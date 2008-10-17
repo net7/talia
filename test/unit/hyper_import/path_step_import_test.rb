@@ -62,7 +62,7 @@ module TaliaUtil
     end
     
     def test_related_document
-      assert_property(@src.hyper::related_material, N::LOCAL + 'N-IV-1,17[2]')
+      assert_property(@src.dcns::relation, N::LOCAL + 'N-IV-1,17[2]')
     end
     
   end

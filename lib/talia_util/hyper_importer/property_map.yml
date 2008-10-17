@@ -23,5 +23,5 @@ street: ":address"
 state: ":country"
 telephone: ":phone"
 isManifestationOf: ":manifestation_of"
-relatedMaterial: ':related_material'
+relatedMaterial: 'dcns:relation'
 abstract: 'dcns:abstract'
