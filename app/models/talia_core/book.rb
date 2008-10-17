@@ -2,7 +2,7 @@ module TaliaCore
   
   
   # This refers to a book in a collection. Note that each book is 
-  # exactly in one Catalog/Macrocontribution (see AbstractWorkCard).
+  # exactly in one Catalog/Macrocontribution (see ExpressionCard).
   class Book < ExpressionCard
 
     # The pages of this book

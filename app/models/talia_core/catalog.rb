@@ -1,6 +1,6 @@
 module TaliaCore
   
-  # A catalog is a collection of AbstractWorkCard records. 
+  # A catalog is a collection of ExpressionCard records. 
   class Catalog < Source
     
     singular_property :material_description, N::HYPER.material_description
