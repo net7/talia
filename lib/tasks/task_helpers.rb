@@ -11,7 +11,7 @@ class TaskHelper
     qry.where(:book, N::RDF.type, N::HYPER.Book)
     # only select from the default catalog
     qry.where(:book, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
-    qry.where(:page, N::HYPER.part_of, :book)
+    qry.where(:page, N::DCT.isPartOf, :book)
     qry
   end
   
@@ -40,7 +40,7 @@ class TaskHelper
     facs_q.where(:facsimile, N::RDF.type, N::HYPER.Facsimile)
     facs_q.where(:facsimile, N::RDF.type, N::HYPER.Color)
     facs_q.where(:facsimile, N::HYPER.manifestation_of, :page)
-    facs_q.where(:page, N::HYPER.part_of, :book)
+    facs_q.where(:page, N::DCT.isPartOf, :book)
     facs_q.where(:book, N::HYPER.in_catalog, catalog)
       
     facs_q.execute.size
@@ -82,7 +82,7 @@ class TaskHelper
     query.where(:book, N::RDF.type, N::HYPER.Book)
     # only select from the default catalog
     query.where(:book, N::HYPER.in_catalog, catalog)
-    query.where(:page, N::HYPER.part_of, :book)
+    query.where(:page, N::DCT.isPartOf, :book)
     query.where(:note, N::HYPER.page, :page)
     query.execute.size
   end

@@ -45,7 +45,7 @@ module TaliaCore
       qry = Query.new(TaliaCore::Source).select(:p).distinct
       qry.where(:b, N::HYPER.in_catalog, self)
       qry.where(:b, N::HYPER.siglum, requested_book)
-      qry.where(:p, N::HYPER.part_of, :b)
+      qry.where(:p, N::DCT.isPartOf, :b)
       qry.where(:p, N::HYPER.position_name, requested_page) if(requested_page)
       qry.where(:p, N::HYPER.position, :pos)
       qry.sort(:pos)

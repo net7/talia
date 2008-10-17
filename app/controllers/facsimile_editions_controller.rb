@@ -59,7 +59,7 @@ class FacsimileEditionsController < SimpleEditionController
       format.jpeg do
         book_uri = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:book]
         qry = Query.new(TaliaCore::Source).select(:f).distinct.limit(1)
-        qry.where(:p, N::HYPER.part_of, book_uri)
+        qry.where(:p, N::DCT.isPartOf, book_uri)
         qry.where(:p, N::RDF.type, N::HYPER.Page)
         qry.where(:f, N::HYPER.manifestation_of, :p)
         qry.where(:p, N::HYPER.position, :pos)
@@ -90,7 +90,7 @@ class FacsimileEditionsController < SimpleEditionController
           @page = TaliaCore::Page.find(URI::decode(request.url))
         end         
         qry = Query.new(TaliaCore::Book).select(:b).distinct
-        qry.where(@page, N::HYPER.part_of, :b)
+        qry.where(@page, N::DCT.isPartOf, :b)
         result=qry.execute
         @book = result[0]
         @type = @book.type.uri.local_name

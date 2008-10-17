@@ -37,7 +37,7 @@ module TaliaCore
       book.save!
       page_count.times do |n|
         page = make_card("#{name}_page_#{n}", true, Page)
-        page.hyper::part_of << book
+        page.dct::isPartOf << book
         page.save!
       end
       book
@@ -107,7 +107,7 @@ module TaliaCore
         page = make_page("#{name}-page#{i}")
         page.save!        
         page.types << N::HYPER.Page
-        page.hyper::part_of << book
+        page.dct::isPartOf << book
         page.position = "%06d" % i
         page.save!
         note1 = make_note("#{name}-page#{i}-paragraph1-note1")

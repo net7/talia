@@ -60,7 +60,7 @@ module TaliaCore
     
     # returns the Book this page is part of
     def book
-      Book.find(:first, :find_through_inv => [N::HYPER.part_of, self])
+      Book.find(:first, :find_through_inv => [N::DCT.isPartOf, self])
     end
 
     # Returns the 

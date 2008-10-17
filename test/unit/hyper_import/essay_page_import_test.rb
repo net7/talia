@@ -53,7 +53,7 @@ module TaliaUtil
     
     # Test sub part relation
     def test_essay_relation
-      assert_property(@src.hyper::part_of, N::LOCAL + "aventurelli-1")
+      assert_property(@src.dct.isPartOf, N::LOCAL + "aventurelli-1")
     end
     
     # Test if the data file was imported

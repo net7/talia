@@ -68,7 +68,7 @@ module TaliaUtil
     
     # Test sub part relation
     def test_book_relation
-      assert_property(@src.hyper::part_of, N::LOCAL + "D-12")
+      assert_property(@src.dct::isPartOf, N::LOCAL + "D-12")
     end
     
     # Test source name
@@ -87,7 +87,7 @@ module TaliaUtil
     def test_ordering_import
       # We have to "cast" this, because the import will only create a dummy
       # source, not a real book object
-      raw_book = @src.hyper::part_of[0]
+      raw_book = @src.dct::isPartOf[0]
       assert(raw_book)
       book = TaliaCore::Book.new(raw_book)
       assert_equal(@src, book.ordered_pages.at(15))

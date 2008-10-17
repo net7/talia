@@ -60,8 +60,8 @@ module TaliaCore
       @cards[:parent] = ExpressionCard.new('http://catalog_test/parent_card')
       @cards[:child_a] = ExpressionCard.new('http://catalog_test/child_a')
       @cards[:child_b] = ExpressionCard.new('http://catalog_test/child_b')
-      @cards[:child_a].hyper::part_of << @cards[:parent]
-      @cards[:child_b].hyper::part_of << @cards[:parent]
+      @cards[:child_a].dct::isPartOf << @cards[:parent]
+      @cards[:child_b].dct::isPartOf << @cards[:parent]
       @cards.each_value { |v| v.save! }
     end
     

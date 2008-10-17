@@ -7,7 +7,7 @@ module TaliaCore
 
     # The pages of this book
     def pages
-      Page.find(:all, :find_through => [N::HYPER.part_of, self])
+      Page.find(:all, :find_through => [N::DCT.isPartOf, self])
     end
     
     # The paragraphs of this book
@@ -30,7 +30,7 @@ module TaliaCore
     def order_pages!
       ordered = ordered_pages
       qry = Query.new(TaliaCore::Page).select(:p).distinct
-      qry.where(:p, N::HYPER.part_of, self)
+      qry.where(:p, N::DCT.isPartOf, self)
       qry.where(:p, N::HYPER.position, :pos)
       qry.sort(:pos)
       pages = qry.execute
@@ -135,7 +135,7 @@ module TaliaCore
       
       pages.each do |page|
         page_clone = catalog.add_from_concordant(page)
-        page_clone.hyper::part_of << my_clone
+        page_clone.dct::isPartOf << my_clone
         # TODO: This must use #insert_at, since #add() will (at the moment)
         # only work correctly if you'd save after each iteration
         cloned_order.insert_at(page.position.to_i, page_clone)
@@ -156,7 +156,7 @@ module TaliaCore
     # default query for subparts 
     def pages_query
       qry = Query.new(TaliaCore::Source).select(:part).distinct
-      qry.where(:part, N::HYPER.part_of, self)
+      qry.where(:part, N::DCT.isPartOf, self)
       qry.where(:page, N::RDF.type, N::HYPER.Page)
       qry.where(:part, N::HYPER.position, :pos)
       qry.sort(:pos)
@@ -171,7 +171,7 @@ module TaliaCore
       # all the book's subparts) are in the default catalog or not.
       # In the latter case we have to refer to paragraphs and pages in the default catalog.
       qry = Query.new(TaliaCore::Source).select(:part).distinct
-      qry.where(:page, N::HYPER.part_of, self)
+      qry.where(:page, N::DCT.isPartOf, self)
       qry.where(:page, N::RDF.type, N::HYPER.Page)
       qry.where(:part, N::RDF.type, N::HYPER.Paragraph)
       if (self.catalog != TaliaCore::Catalog.default_catalog)  

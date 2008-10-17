@@ -58,7 +58,7 @@ module TaliaUtil
     end
     
     def test_part_of
-      assert_property(@src.hyper::part_of, N::LOCAL + 'igerike-927')
+      assert_property(@src.dct::isPartOf, N::LOCAL + 'igerike-927')
     end
     
     def test_related_document

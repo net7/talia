@@ -9,7 +9,7 @@ module TaliaUtil
       
       # When we import the relation to the book, we can also add the
       # relation to 
-      on_import_relation N::HYPER.part_of, :order_page
+      on_import_relation N::DCT.isPartOf, :order_page
       
       def order_page(book)
         ordered_pages = get_ordered_for(book)
