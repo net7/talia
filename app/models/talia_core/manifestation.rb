@@ -6,11 +6,6 @@ module TaliaCore
   # Usually the cards that a Realization belongs to should be concordant.
   class Manifestation < Source
     
-    # The copyright note for the digital content
-    def copyright_note
-      # TODO: Implementation
-    end
-    
     # to be used by the feeder, this is the common one, some subclasses (like HyperEditions) 
     # will have a specialization for it
     def available_versions

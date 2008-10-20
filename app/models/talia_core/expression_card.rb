@@ -208,13 +208,13 @@ module TaliaCore
       N::HYPER.keyword,
       # series not cloned since the series object itself may need to be cloned
       N::HYPER.publication_place,
-      N::HYPER.copyright_note,
       N::HYPER.name,
       # Dublin Core properties
       N::DCNS.title,
       N::DCNS.description,
       N::DCNS.date,
-      N::DCNS.publisher
+      N::DCNS.publisher,
+      N::DCNS.rights
     
   end
 end

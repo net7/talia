@@ -7,7 +7,7 @@ module TaliaCore
     
     test_cloning N::RDF.type, N::HYPER.position, N::DCNS.description,
       N::DCNS.date, N::DCNS.publisher, N::HYPER.publication_place, 
-      N::HYPER.copyright_note, N::HYPER.siglum
+      N::DCNS.rights, N::HYPER.siglum
     
     def setup
       setup_once(:init) do

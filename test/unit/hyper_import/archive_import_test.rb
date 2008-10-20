@@ -61,11 +61,11 @@ module TaliaUtil
     end
     
     def test_street
-      assert_property(@src.hyper::address, "Hans-Wahl-Strae n. 4 D-99423 Weimar")
+      assert_property(@src.hyper::address, "Hans-Wahl-Straße n. 4 D-99423 Weimar")
     end
     
     def test_copyright
-      assert_property(@src.hyper::copyright_note, "© Stiftung Weimarer Klassik und Kunstsammlungen, Goethe- und Schiller-Archiv, Weimar 2003")
+      assert_property(@src.dcns::rights, "© Stiftung Weimarer Klassik und Kunstsammlungen, Goethe- und Schiller-Archiv, Weimar 2003")
     end
     
   end

@@ -86,7 +86,7 @@ module TaliaUtil
     end
     
     def test_copyright
-      assert_property(@work_src.hyper::copyright_note, '© Stiftung Weimarer Klassik und Kunstsammlungen, Goethe- und Schiller-Archiv, Weimar 2003')
+      assert_property(@work_src.dcns::rights, '© Stiftung Weimarer Klassik und Kunstsammlungen, Goethe- und Schiller-Archiv, Weimar 2003')
     end
     
     def test_type_subtype # Test the weird hyper types

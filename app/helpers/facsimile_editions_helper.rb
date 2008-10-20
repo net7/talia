@@ -73,7 +73,7 @@ module FacsimileEditionsHelper
     qry.where(:f, N::HYPER.manifestation_of, page)
     qry.where(:f, N::HYPER.type, N::HYPER.Facsimile)
     facsimile = qry.execute
-    facsimile[0].copyright_note if !facsimile.empty?
+    facsimile[0].dcns::rights.first if !facsimile.empty?
   end
   
 end
