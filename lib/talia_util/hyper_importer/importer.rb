@@ -346,6 +346,7 @@ module TaliaUtil
             # First, check the data type of the file - we'll use the file name
             # extension for that at the moment - not the file_content_type
             file_ext = File.extname(file_name).downcase
+            mime_type = process_content_type(file_content_type, file_ext)
             data_obj = if(%w(.xml .hnml .tei .html .htm).include?(file_ext))
               TaliaCore::DataTypes::XmlData.new
             elsif(%w(.jpg .gif .jpeg .png .tif).include?(file_ext))
@@ -366,12 +367,44 @@ module TaliaUtil
             # from the URL
             load_from_data_url!(data_obj, file_name, file_url)
             @source.data_records << data_obj
-            @source.hyper::file_content_type << file_content_type
+            @source.dcns::format << mime_type
           rescue Exception => e
             assit_fail("Exeption importing file #{file_name}: #{e}\n#{e.backtrace.join("\n")}\n")
           end
         else
           assit(!file_name && !file_url && !file_content_type, "Incomplete file definition on Source #{@source.uri.local_name}")
+        end
+      end
+      
+      # Checks the given content_type and tries to make some kind of MIME type
+      # of it. The extension will be used for "dubios" content types, that
+      # have something like 'image' specified
+      def process_content_type(content_type, extension)
+        content_type = content_type.downcase
+        content_type = extension[1..-1] if(content_type == 'image')
+        case content_type
+        when 'generic xml':
+            'text/xml'
+        when 'html', 'xml':
+            "text/#{content_type}"
+        when 'xhtml':
+            'application/xhtml+xml'
+        when 'wittei':
+            'application/xml+wit_tei'
+        when 'hnml', 'tei', 'tei-p4', 'tei-p5', 'gml':
+            "application/xml+#{content_type}"
+        when 'jpg', 'jpeg':
+            'image/jpeg'
+        when 'gif':
+            'image/gif'
+        when 'tif', 'tiff':
+            'image/tiff'
+        when 'png':
+            'image/png'
+        when 'pdf':
+            'application/pdf'
+        else
+          assit_fail("Unknown type #{content_type}")
         end
       end
       

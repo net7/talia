@@ -10,7 +10,7 @@ module TaliaCore
     end
     
     def available_layers
-      if  self.hyper.file_content_type[0] == 'hnml'
+      if  self.dcns::format.first == 'application/xml+hnml'
         layers = hnml_max_layer 
       end
       layers

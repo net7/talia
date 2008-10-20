@@ -24,7 +24,7 @@ module TaliaCore
       data_obj = TaliaCore::DataTypes::XmlData.new
       data_obj.create_from_file('hnml.xml', file_url)
       transcription.data_records << data_obj
-      transcription.hyper::file_content_type << 'hnml'
+      transcription.dcns::format << 'application/xml+hnml'
       transcription.save!
       assert_not_nil(transcription.to_html)
     end
@@ -35,7 +35,7 @@ module TaliaCore
       data_obj = TaliaCore::DataTypes::XmlData.new
       data_obj.create_from_file('tei.xml', file_url)
       transcription.data_records << data_obj
-      transcription.hyper::file_content_type << 'TEI'
+      transcription.dcns::format << 'application/xml+tei'
       transcription.save!
       assert_not_nil(transcription.to_html)
     end

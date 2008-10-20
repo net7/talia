@@ -84,7 +84,7 @@ class Feeder
     case contribution
     when TaliaCore::HyperEdition
       contribution.available_versions.each do |content_version|
-        if contribution.hyper.file_content_type[0] == 'hnml'
+        if contribution.dcns::format.first == 'application/xml+hnml'
           # special case for HNML editions/transcriptions (HyperEditions) which have layers
           max_layer = contribution.hnml_max_layer
           if !max_layer.empty?

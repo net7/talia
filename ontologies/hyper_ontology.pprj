@@ -1,4 +1,4 @@
-; Fri Oct 03 12:17:06 CEST 2008
+; Mon Oct 20 12:41:36 CEST 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[hyper_ontology_ProjectKB_Instance_60]
-		[hyper_ontology_ProjectKB_Instance_61]
-		[hyper_ontology_ProjectKB_Instance_62]
-		[hyper_ontology_ProjectKB_Instance_63]
-		[hyper_ontology_ProjectKB_Instance_64]))
+		[hyper_ontology_ProjectKB_Instance_50]
+		[hyper_ontology_ProjectKB_Instance_51]
+		[hyper_ontology_ProjectKB_Instance_52]
+		[hyper_ontology_ProjectKB_Instance_53]
+		[hyper_ontology_ProjectKB_Instance_54]))
 
 ([CLSES_TAB] of  Widget
 
@@ -233,36 +233,36 @@
 ([hyper_ontology_ProjectKB_Instance_5] of  Property_List
 )
 
+([hyper_ontology_ProjectKB_Instance_50] of  String
+
+	(name "owl:Class")
+	(string_value "%3ANAME"))
+
+([hyper_ontology_ProjectKB_Instance_51] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([hyper_ontology_ProjectKB_Instance_52] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([hyper_ontology_ProjectKB_Instance_53] of  String
+
+	(name "owl:Thing")
+	(string_value "%3ANAME"))
+
+([hyper_ontology_ProjectKB_Instance_54] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
 ([hyper_ontology_ProjectKB_Instance_6] of  Widget
 
 	(is_hidden TRUE)
 	(property_list [hyper_ontology_ProjectKB_Instance_7])
 	(widget_class_name "edu.stanford.smi.protege.keywordsearch.StringSearch"))
-
-([hyper_ontology_ProjectKB_Instance_60] of  String
-
-	(name "owl:Class")
-	(string_value "%3ANAME"))
-
-([hyper_ontology_ProjectKB_Instance_61] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([hyper_ontology_ProjectKB_Instance_62] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([hyper_ontology_ProjectKB_Instance_63] of  String
-
-	(name "owl:Thing")
-	(string_value "%3ANAME"))
-
-([hyper_ontology_ProjectKB_Instance_64] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
 
 ([hyper_ontology_ProjectKB_Instance_7] of  Property_List
 )
@@ -7183,12 +7183,12 @@
 		[KB_713803_Instance_693]
 		[KB_313796_Instance_943]
 		[KB_938545_Instance_495]
-		[KB_713803_Instance_303]
 		[STANDARD_CLASS_FORM_WIDGET]
+		[KB_713803_Instance_303]
 		[KB_313796_Instance_852]
 		[Instance_1005]
-		[Instance_581]
 		[KB_301165_Instance_1013]
+		[Instance_581]
 		[KB_938545_Instance_412]
 		[KB_764103_Instance_545]
 		[KB_713803_Instance_390]
@@ -7231,12 +7231,12 @@
 		"owl:Class"
 		"rdfs:Container"
 		"owl:Ontology"
-		"owl:DataRange"
-		"xsd:gMonthDay"
 		":TO"
+		"xsd:gMonthDay"
+		"owl:DataRange"
 		"xsd:NMTOKEN"
-		"xsd:unsignedInt"
 		"xsd:QName"
+		"xsd:unsignedInt"
 		"owl:FunctionalProperty"
 		"xsd:long"
 		"owl:onProperty"
@@ -7264,41 +7264,41 @@
 		"rdf:rest"
 		"xsd:decimal"
 		"rdf:subject"
-		"owl:SymmetricProperty"
-		"rdf:value"
-		"xsd:Name"
 		"owl:sameAs"
+		"xsd:Name"
+		"rdf:value"
+		"owl:SymmetricProperty"
 		"xsd:byte"
-		"owl:AllDifferent"
 		"owl:differentFrom"
-		"owl:Nothing"
+		"owl:AllDifferent"
 		"rdf:Property"
-		"owl:InverseFunctionalProperty"
+		"owl:Nothing"
 		"owl:cardinality"
+		"owl:InverseFunctionalProperty"
 		"xsd:nonNegativeInteger"
 		"rdf:Statement"
-		"rdfs:Literal"
 		":FROM"
-		"xsd:anySimpleType"
+		"rdfs:Literal"
 		"owl:disjointWith"
+		"xsd:anySimpleType"
 		"owl:minCardinality"
 		"xsd:ID"
 		"xsd:gDay"
 		"xsd:gYearMonth"
-		"owl:distinctMembers"
 		"xsd:NCName"
+		"owl:distinctMembers"
 		"xsd:nonPositiveInteger"
 		"rdfs:Datatype"
-		"owl:TransitiveProperty"
-		"xsd:token"
 		":DIRECTED-BINARY-RELATION"
-		"xsd:normalizedString"
-		"xsd:ENTITY"
+		"xsd:token"
+		"owl:TransitiveProperty"
 		"xsd:IDREF"
+		"xsd:ENTITY"
+		"xsd:normalizedString"
 		"xsd:gMonth"
-		"owl:maxCardinality"
-		"owl:oneOf"
 		"rdf:type"
+		"owl:oneOf"
+		"owl:maxCardinality"
 		"rdf:object")
 	(journaling_enabled FALSE)
 	(next_frame_number 0)

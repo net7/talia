@@ -23,7 +23,7 @@ module TaliaCore
       file_location = book.uri.local_name + ".html"
       data.create_from_data(file_location, book_text)
       self.data_records << data
-      self.hyper::file_content_type << 'text/html'
+      self.dcns::format << 'text/html'
       self.save!
     end
     
