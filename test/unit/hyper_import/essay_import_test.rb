@@ -40,7 +40,7 @@ module TaliaUtil
     # This used to break the import
     def test_echavez_with_strange_abstract
       # Test if the import succeeds and the correct data is loaded into the db
-      assert_equal(load_doc('echaves-1').root.elements['abstract'].text, hyper_import(load_doc('echaves-1'))[N::DCNS.abstract][0])    
+      assert_equal(load_doc('echaves-1').root.elements['abstract'].text, hyper_import(load_doc('echaves-1'))[N::DCT.abstract][0])    
     end
     
     # Test if the types were imported correctly
@@ -88,7 +88,7 @@ module TaliaUtil
     end
     
     def test_abstract
-      assert_property(@with_abstract.dcns::abstract, 'Chronologisch lassen sich drei Phasen der Annäherung Nietzsches an Frankreich unterscheiden: Die erste Phase beginnt im Herbst 1876 in Sorrent, nach dem Bruch mit Wagner. Diese erste intensive Hinwendung zu Frankreich geht mit der Abwendung von Wagner einher. Die zweite, weitaus wichtigere Phase, die im Winter 1883/84 während seines ersten Aufenthalts in Nizza beginnt, steht im Zeichen Paul Bourgets und der Psychologie. Erst in Frankreich wird Nietzsche zum Psychologen. Die dritte und letzte Phase, gewissermaßen der Gipfel- und Kulminationspunkt seiner Hinwendung zu Frankreich, ist in das Jahr 1888 zu datieren. In ihr taucht er zuletzt völlig in die französische Kultur ein, allerdings nicht gegen, sondern mit Richard Wagner.')
+      assert_property(@with_abstract.dct::abstract, 'Chronologisch lassen sich drei Phasen der Annäherung Nietzsches an Frankreich unterscheiden: Die erste Phase beginnt im Herbst 1876 in Sorrent, nach dem Bruch mit Wagner. Diese erste intensive Hinwendung zu Frankreich geht mit der Abwendung von Wagner einher. Die zweite, weitaus wichtigere Phase, die im Winter 1883/84 während seines ersten Aufenthalts in Nizza beginnt, steht im Zeichen Paul Bourgets und der Psychologie. Erst in Frankreich wird Nietzsche zum Psychologen. Die dritte und letzte Phase, gewissermaßen der Gipfel- und Kulminationspunkt seiner Hinwendung zu Frankreich, ist in das Jahr 1888 zu datieren. In ihr taucht er zuletzt völlig in die französische Kultur ein, allerdings nicht gegen, sondern mit Richard Wagner.')
     end
     
   end

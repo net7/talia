@@ -25,4 +25,4 @@ state: ":country"
 telephone: ":phone"
 isManifestationOf: ":manifestation_of"
 relatedMaterial: 'dcns:relation'
-abstract: 'dcns:abstract'
+abstract: 'dct:abstract'

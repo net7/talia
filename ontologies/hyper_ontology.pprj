@@ -1,4 +1,4 @@
-; Mon Oct 20 14:39:35 CEST 2008
+; Mon Oct 20 18:46:34 CEST 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
+		[hyper_ontology_ProjectKB_Instance_52]
+		[hyper_ontology_ProjectKB_Instance_53]
+		[hyper_ontology_ProjectKB_Instance_54]
 		[hyper_ontology_ProjectKB_Instance_55]
-		[hyper_ontology_ProjectKB_Instance_56]
-		[hyper_ontology_ProjectKB_Instance_57]
-		[hyper_ontology_ProjectKB_Instance_58]
-		[hyper_ontology_ProjectKB_Instance_59]))
+		[hyper_ontology_ProjectKB_Instance_56]))
 
 ([CLSES_TAB] of  Widget
 
@@ -233,27 +233,41 @@
 ([hyper_ontology_ProjectKB_Instance_5] of  Property_List
 )
 
-([hyper_ontology_ProjectKB_Instance_55] of  String
+([hyper_ontology_ProjectKB_Instance_50] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "skos:broaderGeneric")
+	(property_list [hyper_ontology_ProjectKB_Instance_51])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 500))
+
+([hyper_ontology_ProjectKB_Instance_51] of  Property_List
+)
+
+([hyper_ontology_ProjectKB_Instance_52] of  String
 
 	(name "owl:Class")
 	(string_value "%3ANAME"))
 
-([hyper_ontology_ProjectKB_Instance_56] of  String
+([hyper_ontology_ProjectKB_Instance_53] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([hyper_ontology_ProjectKB_Instance_57] of  String
+([hyper_ontology_ProjectKB_Instance_54] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([hyper_ontology_ProjectKB_Instance_58] of  String
+([hyper_ontology_ProjectKB_Instance_55] of  String
 
 	(name "owl:Thing")
 	(string_value "%3ANAME"))
 
-([hyper_ontology_ProjectKB_Instance_59] of  String
+([hyper_ontology_ProjectKB_Instance_56] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
@@ -263,6 +277,20 @@
 	(is_hidden TRUE)
 	(property_list [hyper_ontology_ProjectKB_Instance_7])
 	(widget_class_name "edu.stanford.smi.protege.keywordsearch.StringSearch"))
+
+([hyper_ontology_ProjectKB_Instance_60] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "skos:broaderGeneric")
+	(property_list [hyper_ontology_ProjectKB_Instance_61])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 500))
+
+([hyper_ontology_ProjectKB_Instance_61] of  Property_List
+)
 
 ([hyper_ontology_ProjectKB_Instance_7] of  Property_List
 )
@@ -7183,12 +7211,12 @@
 		[KB_713803_Instance_693]
 		[KB_313796_Instance_943]
 		[KB_938545_Instance_495]
-		[STANDARD_CLASS_FORM_WIDGET]
 		[KB_713803_Instance_303]
+		[STANDARD_CLASS_FORM_WIDGET]
 		[KB_313796_Instance_852]
 		[Instance_1005]
-		[KB_301165_Instance_1013]
 		[Instance_581]
+		[KB_301165_Instance_1013]
 		[KB_938545_Instance_412]
 		[KB_764103_Instance_545]
 		[KB_713803_Instance_390]
@@ -7228,17 +7256,16 @@
 		"rdfs:member"
 		"protege:inferredSuperclassOf"
 		"xsd:base64Binary"
-		"owl:Class"
 		"rdfs:Container"
 		"owl:Ontology"
-		":TO"
-		"xsd:gMonthDay"
 		"owl:DataRange"
+		"xsd:gMonthDay"
+		":TO"
 		"xsd:NMTOKEN"
-		"xsd:QName"
 		"xsd:unsignedInt"
-		"owl:FunctionalProperty"
+		"xsd:QName"
 		"xsd:long"
+		"owl:FunctionalProperty"
 		"owl:onProperty"
 		":SYSTEM-CLASS"
 		"xsd:language"
@@ -7254,51 +7281,48 @@
 		"xsd:unsignedLong"
 		"xsd:unsignedByte"
 		"protege:inferredSubclassOf"
-		"rdfs:Class"
 		"rdf:first"
 		"xsd:short"
-		"rdf:List"
 		"rdf:predicate"
 		"owl:hasValue"
 		"xsd:double"
 		"rdf:rest"
 		"xsd:decimal"
 		"rdf:subject"
+		"owl:SymmetricProperty"
+		"rdf:value"
 		"owl:sameAs"
 		"xsd:Name"
-		"rdf:value"
-		"owl:SymmetricProperty"
 		"xsd:byte"
-		"owl:differentFrom"
 		"owl:AllDifferent"
-		"rdf:Property"
+		"owl:differentFrom"
 		"owl:Nothing"
-		"owl:cardinality"
+		"rdf:Property"
 		"owl:InverseFunctionalProperty"
+		"owl:cardinality"
 		"xsd:nonNegativeInteger"
 		"rdf:Statement"
 		":FROM"
-		"rdfs:Literal"
-		"owl:disjointWith"
 		"xsd:anySimpleType"
+		"owl:disjointWith"
 		"owl:minCardinality"
 		"xsd:ID"
 		"xsd:gDay"
 		"xsd:gYearMonth"
-		"xsd:NCName"
 		"owl:distinctMembers"
+		"xsd:NCName"
 		"xsd:nonPositiveInteger"
 		"rdfs:Datatype"
-		":DIRECTED-BINARY-RELATION"
-		"xsd:token"
 		"owl:TransitiveProperty"
-		"xsd:IDREF"
-		"xsd:ENTITY"
+		"xsd:token"
+		":DIRECTED-BINARY-RELATION"
 		"xsd:normalizedString"
+		"xsd:ENTITY"
+		"xsd:IDREF"
 		"xsd:gMonth"
-		"rdf:type"
-		"owl:oneOf"
 		"owl:maxCardinality"
+		"owl:oneOf"
+		"rdf:type"
 		"rdf:object")
 	(journaling_enabled FALSE)
 	(next_frame_number 0)
@@ -8169,7 +8193,8 @@
 		[KB_635552_Instance_6]
 		[KB_635552_Instance_8]
 		[KB_941921_Instance_2]
-		[KB_941921_Instance_6]))
+		[KB_941921_Instance_6]
+		[hyper_ontology_ProjectKB_Instance_50]))
 
 ([XY_Instance_541] of  Widget
 
