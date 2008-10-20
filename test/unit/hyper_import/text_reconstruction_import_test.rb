@@ -10,7 +10,7 @@ require 'talia_util'
 module TaliaUtil
 
   # Test te DataRecord storage class
-  class EditionImportTest < Test::Unit::TestCase
+  class TextReconstructionImportTest < Test::Unit::TestCase
   
     include UtilTestMethods
     
@@ -31,7 +31,7 @@ module TaliaUtil
     
     # Test if the import succeeds
     def test_import
-      assert_kind_of(TaliaCore::Edition, @src)
+      assert_kind_of(TaliaCore::TextReconstruction, @src)
     end
     
     # Test if the types were imported correctly

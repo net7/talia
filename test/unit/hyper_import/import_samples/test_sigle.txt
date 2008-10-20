@@ -4,7 +4,7 @@ book_work:
 WS
 chapter:
 AC-[Text]
-edition:
+text_reconstruction:
 kbrunkhorst-93
 essay:
 jgrzelczyk-4

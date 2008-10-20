@@ -60,17 +60,17 @@ module TaliaCore
     end
   
     def test_has_subparts_with_manifestations
-      book = make_big_book_with_editions('test_has_subparts_with_manifestations')
+      book = make_big_book_with_text_reconstructions('test_has_subparts_with_manifestations')
       assert_equal(12, book.subparts_with_manifestations(N::HYPER.HyperEdition).size)
     end
     
     def test_has_pages_with_manifestations
-      book = make_big_book_with_editions('test_has_pages_with_manifestations')
+      book = make_big_book_with_text_reconstructions('test_has_pages_with_manifestations')
       assert_equal(5, book.subparts_with_manifestations(N::HYPER.HyperEdition, N::HYPER.Page).size)
     end
 
     def test_has_paragraphs_with_manifestations
-      book = make_big_book_with_editions('test_has_paragraphs_with_manifestations')
+      book = make_big_book_with_text_reconstructions('test_has_paragraphs_with_manifestations')
       assert_equal(7, book.subparts_with_manifestations(N::HYPER.HyperEdition, N::HYPER.Paragraph).size)
     end
 

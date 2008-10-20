@@ -115,6 +115,7 @@ class Feeder
       # essay has several image/PDF, one for each of its page
       content_version = '' # TODO: ??
       url = '' #TODO
+      content = '' #TODO
       add_version(versions, content_version, "1", "talia:url", content, true)
     when TaliaCore::Comment
       #TODO: implementation

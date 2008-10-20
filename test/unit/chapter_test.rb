@@ -36,7 +36,7 @@ module TaliaCore
     end
 
     def test_has_subparts_with_manifestations
-      book = make_big_book_with_editions('test_has_subparts_with_manifestations')
+      book = make_big_book_with_text_reconstructions('test_has_subparts_with_manifestations')
       book.order_pages!
       chapter = book.chapters[0]
       chapter.order_pages!

@@ -3,10 +3,10 @@ module TaliaUtil
   module HyperImporter
     
     # Import class for paragraphs
-    class EditionImporter < ContributionImporter
+    class TextReconstructionImporter < ContributionImporter
 
       source_type 'hyper:HyperEdition'
-      source_class TaliaCore::Edition
+      source_class TaliaCore::TextReconstruction
       
       def import!
         contribution_import!

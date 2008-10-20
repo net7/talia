@@ -49,7 +49,7 @@ class TaskHelper
   # Clones the HyperEditions from the original to the target element. This
   # makes HyperEditions that are manifestations of the original also manifestations
   # of the target. 
-  def self.clone_editions(original, destination)
+  def self.clone_hyper_editions(original, destination)
     # Find all HyperEditions that exist on the original paragraph
     ed_qry = manifestations_query_for(original)
     ed_qry.where(:manifestation, N::RDF.type, N::HYPER.HyperEdition)
@@ -69,7 +69,7 @@ class TaskHelper
       quick_add_property(paragraph, N::HYPER.note, new_note)
     else
       paragraph = catalog.add_from_concordant(orig_paragraph)
-      clone_editions(orig_paragraph, paragraph)
+      clone_hyper_editions(orig_paragraph, paragraph)
       paragraph.hyper::note << new_note
       paragraph.save!
     end

@@ -12,7 +12,7 @@ module SimpleEditionHelper
   def edition_page_title
     "#{TaliaCore::SITE_NAME} | #{@edition.title}#{@page_title_suff}"
   end
-  
+
   def edition_include_name
     "editions/#{@edition_type}"
   end

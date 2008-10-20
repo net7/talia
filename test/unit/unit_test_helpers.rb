@@ -72,14 +72,14 @@ module TaliaCore
     end
 
     
-    # Make an edition
-    def make_edition(name)
-      edition = Edition.new("http://#{klass_name}/#{name}")
-      edition.save!
-      edition.types << N::HYPER.Edition
-      edition.types << N::HYPER.HyperEdition
-      edition.save!
-      edition
+    # Make a text reconstruction
+    def make_text_reconstruction(name)
+      text_reconstruction = TextReconstruction.new("http://#{klass_name}/#{name}")
+      text_reconstruction.save!
+      text_reconstruction.types << N::HYPER.TextReconstruction
+      text_reconstruction.types << N::HYPER.HyperEdition
+      text_reconstruction.save!
+      text_reconstruction
     end
 
     # Make an transcription
@@ -158,17 +158,17 @@ module TaliaCore
       book
     end
     
-    def make_big_book_with_editions(name)
+    def make_big_book_with_text_reconstructions(name)
       book = make_big_book(name)
       book.pages.each do |page|
-        edition = make_edition("#{page.uri.local_name}-edition")
-        quick_add_property(edition, N::HYPER.manifestation_of, page)
-        edition.save!
+        text_reconstruction = make_text_reconstruction("#{page.uri.local_name}-text_reconstruction")
+        quick_add_property(text_reconstruction, N::HYPER.manifestation_of, page)
+        text_reconstruction.save!
       end
       book.paragraphs.each do |paragraph|
-        edition = make_edition("#{paragraph.uri.local_name}-edition")
-        quick_add_property(edition, N::HYPER.manifestation_of, paragraph)
-        edition.save!
+        text_reconstruction = make_text_reconstruction("#{paragraph.uri.local_name}-text_reconstruction")
+        quick_add_property(text_reconstruction, N::HYPER.manifestation_of, paragraph)
+        text_reconstruction.save!
       end
       book
     end
