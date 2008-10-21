@@ -6,13 +6,11 @@ module TaliaCore
     DATA_PATH = File.join(TALIA_ROOT, "data")
     
     singular_property :position, N::HYPER.position
-    singular_property :height, N::HYPER.height
-    singular_property :width, N::HYPER.width
+    singular_property :dimensions, N::DCT.extent
     singular_property :position_name, N::HYPER.position_name
     
     # NOT cloned: part-of relationship
-    clone_properties N::HYPER.height, N::HYPER.width,
-      N::HYPER.dimension_units
+    clone_properties N::DCT.extent
    
     # returns the following page
     def next_page

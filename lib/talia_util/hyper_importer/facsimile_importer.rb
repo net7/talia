@@ -9,9 +9,14 @@ module TaliaUtil
       
       def import!
         contribution_import!
-        add_property_from(@element_xml, "dimensionX")
-        add_property_from(@element_xml, "dimensionY")
-        source.hyper::dimension_units << 'pixel'
+        import_dimensions!
+      end
+      
+      # Import the dimensions
+      def import_dimensions!
+        if((width = @element_xml.elements['dimensionX'])&& (height = @element_xml.elements['dimensionY']))
+          source.dct::extent << "#{width.text.strip}x#{height.text.strip} pixel"
+        end
       end
       
     end

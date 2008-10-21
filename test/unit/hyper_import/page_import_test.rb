@@ -56,8 +56,8 @@ module TaliaUtil
     
     # Test the dimensions
     def test_dimensions
-      assert_property(@src.hyper::height, "3778.00")
-      assert_property(@src.hyper::width, "2700.00")
+      assert_property(@src.dct::extent, "2700.00x3778.00 pixel")
+      assert_equal(@src.dimensions, "2700.00x3778.00 pixel")
     end
     
     # Test work import
@@ -78,10 +78,6 @@ module TaliaUtil
     
     def test_siglum
       assert_equal('D-12,10r', @src.siglum)
-    end
-    
-    def test_units
-      assert_property(@src.hyper::dimension_units, 'pixel')
     end
     
     def test_ordering_import

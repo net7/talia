@@ -4,6 +4,8 @@ module TaliaCore
   # of a single page)
   class Facsimile < Manifestation
     
+    singular_property :dimensions, N::DCT.extent
+        
     # The IIP path (identifier) that the IIP frontend uses to display the
     # facsimile
     def iip_path

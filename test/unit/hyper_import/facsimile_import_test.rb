@@ -95,12 +95,8 @@ module TaliaUtil
     
     # Test import of the dimensions
     def test_dimensions
-      assert_property(@src.hyper::width, "2556")
-      assert_property(@src.hyper::height, "3988")
-    end
-    
-    def test_units
-      assert_property(@src.hyper::dimension_units, 'pixel')
+      assert_property(@src.dct::extent, "2556x3988 pixel")
+      assert_equal(@src.dimensions, "2556x3988 pixel")
     end
     
   end
