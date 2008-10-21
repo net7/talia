@@ -48,7 +48,7 @@ module TaliaCore
       when 'application/xml+tei'
         xsl = 'public/xsl/TEI/p4/html/tei.xsl'
         output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string"})
-      when "application/xml+wit_tei"
+      when 'application/xml+wit_tei'
         xsl = 'public/xsl/WitTEI/wab-transform.xsl'
         # visning is the parameter for the version in the wab-transform.xsl file
         transformer_parameters = {'visning' => version }

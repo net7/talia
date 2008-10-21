@@ -7,13 +7,15 @@ module TaliaCore
   # Refers to a transcription of a Work subpart
   class TextReconstruction < HyperEdition
     def available_versions
-      case self.hyper.file_content_type[0].downcase
-      when 'hnml', 'gml'
-        versions = ['diplomatic']
-      when 'tei', 'tei-p4', 'tei-p5'
-        versions = ['standard']
-      when 'wittei'
-        versions = ['norm', 'dipl', 'study']
+      case self.dcns::format.first
+      when 'application/xml+hnml'
+        ['diplomatic']
+      when 'application/xml+tei'
+        ['standard']
+      when 'application/xml+wit_tei'
+        ['norm', 'dipl', 'study']
+      else
+        raise(ArgumentError, "Unknown content type #{self.dcns::format.first}")
       end
     end
     
@@ -24,8 +26,8 @@ module TaliaCore
       saxon = JXslt::Saxon.new
       infile = self.data[0].file_path
       output = ''
-      case self.hyper.file_content_type[0].downcase
-      when "hnml"
+      case self.dcns::format.first
+      when 'application/xml+hnml'
         max_layer = hnml_max_layer
         middle_output = ''     
         if max_layer != '' 
@@ -36,13 +38,10 @@ module TaliaCore
         middle_output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string", :transformer_parameters => transformer_parameters})
         xsl = 'public/xsl/hnml/edition_linear_2.xsl'
         output = saxon.transform(xsl, middle_output, nil, options = {:in => "string", :out => "string", :transformer_parameters => transformer_parameters})
-      when "tei", "tei-p4"
+      when 'application/xml+tei'
         xsl = 'public/xsl/TEI/p4/html/tei.xsl'
         output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string"})
-      when "tei-p5"
-        xsl = 'public/xsl/TEI/p5/html/tei.xsl'
-        output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string"})
-      when "wittei"
+      when 'application/xml+wit_tei'
         xsl = 'public/xsl/WitTEI/wab-transform.xsl'    
         # visning is the parameter for the version in the wab-transform.xsl file        
         transformer_parameters = {'visning' => version}

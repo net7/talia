@@ -226,7 +226,7 @@ namespace :discovery do
         
         # Clone all editions that may exist on the page itself
         # TODO: Why are editions existing on the page itself?
-        TaskHelper::clone_editions(orig_page, new_page)
+        TaskHelper::clone_hyper_editions(orig_page, new_page)
         
         # Go through all the notes of the current page
         orig_page.notes.each do |note|
