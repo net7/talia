@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-$: << File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'app', 'models')
+$: << File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'lib')
 require 'talia_util/hyper_download'
 
 unless(ARGV[0])
