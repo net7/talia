@@ -1,0 +1,35 @@
+--- 
+css: 
+- application
+- auto_complete
+- click_to_globalize
+- side_bar_menu
+- source_list_accordion
+- toolbar
+- widgeon
+js: 
+- prototype
+- effects
+- controls
+- dragdrop
+- lowpro
+- builder
+- application
+- accordion
+- window_onresize_event
+- window_onload_event
+- widget
+- text_onresize_event
+- utilities
+- unittest
+- toolbar
+- sources
+- sound
+- slider
+- session
+- mainElementPositioning
+- log_in
+- handleSearchField
+- force_identify
+- edit_sources
+- click_to_globalize
