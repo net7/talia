@@ -7,6 +7,8 @@ development:
   type: sesame
   location: ./db/sesame_development.db
 
+staging:
+  development
 
 # RDF store setup for rdland with SQL backend
 # development:
