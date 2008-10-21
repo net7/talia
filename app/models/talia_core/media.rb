@@ -3,12 +3,12 @@ module TaliaCore
   # This refers to a media file in the collection
   class Media < ExpressionCard
     
-    clone_properties N::HYPER.play_length,
+    clone_properties N::DCT.extent,
       N::HYPER.downloadable
     
     singular_property :hyper_category, N::HYPER.category
     singular_property :downloadable, N::HYPER.downloadable
-    singular_property :play_length, N::HYPER.play_length
+    singular_property :play_length, N::DCT.extent
 
     # Returns the media objects (manifestations of the media object) with the
     # given file type.

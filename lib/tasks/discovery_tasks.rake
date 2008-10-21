@@ -93,7 +93,7 @@ namespace :discovery do
       element.dcns::creator << author
       element.title = title
       element.dcns::date << year
-      element.play_length = length
+      element.play_length = "#{length} h:mm:ss"
       wmv_data = TaliaCore::DataTypes::WmvMedia.new
       wmv_data.location = wmv_file
       mp4_data = TaliaCore::DataTypes::Mp4Media.new
