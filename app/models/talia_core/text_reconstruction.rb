@@ -8,7 +8,7 @@ module TaliaCore
   class TextReconstruction < HyperEdition
     def available_versions
       case self.dcns::format.first
-      when 'application/xml+hnml'
+      when 'application/xml+hnml', 'application/xml+gml'
         ['diplomatic']
       when 'application/xml+tei'
         ['standard']
