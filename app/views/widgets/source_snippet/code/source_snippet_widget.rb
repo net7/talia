@@ -1,5 +1,6 @@
 # Render a source with a given template. The widget checks the type of the 
 class SourceSnippetWidget < Widgeon::Widget
+  @@type_templates = {}
   
   def on_init
     assit_not_nil(@source)
