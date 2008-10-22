@@ -540,6 +540,7 @@ div#html_data img{
 }
 
 #login_box {
+	display: block; /*it's needed due to css mess, don't delete*/
 	float: right;
 	margin: 10px;
 }

@@ -1,6 +1,7 @@
 class SourcesController < ApplicationController
   include TaliaCore
   PER_PAGE = 10
+  caches_action :show
   
   # GET /sources
   # GET /sources.xml

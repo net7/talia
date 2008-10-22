@@ -57,11 +57,24 @@ module LayoutHelper
       content_tag(:div, h(message), :id => "flash_#{status}")
     end
   end
-  
-  # Show the logout box if the user is loggedin.
-  # TODO: in future should handle even the login link.
+
+  # Always send those contents, even if the user is *not* logged in.
+  # This is *very helpful* for caches purposes, since we should handle page
+  # expirations for each login/logout, only for show/hide this box.
+  #
+  # Since the box doesn't contains sensible data, we can always safely send it
+  # and let javascript decide to show or hide it.
+  #
+  # Scenario 1: User login
+  #   The login process send a cookie on each page load, javascript look
+  #   at that value and show the box.
+  # Scenario 2: User not logged in
+  #   The cookie is not set or is false, so javascript doesn't show the box.
+  #
+  #
+  # NOTE: don't delete display:none, unless you're full understanding the problem.
   def login_box
-    %(<div id="login_box">#{languages_box} | #{link_to("Logout", logout_path)}</div>) if logged_in?
+    %(<div id="login_box" style="display:none;">#{languages_box} | #{link_to("Logout", logout_path)}</div>)
   end
   
   def languages_box

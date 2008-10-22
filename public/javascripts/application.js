@@ -13,3 +13,11 @@ function mark_for_destroy(element, selector) {
 function hiding_visual_effect(element, selector) {
 	new Effect.SwitchOff($(element).up(selector));
 }
+
+function handle_login_box() {
+	if(document.cookies().get('loggedin') == "true"){
+		$('login_box').show();
+	}
+}
+
+document.observe("dom:loaded", handle_login_box);

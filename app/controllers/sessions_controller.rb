@@ -17,6 +17,7 @@ class SessionsController < ApplicationController
   def destroy
     self.current_user.forget_me if logged_in?
     cookies.delete :auth_token
+    cookies.delete :loggedin
     reset_session
     flash[:notice] = "You have been logged out."
     redirect_to login_path
@@ -58,6 +59,9 @@ class SessionsController < ApplicationController
       self.current_user.remember_me
       cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
     end
+
+    # Useful for caching contents without add the overhead of expiration (see LayoutHelper#login_box)
+    cookies[:loggedin] = "true"
     redirect_to admin_path
   end
 
