@@ -32,6 +32,8 @@ class CriticalEditionsController < SimpleEditionController
   end
   
   def advanced_search
+    @path = []
+    
     # if user has clicked on seach button, execute search method
     unless params[:advanced_search_submission].nil?
       # collect data to post
