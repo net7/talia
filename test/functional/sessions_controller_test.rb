@@ -22,7 +22,7 @@ class SessionsControllerTest < Test::Unit::TestCase
   def test_should_fail_login_and_not_redirect
     post :create, :login => 'quentin', :password => 'bad password'
     assert_nil session[:user_id]
-    assert_equal "Sorry, could not log you in. Please check your username and password", flash[:error]
+    assert_flash_error "Sorry, could not log you in. Please check your username and password"
     assert_response :success
   end
 

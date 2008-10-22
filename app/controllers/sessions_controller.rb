@@ -63,7 +63,7 @@ class SessionsController < ApplicationController
 
   # login failed
   def failed_login(message = nil)
-    flash[:error] = message if !message.nil?
+    flash.now[:error] = message if !message.nil?
     render :action => 'new'
   end
 end
