@@ -101,7 +101,7 @@ module TaliaCore
     # To string: Just return the URI. Use to_xml if you need something more
     # involved.
     def to_s
-      uri.to_s
+      self[:uri]
     end
 
     # This will work in the normal way for database attributes. If the value
