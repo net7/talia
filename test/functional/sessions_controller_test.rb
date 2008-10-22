@@ -1,36 +1,28 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'sessions_controller'
-
-# Re-raise errors caught by the controller.
-class SessionsController; def rescue_action(e) raise e end; end
+require 'test_helper'
 
 class SessionsControllerTest < Test::Unit::TestCase
-  # Be sure to include AuthenticatedTestHelper in test/test_helper.rb instead
-  # Then, you can remove it from this and the units test.
-  include AuthenticatedTestHelper
-
-  fixtures :users
-
   def setup
     @controller = SessionsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
 
-  def test_should_use_application_layout
+  def test_should_use_session_layout
     get :new
-    assert_layout :application
+    assert_layout :sessions
   end
 
   def test_should_login_and_redirect
     post :create, :login => 'quentin', :password => 'test'
     assert session[:user_id]
-    assert_response :redirect
+    assert_empty flash
+    assert_redirected_to admin_path
   end
 
   def test_should_fail_login_and_not_redirect
     post :create, :login => 'quentin', :password => 'bad password'
     assert_nil session[:user_id]
+    assert_equal "Sorry, could not log you in. Please check your username and password", flash[:error]
     assert_response :success
   end
 
@@ -38,7 +30,8 @@ class SessionsControllerTest < Test::Unit::TestCase
     login_as :quentin
     get :destroy
     assert_nil session[:user_id]
-    assert_response :redirect
+    assert_equal "You have been logged out.", flash[:notice]
+    assert_redirected_to login_path
   end
 
   def test_should_remember_me

@@ -3,42 +3,23 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
 class Test::Unit::TestCase
-  # RoleRequirementTestHelper must be included to test RoleRequirement
+  include AuthenticatedTestHelper
   include RoleRequirementTestHelper
 
-  # Transactional fixtures accelerate your tests by wrapping each test method
-  # in a transaction that's rolled back on completion.  This ensures that the
-  # test database remains unchanged so your fixtures don't have to be reloaded
-  # between every test method.  Fewer database queries means faster tests.
-  #
-  # Read Mike Clark's excellent walkthrough at
-  #   http://clarkware.com/cgi/blosxom/2005/10/24#Rails10FastTesting
-  #
-  # Every Active Record database supports transactions except MyISAM tables
-  # in MySQL.  Turn off transactional fixtures in this case; however, if you
-  # don't care one way or the other, switching from MyISAM to InnoDB tables
-  # is recommended.
   self.use_transactional_fixtures = true
-
-  # Instantiated fixtures are slow, but give you @david where otherwise you
-  # would need people(:david).  If you don't want to migrate your existing
-  # test cases which use the @david style and don't mind the speed hit (each
-  # instantiated fixtures translates to a database query per test method),
-  # then set this back to true.
   self.use_instantiated_fixtures  = false
-
-  # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
-  #
-  # Note: You'll currently still have to declare fixtures explicitly in integration tests
-  # -- they do not yet inherit this setting
   fixtures :all
 
-  # Add more helper methods to be used by all tests here...
-  # Assert the given condition is false
+  # Assert the given condition is false.
   def assert_not(condition, message = nil)
     assert !condition, message
   end
   alias_method :assert_false, :assert_not
+
+  # Assert the given enumerable is empty.
+  def assert_empty(enumerable, message = nil)
+    assert enumerable.empty?, message
+  end
   
   # Assert the current response is served with the given layout.
   def assert_layout(actual, message = nil)
@@ -54,6 +35,3 @@ def uses_mocha(description)
 rescue LoadError
   $stderr.puts "Skipping #{description} tests. `gem install mocha` and try again."
 end
-
-require File.expand_path(File.dirname(__FILE__) + "/../lib/authenticated_test_helper")
-include AuthenticatedTestHelper

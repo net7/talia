@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title><%= h(yield(:title) || "Talia | The Digital Library") %></title>
+    <%= stylesheet_link_tag :all, :cache => true -%>
+    <%= yield(:stylesheet) %>
+  </head>
+  <body>
+    <div id="header">
+      <div id="title_bar">
+        <h1><%= link_to h(yield(:title) || "Talia | The Digital Library"), root_path, :title => 'Home page'%></h1>
+        <p class="header_subtitle"><%= h(subtitle) %></p>
+      </div>
+    </div>
+    <div id="login">
+      <%= show_flash %>
+      <div class="left">
+        <%= yield %>
+      </div>
+    </div>
+    <div class="clear"></div>
+    <%= javascript_include_tag :all, :cache => true %>
+    <%= yield(:javascript) %>
+  </body>
+</html>

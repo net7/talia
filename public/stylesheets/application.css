@@ -527,13 +527,44 @@ div#html_data img{
 	color: #0c0;
 }
 
+.left {
+	text-align: left;
+}
+
 .notice {
 	font-size: 1.2em;
+}
+
+.clear {
+  clear: both;
 }
 
 #login_box {
 	float: right;
 	margin: 10px;
+}
+
+#login {
+	margin: 20px 300px;
+	padding: 20px;
+	background-color: #efefef;
+	border: 8px solid #ccc;
+}
+
+#login label {
+	font-size: 1.8em;
+}
+
+#login input[type=text], #login input[type=password] {
+	margin: 0;
+	padding: 0;
+	border: 2px solid #ccc;
+	background-color: #fff;
+	font-size: 1.6em;
+}
+
+#login input[type=submit] {
+  font-size: 1.3em;	
 }
 
 #openid_login p input[type=text] {
