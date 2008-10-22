@@ -7,10 +7,17 @@ module TaliaCore
     
     test_cloning N::DCNS.title, 
       N::HYPER.position, N::HYPER.position_name, 
-      N::HYPER.height, N::HYPER.width,
-      N::HYPER.dimension_units,
+      N::DCT.extent,
       N::HYPER.siglum, 
       N::RDF.type 
+    
+    def setup
+      setup_once(:init) do
+        TaliaUtil::Util.flush_rdf
+        TaliaUtil::Util.flush_db
+        true
+      end
+    end
     
     def test_can_create
       assert_not_nil(page = make_page('test_can_create'))

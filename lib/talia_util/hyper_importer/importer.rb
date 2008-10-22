@@ -248,7 +248,7 @@ module TaliaUtil
         raise(ArgumentError, "This must have a klass as parameter: #{source_name}") unless(klass.is_a?(Class))
         source_uri = irify(N::LOCAL + source_name)
         src = nil
-        if(TaliaCore::Source.exists?(source_uri))
+        if(TaliaCore::ActiveSource.exists?(source_uri))
           # If the Source already exists, push the types in
           src = TaliaCore::Source.find(source_uri)
           src.autosave_rdf = false
