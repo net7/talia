@@ -7,6 +7,7 @@ module TaliaCore
       
       # These are the classes that are used
       @active_classes = [ :book, :facsimile ]
+      @timestamp_field = "created_at"
       
       def self.active_classes
         @active_classes
@@ -20,7 +21,7 @@ module TaliaCore
         select_first_or_last('asc')
       end
       
-      def earliest
+      def latest
         select_first_or_last('desc')
       end
       
@@ -29,14 +30,14 @@ module TaliaCore
       end
       
       def find(selector, options = {})
-        raise(OAI::ResumptionTokenExeption, "Resumption not yet implemented") # TODO: Support resumption
-        ActiveSource.find(selector, :conditions => sql_conditions(options)).collect { |rec| ActiveSourceOaiAdapter.get_wrapper_for(rec) }
+        raise(OAI::ResumptionTokenException, "Resumption not yet implemented")  if options[:resumption_token] # TODO: Support resumption
+        ActiveSource.find(selector, :conditions => sql_conditions(options))
       end
       
       private
       
       def select_first_or_last(order)       
-        TaliaCore::ActiveSource.find(:first, :select => 'updated_at', :order => "updated_at #{order}", :conditions => sql_conditions).updated_at
+        TaliaCore::ActiveSource.find(:first, :select => 'updated_at', :order => "updated_at #{order}").updated_at
       end
       
       # build a sql conditions statement from an OAI options hash

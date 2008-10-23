@@ -5,5 +5,5 @@ class BookProvider < OAI::Provider::Base
     record_prefix 'oai:talia'
     admin_email 'root@localhost'
     # TODO: Check for right class
-    source_model OAI::Provider::ActiveRecordWrapper.new(ActiveRecord::Base)
+    source_model TaliaCore::Oai::ActiveSourceWrapper.new
 end
