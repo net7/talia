@@ -30,7 +30,7 @@ module TaliaCore
       
       def find(selector, options = {})
         raise(OAI::ResumptionTokenExeption, "Resumption not yet implemented") # TODO: Support resumption
-        ActiveSource.find(selector, :conditions => sql_conditions(options))
+        ActiveSource.find(selector, :conditions => sql_conditions(options)).collect { |rec| ActiveSourceOaiAdapter.get_wrapper_for(rec) }
       end
       
       private
