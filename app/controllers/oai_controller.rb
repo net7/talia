@@ -1,4 +1,4 @@
-class OaicontrollerController < ApplicationController
+class OaiController < ApplicationController
   def index
     # Remove controller and action from the options.  Rails adds them automatically.
     options = params.delete_if { |k,v| %w{controller action}.include?(k) }
