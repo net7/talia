@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+# Helper script to CGI-encode exsting filenames
+
+$: << File.join(File.dirname(__FILE__), '..')
+
+require 'cgi'
+require 'progressbar'
+require 'fileutils'
+
+if(ARGV.empty?)
+  puts "Usage encode_filenames <directory> [unencode]"
+  exit 1
+end
+
+directory = File.expand_path(ARGV[0])
+
+files = Dir[File.join(directory, '**')]
+
+progress = ProgressBar.new("Renaming", files.size)
+
+files.each do |file|
+  dir = File.dirname(file)
+  enc_filename = (ARGV.size > 1 && ARGV[1] == 'unencode') ? CGI.unescape(File.basename(file)) : CGI.escape(File.basename(file))
+  enc_file = File.join(dir, enc_filename)
+  FileUtils.move(file, File.join(dir, enc_filename)) if(file != enc_file)
+  progress.inc
+end
+
+progress.finish
+
+
