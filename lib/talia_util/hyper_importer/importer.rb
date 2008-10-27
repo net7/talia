@@ -446,7 +446,7 @@ module TaliaUtil
               result = data_record.create_from_data(location, io) 
             end
           rescue Exception => e
-            raise(IOError, "Error loading #{url} (when file: #{File.expand_path(url)}, open_args: [#{open_args.join(', ')}]) #{e}")
+            raise(IOError, "Error loading #{url} for #{@source.uri} (when file: #{File.expand_path(url)}, open_args: [#{open_args.join(', ')}]) #{e}")
           end
         end
         

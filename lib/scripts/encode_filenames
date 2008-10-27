@@ -7,7 +7,7 @@ require 'cgi'
 require 'progressbar'
 require 'fileutils'
 
-if(ARGV.empty?)
+if(ARGV.empty? || (ARGV.size > 1 && ARGV[1] != 'unencode'))
   puts "Usage encode_filenames <directory> [unencode]"
   exit 1
 end

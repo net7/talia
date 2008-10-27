@@ -9,6 +9,7 @@ module TaliaCore
         @timestamp_field = "timestamp"
         # These are the classes that are used
         @active_classes = [ :book, :facsimile ]
+        @limit = 20
       end
       
       def earliest
@@ -20,18 +21,68 @@ module TaliaCore
       end
       
       def sets
-        raise(OAI::SetException, "Sets not yet supported") # TODO: Support sets
+        raise OAI::SetException # TODO: Support sets
       end
       
       def find(selector, options = {})
-        raise(OAI::ResumptionTokenException, "Resumption not yet implemented")  if options[:resumption_token] # TODO: Support resumption
-        ActiveSource.find(selector, :conditions => sql_conditions(options)).collect { |rec| TaliaCore::Oai::ActiveSourceOaiAdapter.get_wrapper_for(rec) }
+        return select_partial(options[:resumption_token]) if(options[:resumption_token])
+        
+        if(selector == :first)
+          wrap(ActiveSource.find(selector, :conditions => sql_conditions(options)))
+        elsif(selector == :all)
+          select_partial(OAI::Provider::ResumptionToken.new(options.merge(:last => 0)))
+        else
+          wrap(ActiveSource.find(selector, :conditions => sql_conditions(options)))
+        end
+      rescue ActiveRecord::RecordNotFound
+        nil
       end
       
       private
       
+      # Selects a partial result set from a resumption token
+      def select_partial(token)
+        token = OAI::Provider::ResumptionToken.parse(token) if(token.is_a?(String))
+        
+        conditions = token_conditions(token)
+        total = ActiveSource.count(:id, :conditions => conditions)
+        
+        return [] if(total == 0)
+        
+        records = ActiveSource.find(:all, :conditions => token_conditions(token),
+          :limit => @limit,
+          :order => 'id asc'
+        )
+        raise(OAI::ResumptionTokenException) unless(records)
+        
+        if(@limit < total)
+          wrap(records)
+        else
+          last_id = records.last.id
+          OAI::Provider::PartialResult.new(wrap(records), token.next(last_id))
+        end
+      end
+      
+      # Wraps the record(s) into an appropriate adapter wrapper
+      def wrap(recs)
+        if(recs == nil)
+          nil
+        elsif(recs.is_a?(ActiveSource))
+          TaliaCore::Oai::ActiveSourceOaiAdapter.get_wrapper_for(recs)
+        else
+          recs.collect { |rec| TaliaCore::Oai::ActiveSourceOaiAdapter.get_wrapper_for(rec) }
+        end
+      end
+      
       def select_first_or_last(order)       
         TaliaCore::ActiveSource.find(:first, :select => 'created_at', :order => "created_at #{order}").created_at
+      end
+      
+      # Sql condition for the given token
+      def token_conditions(token)
+        sql = sql_conditions(token.to_conditions_hash)
+        sql_add_fragment_to(sql, 'id > ?', token.last) if(token.last != 0)
+        sql
       end
       
       # build a sql conditions statement from an OAI options hash
