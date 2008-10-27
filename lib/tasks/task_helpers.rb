@@ -115,7 +115,7 @@ class TaskHelper
   # Loads the constants/classes for the models
   def self.load_consts
     # Require some model classes that should always be present
-    %w( source expression_card catalog facsimile_edition critical_edition manifestation book page paragraph facsimile).each do |klass|
+    %w( source expression_card catalog facsimile_edition critical_edition manifestation book page paragraph note chapter facsimile text_reconstruction transcription).each do |klass|
       require_dependency "talia_core/#{klass}"
     end
   end
@@ -151,6 +151,15 @@ class TaskHelper
       el.save!
       el
     end
+  end
+  
+  # Get all contributions
+  def self.contributions
+    qry = Query.new(TaliaCore::Source).select(:contribution).distinct
+    qry.where(:contribution, N::RDF.type, :t)
+    qry.where(:t, N::RDFS.subClassOf, N::HYPER.Contribution)
+    
+    qry
   end
   
 end

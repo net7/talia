@@ -51,6 +51,14 @@ thumb_options:
 # The root directory for the IIP-served images
 # iip_root_directory_location: TALIA_ROOT/iip_root
 
+# eXist configuration
+exist_options:
+  server_url: 'exist server'
+  community: 'my community'
+  exist_login: 'exist username'
+  exist_password: 'exist password'
+  exist_namespace: 'http://trac.talia.discovery-project.eu/wiki/Exist#'
+
 # Configure the namespaces for use with RDF
 namespaces:
     # Default namespaces rdf, rdfs, xsd, owl are defined in the semantic_naming

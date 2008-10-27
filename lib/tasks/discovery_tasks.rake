@@ -185,7 +185,7 @@ namespace :discovery do
     end
     puts "Edition created with #{facsimiles} facsimiles. Creation time: %.2f" % elapsed
   end
-
+  
   desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> description=<relative path to an HTML file containing the description of the edition (the Front Page)>" 
   task :create_critical_edition => :disco_init do
  
@@ -253,6 +253,33 @@ namespace :discovery do
       end
       new_book.create_html_data!
     end
+  end
+  
+  desc "Upload data into eXist database. Option contribution_uri=<contribution_uri> " 
+  task :feeder_upload => :disco_init do
+    
+    feeder = Feeder.new
+    
+    if ENV['contribution_uri'].nil? || ENV['contribution_uri'] == ""
+    
+      contributions = TaskHelper::contributions.execute
+    
+      progress_size ||= contributions.size
+      puts "Processing #{progress_size} contributions (#{progress_size} elements to process)..."
+      progress = ProgressBar.new('Contributions', progress_size)
+      contributions.each do |contribution|
+        feeder.feed_contribution(contribution.uri)
+        progress.inc
+      end
+      progress.finish
+    else
+      progress_size = 1
+      puts "Processing #{progress_size} contributions (#{progress_size} elements to process)..."
+      progress = ProgressBar.new('Contributions', progress_size)
+      feeder.feed_contribution(ENV['contribution_uri'])
+      progress.finish
+    end
+    
   end
   
   namespace :pdf do

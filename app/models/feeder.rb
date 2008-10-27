@@ -3,10 +3,16 @@ class Feeder
   def feed_contribution(contribution_uri)
     require 'net/http'
     xml = create_contribution_xml(contribution_uri)
-    #TODO move URL and login/pass in some configuration file
-    exist_servlet_url = URI.parse("http://gandalf.aksis.uib.no:8080/nietzsche/FeedExist/store")
-    exist_login = 'oystein'
-    exist_password = 'arm14erf'
+    
+    # load exist options.
+    exist_options = TaliaCore::CONFIG['exist_options']
+    raise "eXist configuration not found." if exist_options.nil?
+    
+    # set options
+    exist_servlet_url = URI.parse(URI.join(exist_options['server_url'],"/#{exist_options['community']}/FeedExist/store").to_s)
+    exist_login = exist_options['exist_login']
+    exist_password = exist_options['exist_password']
+    
     params = {'xml' => xml}
     req = Net::HTTP::Post.new(exist_servlet_url.path)
     req.basic_auth exist_login, exist_password
@@ -26,8 +32,10 @@ class Feeder
     doc = REXML::Document.new
     doc << REXML::XMLDecl.new
     root = REXML::Element.new("talia:source")
-    #FIXME: must the namespace e set in some constant ?
-    root.add_namespace("talia", "http://trac.talia.discovery-project.eu/wiki/Exist#")
+    
+    # add namespace to xml file
+    exist_namespace = TaliaCore::CONFIG['exist_options']['exist_namespace']
+    root.add_namespace("talia", exist_namespace)
     doc.add_element(root)
 
     contribution = TaliaCore::Source.find(contribution_uri)
@@ -107,7 +115,7 @@ class Feeder
           add_version(versions, content_version, "1", "talia:content", content, true)
         end
       end
-    
+
     when TaliaCore::Facsimile 
       # no versions for Facsimiles
     when TaliaCore::Essay
@@ -131,7 +139,7 @@ class Feeder
     mc_qry.where(:mc, N::RDF.type, :t)
     mc_qry.where(:t, N::RDFS.subClassOf, N::HYPER.MacroContribution)
     mcs_data = mc_qry.execute
-      
+
     mcs_data.each do |data| unless mcs_data.nil?
         mc_uri = data[0]
         material = data[1]
