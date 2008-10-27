@@ -6,8 +6,10 @@ class ImportControllerTest < ActionController::TestCase
     authorize_as :hyper
     assert_difference "TaliaCore::Book.count", 1 do
       post :create, :document => document('export')
-      assert_response :created    
-      assert_kind_of TaliaCore::Source, assigns(:document)      
+      assert_response :created
+      # TODO restore the following assertion when the test suite will work again.
+      # assert_equal "/documents/???", @response[:location]
+      assert_kind_of TaliaCore::Source, assigns(:document)  
     end
   end
   
@@ -15,7 +17,7 @@ class ImportControllerTest < ActionController::TestCase
     authorize_as :hyper
     assert_no_difference "TaliaCore::Source.count" do
       post :create, :document => nil
-      assert_response 400      
+      assert_response :unprocessable_entity      
     end
   end
   
@@ -23,7 +25,7 @@ class ImportControllerTest < ActionController::TestCase
     authorize_as :hyper
     assert_no_difference "TaliaCore::Source.count" do
       post :create, :document => ''
-      assert_response 400      
+      assert_response :unprocessable_entity      
     end
   end
   
@@ -31,7 +33,7 @@ class ImportControllerTest < ActionController::TestCase
     authorize_as :hyper
     assert_no_difference "TaliaCore::Source.count" do
       post :create, :document => 'book'
-      assert_response 400      
+      assert_response :unprocessable_entity      
     end
   end
   
@@ -39,5 +41,4 @@ class ImportControllerTest < ActionController::TestCase
     post :create, :document => document('export')
     assert_redirected_to login_path
   end
-  
 end

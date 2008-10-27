@@ -9,9 +9,9 @@ class ImportController < ApplicationController
         begin
           # TODO should we move the xml doc creation in #import?
           @document = TaliaUtil::HyperImporter::Importer.import(REXML::Document.new(params[:document]))
-          render :inline => 'The source has been created.', :status => :created
+          render :inline => 'The source has been created.', :status => :created, :location => @document
         rescue Exception => e
-          render :inline => 'Error', :status => 400
+          render :xml => e.message, :status => :unprocessable_entity
         end
       end
     end
