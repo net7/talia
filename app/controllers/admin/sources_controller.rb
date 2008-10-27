@@ -3,6 +3,7 @@ require 'paginator'
 class Admin::SourcesController < ApplicationController
   include TaliaCore
   require_role 'admin'
+  cache_sweeper :source_sweeper, :only => [ :update ]
   
   # GET /admin/sources
   # GET /admin/sources.xml
