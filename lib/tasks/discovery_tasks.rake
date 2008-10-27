@@ -286,18 +286,18 @@ namespace :discovery do
     desc "Create pdf books"
     task :create => [ 'disco_init', 'talia_core:talia_init' ] do
       require 'pdf/writer'
+      logger = TaliaCore::Book.logger
       
-      # TODO Should each generated book be a source?
-      # In this case, should pdf be placed under 'data/PdfData'?
       pdf_path = File.join(DATA_PATH, 'PdfData')
       FileUtils.mkdir_p pdf_path
 
       TaliaCore::Book.find(:all).each do |book|
         title = book.uri.local_name
-        print title.titleize
+        logger.info "[#{Time.now.to_s(:long)}] Generating #{title.titleize}"
 
         elapsed = Benchmark.realtime do
           PDF::Writer.new do |pdf|
+            filename = "#{title}.pdf"
             book.ordered_pages.each do |page|
               # In order to make the image fit inside the page I have to resize it with this
               # "magic number" (0.85), because the original pages doesn't have the same proportion
@@ -306,10 +306,12 @@ namespace :discovery do
               # TODO find the right way to pack the images
               pdf.image page.image_path, :justification => :center, :resize => 0.85
             end
-          end.save_as File.join(pdf_path, "#{title}.pdf")
+          end.save_as File.join(pdf_path, filename)
+          
+          TaliaCore::DataTypes::PdfData.create :location => filename, :source_id => book.id
         end
 
-        puts " %.2f" % elapsed
+        logger.info("[#{Time.now.to_s(:long)}] #{title.titleize} generated in %.2f secs" % elapsed)
       end
     end
   end
