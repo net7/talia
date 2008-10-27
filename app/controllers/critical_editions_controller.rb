@@ -59,8 +59,12 @@ class CriticalEditionsController < SimpleEditionController
         data['mc_single'] = (params[:mc_single])
       end
       
+      # load exist options.
+      exist_options = TaliaCore::CONFIG['exist_options']
+      raise "eXist configuration not found." if exist_options.nil?
+          
       # execute post to servlet
-      resp = Net::HTTP.post_form URI.parse("http://gandalf.aksis.uib.no:8080/nietzsche/Search"), data
+      resp = Net::HTTP.post_form URI.parse(URI.join(exist_options['server_url'],"/#{exist_options['community']}/Search").to_s), data
       
       # error check
       raise "#{resp.code}: #{resp.message}" unless resp.kind_of?(Net::HTTPSuccess)
@@ -98,6 +102,24 @@ class CriticalEditionsController < SimpleEditionController
         end
       end
     end
+  end
+  
+  def advanced_search_print
+    # set custom stylesheet for screen and print media
+    set_custom_stylesheet ['critical_print']
+    set_print_stylesheet ['critical_printreal']
+    
+    @path = []
+    
+    @result = []
+
+    unless params[:advanced_search_result].nil? || params[:checkbox].nil?
+      params[:checkbox].each do |checkbox_id|
+        index = checkbox_id.to_i
+        @result << {:counter => params[:counter][index], :title => params[:title][index], :description => params[:description][index]}
+      end
+    end
+
   end
 
   private

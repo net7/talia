@@ -77,6 +77,10 @@ ActionController::Routing::Routes.draw do |map|
     :controller => 'critical_editions',
     :action => 'advanced_search'
   
+  map.connect "critical_editions/:id/advanced_search_print",
+    :controller => 'critical_editions',
+    :action => 'advanced_search_print'
+  
   map.connect "critical_editions/:id/:part",
     :controller => 'critical_editions',
     :action => 'dispatcher'

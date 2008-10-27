@@ -12,22 +12,23 @@
   <div class="floatclear"></div>
   <div id="content" class="divided grey">
     <div id="visore">
-      <h2><%= @result_count %>  occurrences of the words <span class="red">'<%= @words  %>'</span> in the <%= @edition.hyper::title %></h2>
+      <h2><%= @result_count %>  occurrences of the words <span class="red">'<%= @words  %>'</span> in the <%= @edition.hyper::title %></h2>    
     
-    
-      <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="document['advanced_search_result'].submit(); return false;">print results</a></div>
-        <a href="#" title="select all">Select all</a> | <a href="#" title="deselect">deselect all</a>
+      <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="getElementsByName('advanced_search_result_form')[0].submit(); return false;">print results</a></div>
+        <div class="select_deselect"><a href="#" title="select all" onclick="($A(getElementsByName('checkbox[]'))).each(function(item){item.checked = true;});return false;">Select all</a> | <a href="#" title="deselect" onclick="($A(getElementsByName('checkbox[]'))).each(function(item){item.checked = false;});return false;">deselect all</a></div>
       </div>
       <!--[if !IE]>resultstools<![endif]-->  
-
-      <ul class="results"><form name="advanced_search_result" action="<%= url_for(:action => 'advanced_search') %>" method="post">
-          <% @result.each_with_index do |item,index| %>
-            <li>            
-            <h3><%= hidden_field_tag "counter[]", (index + 1).to_s %><%= index + 1  %> <label> select to print</label><input id="advanced_search_checkbox" type="checkbox" /> <span name="title[]"><%=  item[:title] %></span></h3>
-              <p><%= hidden_field_tag "description[]", item[:description] %><%= item[:description] %></p>
+      <form name="advanced_search_result_form" action="<%= url_for(:action => 'advanced_search_print') %>" method="post" target="blank">
+        <%= hidden_field_tag 'advanced_search_result' %><%= hidden_field_tag 'words', @words %><%= hidden_field_tag 'edition_title', @edition.hyper::title %>
+        <ul class="results">
+          <% @result.each_with_index do |item, index| %>
+            <li name="result_item[]">
+              <h3><%= index + 1 %><%= hidden_field_tag 'counter[]', (index+1).to_s %> <label> select to print</label><input name="checkbox[]" type="checkbox" value="<%= index.to_s %>" /> <span><%=  item[:title] %><%= hidden_field_tag 'title[]', item[:title] %></span></h3>
+              <p name="p_description[]"><%= item[:description] %><%= hidden_field_tag 'description[]', item[:description] %></p>
             </li>
           <% end %>
-      </form></ul>
+        </ul>
+      </form>
     </div>
     <!--[if !IE]>visore<![endif]-->
   </div>

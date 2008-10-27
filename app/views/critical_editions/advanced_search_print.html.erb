@@ -1,0 +1,30 @@
+<% unless @result.nil? %>
+  <div class="floatclear"></div>
+  <div id="content" class="divided grey">
+    <div id="visore">
+      <h2><%= @result.size %>  occurrences of the words <span class="red">'<%= params[:words] %>'</span> in the <%= params[:edition_title] %></h2>
+    
+    
+      <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="window.print(); return false;">print results</a></div>
+        <a href="#" title="expand all" onclick="($A(getElementsByName('advanced_search_result_description[]'))).each(function(item){Element.show(item);});return false;">Expand all</a> | <a href="#" title="collapse" onclick="($A(getElementsByName('advanced_search_result_description[]'))).each(function(item){Element.hide(item);});return false;">Collapse all</a>
+      </div>
+      <!--[if !IE]>resultstools<![endif]-->  
+
+      <ul class="results"><form name="advanced_search_result" action="<%= url_for(:action => 'advanced_search') %>" method="post">
+          <% @result.each do |item| %>
+            <li>            
+              <h3><%= item[:counter]  %> <label> select to print</label><input name="checkbox[]" type="checkbox" /> <span><%=  item[:title] %></span></h3>
+              <p name="advanced_search_result_description[]"><%= item[:description] %></p>
+            </li>
+          <% end %>
+      </form></ul>
+    </div>
+    <!--[if !IE]>visore<![endif]-->
+  </div>
+  <!-- content -->
+
+<% end %>
+
+
+
+
