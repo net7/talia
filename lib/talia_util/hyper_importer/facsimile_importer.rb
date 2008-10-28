@@ -14,7 +14,9 @@ module TaliaUtil
       
       # Import the dimensions
       def import_dimensions!
-        if((width = @element_xml.elements['dimensionX'])&& (height = @element_xml.elements['dimensionY']))
+        width = @element_xml.elements['dimensionX']
+        height = @element_xml.elements['dimensionY']
+        if(width.text && height.text)
           source.dct::extent << "#{width.text.strip}x#{height.text.strip} pixel"
         end
       end
