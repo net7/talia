@@ -95,7 +95,13 @@ module TaliaCore
         if(@delete_original_file)
           FileUtils.move(pyramid, get_iip_root_file_path)
         else
-          FileUtils.copy(pyramid, get_iip_root_file_path)
+          # Call the copy as an external command. This is to work around the
+          # crashes that occurred using the builtin copy
+          from_file = File.expand_path(pyramid)
+          to_file = File.expand_path(get_iip_root_file_path)
+          system_success = system("cp #{from_file} #{to_file}")
+          raise(IOError, "copy error #{from_file} #{to_file}") unless system_success
+          # FileUtils.copy(pyramid, get_iip_root_file_path)
         end
         
         @file_data_to_write = DataPath.new(thumb)
