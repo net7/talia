@@ -116,7 +116,7 @@ ActionController::Routing::Routes.draw do |map|
     :dot => /\.?/,
     :format => nil
   
-  map.resources :media_sources
+  map.resources :av_media_sources
   map.resources :categories
   map.resources :keywords
   map.resources :series

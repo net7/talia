@@ -1,4 +1,4 @@
-module MediaSourcesHelper
+module AvMediaSourcesHelper
   
   def video_box
     if(params[:media_type] == 'mp4')

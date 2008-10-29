@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/unit_test_helpers'
 
 module TaliaCore
-  class MediaTest < Test::Unit::TestCase
+  class AvMediaTest < Test::Unit::TestCase
     include TaliaUtil::TestHelpers
     include UnitTestHelpers
     
@@ -14,7 +14,7 @@ module TaliaCore
     end
     
     def test_data
-      media = make_media('test_data')
+      media = make_av_media('test_data')
       data_wmv = DataTypes::WmvMedia.new
       data_wmv.location = 'foo.wmv'
       data_mp4 = DataTypes::Mp4Media.new
@@ -30,8 +30,8 @@ module TaliaCore
     
     private
     
-    def make_media(name)
-      make_card(name, true, Media)
+    def make_av_media(name)
+      make_card(name, true, AvMedia)
     end
   end
 end

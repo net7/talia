@@ -1,7 +1,7 @@
 module TaliaCore
   
-  # This refers to a media file in the collection
-  class Media < ExpressionCard
+  # This refers to a audio video media file in the collection
+  class AvMedia < ExpressionCard
     
     clone_properties N::DCT.extent,
       N::HYPER.downloadable

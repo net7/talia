@@ -10,6 +10,6 @@
 <!--[if !IE]>description<![endif]-->
 <div id="content">
   <ul id="access_list"  class="minilist">    
-    <%= render(:partial => 'shared/video_list_item', :collection => @element.tagged_sources(TaliaCore::Media)) %>
+    <%= render(:partial => 'shared/video_list_item', :collection => @element.tagged_sources(TaliaCore::AvMedia)) %>
   </ul>  
 </div>

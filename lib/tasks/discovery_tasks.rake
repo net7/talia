@@ -87,8 +87,8 @@ namespace :discovery do
       bibliography = row[10]
       abstract = row[11]
       
-      element_uri = N::LOCAL + 'media_sources/' + CGI::escape(title)
-      element = TaliaCore::Media.new(element_uri)
+      element_uri = N::LOCAL + 'av_media_sources/' + CGI::escape(title)
+      element = TaliaCore::AvMedia.new(element_uri)
       element.series = series
       element.dcns::creator << author
       element.title = title
