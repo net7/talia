@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
 
   # Require some model classes that should always be present
-  %w( source expression_card catalog facsimile_edition critical_edition manifestation book page paragraph note chapter facsimile text_reconstruction transcription ).each do |klass|
+  %w( source expression_card catalog facsimile_edition critical_edition manifestation book page paragraph note chapter facsimile text_reconstruction transcription av_media ).each do |klass|
     require_dependency "talia_core/#{klass}"
   end
   
