@@ -159,7 +159,7 @@ class TaskHelper
     qry.where(:contribution, N::RDF.type, :t)
     qry.where(:t, N::RDFS.subClassOf, N::HYPER.Contribution)
     
-    qry
+    qry.execute
   end
   
 end

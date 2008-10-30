@@ -251,18 +251,22 @@ namespace :discovery do
       new_book.chapters.each do |chapter|
         chapter.order_pages!
       end
-      new_book.create_html_data!
+      begin
+        new_book.create_html_data!
+      rescue Exception => e
+        puts "Error creating html for #{new_book.uri}: #{e.message}"
+      end
     end
   end
   
-  desc "Upload data into eXist database. Option contribution_uri=<contribution_uri> " 
+  desc "Upload data into eXist database. Option: [contribution_uri=<contribution_uri>] (if not given, upload all contributions)" 
   task :feeder_upload => :disco_init do
     
     feeder = Feeder.new
     
     if ENV['contribution_uri'].nil? || ENV['contribution_uri'] == ""
     
-      contributions = TaskHelper::contributions.execute
+      contributions = TaskHelper::contributions
     
       progress_size ||= contributions.size
       puts "Processing #{progress_size} contributions (#{progress_size} elements to process)..."
