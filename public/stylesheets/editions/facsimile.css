@@ -1,16 +1,5 @@
 @charset "ISO-8859-1";
 
-body {
-    /* sfondo di testata */
-    background:#fff url(/images/facsimile_edition/bg_head.gif) top left repeat-x;
-}
-
-/* CUSTOMIZZAZI)ONE IMMAGINE PRINCICPALE DELL'HEADER */
-#header {
-  /*grafica di testata */
-  background: url(/images/facsimile_edition/bg_mainhead.jpg) top left no-repeat;
-}
-
 #search_box p input {
     font-size: 1.2em;
     background: #fff;

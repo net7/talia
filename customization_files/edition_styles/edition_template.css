@@ -1,0 +1,13 @@
+@charset "ISO-8859-1";
+
+body {
+    background:#fff url(/images/editions/#EDITION_NAME#_bg_head.gif) repeat-x  top /*sfondo di testata */; 
+}
+
+#header {
+    height: 150px;
+    width: 100%;
+    position: relative;	
+    background: url(/images/editions/#EDITION_NAME#_bg_mainhead.jpg) no-repeat left top /*grafica di testata */;
+    
+}

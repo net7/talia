@@ -1,4 +1,5 @@
 require 'cgi'
+require 'fileutils'
 
 class TaskHelper
   
@@ -56,6 +57,36 @@ class TaskHelper
     # Add the editions to the new paragraph
     ed_qry.execute.each do |edition|
       quick_add_property(edition, N::HYPER.manifestation_of, destination)
+    end
+  end
+  
+  # Sets up an edition stylesheet for the edition with the given name
+  def self.setup_edition_style(nick)
+    File.open(File.join(RAILS_ROOT, 'customization_files', 'edition_styles', 'edition_template.css')) do |io|
+      style = io.read.gsub(/#EDITION_NAME#/, nick)
+      style_dir = File.join(RAILS_ROOT, 'public', 'stylesheets', 'editions')
+      FileUtils.mkdir_p(style_dir)
+      File.open(File.join(style_dir, "#{nick}.css"), 'w') do |outfile|
+        outfile << style
+      end
+    end
+  end
+  
+  # Sets up the header images for an edition
+  def self.setup_header_images
+    raise(ArgumentError, "No nick given") unless(ENV['nick'])
+    raise(ArgumentError, "Name of the header image folder not given") unless(ENV['header'])
+    head_folder = File.join(RAILS_ROOT, 'customization_files', 'header_images', ENV['header'])
+    raise(ArgumentError, "Header image folder not valid.") unless(File.stat(head_folder).directory?)    
+    # Copy and adapt the style sheet
+    setup_edition_style(ENV['nick'])
+    # Copy the images
+    files = Dir[File.join(head_folder, '*.{jpg,jpeg,gif,png,tiff,tif}')]
+    edition_image_dir = File.join(RAILS_ROOT, 'public', 'images', 'editions')
+    FileUtils.mkdir_p(edition_image_dir)
+    files.each do |file|
+      name = File.basename(file)
+      FileUtils.copy(file, File.join(edition_image_dir, "#{ENV['nick']}_#{name}"))
     end
   end
   

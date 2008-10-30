@@ -14,7 +14,7 @@ config_dir = File.join(rails_dir, 'config')
 
 
 def readl
-  gets[0..-2]
+  gets.chomp
 end
 
 def read_yn(question)
@@ -169,7 +169,7 @@ puts " ... done."
 puts
 
 puts "Customize the start page. The following custom start pages are available:"
-cust_pages = Dir[File.join(rails_dir, 'app', 'views', 'custom', '_start_page_*.html.erb')]
+cust_pages = Dir[File.join(rails_dir, 'customization_files', 'start_page', '_start_page_*.html.erb')]
 cust_pages.each do |cust_page|
   # Get the descriptive name
   md = /_start_page_(.*)\.html\.erb/.match(cust_page)
@@ -191,7 +191,7 @@ puts
 
 puts "Customize the header image for the start page." 
 puts "The following image combinations were found: "
-cust_images = Dir[File.join(rails_dir, 'public', 'images', 'start_page')]
+cust_images = Dir[File.join(rails_dir, 'customization_files', 'start_page_images', '*')]
 cust_images = cust_images.find_all { |cust_im| File.stat?(cust_im).directory? }
 cust_images.each do |image_dir|
   puts "#{cust_images.index(image_dir)} - #{File.basename(image_dir)}"
@@ -205,7 +205,7 @@ while(!cust_image_dir)
   cust_image_dir = cust_images[cust_idx.to_i]
 end
 
-files = Dir[File.join(cust_image_dir, "*.jpg")]
+files = Dir[File.join(cust_image_dir, "*.{jpg,gif,png,tif,tiff,jpeg}")]
 
 FileUtils.copy(files, File.join(rails_dir, 'public_images', 'start_page'), :verbose => true)
 

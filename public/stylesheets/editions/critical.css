@@ -1,17 +1,5 @@
 @charset "ISO-8859-1";
 
-body {
-    background:#fff url(/images/critical_edition/bg_head.gif) repeat-x  top /*sfondo di testata */; 
-}
-
-#header {
-    height: 150px;
-    width: 100%;
-    position: relative;	
-    background: url(/images/critical_edition/bg_mainhead.jpg) no-repeat left top /*grafica di testata */;
-    
-}
-
 #search_box p.head_search input {
     font-size: 1.2em;
     background: #fff;

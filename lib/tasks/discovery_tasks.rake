@@ -147,7 +147,7 @@ namespace :discovery do
   end
   
   # creates a facsimile edition and adds to it all the color facsimiles found in the DB
-  desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> description=<short_description>"
+  desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> description=<short_description> header=<header_image_folder>"
   task :create_color_facsimile_edition => :disco_init do
     facsimiles = 0
     elapsed = Benchmark.realtime do
@@ -155,6 +155,7 @@ namespace :discovery do
       TaliaCore::Page
       TaliaCore::Facsimile
       fe = TaskHelper::create_edition(TaliaCore::FacsimileEdition)
+      TaskHelper::setup_header_images
       fe.hyper::description << ENV['description']
       qry = TaskHelper::default_book_query
       qry.where(:facsimile, N::HYPER.manifestation_of, :page)
@@ -186,7 +187,7 @@ namespace :discovery do
     puts "Edition created with #{facsimiles} facsimiles. Creation time: %.2f" % elapsed
   end
   
-  desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> description=<relative path to an HTML file containing the description of the edition (the Front Page)>" 
+  desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> header=<header_directory> description=<html_description_file>" 
   task :create_critical_edition => :disco_init do
  
     TaliaCore::Book
@@ -198,6 +199,7 @@ namespace :discovery do
     TaliaCore::HyperEdition
     
     ce = TaskHelper::create_edition(TaliaCore::CriticalEdition)
+    TaskHelper::setup_header_images
     # the description page must be passed as a path to the HTML file containing it
     description_file_path = ENV['description']
     ce.create_html_description!(description_file_path)
