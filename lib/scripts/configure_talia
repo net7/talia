@@ -3,6 +3,7 @@
 require 'rubygems'
 gem 'activerecord'
 require 'active_record'
+require 'fileutils'
 
 rails_dir = File.join(File.dirname(__FILE__), '..', '..')
 talia_dir = File.join(rails_dir, 'vendor', 'plugins', 'talia_core')
@@ -157,6 +158,59 @@ puts "Now migrating the databases"
   raise("Error creating globalize tables in #{env}") unless(system("rake globalize:setup RAILS_ENV=#{env}"))
   puts "Migrated #{env}"
 end
+
+print "Importing language files..."
+Dir[File.join(rails_dir, 'languages', '*_glob.csv')].each do |lang_file|
+  language = File.basename(lang_file)[0..1] # first two chars are the lang code
+  print " language"
+  raise("Error importing language #{language}") unless(system("rake discovery:import_language language=#{language} file=#{File.expand_path(lang_file)}"))
+end
+puts " ... done."
+puts
+
+puts "Customize the start page. The following custom start pages are available:"
+cust_pages = Dir[File.join(rails_dir, 'app', 'views', 'custom', '_start_page_*.html.erb')]
+cust_pages.each do |cust_page|
+  # Get the descriptive name
+  md = /_start_page_(.*)\.html\.erb/.match(cust_page)
+  puts "#{cust_pages.index(cust_page)} - #{md[1]}"
+end
+
+cust_page_file = nil
+
+while(!cust_page_file)
+  print "Enter the number of the customization: "
+  cust_idx = readl
+  cust_page_file = cust_pages[cust_idx.to_i]
+end
+
+FileUtils.copy(File.expand_path(cust_page_file), File.join(rails_dir, 'app', 'views', 'custom', '_start_page.html.erb'))
+puts "Copied #{File.basename(cust_page_file)} to custom page."
+
+puts
+
+puts "Customize the header image for the start page." 
+puts "The following image combinations were found: "
+cust_images = Dir[File.join(rails_dir, 'public', 'images', 'start_page')]
+cust_images = cust_images.find_all { |cust_im| File.stat?(cust_im).directory? }
+cust_images.each do |image_dir|
+  puts "#{cust_images.index(image_dir)} - #{File.basename(image_dir)}"
+end
+
+cust_image_dir = nil
+
+while(!cust_image_dir)
+  print "Enter the number of the customization: "
+  cust_idx = readl
+  cust_image_dir = cust_images[cust_idx.to_i]
+end
+
+files = Dir[File.join(cust_image_dir, "*.jpg")]
+
+FileUtils.copy(files, File.join(rails_dir, 'public_images', 'start_page'), :verbose => true)
+
+puts "Files copied."
+puts
 
 puts
 puts "Building the war file"

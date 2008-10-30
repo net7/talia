@@ -83,6 +83,10 @@ module TaliaUtil
       assert_property(@src.hyper::manifestation_of, N::LOCAL + 'N-IV-1,16[4]')
     end
     
+    def test_content_type
+      assert_property(@src.dcns::format, 'application/xml+hnml')
+    end
+    
   end
 end
 

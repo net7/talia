@@ -22,6 +22,8 @@ class Feeder
     when Net::HTTPSuccess, Net::HTTPRedirection
       res.body
     else
+      puts "Error for #{exist_servlet_url}"
+      puts res.body
       res.error!
     end
   end

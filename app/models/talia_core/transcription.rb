@@ -13,7 +13,7 @@ module TaliaCore
       when 'application/xml+wit_tei'
         ['norm', 'dipl', 'study']
       else
-        raise(ArgumentError, "Unknown content type #{self.dcns::format.first}")
+        raise(ArgumentError, "Unknown content type for#{self.uri}: #{self.dcns::format.first}")
       end
     end
     
