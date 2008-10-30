@@ -55,10 +55,13 @@ class Feeder
     subtype_query.where(contribution, N::RDF.type, :t)
     subtype_query.where(:t, N::RDFS.subClassOf, N::HYPER.ContributionContentType)
     subtype = subtype_query.execute[0]
-      
-    metadata.add_element(REXML::Element.new("talia:subtype").add_text(subtype.uri.local_name))  
+    
+    # add the subtype (if it exists, AvMedia don't have it, for instance)    
+    metadata.add_element(REXML::Element.new("talia:subtype").add_text(subtype.uri.local_name)) unless subtype.nil? 
+    # add the URI of the contribution
     metadata.add_element(REXML::Element.new("talia:uri").add_text(contribution.uri.to_s))
 
+    # add authors relations
     authors_query = Query.new(TaliaCore::Source).select(:n, :s, :a).distinct
     authors_query.where(contribution, N::DCNS.creator, :a)
     authors_query.where(:a, N::HYPER.author_name, :n)
@@ -67,26 +70,66 @@ class Feeder
     authors_data = authors_query.execute
       
     authors = metadata.add_element(REXML::Element.new("talia:authors"))
-    authors_data.each do |data|
+    
+    # AvMedia sources don't have a normal relation with authors.
+    # The authors of them are stored as plain text (and no author is created in the system)
+    # In such a case we must add the full author text (name and surname) in the firstname tag.
+    if (type == 'AvMedia')
       author = authors.add_element(REXML::Element.new("talia:author"))
-      author.add_element(REXML::Element.new("talia:firstname").add_text(data[0]))
-      author.add_element(REXML::Element.new("talia:lastname").add_text(data[1]))
-      author.add_element(REXML::Element.new("talia:uri").add_text(data[2].to_s))        
+      author_full_name = contribution::dcns.creator.first
+      author.add_element(REXML::Element.new("talia:firstname").add_text(author_full_name))
+      author.add_element(REXML::Element.new("talia:lastname"))
+      author.add_element(REXML::Element.new("talia:uri"))        
+    else
+      authors_data.each do |data|
+        author = authors.add_element(REXML::Element.new("talia:author"))
+        author.add_element(REXML::Element.new("talia:firstname").add_text(data[0]))
+        author.add_element(REXML::Element.new("talia:lastname").add_text(data[1]))
+        author.add_element(REXML::Element.new("talia:uri").add_text(data[2].to_s))        
+      end
     end
-     
+    
+    # add the title
     title = contribution.dcns.title.to_s
     metadata.add_element(REXML::Element.new("talia:title").add_text(title))
       
-    std_title_qry = Query.new(TaliaCore::Source).select(:s).distinct
-    std_title_qry.where(contribution, N::HYPER.manifestation_of, :m)
-    std_title_qry.where(:m, N::HYPER.siglum, :s)
-    material_siglum = std_title_qry.execute[0]
-    metadata.add_element(REXML::Element.new("talia:standard_title").add_text(material_siglum))      
-      
+    # AvMedia sources have the title also in the standard_title
+    if (type == 'AvMedia')    
+      metadata.add_element(REXML::Element.new("talia:standard_title").add_text(title))      
+    else
+      # others contributions have the related material siglum in there
+      std_title_qry = Query.new(TaliaCore::Source).select(:s).distinct
+      std_title_qry.where(contribution, N::HYPER.manifestation_of, :m)
+      std_title_qry.where(:m, N::HYPER.siglum, :s)
+      material_siglum = std_title_qry.execute[0]
+      metadata.add_element(REXML::Element.new("talia:standard_title").add_text(material_siglum))      
+    end  
+    
     metadata.add_element(REXML::Element.new("talia:language").add_text(""))
     date = contribution.dcns.date.to_s
     metadata.add_element(REXML::Element.new("talia:date").add_text(date))
-      
+
+    # AvMedia also have some extra data to be fed
+    if (type == 'AvMedia')
+      #FIXME: actually in the RDF there is no such thing as the publication date...
+      # the publication date is in the mysql db, 
+      # metadata.add_element(REXML::Element.new("talia:creation_date").add_text(#TODO))
+      # add the length of the AvMedia file
+      length = contribution::dct.extent.first
+      metadata.add_element(REXML::Element.new("talia:length").add_text(length))
+      # add the bibliography
+      bibliography = contribution::hyper.bibliography.first
+      metadata.add_element(REXML::Element.new("talia:bibliography").add_text(bibliography))
+      # add all the keywords (just the name) #TODO: check if names are OK here
+      keywords = metadata.add_element(REXML::Element.new("talia:keywords"))
+      keywords_query = Query.new(TaliaCore::Source).select(:key_name).distinct
+      keywords_query.where(contribution, N::HYPER.keyword, :keyword)
+      keywords_query.where(:keyword, N::HYPER.keyword_value, :key_name)
+      keywords_query.execute.each do |keyword| 
+        keywords.add_element(REXML::Element.new("talia:keyword").add_text(keyword))
+      end
+    end
+         
     versions = root.add_element(REXML::Element.new("talia:versions"))
     
     case contribution
@@ -125,10 +168,15 @@ class Feeder
       url = '' #TODO
       content = '' #TODO
       add_version(versions, content_version, "1", "talia:url", content, true)
-    when TaliaCore::Comment
+#    when TaliaCore::Comment
       #TODO: implementation
     when TaliaCore::Path
       #TODO: implementation
+    when TaliaCore::AvMedia
+      version = versions.add_element(REXML::Element.new("talia:version"))
+      content = version.add_element(REXML::Element.new("talia:content"))
+      abstract = contribution::dcns.abstract.first
+      content.add_element(REXML::Element.new("talia:abstract").add_text(abstract))
     end
     
     macrocontributions = root.add_element(REXML::Element.new("talia:macrocontributions"))
