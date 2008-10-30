@@ -36,7 +36,7 @@ module TaliaCore
       result = self[predicate]
       
       # raise exception if there are more than one item
-      raise "Predicate at position #{index} contain more then one item." if result.size > 1
+      raise(RuntimeError, "Problem with index predicate at index #{index} for #{self.uri}: More than one item.") if(result.size > 1)
       
       # return first item
       if result.empty?
