@@ -42,7 +42,7 @@ Warbler::Config.new do |config|
 
   # The most recent versions of gems are used.
   # You can specify versions of gems by using a hash assignment:
-  config.gems["rails"] = "2.0.2"
+  config.gems["rails"] = "2.0.5"
 
   # Include gem dependencies not mentioned specifically
   config.gem_dependencies = true
