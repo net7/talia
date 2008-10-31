@@ -46,6 +46,74 @@
     
 }
 
+#content.divided div#visore {
+    margin-left: 232px;
+    overflow: auto;
+    height: 550px;
+}
+#content.divided div#visore.extended {
+    margin-left: 20px;
+}
+
+
+div#visore h1 {
+    color: #584239;
+    font-family: georgia, serif;
+    font-weight: normal;
+    font-size: 2.6em;
+    line-height: 3.8em;
+}
+
+div#visore h2 {
+    color: #898989;
+    font-family: georgia, serif;
+    font-weight: normal;
+    font-size: 1.6em;
+    line-height: 2.4em;
+}
+div#visore h2 span {
+    color: #900;
+}
+
+div#visore.extended h1 {
+    font-family: arial, helvetica, sans-serif;
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #000;
+} 
+
+div#visore p{
+    /*    
+    font-size: 1.2em;
+    */
+    color: #000;
+    line-height: 2em;
+    padding-bottom: 20px;
+}
+
+div#visore p.editedby {
+    /*	font-size: 1.6em;
+    line-height: 1em;
+    */
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+div#visore p.editedby span {
+    display: block;
+    font-size: .7em;
+}
+
+div#visore p.about {
+    margin-top: 20px;
+    border-top: 1px solid #e5e5e5;
+    
+}
+div#visore p.about a {
+    color: #000;
+    text-decoration: underline;}
+
 /* SEARCH ADVANCED */
 
 div#search_adv {

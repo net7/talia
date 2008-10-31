@@ -116,6 +116,10 @@ ActionController::Routing::Routes.draw do |map|
     :dot => /\.?/,
     :format => nil
   
+  map.connect "categories/advanced_search",
+    :controller => 'categories',
+    :action => 'advanced_search'
+  
   map.resources :av_media_sources
   map.resources :categories
   map.resources :keywords
