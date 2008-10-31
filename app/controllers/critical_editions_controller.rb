@@ -32,7 +32,8 @@ class CriticalEditionsController < SimpleEditionController
   end
   
   def advanced_search
-    @path = []
+    # set default path
+    @path = [{:text => params[:id], :link => @edition.uri.to_s}]    
     
     # if user has clicked on seach button, execute search method
     unless params[:advanced_search_submission].nil?
