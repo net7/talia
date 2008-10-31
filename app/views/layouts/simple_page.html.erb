@@ -3,8 +3,10 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
     <title><%= @title  %></title>
+    <%= stylesheet_link_tag 'advanced_search' %>
     <%= stylesheet_link_tag 'main' %>
     <%= stylesheet_link_tag 'plain_shared' %>
+    <%= javascript_include_tag 'prototype' %>
   </head>
   <body>
     <div id="page_ext">
@@ -12,7 +14,21 @@
         <div id="header">
           <h1><%= @title  %></h1>
           <h2><%= @subtitle %></h2>
+          
           <!-- %= edition_partial :search_box % -->
+          <div id="search_box">
+            <% form_tag :action => "search" do -%>
+              <p class="head_search">
+                <label><%= t(:'talia.global.search') %></label> 
+                <input type="text" name="words"/>
+                <label class="invia"><%= t(:'talia.global.search') %></label>
+                <input type="submit" class="invia"/>
+              </p>
+              <a href="#" onclick="Element.toggle('search_adv'); return false;" class="advsrch"><%=  t(:'talia.global.search_advanced') %></a>
+            
+            <% end -%>
+          </div>
+          
         </div>
         <!-- header -->
         <div id="navigate">
@@ -28,6 +44,7 @@
         <!-- navigate -->
         
         <!-- advanced search -->
+<%= widget(:advanced_search, :id => 'search_adv', :options => {:mode => 'avmedia', :visible => false}) %>
 
 <%= yield %>
         

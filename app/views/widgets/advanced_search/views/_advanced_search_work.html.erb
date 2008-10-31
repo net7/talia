@@ -11,7 +11,7 @@
     <label><%= field_3_label %></label> 
     <%= w.partial :advanced_search_select, :locals => {:field_name=> 'mc_to[]', :current_size => current_size, :selected_index => :last, :data => w.paragraphs(w.works.first.uri)} %>
   </p>
-  <%= w.partial :advanced_search_adder, :locals => {:current_size => current_size} %>
-      
+  <%= w.partial :advanced_search_adder, :locals => {:current_size => current_size, :version=> "default"} %>
+
 </div>
 <!--[if !IE]> linea ricerca<![endif]-->  

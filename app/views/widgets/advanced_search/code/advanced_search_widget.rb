@@ -19,7 +19,7 @@ class AdvancedSearchWidget < Widgeon::Widget
   def on_init
     unless is_callback?
       # store work object
-      widget_session[:work] = @options[:work]
+      widget_session[:work] = @options[:work] || nil
       
       # reset current size value
       widget_session[:current_size] = 0
@@ -29,17 +29,28 @@ class AdvancedSearchWidget < Widgeon::Widget
       widget_session[:field_2_label] = @options[:field_2_label] || 'aphorisms'
       widget_session[:field_3_label] = @options[:field_3_label] || 'through'
     
+      # store search field and type for sophia vision
+      widget_session[:search_fields] = @options[:search_fields]
     end
   end
   
   # Return a plus button
-  def plus_link(current_size)
-    remote_link('add',{
-        :javascript => :add_work_line, 
-        :current_size => current_size
-      }, {
-        :class => "plus"
-      })
+  def plus_link(current_size, version="default")
+    if version == "default"
+      remote_link('add',{
+          :javascript => :add_work_line, 
+          :current_size => current_size
+        }, {
+          :class => "plus"
+        })
+    else
+      remote_link('add',{
+          :javascript => :add_avmedia_generic_row, 
+          :current_size => current_size
+        }, {
+          :class => "plus"
+        })
+    end
   end
 
   # Return a minus button
@@ -62,14 +73,24 @@ class AdvancedSearchWidget < Widgeon::Widget
   end
   
   # return onchange link for work field
-  def onchange_link(current_size)
-    remote_function(:with => "'src_line_#{current_size}_field_1_value=' + $F('src_line_#{current_size}_field_1')",
-      :url => {:controller => "widgeon", 
-        :action => "callback", 
-        :call_options =>  WidgeonEncoding.encode_options({:javascript => 'retrieve_work_content', 
-            :current_size => current_size, 
-            :widget_class => self.class.widget_name,
-            :widget_id => self.widget_id})})
+  def onchange_link(current_size, version="default")
+    if version == "default"
+      remote_function(:with => "'src_line_#{current_size}_field_1_value=' + $F('src_line_#{current_size}_field_1')",
+        :url => {:controller => "widgeon", 
+          :action => "callback", 
+          :call_options =>  WidgeonEncoding.encode_options({:javascript => 'retrieve_work_content', 
+              :current_size => current_size, 
+              :widget_class => self.class.widget_name,
+              :widget_id => self.widget_id})})
+    else
+      remote_function(:with => "'src_line_#{current_size}_field=' + $F('src_line_#{current_size}_field')",
+        :url => {:controller => "widgeon", 
+          :action => "callback", 
+          :call_options =>  WidgeonEncoding.encode_options({:javascript => 'retrieve_keyword_content', 
+              :current_size => current_size, 
+              :widget_class => self.class.widget_name,
+              :widget_id => self.widget_id})})      
+    end
   end
   
   # return an array of all work (for example: TaliaCore::Book)
@@ -100,6 +121,12 @@ class AdvancedSearchWidget < Widgeon::Widget
     paragraphs
   end
   
+  def keyword
+    TaliaCore::Keyword.find(:all).collect do |item| 
+      item.keyword_value
+    end
+  end
+  
   # callback for plus button
   callback :add_work_line do |page|
     # check if current_size is present
@@ -118,6 +145,20 @@ class AdvancedSearchWidget < Widgeon::Widget
         :field_2_label => widget_session[:field_2_label],
         :field_3_label => widget_session[:field_3_label]
       })
+  end
+  
+  # callback for plus button for AvMedia
+  callback :add_avmedia_generic_row do |page|
+    # check if current_size is present
+    raise(ArgumentError, "Required argument missing") unless(@current_size)
+
+    # increment current_size
+    widget_session[:current_size] += 1
+
+    # add new row to advanced search
+    page.insert_html :before, 
+      'src_line_tail', 
+      partial(:advanced_search_avmedia_row, :locals => {:current_size => widget_session[:current_size], :keyword_list => keyword})
   end
   
   # callback for minus button
@@ -160,6 +201,31 @@ class AdvancedSearchWidget < Widgeon::Widget
         :current_size => @current_size, 
         :selected_index => :last,
         :data => paragraphs})
+  end
+  
+  # retrieve paragraphs contained in current work
+  callback :retrieve_keyword_content do |page|
+    # check if current_size is present 
+    raise(ArgumentError, "Required argument missing") unless(@current_size)
+
+    # if parameter is keyword, replace it with combobox
+    new_object = ""
+    case params["src_line_#{@current_size}_field"]
+    when "title"
+      new_object << "<input type='text' name='title_words[]' id='src_line_#{current_size}_field_value' />"
+    when "abstract"
+      new_object << "<input type='text' name='abstract_words[]' id='src_line_#{current_size}_field_value' />"
+    when "keyword"
+      new_object << "<select name='keywords[]' id='src_line_#{current_size}_field_value'>"
+      keyword.each do |item|
+        new_object << "<option value='#{item}'>#{item}</option>"
+      end
+      new_object << "</select>"
+    end
+        
+    # replace textbox with combobox
+    page.replace "src_line_#{current_size}_field_value", new_object
+
   end
   
 end

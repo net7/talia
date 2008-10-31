@@ -1,10 +1,15 @@
 <div id="search_adv" <%= "style='display: none;'" unless w.options[:visible] %> >
   <form action="<%= url_for(:action => 'advanced_search') %>" method="post" >
-    <div name="src_line_head" class="src_line">
-      <%= hidden_field_tag 'search_type', 'mc' %>
-      <p><label><%=  t(:'talia.search.search_phrase_prompt') %></label> <input type="text" name= "words" /> <input checked type="radio" name="operator" value="or" /><label class="toradio"> <%= t(:'talia.search.any') %></label> <input type="radio" name="operator" value="and" /><label class="toradio"> <%= t(:'talia.search.all')  %> </label></p>
-      <%= w.partial :advanced_search_adder, :locals => {:current_size => 0} %>
-    </div>
+    <% if w.options[:mode] != "avmedia" %>
+      <div name="src_line_head" class="src_line">
+        <%= hidden_field_tag 'search_type', 'mc' %>
+        <p><label><%=  t(:'talia.search.search_phrase_prompt') %></label> <input type="text" name= "words" /> <input checked type="radio" name="operator" value="or" /><label class="toradio"> <%= t(:'talia.search.any') %></label> <input type="radio" name="operator" value="and" /><label class="toradio"> <%= t(:'talia.search.all')  %> </label></p>
+        <%= w.partial :advanced_search_adder, :locals => {:current_size => 0, :version => "default"} %>
+      </div>
+    <% else %>
+      <%= hidden_field_tag 'search_type', 'media' %>
+      <%= w.partial :advanced_search_avmedia_row, :locals => {:current_size => 0, :keyword_list => w.keyword} %>
+    <% end %>
     <!--[if !IE]> linea ricerca<![endif]-->
 
     <div id="src_line_tail" class="src_line">
