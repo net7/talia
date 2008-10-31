@@ -207,7 +207,7 @@ end
 
 files = Dir[File.join(cust_image_dir, "*.{jpg,gif,png,tif,tiff,jpeg}")]
 
-FileUtils.copy(files, File.join(rails_dir, 'public_images', 'start_page'), :verbose => true)
+FileUtils.copy(files, File.join(rails_dir, 'public', 'images', 'start_page'), :verbose => true)
 
 puts "Files copied."
 puts
