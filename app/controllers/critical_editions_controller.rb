@@ -82,7 +82,9 @@ class CriticalEditionsController < SimpleEditionController
       groups = doc.get_elements('/*/*/*/talia:group/talia:entry')
       # collect result. It create an array of hash {title, description}
       @result = groups.collect do |item|
-        {:title => item.elements['talia:metadata/talia:standard_title'].text, :description => item.elements['talia:excerpt'].children.to_s}
+        {:title => item.elements['talia:metadata/talia:standard_title'].text, 
+         :url => "#{N::LOCAL}#{edition_prefix}/#{params[:id]}/#{item.elements['talia:metadata/talia:standard_title'].text}",
+         :description => item.elements['talia:excerpt'].children.to_s}
       end
       
       @exist_result = doc.get_elements('/talia:result/talia:group')
