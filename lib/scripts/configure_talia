@@ -162,7 +162,7 @@ end
 print "Importing language files..."
 Dir[File.join(rails_dir, 'languages', '*_glob.csv')].each do |lang_file|
   language = File.basename(lang_file)[0..1] # first two chars are the lang code
-  print " language"
+  print " #{language}"
   raise("Error importing language #{language}") unless(system("rake discovery:import_language language=#{language} file=#{File.expand_path(lang_file)}"))
 end
 puts " ... done."
@@ -192,7 +192,7 @@ puts
 puts "Customize the header image for the start page." 
 puts "The following image combinations were found: "
 cust_images = Dir[File.join(rails_dir, 'customization_files', 'start_page_images', '*')]
-cust_images = cust_images.find_all { |cust_im| File.stat?(cust_im).directory? }
+cust_images = cust_images.find_all { |cust_im| File.stat(cust_im).directory? }
 cust_images.each do |image_dir|
   puts "#{cust_images.index(image_dir)} - #{File.basename(image_dir)}"
 end
