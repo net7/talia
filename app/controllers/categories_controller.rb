@@ -73,24 +73,7 @@ class CategoriesController < ApplicationController
          :keyword => keywords
         }
       end
-      
-      #      @exist_result = doc.get_elements('/talia:result/talia:group')
-      #      
-      #      # get chosen_book for menu
-      #      if params[:mc_single]
-      #        @source = TaliaCore::Source.find(params[:mc_single])
-      #        case @source
-      #        when TaliaCore::Book
-      #          @book = @source
-      #        when TaliaCore::Chapter
-      #          @chapter = @source
-      #          @book = @chapter.book
-      #        else
-      #          @part = @source
-      #          @book = @part.book
-      #          @chapter = @part.chapter
-      #        end
-      #      end
+
     end
   end
   

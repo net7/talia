@@ -120,6 +120,10 @@ ActionController::Routing::Routes.draw do |map|
     :controller => 'categories',
     :action => 'advanced_search'
   
+  map.connect "series/advanced_search",
+    :controller => 'series',
+    :action => 'advanced_search'
+  
   map.resources :av_media_sources
   map.resources :categories
   map.resources :keywords
