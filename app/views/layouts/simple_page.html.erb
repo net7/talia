@@ -17,12 +17,14 @@
           
           <!-- %= edition_partial :search_box % -->
           <div id="search_box">
-            <% form_tag :action => "search" do -%>
+            <% form_tag :action => "advanced_search" do -%>
+              <%= hidden_field_tag 'search_type', 'mc' %>
+              <%= hidden_field_tag 'operator', 'or' %>
               <p class="head_search">
                 <label><%= t(:'talia.global.search') %></label> 
-                <input type="text" name="words"/>
+                <input type="text" name="title_words[]" />
                 <label class="invia"><%= t(:'talia.global.search') %></label>
-                <input type="submit" class="invia"/>
+                <input type="submit" class="invia" name="advanced_search_submission"/>
               </p>
               <a href="#" onclick="Element.toggle('search_adv'); return false;" class="advsrch"><%=  t(:'talia.global.search_advanced') %></a>
             
