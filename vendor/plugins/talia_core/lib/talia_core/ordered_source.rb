@@ -35,8 +35,8 @@ module TaliaCore
       # add new object to ordered set
       result = self[predicate]
       
-      # raise exception if there are more than one item
-      raise(RuntimeError, "Problem with index predicate at index #{index} for #{self.uri}: More than one item.") if(result.size > 1)
+      # raise exception if there is more than one item
+      assit(result.size <= 1, "Problem with index predicate at index #{index} for #{self.uri}: More than one item.")
       
       # return first item
       if result.empty?
