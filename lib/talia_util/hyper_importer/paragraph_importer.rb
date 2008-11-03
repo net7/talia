@@ -63,13 +63,15 @@ module TaliaUtil
         catalog = get_catalog()
         unless catalog.nil?
           clone_uri = catalog.uri.to_s + '/' + @source.uri.local_name.to_s
-          source_book_uri = irify(@source::hyper.book[0])
+          TaliaCore::Paragraph.find(clone_uri).destroy if TaliaCore::Paragraph.exists?(clone_uri)
           clone = catalog.add_from_concordant(@source, true)
           @source.autosave_rdf = true
           @source.save!
           original = @source
           @source = clone
           original.notes.each do |note|
+            clone_page_uri = catalog.uri.local_name.to_s + '/' + note.page.uri.local_name.to_s
+            clone_page = get_source_with_class(clone_page_uri, TaliaCore::Page)
             clone_note = catalog.add_from_concordant(note)
             @source::hyper.note << clone_note
           end

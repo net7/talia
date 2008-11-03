@@ -53,6 +53,7 @@ module TaliaUtil
           clone_book_uri = catalog.uri.local_name.to_s + '/' + source_book_uri.local_name.to_s
           clone_book = get_source_with_class(clone_book_uri, TaliaCore::Book)
           clone_book.save!
+          TaliaCore::Page.find(clone_uri).destroy if TaliaCore::Page.exists?(clone_uri)
           clone = catalog.add_from_concordant(@source)
           clone::dct.isPartOf << clone_book   
           # hack to let order_page use the correct data          

@@ -24,9 +24,8 @@ module TaliaUtil
         catalog = get_catalog()
         unless catalog.nil?
           clone_uri = catalog.uri.to_s + '/' + @source.uri.local_name.to_s
-          options = {:catalog => catalog}
-          clone = @source.clone(clone_uri, options)
-          clone.save!
+          TaliaCore::Book.find(clone_uri).destroy if TaliaCore::Book.exists?(clone_uri)
+          clone = catalog.add_from_concordant(@source)
         end
       end
       
