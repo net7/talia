@@ -99,6 +99,11 @@ module TaliaCore
       new_el.catalog = options[:catalog] if(options[:catalog])
       
       new_el
+    rescue Exception => e
+      message = e.message + " (raise during clone of #{self.uri})"
+      new_err = e.class.new(message)
+      new_err.set_backtrace(e.backtrace)
+      raise new_err
     end
     
     # Make the given card concordant to this one. Creating a new concordance
