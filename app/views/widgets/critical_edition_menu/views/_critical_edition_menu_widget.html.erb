@@ -1,4 +1,4 @@
-<h1>List of works </h1>
+<h1><%= t(:"talia.search.list of works") %> </h1>
 <% if w.advanced_search %>
   <form name="advanced_search_menu_form" action="<%= url_for(:action => 'advanced_search') %>" method="post" >
     <%= w.show_books %>
