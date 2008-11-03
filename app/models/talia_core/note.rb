@@ -17,7 +17,7 @@ module TaliaCore
     def paragraph
       Paragraph.find(:first, :find_through => [N::HYPER.note, self])
     end
-    
+          
   end
   
 end

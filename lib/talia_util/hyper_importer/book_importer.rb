@@ -15,8 +15,20 @@ module TaliaUtil
         add_property_from(@element_xml, 'publisher')
         add_property_from(@element_xml, 'publishingPlace')
         add_property_from(@element_xml, 'ordering')
+        clone_to_catalog()
       end
       
+      private
+      
+      def clone_to_catalog()
+        catalog = get_catalog()
+        unless catalog.nil?
+          clone_uri = catalog.uri.to_s + '/' + @source.uri.local_name.to_s
+          options = {:catalog => catalog}
+          clone = @source.clone(clone_uri, options)
+          clone.save!
+        end
+      end
       
     end
   end

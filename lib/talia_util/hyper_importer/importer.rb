@@ -163,6 +163,13 @@ module TaliaUtil
         end
       end
       
+      def get_catalog()
+        if(node = @element_xml.elements['catalog'])
+          catalog_name = N::LOCAL + node.text.strip if(node.text && node.text.strip != "")
+          TaliaCore::Catalog.new(catalog_name)
+        end
+      end
+      
       # This adds a property "explicitly", if the automatic mapping cannot be
       # used
       def add_property_explicit(root, name, property, required = false)

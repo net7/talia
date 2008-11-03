@@ -8,7 +8,8 @@ module TaliaCore
       book.subparts_with_manifestations(N::HYPER.HyperEdition).each do |part|
         part.manifestations(TaliaCore::HyperEdition).each do |manifestation|
           div_header = "<div class='txt_block' id='#{part.uri.to_s}_text'>"
-          #TODO: add the following too, to be calculated
+          #TODO: add the following too, to be calculated.
+          # Needed when the full mode is ready
           # <p class="addons"><a href="#">1 facsimile </a>| <a href="#">2 commentaries</a> in <a href="#">Scholar Mode</a></p>       
           div_footer = "</div>"
           book_text += div_header + manifestation.to_html() + div_footer

@@ -12,6 +12,37 @@ class ImportControllerTest < ActionController::TestCase
       assert_kind_of TaliaCore::Source, assigns(:document)  
     end
   end
+
+  def test_import_page_with_catalog
+    authorize_as :hyper
+    assert_difference "TaliaCore::Page.count", 1 do
+      post :create, :document => document('export_KGW-AC,1_page_with_catalog') # imports the D-11,101v page
+      assert_response :created
+      assert_kind_of TaliaCore::Page, assigns(:document)
+     cloned_page = TaliaCore::Page.find(N::LOCAL + 'KGW/AC,1')
+    end
+  end
+
+  
+  def test_import_with_catalog
+    authorize_as :hyper
+    assert_difference "TaliaCore::Book.count", 2 do
+      post :create, :document => document('export_KGW-AC_book_with_catalog')
+      assert_response :created
+      cloned_book = TaliaCore::Source.find(N::LOCAL + 'KGW/KGW-AC')
+      assert(cloned_book.catalog = N::LOCAL + 'KGW')
+    end
+  end
+  
+  def test_import_page
+    authorize_as :hyper
+    assert_difference "TaliaCore::Page.count", 1 do
+      post :create, :document => document('export5') # imports the D-11,101v page
+      assert_response :created
+      assert_kind_of TaliaCore::Page, assigns(:document)
+    end
+  end
+  
   
   def test_should_return_client_error_on_nil_document
     authorize_as :hyper

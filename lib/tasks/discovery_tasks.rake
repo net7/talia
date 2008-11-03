@@ -125,6 +125,12 @@ namespace :discovery do
     Util.flush_rdf
   end
   
+  desc "Import data from a local XML file. Options: xml=<file_path>"
+  task :import_from_file => :disco_init do
+    xml_file = ENV['xml']
+    assit(File.exist?(xml_file))
+    TaliaUtil::XmlImport::import(xml_file)
+  end
   
   desc "Import data and prepare the test server. Downloads data directly from the net."
   task :setup_testserver => [:prep_testserver, :hyper_import, :create_color_facsimile_edition]

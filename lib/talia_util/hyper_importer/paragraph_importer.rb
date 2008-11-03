@@ -9,6 +9,7 @@ module TaliaUtil
       
       def import!
         import_nodes
+        clone_to_catalog()
       end
       
       # Imports the notes into the source
@@ -56,6 +57,24 @@ module TaliaUtil
       end
       
       private
+      
+      # Creates a clone of the imported paragraph and add to the catalog specified in the xml (if any)
+      def clone_to_catalog()
+        catalog = get_catalog()
+        unless catalog.nil?
+          clone_uri = catalog.uri.to_s + '/' + @source.uri.local_name.to_s
+          source_book_uri = irify(@source::hyper.book[0])
+          clone = catalog.add_from_concordant(@source, true)
+          @source.autosave_rdf = true
+          @source.save!
+          original = @source
+          @source = clone
+          original.notes.each do |note|
+            clone_note = catalog.add_from_concordant(note)
+            @source::hyper.note << clone_note
+          end
+        end
+      end        
       
       # Selects a name for the given note, updating the position until a 
       # "free" position is found. (The original Hyper may include duplicate
