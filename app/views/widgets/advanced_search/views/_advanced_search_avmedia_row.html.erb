@@ -1,9 +1,9 @@
 <div id="<%= "src_line_#{current_size}" %>" name="src_line" class="src_line">	
   <p>
     <select id="<%= "src_line_#{current_size}_field" %>" onchange="<%= w.onchange_link(current_size, "avmedia") %>">
-      <option value="title" selected="selected">title</option>
-      <option value="abstract">abstract</option>
-      <option value="keyword">keyword</option>
+      <option value="title" selected="selected"><%= t(:'talia.search.title') %></option>
+      <option value="abstract"><%= t(:'talia.search.abstract') %></option>
+      <option value="keyword"><%= t(:'talia.search.keyword') %></option>
     </select>
     
     <input type="text" name="title_words[]" id="<%= "src_line_#{current_size}_field_value" %>" />
