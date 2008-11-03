@@ -5,8 +5,8 @@
       <h2><%= @result.size %>  occurrences of the words <span class="red">'<%= params[:words] %>'</span> in the <%= params[:edition_title] %></h2>
     
     
-      <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="window.print(); return false;">print results</a></div>
-        <a href="#" title="expand all" onclick="($A(getElementsByName('advanced_search_result_description[]'))).each(function(item){Element.show(item);});return false;">Expand all</a> | <a href="#" title="collapse" onclick="($A(getElementsByName('advanced_search_result_description[]'))).each(function(item){Element.hide(item);});return false;">Collapse all</a>
+      <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="window.print(); return false;"><%= t(:'talia.search.print results') %></a></div>
+        <a href="#" title="expand all" onclick="($A(getElementsByName('advanced_search_result_description[]'))).each(function(item){Element.show(item);});return false;"><%= t(:'talia.search.expand all') %></a> | <a href="#" title="collapse" onclick="($A(getElementsByName('advanced_search_result_description[]'))).each(function(item){Element.hide(item);});return false;"><%= t(:'talia.search.collapse all') %></a>
       </div>
       <!--[if !IE]>resultstools<![endif]-->  
 

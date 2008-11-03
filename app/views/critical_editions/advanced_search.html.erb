@@ -12,10 +12,10 @@
   <div class="floatclear"></div>
   <div id="content" class="divided grey">
     <div id="visore">
-      <h2><%= @result_count %>  occurrences of the words <span class="red">'<%= @words  %>'</span> in the <%= @edition.hyper::title %></h2>    
+      <h2><%= @result_count %> occurrences of the words <span class="red">'<%= @words  %>'</span> in the <%= @edition.hyper::title %></h2>    
     
-      <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="getElementsByName('advanced_search_result_form')[0].submit(); return false;">print results</a></div>
-        <div class="select_deselect"><a href="#" title="select all" onclick="($A(getElementsByName('checkbox[]'))).each(function(item){item.checked = true;});return false;">Select all</a> | <a href="#" title="deselect" onclick="($A(getElementsByName('checkbox[]'))).each(function(item){item.checked = false;});return false;">deselect all</a></div>
+      <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="getElementsByName('advanced_search_result_form')[0].submit(); return false;"><%= t(:'talia.search.print results') %></a></div>
+        <div class="select_deselect"><a href="#" title="select all" onclick="($A(getElementsByName('checkbox[]'))).each(function(item){item.checked = true;});return false;"><%= t(:'talia.search.select all') %></a> | <a href="#" title="deselect" onclick="($A(getElementsByName('checkbox[]'))).each(function(item){item.checked = false;});return false;"><%= t(:'talia.search.deselect all') %></a></div>
       </div>
       <!--[if !IE]>resultstools<![endif]-->  
       <form name="advanced_search_result_form" action="<%= url_for(:action => 'advanced_search_print') %>" method="post" target="blank">
