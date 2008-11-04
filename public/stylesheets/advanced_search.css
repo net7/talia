@@ -55,6 +55,9 @@
     margin-left: 20px;
 }
 
+#content.divided ul.minilist li p span.match {
+    color: red;
+}
 
 div#visore h1 {
     color: #584239;
