@@ -1,6 +1,9 @@
 <% unless @result.nil? %>
   <div class="floatclear"></div>
   <div id="content" class="divided grey">
+    <div id="logo_print">
+      <img src="/images/critical_edition/logo_print.png" alt="" />
+    </div>
     <div id="visore">
       <h2><%= @result.size %>  <%= t(:'talia.search.result phrase 1') %> <span class="red">'<%= params[:words] %>'</span> <%= t(:'talia.search.result phrase 2') %> <%= params[:edition_title] %></h2>
     

@@ -41,8 +41,7 @@ a:hover {
 #header {
     height: 3cm;
     width: 90%;
-    background:#ffffff url(/images/critical_edition/logo_print.png) no-repeat left top;
-    
+    background:#ffffff no-repeat left top;
 }
 
 #header h1 {
@@ -54,6 +53,11 @@ a:hover {
     display: none;
 } 
 
+div#logo_print {
+    display: block;
+    position: absolute;
+    top: 0px;
+}
 
 
 /* search_box */
@@ -112,7 +116,7 @@ div#search_adv {
 
 
 #content.divided div#visore {
-    
+     margin-left: 0px;    
 }
 #content.divided div#visore.extended {
     margin-left: 2em;
@@ -188,12 +192,13 @@ div#visore div.txt_block {
     padding: 25px;
     margin: 25px 20px 0 0 ;
 }
-
 /* tools */
 div#visore div.resultstools {
     display: none;
 }
-
+div#visore div.resultstools div.print a {
+    display: none;
+}
 
 
 /* txt_block */
@@ -230,6 +235,7 @@ div#visore ul.results {
 }
 div#visore ul.results li {
     padding:1em 0;
+    text-align: justify;
 }
 
 div#visore ul.results li h3 {

@@ -32,13 +32,26 @@ module SimpleEditionHelper
       links << stylesheet_link_tag("editions/#{@edition.uri.local_name}")
       links << stylesheet_link_tag("editions/#{@edition.uri.local_name}", :media => 'print')
     else
-      @custom_stylesheet.each do |custome_style|
-        links << stylesheet_link_tag(edition_include_custom_name(custome_style))
-        links << stylesheet_link_tag(edition_include_custom_name(custome_style), :media => 'print')
+      @custom_stylesheet.each do |custom_style|
+        links << stylesheet_link_tag(edition_include_custom_name(custom_style))
+      end
+    end
+    
+    # add print stylesheet if present
+    unless @print_stylesheet.nil?
+      @print_stylesheet.each do |print_style|
+        links << stylesheet_link_tag(edition_include_custom_name(print_style), :media => 'print')
       end
     end
     
     links
+  end
+  
+  def edition_print_style_link
+    links = ''
+    @print_stylesheet.each do |print_style|
+      links << stylesheet_link_tag(edition_include_custom_name(print_style), :media => 'print')
+    end
   end
   
 end

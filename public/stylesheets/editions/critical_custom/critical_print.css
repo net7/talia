@@ -42,7 +42,7 @@ a:hover {
 #header {
     height: 3cm;
     width: 90%;
-    background:#ffffff url(/images/critical_edition/logo_print.png) no-repeat left top;
+    background:#ffffff no-repeat left top;
     
 }
 
@@ -55,7 +55,11 @@ a:hover {
     display: none;
 } 
 
-
+div#logo_print {
+    display: block;
+    position: absolute;
+    top: 0px;
+}
 
 /* search_box */
 #search_box {
@@ -112,7 +116,7 @@ div#search_adv {
 
 
 #content.divided div#visore {
-    
+    margin-left: 0px;
 }
 #content.divided div#visore.extended {
     margin-left: 2em;
@@ -252,6 +256,7 @@ div#visore ul.results {
 }
 div#visore ul.results li {
     padding:1em 0;
+    text-align: justify;
 }
 
 div#visore ul.results li h3 {

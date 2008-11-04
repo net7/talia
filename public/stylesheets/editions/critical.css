@@ -316,6 +316,10 @@ div#visore ul.results li {
     padding: 15px;
     float: none;
     border-bottom: 1px solid #e5e5e5;
+    text-align: justify;
+}
+div#visore ul.results li a {
+    color: #000000;
 }
 div#visore ul.results li h3 {
     font-size: 1.2em;
