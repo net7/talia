@@ -31,6 +31,9 @@ module TaliaUtil
           qry = Query.new(TaliaCore::Source).select(:clone).distinct
           qry.where(:concordance, N::HYPER.concordant_to, related_source)
           qry.where(:concordance, N::HYPER.concordant_to, :clone)
+          # now it finds *every* concordant source, even the related_source one
+          # TODO: filter it out, it already has the manifestation_of relation
+          #         qry.filter("(?clone != '<#{related_source}>')")
           clones = qry.execute
           clones.each do |clone|
             @source::hyper.manifestation_of << clone

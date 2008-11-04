@@ -32,6 +32,7 @@ module TaliaCore
     def paragraphs
       qry = Query.new(TaliaCore::Paragraph).select(:paragraph).distinct
       qry.where(:paragraph, N::HYPER.note, :note)
+      qry.where(:note, N::RDF.type, N::HYPER.Note)
       qry.where(:note, N::HYPER.page, self)
       qry.execute     
     end

@@ -15,22 +15,54 @@ class ImportControllerTest < ActionController::TestCase
 
   def test_import_page_with_catalog
     authorize_as :hyper
-    assert_difference "TaliaCore::Page.count", 1 do
-      post :create, :document => document('export_KGW-AC,1_page_with_catalog') # imports the D-11,101v page
+    assert_difference "TaliaCore::Page.count", 2 do
+      post :create, :document => document('export_KGW-AC,1_page_with_catalog') 
       assert_response :created
       assert_kind_of TaliaCore::Page, assigns(:document)
-     cloned_page = TaliaCore::Page.find(N::LOCAL + 'KGW/AC,1')
+      original_page = TaliaCore::Page.find(N::LOCAL + 'AC,1')
+      cloned_page = TaliaCore::Page.find(N::LOCAL + 'KGW/AC,1')
+      assert_equal(N::LOCAL + 'KGW/AC', cloned_page.book.uri)
+      assert_equal(N::LOCAL + 'KGW', cloned_page.catalog.uri)
+      assert_equal(original_page::hyper.primary_source, cloned_page::hyper.primary_source)
+    end
+  end
+  
+  
+  def test_import_chapter_with_catalog
+    authorize_as :hyper
+    assert_difference "TaliaCore::Chapter.count", 2 do
+      post :create, :document => document('export_KGW-AC-[Text]_chapter_with_catalog') 
+      assert_response :created
+      assert_kind_of TaliaCore::Chapter, assigns(:document)
+      cloned_chapter = TaliaCore::Chapter.find(N::LOCAL + 'KGW/AC-[Text]')
+      assert_equal(N::LOCAL + 'KGW/AC,[Text]', cloned_chapter.first_page.uri)
+      assert_equal(N::LOCAL + 'KGW/AC', cloned_chapter.book.uri)
+    end
+  end
+  
+
+  def test_import_paragraph_with_catalog
+    authorize_as :hyper
+    assert_difference "TaliaCore::Paragraph.count", 2 do
+      post :create, :document => document('export_KGW-AC-17_paragraph_with_catalog') 
+      assert_response :created
+      assert_kind_of TaliaCore::Paragraph, assigns(:document)
+      cloned_paragraph = TaliaCore::Paragraph.find(N::LOCAL + 'KGW/AC-17')
+      assert_equal(N::LOCAL + 'KGW/AC-17', cloned_paragraph.uri)
+      assert_equal(N::LOCAL + 'KGW/AC-17-note17', cloned_paragraph.notes[0].uri)
+      assert_equal(N::LOCAL + 'KGW/AC,[Text]', cloned_paragraph.pages[0].uri)
+      assert_equal(N::LOCAL + 'KGW', cloned_paragraph.catalog.uri)
     end
   end
 
-  
-  def test_import_with_catalog
+ 
+  def test_import_book_with_catalog
     authorize_as :hyper
     assert_difference "TaliaCore::Book.count", 2 do
       post :create, :document => document('export_KGW-AC_book_with_catalog')
       assert_response :created
       cloned_book = TaliaCore::Source.find(N::LOCAL + 'KGW/KGW-AC')
-      assert(cloned_book.catalog = N::LOCAL + 'KGW')
+      assert_equal(N::LOCAL + 'KGW', cloned_book.catalog.uri)
     end
   end
   

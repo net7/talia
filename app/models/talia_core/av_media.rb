@@ -3,7 +3,6 @@ module TaliaCore
   # This refers to a audio video media file in the collection
   class AvMedia < ExpressionCard
     
-#       has_rdf_type N::HYPER.AvMedia
     @additional_rdf_types = [N::HYPER.AvMedia]
     clone_properties N::DCT.extent,
       N::HYPER.downloadable

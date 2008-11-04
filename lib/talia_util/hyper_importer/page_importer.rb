@@ -48,18 +48,22 @@ module TaliaUtil
       def clone_to_catalog()
         catalog = get_catalog()
         unless catalog.nil?
-          clone_uri = catalog.uri.to_s + '/' + @source.uri.local_name.to_s
+          clone_uri = catalog.concordant_uri_for(@source)
           source_book_uri = irify(@source::dct.isPartOf[0])
           clone_book_uri = catalog.uri.local_name.to_s + '/' + source_book_uri.local_name.to_s
           clone_book = get_source_with_class(clone_book_uri, TaliaCore::Book)
           clone_book.save!
-          TaliaCore::Page.find(clone_uri).destroy if TaliaCore::Page.exists?(clone_uri)
-          clone = catalog.add_from_concordant(@source)
+          if TaliaCore::Page.exists?(clone_uri)
+            clone = TaliaCore::Page.find(clone_uri)
+            @source.clone_properties_to(clone, {:catalog => catalog})
+          else
+            clone = catalog.add_from_concordant(@source)
+          end
           clone::dct.isPartOf << clone_book   
-          # hack to let order_page use the correct data          
+          # hack to let order_page use the cloned page          
           @source.autosave_rdf = true
           @source.save!
-          clone:: rdf.primary_source << @source::rdf.primary_source
+          #          clone:: rdf.primary_source << @source::rdf.primary_source
           @source = clone
           order_page(clone_book)
         end 

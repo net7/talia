@@ -86,19 +86,23 @@ module TaliaCore
       raise(ArgumentError, "Element cannot be cloned #{self.uri} - target already exists #{uri}") if(ActiveSource.exists?(uri))
       raise(ArgumentError, "Target element already exists #{uri}") if(ActiveSource.exists?(uri))
       new_el = self.class.new(uri)
-      self.class.props_to_clone.each { |p| new_el[p] << self[p] }
+      # copy properties into the new clone
+      new_el = clone_properties_to(new_el, options)
+      new_el
+    end
+    
+    # Adds the properties of self ot the new clone passed as an argument
+    def clone_properties_to(clone, options)
+      self.class.props_to_clone.each { |p| clone[p] << self[p] }
       self.class.inverse_props_to_clone.each do |p|
-        self.inverse[p].each { |targ| targ[p] << new_el }
+        self.inverse[p].each { |targ| targ[p] << clone }
       end
-      
       # Execute the callback methods.
       if(self.clone_callbacks)
-        self.clone_callbacks.each { |cb| self.send(cb, new_el, options) }
+        self.clone_callbacks.each { |cb| self.send(cb, clone, options) }
       end
-      
-      new_el.catalog = options[:catalog] if(options[:catalog])
-      
-      new_el
+      clone.catalog = options[:catalog] if(options[:catalog])
+      clone
     rescue Exception => e
       message = e.message + " (raise during clone of #{self.uri})"
       new_err = e.class.new(message)
@@ -106,6 +110,7 @@ module TaliaCore
       raise new_err
     end
     
+
     # Make the given card concordant to this one. Creating a new concordance
     # saves the sources.
     def make_concordant(c_card)
@@ -212,10 +217,10 @@ module TaliaCore
       N::HYPER.category,
       N::HYPER.keyword,
       # series not cloned since the series object itself may need to be cloned
-      N::HYPER.publication_place,
+    N::HYPER.publication_place,
       N::HYPER.name,
       # Dublin Core properties
-      N::DCNS.title,
+    N::DCNS.title,
       N::DCNS.description,
       N::DCNS.date,
       N::DCNS.publisher,

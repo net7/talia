@@ -242,6 +242,7 @@ namespace :discovery do
           new_note.hyper::page << new_page
           TaskHelper::handle_paragraph_for(note, new_note, ce)
           progress.inc
+          new_note.save!
           notes += 1
         end
       end

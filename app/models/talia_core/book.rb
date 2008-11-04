@@ -155,46 +155,24 @@ module TaliaCore
   
     # default query for subparts 
     def pages_query
-      qry = Query.new(TaliaCore::Source).select(:part).distinct
+      qry = Query.new(TaliaCore::Page).select(:part).distinct
       qry.where(:part, N::DCT.isPartOf, self)
-      qry.where(:page, N::RDF.type, N::HYPER.Page)
       qry.where(:part, N::HYPER.position, :pos)
       qry.sort(:pos)
       qry
     end
     
     def paragraphs_query
-      # when paragraphs are cloned, the notes it is related to are not cloned too,
-      # so we have that said notes are related to pages in the default catalog, even if the paragraph
-      # itslef is not. 
-      # We must separate, then, the two cases where the book (and so the paragraphs and
-      # all the book's subparts) are in the default catalog or not.
-      # In the latter case we have to refer to paragraphs and pages in the default catalog.
-      qry = Query.new(TaliaCore::Source).select(:part).distinct
+      qry = Query.new(TaliaCore::Paragraph).select(:part).distinct
       qry.where(:page, N::DCT.isPartOf, self)
       qry.where(:page, N::RDF.type, N::HYPER.Page)
-      qry.where(:part, N::RDF.type, N::HYPER.Paragraph)
-      if (self.catalog != TaliaCore::Catalog.default_catalog)  
-        qry.where(:def_note, N::HYPER.page, :def_page)
-        qry.where(:def_page, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
-        qry.where(:page_concordance, N::HYPER.concordant_to, :def_page)
-        qry.where(:page_concordance, N::HYPER.concordant_to, :page)
-        qry.where(:note_concordance, N::HYPER.concordant_to, :note)
-        qry.where(:note_concordance, N::HYPER.concordant_to, :def_note)
-        qry.where(:part, N::HYPER.note, :note)
-        qry.where(:part, N::HYPER.in_catalog, self.catalog)        
-        qry.where(:def_page, N::HYPER.position, :page_pos)
-        qry.where(:note, N::HYPER.position, :note_pos)
-        qry.sort(:page_pos)
-        qry.sort(:note_pos)
-      else
-        qry.where(:note, N::HYPER.page, :page)
-        qry.where(:part, N::HYPER.note, :note)
-        qry.where(:page, N::HYPER.position, :page_pos)
-        qry.where(:note, N::HYPER.position, :note_pos)
-        qry.sort(:page_pos)
-        qry.sort(:note_pos)
-      end
+      qry.where(:note, N::HYPER.page, :page)
+      qry.where(:note, N::RDF.type, N::HYPER.Note)
+      qry.where(:part, N::HYPER.note, :note)
+      qry.where(:page, N::HYPER.position, :page_pos)
+      qry.where(:note, N::HYPER.position, :note_pos)
+      qry.sort(:page_pos)
+      qry.sort(:note_pos)
       qry
     end
   end

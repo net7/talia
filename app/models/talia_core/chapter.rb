@@ -54,14 +54,8 @@ module TaliaCore
       pages = []
       paragraphs = []
       ordered_pages.elements.each do |page|
-        # when paragraphs are cloned, the notes it is related to are not cloned too,
-        # so we have that said notes are related to pages in the default catalog, even if the paragraph
-        # itslef is not. 
-        # We must separate, then, the two cases where the book (and so the paragraphs and
-        # all the book's subparts) are in the default catalog or not.
-        # In the latter case we have to refer to paragraphs and pages in the default catalog.
         if (subpart_type == nil || subpart_type == N::HYPER.Page) 
-          qry_page = Query.new(TaliaCore::Source).select(:m).distinct
+          qry_page = Query.new(TaliaCore::Page).select(:m).distinct
           qry_page.where(:m, N::HYPER.manifestation_of, page)
           qry_page.where(:m, N::RDF.type, manifestation_type)
           pages << page unless qry_page.execute.empty?
@@ -69,31 +63,15 @@ module TaliaCore
 
         if (subpart_type == nil || subpart_type == N::HYPER.Paragraph)
           qry_para = Query.new(TaliaCore::Paragraph).select(:p).distinct
-          if (self.catalog != TaliaCore::Catalog.default_catalog)
-            qry_para.where(:note, N::HYPER.page, :def_page)
-            qry_para.where(:def_page, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
-            qry_para.where(:page_concordance, N::HYPER.concordant_to, :def_page)
-            qry_para.where(:page_concordance, N::HYPER.concordant_to, page)
-            qry_para.where(:def_para, N::HYPER.note, :note)
-            qry_para.where(:para_concordance, N::HYPER.concordant_to, :def_para)
-            qry_para.where(:para_concordance, N::HYPER.concordant_to, :p)
-            qry_para.where(:p, N::HYPER.in_catalog, self.catalog)
-            qry_para.where(:m, N::HYPER.manifestation_of, :p)
-            qry_para.where(:m, N::RDF.type, manifestation_type)
-            qry_para.where(:def_page, N::HYPER.position, :page_pos)
-            qry_para.where(:note, N::HYPER.position, :note_pos)
-            qry_para.sort(:page_pos)
-            qry_para.sort(:note_pos)
-          else
-            qry_para.where(:note, N::HYPER.page, page)
-            qry_para.where(:p, N::HYPER.note, :note)
-            qry_para.where(:m, N::HYPER.manifestation_of, :p)
-            qry_para.where(:m, N::RDF.type, manifestation_type)
-            qry_para.where(page, N::HYPER.position, :page_pos)
-            qry_para.where(:note, N::HYPER.position, :note_pos)
-            qry_para.sort(:page_pos)
-            qry_para.sort(:note_pos)
-          end
+          qry_para.where(:note, N::HYPER.page, page)
+          qry_para.where(:note, N::RDF.type, N::HYPER.Note)
+          qry_para.where(:p, N::HYPER.note, :note)
+          qry_para.where(:m, N::HYPER.manifestation_of, :p)
+          qry_para.where(:m, N::RDF.type, manifestation_type)
+          qry_para.where(page, N::HYPER.position, :page_pos)
+          qry_para.where(:note, N::HYPER.position, :note_pos)
+          qry_para.sort(:page_pos)
+          qry_para.sort(:note_pos)
           qry_para.execute.each do |par|
             paragraphs << par
           end

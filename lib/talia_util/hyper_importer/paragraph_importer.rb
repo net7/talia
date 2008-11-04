@@ -62,17 +62,34 @@ module TaliaUtil
       def clone_to_catalog()
         catalog = get_catalog()
         unless catalog.nil?
-          clone_uri = catalog.uri.to_s + '/' + @source.uri.local_name.to_s
-          TaliaCore::Paragraph.find(clone_uri).destroy if TaliaCore::Paragraph.exists?(clone_uri)
-          clone = catalog.add_from_concordant(@source, true)
+          #          clone_uri = catalog.uri.to_s + '/' + @source.uri.local_name.to_s
+          clone_uri = catalog.concordant_uri_for(@source)
+          if TaliaCore::Paragraph.exists?(clone_uri)
+            clone = TaliaCore::Paragraph.find(clone_uri)
+            @source.clone_properties_to(clone, {:catalog => catalog})
+          else
+            clone = catalog.add_from_concordant(@source, true)
+          end
           @source.autosave_rdf = true
           @source.save!
           original = @source
           @source = clone
           original.notes.each do |note|
             clone_page_uri = catalog.uri.local_name.to_s + '/' + note.page.uri.local_name.to_s
-            clone_page = get_source_with_class(clone_page_uri, TaliaCore::Page)
-            clone_note = catalog.add_from_concordant(note)
+            if (TaliaCore::Page.exists?(clone_page_uri))
+              clone_page = TaliaCore::Page.find(clone_page_uri)
+            else
+              clone_page = get_source_with_class(clone_page_uri, TaliaCore::Page)
+            end
+            clone_note_uri = catalog.concordant_uri_for(note)
+            if TaliaCore::Note.exists?(clone_note_uri)
+              clone_note = TaliaCore::Note.find(clone_note_uri)
+              note.clone_properties_to(clone_note, {:catalog => catalog})
+            else
+              clone_note = catalog.add_from_concordant(note)
+            end
+            clone_note::hyper.page << clone_page
+            clone_note.save!
             @source::hyper.note << clone_note
           end
         end
