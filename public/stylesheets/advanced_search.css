@@ -55,6 +55,14 @@
     margin-left: 20px;
 }
 
+#content.divided h2 {
+    color: #898989;
+    font-family: georgia, serif;
+    font-weight: normal;
+    font-size: 1.6em;
+    line-height: 2.4em;
+}
+
 #content.divided ul.minilist li p span.match {
     color: red;
 }

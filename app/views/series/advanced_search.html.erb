@@ -11,6 +11,8 @@
       <p class="about"><a href="#">about the edition</a></p>
     </div>
   <% else %>
+    <h2><%= @result_count %> <%= t(:'talia.search.result phrase 3') %></h2>
+  
     <ul id="access_list" class="minilist">
       <% @result.each do |item| %>
         <li>
