@@ -2,7 +2,7 @@
   <div class="floatclear"></div>
   <div id="content" class="divided grey">
     <div id="visore">
-      <h2><%= @result.size %>  occurrences of the words <span class="red">'<%= params[:words] %>'</span> in the <%= params[:edition_title] %></h2>
+      <h2><%= @result.size %>  <%= t(:'talia.search.result phrase 1') %> <span class="red">'<%= params[:words] %>'</span> <%= t(:'talia.search.result phrase 2') %> <%= params[:edition_title] %></h2>
     
     
       <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="window.print(); return false;"><%= t(:'talia.search.print results') %></a></div>
