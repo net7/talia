@@ -18,8 +18,15 @@ class CategoriesController < ApplicationController
     
     # if user has clicked on seach button, execute search method
     unless params[:advanced_search_submission].nil?
+      # check if there are the params
+      if (params[:title_words].nil? or params[:title_words].join.strip == "") && 
+         (params[:abstract_words].nil? or params[:abstract_words].join.strip == "") && 
+         (params[:keyword].nil? or params[:keyword].join.strip == "")
+        redirect_to(:back) and return
+      end
+      
       # collect data to post
-      data = {'search_type[]' => params[:search_type]}
+      data = {'search_type' => params[:search_type]}
       
       # check if words field is empty 
       if params[:title_words]
@@ -58,19 +65,19 @@ class CategoriesController < ApplicationController
       @result = groups.collect do |item|
         # collect keywords
         keywords = item.elements['talia:metadata/talia:keywords'].collect do |keyword|
-          {:uri => TaliaCore::Keyword.uri_for(keyword.text), :value => keyword.text}
+          {:uri => TaliaCore::Keyword.uri_for(keyword.children.to_s), :value => keyword.children.to_s}
         end
         # collect authors
         authors = item.elements['talia:metadata/talia:authors'].collect do |author|
           author.children.to_s
         end
-        {:title => item.elements['talia:metadata/talia:standard_title'].text, 
-         :uri => item.elements['talia:metadata/talia:uri'].text,
-         :description => item.elements['talia:version/talia:content/talia:abstract'].text,
-         :author => authors.join(", "),
-         :date => item.elements['talia:metadata/talia:date'].text,
-         :length => item.elements['talia:metadata/talia:length'].text,
-         :keyword => keywords
+        {:title => item.elements['talia:metadata/talia:title'].children.to_s, 
+          :uri => item.elements['talia:metadata/talia:uri'].text,
+          :description => item.elements['talia:version/talia:content/talia:abstract'].children.to_s,
+          :author => authors.join(", "),
+          :date => item.elements['talia:metadata/talia:date'].text,
+          :length => item.elements['talia:metadata/talia:length'].text,
+          :keyword => keywords
         }
       end
 

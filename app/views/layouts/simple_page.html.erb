@@ -18,7 +18,7 @@
           <!-- %= edition_partial :search_box % -->
           <div id="search_box">
             <% form_tag :action => "advanced_search" do -%>
-              <%= hidden_field_tag 'search_type', 'mc' %>
+              <%= hidden_field_tag 'search_type', 'media' %>
               <%= hidden_field_tag 'operator', 'or' %>
               <p class="head_search">
                 <label><%= t(:'talia.global.search') %></label> 

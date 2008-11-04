@@ -24,6 +24,13 @@ class SeriesController < ApplicationController
     
     # if user has clicked on seach button, execute search method
     unless params[:advanced_search_submission].nil?
+      # check if there are the params
+      if (params[:title_words].nil? or params[:title_words].join.strip == "") && 
+         (params[:abstract_words].nil? or params[:abstract_words].join.strip == "") && 
+         (params[:keyword].nil? or params[:keyword].join.strip == "")
+        redirect_to(:back) and return
+      end
+      
       # collect data to post
       data = {'search_type[]' => params[:search_type]}
       
