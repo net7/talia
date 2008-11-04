@@ -37,6 +37,12 @@ class CriticalEditionsController < SimpleEditionController
     
     # if user has clicked on seach button, execute search method
     unless params[:advanced_search_submission].nil?
+      # check if there are the params
+      if (params[:words].nil? or params[:words].strip == "") && 
+          (params[:mc].nil? or params[:mc].join.strip == "")
+        redirect_to(:back) and return
+      end
+    
       # collect data to post
       data = {
         'search_type' => params[:search_type],
@@ -83,8 +89,8 @@ class CriticalEditionsController < SimpleEditionController
       # collect result. It create an array of hash {title, description}
       @result = groups.collect do |item|
         {:title => item.elements['talia:metadata/talia:standard_title'].text, 
-         :url => "#{N::LOCAL}#{edition_prefix}/#{params[:id]}/#{item.elements['talia:metadata/talia:standard_title'].text}",
-         :description => item.elements['talia:excerpt'].children.to_s}
+          :url => "#{N::LOCAL}#{edition_prefix}/#{params[:id]}/#{item.elements['talia:metadata/talia:standard_title'].text}",
+          :description => item.elements['talia:excerpt'].children.to_s}
       end
       
       @exist_result = doc.get_elements('/talia:result/talia:group')
