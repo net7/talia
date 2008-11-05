@@ -5,7 +5,7 @@ module TaliaCore
     include TaliaUtil::TestHelpers
     include UnitTestHelpers
     
-    test_cloning N::RDF.type, N::DCNS.title, N::HYPER.position, N::HYPER.name
+    test_cloning N::DCNS.title, N::HYPER.position, N::HYPER.name
     
     def setup
       setup_once(:init) do

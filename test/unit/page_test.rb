@@ -8,8 +8,7 @@ module TaliaCore
     test_cloning N::DCNS.title, 
       N::HYPER.position, N::HYPER.position_name, 
       N::DCT.extent,
-      N::HYPER.siglum, 
-      N::RDF.type 
+      N::HYPER.siglum
     
     def setup
       setup_once(:init) do

@@ -27,6 +27,11 @@ module TaliaCore
       assert_equal([data_mp4], media.media(:mp4_media))
       assert_equal([data_wmv], media.media(:wmv_media))
     end
+
+    def test_has_types
+      media = make_av_media('test_has_types')
+      assert_equal(N::HYPER.AvMedia, media::rdf.type[0].uri.to_s)
+    end
     
     private
     

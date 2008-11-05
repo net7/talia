@@ -69,7 +69,7 @@ ActionController::Routing::Routes.draw do |map|
   # Routes for import
   map.connect 'import/:action', :controller => 'import', :action => 'start_import'
 
-  map.connect "critical_editions/:id",
+  map.connect "TE/:id",
     :controller => 'critical_editions',
     :action => 'show'
   
@@ -77,40 +77,40 @@ ActionController::Routing::Routes.draw do |map|
     :controller => 'critical_editions',
     :action => 'advanced_search'
   
-  map.connect "critical_editions/:id/advanced_search_print",
+  map.connect "TE/:id/advanced_search_print",
     :controller => 'critical_editions',
     :action => 'advanced_search_print'
   
-  map.connect "critical_editions/:id/:part",
+  map.connect "TE/:id/:part",
     :controller => 'critical_editions',
     :action => 'dispatcher'
   
-  map.connect "critical_editions/:id/:part/print",
+  map.connect "TE/:id/:part/print",
     :controller => 'critical_editions',
     :action => 'print'
   
-  map.connect "facsimile_editions/:id",
+  map.connect "FE/:id",
     :controller => 'facsimile_editions',
     :action => 'show'
   
-  map.connect "facsimile_editions/:id/search",
+  map.connect "FE/:id/search",
     :controller => 'facsimile_editions',
     :action => 'search'
 
-  map.connect "facsimile_editions/:id/:type/:subtype",
+  map.connect "FE/:id/:type/:subtype",
     :controller => 'facsimile_editions',
     :action => 'books',
     :requirements => { :type => /Work|Manuscript|Iconography|Library|Correspondence|Picture/ },
     :subtype => nil
   
-  map.connect "facsimile_editions/:id/:page:dot:format",
+  map.connect "FE/:id/:page:dot:format",
     :controller => 'facsimile_editions',
     :action => 'page',
     :dot => /\.?/,
     :format => nil,
     :requirements => {:page => /.*,[^\.]*/}
   
-  map.connect "facsimile_editions/:id/:book:dot:format",
+  map.connect "FE/:id/:book:dot:format",
     :controller => 'facsimile_editions',
     :action => 'panorama',
     :dot => /\.?/,
@@ -132,7 +132,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'  
   
-  map.resources :facsimile_edition do |facsimile_edition|
+  map.resources :FE do |facsimile_edition|
     facsimile_edition.resource :book do |book|
       book.resources :pages
     end

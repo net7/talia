@@ -2,7 +2,7 @@ module TaliaCore
   class FacsimileEdition < Catalog
 
     # URI prefix for editions
-    EDITION_PREFIX = 'facsimile_editions'
+    EDITION_PREFIX = 'FE'
 
     # returns an array containing a list of the book types available and connected to this facsimile edition
     # (e.g.: 'Works', 'Manuscripts', ...)

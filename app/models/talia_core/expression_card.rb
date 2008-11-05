@@ -208,8 +208,7 @@ module TaliaCore
     end
     
     # Standard properties to clone for all cards
-    clone_properties N::RDF.type,
-      N::HYPER.type,
+    clone_properties N::HYPER.type,
       N::HYPER.subtype,
       N::HYPER.siglum,
       N::HYPER.position,
