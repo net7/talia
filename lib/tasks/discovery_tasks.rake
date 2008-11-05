@@ -251,10 +251,15 @@ namespace :discovery do
       book.chapters.each do |chapter|
         ce.add_from_concordant(chapter) do |cloned_chapt|
           cloned_chapt.book = new_book
-          first_page = chapter.first_page.concordant_cards(ce).first
-          assit(first_page, "Must have a first page on the chapter #{chapter.uri}.")
-          cloned_chapt.first_page = first_page
-          cloned_chapt.save!
+          chapt_first = chapter.first_page
+          if(chapt_first)
+            first_page = chapt_first.concordant_cards(ce).first
+            assit(first_page, "Must have a first page on the chapter #{chapter.uri}.")
+            cloned_chapt.first_page = first_page
+            cloned_chapt.save!
+          else
+            assit_fail("First page doesn't exist on #{chapter.uri}")
+          end
         end
       end          
       new_book.chapters.each do |chapter|
@@ -281,7 +286,11 @@ namespace :discovery do
       puts "Processing #{progress_size} contributions (#{progress_size} elements to process)..."
       progress = ProgressBar.new('Contributions', progress_size)
       contributions.each do |contribution|
-        feeder.feed_contribution(contribution.uri)
+        begin
+          feeder.feed_contribution(contribution.uri)
+        rescue Exception => e
+          puts "Error feeding contribution #{contribution.uri}: #{e.message}"
+        end
         progress.inc
       end
       progress.finish
