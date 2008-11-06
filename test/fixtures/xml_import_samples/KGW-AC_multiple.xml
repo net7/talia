@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<sources>
+<source><book><siglum>KGW-AC</siglum><catalog>KGW</catalog><title>AC</title><type>works</type><subtype>printed_and_distributed</subtype><copyrightNote/><description>AC description</description><date> </date><collocation/><publisher> </publisher><publishingPlace> </publishingPlace><ordering>26</ordering><relations><relation><predicate>isInArchive</predicate><object/></relation></relations></book></source>
+<source><page><siglum>KGW-AC,[Text]</siglum><catalog>KGW</catalog><title>AC,[Text]</title><type>work_page</type><width>0.00</width><height>0.00</height><position>000001</position><position_name>1</position_name><relations><relation><predicate>isSubPartOf</predicate><object>KGW-AC</object></relation></relations></page></source>
+<source><paragraph><siglum>KGW-AC-17</siglum><catalog>KGW</catalog><title/><type>work_page_annotation</type><notes><note><page>KGW-AC,[Text]</page><position>000017</position><coordinates/></note></notes></paragraph></source>
+</sources>

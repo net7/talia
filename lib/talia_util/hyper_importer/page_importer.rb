@@ -16,11 +16,13 @@ module TaliaUtil
         # Do this "by hand" to save time saving
         ordered_pages.autosave_rdf = false
         predicate = ordered_pages.index_to_predicate(get_text(@element_xml, 'position'))
-        ordered_pages[predicate] << @source
-        ordered_pages.save!
-        ordered_pages.my_rdf[predicate] << @source
-        ordered_pages.my_rdf.save
-      end
+#        if ordered_pages[predicate].empty?
+          ordered_pages[predicate] << @source
+          ordered_pages.save!
+          ordered_pages.my_rdf[predicate] << @source
+          ordered_pages.my_rdf.save
+        end
+#      end
       
       def get_ordered_for(book)
         book = TaliaCore::Book.new(book.uri)

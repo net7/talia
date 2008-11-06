@@ -86,16 +86,7 @@ module TaliaCore
       raise(ArgumentError, "Element cannot be cloned #{self.uri} - target already exists #{uri}") if(ActiveSource.exists?(uri))
       raise(ArgumentError, "Target element already exists #{uri}") if(ActiveSource.exists?(uri))
       new_el = self.class.new(uri)
-      self.class.props_to_clone.each { |p| cp_property(p, self, new_el) }
-      self.class.inverse_props_to_clone.each do |p|
-        self.inverse[p].each { |targ| targ[p] << clone }
-      end
-      # Execute the callback methods.
-      if(self.clone_callbacks)
-        self.clone_callbacks.each { |cb| self.send(cb, clone, options) }
-      end
-      new_el.catalog = options[:catalog] if(options[:catalog])
-      new_el
+      new_el = clone_properties_to(new_el, options)
     rescue Exception => e
       message = e.message + " (raise during clone of #{self.uri})"
       new_err = e.class.new(message)
@@ -170,9 +161,21 @@ module TaliaCore
     end
     
     
-    
     protected
-  
+
+    def clone_properties_to(clone, options={})
+      self.class.props_to_clone.each { |p| cp_property(p, self, clone) }
+      self.class.inverse_props_to_clone.each do |p|
+        self.inverse[p].each { |targ| targ[p] << clone }
+      end
+      # Execute the callback methods.
+      if(self.clone_callbacks)
+        self.clone_callbacks.each { |cb| self.send(cb, clone, options) }
+      end
+      clone.catalog = options[:catalog] if(options[:catalog])
+      clone
+    end
+    
     # Copy a property from the original source to the target. This contains
     # some checks to make sure that no duplicate types are created on the target
     def cp_property(property, original, target)

@@ -29,16 +29,17 @@ module TaliaCore
     # ordered by their position
     def order_pages!
       ordered = ordered_pages
+      ordered.delete_all unless ordered.first.nil?
       qry = Query.new(TaliaCore::Page).select(:p).distinct
       qry.where(:p, N::DCT.isPartOf, self)
       qry.where(:p, N::HYPER.position, :pos)
       qry.sort(:pos)
       pages = qry.execute
       pages.each do |page| 
-        ordered.add(page)
+        ordered.add(page)        
         ordered.save!
       end
-
+      
     end
       
     # Returns an array containing all the pages in this book, ordered

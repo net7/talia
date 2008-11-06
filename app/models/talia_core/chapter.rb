@@ -16,6 +16,7 @@ module TaliaCore
       # since we only know the first page of a chapter, constructing the ordered_pages
       # object is a bit tricky
       ordered = ordered_pages
+      ordered.delete_all unless ordered.first.nil?
       book_chapters = book.chapters
       chapter_index = book_chapters.index(self) 
       next_chapter = book_chapters[chapter_index + 1]
