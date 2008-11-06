@@ -222,7 +222,8 @@ module TaliaCore
       clone = orig.clone(orig.uri + 'clone')
       clone.save!
       klass.props_to_clone.each do |prop|
-        assert_property(clone[prop], "#{prop} the value")
+        assert_property(clone[prop], *orig[prop])
+        assert(clone[prop].include?("#{prop} the value"))
       end
     end
     

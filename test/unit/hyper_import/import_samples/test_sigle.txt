@@ -24,6 +24,7 @@ AC-17
 K-6,101[1]
 paragraph multinotes:
 Mp-XIV-2,55v[2]et56r[1]
+D-12,3r[1]et4r[1]
 paragraph work page annotation:
 WS-194
 transcription:

@@ -86,14 +86,7 @@ module TaliaCore
       raise(ArgumentError, "Element cannot be cloned #{self.uri} - target already exists #{uri}") if(ActiveSource.exists?(uri))
       raise(ArgumentError, "Target element already exists #{uri}") if(ActiveSource.exists?(uri))
       new_el = self.class.new(uri)
-      # copy properties into the new clone
-      new_el = clone_properties_to(new_el, options)
-      new_el
-    end
-    
-    # Adds the properties of self ot the new clone passed as an argument
-    def clone_properties_to(clone, options)
-      self.class.props_to_clone.each { |p| clone[p] << self[p] }
+      self.class.props_to_clone.each { |p| cp_property(p, self, new_el) }
       self.class.inverse_props_to_clone.each do |p|
         self.inverse[p].each { |targ| targ[p] << clone }
       end
@@ -180,6 +173,25 @@ module TaliaCore
     
     protected
   
+    # Copy a property from the original source to the target. This contains
+    # some checks to make sure that no duplicate types are created on the target
+    def cp_property(property, original, target)
+      orig_prop = original[property]
+      return if(orig_prop.size == 0) # Nothing to copy: already done
+      
+      if(property != N::RDF.type)
+        target[property] << orig_prop
+      else
+        # Only types need special handling, since they are already created on
+        # new sources
+        the_types = target.types.collect { |t| ActiveSource.new(t) }
+        t_prop = target[property]
+        orig_prop.each do |type|
+          t_prop << type unless(the_types.include?(type))
+        end
+      end
+    end
+    
     # Adds a new callback. Callback methods must accept two parameters:
     # The new element and an options array. (The original element is self)
     def self.on_clone(callback_method)
@@ -208,7 +220,8 @@ module TaliaCore
     end
     
     # Standard properties to clone for all cards
-    clone_properties N::HYPER.type,
+    clone_properties N::RDF.type,
+      N::HYPER.type,
       N::HYPER.subtype,
       N::HYPER.siglum,
       N::HYPER.position,

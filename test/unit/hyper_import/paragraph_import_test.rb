@@ -30,6 +30,14 @@ module TaliaUtil
     
     end
     
+    # Special test - this one caused trouble during import
+    def test_messed_up_note
+      test_par = hyper_import(load_doc('D-12,3r[1]et4r[1]'))
+      test_par.hyper::note.each do |note|
+        puts note[N::HYPER.coordinates].join(', ')
+      end
+    end
+    
     # Test if the import succeeds
     def test_import
       assert_kind_of(TaliaCore::Paragraph, @paragraph)
