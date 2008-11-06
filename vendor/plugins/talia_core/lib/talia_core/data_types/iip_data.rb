@@ -140,11 +140,11 @@ module TaliaCore
         # execute vips command for create thumbnail
         # TODO: to add options, such as size, we can modify this row
         thumbnail_size = "#{thumb_options['width']}x#{thumb_options['height']}"
-        thumbnail_command = "#{convert_command} #{source} -resize #{thumbnail_size} #{destination}"
+        thumbnail_command = "#{convert_command} \"#{source}\" -resize #{thumbnail_size} \"#{destination}\""
         system_result = system(thumbnail_command)
 
         # check if thumbnails file is created
-        raise(IOError, "Command #{convert_command} failed (#{$?}).") unless (File.exists?(destination) || !system_result)
+        raise(IOError, "Command #{thumbnail_command} failed (#{$?}).") unless (File.exists?(destination) || !system_result)
       end
       
       # Prepare for copying or creating the pyramid image
@@ -167,11 +167,11 @@ module TaliaCore
         
         # execute vips command for create pyramid image
         # TODO: to add options, such as size, we can modify this row
-        pyramid_command = "#{vips_command} im_vips2tiff #{source} #{get_iip_root_file_path}:deflate,tile,pyramid"
+        pyramid_command = "#{vips_command} im_vips2tiff \"#{source}\" \"#{get_iip_root_file_path}\":deflate,tile,pyramid"
         system_result = system(pyramid_command)
 
         # check if thumbnails file is created
-        raise(IOError, "Command #{vips_command} failed (#{$?}).") unless (File.exists?(get_iip_root_file_path) || !system_result)
+        raise(IOError, "Command #{pyramid_command} failed (#{$?}).") unless (File.exists?(get_iip_root_file_path) || !system_result)
       end
       
       # Return the iip root directory for a specific iip image file
