@@ -26,6 +26,28 @@ namespace :discovery do
     end
   end
   
+  desc "Rebuild the RDF store from the database"
+  task :rebuild_rdf => :disco_init do
+    Util::flush_rdf
+    puts "Flushed RDF"
+    count = TaliaCore::ActiveSource.count
+    puts "Rebuilding #{count} elements"
+    prog = ProgressBar.new('Rebuilding', count)
+    TaliaCore::ActiveSource.find(:all).each do |source|
+      source.save!
+      prog.inc
+    end
+    prog.finish
+  end
+  
+  desc "Clear all the data (files and data store) if this instance."
+  task :clear_all => 'talia_core:clear_store' do
+    data_dir = TaliaCore::CONFIG['data_directory_location']
+    iip_dir = TaliaCore::CONFIG['iip_root_directory_location']
+    FileUtils.rm_rf(data_dir) if(File.exist?(data_dir))
+    FileUtils.rm_rf(iip_dir) if(File.exist?(iip_dir))
+  end
+  
   desc "Export given language to csv file. Options language=<iso 639.1 lang code> [file=<filename>]"
   task :export_language => :disco_init do
     language = Globalize::Language.find(:first, :conditions => { :iso_639_1 => ENV['language']})
@@ -74,36 +96,15 @@ namespace :discovery do
     puts 'Done'
   end
   
-  desc "Import from Sophiavision CSV file. Options csvfile=<file>"
+  desc "Import from Sophiavision CSV file. Options csvfile=<file> [thumbnail_directory=<dir>]"
   task :sophia_csv => :disco_init do
     ENV['nick'] = 'default'
     ENV['name'] = 'default'
     CSV::Reader.parse(File.open(ENV['csvfile']), ';', "\r") do |row|
-      series = TaskHelper::series_for(row[0])
-      author, title, year, length = row[1], row[2], row[3], row[4]
-      wmv_file, mp4_file, download = row[5], row[6], row[7]
-      category = TaskHelper::category_for(row[8])
-      keywords = TaskHelper::keywords_from(row[9])
-      bibliography = row[10]
-      abstract = row[11]
       
-      element_uri = N::LOCAL + 'av_media_sources/' + CGI::escape(title)
-      element = TaliaCore::AvMedia.new(element_uri)
-      element.series = series
-      element.dcns::creator << author
-      element.title = title
-      element.dcns::date << year
-      element.play_length = "#{length} h:mm:ss"
-      wmv_data = TaliaCore::DataTypes::WmvMedia.new
-      wmv_data.location = wmv_file
-      mp4_data = TaliaCore::DataTypes::Mp4Media.new
-      mp4_data.location = mp4_file
-      element.data_records << [wmv_data, mp4_data]
-      element.downloadable = download
-      element.category = category
-      element.hyper::keyword << keywords
-      element.hyper::bibliography << bibliography if(bibliography)
-      element.dcns::abstract << abstract if(abstract)
+      element = media_from_row(row)
+      thumbnail_for!(element, ENV['thumbnail_directory'])
+      
       element.save!
       wmv_data.save!
       mp4_data.save!
