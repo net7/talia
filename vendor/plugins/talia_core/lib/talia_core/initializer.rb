@@ -319,7 +319,7 @@ module TaliaCore
     def self.config_data_directory
       data_directory = if(@config['data_directory_location'])
         # Replace the data directory location variables
-        @config["data_directory_location"].gsub!(/TALIA_ROOT/, TALIA_ROOT)
+        @config["data_directory_location"].gsub(/TALIA_ROOT/, TALIA_ROOT)
       else
         File.join(TALIA_ROOT, 'data')
       end
@@ -331,7 +331,7 @@ module TaliaCore
     def self.config_iip_root_directory
       data_directory = if(@config['iip_root_directory_location'])
         # Replace the iip root directory location variables
-        @config["iip_root_directory_location"].gsub!(/TALIA_ROOT/, TALIA_ROOT)
+        @config["iip_root_directory_location"].gsub(/TALIA_ROOT/, TALIA_ROOT)
       else
         File.join(TALIA_ROOT, 'iip_root')
       end
