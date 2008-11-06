@@ -152,7 +152,7 @@ class TaskHelper
   end
   
   # Creates a AvMedia object from the given csv row (given as an array)
-  def self.media_from_row(row)
+  def self.media_from_row(row, thumbnail_dir)
     series = series_for(row[0])
     author, title, year, length = row[1], row[2], row[3], row[4]
     wmv_file, mp4_file, download_url = row[5], row[6], row[7]
@@ -167,44 +167,49 @@ class TaskHelper
     element.series = series
     element.dcns::creator << author
     element.title = title
-    element.dcns::date << year
+    element.dcns::date << year if(year)
     element.play_length = "#{length} h:mm:ss"
     wmv_data = TaliaCore::DataTypes::WmvMedia.new
     wmv_data.location = wmv_file
     mp4_data = TaliaCore::DataTypes::Mp4Media.new
     mp4_data.location = mp4_file
     element.data_records << [wmv_data, mp4_data]
-    element.download_url = download_url
+    element.download_url = download_url if(download_url && download_url.strip != '')
     element.category = category
     element.hyper::keyword << keywords
     element.hyper::bibliography << bibliography if(bibliography)
     element.dct::abstract << abstract if(abstract)
+    
+    image = thumbnail_for(element, mp4_file, thumbnail_dir)
+    
+    element.save!
+    wmv_data.save!
+    mp4_data.save!
+    image.save!
+    
     element
+  rescue Exception => e
+    puts "Error importing #{row[2]}: #{e.message}"
+    raise
   end
   
   # Creates a thumbnail for a media element
-  def thumbnail_for!(element, pic_dir)
+  def self.thumbnail_for(element, mp4_url, pic_dir)
     pic_dir ||= '.'
     default_thumb = File.join(TALIA_ROOT, 'public', 'images', 'thumbvideo.jpg')
     thumb_file = default_thumb
-    # Check for the thumb file
-    media = element.data(:mp4_media)
-    if(media && (mp4_url = media.location))
-      mp4_name = File.basename(mp4_url.split('/').last, '.mp4')
-      thumb_file = File.join(pic_dir, mp4_name + '.jpg')
-      if(!File.exist?(thumb_file))
-        puts("WARNING: Thumbfile not found #{thumb_file} for #{element.uri}")
-        thumb_file = default_thumb
-      end
-    else
-      assert_fail("No MP4 URL name for #{element.uri}")
+    mp4_name = File.basename(mp4_url.split('/').last, '.mp4')
+    thumb_file = File.join(pic_dir, mp4_name + '.jpg')
+    if(!File.exist?(thumb_file))
+      puts("WARNING: Thumbfile not found #{thumb_file} for #{element.uri}")
+      thumb_file = default_thumb
     end
     
     # And now create an image for the thumbnail
     img = TaliaCore::DataTypes::ImageData.new
     img.source = element
-    img.create_from_file('thumb', thumb_file, false)
-    img.save!
+    img.create_from_file('thumb.jpg', thumb_file, false)
+    img
     
   rescue Exception => e
     assert_fail("Problem creating thumbnail for #{element.uri}: #{e.message}")
@@ -212,7 +217,20 @@ class TaskHelper
   
   # Gets keywords for the slash-separated values in the string
   def self.keywords_from(key_string)
-    key_string.split('/').collect { |key_s| TaliaCore::Keyword.get_with_key_value!(key_s.strip)}
+    keys  = key_string.split('/').collect do |key_s|
+      # Data files sometimes seem to need some cleaning up
+      key_s.gsub!(/\s+/, ' ')
+      key_s.gsub!("\t", " ")
+      key_s.gsub!("\n", " ")
+      key_s.strip!
+      if(key_s != '')
+        TaliaCore::Keyword.get_with_key_value!(key_s)
+      else
+        nil # This was an empty kw
+      end
+    end
+    # Reject the empty keywords
+    keys.reject { |key| key.nil?}
   end
   
   # Creates or gets a series for the given name

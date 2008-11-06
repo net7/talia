@@ -9,7 +9,7 @@
       <a href="<%= keyword.uri %>"><%= t(keyword.keyword_value) %></a><%= ',' if(keyword != keys.last) %>
     <% end %>
   </p>
-  <% if(@element.downloadable == 'yes') %>
-  <p class="downl"><a href="#"><%= t(:'talia.media.download') %></a></p>
+  <% if(@element.download_url && @element.download_url != '') %>
+  <p class="downl"><a href="<%= @element.download_url  %>"><%= t(:'talia.media.download') %></a></p>
   <% end %>
 </div>

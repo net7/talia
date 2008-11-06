@@ -1,5 +1,5 @@
 <li>
-  <h1><%= titled_link(video_list_item.uri, image_tag('thumbvideo.jpg', :alt => 'thumb') + video_list_item.play_length, 'thumb')  %></h1>
+  <h1><%= titled_link(video_list_item.uri, video_thumb(video_list_item) + video_list_item.play_length, 'thumb')  %></h1>
   <p class="title"><%= video_list_item.title %></p>
   <p class="text"><%= material_description(video_list_item) %></p>
   <p class="data"><em><%= t(:'talia.global.author')%></em> <%= video_list_item.dcns::creator.join(', ') %> <em><%= t(:'talia.global.date') %> </em> <%= video_list_item.dcns::date.first  %> </p>

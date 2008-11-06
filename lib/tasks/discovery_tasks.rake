@@ -11,6 +11,7 @@ require 'benchmark'
 require 'csv'
 require 'cgi'
 require 'digest/md5'
+require 'iconv'
 
 include TaliaUtil
 
@@ -96,18 +97,17 @@ namespace :discovery do
     puts 'Done'
   end
   
-  desc "Import from Sophiavision CSV file. Options csvfile=<file> [thumbnail_directory=<dir>]"
+  desc "Import from Sophiavision CSV file. Options csvfile=<file> [thumbnail_directory=<dir>] [encoding=MAC]"
   task :sophia_csv => :disco_init do
     ENV['nick'] = 'default'
     ENV['name'] = 'default'
-    CSV::Reader.parse(File.open(ENV['csvfile']), ';', "\r") do |row|
+    encoding = ENV['encoding'] || 'MAC'
+    ic = Iconv.new('UTF-8', encoding)
+    input = File.open(ENV['csvfile']) { |io| ic.iconv(io.read) }
+    
+    CSV::Reader.parse(input, ';', "\r") do |row|
       
-      element = media_from_row(row)
-      thumbnail_for!(element, ENV['thumbnail_directory'])
-      
-      element.save!
-      wmv_data.save!
-      mp4_data.save!
+      TaskHelper::media_from_row(row, ENV['thumbnail_directory'])
       print '.'
     end
     puts

@@ -8,6 +8,12 @@ module AvMediaSourcesHelper
     end
   end
   
+  def video_thumb(media_element)
+    thumb = media_element.media(:image_data).first
+    return "No Image for #{media_element.uri.to_name_s}" unless(thumb)
+    talia_image_tag(thumb, :alt => 'thumbnail', :title => 'thumbnail')
+  end
+  
   def excerpt(text)
     return '' unless(text)
     if(text.size > 50)
