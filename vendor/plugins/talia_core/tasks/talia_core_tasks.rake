@@ -8,6 +8,7 @@ require 'talia_util'
 require 'talia_util/util'
 require 'rake/testtask'
 require 'rake/rdoctask'
+require 'progressbar'
 
 include TaliaUtil
 
@@ -20,6 +21,14 @@ namespace :talia_core do
     Util::init_talia
     TLoad::force_rails_parts
     Util::talia_config if(Util::flag?('verbose'))
+  end
+  
+  # Removes all data
+  desc "Reset the Talia data store"
+  task :clear_store => :talia_init do
+    Util::flush_db
+    Util::flush_rdf
+    puts "Flushed data store"
   end
   
   # Init for the unit tests
