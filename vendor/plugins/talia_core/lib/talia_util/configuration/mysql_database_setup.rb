@@ -15,6 +15,7 @@ module TaliaUtil
       attr_accessor :host
       attr_accessor :app_name
       attr_accessor :sock
+      attr_accessor :db_prefix # Prefix for having multiple databases on one install
       
       # Set the root user/pw
       def root_credentials(root_user = 'root', root_pw = nil)
@@ -49,8 +50,8 @@ module TaliaUtil
       def create_default_databases
         raise(ArgumentError, "App name not set") unless(@app_name)
         %w(production test development).each do |db_suffix|
-          db_name = "#{@app_name}_#{db_suffix}"
-          success = create_database(db_name)
+          db_name = "#{db_prefix}#{@app_name}_#{db_suffix}"
+          create_database(db_name)
         end
       end
       
