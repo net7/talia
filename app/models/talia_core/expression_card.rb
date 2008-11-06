@@ -94,8 +94,8 @@ module TaliaCore
       if(self.clone_callbacks)
         self.clone_callbacks.each { |cb| self.send(cb, clone, options) }
       end
-      clone.catalog = options[:catalog] if(options[:catalog])
-      clone
+      new_el.catalog = options[:catalog] if(options[:catalog])
+      new_el
     rescue Exception => e
       message = e.message + " (raise during clone of #{self.uri})"
       new_err = e.class.new(message)
