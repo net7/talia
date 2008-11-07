@@ -29,6 +29,15 @@ module TaliaCore
         File.join(data_directory(relative), self.id.to_s)
       end
       
+      # Gets the path that will be used for serving the image as a static
+      # resource. Nil if the prefix isn't set
+      def static_path
+        prefix = TaliaCore::CONFIG['static_data_prefix']
+        return unless(prefix)
+        prefix = N::LOCAL + prefix unless(prefix =~ /:\/\//)
+        "#{prefix}/#{class_name}/#{("00" + self.id.to_s)[-3..-1]}/#{self.id}"
+      end
+      
       # Path used to store temporary files.
       # This is a wrapper for the tempfile_path class method.
       def tempfile_path
