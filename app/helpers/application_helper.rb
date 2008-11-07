@@ -127,7 +127,7 @@ module ApplicationHelper
     if(!static_prefix || static_prefix == '' || static_prefix == 'disabled')
       image_tag(url_for(:controller => 'source_data', :action => 'show', :id => image.id), options)
     else
-      static_url = N::LOCAL  + iip_data.static_image_path(true)
+      static_url = image.static_path
       image_tag(static_url, options)
     end
   end
