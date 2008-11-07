@@ -160,8 +160,14 @@ namespace :discovery do
   end
   
   # creates a facsimile edition and adds to it all the color facsimiles found in the DB
-  desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> description=<short_description> header=<header_image_folder>"
+  desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> description=<short_description> header=<header_image_folder> catalog=<catalog_siglum>"
   task :create_color_facsimile_edition => :disco_init do
+    if ENV['catalog'].nil? 
+      catalog = TaliaCore::Catalog.default_catalog
+    else
+      assit(TaliaCore::Catalog.exists?(N::LOCAL + ENV['catalog'])) 
+      catalog = TaliaCore::Catalog.find(N::LOCAL + ENV['catalog']) 
+    end
     facsimiles = 0
     elapsed = Benchmark.realtime do
       TaliaCore::Book
@@ -170,12 +176,12 @@ namespace :discovery do
       fe = TaskHelper::create_edition(TaliaCore::FacsimileEdition)
       TaskHelper::setup_header_images
       fe.hyper::description << ENV['description']
-      qry = TaskHelper::default_book_query
+      qry = TaskHelper::default_book_query(catalog)
       qry.where(:facsimile, N::HYPER.manifestation_of, :page)
       qry.where(:facsimile, N::RDF.type, N::HYPER + 'Facsimile')
       qry.where(:facsimile, N::RDF.type, N::HYPER + 'Color')
       
-      facs_size = TaskHelper::count_color_facsimiles_in(TaliaCore::Catalog.default_catalog)
+      facs_size = TaskHelper::count_color_facsimiles_in(catalog)
       
       # Process all the books
       TaskHelper::process_books(qry.execute, facs_size) do |book, progress|
@@ -200,7 +206,7 @@ namespace :discovery do
     puts "Edition created with #{facsimiles} facsimiles. Creation time: %.2f" % elapsed
   end
   
-  desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> header=<header_directory> description=<html_description_file>" 
+  desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> header=<header_directory> description=<html_description_file> catalog=<catalog_siglum>" 
   task :create_critical_edition => :disco_init do
  
     TaliaCore::Book
@@ -211,6 +217,13 @@ namespace :discovery do
     TaliaCore::Transcription
     TaliaCore::HyperEdition
     
+    if ENV['catalog'].nil? 
+      catalog = TaliaCore::Catalog.default_catalog
+    else
+      assit(TaliaCore::Catalog.exists?(N::LOCAL + ENV['catalog'])) 
+      catalog = TaliaCore::Catalog.find(N::LOCAL + ENV['catalog']) 
+    end
+    
     ce = TaskHelper::create_edition(TaliaCore::CriticalEdition)
     TaskHelper::setup_header_images
     # the description page must be passed as a path to the HTML file containing it
@@ -218,13 +231,13 @@ namespace :discovery do
     ce.create_html_description!(description_file_path)
     
     # HyperEditions may be manifestations of both pages and paragraphs
-    par_qry = TaskHelper::default_book_query
+    par_qry = TaskHelper::default_book_query(catalog)
     par_qry.where(:paragraph, N::HYPER.note, :note)
     par_qry.where(:note, N::HYPER.page, :page)
     par_qry.where(:edition, N::HYPER.manifestation_of, :paragraph)
     par_qry.where(:edition, N::RDF.type, N::HYPER + 'HyperEdition')
     
-    pag_qry = TaskHelper::default_book_query
+    pag_qry = TaskHelper::default_book_query(catalog)
     pag_qry.where(:edition, N::HYPER.manifestation_of, :page)
     pag_qry.where(:edition, N::RDF.type, N::HYPER + 'HyperEdition')
     
@@ -232,7 +245,7 @@ namespace :discovery do
     par_books = par_qry.execute
     books = par_books + (pag_books - par_books)
 
-    note_count = TaskHelper::count_notes_in(TaliaCore::Catalog.default_catalog)
+    note_count = TaskHelper::count_notes_in(catalog)
     notes = 0
     
     TaskHelper::process_books(books, note_count) do |book, progress|

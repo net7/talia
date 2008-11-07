@@ -7,11 +7,11 @@ class TaskHelper
   # in the default catalog. The books are referred to by :book and the
   # pages by :page. 
   # You may add additional conditions to this query before executing
-  def self.default_book_query
+  def self.default_book_query(catalog)
     qry = Query.new(TaliaCore::Book).select(:book).distinct
     qry.where(:book, N::RDF.type, N::HYPER.Book)
-    # only select from the default catalog
-    qry.where(:book, N::HYPER.in_catalog, TaliaCore::Catalog.default_catalog)
+    # only select from the requested catalog
+    qry.where(:book, N::HYPER.in_catalog, catalog)
     qry.where(:page, N::DCT.isPartOf, :book)
     qry
   end
