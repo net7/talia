@@ -13,8 +13,13 @@ config_dir = File.join(rails_dir, 'config')
 
 
 
-def readl
-  gets.chomp
+def readl(required = false)
+  result = gets.chomp.strip
+  while(result == '' && required)
+    print 'Must enter a value, retry: '
+    result = gets.chomp.strip
+  end
+  result
 end
 
 def read_yn(question)
@@ -37,7 +42,7 @@ puts "For the self-installed mySQL version on MacOS enter /tmp/mysql.sock"
 puts "Keep the default if you use the builtin mySQL of MacOS X Server."
 print "MySQL sock file (/var/mysql/mysql.sock): "
 sock_file = readl
-sock_file = '/var/mysql/mysql.sock' if(sock_file.strip == '')
+sock_file = '/var/mysql/mysql.sock' if(sock_file == '')
 puts
 
 mysql_setup = TaliaUtil::Configuration::MysqlDatabaseSetup.new
@@ -66,9 +71,9 @@ end
 puts
 puts "Enter the mySQL username for your application. This account will be created automatically."
 print "mySQL account for the application: "
-rails_user = readl
+rails_user = readl(true)
 print "Enter the password for this account: "
-rails_pw = readl
+rails_pw = readl(true)
 
 puts
 print "Enter a database prefix (if you need more than one installation): "
@@ -101,7 +106,7 @@ db_config.set_database_names("#{db_prefix}discovery_talia")
 
 puts
 print "Enter the URI for your site: "
-site_url = readl
+site_url = readl(true)
 
 puts
 print "Enter the URL of your IIP server, or the port number (for default URL on localhost): "
@@ -119,16 +124,27 @@ puts
 print "Enter the path to store the IIP image files (return for default): "
 iip_directory = readl
 
-if(iip_directory.strip != '')
+print "Enter the path to store the Sesame RDF databases (return for default): "
+sesame_directory = readl
+sesame_directory = '.' if(sesame_directory == '')
+rdf_config.development['location'] = File.join(sesame_directory, 'sesame_development.db')
+rdf_config.production['location'] = File.join(sesame_directory, 'sesame_production.db')
+
+if(iip_directory != '')
   talia_config.iip_root_directory_location = iip_directory
 end
 
 print "Enter the path to store all other data files (return for default): "
 data_directory = readl
 
-if(data_directory.strip != '')
+if(data_directory != '')
   talia_config.data_directory_location = data_directory
 end
+
+puts
+print "Enter the prefix/URL where static pages will be loaded (return for internal handler): "
+static_prefix = readl
+talia_config.static_data_prefix = static_prefix if(static_prefix != '')
 
 talia_config.local_uri = site_url
 
