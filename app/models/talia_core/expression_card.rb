@@ -160,9 +160,7 @@ module TaliaCore
       self[N::HYPER.keyword]
     end
     
-    
-    protected
-
+  
     def clone_properties_to(clone, options={})
       self.class.props_to_clone.each { |p| cp_property(p, self, clone) }
       self.class.inverse_props_to_clone.each do |p|
@@ -175,7 +173,9 @@ module TaliaCore
       clone.catalog = options[:catalog] if(options[:catalog])
       clone
     end
-    
+  
+    protected
+
     # Copy a property from the original source to the target. This contains
     # some checks to make sure that no duplicate types are created on the target
     def cp_property(property, original, target)
