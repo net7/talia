@@ -32,7 +32,7 @@ Warbler::Config.new do |config|
   # Gems to be included. You need to tell Warbler which gems your application needs
   # so that they can be packaged in the war file.
   # The Rails gems are included by default unless the vendor/rails directory is present."
-  ["activerecord-jdbcmysql-adapter", "jruby-openssl", "builder", "columnize", "jdbc-mysql", "openid", "paginator", "ruby-openid", "sources", "statemachine", "uuidtools"].each do |gem|
+  ["activerecord-jdbcmysql-adapter", "jruby-openssl", "builder", "columnize", "jdbc-mysql", "openid", "paginator", "ruby-openid", "sources", "statemachine", "uuidtools", "oai"].each do |gem|
     config.gems << gem
   end
   # config.gems << "tzinfo"
