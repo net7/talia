@@ -1,5 +1,5 @@
 <%= form_tag_with_upload_progress({:controller => '/source_data', :action => 'create'}, {:finish => 'onFinishedUpload()'}, {:controller => '/source_data'}) %>
-  <%= hidden_field_tag 'data_record[source_record_id]', @source.source_record_id %>
+  <%= hidden_field_tag 'data_record[source_record_id]', @source.id %>
   <%= file_field "data_record", "file" %>
   <%= submit_tag "Upload", :id => 'data_record_submit', :onclick => 'showUploadProgressBar();' %> or <%= hide_upload_form %>
   <%= upload_status_tag %>

@@ -4,7 +4,7 @@
       <%= predicate_form.text_field   :titleized,  :index => nil, :size => 60, :autocomplete => :off %>
       <%= predicate_form.hidden_field :namespace, :index => nil, :value => namespace %>
       <%= predicate_form.hidden_field :uri,    :index => nil %>
-      <%= hidden_field_tag 'source', predicate.source?, :id => 'source_predicates_attributes__source',
+      <%= hidden_field_tag 'source', predicate.is_a?(TaliaCore::ActiveSource), :id => 'source_predicates_attributes__source',
         :name => "source[predicates_attributes][][source]", :class => 'source' %>
       <% unless @source.associated? predicate %>
         <%= link_to_function image_tag('remove.png', :size => '12x12', :alt => 'remove', :class => 'remove'),
