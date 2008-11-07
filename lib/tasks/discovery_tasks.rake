@@ -49,13 +49,16 @@ namespace :discovery do
     FileUtils.rm_rf(iip_dir) if(File.exist?(iip_dir))
   end
   
-  desc "Export given language to csv file. Options language=<iso 639.1 lang code> [file=<filename>]"
+  desc "Export given language to csv file. Options language=<iso 639.1 lang code> [file=<filename>] [encoding=MAC]"
   task :export_language => :disco_init do
     language = Globalize::Language.find(:first, :conditions => { :iso_639_1 => ENV['language']})
     unless(language)
       puts "Language #{ENV['language']} not found."
       exit 1
     end
+    
+    encoding = ENV['encoding'] || 'MAC'
+    ic = Iconv.new(encoding, 'UTF-8')
     
     translations = Globalize::ViewTranslation.find(:all, :conditions => ['language_id = ? AND id > 7068', language.id])
     progress = ProgressBar.new('Exporting', translations.size)
@@ -64,7 +67,9 @@ namespace :discovery do
     File.open(filename, 'w') do |io|
       CSV::Writer.generate(io, ';', "\r") do |csv|
         for trans in translations
-          csv << [trans.tr_key, trans.text]
+          text = ic.iconv(trans.text)
+          key = ic.iconv(trans.tr_key)
+          csv << [key, text]
           progress.inc
         end
       end
@@ -72,7 +77,7 @@ namespace :discovery do
     progress.finish
   end
   
-  desc "Import the given language from the csv file. Options language=<iso 639.1 lang code> [file=<filename>]"
+  desc "Import the given language from the csv file. Options language=<iso 639.1 lang code> [file=<filename>] [encoding=MAC]"
   task :import_language => :disco_init do
     language = Globalize::Language.find(:first, :conditions => { :iso_639_1 => ENV['language']})
     unless(language)
@@ -80,19 +85,20 @@ namespace :discovery do
       exit 1
     end
     filename = ENV['file'] || "#{ENV['language']}_glob.csv" 
-    File.open(filename) do |io|
-      CSV::Reader.parse(io, ';', "\r") do |row|
-        trans = nil
-        unless(trans = (ViewTranslation.find(:first, :conditions => {:tr_key => row[0], :language_id => language.id})))
-          trans = ViewTranslation.new
-          trans.tr_key = row[0]
-          trans.language = language
-          trans.pluralization_index = 1
-        end
-        trans.text = row[1]
-        trans.save!
-        print '.'
+    encoding = ENV['encoding'] || 'MAC'
+    ic = Iconv.new('UTF-8', encoding)
+    data = File.open(filename) { |io| ic.iconv(io.read) }
+    CSV::Reader.parse(data, ';', "\r") do |row|
+      trans = nil
+      unless(trans = (ViewTranslation.find(:first, :conditions => {:tr_key => row[0], :language_id => language.id})))
+        trans = ViewTranslation.new
+        trans.tr_key = row[0]
+        trans.language = language
+        trans.pluralization_index = 1
       end
+      trans.text = row[1]
+      trans.save!
+      print '.'
     end
     puts 'Done'
   end
