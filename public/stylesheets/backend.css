@@ -1,0 +1,304 @@
+/* ***************** ************** ************** */
+/* ***************** BODY *************** */
+/* ***************** ************** ************** */
+* {margin: 0; padding: 0;}
+body {
+	text-align:center;
+	color: #333;
+	margin:0;
+	padding: 0;
+	border: 0;
+	background: #000000 url(/images/backend/page_bg.jpg) top left repeat-x;
+	font-family: Avenir, Arial, "Lucida Grande", Verdana, "Bitstream Vera Sans", Helvetica, sans-serif;
+	font-size:0.8125em;
+}
+
+/* ***************** ************** ************** */
+/* ***************** CLASSI ************** */
+/* ***************** ************** ************** */
+.nascosto{
+	display:none;
+}
+
+.floatClear{
+	clear: both;
+}
+
+/* ***************** ************** ************** */
+/* ***************** TAG ************** */
+/* ***************** ************** ************** */
+h1{
+	color: #9e0b0f;
+	font-size: 20px;
+	font-weight: normal;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	margin-bottom: 10px;
+}
+
+h2{
+	color: #55453c;
+	font-size: 20px;
+	font-weight: normal;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	margin-bottom: 10px;
+}
+
+p{
+	margin-bottom: 13px;
+	font-size: 0.88em;
+	line-height: 1.5em;
+}
+
+a{
+	color: #9e0b0f;
+	text-decoration: none;
+}
+
+a:hover{
+	color: #9e0b0f;
+	text-decoration: underline;
+}
+
+/* ***************** ************** ************** */
+/* ***************** PAGINA (contiene tutto) ************** */
+/* ***************** ************** ************** */
+#paginaExt{
+	padding:0; border:0;
+	position: relative;
+	margin: 0 auto 0 auto;
+	width:800px;
+}
+
+#paginaInt{
+	margin:0; padding:0; border:0;
+	width:100%;
+}
+
+/* ***************** ************** ************** */
+/* ***************** HEADER ************** */
+/* ***************** ************** ************** */
+#testata{
+	display: block;
+	height: 181px;
+	width: 800px;
+	background: transparent url(/images/backend/header_bg.jpg) top left no-repeat;
+}
+	#testata h1{
+		display: none;
+	}
+	#testata p{
+		display: none;
+	}
+
+/* ***************** ************** ************** */
+/* ***************** MENU ************** */
+/* ***************** ************** ************** */
+#menu{
+	display: block;
+	height: 45px;
+	width: 800px;
+	background: #000000 url(/images/backend/menu_bg.jpg) top left no-repeat;
+	text-align: center;
+}
+	#menu ul{
+		width: auto;
+		padding: 14px 0 0 0;
+	}
+	#menu li{
+		display: inline;
+		list-style: none;
+		letter-spacing: 1.1px;
+		text-align: center;
+		margin: 0 10px;
+	}
+	#menu li a{
+		color: #a19792;
+		text-decoration: none;
+		text-transform: uppercase;
+		font-size: 11px;
+		font-weight: bold;
+		background: transparent url(/images/backend/triangolino.gif) bottom center no-repeat;
+		padding-bottom: 6px;
+	}
+	#menu li a:hover{
+		color: #FFFFFF;
+		background: transparent url(/images/backend/triangolino_full.gif) bottom center no-repeat;
+	}
+
+/* ***************** ************** ************** */
+/* ***************** CONTENUTI ************** */
+/* ***************** ************** ************** */
+#contenuti{
+	background-color:#fff;
+	width: 780px;
+	margin: 0 10px 0 10px;
+	padding:  0 0 0 0;
+	text-align: center;
+}
+
+	#contenutoInterno{
+		width: 740px;
+		padding: 20px 20px;
+		text-align: left;
+	}
+
+	#contenutoInterno ul{
+		list-style: none;
+		font-size: 1.1em;
+	}
+	#contenutoInterno ul li{
+		list-style: none;
+		margin: 0 0 10px 0;
+	}
+	#contenutoInterno ul li a{
+		background: transparent url(/images/backend/icona.gif) center left no-repeat;
+		padding: 0 0 0 0px;
+	}
+	#contenutoInterno ul li a:hover{
+	}
+
+
+/* ***************** ************** ************** */
+/* ***************** PAGINE SPECIFICHE ************** */
+/* ***************** ************** ************** */
+
+/* Pagina accesso login */
+#password_login {
+	border: 10px solid #dcd4cf;
+	/*
+	width: 300px;
+	height: 200px;
+	float: left;
+	*/
+	text-align:center;
+	padding: 20px;
+}
+#password_login a{
+	font-size: 0.8em;
+}
+#openid_login {
+	border: 10px solid #dcd4cf;
+	/*
+	width: 300px;
+	height: 200px;
+	float: left;
+	*/
+	text-align:center;
+	padding: 20px;
+	margin: 20px 0 0 0;
+}
+label#openid_label {
+	display: inline;
+	line-height: 30px;
+	background: transparent url(/images/backend/opednid.gif) center left no-repeat;
+	padding: 20px 20px 20px 35px;
+	height: 30px;
+}
+#openid_login a{
+	font-size: 0.8em;
+}
+
+/* Menu principale */
+div.main_menu_box a{
+	border: 10px solid #dcd4cf;
+	width: 165px;
+	height: 5em;
+	line-height: 5em;
+	float: left;
+	text-align:center;
+	padding: 0 20px;
+
+	font-size: 20px;
+	font-family:Georgia, "Times New Roman", Times, serif;
+}
+
+div.main_menu_box a:hover{
+	background-color: #dcd4cf;
+	border: 10px solid #d3c8c2;
+	text-decoration: none;
+}
+
+#users_access a{
+	margin-right: 30px;
+}
+#sources_access a{
+	margin-right: 30px;
+}
+#translations_access a{
+}
+
+
+/* PAGINA TRANSLATIONS */
+input.translation {
+	width: 200px;
+}
+
+
+
+/* ***************** ************** ************** */
+/* ***************** FOOTER ************** */
+/* ***************** ************** ************** */
+#footer_wrap {
+	padding:0;
+	border:0;
+	position: relative;
+	margin: 0 auto 0 auto;
+	width:780px;
+	background: #40332b url(/images/backend/footer_bg.gif) top left repeat-x;
+}
+#footer {
+	position: relative;
+	width: 780px;
+	padding: 40px 0 0 30px;
+	font-size: 1.00em;
+	line-height: 1.6em;
+	color: #a79578;
+	margin: 0 auto;
+}
+#footer p {
+	padding-bottom: 20px;
+}
+.box {
+	width: 150px;
+	float: left;
+	margin-right: 43px;
+	z-index: 99;
+}
+.box h1 {
+	color: #fffffe;
+	font-size: 1.1em;
+	font-weight: normal;
+	margin-bottom: 30px;
+	font-family: Avenir, Arial, "Lucida Grande", Verdana, "Bitstream Vera Sans", Helvetica, sans-serif;
+}
+.box li {
+	padding-bottom: 10px;
+}
+.box a:link, .box a:visited {
+	color: #fffffe;
+	background: #2e251e;
+	padding: 2px 5px;
+	padding-bottom: 4px;
+	text-decoration:none;
+}
+.box a:hover {
+	color: #fffffe;
+	background: #ad0000;
+	text-decoration: none;
+}
+.box a:active {
+	color: #fffffe;
+	text-decoration:none;
+}
+#footer img {
+	margin-right: 30px;
+}
+
+/* SIMPLE BIT FIX */
+.group:after {
+	content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
