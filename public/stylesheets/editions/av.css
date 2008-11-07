@@ -1,0 +1,29 @@
+@charset "ISO-8859-1";
+
+/* Overwrite elements sizes for SCROLL and CONTENT.DIVIDED */
+/* ******************************************************************* */
+/* Side Scroll item */
+/* ******************************************************************* */
+/* SCROLL */
+div#page_ext div#page_int #scroll {
+    width: 292px;
+}
+/* CONTENT */
+div#page_ext div#page_int #content.divided {
+  margin-left: -304px;
+  text-align: left;
+}
+div#page_ext div#page_int div#visore {
+  margin-left: 304px;
+}
+
+/* CORRECT THE VIEW OF THE VIEW BLOCK INSIDE THE SCROLL BAR */
+div#page_ext div#page_int #scroll div.view_block  {
+    width: 270px;
+    height: auto;
+    float: left;
+    display: inline;
+    padding: 5px 0 2px 5px;
+    border: 1px solid #e0e0e0;
+    background-color: #f3f3f3;
+}

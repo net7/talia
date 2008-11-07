@@ -7,23 +7,19 @@ body {
 }
 
 #header {
-    height: 150px;
-    width: 100%;
-    position: relative;	
     background: url(/images/categories/bg_mainhead.jpg) no-repeat left top /*grafica di testata */;
-    
 }
 
-.float_clear {
-    clear: both;
-}
-
+/*
+Fight with content in main.css
 div#visore {
     text-align: left;
 }
-
+*/
 
 /* search_box */
+/*
+Fight with content in main.css
 #search_box {
     position: absolute;
     top: 2.5em;
@@ -39,7 +35,8 @@ div#visore {
 #search_box p label {
     padding: .4em;
 }
-
+*/
+/*
 ul#access_list.minilist h1 {
     font-size: 1em;
     float: left;
@@ -53,6 +50,7 @@ ul#access_list.minilist h1 {
 ul#access_list li h1 a {
     color: #6a615d	;
 }
+
 ul#access_list.minilist h1 a {
     color: #3c3c3c;
 }
@@ -115,6 +113,11 @@ ul#access_list li p.keys a{
     text-decoration: underline;
     color: #808080;
 }
+*/
+
+
+
+
 
 #scroll div.view_block {
     width: 210px;
@@ -175,8 +178,9 @@ margin-right: 0;}*/
     width: 100%;
 }
 
-/* image_big */
-
+/* ********************************* */
+/* REFERRED TO AV EDITION */
+/* ********************************* */
 #video {
     margin:15px 10px;
     clear: both;

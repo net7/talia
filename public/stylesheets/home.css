@@ -9,7 +9,7 @@
 
 To CUSTOMIZE EDITION LISTINGS, add them below like this:
 
-#contenuti ul li#diorio a {
+div#paginaInt div#contenuti ul li#diorio a {
     background: url(/images/start_page/edizionediorio.gif) left center no-repeat;
 }
 
@@ -80,6 +80,9 @@ a:hover{
 	text-decoration: underline;
 }
 
+blockquote {
+  display: none;
+}
 /* ***************** ************** ************** */
 /* ***************** PAGINA (contiene tutto) ************** */
 /* ***************** ************** ************** */
@@ -103,7 +106,7 @@ a:hover{
 	height: 80px;
 	width: 758px;
 	padding-left: 45px;
-	background: #000000 url(/images/start_page/menu_top_bg.jpg) top left no-repeat;
+	background: transparent url(/images/start_page/menu_top_bg.jpg) top left no-repeat;
 	list-style: none;
 	color: #FFFFFF;
 }
@@ -134,7 +137,7 @@ a:hover{
 	display: block;
 	height: 242px;
 	width: 803px;
-	background: #000000 url(/images/start_page/header_bg.jpg) top left no-repeat;
+	background: transparent url(/images/start_page/header_bg.jpg) top left no-repeat;
 }
 #testata h1{
 	display: none;
@@ -235,11 +238,12 @@ a:hover{
 		list-style: none;
 	}
 	#contenuti ul li{
-		list-style: none;
-		margin: 0 0 10px 0;
-		background: url(/images/start_page/switchscolar.gif) left center no-repeat;
+            list-style: none;
+            margin: 0 0 10px 0;
+            background: url(/images/start_page/switchscolar.gif) left center no-repeat;
 	}
-	#contenuti ul li a{
+        
+        #contenuti ul li a{
 		color: #666;
 		padding: 0 0 0 23px;
 	}
@@ -268,6 +272,7 @@ a:hover{
 }
 #piede p a{
 	text-decoration: none;
+        color: #71645c;
 }
 #piede p a:hover{
 	text-decoration: underline;

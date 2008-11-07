@@ -1,5 +1,12 @@
 <div class="floatclear"></div>
 
+<!-- scrolling side -->
+<div id="scroll" class="menuList">
+   <%= widget(:critical_edition_menu, :books => @edition.books) %>
+</div>
+<!-- scrolling side -->
+
+<!-- content -->
 <div id="content" class="divided">
     <div id="visore">
         <%= @edition.material_description.html %>
@@ -8,9 +15,6 @@
 </div>
 <!-- content -->
   
-<div id="scroll">
-   <%= widget(:critical_edition_menu, :books => @edition.books) %>
-</div>
 
 
 

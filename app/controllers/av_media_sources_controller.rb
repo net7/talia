@@ -1,6 +1,4 @@
 class AvMediaSourcesController < ApplicationController
-
-  layout 'simple_page'
   
   def show
     element_uri = N::LOCAL + 'av_media_sources/' + params[:id]

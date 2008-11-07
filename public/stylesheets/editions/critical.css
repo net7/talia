@@ -1,105 +1,105 @@
 @charset "ISO-8859-1";
 
-#search_box p.head_search input {
-    font-size: 1.2em;
-    background: #fff;
-    width: 7.5em;
-    font-size:.9em;
-    border: medium double #b7b7b7;
+/* Standard Search box */
+#search_box {
 }
-#search_box a.advsrch {
-    display: block;
-    color: #fff;
-    font-size: .9em;
-    text-decoration: underline;
-    line-height: 1.9em;
-    text-align: right;
-    padding-right: 28px;
-}
-#search_box p label.invia {
-    display: none;
-} 
-#search_box p input.invia  {
-    background: url(/images/critical_edition/invia.gif) no-repeat;
-    width: 18px;
-    border: 0;
-    font-size: 1.2em;
-    outline: none;
-    text-indent: -9999px;
-    margin-left: .4em;
-    
-}
+    #search_box p.head_search input {
+        font-size: 1.2em;
+        background: #fff;
+        width: 7.5em;
+        font-size:.9em;
+        border: medium double #b7b7b7;
+    }
+    #search_box a.advsrch {
+        display: block;
+        color: #fff;
+        font-size: .9em;
+        text-decoration: underline;
+        line-height: 1.9em;
+        text-align: right;
+        padding-right: 28px;
+    }
+    #search_box p label.invia {
+        display: none;
+    } 
+    #search_box p input.invia  {
+        background: url(/images/critical_edition/invia.gif) no-repeat;
+        width: 18px;
+        border: 0;
+        font-size: 1.2em;
+        outline: none;
+        text-indent: -9999px;
+        margin-left: .4em;
+    }
+
+
 
 #navigate #tools ul li#print {
     background: url(/images/critical_edition/print.gif) no-repeat left center;
 }
 
-
-
-/* SEARCH ADVANCED */
-
+/* Advanced Search */
 div#search_adv {
     border-top: 1px solid #bababa;
 }
+    div#search_adv form {
+    }
+    div#search_adv form div.src_line {
+        background:#ececec url(/images/critical_edition/bg_search_line.jpg) repeat-x 0 bottom;
+        float: left;
+        width: 100%;
+        padding: 10px 0;
+        border-top: 1px solid #fff;
+        font-size: 1.2em;
+        color: #464646;
+    }
+    div#search_adv form div.src_line p {
+        padding:0 10px;
+    }
+    div#search_adv form div.src_line label {
+        float: left;
+        padding: 1px 5px 1px 0;
+    }
+    div#search_adv form div.src_line p.avvia label {
+        display: none;
+    }
+    div#search_adv form div.src_line label.toradio {
+        margin-left: 5px;
+    }
+    div#search_adv form div.src_line input, div#search_adv form div.src_line select {
+        border: 1px solid #c9c9c9;
+        padding: 1px;
+        float: left;
+        display: inline;
+        margin-left: 10px;
+    }
+    div#search_adv form div.src_line select {
+        margin-right: 35px;
+        width: 100px;
+    }
+    div#search_adv form div.src_line p.avvia input {
+        border: 1px solid #c9c9c9;
+        padding: 3px 12px;
+        background: #f2f2f2;
+        margin-left: 0;
+    }
+    div#search_adv form div.src_line div.adder {
+        float: right;
+        padding: 0 10px;
+        width: 68px;
+        voice-family: "\"}\""; 
+        voice-family:inherit;
+        width:48px;
+    }
 
-div#search_adv form {
-}
-
-div#search_adv form div.src_line {
-    background:#ececec url(/images/critical_edition/bg_search_line.jpg) repeat-x 0 bottom;
-    float: left;
-    width: 100%;
-    padding: 10px 0;
-    border-top: 1px solid #fff;
-    font-size: 1.2em;
-    color: #464646;
-}
-div#search_adv form div.src_line p {
-    padding:0 10px;
-}
-div#search_adv form div.src_line label {
-    float: left;
-    padding: 1px 5px 1px 0;
-}
-div#search_adv form div.src_line p.avvia label {
-    display: none;
-}
-div#search_adv form div.src_line label.toradio {
-    margin-left: 5px;
-}
-div#search_adv form div.src_line input, div#search_adv form div.src_line select {
-    border: 1px solid #c9c9c9;
-    padding: 1px;
-    float: left;
-    display: inline;
-    margin-left: 10px;
-}
-div#search_adv form div.src_line select {
-    margin-right: 35px;
-    width: 100px;
-}
-div#search_adv form div.src_line p.avvia input {
-    border: 1px solid #c9c9c9;
-    padding: 3px 12px;
-    background: #f2f2f2;
-    margin-left: 0;
-}
-div#search_adv form div.src_line div.adder {
-    float: right;
-    padding: 0 10px;
-    width: 68px;
-    voice-family: "\"}\""; 
-    voice-family:inherit;
-    width:48px;
-}
-
-div#search_adv form div.src_line div.adder a {
-    display: block;
-    height: 18px;
-    width: 24px;
-    text-indent: -9999px;
-    float: left;
-}
+    div#search_adv form div.src_line div.adder a {
+        display: block;
+        height: 18px;
+        width: 24px;
+        text-indent: -9999px;
+        float: left;
+    }
+/* Buttons to remove or add search lines */    
 div.adder a.plus {
     background: url(/images/critical_edition/plus.gif) no-repeat center;
 }
@@ -107,75 +107,60 @@ div.adder a.minus {
     background: url(/images/critical_edition/minus.gif) no-repeat center;
 }
 /* scroll laterale ************************ */
-
-#scroll {
-    float: left;
-    width: 210px;
-    display: inline;
-    margin:0 10px 0 0;
-    background: #f4f4f4;
-    border: 1px solid #e0e0e0;
-    overflow: auto;
-    text-align: left;
-    height: 550px;
-}
-
-
+/* Edited in main.css! */
 
 /* SCROLL MENU *************************** */
-
-#scroll h1 {
-    font-family: georgia, serif;
-    font-weight: normal;
-    font-size: 1.6em;
-    background: #fff;
-    padding: 14px 12px 18px 12px ;
+#scroll.menuList{
+    padding: 0px;
 }
-#scroll ul {
-    display: block;
-    padding: 0;
-    margin: 0;
-}
-
-#scroll ul.toplevel {
-    border-bottom: 1px solid #e0e0e0;
-    list-style: none;
-}
-
-#scroll ul li {
-    display: block;
-    padding: 0;
-    background:#eee url(/images/critical_edition/bg_leftlist.gif) no-repeat top left;
-    border-top: 1px solid #e0e0e0;
-}
-
-#scroll ul li a {
-    padding: 8px 0 8px 14px ;
-    display: block;
-    color: #000;
-    margin: 0 10px;
-}
-
-#scroll ul.book li a  {
-    background: url(/images/critical_edition/book.gif) no-repeat left;
-}
-#scroll ul.secondlevel li a  {
-    color: #666;
-    margin: 0 20px;
-}
-#scroll ul.thirdlevel li {
-    background-position: right;
-}
-#scroll ul.thirdlevel li a  {
-    color: #666;
-    margin: 0 30px;
-}
-#scroll ul.pages li a {
-    background: url(/images/critical_edition/pages.gif) no-repeat left;
-}
-#scroll ul.page li a {
-    background: url(/images/critical_edition/page.gif) no-repeat left;
-}
+    #scroll.menuList h1 {
+        font-family: georgia, serif;
+        font-weight: normal;
+        font-size: 1.6em;
+        background: #fff;
+        padding: 14px 12px 18px 12px ;
+    }
+    #scroll.menuList ul {
+        display: block;
+        padding: 0;
+        margin: 0;
+    }
+    #scroll.menuList ul.toplevel {
+        border-bottom: 1px solid #e0e0e0;
+        list-style: none;
+    }
+    #scroll.menuList ul li {
+        display: block;
+        padding: 0;
+        background:#eee url(/images/critical_edition/bg_leftlist.gif) no-repeat top left;
+        border-top: 1px solid #e0e0e0;
+    }
+    #scroll.menuList ul li a {
+        padding: 8px 0 8px 14px ;
+        display: block;
+        color: #000;
+        margin: 0 10px;
+    }
+    #scroll.menuList ul.book li a  {
+        background: url(/images/critical_edition/book.gif) no-repeat left;
+    }
+    #scroll.menuList ul.secondlevel li a  {
+        color: #666;
+        margin: 0 20px;
+    }
+    #scroll.menuList ul.thirdlevel li {
+        background-position: right;
+    }
+    #scroll.menuList ul.thirdlevel li a  {
+        color: #666;
+        margin: 0 30px;
+    }
+    #scroll.menuList ul.pages li a {
+        background: url(/images/critical_edition/pages.gif) no-repeat left;
+    }
+    #scroll.menuList ul.page li a {
+        background: url(/images/critical_edition/page.gif) no-repeat left;
+    }
 
 #content.grey {
     background: #f3f3f3;

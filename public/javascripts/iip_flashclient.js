@@ -11,7 +11,7 @@
  * element_id - the id of html element that will receive the viewer
  */
 function load_iip_flashclient(server, image_path, width, height, element_id) { 
-    var so = new SWFObject("/fliipish.swf", "flashZoomer", width, height, "9", "#ffffff");
+    var so = new SWFObject("/fliipish.swf", "flashZoomer", width, height, "9", "#e0e0e0");
     so.addParam("quality", "high");
     so.addParam("scale", "noscale");
     so.addParam("salign", "tl");

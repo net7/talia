@@ -82,23 +82,3 @@ div#visore {
 }
 */
 
-/* image_big */
-
-#image_big {
-    margin: 0 auto;
-    clear: both;
-}
-#image_big img {
-    clear: both;
-    margin-top: 15px;
-}
-
-/* ******************* */
-/* IIP Viewer */
-/* ******************* */
-.iipfview {
-    /* padding: 10ex; */
-    margin: 10px 0;
-    border: 1px solid #666;
-    padding: 2px;
-}

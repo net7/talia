@@ -7,6 +7,10 @@
   <p><%= material_description(@element) %></p>
 </div>
 
+<div id="scroll">
+  <%= render(:partial => 'side_item', :collection => @element.category.members) %>
+</div>
+
 <div id="content" class="divided">
   <div id="visore">
     <div id="video">
@@ -23,6 +27,3 @@
   <!--[if !IE]>visore<![endif]-->  
 </div>
 
-<div id="scroll">
-  <%= render(:partial => 'side_item', :collection => @element.category.members) %>
-</div>
