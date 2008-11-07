@@ -1,5 +1,6 @@
 class Admin::TranslationsController < ApplicationController
   require_role 'admin'
+  layout 'admin'
   PER_PAGE = 30
 
   # GET /admin/translations

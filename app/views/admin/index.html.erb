@@ -1,3 +1,5 @@
 <% for link in @links %>
-<%= link_to h(link.titleize), :controller => "admin/#{h(link)}" %>
+  <div id="<%= link  %>_access" class="main_menu_box">
+    <%= link_to h(link.titleize), :controller => "admin/#{h(link)}" %>
+  </div>
 <% end %>

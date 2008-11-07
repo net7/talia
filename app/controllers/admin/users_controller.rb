@@ -1,5 +1,6 @@
 class Admin::UsersController < ApplicationController
   require_role 'admin'
+  layout 'admin'
   PER_PAGE = 10
 
   def index
