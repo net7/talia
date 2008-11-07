@@ -19,8 +19,7 @@ module ApplicationHelper
   
   # The (translated) material description for the element
   def material_description(element)
-    return nil unless(description = element.material_description)
-    description.to_s.t
+    t(:"talia.material_descriptions.#{element.uri.local_name.underscore}")
   end
   
   # Gets the translated type description
@@ -117,15 +116,20 @@ module ApplicationHelper
     return titled_link(url, "missing image for #{title}", title) unless(iip_data)
 
     img_options = { :alt => title }.merge(img_options)
-    static_prefix = TaliaCore::CONFIG['static_data_prefix']
-    img_tag = if(!static_prefix || static_prefix == '' || static_prefix == 'disabled')
-      image_tag(url_for(:controller => 'source_data', :action => 'show', :id => iip_data.id), img_options)
-    else
-      static_url = N::LOCAL  + iip_data.static_image_path(true)
-      image_tag(static_url, img_options)
-    end
+    img_tag = talia_image_tag(iip_data, img_options)
+    
 
     titled_link(url, img_tag, title)
+  end
+  
+  def talia_image_tag(image, options = {})
+    static_prefix = TaliaCore::CONFIG['static_data_prefix']
+    if(!static_prefix || static_prefix == '' || static_prefix == 'disabled')
+      image_tag(url_for(:controller => 'source_data', :action => 'show', :id => image.id), options)
+    else
+      static_url = N::LOCAL  + iip_data.static_image_path(true)
+      image_tag(static_url, options)
+    end
   end
   
   def titled_link (url, text, title=nil)
