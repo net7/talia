@@ -347,6 +347,8 @@ module TaliaUtil
       def import_file!
         file_name = get_text(@element_xml, 'file_name')
         file_url = get_text(@element_xml, 'file_url')
+        file_url.gsub!(/\[/, '%5B') # URI class doesn't like unescaped brackets
+        file_url.gsub!(/\]/, '%5D')
         file_content_type = get_text(@element_xml, 'file_content_type')
         if(file_name && file_url && file_content_type)
           begin
