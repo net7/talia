@@ -24,7 +24,9 @@ module TaliaUtil
         assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC'))
         assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW/KGW-AC'))
         cloned_book = TaliaCore::Book.find(N::LOCAL + 'KGW/KGW-AC')
+        original_book = TaliaCore::Book.find(N::LOCAL + 'KGW-AC')
         assert_equal(N::LOCAL + 'KGW', cloned_book.catalog.uri)
+        assert_equal(cloned_book, original_book.concordant_cards(N::LOCAL + 'KGW')[0])
       end
     end
     
@@ -35,9 +37,11 @@ module TaliaUtil
         assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC,[Text]'))
         assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW/KGW-AC,[Text]'))
         cloned_page = TaliaCore::Page.find(N::LOCAL + 'KGW/KGW-AC,[Text]')
+        original_page = TaliaCore::Page.find(N::LOCAL + 'KGW-AC,[Text]')
         assert_equal('000001', cloned_page.position)
         assert_equal(N::LOCAL + 'KGW/KGW-AC', cloned_page.book.uri)
         assert_equal(N::LOCAL + 'KGW', cloned_page.catalog.uri)
+        assert_equal(cloned_page, original_page.concordant_cards(N::LOCAL + 'KGW')[0])
       end
     end
 
@@ -47,8 +51,10 @@ module TaliaUtil
         assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC-[Text]'))
         assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW/KGW-AC-[Text]'))
         cloned_chapter = TaliaCore::Chapter.find(N::LOCAL + 'KGW/KGW-AC-[Text]')
+        original_chapter = TaliaCore::Chapter.find(N::LOCAL + 'KGW-AC-[Text]')
         assert_equal(N::LOCAL + 'KGW/KGW-AC,[Text]', cloned_chapter.first_page.uri)
         assert_equal(N::LOCAL + 'KGW/KGW-AC', cloned_chapter.book.uri)
+        assert_equal(cloned_chapter, original_chapter.concordant_cards(N::LOCAL + 'KGW')[0])
       end
     end
  
@@ -58,10 +64,16 @@ module TaliaUtil
         assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC-17'))
         assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW/KGW-AC-17'))
         cloned_paragraph = TaliaCore::Paragraph.find(N::LOCAL + 'KGW/KGW-AC-17')
+        original_paragraph = TaliaCore::Paragraph.find(N::LOCAL + 'KGW-AC-17')
+
+        cloned_note = TaliaCore::Note.find(N::LOCAL + 'KGW/KGW-AC-17-note17')
+        original_note = TaliaCore::Note.find(N::LOCAL + 'KGW-AC-17-note17')
         assert_equal(N::LOCAL + 'KGW/KGW-AC-17', cloned_paragraph.uri)
         assert_equal(N::LOCAL + 'KGW/KGW-AC-17-note17', cloned_paragraph.notes[0].uri)
         assert_equal(N::LOCAL + 'KGW/KGW-AC,[Text]', cloned_paragraph.pages[0].uri)
         assert_equal(N::LOCAL + 'KGW', cloned_paragraph.catalog.uri)
+        assert_equal(cloned_paragraph, original_paragraph.concordant_cards(N::LOCAL + 'KGW')[0])
+        assert_equal(cloned_note, original_note.concordant_cards(N::LOCAL + 'KGW')[0])
       end
     end
     

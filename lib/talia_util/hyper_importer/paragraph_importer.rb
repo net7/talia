@@ -67,6 +67,7 @@ module TaliaUtil
           if TaliaCore::Paragraph.exists?(clone_uri)
             clone = TaliaCore::Paragraph.find(clone_uri)
             @source.clone_properties_to(clone, {:catalog => catalog})
+            @source.make_concordant(clone)
           else
             clone = catalog.add_from_concordant(@source, true)
           end
@@ -85,6 +86,7 @@ module TaliaUtil
             if TaliaCore::Note.exists?(clone_note_uri)
               clone_note = TaliaCore::Note.find(clone_note_uri)
               note.clone_properties_to(clone_note, {:catalog => catalog})
+              note.make_concordant(clone_note)
             else
               clone_note = catalog.add_from_concordant(note)
             end

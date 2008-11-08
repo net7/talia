@@ -27,6 +27,7 @@ module TaliaUtil
           if TaliaCore::Book.exists?(clone_uri)
             clone = TaliaCore::Book.find(clone_uri)
             @source.clone_properties_to(clone, {:catalog => catalog})
+            @source.make_concordant(clone)
           else          
             clone = catalog.add_from_concordant(@source)
           end

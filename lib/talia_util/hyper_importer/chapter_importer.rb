@@ -1,4 +1,4 @@
-  module TaliaUtil
+module TaliaUtil
   
   module HyperImporter
     
@@ -34,6 +34,7 @@
           if TaliaCore::Chapter.exists?(clone_uri)
             clone = TaliaCore::Chapter.find(clone_uri)
             @source.clone_properties_to(clone, {:catalog => catalog})
+            @source.make_concordant(clone)
           else
             clone = catalog.add_from_concordant(@source)
           end
