@@ -31,7 +31,6 @@ module TaliaUtil
         if(source_name && source_name != "")
           @source = get_source_with_class(source_name, get_class_for(element_xml))
           @source.hyper::siglum << source_name if(@source.hyper::siglum.size == 0)
-          puts "doing #{source_name}"
         end
       end
       
