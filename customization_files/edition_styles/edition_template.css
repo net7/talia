@@ -11,7 +11,3 @@ body {
     background: url(/images/editions/#EDITION_NAME#_bg_mainhead.jpg) no-repeat left top /*grafica di testata */;
     
 }
-
-div#paginaInt div#contenuti ul li##EDITION_NAME#_li a {
-    background: url(/images/editions/#EDITION_NAME#_button.gif) left center no-repeat;
-}
