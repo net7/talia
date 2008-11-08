@@ -12,7 +12,7 @@ module HyperDownload
     # Creates a new downloader. Data will be read from the given URL and
     # save it to the given path.
     def initialize(output_path,
-        url = 'http://www.nietzschesource.org/exportToTalia.php?get=',
+        url = 'http://www.hypernietzsche.org/exportToTalia.php?get=',
         login = 'nietzsche',
         password = 'source',
         proxy = nil
