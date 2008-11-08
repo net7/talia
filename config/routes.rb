@@ -75,7 +75,7 @@ ActionController::Routing::Routes.draw do |map|
     :controller => 'critical_editions',
     :action => 'show'
   
-  map.connect "critical_editions/:id/advanced_search",
+  map.connect "TE/:id/advanced_search",
     :controller => 'critical_editions',
     :action => 'advanced_search'
   
