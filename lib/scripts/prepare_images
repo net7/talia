@@ -10,7 +10,8 @@ CONVERT_COMMAND='/opt/local/bin/convert'
 THUMB_SIZE = '128x128'
 
 # Create the thumbnail by running the configured creation command.
-def create_thumb(source, destination)
+def create_thumb(source, destination, force = false)
+  return if(File.exists?(destination) && !force)
   # execute vips command for create thumbnail
   # TODO: to add options, such as size, we can modify this row
   thumbnail_command = "#{CONVERT_COMMAND} #{source} -resize #{THUMB_SIZE} #{destination}"
@@ -23,8 +24,8 @@ end
 # Creates the pyramid image for IIP by running the configured system
 # command. This automatically creates the file in the correct location 
 # (IIP root)
-def create_pyramid(source, destination)
-  
+def create_pyramid(source, destination, force = false)
+  return if(File.exists?(destination) && !force)
   # execute vips command for create pyramid image
   # TODO: to add options, such as size, we can modify this row
   pyramid_command = "#{VIPS_COMMAND} im_vips2tiff #{source} #{destination}:deflate,tile,pyramid"
@@ -35,12 +36,14 @@ def create_pyramid(source, destination)
 end
 
 if(ARGV.size == 0 || ARGV[0] == '--help')
-  puts 'Usage: prepare_images <image_data_directory> [<output_dir>]'
+  puts 'Usage: prepare_images <image_data_directory> [<output_dir>] [force]'
   exit 1
 end
 
 source_dir = File.expand_path(ARGV[0])
 destination = ARGV.size > 1 ? File.expand_path(ARGV[1]) : File.join(source_dir, 'iip_staging')
+
+force = ARGV.size > 2 && (ARGV[2] == 'force')
 
 files = Dir["#{source_dir}/*.{jpg,gif,png,tif,jpeg}"] 
 
@@ -54,8 +57,8 @@ FileUtils.mkdir_p(File.join(destination, 'thumbs'))
 
 
 files.each do |file|
-  create_thumb(file, File.join(destination, 'thumbs', File.basename(file)))
-  create_pyramid(file, File.join(destination, 'pyramids', "#{File.basename(file, File.extname(file))}.tif"))
+  create_thumb(file, File.join(destination, 'thumbs', File.basename(file)), force)
+  create_pyramid(file, File.join(destination, 'pyramids', "#{File.basename(file, File.extname(file))}.tif"), force)
   progress.inc
 end
 
