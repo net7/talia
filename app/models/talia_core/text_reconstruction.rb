@@ -10,7 +10,7 @@ module TaliaCore
       case self.dcns::format.first
       when 'application/xml+hnml', 'application/xml+gml'
         ['diplomatic']
-      when 'application/xml+tei'
+      when 'application/xml+tei', 'application/xml+tei-p4', 'application/xml+tei-p5'
         ['standard']
       when 'application/xml+wit_tei'
         ['norm', 'dipl', 'study']
@@ -39,7 +39,7 @@ module TaliaCore
           middle_output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string", :transformer_parameters => transformer_parameters})
           xsl = 'public/xsl/hnml/edition_linear_2.xsl'
           output = saxon.transform(xsl, middle_output, nil, options = {:in => "string", :out => "string", :transformer_parameters => transformer_parameters})
-        when 'application/xml+tei'
+        when 'application/xml+tei', 'application/xml+tei-p4', 'application/xml+tei-p5'
           xsl = 'public/xsl/TEI/p4/html/tei.xsl'
           output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string"})
         when 'application/xml+wit_tei'

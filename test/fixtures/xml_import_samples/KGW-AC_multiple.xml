@@ -1,6 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <sources>
 <source><book><siglum>KGW-AC</siglum><catalog>KGW</catalog><title>AC</title><type>works</type><subtype>printed_and_distributed</subtype><copyrightNote/><description>AC description</description><date> </date><collocation/><publisher> </publisher><publishingPlace> </publishingPlace><ordering>26</ordering><relations><relation><predicate>isInArchive</predicate><object/></relation></relations></book></source>
+
+<source><chapter><siglum>KGW-AC-[Text]</siglum><catalog>KGW</catalog><title>[Text]</title><type>work_chapter</type><first_page>KGW-AC,[Text]</first_page><position>000001</position><name>[Text]</name><book>KGW-AC</book></chapter></source>
+
 <source><page><siglum>KGW-AC,[Text]</siglum><catalog>KGW</catalog><title>AC,[Text]</title><type>work_page</type><width>0.00</width><height>0.00</height><position>000001</position><position_name>1</position_name><relations><relation><predicate>isSubPartOf</predicate><object>KGW-AC</object></relation></relations></page></source>
+
 <source><paragraph><siglum>KGW-AC-17</siglum><catalog>KGW</catalog><title/><type>work_page_annotation</type><notes><note><page>KGW-AC,[Text]</page><position>000017</position><coordinates/></note></notes></paragraph></source>
+
+<source><paragraph><siglum>KGW-AC-18</siglum><catalog>KGW</catalog><title/><type>work_page_annotation</type><notes><note><page>KGW-AC,[Text]</page><position>000018</position><coordinates/></note></notes></paragraph></source>
+
+<source><text_reconstruction><siglum>kbrunkhorst-93</siglum><title>edition</title><publishing_date>2007-11-28</publishing_date><publisher>HyperNietzsche</publisher><language>de</language><alreadyPublished>no</alreadyPublished><relations><relation><predicate>isManifestationOf</predicate><object>KGW-AC-17</object></relation></relations><subtype>TEI</subtype><file_size>2532</file_size><file_name>GD-Sokrates-2_5.xml</file_name><file_url>test/fixtures/xml_import_samples/data/GD-Sokrates-2_5.xml</file_url><file_content_type>TEI</file_content_type><authors><author>kbrunkhorst</author></authors></text_reconstruction></source>
+
+<source><text_reconstruction><siglum>kbrunkhorst-95</siglum><title>edition</title><publishing_date>2007-11-28</publishing_date><publisher>HyperNietzsche</publisher><language/><alreadyPublished>no</alreadyPublished><relations><relation><predicate>isManifestationOf</predicate><object>KGW-AC-18</object></relation></relations><subtype>TEI</subtype><file_size>2532</file_size><file_name>GD-Sokrates-2_5.xml</file_name><file_url>test/fixtures/xml_import_samples/data/GD-Sokrates-2_5.xml</file_url><file_content_type>TEI</file_content_type><authors><author>kbrunkhorst</author></authors></text_reconstruction></source>
+
 </sources>
