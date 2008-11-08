@@ -347,8 +347,6 @@ module TaliaUtil
       def import_file!
         file_name = get_text(@element_xml, 'file_name')
         file_url = get_text(@element_xml, 'file_url')
-        file_url.gsub!(/\[/, '%5B') # URI class doesn't like unescaped brackets
-        file_url.gsub!(/\]/, '%5D')
         file_content_type = get_text(@element_xml, 'file_content_type')
         if(file_name && file_url && file_content_type)
           begin
@@ -447,6 +445,8 @@ module TaliaUtil
         else
           # This means we're loading from the web - so we need to cache the
           # results
+          url.gsub!(/\[/, '%5B') # URI class doesn't like unescaped brackets
+          url.gsub!(/\]/, '%5D')
           open_args = [ url ]
           open_args << @credentials if(@credentials)
           
