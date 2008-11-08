@@ -241,5 +241,6 @@ module TaliaCore
       N::DCNS.publisher,
       N::DCNS.rights
     
+     clone_inv_properties N::HYPER.manifestation_of
   end
 end
