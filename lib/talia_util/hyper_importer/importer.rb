@@ -1,6 +1,7 @@
 require 'rexml/document'
 require 'yaml'
 require 'open-uri'
+require 'cgi'
 
 module TaliaUtil
   
@@ -30,6 +31,7 @@ module TaliaUtil
         if(source_name && source_name != "")
           @source = get_source_with_class(source_name, get_class_for(element_xml))
           @source.hyper::siglum << source_name if(@source.hyper::siglum.size == 0)
+          puts "doing #{source_name}"
         end
       end
       
@@ -445,6 +447,7 @@ module TaliaUtil
         else
           # This means we're loading from the web - so we need to cache the
           # results
+          url = URI.encode(url)
           url.gsub!(/\[/, '%5B') # URI class doesn't like unescaped brackets
           url.gsub!(/\]/, '%5D')
           open_args = [ url ]
