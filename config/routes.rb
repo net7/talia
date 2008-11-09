@@ -130,6 +130,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :categories
   map.resources :keywords
   map.resources :series
+  map.resources :sources
 
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'  
