@@ -84,7 +84,7 @@ module TaliaCore
       prepare_options!(args.last) if(args.last.is_a?(Hash))
       if(args.size == 1 && (uri_s = uri_string_for(args[0])))
         src = super(:first, :conditions => { :uri => uri_s })
-        raise(ActiveRecord::RecordNotFound) unless(src)
+        raise(ActiveRecord::RecordNotFound, "Not found: #{uri_s}") unless(src)
         src
       else
         super
