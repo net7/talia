@@ -14,6 +14,8 @@ module TaliaCore
         ['standard']
       when 'application/xml+wit_tei'
         ['dipl', 'norm', 'study']
+      when 'text/html'
+        ['standard']
       else
         raise(ArgumentError, "Unknown content type for #{self.uri}: #{self.dcns::format.first}")
       end
@@ -47,6 +49,10 @@ module TaliaCore
           # visning is the parameter for the version in the wab-transform.xsl file        
           transformer_parameters = {'visning' => version}
           output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string", :transformer_parameters => transformer_parameters})          
+        when 'text/html'
+          file = File.open(infile, 'r')
+          output = file.read
+          file.close if file
         end
       rescue #TODO: handle these specific (java) exception: 
         #   net.sf.saxon.trans.XPathException
