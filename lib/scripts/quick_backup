@@ -56,7 +56,7 @@ else
   %w(production development).each do |env|
     `mysql -u root #{root_pw} #{db_conf[env]['database']} < #{backup_dir}/#{env}.sql`
     FileUtils.rm_rf rdf_conf[env]['location']
-    if(sesame = File.exists?(File.join(backup_dir, "sesame_#{env}.db")))
+    if(File.exists?(sesame = File.join(backup_dir, "sesame_#{env}.db")))
       FileUtils.cp_r(sesame, rdf_conf[env]['location'], :verbose => true)
     end
   end
