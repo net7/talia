@@ -247,16 +247,19 @@ namespace :discovery do
     books = par_books + (pag_books - par_books)
 
     note_count = TaskHelper::count_notes_in(catalog)
-    notes = 0
+    page_count = TaskHelper::count_pages_in(catalog)
+ 
+    subparts_count = page_count + note_count 
     
-    TaskHelper::process_books(books, note_count) do |book, progress|
+    TaskHelper::process_books(books, subparts_count) do |book, progress|
       new_book = book.clone_to(ce) do |orig_page, new_page|
         assit_kind_of(TaliaCore::Page, new_page)
         
         # Clone all editions that may exist on the page itself
         # TODO: Why are editions existing on the page itself?
         TaskHelper::clone_hyper_editions(orig_page, new_page)
-        
+        progress.inc
+
         # Go through all the notes of the current page
         orig_page.notes.each do |note|
           new_note = ce.add_from_concordant(note)
@@ -264,7 +267,6 @@ namespace :discovery do
           TaskHelper::handle_paragraph_for(note, new_note, ce)
           progress.inc
           new_note.save!
-          notes += 1
         end
       end
       

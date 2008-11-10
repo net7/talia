@@ -11,7 +11,7 @@ module TaliaCore
       when 'application/xml+tei', 'application/xml+tei-p4', 'application/xml+tei-p5'
         ['standard']
       when 'application/xml+wit_tei'
-        ['norm', 'dipl', 'study']
+        ['dipl', 'norm', 'study']
       else
         raise(ArgumentError, "Unknown content type for#{self.uri}: #{self.dcns::format.first}")
       end

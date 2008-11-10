@@ -117,7 +117,15 @@ class TaskHelper
     query.where(:note, N::HYPER.page, :page)
     query.execute.size
   end
-  
+
+  def self.count_pages_in(catalog)
+    query = Query.new(N::URI).select(:page).distinct
+    query.where(:book, N::RDF.type, N::HYPER.Book)
+    # only select from the default catalog
+    query.where(:book, N::HYPER.in_catalog, catalog)
+    query.where(:page, N::DCT.isPartOf, :book)
+    query.execute.size
+  end  
   # Quick hack to "quickly" add a new property to the given Source. This
   # will bypass the usual rdf creation routines and simply add the new
   # property both to the db and rdf "manually" (which is quicker than recreating
