@@ -58,7 +58,10 @@ else
   %w(production development).each do |env|
     `mysql -u root #{root_pw} #{db_conf[env]['database']} < #{backup_dir}/#{env}.sql`
     FileUtils.rm_rf rdf_conf[env]['location']
-    FileUtils.cp_r(File.join(backup_dir, "sesame_#{env}.db"), rdf_conf[env]['location'], :verbose => true)
+    sesame_backup = File.join(backup_dir, "sesame_#{env}.db")
+    if(File.exists?(sesame_backup))
+      FileUtils.cp_r(sesame_backup, rdf_conf[env]['location'], :verbose => true)
+    end
   end
   if(File.exists?(File.join(backup_dir, 'data')))
     puts "Restoring data..."
