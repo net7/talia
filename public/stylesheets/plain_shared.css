@@ -36,88 +36,6 @@ Fight with content in main.css
     padding: .4em;
 }
 */
-/*
-ul#access_list.minilist h1 {
-    font-size: 1em;
-    float: left;
-    text-align: left;
-    text-transform: uppercase;
-    font-weight: normal;
-    color: #3c3c3c;
-    padding: 0 15px;
-}
-
-ul#access_list li h1 a {
-    color: #6a615d	;
-}
-
-ul#access_list.minilist h1 a {
-    color: #3c3c3c;
-}
-ul#access_list li h1 img {
-    float: left;
-    display: inline;
-    padding-right: 30px;
-}
-ul#access_list.minilist li h1 img {
-    float: none;
-    display: block;
-    margin-bottom: 4px;
-    padding-right: 0;
-    border:1px solid #808080;
-}
-
-ul#access_list li p.title{
-    padding: 0 0 0 0;
-    margin-left: 130px;
-    display:block;
-    float: none;	
-    font-weight: bold;
-    font-size: 1.4em;
-    line-height: 1.6em;
-}
-
-ul#access_list li p.text{
-    padding: 5px 0 0 0;
-    margin-left: 130px;
-    display:block;
-    float: none;	
-    
-    font-size: 1.2em;
-    line-height: 1.6em;
-}
-
-ul#access_list li p.data{
-    padding: 5px 0 0 0;
-    margin-left: 130px;
-    display:block;
-    float: none;	
-    
-    font-size: 1.1em;
-    line-height: 1.6em;
-}
-
-ul#access_list li p.keys{
-    padding: 10px 0 0 0;
-    margin-left: 130px;
-    display:block;
-    float: none;	
-    
-    font-size: 1.1em;
-    line-height: 1.6em;
-    color: #808080;
-}
-
-ul#access_list li p.keys a{
-    line-height: 1.6em;
-    text-decoration: underline;
-    color: #808080;
-}
-*/
-
-
-
-
 
 #scroll div.view_block {
     width: 210px;
@@ -172,79 +90,18 @@ margin-right: 0;}*/
 }
 
 
+/*
 #content.divided {
     float: right;
     margin-left: -242px;
     width: 100%;
 }
-
-/* ********************************* */
-/* REFERRED TO AV EDITION */
-/* ********************************* */
-#video {
-    margin:15px 10px;
-    clear: both;
-    float: left;
-}
-#video img {
-    display: block;
-    margin-bottom: 10px;
-}
-
-#video p {
-    font-size: 1.2em;
-    color: #656565;
-}
-#video p a{
-    color: #000;
-    text-decoration: underline;
-}
+*/
 
 
 
-/* infomovie */
-#infomovie {
-    margin: 15px 10px;
-    float: left;
-}
 
-#infomovie h2 {
-    font-size: 1.4em;
-    margin-bottom: 1em;
-}
-#infomovie h2 span {
-    font-weight: normal;
-    display: block;
-    padding-bottom: .6em;
-}
 
-#infomovie p.info {
-    font-size: 1.2em;
-    line-height: 1.8em;
-}
-#infomovie p {
-    padding: 1em 0;
-    background: url(/images/dot_orizz.gif) repeat-x bottom;
-    
-}
-#infomovie p.tags {
-    font-size: 1.1em;
-    line-height: 1.6em;
-    color: #808080;
-}
-#infomovie p.tags a{
-    color: #808080;
-}
-#infomovie p a {
-    color: #000;
-    text-decoration: underline;
-}
-
-#infomovie p.downl  a{
-    padding:10px 30px ;
-    background: url(/images/categories/pdfdownload_dark.gif) no-repeat left;
-    color: #666;
-}
 
 
 p.text_long {

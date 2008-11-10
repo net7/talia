@@ -24,7 +24,7 @@
                 <label><%= t(:'talia.global.search') %></label> 
                 <input type="text" name="title_words[]" />
                 <label class="invia"><%= t(:'talia.global.search') %></label>
-                <input type="submit" class="invia" name="advanced_search_submission"/>
+                <input type="submit" class="invia" value="" name="advanced_search_submission"/>
               </p>
               <a href="#" onclick="Element.toggle('search_adv'); return false;" class="advsrch"><%=  t(:'talia.global.search_advanced') %></a>
             
@@ -32,28 +32,29 @@
           </div>
           
         </div>
-        <!-- header -->
+        <!--[if !IE]>header<![endif]-->
         <div id="navigate">
           <!-- <div id="tools">
             <ul>
               
             </ul>
           </div> -->
-          <!-- tools -->
+          <!--[if !IE]>tools<![endif]-->
 <%= widget(:simple_mode_path, :path_elements => @path) %>
         </div>
         
-        <!-- navigate -->
         
-        <!-- advanced search -->
+        <!--[if !IE]>navigate<![endif]-->
+        
+        <!--[if !IE]>advanced search<![endif]-->
 <%= widget(:advanced_search, :id => 'search_adv', :options => {:mode => 'avmedia', :visible => false}) %>
 
 <%= yield %>
         
         
       </div>
-      <!-- page_int -->
+      <!--[if !IE]>page_int<![endif]-->
     </div>
-    <!-- page_ext -->
+    <!--[if !IE]>page_ext<![endif]-->
   </body>
 </html>

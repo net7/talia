@@ -24,7 +24,11 @@ a {
 }
 a:hover {
     text-decoration: underline;
-    background-color: transparent !important;
+    background-color: transparent;
+}
+a:active
+{
+  outline: none;
 }
 
 /* ******************************************************************* */
@@ -85,8 +89,9 @@ a:hover {
     } 
 
 /* ******************************************************************* */
-/* SEARCH BOX AT THE TOP ROGHT OF THE HEADER */
+/* SEARCH BOX AT THE TOP RIGHT OF THE HEADER */
 /* ******************************************************************* */
+
 #search_box {
     position: absolute;
     top: 2.5em;
@@ -97,11 +102,41 @@ a:hover {
         font-size: 1.2em;
         color: #fff;
     }
-
+    
     #search_box p label {
         padding: .4em;
     }
-
+    #search_box p input {
+        font-size: 1.2em;
+        background: #fff;
+        width: 7.5em;
+        font-size:.9em;
+        border: medium double #b7b7b7;
+    }
+    #search_box p label.invia {
+        display: none;
+    } 
+    #search_box p input.invia  {
+        background: transparent url(/images/critical_edition/invia.gif) center center no-repeat;
+        width: 18px;
+        border: 0;
+        font-size: 1.2em;
+        outline: none;
+        text-indent: -9999px !important;
+        margin-left: .4em;
+        cursor: pointer;
+    }
+    /* Link to Advanced Search */
+    #search_box a.advsrch {
+        display: block;
+        color: #fff;
+        font-size: .9em;
+        text-decoration: underline;
+        line-height: 1.9em;
+        text-align: right;
+        padding-right: 28px;
+    }
+    
 /* ******************************************************************* */
 /* SWITCH BUTTON. LINKS TO SCHOLAR MODE */
 /* ******************************************************************* */
@@ -125,12 +160,13 @@ a:hover {
 
 /* ******************************************************************* */
 /* NAVIGATION BAR */
-/* HOLDS PATH AND TOOLS */
+/* HOLDS PATH AND TOOLS (PRINT, DOWNLOAD, PANORAMA ...) */
 /* ******************************************************************* */
 #navigate {
     background:#433934 url(/images/bg_first_line.gif) repeat-x top;
     width: 100%;
     float: left;
+    height: 3.6em;
 }
     #navigate a {
         color: #e0e0e0;
@@ -150,35 +186,75 @@ a:hover {
 }
 
 #navigate #tools {
+    /* ******* FIX *********** */
     float: right;
-    margin:5px 10px;
+    margin:0px 10px;
+    height: 3.6em;
 }
-    #navigate #tools ul {
-        float: left;
-        list-style: none;
-        padding: 0 20px;
-        border-left:1px dotted #fff
-    }
 
+/* EXPLORER FIX */
+#navigate #tools {
+  width: 200px;
+}
+html>body #navigate #tools {
+  width: auto;
+}
+/* EXPLORER FIX */
+
+    #navigate #tools ul {
+    float: right;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background: transparent url(../images/tool_side_line.gif) top right no-repeat;
+        height: 3.6em;
+    }
     #navigate #tools ul li {
         float: left;
-        padding:6px 6px 6px 30px;
+        padding: 0 0 0 0;
         font-size: 1em; 
         display: block;
+        background: transparent url(../images/tool_side_line.gif) top left no-repeat;
+        height: 3.6em;
     }
-
-    #navigate #tools ul li#panorama {
-        background: url(images/panorama.gif) no-repeat left center;
+    #navigate #tools ul li span {
+        display: block;
+        float: left;
+        height: 3.6em;
+        margin: 0 2px;
+        padding-left: 10px;
+        background: #554d49 url(../images/tool_bg.gif) top left repeat-x;
     }
-    #navigate #tools ul li#pdfdownload{
-        background: url(images/pdfdownload.gif) no-repeat left center;
+    #navigate #tools ul li:hover span {
+        background: #5d5552 url(../images/tool_bg_rollover.gif) top left repeat-x;
     }
-    #navigate #tools ul li#pagina {
-        margin-left: 10px;
-        background: url(imges/pagina.gif) no-repeat left center;
+    #navigate #tools ul li span a {
+      display: block;
+      float: left;
+      line-height: 3.6em;
+      height: 3.6em;
+      text-decoration: none;
+      padding: 0 20px 0 30px;
+      margin: 0 2px;
     }
-
+    #navigate #tools ul li span a:hover {
+      text-decoration: underline;
+    }
     
+    /* CUSTOMIZE ICONS ! */
+    #navigate #tools ul li#panorama span a{
+        /* background: url(images/panorama.gif) no-repeat left center; */
+    }
+    #navigate #tools ul li#pdfdownload span a{
+        background: transparent url(../images/icons/download_white.gif) center left no-repeat;
+    }
+    #navigate #tools ul li#pagina span a{
+        /* margin-left: 10px;
+        background: url(imges/pagina.gif) no-repeat left center; */
+    }
+    #navigate #tools ul li#print span a{
+      background: transparent url(../images/icons/print_white.gif) center left no-repeat;
+    }   
 /* ******************************************************************* */
 /* MENU LOCATION  - ORIZONTAL MENU UNDER PATH *******************************/
 /* ******************************************************************* */    
@@ -229,6 +305,8 @@ a:hover {
     background:#f2f1f1;
     border-bottom: 1px solid #e0e0e0;
     width: 100%;
+    margin:0;
+    padding:0;
 }
     #description p {
         float: left;
@@ -249,10 +327,10 @@ a:hover {
 /* ******************************************************************* */
 #scroll {
     float: left;
-    width: 192px;
-    display: inline;
-    margin: 0 0 0 0;
-    padding: 5px;
+    width: 205px;
+    display: auto;
+    margin: 0;
+    padding: 0 5px;
     background: #f4f4f4;
    /*  border: 1px solid #e0e0e0; */
     border-right: 1px solid #e0e0e0;
@@ -265,111 +343,129 @@ a:hover {
     z-index: 100;
     /* SOLUZIONE */
 }
-
+#scroll div.simple_mode_panorama_widget {
+  padding: 5px 0 100px 0;
+}
+#scroll div.critical_edition_menu_widget {
+  padding: 0 0 50px 0;
+}
 
 /*  ******************************************/
 /* CONTENT ***********************************/
 /*  ******************************************/
-#content {	
+#content {
   width: 100%;
   float: left;
-  text-align: center;
+  /* Fix for duplicate text in explorer */
+  display: inline;
+  /* text-align: center; */
   margin: 0; padding: 0;
 }
 
-    #content.divided {
-        float: right;
-        margin-left: -204px;
-        width: 100%;
-        /* SOLUZIONE */
-        z-index: -1;
-        /* SOLUZIONE */
-    }
+#content.divided {
+            float: right;
+            /* Fix for duplicate text in explorer */
+            display: inline;
+            width: 100%;
+            /* SOLUZIONE */
+            z-index: -1;
+            /* SOLUZIONE */
+            margin-left: -229px;
+          }
 
-    div#visore {
-        margin-left: 204px;
-        overflow:auto;
-        text-align: center;
-    }
+          div#visore {
+            overflow: auto;
+            /* text-align: center; */
+            padding:0;
+            margin: 0 0 0 229px;
 
+          }
 
-/* LISTONA ***********************************/
+/*  ******************************************/
+/*  LIST OF MAIN ELEMENTS IN THE PAGE */
+/*
+*/
+/*  ******************************************/
 ul#access_list {
     margin: 15px 4%;
     padding: 0;
     list-style: none;
     text-align: left;
 }
-
-    ul#access_list li {
+  
+  ul#access_list li {
         padding: 2% 0;
         float: left;
         clear: both;
+        display: inline;
         background: url(/images/dot_orizz.gif) repeat-x bottom;
+        /* Box Model Hack */
         width: 100%;
         voice-family: "\"}\""; 
         voice-family:inherit;
         width:96%;
-
     }
-    ul#access_list li h1 {
-        color: #6a615d;
-        font-size: 1.4em;
-    }
+        ul#access_list li h1 {
+            color: #6a615d;
+            font-size: 1.6em;
+            margin-bottom: 5px;
+        }
         ul#access_list li h1 a {
-            color: #6a615d	;
+            color: #6a615d;
         }
         ul#access_list li h1 img {
             float: left;
             display: inline;
             padding-right: 30px;
         }
-    ul#access_list li p.title{
-        padding: 0 0 0 0;
-        margin-left: 130px;
-        display:block;
-        float: none;	
-        font-weight: bold;
-        font-size: 1.4em;
-        line-height: 1.6em;
-    }
-    ul#access_list li p.text{
-        padding: 5px 0 0 0;
-        margin-left: 130px;
-        display:block;
-        float: none;	
-
-        font-size: 1.2em;
-        line-height: 1.6em;
-    }
-    ul#access_list li p.data{
-        padding: 5px 0 0 0;
-        margin-left: 130px;
-        display:block;
-        float: none;	
-
-        font-size: 1.1em;
-        line-height: 1.6em;
-    }
-    ul#access_list li p.keys{
-        padding: 10px 0 0 0;
-        margin-left: 130px;
-        display:block;
-        float: none;	
-        font-size: 1.1em;
-        line-height: 1.6em;
-        color: #808080;
-    }
-    ul#access_list li p.keys a{
-        line-height: 1.6em;
-        text-decoration: underline;
-        color: #808080;
-    }
-    
+        ul#access_list li p{
+          font-size: 1.2em;
+        }
+        ul#access_list li p.title{
+            padding: 0 0 0 0;
+            margin-left: 130px;
+            display:block;
+            float: none;
+            font-weight: bold;
+            font-size: 1.4em;
+            line-height: 1.6em;
+        }
+        ul#access_list li p.text{
+            padding: 5px 0 0 0;
+            margin-left: 130px;
+            display:block;
+            float: none;	
+            font-size: 1.2em;
+            line-height: 1.6em;
+        }
+        ul#access_list li p.data{
+            padding: 5px 0 0 0;
+            margin-left: 130px;
+            display:block;
+            float: none;
+            font-size: 1.1em;
+            line-height: 1.6em;
+        }
+        ul#access_list li p.keys{
+            padding: 10px 0 0 0;
+            margin-left: 130px;
+            display:block;
+            float: none;	
+            font-size: 1.1em;
+            line-height: 1.6em;
+            color: #808080;
+        }
+        ul#access_list li p.keys a{
+            line-height: 1.6em;
+            text-decoration: underline;
+            color: #808080;
+        }
+ 
     /* MINILIST */
     ul#access_list.minilist h1 {
         font-size: 1em;
         float: left;
+        display: inline;
         text-align: left;
         text-transform: uppercase;
         font-weight: normal;
@@ -380,6 +476,8 @@ ul#access_list {
         ul#access_list.minilist h1 a {
             color: #3c3c3c;
         }
+        ul#access_list.minilist p{
+        }
         ul#access_list.minilist li h1 img {
             float: none;
             display: block;
@@ -387,8 +485,6 @@ ul#access_list {
             padding-right: 0;
             border:1px solid #808080;
         }
-    
-
 
 /* ********************************* */
 /* Blocks that conains the pages in the panorama view */
@@ -413,6 +509,7 @@ ul#access_list {
         border: 1px solid #e0e0e0;
         background-color: #f3f3f3;
     }
+    
     #block_container div.block {
       margin: 0 10px 10px 0;
     }
@@ -431,6 +528,14 @@ ul#access_list {
         display: inline;
         font-size: 0.9em;
     }
+    
+    /* Span wrapping sigla */
+    #block_container div.block p span, #scroll div.view_block p span {
+        width: 80px;
+        border:1p solid red;
+        float: left;
+    }
+    
     #block_container div.block p.lonely, #scroll div.view_block p.lonely {
       margin:0 !important; padding: 0 !important;
       text-align: center;
@@ -454,11 +559,7 @@ ul#access_list {
     #block_container div.block p a img, #scroll div.view_block p a img, #block_container div.block p a:hover img, #scroll div.view_block p a:hover img{
       border: none;
     }
-    /*
-    #scroll div.view_block p.lonely img {
-        margin-right: 0;
-    }
-    */
+    
     /* FACING PAGES */
     div#scroll div.simple_mode_panorama_widget div.facing_pages {
         width: 170px;
@@ -488,37 +589,40 @@ ul#access_list {
     
 /*  ******************************************/
 /* TOOLBAR ***********************************/
+/*  
+    Tools placed inside the page
+    Nevigation to previous and next page
+    Print page
+    Download page
+*/
 /*  ******************************************/
 #toolbar {
-    margin: 15px 15px;
+    margin: 6px 15px;
     width: auto;
     float: left;
+    text-align: center;
 }
 #toolbar p {
     float: left;
     display: block;
-    font-size: 1.6em;	
+    font-size: 1.3em;	
     background: #f4f4f4;
     line-height: 2em;
     color: #757575;
-    
-}
-#toolbar p.previous {
-    background: url(/images/previous.gif) no-repeat left top;
-}
-#toolbar p.next{
-    background: url(/images/next.gif) no-repeat right top;
+    margin: 0 2px;
+    text-align: center;
 }
 #toolbar p.sigla {
     width: 5em;
+    font-weight: bold;
     border: 1px solid #d9d9d9;
+    text-align: center;
 }
 #toolbar p.zoom {
     border: 1px solid #d9d9d9;
     width: 5.4em;
     border-left: 0;
     border-right: 0;
-    
 }
 #toolbar p select {
     width: 5em;
@@ -539,16 +643,39 @@ ul#access_list {
     width: 40px;
 }
 #toolbar p.tooltools a.pdf{	
-    background: url(/images/ico_download.gif) no-repeat center;
+    background: url(/images/icons/download_gray.gif) no-repeat center;
+}
+#toolbar p.tooltools a:hover.pdf{	
+    background: url(/images/icons/download_red.gif) no-repeat center;
 }
 #toolbar p.tooltools a.print{	
-    background: url(/images/ico_print.gif) no-repeat center;
+    background: url(/images/icons/print_gray.gif) no-repeat center;
 }
-#toolbar p.previous a, #toolbar p.next a   {
+#toolbar p.tooltools a:hover.print{	
+    background: url(/images/icons/print_red.gif) no-repeat center;
+}
+#toolbar p.previous, #toolbar p.next{
     display: block;
-    height: 32px;
     width: 28px;
+    border: 1px solid #d9d9d9;
     text-indent: -9999px;
+}
+#toolbar p.previous a{
+    display: block;
+    background: #f4f4f4 url(/images/icons/left_arrow_gray.gif) no-repeat center center;
+}
+#toolbar p.next a{
+    display: block;
+    background: #f4f4f4 url(/images/icons/right_arrow_gray.gif) no-repeat center center;
+}
+#toolbar p.previous a:hover{
+    background: #f4f4f4 url(/images/icons/left_arrow_red.gif) no-repeat center center;
+}
+#toolbar p.next a:hover{
+    background: #f4f4f4 url(/images/icons/right_arrow_red.gif) no-repeat center center;
+}
+#toolbar p.next a:active, #toolbar p.previous a:active {
+  outline: none;
 }
 
 /* ********************************* */
@@ -568,6 +695,7 @@ ul#access_list {
 /* ********************************* */
 /* IIP Viewer - Flash Zoom Tool */
 /* ********************************* */
+/* Single */
 div.iipfview {
     /* padding: 10ex; */
     margin: 0 10px;
@@ -575,4 +703,23 @@ div.iipfview {
     padding: 2px;
     height: 100%;
 }
+
+/* Twins */
+div.iipfview_left {
+    /* padding: 10ex; */
+    margin: 0 10px;
+    border: 1px solid #e0e0e0;
+    padding: 2px;
+    height: 100%;
+    float: left;
+}
+div.iipfview_right {
+    /* padding: 10ex; */
+    margin: 0 10px;
+    border: 1px solid #e0e0e0;
+    padding: 2px;
+    height: 100%;
+    float: right;
+}
+
 /* ********************************* */

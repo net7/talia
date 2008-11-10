@@ -7,11 +7,12 @@
     //-->
 </script>
 
-<!-- navigate -->
+<!--[if !IE]>navigate<![endif]-->
 <div id="menulocation">
   <%= widget(:simple_mode_tabs, :tabs_elements => page_tabs) %>
 </div>
-<!-- menulocation -->
+<!--[if !IE]>menulocation<![endif]-->
+
 <div id="description">
 </div>
 <!--[if !IE]>description<![endif]-->
@@ -33,10 +34,13 @@
     </div>
     
     <div id="image_big">
-      <%= iip_flash_viewer(@page, "100%", "100%", "iipfview_left") %>
+      
       <% if (params[:pages] == 'double') %>
+        <%= iip_flash_viewer(@page, "100%", "100%", "iipfview_left") %>
         <%= iip_flash_viewer(@page2, "100%", "100%", "iipfview_right") %>
-      <% end %> 
+      <% else %>
+        <%= iip_flash_viewer(@page, "100%", "100%", "iipfview") %>
+      <% end %>
     </div>   
     
   </div>

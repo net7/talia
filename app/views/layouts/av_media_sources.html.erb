@@ -15,20 +15,20 @@
           <h2><%= t(:'talia.av_media_source.subtitle') %></h2>
           <!-- %= edition_partial :search_box % -->
         </div>
-        <!-- header -->
+        <!--[if !IE]>header<![endif]-->
         <div id="navigate">
           <!-- <div id="tools">
             <ul>
               
             </ul>
           </div> -->
-          <!-- tools -->
+          <!--[if !IE]>tools<![endif]-->
 <%= widget(:simple_mode_path, :path_elements => @path) %>
         </div>
         
-        <!-- navigate -->
+        <!--[if !IE]>navigate<![endif]-->
         
-        <!-- advanced search -->
+        <!--[if !IE]>advanced search<![endif]-->
 
 <%= yield %>
         

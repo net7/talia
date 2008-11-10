@@ -1,44 +1,10 @@
 @charset "ISO-8859-1";
 
-/* Standard Search box */
-#search_box {
-}
-    #search_box p.head_search input {
-        font-size: 1.2em;
-        background: #fff;
-        width: 7.5em;
-        font-size:.9em;
-        border: medium double #b7b7b7;
-    }
-    #search_box a.advsrch {
-        display: block;
-        color: #fff;
-        font-size: .9em;
-        text-decoration: underline;
-        line-height: 1.9em;
-        text-align: right;
-        padding-right: 28px;
-    }
-    #search_box p label.invia {
-        display: none;
-    } 
-    #search_box p input.invia  {
-        background: url(/images/critical_edition/invia.gif) no-repeat;
-        width: 18px;
-        border: 0;
-        font-size: 1.2em;
-        outline: none;
-        text-indent: -9999px;
-        margin-left: .4em;
-    }
 
 
-
-#navigate #tools ul li#print {
-    background: url(/images/critical_edition/print.gif) no-repeat left center;
-}
-
+/*  ******************************************/
 /* Advanced Search */
+/*  ******************************************/
 div#search_adv {
     border-top: 1px solid #bababa;
 }
@@ -99,6 +65,7 @@ div#search_adv {
         text-indent: -9999px;
         float: left;
     }
+
 /* Buttons to remove or add search lines */    
 div.adder a.plus {
     background: url(/images/critical_edition/plus.gif) no-repeat center;
@@ -109,7 +76,10 @@ div.adder a.minus {
 /* scroll laterale ************************ */
 /* Edited in main.css! */
 
+/*  ******************************************/
 /* SCROLL MENU *************************** */
+/* MENU LIST IN THE SIDE SCROLL */
+/*  ******************************************/
 #scroll.menuList{
     padding: 0px;
 }
@@ -124,6 +94,7 @@ div.adder a.minus {
         display: block;
         padding: 0;
         margin: 0;
+        list-style: none;
     }
     #scroll.menuList ul.toplevel {
         border-bottom: 1px solid #e0e0e0;
@@ -132,11 +103,12 @@ div.adder a.minus {
     #scroll.menuList ul li {
         display: block;
         padding: 0;
-        background:#eee url(/images/critical_edition/bg_leftlist.gif) no-repeat top left;
+        background:#eeeeee url(/images/critical_edition/bg_leftlist.gif) top left no-repeat;
         border-top: 1px solid #e0e0e0;
+        margin: 0;
     }
     #scroll.menuList ul li a {
-        padding: 8px 0 8px 14px ;
+        padding: 7px 0 4px 14px ;
         display: block;
         color: #000;
         margin: 0 10px;
@@ -162,19 +134,26 @@ div.adder a.minus {
         background: url(/images/critical_edition/page.gif) no-repeat left;
     }
 
+/*  ******************************************/
+/* CONTENT */
+/*  ******************************************/
+
+
+/*  ******************************************/
+/* TXT BLOCK ******************* */
+/* Blocco di testo 
+/*  ******************************************/
+#content div#visore div.txt_block {
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    padding: 25px;
+    margin: 25px 20px 0 0;
+    text-align: left;
+}
+
 #content.grey {
     background: #f3f3f3;
 }
-
-#content.divided div#visore {
-    margin-left: 232px;
-    overflow: auto;
-    height: 550px;
-}
-#content.divided div#visore.extended {
-    margin-left: 20px;
-}
-
 
 div#visore h1 {
     color: #584239;
@@ -203,18 +182,12 @@ div#visore.extended h1 {
 } 
 
 div#visore p{
-    /*    
-    font-size: 1.2em;
-    */
     color: #000;
     line-height: 2em;
     padding-bottom: 20px;
 }
 
 div#visore p.editedby {
-    /*	font-size: 1.6em;
-    line-height: 1em;
-    */
     border-bottom: 1px solid #e5e5e5;
     padding-bottom: 20px;
     margin-bottom: 20px;
@@ -232,20 +205,17 @@ div#visore p.about {
 }
 div#visore p.about a {
     color: #000;
-    text-decoration: underline;}
-
-
-
-/* TXT BLOCK ******************* */
-
-div#visore div.txt_block {
-    border: 1px solid #e5e5e5;
-    background: #fff;
-    padding: 25px;
-    margin: 25px 20px 0 0 ;
+    text-decoration: underline;
 }
 
+
+
+/*  ******************************************/
 /* tools */
+/*  ***************************************** */
+
+/*
+
 div#visore div.resultstools {
     padding:10px 15px;
     margin:15px 20px 10px 0;
@@ -336,3 +306,5 @@ div#visore ul.results li p {
 div#visore ul.results li p span.match {
     color: red;
 }
+
+*/

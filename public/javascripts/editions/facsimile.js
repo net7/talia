@@ -1,3 +1,22 @@
+// LOAD PAGE EVENT
+Event.observe(window, 'load', function() {
+  if ($('toolbar')) centerToolbar();
+  // setThumbsSize($$('div.lonely p a img'));
+  setThumbsSize();
+  if($$('div.iipfview_left').length > 0) setIipTwinsWidths();
+    
+});
+
+// RESIZE PAGE EVENT 
+window.onresize = function () {
+    /* I CALL TRHE FUNCTION THAT SETS VERTICAL DIMENSION FOR DIV ELEMENTS INSIDE THE PAGE */  
+    set_height (); 
+    /* CALL TO THE FUNCTION THAT CENTERS THE TOOLBAR (IF EXISTS) */
+    if ($('toolbar')) centerToolbar();
+    if($$('div.iipfview_left').length > 0) setIipTwinsWidths();
+}
+
+
 // Function that sets the height of the side scroll panoramam view
 // and the main content on the right
 // depending on the size of the window
@@ -9,7 +28,8 @@ function set_height (){
     var visoreHeight = windowHeight - $('visore').cumulativeOffset ( $('visore')).top  ;
     
     $('visore').style.height = visoreHeight - 0 + "px";
-    $('scroll').style.height = visoreHeight - 15 + "px";
+    // $('scroll').style.height = visoreHeight - 15 + "px";
+    $('scroll').style.height = windowHeight - $('scroll').cumulativeOffset().top + "px";
 
     /* setting other heights */
     /* image big div */
@@ -38,21 +58,6 @@ function centerToolbar(){
   $('toolbar').setStyle({marginLeft: margin_left_toolbar});
 }
 
-// LOAD PAGE EVENT
-Event.observe(window, 'load', function() {
-  if ($('toolbar')) centerToolbar();
-  // setThumbsSize($$('div.lonely p a img'));
-  setThumbsSize();
-});
-
-// RESIZE PAGE EVENT 
-window.onresize = function () {
-    /* I CALL TRHE FUNCTION THAT SETS VERTICAL DIMENSION FOR DIV ELEMENTS INSIDE THE PAGE */  
-    set_height (); 
-    /* CALL TO THE FUNCTION THAT CENTERS THE TOOLBAR (IF EXISTS) */
-    if ($('toolbar')) centerToolbar();
-}
-   
 // funzione momentanea che forza la dimensione delle thumbnails 120 x 80 px */
 function setThumbsSize() {
   var array_thumbs1 = $$('div.block p a img');
@@ -126,4 +131,13 @@ function resizeItem(itemToResize, maxWidth, maxHeight) {
   return arrayMargins;
 }// resizeAndCenterItem
 
-
+// Function that sets the correct widths of the twins iip flash viewer
+function setIipTwinsWidths() {
+    // Evaluate the width
+    var leftPosX = $$('div.iipfview_left')[0].cumulativeOffset().left;
+    var pageWidth = document.viewport.getDimensions().width;
+    var disposableWidth = pageWidth - leftPosX;
+    $$('div.iipfview_left')[0].style.width = ( disposableWidth/2 - 30 ) + "px";
+    $$('div.iipfview_right')[0].style.width = ( disposableWidth/2 - 30 ) + "px";
+    
+}

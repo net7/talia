@@ -17,7 +17,9 @@ function go_to_anchor(name){
 }
 
 function set_height(){
-    var newHeight = document.viewport.getDimensions().height - $('visore').cumulativeOffset ( $('visore')).top  ;
-    $('visore').style.height = newHeight - 2 + "px";
-    $('scroll').style.height = newHeight - 2 - 10 + "px";
+    /* Height of the whole window */
+    var windowHeight = document.viewport.getDimensions().height;
+    
+    $('visore').style.height = windowHeight - $('visore').cumulativeOffset().top + "px";
+    $('scroll').style.height = windowHeight - $('scroll').cumulativeOffset().top + "px";
 }

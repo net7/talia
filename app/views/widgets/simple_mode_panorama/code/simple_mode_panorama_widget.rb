@@ -23,15 +23,15 @@ class SimpleModePanoramaWidget < Widgeon::Widget
       <div class='block'>
         <p class='lonely'>"
         result << thumb_link(element)
-        result << element.uri.local_name  + '</p></div>
-      </div>
-        '
-        
+        result << '<span>' 
+        result << element.uri.local_name  
+        result << "</span></p></div>
+        </div>"
       else
         if (position == 'odd') 
           result << '<div class="block">' 
         end 
-        result << "<p>#{thumb_link(element)}#{element.uri.local_name}</p>"    
+        result << "<p>#{thumb_link(element)}<span>#{element.uri.local_name}</span></p>"    
         if position == 'even' || elements.last == element 
           result << '</div>
           ' 
@@ -56,8 +56,9 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         <p class='lonely' id='page_#{element}'>
         "
         result << thumb_link(element)
+        result << '<span>'
         result << element.uri.local_name + '
-</p>
+</span></p>
       </div>'
       else 
         if position == 'odd' 
@@ -66,15 +67,16 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         result << "<p id='page_#{element}'>
         "
         result << thumb_link(element)
+        result << '<span>'
         result << element.uri.local_name + '
-</p>'
+</span></p>'
         if position == 'even' || elements.last == element
           result << '</div>'
           if position == 'even' && elements.first != element
             # let's create the "facing pages" link. only when tha page has even position
             # and only if it isn't the first one, as the first is displayed on it's on
             # being the cover
-            result <<  "<div class='facing_pages'><a href='#{last_element.uri.to_s}?pages=double&page2=#{element.uri.local_name}'>#{'facing pages'.t}</a></div>"
+            result <<  "<div class='facing_pages'><a href='#{last_element.uri.to_s}?pages=double&page2=#{element.uri.local_name}'>#{t(:"talia.global.facing_pages")}</a></div>"
           end
           result << ' 
           <!--view_block-->'

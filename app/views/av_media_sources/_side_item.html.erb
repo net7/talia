@@ -1,5 +1,7 @@
 <div class="view_block">
+  <span>
   <p class="img"><a href="<%= side_item.uri %> " <%= 'class="selected"' if(side_item == @element) %>><%= video_thumb(side_item)  %></a><%= side_item.play_length  %> </p>
   <h3><%= side_item.title  %> </h3>
   <p class="descript" ><%= excerpt(side_item.dct::abstract.first) %></p>
+  </span>
 </div>

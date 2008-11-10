@@ -21,29 +21,34 @@
           <h3><%= @edition.title  %></h3>
           <%= edition_partial :search_box %>
         </div>
-        <!-- header -->
+        <!--[if !IE]>header<![endif]-->
         <div id="navigate">
           <div id="tools">
             <ul>
               <% for tool in (@tools || []) %>
-                <li id="<%= tool[:id] %>"> <a href="<%= tool[:link] %>" <%= "target='#{tool[:target]}'"if tool[:target] %>><%= tool[:text].t %></a></li>
+                <li id="<%= tool[:id] %>">
+                    <span>
+                        <a title="<%= tool[:text].t %>" href="<%= tool[:link] %>" <%= "target='#{tool[:target]}'"if tool[:target] %>><%= tool[:text].t %></a>
+                    </span>
+                </li>
               <% end  %>
             </ul>
           </div>
-          <!-- tools -->
+          <!--[if !IE]>tools<![endif]-->
 <%= widget(:simple_mode_path, :path_elements => @path) %>
         </div>
-        <!-- navigate -->
+        <!--[if !IE]>navigate<![endif]-->
         
-        <!-- advanced search -->
+        
+        <!--[if !IE]>advanced search<![endif]-->
 <%= edition_partial :header_extension %>
 
 <%= yield %>
         
         
       </div>
-      <!-- page_int -->
+      <!--[if !IE]>page_int<![endif]-->
     </div>
-    <!-- page_ext -->
+    <!--[if !IE]>page_ext<![endif]-->
   </body>
 </html>

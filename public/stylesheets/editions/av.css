@@ -6,24 +6,105 @@
 /* ******************************************************************* */
 /* SCROLL */
 div#page_ext div#page_int #scroll {
-    width: 292px;
+    width: 332px;
+    padding: 0;
+    margin:0;
 }
 /* CONTENT */
 div#page_ext div#page_int #content.divided {
-  margin-left: -304px;
+  margin-left: -344px;
   text-align: left;
 }
 div#page_ext div#page_int div#visore {
-  margin-left: 304px;
+  margin-left: 344px;
+  text-align: left;
 }
-
 /* CORRECT THE VIEW OF THE VIEW BLOCK INSIDE THE SCROLL BAR */
-div#page_ext div#page_int #scroll div.view_block  {
-    width: 270px;
+div#page_ext div#page_int #scroll div.view_block {
+    width: 250px;
     height: auto;
     float: left;
     display: inline;
-    padding: 5px 0 2px 5px;
-    border: 1px solid #e0e0e0;
+    padding: 0;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid #e0e0e0;
+    margin: 0 0 0 0;
     background-color: #f3f3f3;
+}
+
+/* Padding of the single block containing the thumbmail and text */
+div#page_ext div#page_int #scroll div.view_block {
+  padding: 10px;
+}
+
+/* ********************************* */
+/* Video */
+/* ********************************* */
+#video {
+    margin:10px 20px 20px 10px;
+    clear: both;
+    float: left;
+}
+#video img {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#video p {
+    font-size: 1.2em;
+    color: #656565;
+}
+#video p a{
+    color: #000;
+    text-decoration: underline;
+}
+
+
+/* ******************************************************************* */
+/* Box containing info at the side of the movie */
+/* ******************************************************************* */
+#infomovie {
+     padding-top: 10px;
+    margin: 15px 10px;
+    /* float: left; */
+}
+
+#infomovie h2 {
+    font-size: 1.4em;
+    margin-bottom: 1em;
+}
+#infomovie h2 span {
+    font-weight: normal;
+    display: block;
+    padding-bottom: .6em;
+}
+
+#infomovie p.info {
+    font-size: 1.2em;
+    line-height: 1.8em;
+}
+#infomovie p {
+    padding: 1em 0;
+    background: url(/images/dot_orizz.gif) repeat-x bottom;
+    
+}
+#infomovie p.tags {
+    font-size: 1.1em;
+    line-height: 1.6em;
+    color: #808080;
+}
+#infomovie p.tags a{
+    color: #808080;
+}
+#infomovie p a {
+    color: #000;
+    text-decoration: underline;
+}
+
+#infomovie p.downl  a{
+    padding:10px 30px ;
+    background: url(/images/categories/pdfdownload_dark.gif) no-repeat left;
+    color: #666;
 }
