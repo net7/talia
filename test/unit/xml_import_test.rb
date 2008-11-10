@@ -81,63 +81,75 @@ module TaliaUtil
       assert_difference "TaliaCore::Facsimile.count", 1 do
         XmlImport::import(get_path('egrepalysviola-1.xml'))
         assit(TaliaCore::Source.exists?(N::LOCAL + 'egrepalysviola-1'))
-        fax = TaliaCore::Paragraph.find(N::LOCAL + 'egrepalysviola-1')
+        fax = TaliaCore::Facsimile.find(N::LOCAL + 'egrepalysviola-1')
         assert_equal(N::LOCAL + 'AC,[Text]', fax::hyper.manifestation_of)
       end
     end
     
-    
-       #TODO: to be reintroduced after the review
-#    def test_import_multiple_clone_pages
-#      assert_difference "TaliaCore::Page.count", 4 do
-#        XmlImport::import(get_path('KGW-AC,[Text].xml'))
-#        XmlImport::import(get_path('KGW-AC,[Text].xml'))
-#        XmlImport::import(get_path('GED-AC,[Text].xml'))
-#        XmlImport::import(get_path('KGW-AC.xml'))
-#        assert(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC'))
-#        assert(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC,[Text]'))
-#        book = TaliaCore::Book.find(N::LOCAL + 'KGW-AC')
-#        page = TaliaCore::Page.find(N::LOCAL + 'KGW-AC,[Text]')
-#        assert_equal(1, book.ordered_pages.elements.size)
-#        assert_equal(page, book.ordered_pages.first)
-#        fe_uri = 'http://www.facsimile.org/edition/test'
-#        fe = TaliaCore::FacsimileEdition.new(fe_uri)
-#        fe.add_from_concordant(book, true)
-#        assert(TaliaCore::FacsimileEdition.exists?(fe_uri))
-#        assert_equal(1, fe.elements_by_type(N::TALIA.Page).size)
-#      end
-#    end
+    def test_import_text_reconstruction_with_catalog
+      XmlImport::import(get_path('kbrunkhorst-93.xml'))
+      XmlImport::import(get_path('KGW-AC-17.xml'))
+      assit(TaliaCore::Source.exists?(N::LOCAL + 'kbrunkhorst-93'))
+      assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC-17'))
+      assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW/KGW-AC-17'))
+      tr = TaliaCore::TextReconstruction.find(N::LOCAL + 'kbrunkhorst-93')
+      original_page = (TaliaCore::Paragraph.find(N::LOCAL + 'KGW-AC-17'))
+      cloned_page = (TaliaCore::Paragraph.find(N::LOCAL + 'KGW/KGW-AC-17'))
+      assert_equal(tr.uri.too_s, original_page.inverse[N::HYPER.manifestation_of])
+      assert_equal(tr.uri.too_s, cloned_page.inverse[N::HYPER.manifestation_of])
+  
+    end
+    #TODO: to be reintroduced after the review
+    #    def test_import_multiple_clone_pages
+    #      assert_difference "TaliaCore::Page.count", 4 do
+    #        XmlImport::import(get_path('KGW-AC,[Text].xml'))
+    #        XmlImport::import(get_path('KGW-AC,[Text].xml'))
+    #        XmlImport::import(get_path('GED-AC,[Text].xml'))
+    #        XmlImport::import(get_path('KGW-AC.xml'))
+    #        assert(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC'))
+    #        assert(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC,[Text]'))
+    #        book = TaliaCore::Book.find(N::LOCAL + 'KGW-AC')
+    #        page = TaliaCore::Page.find(N::LOCAL + 'KGW-AC,[Text]')
+    #        assert_equal(1, book.ordered_pages.elements.size)
+    #        assert_equal(page, book.ordered_pages.first)
+    #        fe_uri = 'http://www.facsimile.org/edition/test'
+    #        fe = TaliaCore::FacsimileEdition.new(fe_uri)
+    #        fe.add_from_concordant(book, true)
+    #        assert(TaliaCore::FacsimileEdition.exists?(fe_uri))
+    #        assert_equal(1, fe.elements_by_type(N::TALIA.Page).size)
+    #      end
+    #    end
     
     #TODO: to be reintroduced after the review
-#    def test_import_pages
-#       assert_difference "TaliaCore::Page.count", 2 do
-#        XmlImport::import(get_path('KGW-AC,[Text].xml'))
-#        XmlImport::import(get_path('KGW-AC,1.xml'))
-#        XmlImport::import(get_path('KGW-AC.xml'))
-#        assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC'))
-#        assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC,[Text]'))
-#        assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC,1'))
-#        page1 = TaliaCore::Page.find(N::LOCAL + 'KGW-AC,[Text]')
-#        page2 = TaliaCore::Page.find(N::LOCAL + 'KGW-AC,1')
-#        assert_equal(N::LOCAL + 'KGW-AC', page1.book.uri)
-#        assert_equal(N::LOCAL + 'KGW-AC', page2.book.uri)
-#        book = TaliaCore::Book.find(N::LOCAL + 'KGW-AC')
-#        assert_equal(2, book.ordered_pages.elements.size)
-#        assert_equal(page1, book.ordered_pages.first)
-#      end
-#    end
+    #    def test_import_pages
+    #       assert_difference "TaliaCore::Page.count", 2 do
+    #        XmlImport::import(get_path('KGW-AC,[Text].xml'))
+    #        XmlImport::import(get_path('KGW-AC,1.xml'))
+    #        XmlImport::import(get_path('KGW-AC.xml'))
+    #        assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC'))
+    #        assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC,[Text]'))
+    #        assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC,1'))
+    #        page1 = TaliaCore::Page.find(N::LOCAL + 'KGW-AC,[Text]')
+    #        page2 = TaliaCore::Page.find(N::LOCAL + 'KGW-AC,1')
+    #        assert_equal(N::LOCAL + 'KGW-AC', page1.book.uri)
+    #        assert_equal(N::LOCAL + 'KGW-AC', page2.book.uri)
+    #        book = TaliaCore::Book.find(N::LOCAL + 'KGW-AC')
+    #        assert_equal(2, book.ordered_pages.elements.size)
+    #        assert_equal(page1, book.ordered_pages.first)
+    #      end
+    #    end
     
-#TODO:after the review
-#    def test_import_page_twice
-#      assert_difference "TaliaCore::Page.count", 3 do
-#        XmlImport::import(get_path('KGW-AC,[Text].xml'))
-#        XmlImport::import(get_path('GED-AC,[Text].xml'))
-#        assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC,[Text]'))
-#        page = TaliaCore::Page.find(N::LOCAL + 'KGW-AC,[Text]')
-#        assert_equal('000001', page.position)
-#        #        assert_nothing_raised() { |page.position|  }
-#      end
-#    end
+    #TODO:after the review
+    #    def test_import_page_twice
+    #      assert_difference "TaliaCore::Page.count", 3 do
+    #        XmlImport::import(get_path('KGW-AC,[Text].xml'))
+    #        XmlImport::import(get_path('GED-AC,[Text].xml'))
+    #        assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC,[Text]'))
+    #        page = TaliaCore::Page.find(N::LOCAL + 'KGW-AC,[Text]')
+    #        assert_equal('000001', page.position)
+    #        #        assert_nothing_raised() { |page.position|  }
+    #      end
+    #    end
 
     def test_import_multiple_sources
       XmlImport::import(get_path('KGW-AC_multiple.xml'))

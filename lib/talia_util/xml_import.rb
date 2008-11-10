@@ -8,6 +8,7 @@ module TaliaUtil
       def options
         @options ||= {}
       end
+      
       def import(xml_file)   
         assit(File.exist?(xml_file))
         # Read the file containing the XML of the sources to import.

@@ -132,10 +132,11 @@ namespace :discovery do
     Util.flush_rdf
   end
   
-  desc "Import data from a local XML file. Options: xml=<file_path>"
+  desc "Import data from a local XML file. Options: xml=<file_path> [prepared_image=<directory>]"
   task :import_from_file => :disco_init do
     xml_file = ENV['xml']
     assit(File.exist?(xml_file))
+    TaliaUtil::XmlImport::options[:prepared_images] = ENV['prepared_images'] if(ENV['prepared_images'])
     TaliaUtil::XmlImport::import(xml_file)
   end
   
