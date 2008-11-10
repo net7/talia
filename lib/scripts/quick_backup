@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+require 'yaml'
+require 'fileutils'
+
+TALIA_ROOT = File.join(File.dirname(__FILE__), '..', '..')
+
+talia_conf = YAML.load_file(File.join(TALIA_ROOT, 'config', 'talia_core.yml'))
+rdf_conf = YAML.load_file(File.join(TALIA_ROOT, 'config', 'rdfstore.yml'))
+db_conf = YAML.load_file(File.join(TALIA_ROOT, 'config', 'database.yml'))
+
+if(ARGV.size == 0 || ARGV.include?('-help') || (ARGV[0] != 'backup' && ARGV[0] != 'restore'))
+  puts "usage: quick_backup (backup|restore) [-data] [-iip] [-help]"
+  exit 1
+end
+
+mode = ARGV[0].to_sym
+
+if(mode == :backup)
+  backup_dir = "backup-#{Time.now.strftime('%Y%m%d-%H%M%S')}"
+  print "We need the mySQL root pass here: "
+  root_pw = STDIN.gets.chomp.strip
+  root_pw = "-p#{root_pw}" if(root_pw != '')
+  FileUtils.mkdir backup_dir
+  puts "Backing up database..."
+  %w(production development).each do |env|
+    `mysqldump -u root #{root_pw} #{db_conf[env]['database']} > #{backup_dir}/#{db_conf[env]['database']}.sql`
+    `cp -R #{rdf_conf[env]['location']} #{backup_dir}/#{File.basename(rdf_conf[env]['location'])}`
+  end
+  if(ARGV.include?('-data'))
+    puts "Backing up normal data..."
+    data_dir = talia_conf['data_directory_location'] || './data/'
+    `cp -R -v #{data_dir} #{backup_dir}/data/`
+  end
+  if(ARGV.include?('-iip'))
+    puts "Backing up iip data..."
+    iip_dir = talia_conf['iip_root_directory_location'] || './iip_root/'
+    `cp -R -v #{iip_dir} #{backup_dir}/iip_root/`
+  end
+  puts "Making tarball..."
+  `tar czf #{backup_dir}.tar.gz #{backup_dir}`
+  puts "Cleaning up..."
+  FileUtils.rm_rf backup_dir
+  puts 'Done.'
+else
+  raise Exception, "Not done yet"
+end
