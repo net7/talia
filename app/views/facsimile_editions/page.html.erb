@@ -33,9 +33,9 @@
     </div>
     
     <div id="image_big">
-      <%= iip_flash_viewer(@page, "100%", "100%"    ) %>
+      <%= iip_flash_viewer(@page, "100%", "100%", "iipfview_left") %>
       <% if (params[:pages] == 'double') %>
-        <%= iip_flash_viewer(@page) %>
+        <%= iip_flash_viewer(@page2, "100%", "100%", "iipfview_right") %>
       <% end %> 
     </div>   
     
