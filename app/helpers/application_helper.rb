@@ -5,7 +5,7 @@ require 'uri'
 module ApplicationHelper
   
   
-  def iip_flash_viewer(element, height = 400, width = 400)
+  def iip_flash_viewer(element, height = 400, width = 400, klass='iipviewer')
     iip_data = get_iip_data_for(element)
     return "No iip data for #{element.uri}" unless(iip_data)
     
@@ -13,7 +13,8 @@ module ApplicationHelper
       :image_path => iip_data.get_iip_root_file_path,
       :height => height.to_s,
       :width => width.to_s,
-      :element_id => "iip_viewer_#{rand 10E16}" # Random name so that multiple instances can be used 
+      :element_id => "iip_viewer_#{rand 10E16}", # Random name so that multiple instances can be used
+      :div_class => klass
     }
   end
   
