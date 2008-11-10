@@ -77,9 +77,9 @@ class SeriesController < ApplicationController
         authors = item.elements['talia:metadata/talia:authors'].collect do |author|
           author.children.to_s
         end
-        {:title => item.elements['talia:metadata/talia:standard_title'].text, 
+        {:title => item.elements['talia:metadata/talia:title'].children.to_s, 
           :uri => item.elements['talia:metadata/talia:uri'].text,
-          :description => item.elements['talia:version/talia:content/talia:abstract'].text,
+          :description => item.elements['talia:version/talia:content/talia:abstract'].children.to_s,
           :author => authors.join(", "),
           :date => item.elements['talia:metadata/talia:date'].text,
           :length => item.elements['talia:metadata/talia:length'].text,
