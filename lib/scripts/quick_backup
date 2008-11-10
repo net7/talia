@@ -25,7 +25,9 @@ if(mode == :backup)
   puts "Backing up database..."
   %w(production development).each do |env|
     `mysqldump -u root #{root_pw} #{db_conf[env]['database']} > #{backup_dir}/#{env}.sql`
-    FileUtils.cp_r(rdf_conf[env]['location'], File.join(backup_dir, "sesame_#{env}.db"), :verbose => true)
+    if(File.exists?(rdf_conf[env]['location']))
+      FileUtils.cp_r(rdf_conf[env]['location'], File.join(backup_dir, "sesame_#{env}.db"), :verbose => true)
+    end
   end
   if(ARGV.include?('-data'))
     puts "Backing up normal data..."
@@ -56,9 +58,7 @@ else
   %w(production development).each do |env|
     `mysql -u root #{root_pw} #{db_conf[env]['database']} < #{backup_dir}/#{env}.sql`
     FileUtils.rm_rf rdf_conf[env]['location']
-    if(File.exists?(sesame = File.join(backup_dir, "sesame_#{env}.db")))
-      FileUtils.cp_r(sesame, rdf_conf[env]['location'], :verbose => true)
-    end
+    FileUtils.cp_r(File.join(backup_dir, "sesame_#{env}.db"), rdf_conf[env]['location'], :verbose => true)
   end
   if(File.exists?(File.join(backup_dir, 'data')))
     puts "Restoring data..."
