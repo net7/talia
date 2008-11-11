@@ -220,7 +220,7 @@ namespace :discovery do
     
     ed_uri = N::LOCAL +  ed_klass::EDITION_PREFIX + '/' + ENV['nick']
     raise(RuntimeError, "Edition does not exist: #{ed_uri}") unless(TaliaCore::ActiveSource.exists?(ed_uri))
-    edition = TaliaCore::ActiveSource.find(ed_uri)
+    ce = TaliaCore::ActiveSource.find(ed_uri)
     
     if ENV['catalog'].nil? 
       catalog = TaliaCore::Catalog.default_catalog
