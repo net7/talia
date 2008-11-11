@@ -349,36 +349,44 @@ namespace :discovery do
     
     TaskHelper::process_books(books, subparts_count) do |book, progress|
       new_book = book.clone_to(ce) do |orig_page, new_page|
-        assit_kind_of(TaliaCore::Page, new_page)
+        begin
+          assit_kind_of(TaliaCore::Page, new_page)
         
-        # Clone all editions that may exist on the page itself
-        # TODO: Why are editions existing on the page itself?
-        TaskHelper::clone_hyper_editions(orig_page, new_page)
-        progress.inc
-
-        # Go through all the notes of the current page
-        orig_page.notes.each do |note|
-          new_note = ce.add_from_concordant(note)
-          new_note.hyper::page << new_page
-          TaskHelper::handle_paragraph_for(note, new_note, ce)
+          # Clone all editions that may exist on the page itself
+          # TODO: Why are editions existing on the page itself?
+          TaskHelper::clone_hyper_editions(orig_page, new_page)
           progress.inc
-          new_note.save!
+
+          # Go through all the notes of the current page
+          orig_page.notes.each do |note|
+            new_note = ce.add_from_concordant(note)
+            new_note.hyper::page << new_page
+            TaskHelper::handle_paragraph_for(note, new_note, ce)
+            progress.inc
+            new_note.save!
+          end
+        rescue Exception => e
+          puts "Exception cloning page #{orig_page.uri}: #{e.message}"
         end
       end
       
       # Now clone the chapters on the book      
       book.chapters.each do |chapter|
-        ce.add_from_concordant(chapter) do |cloned_chapt|
-          cloned_chapt.book = new_book
-          chapt_first = chapter.first_page
-          if(chapt_first)
-            first_page = chapt_first.concordant_cards(ce).first
-            assit(first_page, "Must have a first page on the chapter #{chapter.uri}.")
-            cloned_chapt.first_page = first_page
-            cloned_chapt.save!
-          else
-            assit_fail("First page doesn't exist on #{chapter.uri}")
+        begin
+          ce.add_from_concordant(chapter) do |cloned_chapt|
+            cloned_chapt.book = new_book
+            chapt_first = chapter.first_page
+            if(chapt_first)
+              first_page = chapt_first.concordant_cards(ce).first
+              assit(first_page, "Must have a first page on the chapter #{chapter.uri}.")
+              cloned_chapt.first_page = first_page
+              cloned_chapt.save!
+            else
+              assit_fail("First page doesn't exist on #{chapter.uri}")
+            end
           end
+        rescue Exception => e
+          puts "Error cloning chapter #{chapter}: #{e.message}"
         end
       end          
       new_book.chapters.each do |chapter|
