@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ny kode phr type='q'; etc. -->
+<!--"http://wab.aksis.uib.no/cost-a32/wab.dtd"-->
+<!DOCTYPE TEI SYSTEM "http://wab.aksis.uib.no/cost-a32/wab.dtd"
+[
+<!ENTITY % WAB_entities SYSTEM 'http://wab.aksis.uib.no/cost-a32/wab_entities.txt' >
+%WAB_entities;
+]>
+
+<!-- !!!!!!include annotations!!!!! -->
+
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+ <teiHeader>
+
+ <fileDesc>
+ <titleStmt>
+ <title>Legend to WAB documents</title>
+ <author>Alois Pichler</author>
+ 	<respStmt><name>Tone Merete Bruvik</name> <resp>XML-TEI validation 2006-7</resp></respStmt>
+ 	<respStmt><name>Alois Pichler</name> <resp>Coordination, Markup 2006-7</resp></respStmt>
+ 	
+ </titleStmt>
+ <publicationStmt>
+ 	<availability>
+ 		<p>Wittgenstein Archives at the University of Bergen, Bergen</p>
+ 	</availability>
+ </publicationStmt>
+ 	 <sourceDesc><p>Born digital</p></sourceDesc>
+ 	
+ </fileDesc>
+ 	<revisionDesc>
+ 		<change><date>September 28, 2007</date><name>Tone Merete Bruvik</name>: Made the file valid.</change>
+ 		<change><date>September 25, 2007</date><name>Alois Pichler</name>: Draft of the file encoded.</change>
+ 	</revisionDesc>
+ 
+ </teiHeader>
+ <text>
+ <body>
+ 
+ <div type="legend">
+ <emph rend="bl_2"/><p> <s>[DRAFT: NOT COMPLETE - TO BE EXTENDED]</s></p>
+
+
+ <emph rend="bl_2"/><p> <s><emph rend="us1">Divisions and division types</emph></s><lb/> 
+ <s type="legend"> <s type="legend-visning"><!--<p>a</p><p>b</p><p>c</p>--></s> <s type="legend-description">sections a,b,c</s> <s type="legend-codes"> p paragraph encoding</s></s>
+ <s type="legend"> <s type="legend-visning"> <s type="es">a</s></s> <s type="legend-description">declarative sentence a</s> <s type="legend-codes"> s type="es" </s></s>
+ <s type="legend"> <s type="legend-visning"> <s type="eis">a</s></s> <s type="legend-description">interrogative sentence a</s> <s type="legend-codes"> s type="eis" </s></s>
+ <s type="legend"> <s type="legend-visning"> <s type="ees">a</s></s> <s type="legend-description">exclamatory sentence a</s> <s type="legend-codes"> s type="ees" </s></s></p>
+ 
+ <emph rend="bl_2"/><p> <s><emph rend="us1">Page break and pagination</emph></s><lb/>
+ <s type="legend"> <s type="legend-visning"><pb corresp="#.jpg" n="pagename_#v pageref_#"/> <fw type="pagen" place="*"></fw></s> 
+ <s type="legend-description">Page break and pagination in original</s>
+ <s type="legend-codes">pb corresp="*.jpg" n="pagename_* pageref_*" fw type="pagen" place="*"</s></s></p>
+ 
+ <emph rend="bl_2"/><p> <s><emph rend="us1">Additions</emph></s><lb/>
+ <s type="legend"> <s type="legend-visning">a<add rend="el">b</add>c</s> <s type="legend-description">b added in line</s> <s type="legend-codes"> add rend="el"</s></s>
+ <s type="legend"> <s type="legend-visning">a<add rend="i">b</add>c</s> <s type="legend-description">b added above line</s> <s type="legend-codes"> add rend="i"</s></s>
+ <s type="legend"> <s type="legend-visning">a<add rend="im">b</add>c</s> <s type="legend-description">b added above line, addition marked</s> <s type="legend-codes"> add rend="im"</s></s>
+ <s type="legend"> <s type="legend-visning">a<add rend="ilom">b</add>c</s> <s type="legend-description">b added in lower margin</s> <s type="legend-codes"> add rend="ilom"</s></s> 
+ <s type="legend"> <s type="legend-visning">a<add rend="iupm">b</add>c</s> <s type="legend-description">b added in upper margin</s> <s type="legend-codes"> add rend="iupm"</s></s> 
+  <s type="legend"> <s type="legend-visning">a<add rend="ilm">b</add>c</s> <s type="legend-description">b added in left margin</s> <s type="legend-codes"> add rend="ilm"</s></s>
+  <s type="legend"> <s type="legend-visning">a<add rend="irm">b</add>c</s> <s type="legend-description">b added in right margin</s> <s type="legend-codes"> add rend="irm"</s></s>
+ <s type="legend"> <s type="legend-visning">a<add rend="ib">b</add>c</s> <s type="legend-description">b added below line</s> <s type="legend-codes"> add rend="ib"</s></s>
+ 
+ <s type="legend"> <s type="legend-visning">a<add rend="iupmm">b</add>c</s> <s type="legend-description">b added in upper margin, addition marked</s> <s type="legend-codes"> add rend="iupmm"</s></s>
+ 
+ <s type="legend"> <s type="legend-visning">a<add rend="imb">b</add>c</s> <s type="legend-description">b added below line, addition marked</s> <s type="legend-codes"> add rend="imb"</s></s>
+  <s type="legend"> <s type="legend-visning">a<add rend="imw">b</add>c</s> <s type="legend-description">b added above line, insertion mark underlined with wavy line</s> <s type="legend-codes"> add rend="imw"</s></s>
+ 
+  <s type="legend"> <s type="legend-visning">a<add rend="H">b</add>c</s> <s type="legend-description">handwritten part b in typewritten part ac</s> <s type="legend-codes"> add rend="H"</s></s>
+ 
+ 
+  <s type="legend"> <s type="legend-visning">a<add rend="fremd">b</add>c</s> <s type="legend-description">b added in "fremder Hand"</s> <s type="legend-codes"> add rend="fremd"</s></s></p> 
+  
+  
+  
+ <emph rend="bl_2"/><p> <s><emph rend="us1">Overwritings</emph></s><lb/> 
+ <s type="legend"> <s type="legend-visning">a<add rend="our">b</add>c</s> <s type="legend-description">b overwriting unreadable character(s)</s> <s type="legend-codes"> add rend="our"</s></s>
+ <s type="legend"> <s type="legend-visning"><app type="o"><rdg type="o1">a</rdg><rdg type="o2">b</rdg></app></s> <s type="legend-description">b overwriting a</s> <s type="legend-codes"> app type="o"; rdg type="o1"; rdg type="o2"</s></s></p> 
+ 
+ <emph rend="bl_2"/><p> <s><emph rend="us1">Deletions</emph></s><lb/> 
+ <s type="legend"> <s type="legend-visning">a<del type="d">b</del>c</s> <s type="legend-description">b deleted (b fits in sentence)</s> <s type="legend-codes"> del type="d" </s></s>
+ <s type="legend"> <s type="legend-visning">a<del type="dn">b</del>c</s> <s type="legend-description">b deleted (b does not fit in word)</s> <s type="legend-codes"> del type="dn" </s></s>
+ <s type="legend"> <s type="legend-visning">a <del type="dnpc">b</del> c</s> <s type="legend-description">b deleted (b does not fit in sentence)</s> <s type="legend-codes"> del type="dnpc" </s></s>
+ <s type="legend"> <s type="legend-visning">a<del type="d_c">b</del>c</s> <s type="legend-description">b deleted, deletion canceled</s> <s type="legend-codes"> del type="d_c" </s></s></p> 
+ 
+ 
+ <emph rend="bl_2"/><p> <s><emph rend="us1">Emphasis</emph></s><lb/> 
+ <s type="legend"> <s type="legend-visning">a<emph rend="us1">b</emph>c</s> <s type="legend-description">b underlined with one straight line</s> <s type="legend-codes"> emph rend="us1"</s></s>
+ <s type="legend"> <s type="legend-visning">a<emph rend="us1_c">b</emph>c</s> <s type="legend-description">b underlined with one straight line, underlining canceled</s> <s type="legend-codes"> emph rend="us1_c"</s></s>
+ 
+ <s type="legend"> <s type="legend-visning">a<emph rend="usb">b</emph>c</s> <s type="legend-description">b underlined with one broken line</s> <s type="legend-codes"> emph rend="usb"</s></s>
+ <s type="legend"> <s type="legend-visning">a<emph rend="usb_c">b</emph>c</s> <s type="legend-description">b underlined with one broken line, underlining canceled</s> <s type="legend-codes"> emph rend="usb_c"</s></s>
+ 
+ <s type="legend"> <s type="legend-visning">a<emph rend="us2">b</emph>c</s> <s type="legend-description">b underlined with two straight lines</s> <s type="legend-codes"> emph rend="us2"</s></s>
+ <s type="legend"> <s type="legend-visning">a<emph rend="uw1">b</emph>c</s> <s type="legend-description">b underlined with one wavy line</s> <s type="legend-codes"> emph rend="uw1"</s></s> 
+ 
+ <s type="legend"> <s type="legend-visning">a<emph rend="uw1_c">b</emph>c</s> <s type="legend-description">b underlined with one wavy line, underlining canceled</s> <s type="legend-codes"> emph rend="uw1_c"</s></s>
+ 
+ <s type="legend"> <s type="legend-visning">a<emph rend="uw2">b</emph>c</s> <s type="legend-description">b underlined with two wavy lines</s> <s type="legend-codes"> emph rend="uw2"</s></s> 
+  <s type="legend"> <s type="legend-visning">a<emph rend="space">b</emph>c</s> <s type="legend-description">b spaced</s> <s type="legend-codes"> emph rend="space"</s></s> 
+   <s type="legend"> <s type="legend-visning">a<emph rend="cap">b</emph>c</s> <s type="legend-description">b capitalized</s> <s type="legend-codes"> emph rend="cap"</s></s> 
+   <s type="legend"> <s type="legend-visning">a<emph rend="centered">b</emph>c</s> <s type="legend-description">b centered</s> <s type="legend-codes"> emph rend="centered"</s></s> 
+  <s type="legend"> <s type="legend-visning"><emph rend="right">a</emph>bc</s> <s type="legend-description">a right</s> <s type="legend-codes"> emph rend="right"</s></s> 
+  <s type="legend"> <s type="legend-visning">a<emph rend="ringed">b</emph>c</s> <s type="legend-description">b ringed</s> <s type="legend-codes"> emph rend="ringed"</s></s> 
+
+<s type="legend"> <s type="legend-visning">a<lb/><emph rend="conline"/>b</s> <s type="legend-description">connecting line between (section) a and (section) b</s> <s type="legend-codes"> emph rend="conline"</s></s> 
+<s type="legend"> <s type="legend-visning">a<emph rend="sepline"/>b</s> <s type="legend-description">separating line between (section) a and (section) b</s> <s type="legend-codes"> emph rend="sepline"</s></s> 
+
+
+
+<s type="legend"> <s type="legend-visning">a<emph rend="arrback">b</emph>c</s> <s type="legend-description">b marked by arrow pointing back</s> <s type="legend-codes"> emph rend="arrback"</s></s> 
+<s type="legend"> <s type="legend-visning">a<emph rend="startarrback">b</emph>c</s> <s type="legend-description">start of arrow pointing back</s> <s type="legend-codes"> emph rend="startarrback"</s></s> 
+<s type="legend"> <s type="legend-visning">a<emph rend="endarrback">b</emph>c</s> <s type="legend-description">end of arrow pointing back</s> <s type="legend-codes"> emph rend="endarrback"</s></s> 
+<s type="legend"> <s type="legend-visning">a<emph rend="arrforward">b</emph>c</s> <s type="legend-description">b marked by arrow pointing forward</s> <s type="legend-codes"> emph rend="arrforward"</s></s> 
+<s type="legend"> <s type="legend-visning">a<emph rend="startarrforward">b</emph>c</s> <s type="legend-description">start of arrow pointing forward</s> <s type="legend-codes"> emph rend="startarrforward"</s></s> 
+<s type="legend"> <s type="legend-visning">a<emph rend="endarrforward">b</emph>c</s> <s type="legend-description">end of arrow pointing forward</s> <s type="legend-codes"> emph rend="endarrforward"</s></s> 
+ 
+
+
+  
+  <s type="legend"> <s type="legend-visning">a<emph rend="indl_#"/>bc</s> <s type="legend-description">b indented with # characters</s> <s type="legend-codes"> emph rend="indl_#"</s></s> 
+
+<s type="legend"> <s type="legend-visning">a<emph rend="sub">b</emph>c</s> <s type="legend-description">b in subscript</s> <s type="legend-codes"> emph rend="sub"</s></s> 
+
+<s type="legend"> <s type="legend-visning">a<emph rend="sup">b</emph>c</s> <s type="legend-description">b in supercript</s> <s type="legend-codes"> emph rend="sup"</s></s> 
+  <s type="legend"> <s type="legend-visning">a<emph rend="vdline">b</emph>c</s> <s type="legend-description">b marked with vertical or diagonal line</s> <s type="legend-codes"> emph rend="vdline"</s></s> 
+ <s type="legend"> <s type="legend-visning">a<emph rend="crossed">b</emph>c</s> <s type="legend-description">b crossed</s> <s type="legend-codes"> emph rend="crossed"</s></s> 
+
+ <s type="legend"> <s type="legend-visning">a<emph rend="emlm">b</emph>c</s> <s type="legend-description">b marked with exclamation mark in left margin</s> <s type="legend-codes"> emph rend="emlm"</s></s>
+
+ <s type="legend"> <s type="legend-visning">a<emph rend="emrm">b</emph>c</s> <s type="legend-description">b marked with exclamation mark in right margin</s> <s type="legend-codes"> emph rend="emrm"</s></s>
+ 
+ <s type="legend"> <s type="legend-visning">a<emph rend="qmlm">b</emph>c</s> <s type="legend-description">b marked with question mark in left margin</s> <s type="legend-codes"> emph rend="qmlm"</s></s>
+
+ <s type="legend"> <s type="legend-visning">a<emph rend="qmrm">b</emph>c</s> <s type="legend-description">b marked with question mark in right margin</s> <s type="legend-codes"> emph rend="qmrm"</s></s>
+ 
+ 
+ <s type="legend"> <s type="legend-visning">a<emph rend="slirm">b</emph>c</s> <s type="legend-description">b marked with straight line in right margin</s> <s type="legend-codes"> emph rend="slirm"</s></s>
+ <s type="legend"> <s type="legend-visning">a<emph rend="slilm">b</emph>c</s> <s type="legend-description">b marked with straight line in left margin</s> <s type="legend-codes"> emph rend="slilm"</s></s>
+  <s type="legend"> <s type="legend-visning">a<emph rend="wlirm">b</emph>c</s> <s type="legend-description">b marked with wavy line in right margin</s> <s type="legend-codes"> emph rend="wlirm"</s></s>
+ <s type="legend"> <s type="legend-visning">a<emph rend="wlilm">b</emph>c</s> <s type="legend-description">b marked with wavy line in left margin</s> <s type="legend-codes"> emph rend="wlilm"</s></s>
+ 
+ 
+  <s type="legend"> <s type="legend-visning">a<emph rend="zigzagrm">b</emph>c</s> <s type="legend-description">b marked with zigzag line in right margin</s> <s type="legend-codes"> emph rend="zigzagrm"</s></s>
+ <s type="legend"> <s type="legend-visning">a<emph rend="zigzaglm">b</emph>c</s> <s type="legend-description">b marked with zigzag line in left margin</s> <s type="legend-codes"> emph rend="zigzaglm"</s></s> 
+ 
+ <s type="legend"> <s type="legend-visning">a<emph rend="clirm">b</emph>c</s> <s type="legend-description">b marked with curved line in right margin</s> <s type="legend-codes"> emph rend="clirm"</s></s>
+ <s type="legend"> <s type="legend-visning">a<emph rend="clilm">b</emph>c</s> <s type="legend-description">b marked with curved line in left margin</s> <s type="legend-codes"> emph rend="clilm"</s></s> 
+ 
+  <s type="legend"> <s type="legend-visning">a<emph rend="dlirm">b</emph>c</s> <s type="legend-description">b marked with dotted or broken line in right margin</s> <s type="legend-codes"> emph rend="clirm"</s></s>
+ <s type="legend"> <s type="legend-visning">a<emph rend="dlilm">b</emph>c</s> <s type="legend-description">b marked with dotted or broken line in left margin</s> <s type="legend-codes"> emph rend="clilm"</s></s>
+
+ 
+ </p> 
+ 
+ <emph rend="bl_2"/><p> <s><emph rend="us1">Substitution relations</emph></s><lb/> 
+ <s type="legend"> <s type="legend-visning"><app type="s" ><rdg type="alt1">a</rdg> <rdg type="alt2">b</rdg></app></s> <s type="legend-description">substitution relation between a and b</s> <s type="legend-codes"> app type="s"; rdg type="alt1"; rdg type="alt2" </s></s>
+ <s type="legend"> <s type="legend-visning"><app type="dsl"><rdg type="alt1">a</rdg> <rdg type="alt2">b</rdg></app></s> <s type="legend-description">substitution relation between a and b, b retained</s> <s type="legend-codes"> app type="dsl"; rdg type="alt1"; rdg type="alt2" </s></s>
+ <s type="legend"> <s type="legend-visning"><app type="dsf"><rdg type="alt1">a</rdg> <rdg type="alt2">b</rdg></app></s> <s type="legend-description">substitution relation between a and b, a retained</s> <s type="legend-codes"> app type="dsf"; rdg type="alt1"; rdg type="alt2" </s></s>
+ <s type="legend"> <s type="legend-visning"><app type="os"><rdg type="os1">a</rdg><rdg type="os2">b</rdg></app></s> <s type="legend-description">substitution relation between a and b, b overwriting a</s> <s type="legend-codes"> app type="os"; rdg type="os1"; rdg type="os2"</s></s>
+
+ 
+ <s type="legend"> <s type="legend-visning"><app type="co"><rdg type="alt1">a</rdg> <rdg type="alt2">b</rdg></app></s> <s type="legend-description">substitution relation through change of order between a and b, b retained</s> <s type="legend-codes"> app type="co"; rdg type="alt1"; rdg type="alt2" </s></s></p>
+ 
+ <emph rend="bl_2"/><p> <s><emph rend="us1">"Emendations"</emph></s><lb/>
+ <s type="legend"> <s type="legend-visning"><app type="em"><rdg type="em1">x</rdg> <rdg type="em2"><app type="s"><rdg type="alt1">a</rdg><rdg type="alt2">b</rdg></app></rdg></app></s> <s type="legend-description">editorial re-use of characters or words in connection with substitution relation between a and b (contained in x)</s> <s type="legend-codes">app type="em";rdg type="em1";rdg type="em2";app type="s";rdg type="alt1";rdg type="alt2";</s></s>
+ <s type="legend"> <s type="legend-visning"><app type="em"><rdg type="em1">x</rdg> <rdg type="em2"><app type="dsl"><rdg type="alt1" >a</rdg><rdg type="alt2">b</rdg></app></rdg></app></s> <s type="legend-description">editorial re-use of characters or words in connection with substitution relation between a and b (contained in x), b retained</s> <s type="legend-codes">app type="em";rdg type="em1";rdg type="em2";app type="dsl";rdg type="alt1";rdg type="alt2"</s></s>
+  
+  <s type="legend"> <s type="legend-visning"><app type="em"><rdg type="em1">x</rdg> <rdg type="em2"><app type="dsf"><rdg type="alt1" >a</rdg><rdg type="alt2">b</rdg></app></rdg></app></s> <s type="legend-description">editorial re-use of characters or words in connection with substitution relation between a and b (contained in x), a retained</s> <s type="legend-codes">app type="em";rdg type="em1";rdg type="em2";app type="dsl";rdg type="alt1";rdg type="alt2"</s></s>
+   
+  
+ <s type="legend"> <s type="legend-visning"><app type="em"><rdg type="em1">x</rdg> <rdg type="em2">a b</rdg></app></s> <s type="legend-description">editorial re-use of characters or words with regard to x</s> <s type="legend-codes">app type="em";rdg type="em1";rdg type="em2";optional</s></s></p>
+ 
+ <emph rend="bl_2"/><p> <s><emph rend="us1">Editorial comment or intervention</emph></s><lb/> 
+ <s type="legend"> <s type="legend-visning">a <unclear>b</unclear> c</s> <s type="legend-description">the reading of b is unclear</s> <s type="legend-codes">unclear<lb/></s> </s>
+ <s type="legend"> <s type="legend-visning">a<corr type="npcn">b</corr>c</s> <s type="legend-description">b omitted (b is not part of word)</s> <s type="legend-codes"> corr type="npcn" </s></s>
+ <s type="legend"> <s type="legend-visning">a <corr type="npc">b</corr> c</s> <s type="legend-description">b omitted (b is not part of sentence)</s> <s type="legend-codes"> corr type="npc" </s></s>
+ <s type="legend"> <s type="legend-visning">a<corr type="tran">b</corr>c</s> <s type="legend-description">b added (b is part of word) </s> <s type="legend-codes"> corr type="tran" </s> </s>
+ <s type="legend"> <s type="legend-visning">a <corr type="tra">b</corr> c</s> <s type="legend-description">b added (b is part of sentence) </s> <s type="legend-codes">corr type="tra" </s> </s>
+ <s type="legend"> <s type="legend-visning"><corr type="trsn"><orig type="trsn1">a</orig><reg type="trsn2">b</reg></corr></s> <s type="legend-description">b substituted for a (word level)</s> <s type="legend-codes"> corr type="trsn"; orig type="trsn1"; reg type="trsn2" </s></s>
+ <s type="legend"> <s type="legend-visning"><corr type="trs"><orig type="trs1">a</orig> <reg type="trs2">b</reg></corr></s> <s type="legend-description">b substituted for a (sentence level)</s> <s type="legend-codes"> corr type="trs"; orig type="trs1"; reg type="trs2" </s></s>
+ 
+ <s type="legend"> <s type="legend-visning"><app type="trco"><rdg type="trco1">a</rdg> <rdg type="trco2">b</rdg></app></s> <s type="legend-description">editorial change of order between a and b, b retained</s> <s type="legend-codes"> app type="trco"; rdg type="trco1"; rdg type="trco2" </s></s>
+ 
+ 
+ 
+ <s type="legend"> <s type="legend-visning">a<gap extent="words_#"/>b</s> <s type="legend-description">editorial comment: unreadable word(s) between a and b</s> <s type="legend-codes"> gap extent="words_#" </s></s>
+ 
+ <s type="legend"> <s type="legend-visning">a<gap extent="lines_#"/>b</s> <s type="legend-description">editorial comment: unreadable line(s) between a and b</s> <s type="legend-codes"> gap extent="lines_#" </s></s>
+ 
+ <s type="legend"> <s type="legend-visning">a<note type="editor">b</note></s> <s type="legend-description">editorial comment: b</s> <s type="legend-codes"> note </s></s>
+ 
+ </p>
+ 
+ <emph rend="bl_2"/><p> <s><emph rend="us1">Relocations</emph></s><lb/> 
+ <s type="legend"> 	<s type="legend-visning">a<reloc type="reloc1" n="source_target" xml:id="a1">b</reloc>c d<reloc type="reloc2" n="source_target" xml:id="a2"/>e</s> 	 	 <s type="legend-description">b moved from a[b]c to d[b]e</s> 	 <s type="legend-codes">reloc type="reloc1" n="source_target" id="#" reloc type="reloc2" n="source_target" id="#"</s></s>  </p> 
+ 
+ <emph rend="bl_2"/><p> <s><emph rend="us1">Annotated additions</emph></s><lb/>
+  <s type="legend"> <s type="legend-visning">a<add rend="el_h">b</add>c</s> <s type="legend-description">b added in line through annotation</s> <s type="legend-codes"> add rend="el_h"</s></s>
+  <s type="legend"> <s type="legend-visning">a<add rend="i_h">b</add>c</s> <s type="legend-description">b added above line through annotation</s> <s type="legend-codes"> add rend="i_h"</s></s>
+   <s type="legend"> <s type="legend-visning">a<add rend="im_h">b</add>c</s> <s type="legend-description">b added above line through annotation, addition marked</s> <s type="legend-codes"> add rend="im_h"</s></s> 
+   <s type="legend"> <s type="legend-visning">a<add rend="ib_h">b</add>c</s> <s type="legend-description">b added below line through annotation</s> <s type="legend-codes"> add rend="ib_h"</s></s>
+    <s type="legend"> <s type="legend-visning">a<add rend="ilm_h">b</add>c</s> <s type="legend-description">b added in left margin through annotation</s> <s type="legend-codes"> add rend="ilm_h"</s></s>
+   <s type="legend"> <s type="legend-visning">a<add rend="irm_h">b</add>c</s> <s type="legend-description">b added in right margin through annotation</s> <s type="legend-codes"> add rend="irm_h"</s></s>
+    <s type="legend"> <s type="legend-visning">a<add rend="iupm_h">b</add>c</s> <s type="legend-description">b added in upper margin through annotation</s> <s type="legend-codes"> add rend="iupm_h"</s></s> 
+    
+    
+  <s type="legend"> <s type="legend-visning">a<add rend="imb_h">b</add>c</s> <s type="legend-description">b added below line, addition marked through annotation</s> <s type="legend-codes"> add rend="imb_h"</s></s>
+  
+ <s type="legend"> <s type="legend-visning">a<add rend="iupmm_h">b</add>c</s> <s type="legend-description">b added in upper margin, addition marked through annotation</s> <s type="legend-codes"> add rend="iupmm_h"</s></s>
+    <s type="legend"> <s type="legend-visning">a<add rend="imw_h">b</add>c</s> <s type="legend-description">b added  above line, addition  marked, mark underlined through annotation with wavy line</s> <s type="legend-codes"> add rend="imw_h"</s></s>
+<s type="legend"> <s type="legend-visning">a<add rend="im_hm">b</add>c</s> <s type="legend-description">b added  above line, addition marked, mark added through annotation</s> <s type="legend-codes"> add rend="im_hm"</s></s>
+   <s type="legend"> <s type="legend-visning">a<add rend="ilom_h">b</add>c</s> <s type="legend-description">b added in lower margin through annotation</s> <s type="legend-codes"> add rend="ilom_h"</s></s></p> 
+   
+  
+  
+  
+  <emph rend="bl_2"/><p> <s><emph rend="us1">Annotated overwritings</emph></s><lb/> 
+       
+    
+    
+    <s type="legend"> <s type="legend-visning">a<add rend="our_h">b</add>c</s> <s type="legend-description">b overwriting unreadable character(s), overwriting annotated</s> <s type="legend-codes"> add rend="our_h"</s></s>
+   <s type="legend"> <s type="legend-visning"><app type="o_h"><rdg type="o1">a</rdg><rdg type="o2">b</rdg></app></s> <s type="legend-description">b overwriting a, overwriting annotated</s> <s type="legend-codes"> app type="o_h"; rdg type="o1"; rdg type="o2"</s></s></p> 
+   
+
+<emph rend="bl_2"/><p> <s><emph rend="us1">Annotated Deletions</emph></s><lb/> 
+ <s type="legend"> <s type="legend-visning">a<del type="d_h">b</del>c</s> <s type="legend-description">b deleted through annotation (b fits in sentence)</s> <s type="legend-codes"> del type="d_h" </s></s>
+ <s type="legend"> <s type="legend-visning">a<del type="dn_h">b</del>c</s> <s type="legend-description">b deleted  through annotation (b does not fit in word)</s> <s type="legend-codes"> del type="dn_h" </s></s>
+ <s type="legend"> <s type="legend-visning">a <del type="dnpc_h">b</del> c</s> <s type="legend-description">b deleted  through annotation (b does not fit in sentence)</s> <s type="legend-codes"> del type="dnpc_h" </s></s>
+ 
+ <!--<s type="legend"> <s type="legend-visning">a <del type="d_h_c">b</del> c</s> <s type="legend-description">b deleted  through annotation (b does not fit in sentence)</s> <s type="legend-codes"> del type="d_h_c" </s></s>-->
+  <!--<s type="legend"> <s type="legend-visning">a <del type="d_h_ch">b</del> c</s> <s type="legend-description">b deleted  through annotation (b does not fit in sentence)</s> <s type="legend-codes"> del type="d_h_ch" </s></s>-->
+ 
+ <s type="legend"> <s type="legend-visning">a<del type="d_ch">b</del>c</s> <s type="legend-description">b deleted, deletion canceled  through annotation</s> <s type="legend-codes"> del type="d_ch" </s></s></p> 
+ 
+ 
+ <emph rend="bl_2"/><p> <s><emph rend="us1">Annotated emphasis</emph></s><lb/> 
+ <s type="legend"> <s type="legend-visning">a<emph rend="us1_h">b</emph>c</s> <s type="legend-description">b underlined with one straight line, underlining annotated</s> <s type="legend-codes"> emph rend="us1_h"</s></s>
+ <s type="legend"> <s type="legend-visning">a<emph rend="us2_h">b</emph>c</s> <s type="legend-description">b underlined with two straight lines, underlining annotated</s> <s type="legend-codes"> emph rend="us2_h"</s></s>
+ <s type="legend"> <s type="legend-visning">a<emph rend="uw1_h">b</emph>c</s> <s type="legend-description">b underlined with one wavy line, underlining annotated</s> <s type="legend-codes"> emph rend="uw1_h"</s></s> 
+ <s type="legend"> <s type="legend-visning">a<emph rend="uw2_h">b</emph>c</s> <s type="legend-description">b underlined with two wavy lines, underlining annotated</s> <s type="legend-codes"> emph rend="uw2_h"</s></s> 
+ <s type="legend"> <s type="legend-visning">a<emph rend="vdline_h">b</emph>c</s> <s type="legend-description">b marked with vertical or diagonal line, mark annotated</s> <s type="legend-codes"> emph rend="vdline_h"</s></s> 
+ 
+ <s type="legend"> <s type="legend-visning">a<emph rend="qmlm_h">b</emph>c</s> <s type="legend-description">b marked with question mark in left margin, mark annotated</s> <s type="legend-codes"> emph rend="qmlm_h"</s></s>
+ 
+ <s type="legend"> <s type="legend-visning">a<emph rend="qmrm_h">b</emph>c</s> <s type="legend-description">b marked with question mark in right margin, mark annotated</s> <s type="legend-codes"> emph rend="qmrm_h"</s></s>
+ 
+ <s type="legend"> <s type="legend-visning">a<emph rend="slirm_h">b</emph>c</s> <s type="legend-description">b marked with straight line in right margin, mark annotated</s> <s type="legend-codes"> emph rend="slirm_h"</s></s>
+ <s type="legend"> <s type="legend-visning">a<emph rend="slilm_h">b</emph>c</s> <s type="legend-description">b marked with straight line in left margin, mark annotated</s> <s type="legend-codes"> emph rend="slilm_h"</s></s>
+  <s type="legend"> <s type="legend-visning">a<emph rend="wlirm_h">b</emph>c</s> <s type="legend-description">b marked with wavy line in right margin, mark annotated</s> <s type="legend-codes"> emph rend="wlirm_h"</s></s>
+ <s type="legend"> <s type="legend-visning">a<emph rend="wlilm_h">b</emph>c</s> <s type="legend-description">b marked with wavy line in left margin, mark annotated</s> <s type="legend-codes"> emph rend="wlilm_h"</s></s>
+ 
+ <s type="legend"> <s type="legend-visning">a<emph rend="clirm_h">b</emph>c</s> <s type="legend-description">b marked with curved line in right margin, mark annotated</s> <s type="legend-codes"> emph rend="clirm_h"</s></s>
+ <s type="legend"> <s type="legend-visning">a<emph rend="clilm_h">b</emph>c</s> <s type="legend-description">b marked with curved line in left margin, mark annotated</s> <s type="legend-codes"> emph rend="clilm_h"</s></s>
+ 
+ 
+ <!--
+ <s type="legend"> <s type="legend-visning">a<emph rend="arrback">b</emph>c</s> <s type="legend-description">arrow back</s> <s type="legend-codes"> emph rend="arrback"</s></s> 
+ <s type="legend"> <s type="legend-visning">a<emph rend="startarrback">b</emph>c</s> <s type="legend-description">arrow back</s> <s type="legend-codes"> emph rend="startarrback"</s></s> 
+ <s type="legend"> <s type="legend-visning">a<emph rend="endarrback">b</emph>c</s> <s type="legend-description">arrow back</s> <s type="legend-codes"> emph rend="endarrback"</s></s> 
+ <s type="legend"> <s type="legend-visning">a<emph rend="arrforward">b</emph>c</s> <s type="legend-description">arrow back</s> <s type="legend-codes"> emph rend="arrforward"</s></s> 
+ <s type="legend"> <s type="legend-visning">a<emph rend="startarrforward">b</emph>c</s> <s type="legend-description">arrow back</s> <s type="legend-codes"> emph rend="startarrforward"</s></s> 
+ <s type="legend"> <s type="legend-visning">a<emph rend="endarrforward">b</emph>c</s> <s type="legend-description">arrow back</s> <s type="legend-codes"> emph rend="endarrforward"</s></s> 
+  
+ 
+-->
+ </p> 
+  
+  
+ <emph rend="bl_2"/><p> <s><emph rend="us1">Substitution relations through annotation</emph></s><lb/> 
+ <s type="legend"> <s type="legend-visning"><app type="s_h" ><rdg type="alt1">a</rdg> <rdg type="alt2">b</rdg></app></s> <s type="legend-description">substitution relation through annotation between a and b</s> <s type="legend-codes"> app type="s_h"; rdg type="alt1"; rdg type="alt2" </s></s>
+ <s type="legend"> <s type="legend-visning"><app type="dsl_h"><rdg type="alt1">a</rdg> <rdg type="alt2">b</rdg></app></s> <s type="legend-description">substitution relation through annotation between a and b, b retained</s> <s type="legend-codes"> app type="dsl_h"; rdg type="alt1"; rdg type="alt2" </s></s>
+ <s type="legend"> <s type="legend-visning"><app type="dsf_h"><rdg type="alt1">a</rdg> <rdg type="alt2">b</rdg></app></s> <s type="legend-description">substitution relation through annotation between a and b, a retained</s> <s type="legend-codes"> app type="dsf_h"; rdg type="alt1"; rdg type="alt2" </s></s>
+ 
+  <s type="legend"> <s type="legend-visning"><app type="os_h"><rdg type="os1">a</rdg><rdg type="os2">b</rdg></app></s> <s type="legend-description">substitution relation  through annotation between a and b, b overwriting a</s> <s type="legend-codes"> app type="os"; rdg type="os1"; rdg type="os2"</s></s>
+
+ <s type="legend"> <s type="legend-visning"><app type="co_h"><rdg type="alt1">a</rdg> <rdg type="alt2">b</rdg></app></s> <s type="legend-description">substitution relation through annotated change of order between a and b, b retained</s> <s type="legend-codes"> app type="co_h"; rdg type="alt1"; rdg type="alt2" </s></s></p>
+ 
+ 
+ <emph rend="bl_2"/><p> <s><emph rend="us1">Relocations through annotation</emph></s><lb/> 
+ <s type="legend"> <s type="legend-visning">a<reloc_h type="reloc1" n="source_target" xml:id="a1">b</reloc_h>c d<reloc_h type="reloc2" n="source_target" xml:id="a2">b</reloc_h>e</s> 	 <s type="legend-description">b moved from a[b]c to d[b]e through annotation</s> <s type="legend-codes">reloc_h type="reloc1" n="source_target" id="#" reloc_h type="reloc2" n="source_target" id="#"</s> </s> </p> 
+
+ </div>
+
+ </body>
+
+ </text>
+</TEI>
+
+
+
