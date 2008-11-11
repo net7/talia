@@ -248,8 +248,8 @@ namespace :discovery do
     notes = 0
     
     TaskHelper::process_books(books, note_count) do |book, progress|
-      begin
-        new_book = book.clone_to(ce) do |orig_page, new_page|
+      new_book = begin
+        book.clone_to(ce) do |orig_page, new_page|
           assit_kind_of(TaliaCore::Page, new_page)
         
           # Clone all editions that may exist on the page itself
@@ -288,14 +288,16 @@ namespace :discovery do
         rescue Exception => e
           puts "Could not clone chapter #{chapter.uri}: #{e.message}"
         end
-      end          
-      new_book.chapters.each do |chapter|
-        chapter.order_pages!
-      end
-      begin
-        new_book.create_html_data!
-      rescue Exception => e
-        puts "Error creating html for #{new_book.uri}: #{e.message}"
+      end      
+      if(new_book)
+        new_book.chapters.each do |chapter|
+          chapter.order_pages!
+        end
+        begin
+          new_book.create_html_data!
+        rescue Exception => e
+          puts "Error creating html for #{new_book.uri}: #{e.message}"
+        end
       end
     end
   end
