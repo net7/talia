@@ -218,7 +218,7 @@ namespace :discovery do
     TaliaCore::Transcription
     TaliaCore::HyperEdition
     
-    ed_uri = N::LOCAL +  ed_klass::EDITION_PREFIX + '/' + ENV['nick']
+    ed_uri = N::LOCAL +  TaliaCore::CriticalEdition::EDITION_PREFIX + '/' + ENV['nick']
     raise(RuntimeError, "Edition does not exist: #{ed_uri}") unless(TaliaCore::ActiveSource.exists?(ed_uri))
     ce = TaliaCore::ActiveSource.find(ed_uri)
     
