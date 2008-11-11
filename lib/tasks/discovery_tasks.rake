@@ -208,7 +208,7 @@ namespace :discovery do
   end
   
   desc "Append the given data to a critical edition (ignores existing elements)"
-  task :add_to_critical_edition do
+  task :add_to_critical_edition => :disco_init do
     # FIXME: QUICK HACK
     TaliaCore::Book
     TaliaCore::Page
