@@ -60,8 +60,12 @@ module TaliaCore
             transformer_parameters = {'visning' => version}
             output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string", :transformer_parameters => transformer_parameters})
           when 'text/html'
-            xsl = 'public/xsl/plain/plain.xsl'
-            output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string", :transformer_parameters => transformer_parameters})          
+            #            xsl = 'public/xsl/plain/plain.xsl'
+            #            output = saxon.transform(xsl, infile, nil, options = {:in => "stream", :out => "string", :transformer_parameters => transformer_parameters})          
+            file = File.open(infile, 'r')
+            output = file.read
+            file.close
+
           end
         rescue #TODO: handle these specific (java) exception: 
           #   net.sf.saxon.trans.XPathException
