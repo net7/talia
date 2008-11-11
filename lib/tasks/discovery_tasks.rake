@@ -400,6 +400,41 @@ namespace :discovery do
     end
   end
   
+  desc "recreate the book_html of all book in one catalog. Options catalog=<catalog>"
+  task :recreate_books_html => :disco_init do
+    TaliaCore::Book
+    TaliaCore::Page
+    TaliaCore::Chapter
+    TaliaCore::Paragraph
+    TaliaCore::TextReconstruction
+    TaliaCore::Transcription
+    TaliaCore::HyperEdition
+    
+    assit(TaliaCore::Catalog.exists?(N::LOCAL + ENV['catalog'])) 
+    catalog = TaliaCore::Catalog.find(N::LOCAL + ENV['catalog']) 
+
+    qry = Query.new(TaliaCore::Book).select(:book).distinct
+    qry.where(:book, N::HYPER.in_catalog, catalog)
+    qry.where(:book, N::RDF.type, N::HYPER.Book)
+    books = qry.execute
+    books.each do |b|
+      puts b
+    end
+    
+    
+    progress = ProgressBar.new('Books', books.size)
+    
+    books.each do |book|
+      book.create_html_data!
+      progress.inc
+    end
+    progress.finish
+    
+  end
+  
+  
+  
+  
   desc "Upload data into eXist database. Option: [contribution_uri=<contribution_uri>] (if not given, upload all contributions)" 
   task :feeder_upload => :disco_init do
     
