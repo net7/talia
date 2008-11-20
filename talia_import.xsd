@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:complexType name="relationsType">
+        <xs:sequence>
+            <xs:element name="relation" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="predicate" type="xs:string"/>
+                        <xs:element name="object" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+                <xs:keyref refer="sourceKey" name="relationTarget">
+                    <xs:selector xpath="object"></xs:selector>
+                    <xs:field xpath="."></xs:field>
+                </xs:keyref>
+                
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Special date type, accepts a subset of ISO 8601 without much checking -->
+    <xs:simpleType name="taliaDate">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d{4}(-\d{2})?(-\d{2})?(.\d{2}:\d{2}.?)?"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="sourceType">
+        <xs:sequence>
+            <xs:element name="catalog" type="xs:string" minOccurs="0" />
+            <xs:element name="siglum" type="xs:string"/>
+            <xs:element name="title" type="xs:string"/>
+            <xs:element name="type" type="xs:string" minOccurs="0"/>
+            <xs:element name="subtype" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="bookType">
+        <xs:complexContent>
+            <xs:extension base="sourceType">
+                <xs:sequence>
+                    <xs:element name="copyrightNote" type="xs:string"/>
+                    <xs:element name="description" type="xs:string"/>
+                    <xs:element name="date" type="taliaDate" default="0001-01-01"/>
+                    <xs:element name="collocation" type="xs:string"/>
+                    <xs:element name="publisher" type="xs:string"/>
+                    <xs:element name="publishingPlace" type="xs:string"/>
+                    <xs:element name="ordering" type="xs:int"/>
+                    <xs:element name="relations" type="relationsType"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="authorsType">
+        <xs:sequence>
+            <xs:element name="author" type="xs:string" maxOccurs="unbounded"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="facsimileAndTranscriptionType">
+        <xs:complexContent>
+            <xs:extension base="sourceType">
+                <xs:sequence>
+                    <xs:element name="publishing_date" type="taliaDate"></xs:element>
+                    <xs:element name="publisher" type="xs:string"></xs:element>
+                    <xs:element name="language" type="xs:string"></xs:element>
+                    <xs:element name="alreadyPublished" type="xs:string"></xs:element>
+                    <xs:element name="relations" type="relationsType"></xs:element>
+                    <xs:element name="copyrightNote" type="xs:string"></xs:element>
+                    <xs:element name="dimensionX" type="xs:int" default="0"></xs:element>
+                    <xs:element name="dimensionY" type="xs:int" default="0"></xs:element>
+                    <xs:element name="file_size" type="xs:int" default="0"></xs:element>
+                    <xs:element name="file_name" type="xs:string"></xs:element>
+                    <xs:element name="file_url" type="xs:string"></xs:element>
+                    <xs:element name="file_content_type" type="xs:string"></xs:element>
+                    <xs:element name="authors" type="authorsType"></xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="notesType">
+        <xs:sequence>
+            <xs:element name="note" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="page" type="xs:string"/>
+                        <xs:element name="position" type="xs:int"/>
+                        <xs:element name="coordinates" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+                <xs:unique name="notePosition">
+                    <xs:selector xpath="note/position"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="paragraphType">
+        <xs:complexContent>
+            <xs:extension base="sourceType">
+                <xs:sequence>
+                    <xs:element name="notes" type="notesType"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="pageType">
+        <xs:complexContent>
+            <xs:extension base="sourceType">
+                <xs:sequence>
+                    <xs:element name="width" type="xs:int"/>
+                    <xs:element name="height" type="xs:int"/>
+                    <xs:element name="position" type="xs:int"/>
+                    <xs:element name="position_name" type="xs:string"/>
+                    <xs:element name="relations" type="relationsType"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="sources">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="source" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:choice>
+                            <xs:element name="book" type="bookType"/>
+                            <xs:element name="paragraph" type="paragraphType"/>
+                            <xs:element name="page" type="pageType"/>
+                            <xs:element name="facsimile" type="facsimileAndTranscriptionType"></xs:element>
+                            <xs:element name="transcription" type="facsimileAndTranscriptionType"></xs:element>
+                        </xs:choice>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:key name="sourceKey">
+            <xs:selector xpath="source/*/siglum"/>
+            <xs:field xpath="."/>
+        </xs:key>
+        <xs:unique name="bookOrder">
+            <xs:selector xpath="source/book/ordering"/>
+            <xs:field xpath="."/>
+        </xs:unique>
+        <xs:unique name="pageOrder">
+            <xs:selector xpath="source/page/position"></xs:selector>
+            <xs:field xpath="."></xs:field>
+        </xs:unique>
+        
+    </xs:element>
+</xs:schema>
