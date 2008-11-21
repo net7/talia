@@ -5,6 +5,6 @@ namespace :talia do
 
     # Help info
   desc "Bootstrap a Talia Rails application"
-  task :init_app => ["db:create", "db:migrate", "globalize:create_tables"]
+  task :init_app => ["db:create", "db:migrate", "globalize:setup"]
 
 end

@@ -32,6 +32,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.namespace :admin do |admin|
     admin.resources :translations
+    admin.resources :users
+    admin.resources :sources
   end
 
   # Routes for login and users handling
