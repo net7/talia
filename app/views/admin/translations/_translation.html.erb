@@ -3,5 +3,6 @@
   <td>
     <%= text_field_tag "translations[][text]", translation.text, :size => 48 %>
     <%= hidden_field_tag "translations[][id]", translation.id %>
+    <%= link_to 'delete', delete_admin_traslation_path(translation, params), :confirm => 'Are you sure?', :method => :delete %>
   </td>
 </tr>

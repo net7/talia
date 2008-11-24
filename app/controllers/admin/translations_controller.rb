@@ -23,4 +23,18 @@ class Admin::TranslationsController < ApplicationController
 
     redirect_to edit_admin_translation_path(params[:id], {:page => params[:page]})
   end
+
+  # DELETE /admin/translations/1
+  def destroy
+    @translation = ViewTranslation.find(params[:id])
+    @translation.destroy
+    
+    respond_to do |format|
+      format.html do
+        flash[:notice] = 'Your translation has been deleted'
+        redirect_to edit_admin_translation_path(params[:locale], {:page => params[:page]})
+      end
+      format.js
+    end
+  end
 end

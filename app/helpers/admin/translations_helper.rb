@@ -23,4 +23,8 @@ module Admin::TranslationsHelper
       content_tag(:option, language, :value => value, :selected => selected)
     end
   end
+  
+  def delete_admin_traslation_path(translation, params)
+    admin_translation_path(translation) + "?locale=" + params[:id] + "&page=" + (params[:page] || "1")
+  end
 end

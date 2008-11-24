@@ -41,6 +41,11 @@ class Test::Unit::TestCase
   def assert_flash_error(message)
     assert_flash :error, message
   end
+
+  # Assert the given message is displayed by flash.now[:notice]
+  def assert_flash_notice(message)
+    assert_flash :notice, message
+  end
 end
 
 def uses_mocha(description)
