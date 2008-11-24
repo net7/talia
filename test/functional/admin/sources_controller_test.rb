@@ -20,7 +20,8 @@ class Admin::SourcesControllerTest < ActionController::TestCase
     assert_layout :application
     assert_not_nil assigns(:source)
     assert_select "form#source_form" do
-      assert_select "[action=?]", "/admin/sources/update/#{source.label}"
+      assert_select "[action=?]", "/admin/sources/#{source.label}"
+      assert_select "input[name=_method]", :value => 'put'
       assert_select "input[type=text]#source_uri", :value => N::LOCAL.to_s + source.label
       assert_select "input[type=submit]#source_submit", :value => "submit"
       

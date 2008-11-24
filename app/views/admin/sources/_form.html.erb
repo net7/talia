@@ -1,3 +1,4 @@
+<%= hidden_field_tag '_method', 'put' %>
 <% field_set_tag 'Attributes' do %>
   <p><label for="source_uri">Uri</label><br/>
   <%= text_field 'source', 'uri', :value => @source.uri, :tabindex => 10 %></p>
