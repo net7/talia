@@ -1,0 +1,11 @@
+<% hide_sidebar %>
+
+<% form_tag '/admin/locales/create' do -%>
+  <p><label for="name">Name</label><br/>
+  <%= text_field_tag 'name' %></p>
+
+  <p><label for="code">Code</label><br/>
+  <%= text_field_tag 'code' %></p>
+
+  <p><%= submit_tag 'Create' %></p>
+<% end %>

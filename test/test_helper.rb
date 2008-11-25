@@ -2,6 +2,10 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
+module I18n
+  mattr_writer :configuration, :locales
+end
+
 class Test::Unit::TestCase
   include AuthenticatedTestHelper
   include RoleRequirementTestHelper
@@ -46,6 +50,18 @@ class Test::Unit::TestCase
   def assert_flash_notice(message)
     assert_flash :notice, message
   end
+  
+  private
+    def i18n_setup
+      I18n.configuration = File.join(RAILS_ROOT, 'test', 'fixtures', 'locales')
+      I18n.locales = nil
+    end
+    
+    def i18n_teardown
+      File.atomic_write(I18n.configuration, "./") do |file|
+        file.write({:english => 'en-GB'}.to_yaml)
+      end
+    end
 end
 
 def uses_mocha(description)

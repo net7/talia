@@ -14,7 +14,8 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
     assert_layout :application
     
     assert_select "#languages_picker", /^Pick a language:/
-    assert_select "#languages_picker", /Add a translation$/
+    assert_select "#languages_picker", /Add a translation/
+    assert_select "#languages_picker", /Add locale/
     assert_select "#languages_picker" do
       assert_select "select"
     end
