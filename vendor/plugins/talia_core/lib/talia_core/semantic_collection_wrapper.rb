@@ -88,9 +88,11 @@ module TaliaCore
     # Creates a record for a value and adds it. This will add the given value if it's 
     # a database record and otherwise create a property with the given value
     def add_record_for(value)
-      add_db_record_for(value)
-      value = value.value if(value.is_a?(SemanticProperty))
-      self.push(value)
+      self.class.benchmark('Adding value to semantic property') do
+        add_db_record_for(value)
+        value = value.value if(value.is_a?(SemanticProperty))
+        self.push(value)
+      end
     end
    
 

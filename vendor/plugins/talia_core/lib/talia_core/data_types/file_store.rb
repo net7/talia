@@ -58,7 +58,7 @@ module TaliaCore
     
       end
       
-            # returns the complete text
+      # returns the complete text
       def all_text
         if(!is_file_open?)
           open_file
@@ -83,7 +83,7 @@ module TaliaCore
         @save_attachment = true
       end
     
-      def write_file_after_save  
+      def write_file_after_save 
         # check if there are data to write
         return unless(@file_data_to_write)
     
@@ -91,16 +91,18 @@ module TaliaCore
         raise(RuntimeError, "File already exists: #{file_path}") if(File.exists?(file_path))
           
         begin
-          # create data directory path
-          FileUtils.mkdir_p(data_directory)
+          self.class.benchmark("Saving file for #{self.id}") do
+            # create data directory path
+            FileUtils.mkdir_p(data_directory)
     
-          if(@file_data_to_write.is_a?(DataPath))
-            copy_data_file
-          else
-            save_cached_data
-          end
+            if(@file_data_to_write.is_a?(DataPath))
+              copy_data_file
+            else
+              save_cached_data
+            end
           
-           @file_data_to_write = nil
+            @file_data_to_write = nil
+          end
         rescue Exception => e
           assit_fail("Exception on writing file #{self.location}: #{e}")
         end
@@ -132,11 +134,7 @@ module TaliaCore
       # This copies the data file with which this object was created to the
       # actual storage lcoation
       def copy_data_file
-        if(@delete_original_file)
-          FileUtils.move(@file_data_to_write, file_path)
-        else
-          FileUtils.copy(@file_data_to_write, file_path)
-        end
+        copy_or_move(@file_data_to_write, file_path)
       end
       
       # Open a specified file name and return a file handle.
@@ -215,6 +213,48 @@ module TaliaCore
     
       end
 
+      # Copy or move the source file to the target. Working around all the
+      # things that suck in JRuby. This will honour two environment settings:
+      # 
+      # * delay_file_copies - will not copy the files, but create a batch file
+      #     so that the copy can be done later. Uses the DelayedCopier class.
+      # * fast_copies - will use the "normal" copy method from FileUtils that
+      #     is faster. Since it crashed the system for us, the default is to
+      #     use a "safe" workaround. The workaround is probably necessary for
+      #     JRuby only.
+      def copy_or_move(original, target)
+        if(@delete_original_file)
+          FileUtils.move(original, target)
+        else
+          # Delay can be enabled through enviroment
+          if(delay_copies)
+            DelayedCopier.cp(original, target)
+          elsif(fast_copies)
+            FileUtils.copy(original, target)
+          else
+            # Call the copy as an external command. This is to work around the
+            # crashes that occurred using the builtin copy
+            from_file = File.expand_path(original)
+            to_file = File.expand_path(target)
+            system_success = system("cp #{from_file} #{to_file}")
+            raise(IOError, "copy error #{from_file} #{to_file}") unless system_success
+          end
+        end
+      end
+      
+      
+      # Returns true if the 'delayed write' is enabled in the environment
+      def delay_copies
+        ENV['delay_file_copies'] == 'true' || ENV['delay_file_copies'] == 'yes'
+      end
+        
+      # Returns true if the 'fast copy' is enabled in the environment.
+      # Otherwise the class will use a workaround that is less likely to 
+      # crash the whole system using JRuby.
+      def fast_copies
+        ENV['fast_copies'] == 'true' || ENV['fast_copies'] == 'yes'
+      end
+      
       # Return the data size
       def data_size
         File.size(file_path)

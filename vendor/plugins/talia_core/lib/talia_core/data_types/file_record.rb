@@ -17,6 +17,7 @@ module TaliaCore
    
       before_destroy :destroy_attachment
       
+      # Returns and, if necessary, creates the file for "delayed" copy operations
       
       # returns all bytes in the object as an array
       def all_bytes

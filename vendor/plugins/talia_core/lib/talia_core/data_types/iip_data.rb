@@ -56,16 +56,19 @@ module TaliaCore
         destination_thumbnail_file_path = File.join(Dir.tmpdir, "thumbnail_#{random_tempfile_filename}.jpg")
         
         begin # Begin the file creation operation
+          self.class.benchmark("Making thumb and pyramid for #{self.id}", Logger::INFO) do
           
-          create_thumb(original_file_path, destination_thumbnail_file_path)
-          create_pyramid(original_file_path)
+            create_thumb(original_file_path, destination_thumbnail_file_path)
+            create_pyramid(original_file_path)
         
-          # Run the super implementation for the thumbnail
-          # We will simply tell the system that we have to move the newly create
-          # thumb file
-          @file_data_to_write = DataPath.new(destination_thumbnail_file_path)
-          @delete_original_file = true
+            # Run the super implementation for the thumbnail
+            # We will simply tell the system that we have to move the newly create
+            # thumb file
+            @file_data_to_write = DataPath.new(destination_thumbnail_file_path)
+            @delete_original_file = true
           
+          end # end benchmarking
+          self.class.bench
           super
           
         ensure
@@ -81,21 +84,13 @@ module TaliaCore
         return false unless(@file_data_to_write.kind_of?(Array))
         
         thumb, pyramid = @file_data_to_write
+        self.class.benchmark("Direct write for #{self.id}", Logger::INFO) do
+          prepare_for_pyramid
         
-        prepare_for_pyramid
+          copy_or_move(pyramid, get_iip_root_file_path)
         
-        if(@delete_original_file)
-          FileUtils.move(pyramid, get_iip_root_file_path)
-        else
-          # Call the copy as an external command. This is to work around the
-          # crashes that occurred using the builtin copy
-          from_file = File.expand_path(pyramid)
-          to_file = File.expand_path(get_iip_root_file_path)
-          system_success = system("cp #{from_file} #{to_file}")
-          raise(IOError, "copy error #{from_file} #{to_file}") unless system_success
-          # FileUtils.copy(pyramid, get_iip_root_file_path)
-        end
-        
+        end # end benchmark
+          
         @file_data_to_write = DataPath.new(thumb)
         
         true
