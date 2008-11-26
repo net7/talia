@@ -103,7 +103,7 @@ module TaliaUtil
       def select_position(initial_position)
         position = initial_position
         while(TaliaCore::Source.exists?(note_name(position))) do position += 1 end
-        $stderr.puts("WARNING: Had to adapt note #{initial_position} for #{source.uri.to_name_s} to #{position}") if(position != initial_position)
+        logger.warn("Had to adapt note #{initial_position} for #{source.uri.to_name_s} to #{position}") if(position != initial_position)
         position
       end
       

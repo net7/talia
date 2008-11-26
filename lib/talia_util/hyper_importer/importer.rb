@@ -44,12 +44,14 @@ module TaliaUtil
       # will be called from self.import, and should not be called directly and
       # should not be overwritten.
       def do_import!
-        import_relations!
-        import_types!
-        add_property_from(@element_xml, 'title', self.class.needs_title) # The title should always exist
-        import! # Calls the import features of the subclass
-        @source.autosave_rdf = true # Reactivate rdf creation for final save
-        @source.save! # Save the source when the import is complete
+        benchmark('Import of ' + @source.uri.local_name) do
+          import_relations!
+          import_types!
+          add_property_from(@element_xml, 'title', self.class.needs_title) # The title should always exist
+          import! # Calls the import features of the subclass
+          @source.autosave_rdf = true # Reactivate rdf creation for final save
+          @source.save! # Save the source when the import is complete
+        end
       end
       
       # Imports the data. To be overwritten by child classes
@@ -350,34 +352,37 @@ module TaliaUtil
         file_url = get_text(@element_xml, 'file_url')
         file_content_type = get_text(@element_xml, 'file_content_type')
         if(file_name && file_url && file_content_type)
-          begin
-            # First, check the data type of the file - we'll use the file name
-            # extension for that at the moment - not the file_content_type
-            file_ext = File.extname(file_name).downcase
-            mime_type = process_content_type(file_content_type, file_ext)
-            data_obj = if(%w(.xml .hnml .tei .html .htm).include?(file_ext))
-              TaliaCore::DataTypes::XmlData.new
-            elsif(%w(.jpg .gif .jpeg .png .tif).include?(file_ext))
-              TaliaCore::DataTypes::IipData.new
-            elsif(%w(.txt).include?(file_ext))
-              TaliaCore::DataTypes::SimpleText.new
-            elsif(%w(.pdf).include?(file_ext))
-              TaliaCore::DataTypes::PdfData.new
-            end
+          benchmark('Importing file ' + file_url) do
+            begin
             
-            # Check if we really got a data object, otherwise bail out
-            unless(data_obj)
-              assit_fail("Got unknown file extension: #{file_ext}, aborting import")
-              return
-            end
+              # First, check the data type of the file - we'll use the file name
+              # extension for that at the moment - not the file_content_type
+              file_ext = File.extname(file_name).downcase
+              mime_type = process_content_type(file_content_type, file_ext)
+              data_obj = if(%w(.xml .hnml .tei .html .htm).include?(file_ext))
+                TaliaCore::DataTypes::XmlData.new
+              elsif(%w(.jpg .gif .jpeg .png .tif).include?(file_ext))
+                TaliaCore::DataTypes::IipData.new
+              elsif(%w(.txt).include?(file_ext))
+                TaliaCore::DataTypes::SimpleText.new
+              elsif(%w(.pdf).include?(file_ext))
+                TaliaCore::DataTypes::PdfData.new
+              end
             
-            # Now that we have the data object, we try to fill it with the data
-            # from the URL
-            load_from_data_url!(data_obj, file_name, file_url)
-            @source.data_records << data_obj
-            @source.dcns::format << mime_type
-          rescue Exception => e
-            assit_fail("Exeption importing file #{file_name}: #{e}\n#{e.backtrace.join("\n")}\n")
+              # Check if we really got a data object, otherwise bail out
+              unless(data_obj)
+                assit_fail("Got unknown file extension: #{file_ext}, aborting import")
+                return
+              end
+            
+              # Now that we have the data object, we try to fill it with the data
+              # from the URL
+              load_from_data_url!(data_obj, file_name, file_url)
+              @source.data_records << data_obj
+              @source.dcns::format << mime_type
+            rescue Exception => e
+              assit_fail("Exeption importing file #{file_name}: #{e}\n#{e.backtrace.join("\n")}\n")
+            end
           end
         else
           assit(!file_name && !file_url && !file_content_type, "Incomplete file definition on Source #{@source.uri.local_name}")
@@ -518,6 +523,11 @@ module TaliaUtil
         end
       end
       
+      # Gain access to the logger
+      def logger
+        RAILS_DEFAULT_LOGGER
+      end
+      
       # Removes all characters that are illegal in IRIs, so that the 
       # URIs can be imported
       def irify(uri)
@@ -531,6 +541,16 @@ module TaliaUtil
           gsub(/([a-z\d])([A-Z])/,'\1_\2').
           tr("-", "_").
           downcase
+      end
+      
+      # Benchmarking helper
+      def benchmark(message, &block)
+        unless(logger.info?)
+          block.call
+        else
+          elapsed = Benchmark.realtime(&block)
+          logger.info("[Importing #{Time.now.to_s(:long)}] #{message} completed in %.2f secs" % elapsed)
+        end
       end
       
     end

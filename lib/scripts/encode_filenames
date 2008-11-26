@@ -2,6 +2,8 @@
 # Helper script to CGI-encode exsting filenames
 
 $: << File.join(File.dirname(__FILE__), '..')
+$: << File.join(File.dirname(__FILE__), '..', '..', 'vendor', 'plugins', 'talia_core', 'lib')
+$: << File.join(File.dirname(__FILE__), '..', '..', 'app', 'models')
 
 require 'cgi'
 require 'progressbar'

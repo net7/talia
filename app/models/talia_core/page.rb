@@ -64,11 +64,14 @@ module TaliaCore
 
     # Returns the 
     def to_image
-      @image ||= manifestations(ImageData).first
+      manif = manifestations(Facsimile)
+      return nil unless(manif.size > 0)
+      @image ||= manif.first.data.first
     end
 
     def image_path
-      File.join(DATA_PATH, to_image.class.name, to_image.location)
+      return nil unless(image = to_image)
+      image.file_path 
     end
 
     private

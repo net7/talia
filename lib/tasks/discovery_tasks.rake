@@ -575,5 +575,16 @@ namespace :discovery do
       
       logger.info("[#{Time.now.to_s(:long)}] deleted all genetated PDF in %.2f secs" % elapsed)
     end
+    
+    
+    desc "Additional help on Discovery/Talia tasks"
+    task :help do
+      puts "The hyper_download and prepare_images scripts can be used to prepare"
+      puts "a local copy of the data. This will allow for a faster 'offline' import."
+      puts 
+      puts "The importing tasks can alse take the [delay_file_copies=yes] and [fast_copies=yes] options."
+      puts "See the documentation of the FileStore class for more information."
+    end
+    
   end
 end
