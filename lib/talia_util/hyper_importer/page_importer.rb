@@ -13,19 +13,19 @@ module TaliaUtil
       
       def order_page(book)
         ordered_pages = get_ordered_for(book)
-        # Do this "by hand" to save time saving
+        # Do this "by hand" to save time 
         ordered_pages.autosave_rdf = false
         predicate = ordered_pages.index_to_predicate(get_text(@element_xml, 'position'))
-#        if ordered_pages[predicate].empty?
-          ordered_pages[predicate] << @source
-          ordered_pages.save!
-          ordered_pages.my_rdf[predicate] << @source
-          ordered_pages.my_rdf.save
-        end
-#      end
+        #        if ordered_pages[predicate].empty?
+        ordered_pages[predicate] << @source
+        ordered_pages.save!
+        ordered_pages.my_rdf[predicate] << @source
+        ordered_pages.my_rdf.save
+      end
+      #      end
       
       def get_ordered_for(book)
-        book = TaliaCore::Book.new(book.uri)
+        book = SourceCache.cache.get_or_create(book.uri, TaliaCore::Book)
         book.ordered_pages
       end
       
@@ -55,20 +55,15 @@ module TaliaUtil
           clone_book_uri = catalog.uri.local_name.to_s + '/' + source_book_uri.local_name.to_s
           clone_book = get_source_with_class(clone_book_uri, TaliaCore::Book)
           clone_book.save!
-          if TaliaCore::Page.exists?(clone_uri)
-            clone = TaliaCore::Page.find(clone_uri)
-            @source.clone_properties_to(clone, {:catalog => catalog})
-            @source.make_concordant(clone)
-          else
-            clone = catalog.add_from_concordant(@source)
+          clone_to(clone_uri) do |clone|
+            clone::dct.isPartOf << clone_book
+            # hack to let order_page use the cloned page
+            @source.autosave_rdf = true
+            @source.save!
+            #          clone:: rdf.primary_source << @source::rdf.primary_source
+            @source = clone
+            order_page(clone_book)
           end
-          clone::dct.isPartOf << clone_book   
-          # hack to let order_page use the cloned page          
-          @source.autosave_rdf = true
-          @source.save!
-          #          clone:: rdf.primary_source << @source::rdf.primary_source
-          @source = clone
-          order_page(clone_book)
         end 
       end
       

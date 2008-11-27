@@ -19,18 +19,13 @@ module TaliaUtil
       end
       
       private
-      
+
+
       def clone_to_catalog()
-        catalog = get_catalog()
-        unless catalog.nil?
+
+        unless get_catalog?
           clone_uri = catalog.concordant_uri_for(@source)
-          if TaliaCore::Book.exists?(clone_uri)
-            clone = TaliaCore::Book.find(clone_uri)
-            @source.clone_properties_to(clone, {:catalog => catalog})
-            @source.make_concordant(clone)
-          else          
-            clone = catalog.add_from_concordant(@source)
-          end
+          clone_to(clone_uri)
         end
       end
       

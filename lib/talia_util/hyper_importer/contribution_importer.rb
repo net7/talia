@@ -20,12 +20,12 @@ module TaliaUtil
         add_property_from(@element_xml, 'curator_notes')
         import_file!
         import_authors!
-        add_manifestation_of_clones()
+        add_manifestation_of_clones
       end
       
       # If the source of which this is a manifestation has some previously created
       # clones, add this as a manifestation of them too.
-      def add_manifestation_of_clones()
+      def add_manifestation_of_clones
         related_sources = TaliaCore::Source.find(@source::hyper.manifestation_of)
         related_sources.each do |related_source|
           qry = Query.new(TaliaCore::Source).select(:clone).distinct

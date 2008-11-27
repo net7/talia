@@ -3,6 +3,9 @@ require 'yaml'
 require 'open-uri'
 require 'cgi'
 
+require 'talia_util/hyper_importer/importer/caching'
+require 'talia_util/hyper_importer/importer/cloning'
+
 module TaliaUtil
   
   module HyperImporter
@@ -17,10 +20,10 @@ module TaliaUtil
     # error handling, just assertions: The import should make a best effort,
     # while the assertions can be used to report error conditions, if needed.
     class Importer
-      
+
       # Any additional options for the import
       attr_accessor :import_options
-      
+
       # Creates a new importer, using the given element to initialize it. This
       # reads the information from the xml element into the object.
       def initialize(element_xml)
@@ -50,7 +53,9 @@ module TaliaUtil
           add_property_from(@element_xml, 'title', self.class.needs_title) # The title should always exist
           import! # Calls the import features of the subclass
           @source.autosave_rdf = true # Reactivate rdf creation for final save
-          @source.save! # Save the source when the import is complete
+          benchmark("**** Saving #{@source.uri.local_name}") do
+            @source.save! # Save the source when the import is complete
+          end
         end
       end
       
@@ -166,13 +171,6 @@ module TaliaUtil
         end
       end
       
-      def get_catalog()
-        if(node = @element_xml.elements['catalog'])
-          catalog_name = N::LOCAL + node.text.strip if(node.text && node.text.strip != "")
-          TaliaCore::Catalog.new(catalog_name)
-        end
-      end
-      
       # This adds a property "explicitly", if the automatic mapping cannot be
       # used
       def add_property_explicit(root, name, property, required = false)
@@ -257,10 +255,9 @@ module TaliaUtil
         klass ||= TaliaCore::Source
         raise(ArgumentError, "This must have a klass as parameter: #{source_name}") unless(klass.is_a?(Class))
         source_uri = irify(N::LOCAL + source_name)
-        src = nil
-        if(TaliaCore::ActiveSource.exists?(source_uri))
+        src = SourceCache.cache[source_uri]
+        if(src)
           # If the Source already exists, push the types in
-          src = TaliaCore::Source.find(source_uri)
           src.autosave_rdf = false
           # If the class
           klass_name = klass.to_s.demodulize
@@ -272,6 +269,8 @@ module TaliaUtil
             src[:type] = klass_name
             src.save!
             src = klass.find(src.id)
+            # Update the cache with the changed source!
+            SourceCache.cache[source_uri] = src
             src.autosave_rdf = false
             src.catalog = TaliaCore::Catalog.default_catalog if(src.is_a?(TaliaCore::ExpressionCard))
           end
@@ -280,6 +279,8 @@ module TaliaUtil
           src.primary_source = primary_source? if(src.is_a?(TaliaCore::Source))
           src.autosave_rdf = false
           src.save!
+          # Add the new source to the cache
+          SourceCache.cache[source_uri] = src
         end
         
         src
@@ -323,20 +324,28 @@ module TaliaUtil
         end
       end
       
+      
+      # Makes an URI of the given value and retrieves a type source, using the
+      # type cache
+      def cached_type_by_string(value)
+        Importer.type_cache_retrieve(N::URI.make_uri(value, ':', N::HYPER))
+      end
+
       # Add the types by using the type map and the type configured in the 
       # importer. 
       def import_types!
+        types = @source.types
         if(self.class.get_source_type)
-          @source.types << N::URI.make_uri(self.class.get_source_type, ':', N::HYPER)
+          types << cached_type_by_string(self.class.get_source_type)
         end
         
         hyper_type = get_text(@element_xml, 'type')
         hyper_subtype = get_text(@element_xml, 'subtype')
         
         if(hyper_subtype && TYPE_MAP[hyper_subtype])
-          @source.types << N::URI.make_uri(TYPE_MAP[hyper_subtype], ':', N::HYPER)
+          types << cached_type_by_string(TYPE_MAP[hyper_subtype])
         elsif(hyper_type && TYPE_MAP[hyper_type])
-          @source.types << N::URI.make_uri(TYPE_MAP[hyper_type], ':', N::HYPER)
+          types << cached_type_by_string(TYPE_MAP[hyper_type])
         else
           assit(!hyper_type, "There was no mapping for the type/subtype (#{hyper_type}/#{hyper_subtype})")
         end
@@ -486,7 +495,15 @@ module TaliaUtil
         # the member source this will automatically be called on import
         origin.autosave_rdf = true if(origin != @source)
       end
-      
+
+      # This is a fast-add-hack for a predicate. It basically bypasses the
+      # whole getting of a predicate list and simply forces the values to
+      # the database. This should avoid any database hits except the one
+      # that actually adds the elements.
+      def quick_add_predicate(source, predicate, value)
+        
+      end
+
       # Checks for the hy_nietzsche namespace, which must be defined for the
       # import to work
       def check_namespaces!

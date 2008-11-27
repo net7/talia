@@ -32,8 +32,10 @@ Rails::Initializer.run do |config|
 
   # Force all environments to use the same logger level
   # (by default production uses :info, the others :debug)
-  # config.log_level = :debug
+  config.log_level = :debug
 
+  config.logger = Logger.new("#{RAILS_ROOT}/log/#{RAILS_ENV}.log", 3, 104857600)
+  
   # Your secret key for verifying cookie session data integrity.
   # If you change this key, all old sessions will become invalid!
   # Make sure the secret is at least 30 characters and all random, 

@@ -31,16 +31,11 @@ module TaliaUtil
           clone_first_page_uri = catalog.uri.local_name.to_s + '/' + source_first_page_uri.local_name.to_s
           clone_first_page =  get_source_with_class(clone_first_page_uri, TaliaCore::Page)
           clone_first_page.save!
-          if TaliaCore::Chapter.exists?(clone_uri)
-            clone = TaliaCore::Chapter.find(clone_uri)
-            @source.clone_properties_to(clone, {:catalog => catalog})
-            @source.make_concordant(clone)
-          else
-            clone = catalog.add_from_concordant(@source)
+          clone_to(clone_uri) do |clone|
+            clone::hyper.book << clone_book
+            clone::hyper.first_page << clone_first_page
+            clone.save!
           end
-          clone::hyper.book << clone_book 
-          clone::hyper.first_page << clone_first_page
-          clone.save!
         end
       end
       
