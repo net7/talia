@@ -27,6 +27,7 @@ module TaliaCore
     def add_record_for(value)
       value = value.uri if(value.respond_to?(:uri))
       value = N::SourceClass.new(value)
+      return if(self.include?(value))
       add_db_record_for(to_type_source(value))
       self.push(value)
     end
