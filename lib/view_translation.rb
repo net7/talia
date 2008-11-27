@@ -8,6 +8,16 @@ Globalize::ViewTranslation.class_eval do
     self.paginate_by_language_id(locale.language.id, :page => page, :per_page => per_page)
   end
   
+  def self.find_by_locale_and_tr_key(locale, tr_keys)
+    locale = Locale.new(locale)
+    result = self.find(:all, :select => "tr_key, text",
+      :conditions => ['language_id = ? and tr_key IN(?)', locale.language.id, tr_keys])
+    result.inject({}) do |memo, record|
+      memo[record.tr_key] = record.text
+      memo
+    end
+  end
+  
   # Update the translations with given id, otherwise create a new translation.
   def self.create_or_update(translations, locale)
     transaction do
