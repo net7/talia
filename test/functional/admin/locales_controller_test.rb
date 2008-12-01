@@ -14,4 +14,11 @@ class Admin::LocalesControllerTest < ActionController::TestCase
     assert_equal({:english => 'en-GB', :italian => 'it-IT'}, I18n.locales)
     assert_redirected_to edit_admin_translation_path('it-IT')
   end
+  
+  def test_should_report_error_on_invalid_locale_creation
+    post :create, :name => "Italian", :code => 'it-PO'
+    assert_equal({:english => 'en-GB'}, I18n.locales)
+    assert_template 'new'
+    assert_flash_error "Invalid locale, please check the format and make sure the language is available."
+  end
 end

@@ -16,6 +16,7 @@ module I18n
     #   I18n.add_locale(:italian, "it-IT")
     def add_locale(name, code)
       name, code = sanitize_arguments(name, code)
+      return false unless valid_locale?(code)
       @@locales = locales.merge(name.downcase.to_sym => code)
       reload_locales
       true
@@ -24,6 +25,13 @@ module I18n
     protected
       def sanitize_arguments(name, code)
         [ name.to_s[/^\w+$/], code[/^[a-zA-Z0-9\-]+$/] ]
+      end
+      
+      def valid_locale?(code)
+        return false unless RFC_3066.parse(code) rescue nil
+        code = code.split(/(\-|\_)/)
+        language, country = code.first, code.last
+        Language.find_by_iso_639_1(language) && Country.find_by_code(country)
       end
 
     private

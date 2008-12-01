@@ -2,10 +2,10 @@
 
 <% form_tag '/admin/locales/create' do -%>
   <p><label for="name">Name</label><br/>
-  <%= text_field_tag 'name' %></p>
+  <%= text_field_tag 'name' %> <span class="small grey italic">(example: English)</span></p>
 
   <p><label for="code">Code</label><br/>
-  <%= text_field_tag 'code' %></p>
+  <%= text_field_tag 'code' %> <span class="small grey italic">(example: en-US)</span></p>
 
   <p><%= submit_tag 'Create' %></p>
 <% end %>

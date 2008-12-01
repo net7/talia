@@ -629,6 +629,18 @@ div#html_data img{
 	color: #fff;
 }
 
+.small {
+  font-size: .4em;
+}
+
+.grey {
+  color: #ccc;
+}
+
+.italic {
+  font-style: italic;
+}
+
 #data_form {
 	margin-top: 15px;
 	padding: 10px;
