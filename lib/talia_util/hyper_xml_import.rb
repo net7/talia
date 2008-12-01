@@ -46,7 +46,7 @@ module TaliaUtil
         
         # Toggle the progressbar to force it active
         progress.set(size/100)
-        
+
         import_doc.root.elements.each("siglum") do |siglum|
           progress.inc
           begin
@@ -74,7 +74,7 @@ module TaliaUtil
         
         uri_plus_opts = [ uri ] # parameters for the open method
         if(@user || @password)
-          uri_plus_opts << { :http_basic_authentication => [@user, @password] }
+          uri_plus_opts << { :http_basic_authentication => [@user, @password] } if uri.match('http://')
         end
         
         # Now we can just try to read from the URI
