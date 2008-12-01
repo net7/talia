@@ -37,4 +37,12 @@ module Admin::TranslationsHelper
   def delete_admin_traslation_path(translation, params)
     admin_translation_path(translation) + "?locale=" + params[:id] + "&page=" + (params[:page] || "1")
   end
+  
+  protected
+    # Always pick fresh languages, instead of rely on application.rb
+    # This because application.rb is evaluated once in production mode.
+    # TODO: Rely on globalize2 when migrate to Rails 2.2.2
+    def languages
+      I18n.locales
+    end
 end
