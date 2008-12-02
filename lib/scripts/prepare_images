@@ -4,6 +4,34 @@ $: << File.join(File.dirname(__FILE__), '..', '..', 'vendor', 'plugins', 'talia_
 require 'fileutils'
 require 'progressbar'
 
+begin
+  require 'optiflag'
+rescue LoadError
+  require 'rubygems'
+  gem 'optiflag'
+  require 'optiflag'
+end
+
+module CommandLineFlags extend OptiFlagSet
+
+  flag 'input' do
+    alternate_forms 'i'
+    description 'Input Directory'
+  end
+
+  optional_flag 'output' do
+    alternate_forms 'o'
+    description 'Output Directory - default: "iip_staging" inside the input dir'
+  end
+
+  optional_switch_flag 'force' do
+    description 'Force overwriting of existing files'
+  end
+
+  and_process!
+end
+
+
 # Prepares the image files for the IIP server
 VIPS_COMMAND='/opt/local/bin/vips'
 CONVERT_COMMAND='/opt/local/bin/convert'
@@ -35,15 +63,10 @@ def create_pyramid(source, destination, force = false)
   puts "Error for #{source}: Command #{VIPS_COMMAND} failed (#{$?})." unless (File.exists?(destination) || !system_result)
 end
 
-if(ARGV.size == 0 || ARGV[0] == '--help')
-  puts 'Usage: prepare_images <image_data_directory> [<output_dir>] [force]'
-  exit 1
-end
+flags = CommandLineFlags.flags
 
-source_dir = File.expand_path(ARGV[0])
-destination = ARGV.size > 1 ? File.expand_path(ARGV[1]) : File.join(source_dir, 'iip_staging')
-
-force = ARGV.size > 2 && (ARGV[2] == 'force')
+source_dir = flags.input
+destination = flags.output ? File.expand_path(flags.output) : File.join(source_dir, 'iip_staging')
 
 files = Dir["#{source_dir}/*.{jpg,gif,png,tif,jpeg}"] 
 
@@ -57,8 +80,8 @@ FileUtils.mkdir_p(File.join(destination, 'thumbs'))
 
 
 files.each do |file|
-  create_thumb(file, File.join(destination, 'thumbs', File.basename(file)), force)
-  create_pyramid(file, File.join(destination, 'pyramids', "#{File.basename(file, File.extname(file))}.tif"), force)
+  create_thumb(file, File.join(destination, 'thumbs', File.basename(file)), flags.force)
+  create_pyramid(file, File.join(destination, 'pyramids', "#{File.basename(file, File.extname(file))}.tif"), flags.force)
   progress.inc
 end
 

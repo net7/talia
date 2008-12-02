@@ -17,13 +17,7 @@ module TaliaUtil
     
     # Flush RDF before each test
     def setup
-      setup_once(:flush) do
-        clean_data_files
-        Util.flush_rdf
-        Util.flush_db
-        true
-      end
-      
+      flush_once_for_import_test
       setup_once(:src) { hyper_import(load_doc('D-12,10r')) }
       setup_once(:work_src) { hyper_import(load_doc('AC,1')) }
     end
@@ -69,6 +63,11 @@ module TaliaUtil
     # Test sub part relation
     def test_book_relation
       assert_property(@src.dct::isPartOf, N::LOCAL + "D-12")
+    end
+
+    def test_book_relation_rdf
+      assert_equal(1, @src.my_rdf[N::DCT.isPartOf].size)
+      assert_equal(N::LOCAL + "D-12", @src.my_rdf[N::DCT.isPartOf].first.uri)
     end
     
     # Test source name

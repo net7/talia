@@ -12,7 +12,7 @@ module HyperDownload
     # Creates a new downloader. Data will be read from the given URL and
     # save it to the given path.
     def initialize(output_path,
-        url = 'http://www.hypernietzsche.org/exportToTalia.php?get=',
+        url = 'http://www.nietzschesource.org/exportToTalia.php?get=',
         login = 'nietzsche',
         password = 'source',
         proxy = nil
@@ -43,7 +43,7 @@ module HyperDownload
     
     # Grabs the siglum from the export URL
     def grab_siglum(siglum)
-      success = false
+      success = nil
       begin
         siglum_enc = URI.escape(siglum)
         open(@fetch_url + siglum_enc, :http_basic_authentication => @auth, :proxy => @proxy) do |io|
@@ -54,9 +54,9 @@ module HyperDownload
             xml_el_doc.write(file)
           end
         end
-        success = true
+        success = siglum_enc
       rescue Exception => e
-        puts "Had an exception #{e} while loading siglum #{siglum}"
+        puts "Had an exception #{e} while loading siglum #{siglum} from #{@fetch_url + siglum_enc}"
       end
       success
     end
@@ -84,20 +84,19 @@ module HyperDownload
       file_url = file_url_el.text
       file_name = find_filename(file_name_el.text)
       
-      # Update the XML
-      file_url_el.text = File.join('data', file_name)
-      
       # check if we need to download the file or only touch it
       if(file_mode == :touch)
         FileUtils.touch(File.join(@data_path, file_name))
         return
       end
   
-      # puts("fetching file from #{file_url} to #{file_name}")
-  
       # download the new file
       file_url.gsub!(/\[/, '%5B') # URI class doesn't like unescaped brackets
       file_url.gsub!(/\]/, '%5D')
+
+      # Update the XML
+      file_url_el.text = File.join('data', file_name)
+
       begin
         open(file_url, :http_basic_authentication => @auth, :proxy => @proxy) do |io|
           open(File.join(@data_path, file_name), 'w') do |file|

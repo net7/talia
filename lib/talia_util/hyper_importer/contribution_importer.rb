@@ -36,9 +36,9 @@ module TaliaUtil
           #         qry.filter("(?clone != '<#{related_source}>')")
           clones = qry.execute
           clones.each do |clone|
-            @source::hyper.manifestation_of << clone
-          end unless clones.empty?
-        end unless related_sources.empty?
+            quick_add_predicate(source, N::HYPER.manifestation_of, clone)
+          end
+        end
       end
       
       # Import a list of curators and the curator's note for the contribution

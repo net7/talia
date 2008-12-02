@@ -48,7 +48,7 @@ module TaliaUtil
           # Add the coordinates, if any
           note.coordinates = coordinates if(coordinates && coordinates != '')
           
-          @source.hyper::note << note
+          quick_add_predicate(@source, N::HYPER.note, note)
           note.autosave_rdf = true
           note.save!
         else
@@ -59,9 +59,9 @@ module TaliaUtil
       private
       
       # Creates a clone of the imported paragraph and add to the catalog specified in the xml (if any)
-      def clone_to_catalog()
-        catalog = get_catalog()
-        unless catalog.nil?
+      def clone_to_catalog
+        catalog = get_catalog
+        if(catalog)
           #          clone_uri = catalog.uri.to_s + '/' + @source.uri.local_name.to_s
           clone_uri = catalog.concordant_uri_for(@source)
           clone_to(clone_uri)
@@ -73,12 +73,11 @@ module TaliaUtil
             clone_page_uri = catalog.uri.local_name.to_s + '/' + note.page.uri.local_name.to_s
             clone_page = SourceCache.cache[clone_page_uri]
             clone_page ||= get_source_with_class(clone_page_uri, TaliaCore::Page)
-
             clone_note_uri = catalog.concordant_uri_for(note)
             clone_to(clone_note_uri, note) do |clone_note|
-              clone_note::hyper.page << clone_page
+              quick_add_predicate(clone_note, N::HYPER.page, clone_page)
               clone_note.save!
-              @source::hyper.note << clone_note
+              quick_add_predicate(@source, N::HYPER.note, clone_note)
             end
           end
         end

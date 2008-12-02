@@ -19,24 +19,11 @@ module TaliaUtil
     
     # Flush RDF before each test
     def setup
-      setup_once(:flush) do
-        clean_data_files
-        Util.flush_rdf
-        Util.flush_db
-        true
-      end
-      setup_once(:src) do
-        hyper_import(load_doc('mmontinari-nmgii-1988'))
-      end
-      setup_once(:in_journal) do
-        hyper_import(load_doc('mmontinari-zvlbn-1987'))
-      end
-      setup_once(:has_pages) do
-        hyper_import(load_doc('hjmette-dhnfn-1932'))
-      end
-      setup_once(:with_xml_entity) do
-        hyper_import(load_doc('tandina-aodns-2001'))
-      end
+      flush_once_for_import_test
+      setup_once(:src) { hyper_import(load_doc('mmontinari-nmgii-1988')) }
+      setup_once(:in_journal) { hyper_import(load_doc('mmontinari-zvlbn-1987')) }
+      setup_once(:has_pages) { hyper_import(load_doc('hjmette-dhnfn-1932')) }
+      setup_once(:with_xml_entity) { hyper_import(load_doc('tandina-aodns-2001')) }
     end
     
     # Test if the import succeeds

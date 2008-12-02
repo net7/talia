@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../fabrica_test_helper'
 class FabricaTmpTest < Test::Unit::TestCase
   
   def setup
+    clean_import_cache
     @controller = ImportController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

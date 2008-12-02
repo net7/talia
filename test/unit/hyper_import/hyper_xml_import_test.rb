@@ -19,13 +19,8 @@ module TaliaUtil
     
     # Flush RDF before each test
     def setup
-      setup_once(:flush) do
-        clean_data_files
-        Util.flush_rdf
-        Util.flush_db
-        true
-      end
-      setup_once(:src) do
+      flush_once_for_import_test
+      setup_once(:dummy_element) do
         # Add a dummy element for N-IV-1,8 - this will check if the importer 
         # will correctly change the type and set the default catalog for
         # the element

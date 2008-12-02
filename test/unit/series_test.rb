@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/unit_test_helpers'
 
 module TaliaCore
-  class CategoryTest < Test::Unit::TestCase
+  class SeriesTest < Test::Unit::TestCase
     include TaliaUtil::TestHelpers
     include UnitTestHelpers
     

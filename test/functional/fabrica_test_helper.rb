@@ -32,7 +32,13 @@ class Test::Unit::TestCase
     @documents_root ||= File.join(File.expand_path(RAILS_ROOT),
       'test', 'fixtures', 'import')
   end
-  
+
+  # Cleans the import cache
+  def clean_import_cache
+    TaliaUtil::HyperImporter::Importer.type_cache.clear
+    TaliaUtil::HyperImporter::SourceCache.cache.clear
+  end
+
   def source_import(file, siglum)
     assert(!TaliaCore::Source::exists?(siglum), "#{siglum} must not exist before test")
     authorize_as :hyper

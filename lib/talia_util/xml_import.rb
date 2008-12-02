@@ -10,7 +10,7 @@ module TaliaUtil
       end
       
       def import(xml_file)   
-        assit(File.exist?(xml_file))
+        assit(File.exist?(xml_file), "Could not find #{xml_file}")
         # Read the file containing the XML of the sources to import.
         # XML File must have a <sources> root element and each element to 
         # import must be inside a <source> element

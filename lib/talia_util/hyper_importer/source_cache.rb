@@ -26,6 +26,12 @@ module TaliaUtil
         @second_generation = {}
       end
 
+      # Clear the whole cache
+      def clear
+        @first_generation = {}
+        @second_generation = {}
+      end
+
       # Getter method for the source with the given uri.
       # This will automatically retrieve the source if it's not
       # found in the cache. This will simply return nil if the source is not
@@ -55,18 +61,6 @@ module TaliaUtil
       def []=(source_uri, value)
         source_uri = source_uri.uri if(source_uri.respond_to?(:uri))
         add_value(source_uri, value)
-      end
-
-      # Lookup the given uri and create a new element of the given class
-      # if it doesn't exist
-      def get_or_create(uri, klass)
-        value = get_value(uri)
-        if(!value)
-          value = klass.new(uri)
-          add_value(source_uri, value)
-        end
-        assit_kind_of(klass, value)
-        value
       end
 
       private

@@ -13,19 +13,15 @@ module TaliaUtil
       
       def order_page(book)
         ordered_pages = get_ordered_for(book)
-        # Do this "by hand" to save time 
-        ordered_pages.autosave_rdf = false
         predicate = ordered_pages.index_to_predicate(get_text(@element_xml, 'position'))
         #        if ordered_pages[predicate].empty?
-        ordered_pages[predicate] << @source
+        quick_add_predicate(ordered_pages, predicate, @source)
         ordered_pages.save!
-        ordered_pages.my_rdf[predicate] << @source
-        ordered_pages.my_rdf.save
       end
       #      end
       
       def get_ordered_for(book)
-        book = SourceCache.cache.get_or_create(book.uri, TaliaCore::Book)
+        book = get_or_create_source(book.uri, TaliaCore::Book)
         book.ordered_pages
       end
       
@@ -41,7 +37,7 @@ module TaliaUtil
       # Import the dimensions
       def import_dimensions!
         if((width = @element_xml.elements['width'])&& (height = @element_xml.elements['height']))
-          source.dct::extent << "#{width.text.strip}x#{height.text.strip} pixel"
+          quick_add_predicate(source, N::DCT.extent, "#{width.text.strip}x#{height.text.strip} pixel")
         end
       end
      
@@ -54,9 +50,8 @@ module TaliaUtil
           source_book_uri = irify(@source::dct.isPartOf[0])
           clone_book_uri = catalog.uri.local_name.to_s + '/' + source_book_uri.local_name.to_s
           clone_book = get_source_with_class(clone_book_uri, TaliaCore::Book)
-          clone_book.save!
           clone_to(clone_uri) do |clone|
-            clone::dct.isPartOf << clone_book
+            quick_add_predicate(clone, N::DCT.isPartOf, clone_book)
             # hack to let order_page use the cloned page
             @source.autosave_rdf = true
             @source.save!

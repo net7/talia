@@ -22,16 +22,12 @@ module TaliaUtil
     
     # Flush RDF before each test
     def setup
-      setup_once(:flush) do
-        clean_data_files
-        Util.flush_rdf
-        Util.flush_db
+      flush_once_for_import_test
+      setup_once(:setup_iip) do
         setup_iip
         true
       end
-      setup_once(:src) do
-        hyper_import(load_doc('egrepalysviola-3259'))
-      end
+      setup_once(:src) { hyper_import(load_doc('egrepalysviola-3259')) }
     end
     
     def teardown

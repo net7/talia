@@ -33,7 +33,8 @@ module TaliaUtil
         assit(source_name && source_name != "", "Source with no name!")
         if(source_name && source_name != "")
           @source = get_source_with_class(source_name, get_class_for(element_xml))
-          @source.hyper::siglum << source_name if(@source.hyper::siglum.size == 0)
+          sigla = @source.hyper::siglum
+          sigla << source_name if(sigla.size == 0) # No use to fast-add if we need the size
         end
       end
       
@@ -48,12 +49,14 @@ module TaliaUtil
       # should not be overwritten.
       def do_import!
         benchmark('Import of ' + @source.uri.local_name) do
-          import_relations!
-          import_types!
-          add_property_from(@element_xml, 'title', self.class.needs_title) # The title should always exist
-          import! # Calls the import features of the subclass
+          benchmark('Import relations') { import_relations! }
+          benchmark('Import types') { import_types! }
+          benchmark('Top import') do
+            add_property_from(@element_xml, 'title', self.class.needs_title) # The title should always exist
+            import! # Calls the import features of the subclass
+          end
           @source.autosave_rdf = true # Reactivate rdf creation for final save
-          benchmark("**** Saving #{@source.uri.local_name}") do
+          benchmark("Saving source", Logger::DEBUG) do
             @source.save! # Save the source when the import is complete
           end
         end
@@ -165,7 +168,7 @@ module TaliaUtil
         if(node = root.elements[name])
           ## Create an URI for the new property
           property = N::URI.make_uri(map_property(name), ':', N::HYPER)
-          @source[property] << node.text.strip if(node.text && node.text.strip != "")
+          quick_add_predicate(@source, property, node.text.strip) if(node.text && node.text.strip != "")
         else
           assit(!required, "The node #{name} is required to exist.")
         end
@@ -176,7 +179,7 @@ module TaliaUtil
       def add_property_explicit(root, name, property, required = false)
         if(node = root.elements[name])
           ## Create an URI for the new property
-          @source[property] << node.text.strip if(node.text && node.text.strip != "")
+          quick_add_predicate(@source, property, node.text.strip) if(node.text && node.text.strip != "")
         else
           assit(!required, "The node #{name} is required to exist.")
         end
@@ -226,20 +229,27 @@ module TaliaUtil
         src = get_source_with_class(source_name, nil)
         assit_kind_of(TaliaCore::Source, src)
         
-        return src unless(types.size > 0) # Bail out if there are no types
-        
-        type_list = src.types
-        touched = false
-        types.each do |type|
-          unless(type_list.include?(type))
-            type_list << type 
-            touched = true
+        if(types.size > 0) # Bail out if there are no types
+          type_list = src.types
+          touched = false
+          types.each do |type|
+            unless(type_list.include?(type))
+              type_list << type
+              touched = true
+            end
           end
+          # Only save if there were types modified
+          src.save! if(touched)
         end
-        # Only save if there were types modified
-        src.save! if(touched)
         
         src
+      end
+
+      # Get the given source from a source name (see get_or_create_source),
+      # this will create a source with the given name in the local namespace
+      def get_source_with_class(source_name, klass, save_new = true)
+        source_uri = irify(N::LOCAL + source_name)
+        get_or_create_source(source_uri, klass, save_new)
       end
       
       # Gets a source with the given type (type must be a class). If the source
@@ -250,11 +260,10 @@ module TaliaUtil
       #
       # The sources from the method will *not* automatically create their RDF
       # on save!
-      def get_source_with_class(source_name, klass)
+      def get_or_create_source(source_uri, klass, save_new = true)
         set_class = (klass != nil) # this indicates if the class must be reset on an existing object
         klass ||= TaliaCore::Source
-        raise(ArgumentError, "This must have a klass as parameter: #{source_name}") unless(klass.is_a?(Class))
-        source_uri = irify(N::LOCAL + source_name)
+        raise(ArgumentError, "This must have a klass as parameter: #{source_uri}") unless(klass.is_a?(Class))
         src = SourceCache.cache[source_uri]
         if(src)
           # If the Source already exists, push the types in
@@ -278,7 +287,7 @@ module TaliaUtil
           src = klass.new(source_uri)
           src.primary_source = primary_source? if(src.is_a?(TaliaCore::Source))
           src.autosave_rdf = false
-          src.save!
+          src.save! if(save_new)
           # Add the new source to the cache
           SourceCache.cache[source_uri] = src
         end
@@ -301,8 +310,8 @@ module TaliaUtil
               predicate_uri = N::URI.make_uri(predicate, ':', N::HYPER)
               
               object_source = get_source(object)
-              
-              @source[predicate_uri] << object_source
+
+              quick_add_predicate(@source, predicate_uri, object_source)
               
               if(callback = self.class.import_callback_for(predicate_uri))
                 case callback
@@ -336,23 +345,23 @@ module TaliaUtil
       def import_types!
         types = @source.types
         if(self.class.get_source_type)
-          types << cached_type_by_string(self.class.get_source_type)
+          quick_add_predicate(@source, N::RDF.type, cached_type_by_string(self.class.get_source_type))
         end
         
         hyper_type = get_text(@element_xml, 'type')
         hyper_subtype = get_text(@element_xml, 'subtype')
         
         if(hyper_subtype && TYPE_MAP[hyper_subtype])
-          types << cached_type_by_string(TYPE_MAP[hyper_subtype])
+          quick_add_predicate(@source, N::RDF.type, cached_type_by_string(TYPE_MAP[hyper_subtype]))
         elsif(hyper_type && TYPE_MAP[hyper_type])
-          types << cached_type_by_string(TYPE_MAP[hyper_type])
+          quick_add_predicate(@source, N::RDF.type, cached_type_by_string(TYPE_MAP[hyper_type]))
         else
           assit(!hyper_type, "There was no mapping for the type/subtype (#{hyper_type}/#{hyper_subtype})")
         end
         
         # Little kludge: We also "hardwire" original types to the object
-        @source.hyper::subtype << hyper_subtype if(hyper_subtype)
-        @source.hyper::type << hyper_type if(hyper_type)
+        quick_add_predicate(@source, N::HYPER.subtype, hyper_subtype) if(hyper_subtype)
+        quick_add_predicate(@source, N::HYPER.type, hyper_type) if(hyper_type)
       end
       
       # Imports the file that is included in the xml, and all releant properties
@@ -388,7 +397,7 @@ module TaliaUtil
               # from the URL
               load_from_data_url!(data_obj, file_name, file_url)
               @source.data_records << data_obj
-              @source.dcns::format << mime_type
+              quick_add_predicate(@source, N::DCNS::format, mime_type)
             rescue Exception => e
               assit_fail("Exeption importing file #{file_name}: #{e}\n#{e.backtrace.join("\n")}\n")
             end
@@ -490,7 +499,7 @@ module TaliaUtil
       def add_source_rel(relation, destination, origin = nil)
         origin ||= @source
         object_source = get_source(destination)
-        origin[relation] << object_source
+        quick_add_predicate(origin, relation, object_source)
         # Make sure that 'external' sources are saved with RDF data. For
         # the member source this will automatically be called on import
         origin.autosave_rdf = true if(origin != @source)
@@ -501,10 +510,22 @@ module TaliaUtil
       # the database. This should avoid any database hits except the one
       # that actually adds the elements.
       def quick_add_predicate(source, predicate, value)
-        
+        predicate = predicate.uri if(predicate.respond_to?(:uri))
+        # We need to manually create the relation, to add the predicate_url
+        to_add = TaliaCore::SemanticRelation.new
+        to_add.predicate_uri = predicate
+        if(value.is_a?(TaliaCore::ActiveSource) || value.is_a?(TaliaCore::SemanticProperty))
+          to_add.object = value
+        else
+          prop = TaliaCore::SemanticProperty.new
+          prop.value = value
+          to_add.object = prop
+        end
+        to_add.subject = source
+        to_add.save!
       end
 
-      # Checks for the hy_nietzsche namespace, which must be defined for the
+      # Checks for the namespaces which must be defined for the
       # import to work
       def check_namespaces!
         check_namespace!(:HYPER)
@@ -561,12 +582,12 @@ module TaliaUtil
       end
       
       # Benchmarking helper
-      def benchmark(message, &block)
-        unless(logger.info?)
+      def benchmark(message, level = Logger::INFO, &block)
+        unless(logger.level <= level)
           block.call
         else
           elapsed = Benchmark.realtime(&block)
-          logger.info("[Importing #{Time.now.to_s(:long)}] #{message} completed in %.2f secs" % elapsed)
+          logger.add(level, "[Importing #{Time.now.to_s(:long)}] #{message} completed in %.2f secs" % elapsed)
         end
       end
       

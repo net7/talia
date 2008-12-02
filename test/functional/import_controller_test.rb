@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/fabrica_test_helper'
 class ImportControllerTest < ActionController::TestCase
   
   def test_should_create_manuscript
+    clean_import_cache
     authorize_as :hyper
     assert_difference "TaliaCore::Book.count", 1 do
       post :create, :document => document('export')

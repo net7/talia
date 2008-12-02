@@ -16,13 +16,7 @@ module TaliaUtil
     
     # Flush RDF before each test
     def setup
-      setup_once(:flush) do
-        clean_data_files
-        Util.flush_rdf
-        Util.flush_db
-        true
-      end
-      
+      flush_once_for_import_test
       setup_once(:paragraph) { hyper_import(load_doc('AC-17')) }
       setup_once(:coord_para) { hyper_import(load_doc('D-12,10r[1]')) }
       setup_once(:multinotes) { hyper_import(load_doc('Mp-XIV-2,55v[2]et56r[1]')) }

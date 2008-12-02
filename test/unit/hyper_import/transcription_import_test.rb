@@ -18,12 +18,8 @@ module TaliaUtil
     
     # Flush RDF before each test
     def setup
-      setup_once(:src) do
-        clean_data_files
-        Util.flush_rdf
-        Util.flush_db
-        hyper_import(load_doc('igerikevzapf-539'))
-      end
+      flush_once_for_import_test
+      setup_once(:src) { hyper_import(load_doc('igerikevzapf-539')) }
     end
     
     # Test if the import succeeds

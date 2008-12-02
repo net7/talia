@@ -28,14 +28,12 @@ module TaliaUtil
       end
 
       # Get the catalog for the currently imported source.
-      def get_catalog()
+      def get_catalog
         return @catalog if(defined?(@catalog))
 
         @catalog = nil
-        if(node = @element_xml.elements['catalog'])
-          catalog_name = N::LOCAL + node.text.strip if(node.text && node.text.strip != "")
-          @catalog = SourceCache.cache.get_or_create(catalog_name, TaliaCore::Catalog)
-        end
+        catalog_name = get_text(@element_xml, 'catalog')
+        @catalog = get_source_with_class(catalog_name, TaliaCore::Catalog) if(catalog_name)
 
         @catalog
       end

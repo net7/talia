@@ -43,7 +43,24 @@ module TaliaUtil
       puts "Cleaning #{TaliaCore::CONFIG["data_directory_location"]}"
       clean_data(TaliaCore::CONFIG["data_directory_location"])
     end
-    
+
+    # Cleans the databases and the caches of the import classes
+    def clean_all_with_caches
+      Util.flush_rdf
+      Util.flush_db
+      HyperImporter::Importer.type_cache.clear
+      HyperImporter::SourceCache.cache.clear
+    end
+
+    # Clear the system for an import test
+    def flush_once_for_import_test
+      setup_once(:flush) do
+        clean_data_files
+        clean_all_with_caches
+        true
+      end
+    end
+
     # Recursive cleaner for data files
     def clean_data(directory)
       # Break for the "dot" directory labels

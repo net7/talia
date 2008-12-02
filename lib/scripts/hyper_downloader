@@ -1,34 +1,132 @@
 #!/usr/bin/ruby
 
+begin
+  require 'optiflag'
+rescue LoadError
+  require 'rubygems'
+  gem 'optiflag'
+  require 'optiflag'
+end
+
+
 $: << File.join(File.dirname(__FILE__), '..')
 $: << File.join(File.dirname(__FILE__), '..', '..', 'vendor', 'plugins', 'talia_core', 'lib')
 $: << File.join(File.dirname(__FILE__), '..', '..', 'app', 'models')
+
+module DownloadFlags extend OptiFlagSet
+  optional_flag 'out' do
+    alternate_forms 'o'
+    long_form 'output_path'
+    description 'Directory where the downloaded files will be saved'
+  end
+
+  optional_flag 'mode' do
+    description 'The mode for downloading files {load|skip|touch}'
+    value_in_set ['load', 'skip', 'touch']
+  end
+
+  optional_flag 'list' do
+    alternate_forms 'l'
+    long_form 'list_file'
+    description 'URL/Filename of the list of sigla '
+  end
+
+  optional_flag 'source' do
+    alternate_forms 's'
+    long_form 'download_source'
+    description 'Base URL from where the data is fetched'
+  end
+
+  optional_flag 'user' do
+    description 'Username for http login'
+  end
+
+  optional_flag 'pass' do
+    description 'Password for http login'
+  end
+
+  optional_flag 'proxy' do
+    description 'Proxy server for web access'
+  end
+
+  optional_switch_flag 'verbose' do
+    alternate_forms 'v'
+    description 'Print additional information'
+  end
+
+  and_process!
+end
+
+flags = DownloadFlags.flags
+
 
 # Quick script to download exported xml files from NietzscheSource for testing
 require 'progressbar'
 require 'talia_util/hyper_download'
 
-if(ARGV[0] == '--help')
-  puts "Usage: hyper_downloader <output_path> <file_mode> <list_file>"
-  exit 1
+# Assemble the parameters to fetch the list file
+def get_list_file
+  flags = DownloadFlags.flags
+
+  list_file = "http://www.nietzschesource.org/exportToTalia.php?getList=all"
+  option_hash = { :http_basic_authentication => ["nietzsche", "source"] }
+
+  if(flags.list) # If a list was given, use it and reset the values
+    list_file = flags.list
+    option_hash = {}
+  end
+
+  list_file = [ list_file ]
+
+  option_hash[:http_basic_authentication] = [ flags.user, flags.pass ] if(flags.user && flags.pass)
+  option_hash[:proxy] = flags.proxy if(flags.proxy)
+
+  list_file.last[:proxy] = flags.proxy if (flags.proxy)
+
+  list_file << option_hash unless(option_hash.empty?)
+
+  if(flags.verbose)
+    puts "Downloader params, file: #{list_file[0]}"
+    puts "Elements: #{list_file[1]}" unless(list_file.size < 2)
+  end
+  
+  list_file
 end
 
-output_path = ARGV[0]
-output_path ||= File.join(File.dirname(__FILE__), '..', '..', 'hyper_download')
 
-dl = HyperDownload::Downloader.new(output_path)
-# Set the file mode if there is one
-dl.file_mode = ARGV[1] if(ARGV[1])
+# Creates the downloader object to be used
+def create_downloader(output_path)
+  flags = DownloadFlags.flags
+  # Setup default settings for downloader. If no source is given, the all the
+  # default values are used.
+  download_url = flags.source || 'http://www.nietzschesource.org/exportToTalia.php?get='
+  puts "Downloading from #{download_url}: " if(flags.verbose)
+  download_user = flags.user || (flags.source ? nil : 'nietzsche')
+  puts "HTTP User for download: #{download_user}" if(flags.verbose && download_user)
+  download_pass = flags.pass || (flags.source ? nil : 'source')
+  puts "HTTP Pass: #{flags.pass}" if(flags.verbose && download_pass)
 
-list_file = [ ARGV[2] ] if(ARGV[2])
-list_file ||= [ "http://www.hypernietzsche.org/exportToTalia.php?getList=all", { :http_basic_authentication => ["nietzsche", "source"] } ]
+
+  dl = HyperDownload::Downloader.new(output_path, download_url, download_user, download_pass, flags.proxy)
+  # Set the file mode if there is one
+  dl.file_mode = flags.mode if(flags.mode)
+  puts "File download mode: #{dl.file_mode}" if(flags.verbose)
+
+  dl
+end
+
+
+output_path = flags.out || File.join(File.dirname(__FILE__), '..', '..', 'hyper_download')
+puts "Saving files to #{output_path}"
+
+dl = create_downloader(output_path)
 
 success_sigla = []
 failed_sigla = []
 
 xml_doc = nil
 
-open(*list_file) do |io|
+open(*get_list_file) do |io|
   xml_doc = REXML::Document.new(io.read)
 end
 
@@ -39,8 +137,9 @@ progress = ProgressBar.new("Downloading", xml_doc.root.elements.size)
 xml_doc.root.elements.each("siglum") do |element|
   progress.inc
   siglum = element.text.strip
-  if(dl.grab_siglum(siglum))
-    success_sigla << siglum
+  success_siglum = dl.grab_siglum(siglum)
+  if(success_siglum)
+    success_sigla << success_siglum
   else
     failed_sigla << siglum
   end

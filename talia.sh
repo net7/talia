@@ -1,7 +1,7 @@
 #!/bin/bash
 pd=`dirname "$0"`
 prog_dir=`cd $pd && pwd`
-jruby_dir="vendor/jruby-1.1.3"
+jruby_dir="vendor/jruby-1.1.5"
 
 export PATH=$prog_dir/$jruby_dir/bin:$prog_dir/$jruby_dir/lib/ruby/gems/1.8/bin:$PATH
 export PATH=$prog_dir/lib/scripts:$PATH

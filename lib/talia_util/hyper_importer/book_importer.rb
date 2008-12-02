@@ -22,9 +22,8 @@ module TaliaUtil
 
 
       def clone_to_catalog()
-
-        catalog = get_catalog()
-        unless catalog.nil?
+        catalog = get_catalog
+        if(catalog)
           clone_uri = catalog.concordant_uri_for(@source)
           clone_to(clone_uri)
         end

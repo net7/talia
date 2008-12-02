@@ -26,14 +26,12 @@ module TaliaUtil
           source_book_uri = irify(@source::hyper.book[0])
           clone_book_uri = catalog.uri.local_name.to_s + '/' + source_book_uri.local_name.to_s
           clone_book = get_source_with_class(clone_book_uri, TaliaCore::Book)
-          clone_book.save!
           source_first_page_uri = irify(@source::hyper.first_page[0])
           clone_first_page_uri = catalog.uri.local_name.to_s + '/' + source_first_page_uri.local_name.to_s
           clone_first_page =  get_source_with_class(clone_first_page_uri, TaliaCore::Page)
-          clone_first_page.save!
           clone_to(clone_uri) do |clone|
-            clone::hyper.book << clone_book
-            clone::hyper.first_page << clone_first_page
+            quick_add_predicate(clone, N::HYPER.book, clone_book)
+            quick_add_predicate(clone, N::HYPER.first_page, clone_first_page)
             clone.save!
           end
         end
