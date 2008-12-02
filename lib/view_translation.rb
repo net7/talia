@@ -27,6 +27,8 @@ Globalize::ViewTranslation.class_eval do
         translation['language_id'] = language_id
         result << translation
       end
+      # clear the viewtranslations cache
+      Locale.translator.cache_reset
       result
     end
   end
