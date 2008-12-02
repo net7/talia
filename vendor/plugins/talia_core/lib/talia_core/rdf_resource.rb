@@ -29,7 +29,18 @@ module TaliaCore
     def initialize(uri)
       @uri = N::URI.new(uri)
     end
-    
+
+    # Direct writing of a predicate, with having to fetch a list first
+    def direct_write_predicate(predicate, value)
+      FederationManager.add(self, predicate, value)
+    end
+
+    # Clears all rdf for this resource. FIXME: Not context-aware.
+    def clear_rdf
+      FederationManager.delete(self, nil, nil)
+    end
+
+
     # Returns the value(s) of the given predicates as a PropertyList filled
     # with the defined object_class objects.
     def [](predicate)
@@ -91,10 +102,10 @@ module TaliaCore
     # any copying around.
     def save
       if((ConnectionPool.read_adapters.size == 1) &&
-          (ConnectionPool.write_adapter == ConnectionPool.read_adapters.first))
-          save_default_types # Only write the "default" types to the store
+            (ConnectionPool.write_adapter == ConnectionPool.read_adapters.first))
+        save_default_types # Only write the "default" types to the store
       else
-          full_save # Do the full save operation
+        full_save # Do the full save operation
       end
     end
     

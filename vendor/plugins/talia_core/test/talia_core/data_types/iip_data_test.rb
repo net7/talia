@@ -28,9 +28,9 @@ module TaliaCore
       
       def test_get_static_path
         TaliaCore::CONFIG['static_data_prefix'] = nil
-        assert_nil(@test_record.static_image_path)
+        assert_nil(@test_record.static_path)
         TaliaCore::CONFIG['static_data_prefix'] = 'preef'
-        assert_equal('preef/IipData/015/15.jpg', @test_record.static_image_path)
+        assert_equal('http://localnode.org/preef/IipData/015/15', @test_record.static_path)
       end
       
       # test class type and mime_type and subtype

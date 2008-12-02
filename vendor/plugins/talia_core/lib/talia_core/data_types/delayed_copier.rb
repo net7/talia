@@ -22,10 +22,11 @@ module TaliaCore
       end
       
       def self.cp(source, target)
-        cp_string = 'cp '
+        cp_string = 'cp -v "'
         cp_string << File.expand_path(source)
-        cp_string << ' '
+        cp_string << '" "'
         cp_string << File.expand_path(target)
+        cp_string << '"'
         delayed_copy_file.puts(cp_string)
         delayed_copy_file.flush
       end

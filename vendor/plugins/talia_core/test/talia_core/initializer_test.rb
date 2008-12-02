@@ -6,7 +6,7 @@ require File.join(File.dirname(__FILE__), '..', 'test_helper')
 module TaliaCore
   
   # Just test if the initializer has works correctly
-  class InitTest < Test::Unit::TestCase
+  class InitializerTest < Test::Unit::TestCase
 
     # Test it
     def test_initialized

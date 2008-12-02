@@ -32,12 +32,10 @@ module TaliaCore
     # may be an expensive operation since it removes the existing elements.
     # (Could be optimised ;-)
     def create_rdf
-      self.class.benchmark('Creating RDF', Logger::INFO) do
+      self.class.benchmark('Creating RDF for source') do
         assit(!new_record?, "Record must exist here: #{self.uri}")
         # First remove all data on this
-        my_rdf.direct_predicates.each do |pred|
-          my_rdf[pred].remove
-        end
+        my_rdf.clear_rdf
         # Now create the new RDF subgraph. Force reloading so that no dupes are
         # created
         s_rels = semantic_relations(true)
@@ -47,20 +45,20 @@ module TaliaCore
           # will add it as Resource.
           obj = sem_ref.object
           value = obj.is_a?(SemanticProperty) ? obj.value : obj
-          my_rdf[sem_ref.predicate_uri] << value
+          my_rdf.direct_write_predicate(N::URI.new(sem_ref.predicate_uri), value)
         end
-        my_rdf[N::RDF.type] << (N::TALIA + self.class.name.demodulize)
+        my_rdf.direct_write_predicate(N::RDF.type, (N::TALIA + self.class.name.demodulize))
         my_rdf.save
       end
     end
     
-    private 
+      private
     
-    def auto_create_rdf
-      if(autosave_rdf?)
-        create_rdf
+      def auto_create_rdf
+        if(autosave_rdf?)
+          create_rdf
+        end
       end
-    end
     
+    end
   end
-end

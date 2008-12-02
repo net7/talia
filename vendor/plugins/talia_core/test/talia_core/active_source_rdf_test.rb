@@ -4,7 +4,7 @@ require File.join(File.dirname(__FILE__), '..', 'test_helper')
 module TaliaCore
   
   # Test the ActiveSource
-  class ActiveSourceTest < Test::Unit::TestCase
+  class ActiveSourceRdfTest < Test::Unit::TestCase
     fixtures :active_sources, :semantic_properties, :semantic_relations
     
     def setup

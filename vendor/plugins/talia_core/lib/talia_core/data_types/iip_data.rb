@@ -68,7 +68,6 @@ module TaliaCore
             @delete_original_file = true
           
           end # end benchmarking
-          self.class.bench
           super
           
         ensure
