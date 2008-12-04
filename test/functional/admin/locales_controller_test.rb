@@ -9,6 +9,17 @@ class Admin::LocalesControllerTest < ActionController::TestCase
     i18n_teardown
   end
   
+  def test_should_get_new
+    get :new
+    assert_select "form" do
+      assert_select "[action=?]", "/admin/locales/create"
+      assert_select "input[type=text][name=name]", :count => 1
+      assert_select "input[type=text][name=code]", :count => 1
+      assert_select "input[type=submit][value=?]", "Create"
+      assert_select "a[href=?]", "/admin/translations", :value => "back to the translations"
+    end
+  end
+  
   def test_create
     post :create, :name => "Italian", :code => 'it-IT'
     assert_equal({:english => 'en-GB', :italian => 'it-IT'}, I18n.locales)
