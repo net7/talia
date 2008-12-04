@@ -1,4 +1,9 @@
 module Admin::TranslationsHelper
+  # Always pick fresh locales, instead of rely on application.rb
+  # This because application.rb is evaluated once in production mode.
+  # TODO: Rely on globalize2 when migrate to Rails 2.2.2
+  delegate :locales, :to => I18n
+  
   def add_translation
     link_to_function "Add a translation" do |page|
       page.insert_html :bottom, "translations", :partial => 'translation', :object => ViewTranslation.new
@@ -26,7 +31,7 @@ module Admin::TranslationsHelper
   end
   
   def languages_options_tags(include_url = true)
-    languages.map do |language, locale|
+    locales.map do |language, locale|
       language = language.to_s.titleize
       selected = locale == params[:id]
       value = include_url ? edit_admin_translation_url(locale) : locale
@@ -37,12 +42,4 @@ module Admin::TranslationsHelper
   def delete_admin_traslation_path(translation, params)
     admin_translation_path(translation) + "?locale=" + params[:id] + "&page=" + (params[:page] || "1")
   end
-  
-  protected
-    # Always pick fresh languages, instead of rely on application.rb
-    # This because application.rb is evaluated once in production mode.
-    # TODO: Rely on globalize2 when migrate to Rails 2.2.2
-    def languages
-      I18n.locales
-    end
 end
