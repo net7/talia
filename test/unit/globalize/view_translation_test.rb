@@ -5,7 +5,7 @@ class Globalize::ViewTranslationTest < Test::Unit::TestCase
     locale = 'en-US'
     translations = [ { "id" => "1", "tr_key" => "hello", "text" => "Hello!" },
       { "id" => "", "tr_key" => "rabbit", "text" => "Rabbit" } ]
-    expected = [ { "id" => "", "tr_key" => "rabbit", "text" => "Rabbit", "language_id" => 1 } ]
+    expected = [ { "id" => "", "tr_key" => "rabbit", "text" => "Rabbit", "language_id" => 1, "pluralization_index" => 1 } ]
     assert_equal expected, ViewTranslation.extract_translations_to_create(translations, locale)
   end
   

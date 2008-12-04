@@ -35,6 +35,7 @@ Globalize::ViewTranslation.class_eval do
     result = translations.inject([]) do |result, translation|
       if translation['id'].blank?
         translation['language_id'] = language_id
+        translation['pluralization_index'] = 1
         result << translation
       end
       result
