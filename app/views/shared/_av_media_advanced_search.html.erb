@@ -1,0 +1,40 @@
+<% if @result.nil? %>
+  <div id="visore" class="extended">
+    <h1>Advanced search description</h1>
+
+    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut erat arcu, placerat non, ornare ac, tempor eu, nulla. Nunc posuere pede a mi.
+    Sed ultrices nunc auctor neque. Ut at eros et massa scelerisque sollicitudin. Suspendisse potenti. Sed tincidunt, lorem vel elementum auctor,
+    ipsum quam gravida augue, in elementum tortor ligula sit amet magna. Proin risus. Donec euismod. Sed ut mit. In luctus quam quis risus. Aliquam
+    velit est, sodales sedm lucus accumsanm pretium ut, velit. Ut consequat. Sed turpis urna, dapibus non, rhoncus posuere, egestas sed, dui.
+    Curabitur est. Aenean dictum ornare est. Curabitur aliquet diam. Fusce rutrum aliquet sapien. In sit amet metus a turpis pretium iperdiet.
+    Nam fringilla convallis est. Suspendisse vestibulum, est quis gravida convallis, sem tellus interdum urna, eget cursus leo arcu dapibus diam.</p>
+    <p>Pellentesque in lacus a nunc pulvinar congue. Duis iaculis. Nunc nec pede. Nunc id magna ac quam posuere congue. Fusce vitae nisl.
+    Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin a arcu. Suspendisse fermentum, ante non semper
+    ullamcorper, enim quam blandit purus, sit amet feugiat justo lectus a urna. Curabitur a felis. Nam justo enim, aliquet euismod, bibendum nec,
+    eleifend eget, elit. Donec aliquet, lorem nec ornare adipiscing, leo est suscipit diam, sed lacinia augue quam in lectus. Fusce ac sem.
+    Donec sed ipsum et lorem congue eleifend. Vestibulum sit amet pede. Aliquam nec velit. Cras in dolor id purus porta pretium. Vivamus auctor
+    augue facilisis lacus.</p>
+  </div>
+<% else %>
+  <h2><%= @result_count %> <%= t(:'talia.search.result phrase 3') %></h2>
+
+  <ul id="access_list" class="minilist">
+    <% @result.each do |item| %>
+      <li>
+        <h1><%= titled_link(item[:uri], image_tag('thumbvideo.jpg', :alt => 'thumb') + item[:length], 'thumb')  %></h1>
+        <p class="title"><%= item[:title] %></p>
+
+        <p class="text"><%= item[:description] %></p>
+        <p class="data"><em>Autore.</em> <%= item[:author] %>, <em>Realizzato:</em> <%= item[:date] %></p>
+        <p class="keys">
+          <% for keyword in item[:keyword] %>
+            <%= titled_link(keyword[:uri], t(:"talia.keywords.#{keyword[:value]}")) %>
+          <% end %>
+        </p>
+      </li>
+    <% end %>
+  </ul>
+
+  <!-- content -->
+
+<% end %>
