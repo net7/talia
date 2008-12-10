@@ -1,0 +1,8 @@
+<ul class="secondlevel pages">
+  <% for chapter in chapters %>
+    <%=  w.put_item(chapter, :chapter) %>
+    <% if w.element_chosen?(:chapter, chapter) %>
+      <%= render_template('_parts', :object => parts_for(chapter)) %>
+    <% end %>
+  <% end %>
+</ul>
