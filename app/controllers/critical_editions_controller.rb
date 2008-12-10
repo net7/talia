@@ -49,8 +49,6 @@ class CriticalEditionsController < SimpleEditionController
       @result_count = adv_src.size
       @exist_result = adv_src.xml_doc.get_elements('/talia:result/talia:group')
 
-      puts adv_src.xml_doc
-
       # search word
       @words = params[:words]
             
