@@ -214,8 +214,6 @@ div#visore p.about a {
 /* tools */
 /*  ***************************************** */
 
-/*
-
 div#visore div.resultstools {
     padding:10px 15px;
     margin:15px 20px 10px 0;
@@ -306,5 +304,3 @@ div#visore ul.results li p {
 div#visore ul.results li p span.match {
     color: red;
 }
-
-*/

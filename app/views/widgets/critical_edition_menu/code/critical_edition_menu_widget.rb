@@ -91,8 +91,9 @@ class CriticalEditionMenuWidget < Widgeon::Widget
       uri = item.uri.to_s
       result << "<li id='#{uri}_menu'><a href='#{uri}'>#{title}</a></li>"
     else
-      title = item.elements['talia:title'].text.strip
       uri = item.elements['talia:uri'].text.strip
+      title = item.elements['talia:title'].text.strip
+      title = uri.split('/')[-1] if title.empty?
       result << "<li id='#{uri}_menu'><a href='#' onclick='document[\"advanced_search_menu_form\"].mc_single.value=\"#{uri}\";document[\"advanced_search_menu_form\"].submit();return false'>#{title}</a></li>"
     end
     

@@ -42,59 +42,18 @@ class CriticalEditionsController < SimpleEditionController
           (params[:mc].nil? or params[:mc].join.strip == "")
         redirect_to(:back) and return
       end
-    
-      # collect data to post
-      data = {
-        'search_type' => params[:search_type],
-        'operator' => params[:operator]
-      }
-      
-      # check if words field is empty 
-      if params[:words]
-        data['words'] = params[:words]
-      end
-      
-      # add mc - mc_from - mc_to if specified
-      if params[:mc]
-        data['mc[]'] = params[:mc]
-        data['mc_from[]'] = params[:mc_from]
-        data['mc_to[]'] = params[:mc_to]
-      end
 
-      # add mc_single if specified
-      if params[:mc_single]
-        data['mc_single'] = (params[:mc_single])
-      end
-      
-      # load exist options.
-      exist_options = TaliaCore::CONFIG['exist_options']
-      raise "eXist configuration not found." if exist_options.nil?
-          
-      # execute post to servlet
-      resp = Net::HTTP.post_form URI.parse(URI.join(exist_options['server_url'],"/#{exist_options['community']}/Search").to_s), data
-      
-      # error check
-      raise "#{resp.code}: #{resp.message}" unless resp.kind_of?(Net::HTTPSuccess)
-     
-      # get response xml document
-      doc = REXML::Document.new resp.body
-      
-      # total item
-      @result_count = doc.root.attribute('total').value
+      # execute advanced search
+      adv_src = AdvancedSearch.new
+      @result = adv_src.search(edition_prefix, params[:id], params[:words], params[:operator], params[:mc], params[:mc_from], params[:mc_to], params[:mc_single])
+      @result_count = adv_src.size
+      @exist_result = adv_src.xml_doc.get_elements('/talia:result/talia:group')
+
+      puts adv_src.xml_doc
+
       # search word
       @words = params[:words]
-      
-      # get level 2 group
-      groups = doc.get_elements('/*/*/*/talia:group/talia:entry')
-      # collect result. It create an array of hash {title, description}
-      @result = groups.collect do |item|
-        {:title => item.elements['talia:metadata/talia:standard_title'].text, 
-          :url => "#{N::LOCAL}#{edition_prefix}/#{params[:id]}/#{item.elements['talia:metadata/talia:standard_title'].text}",
-          :description => item.elements['talia:excerpt'].children.to_s}
-      end
-      
-      @exist_result = doc.get_elements('/talia:result/talia:group')
-      
+            
       # get chosen_book for menu
       if params[:mc_single]
         @source = TaliaCore::Source.find(params[:mc_single])
