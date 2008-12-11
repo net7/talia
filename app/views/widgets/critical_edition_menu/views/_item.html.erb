@@ -1,9 +1,9 @@
-<li id="<%= item_uri %>_menu">
+<li id="<%= item_uri %>_menu" <%= select_class  %>>
   <% if w.advanced_search %>
-    <a href="#" onclick="document['advanced_search_menu_form'].mc_single.value='<%= item_uri %>';document['advanced_search_menu_form'].submit();return false" <%= select_class  %>>
+    <a href="#" onclick="document['advanced_search_menu_form'].mc_single.value='<%= item_uri %>';document['advanced_search_menu_form'].submit();return false">
       <%= item_title %>
     </a>
   <% else %>
-    <a href="<%= item_uri %>"  <%= select_class  %>><%= item_title %></a>
+    <a href="<%= item_uri %>"><%= item_title %></a>
   <% end %>
 </li>

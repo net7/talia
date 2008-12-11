@@ -27,11 +27,30 @@ class CriticalEditionMenuWidget < Widgeon::Widget
     end
   end
 
-  # Renders the given item in it's own element, using the item partial
-  def put_item(item, type = nil)
+  # Renders the given chapter in it's own element.
+  def put_chapter(chapter)
     select_class = ''
-    select_class = ' class="selected" 'if(type && element_chosen?(type, item))
-    partial('item', :locals => { :item_uri => item_uri_for(item), :item_title => title_for(item), :select_class => select_class })
+    if(element_chosen?(:chapter, chapter))
+      # Set the class depending on if there's a selected sub-part
+      select_class = @chosen_part ?'class="opened"' : 'class="selected"'
+    end
+    partial('item', :locals => { :item_uri => item_uri_for(chapter), :item_title => title_for(chapter), :select_class => select_class })
+  end
+
+  # Renders the given book in it's own element.
+  def put_book(book)
+    select_class = ''
+    if(element_chosen?(:book, book))
+      # Set the class depending on if there's a selected sub-part
+      select_class = @chosen_chapter ? 'class="opened"' : 'class="selected"'
+    end
+    partial('item', :locals => { :item_uri => item_uri_for(book), :item_title => title_for(book), :select_class => select_class })
+  end
+
+  # Renders the given part in it's own element
+  def put_part(part)
+    select_class = element_chosen(:part, part) ? 'class="selected"' : ''
+    partial('item', :locals => { :item_uri => item_uri_for(part), :item_title => title_for(part), :select_class => select_class })
   end
 
   # Returns true if the given element is the chosen element of the given type
@@ -61,5 +80,5 @@ class CriticalEditionMenuWidget < Widgeon::Widget
       chapter.subparts_with_manifestations(N::HYPER.HyperEdition)
     end
   end
-  
+
 end
