@@ -40,4 +40,6 @@ var TranslationFetcher = Class.create({
   }
 });
 
-new TranslationFetcher('reference_languages', 'translations');
+document.observe('dom:loaded', function(e){
+  new TranslationFetcher('reference_languages', 'translations');
+});
