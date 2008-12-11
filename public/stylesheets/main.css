@@ -723,3 +723,15 @@ div.iipfview_right {
 }
 
 /* ********************************* */
+
+.small {
+  font-size: .4em;
+}
+
+.grey {
+  color: #ccc;
+}
+
+.italic {
+  font-style: italic;
+}

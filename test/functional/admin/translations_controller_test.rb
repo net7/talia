@@ -11,10 +11,11 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
     login_as :admin
     get :edit, :id => locale
     assert_response :success
-    # assert_layout :application
+    assert_layout :application
     
     assert_select "#languages_picker", /^Pick a language:/
-    assert_select "#languages_picker", /Add a translation$/
+    assert_select "#languages_picker", /Add a translation/
+    assert_select "#languages_picker", /Add locale/
     assert_select "#languages_picker" do
       assert_select "select"
     end
@@ -28,10 +29,8 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
   def test_should_update_translations
     login_as :admin
     put :update, params
+    # assert_flash_notice "Your translations has been saved"
     assert_redirected_to edit_admin_translation_path(locale, {:page => 2})
-    
-    # TODO why it doesn't find this element?
-    # assert_select "div#notice", "Your translations has been saved"
   end
   
   uses_mocha 'Admin::TranslationsControllerTest' do
@@ -39,11 +38,17 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
       ViewTranslation.expects(:update).returns false
       login_as :admin
       put :update, params
+      # assert_flash_error "There was some problems"
       assert_redirected_to edit_admin_translation_path(locale, {:page => 2})
-     
-      # TODO why it doesn't find this element?
-      # assert_select "div#error", "There was some problems"
     end
+  end
+
+  def test_should_destroy_translation
+    login_as :admin
+    delete :destroy, :id => 1, :locale => 'en-US', :page => "1"
+    assert_raise(ActiveRecord::RecordNotFound) { ViewTranslation.find(1) }
+    # assert_flash_notice "Your translation has been deleted"
+    assert_redirected_to edit_admin_translation_path(locale, {:page => 1})
   end
 
   private

@@ -16,7 +16,17 @@ Globalize::ViewTranslation.class_eval do
       self.update keys, values
     end
   end
-  
+
+  def self.find_by_locale_and_tr_key(locale, tr_keys)
+    locale = Locale.new(locale)
+    result = self.find(:all, :select => "tr_key, text",
+      :conditions => ['language_id = ? and tr_key IN(?)', locale.language.id, tr_keys])
+    result.inject({}) do |memo, record|
+      memo[record.tr_key] = record.text
+      memo
+    end
+  end
+
   # Extract and normalize translations to pass them to <tt>ActiveRecord#create</tt>.
   # It select translations without an id and inject the <tt>language_id</tt>
   # for the given <tt>Locale</tt>.

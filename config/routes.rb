@@ -32,7 +32,7 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'home', :action => 'start'
 
   map.namespace :admin do |admin|
-    admin.resources :translations
+    admin.resources :translations, :collection => { :search => :get }
     admin.resources :users
     admin.resources :sources
   end
