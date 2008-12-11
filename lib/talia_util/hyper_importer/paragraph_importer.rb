@@ -64,11 +64,10 @@ module TaliaUtil
         if(catalog)
           #          clone_uri = catalog.uri.to_s + '/' + @source.uri.local_name.to_s
           clone_uri = catalog.concordant_uri_for(@source)
-          clone_to(clone_uri)
           @source.autosave_rdf = true
           @source.save!
           original = @source
-          @source = clone
+          @source = clone_to(clone_uri)
           original.notes.each do |note|
             clone_page_uri = catalog.uri.local_name.to_s + '/' + note.page.uri.local_name.to_s
             clone_page = SourceCache.cache[clone_page_uri]

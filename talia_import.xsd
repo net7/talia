@@ -164,8 +164,9 @@
             <xs:field xpath="."/>
         </xs:unique>
         <xs:unique name="pageOrder">
-            <xs:selector xpath="source/page/position"/>
-            <xs:field xpath="."/>
+            <xs:selector xpath="source/page"/>
+            <xs:field xpath="position"/>
+            <xs:field xpath="relations/relation/object"></xs:field>
         </xs:unique>
         <xs:unique name="chapterOrder">
             <xs:selector xpath="source/chapter"/>

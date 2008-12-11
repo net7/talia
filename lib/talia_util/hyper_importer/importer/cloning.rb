@@ -25,6 +25,7 @@ module TaliaUtil
           SourceCache.cache[clone_uri] = clone
         end
         yield clone if(block_given?)
+        clone
       end
 
       # Get the catalog for the currently imported source.

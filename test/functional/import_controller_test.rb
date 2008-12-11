@@ -1,7 +1,12 @@
 require File.dirname(__FILE__) + '/fabrica_test_helper'
 
 class ImportControllerTest < ActionController::TestCase
-  
+
+  def setup
+    TaliaUtil::HyperImporter::Importer.type_cache.clear
+    TaliaUtil::HyperImporter::SourceCache.cache.clear
+  end
+
   def test_should_create_manuscript
     clean_import_cache
     authorize_as :hyper
