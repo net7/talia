@@ -49,7 +49,7 @@ class CriticalEditionMenuWidget < Widgeon::Widget
 
   # Renders the given part in it's own element
   def put_part(part)
-    select_class = element_chosen(:part, part) ? 'class="selected"' : ''
+    select_class = element_chosen?(:part, part) ? 'class="selected"' : ''
     partial('item', :locals => { :item_uri => item_uri_for(part), :item_title => title_for(part), :select_class => select_class })
   end
 
