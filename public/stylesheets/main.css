@@ -7,9 +7,16 @@
     border: 0;
 }
 
+
 /* ******************************************************************* */
 /* TAG SETTINGS */
 /* ******************************************************************* */
+html, body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
 body {
     font-size: 62.5%;
     font-family: Arial, "Lucida Grande", "Bitstream Vera Sans", Avenir, Helvetica, sans-serif;
@@ -21,10 +28,12 @@ h1, h2, h3, h4, p, ul, li {
 
 a {
     text-decoration: none;
+    outline: none;
 }
 a:hover {
     text-decoration: underline;
     background-color: transparent;
+    outline: none;
 }
 a:active
 {
@@ -49,13 +58,13 @@ a:active
 /* HEADER */
 /* ******************************************************************* */
 #header {
-	height: 150px;
-	width: 100%;
-	position: relative;	
+    height: 71px;
+    width: 100%;
+    position: relative;	
 }
 
 #header h1 {
-    height: 150px;
+    height: 71px;
     text-indent: -9999px;
     margin-right: 200px;
     outline: none;
@@ -63,9 +72,9 @@ a:active
     #header h2 {
             position: absolute;
             margin: 0; padding: 0;
-            top: 75px;
-            left: 398px;
-            font-size: 2.2em;
+            top: 28px;
+            left: 348px;
+            font-size: 1.8em;
             font-weight: normal;
             text-transform: uppercase;
             color: white;
@@ -77,9 +86,9 @@ a:active
     #header h3 {
             position: absolute;
             margin: 0; padding: 0;
-            top: 103px;
-            left: 398px;
-            font-size: 1.6em;
+            top: 48px;
+            left: 348px;
+            font-size: 1.4em;
             font-weight: normal;
             text-transform: uppercase;
             color: white;
@@ -94,7 +103,7 @@ a:active
 
 #search_box {
     position: absolute;
-    top: 2.5em;
+    top: 5px;
     right: 2em;
 }
     #search_box p {
@@ -633,7 +642,7 @@ ul#access_list {
 }
 #toolbar p.tooltools {
     float: left;
-    width: 80px;
+    width: 120px;
     border: 1px solid #d9d9d9;
 }
 #toolbar p.tooltools a {
@@ -653,6 +662,12 @@ ul#access_list {
 }
 #toolbar p.tooltools a:hover.print{	
     background: url(/images/icons/print_red.gif) no-repeat center;
+}
+#toolbar p.tooltools a.fullscreen{	
+    background: url(/images/icons/fullscreen_gray.gif) no-repeat center;
+}
+#toolbar p.tooltools a:hover.fullscreen{	
+    background: url(/images/icons/fullscreen_red.gif) no-repeat center;
 }
 #toolbar p.previous, #toolbar p.next{
     display: block;

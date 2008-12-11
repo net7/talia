@@ -8,7 +8,7 @@
 #
 class FacsimileEditionsController < SimpleEditionController
   set_edition_type :facsimile
-  add_javascripts 'swfobject', 'iip_flashclient'
+  add_javascripts 'swfobject', 'iip_flashclient', 'shadowbox-prototype', 'shadowbox'
     
     # GET /facsimile_editions/1
   def show

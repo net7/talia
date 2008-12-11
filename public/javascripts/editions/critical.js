@@ -23,3 +23,36 @@ function set_height(){
     $('visore').style.height = windowHeight - $('visore').cumulativeOffset().top + "px";
     $('scroll').style.height = windowHeight - $('scroll').cumulativeOffset().top + "px";
 }
+
+// LOAD PAGE EVENT
+Event.observe(window, 'load', function() {
+    // Call to function  that handles collapsing of left side lists
+    hanldeListCollapsing();
+});
+
+// Handles opening and closing of open elements in the left-bar list of pages
+// The function looks for list items with class "opened"
+function hanldeListCollapsing() {
+ for(i=0; i < $$('li.opened').length; i++) {
+      var currentElement = $$('li.opened')[i]; 
+      // Remove of link href
+      // currentElement.setAttribute("href", "javascript:;");  
+
+     var aLinkToDisable = currentElement.firstDescendant();
+     aLinkToDisable.writeAttribute({ href: 'javascript:;' });  
+        
+      Event.observe(currentElement, 'click', function(event) {
+        var nextItem = currentElement.next(0);
+        if(nextItem.getStyle('display') != 'none') {
+          Effect.BlindUp(nextItem, { duration: 0.3 });
+        } else {
+            Effect.BlindDown(nextItem, { duration: 0.3 });
+        }
+      });
+    }
+}
+
+
+
+
+

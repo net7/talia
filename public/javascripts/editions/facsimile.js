@@ -75,10 +75,11 @@ function setThumbsSize() {
     array_full[i].writeAttribute("width","" + valori[0]);
     array_full[i].writeAttribute("height","" + valori[1]);
     array_full[i].setStyle({
-      marginTop: valori[2] + 'px',
-      marginBottom: valori[3] + 'px',
-      marginRight: valori[4] + 'px',
-      marginLeft: valori[5] + 'px'
+      paddingTop: valori[2] + 'px',
+      paddingRight: valori[3] + 'px',
+      paddingBottom: valori[4] + 'px',
+      paddingLeft: valori[5] + 'px',
+      backgroundColor: '#FFFFFF'
     });
   }  
 }

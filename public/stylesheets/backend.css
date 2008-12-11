@@ -137,6 +137,7 @@ a:hover{
 }
 
 	#contenutoInterno{
+	background-color:#fff;
 		width: 740px;
 		padding: 20px 20px;
 		text-align: left;
@@ -230,7 +231,7 @@ div.main_menu_box a:hover{
 
 /* PAGINA TRANSLATIONS */
 input.translation {
-	width: 200px;
+	width: 180px;
 }
 
 

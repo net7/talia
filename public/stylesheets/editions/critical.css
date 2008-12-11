@@ -86,7 +86,7 @@ div.adder a.minus {
     #scroll.menuList h1 {
         font-family: georgia, serif;
         font-weight: normal;
-        font-size: 1.6em;
+        font-size: 1.8em;
         background: #fff;
         padding: 14px 12px 18px 12px ;
     }
@@ -103,22 +103,26 @@ div.adder a.minus {
     #scroll.menuList ul li {
         display: block;
         padding: 0;
-        background:#eeeeee url(/images/critical_edition/bg_leftlist.gif) top left no-repeat;
+        background: #eeeeee url(/images/critical_edition/bg_leftlist.gif) top left no-repeat;
         border-top: 1px solid #e0e0e0;
+        background-position: top right !important;
         margin: 0;
     }
     #scroll.menuList ul li a {
-        padding: 7px 0 4px 14px ;
+        padding: 7px 0 4px 14px;
         display: block;
         color: #000;
         margin: 0 10px;
+        font-size: 1.5em;
     }
     #scroll.menuList ul.book li a  {
-        background: url(/images/critical_edition/book.gif) no-repeat left;
+        background: url(/images/critical_edition/book.gif) no-repeat;
+        background-position: 0px 9px;
     }
     #scroll.menuList ul.secondlevel li a  {
         color: #666;
         margin: 0 20px;
+        font-size: 1.5em;
     }
     #scroll.menuList ul.thirdlevel li {
         background-position: right;
@@ -126,14 +130,32 @@ div.adder a.minus {
     #scroll.menuList ul.thirdlevel li a  {
         color: #666;
         margin: 0 30px;
+        font-size: 1.5em;
     }
     #scroll.menuList ul.pages li a {
-        background: url(/images/critical_edition/pages.gif) no-repeat left;
+        background: url(/images/critical_edition/pages.gif) no-repeat;
+        background-position: 0px 11px;
     }
     #scroll.menuList ul.page li a {
-        background: url(/images/critical_edition/page.gif) no-repeat left;
+        background: url(/images/critical_edition/page.gif) no-repeat;
+        background-position: 0px 11px;
     }
 
+    /* Selected items */
+    #scroll.menuList ul li.selected a {
+        color: #990000;
+    }
+     #scroll.menuList ul.secondlevel li.selected a  {
+        color: #990000;
+    }
+    
+    #scroll.menuList ul.thirdlevel li.selected a  {
+        color: #990000;
+    }
+    #scroll.menuList ul li.selected {
+        background: #eeeeee url(/images/critical_edition/bg_leftlist_selected.gif) top left no-repeat;
+    }
+    
 /*  ******************************************/
 /* CONTENT */
 /*  ******************************************/
