@@ -2,7 +2,7 @@
   <% for chapter in chapters %>
     <%=  w.put_chapter(chapter) %>
     <% if w.element_chosen?(:chapter, chapter) %>
-      <%= partial('_parts', :object => parts_for(chapter)) %>
+      <%= w.partial('parts', :object => w.parts_for(chapter)) %>
     <% end %>
   <% end %>
 </ul>

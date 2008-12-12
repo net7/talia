@@ -18,10 +18,10 @@ class AdvancedSearch
     end
 
     # add mc - mc_from - mc_to if specified
-    if mc
-      data['mc[]'] = mc
-      data['mc_from[]'] = mc_from
-      data['mc_to[]'] = mc_to
+    if mc_from
+      #data['mc'] = mc
+      data['mc_from'] = mc_from
+      data['mc_to'] = mc_to
     end
 
     # add mc_single if specified
@@ -34,8 +34,8 @@ class AdvancedSearch
     raise "eXist configuration not found." if exist_options.nil?
 
     # execute post to servlet
-    resp = Net::HTTP.post_form URI.parse(URI.join(exist_options['server_url'],"/#{exist_options['community']}/Search").to_s), data
-
+    resp = Net::HTTP.post_form_hack URI.parse(URI.join(exist_options['server_url'],"/#{exist_options['community']}/Search").to_s), data
+    
     # error check
     raise "#{resp.code}: #{resp.message}" unless resp.kind_of?(Net::HTTPSuccess)
 
@@ -87,7 +87,7 @@ class AdvancedSearch
     raise "eXist configuration not found." if exist_options.nil?
 
     # execute post to servlet
-    resp = Net::HTTP.post_form URI.parse(URI.join(exist_options['server_url'],"/#{exist_options['community']}/Search").to_s), data
+    resp = Net::HTTP.post_form_hack URI.parse(URI.join(exist_options['server_url'],"/#{exist_options['community']}/Search").to_s), data
 
     # error check
     raise "#{resp.code}: #{resp.message}" unless resp.kind_of?(Net::HTTPSuccess)
@@ -125,4 +125,39 @@ class AdvancedSearch
 
   end
 
+end
+
+module Net
+  
+  class HTTP < Protocol
+
+    def HTTP.post_form_hack(url, params)
+      req = Post.new(url.path)
+      req.set_form_data_hack params
+      req.basic_auth url.user, url.password if url.user
+      new(url.host, url.port).start {|http|
+        http.request(req)
+      }
+    end
+    
+  end
+
+  module HTTPHeader
+
+    # Hack for correct a bug into set_form_data method.
+    # Now params can contain also Arrays
+    def set_form_data_hack(params, sep = '&')
+      self.body = params.map do |k,v|
+        if v.class == Array
+          v.collect do |sub_v|
+            "#{urlencode(k.to_s + '[]')}=#{urlencode(sub_v.to_s)}"
+          end.join(sep)
+        else
+          "#{urlencode(k.to_s)}=#{urlencode(v.to_s)}"
+        end
+      end.join(sep)
+      self.content_type = 'application/x-www-form-urlencoded'
+    end
+  
+  end  
 end

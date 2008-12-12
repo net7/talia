@@ -1,20 +1,35 @@
 <h1><%= t(:"talia.global.list of works") %> </h1>
 
-<ul class="toplevel book">
-  <% for book in w.books %>
-    <%= w.put_book(book) %>
-    <% if w.element_chosen?(:book, book) %>
-      <%= w.show_second_level_for(book) %>
-    <% end %>
-  <% end %>
-</ul>
-
-
 <% if w.advanced_search %>
   <form name="advanced_search_menu_form" action="<%= url_for(:action => 'advanced_search') %>" method="post" >
-    <%= w.show_books %>
-    <%= w.show_hidden_field %>
-    <%= w.hidden_field_tag 'mc_single' %>
+    <%= w.hidden_field_tag('search_type', params[:search_type]) %>
+    <%= w.hidden_field_tag('words', params[:words]) %>
+    <%= w.hidden_field_tag('operator', params[:operator]) %>
+    <% for mc in params[:mc]  %>
+      <%= w.hidden_field_tag('mc[]', mc) %>
+    <% end %>
+    <% for mc_from in params[:mc_from]  %>
+      <%= w.hidden_field_tag('mc_from[]', mc_from) %>
+    <% end %>
+    <% for mc_to in params[:mc_to]  %>
+      <%= w.hidden_field_tag('mc_to[]', mc_to) %>
+    <% end %>
+    
+    <%= w.hidden_field_tag('mc_single') %>
     <%= w.hidden_field_tag 'advanced_search_submission', 'menu submission' %>
+  <% end %>
+
+  <ul class="toplevel book">
+
+    <% for book in w.books %>
+      <%= w.put_book(book) %>
+      <% if w.element_chosen?(:book, book) %>
+        <%= w.show_second_level_for(book) %>
+      <% end %>
+    <% end %>
+
+  </ul>
+
+<% if w.advanced_search %>
   </form>
 <% end %>
