@@ -52,6 +52,27 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+    
+    <xs:complexType name="authorType">
+        <xs:sequence>
+            <xs:element name="siglum" type="xs:string"></xs:element>
+            <xs:element name="name" type="xs:string"></xs:element>
+            <xs:element name="surname" type="xs:string"></xs:element>
+            <xs:element name="status" type="xs:string"></xs:element>
+            <xs:element name="institution" type="xs:string"></xs:element>
+            <xs:element name="position" type="xs:string"></xs:element>
+            <xs:element name="street" type="xs:string"></xs:element>
+            <xs:element name="zip" type="xs:string"></xs:element>
+            <xs:element name="city" type="xs:string"></xs:element>
+            <xs:element name="country" type="xs:string"></xs:element>
+            <xs:element name="telephone"></xs:element>
+            <xs:element name="fax" type="xs:string"></xs:element>
+            <xs:element name="email" type="xs:string"></xs:element>
+            <xs:element name="webpage" type="xs:string"></xs:element>
+            <xs:element name="from_date" type="taliaDate" default="0001-01-01"></xs:element>
+            <xs:element name="to_date" type="taliaDate" default="0001-01-01"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
 
     <xs:complexType name="authorsType">
         <xs:sequence>
@@ -150,6 +171,7 @@
                             <xs:element name="transcription" type="contributionType"/>
                             <xs:element name="text_reconstruction" type="contributionType"/>
                             <xs:element name="chapter" type="chapterType"/>
+                            <xs:element name="author" type="authorType"></xs:element>
                         </xs:choice>
                     </xs:complexType>
                 </xs:element>
@@ -173,7 +195,5 @@
             <xs:field xpath="position"/>
             <xs:field xpath="book"/>
         </xs:unique>
-        
-        
     </xs:element>
 </xs:schema>

@@ -21,7 +21,15 @@ module TaliaUtil
       flush_once_for_import_test
       setup_once(:src) { hyper_import(load_doc('kbrunkhorst-93')) }
     end
-    
+
+    # Test the empty pubication date
+    def test_empty_pubdate
+      src_empty = hyper_import(load_doc('empty_pubdate'))
+      expected_date = Time.now.getutc.strftime('%d-%m-%Y')
+      actual_date = src_empty.dcns::date.first.to_s
+      assert(actual_date && actual_date =~ Regexp.new("^#{expected_date}"), "Expecting to start with #{expected_date} but was #{actual_date}")
+    end
+
     # Test if the import succeeds
     def test_import
       assert_kind_of(TaliaCore::TextReconstruction, @src)

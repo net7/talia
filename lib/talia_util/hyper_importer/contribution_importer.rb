@@ -13,7 +13,7 @@ module TaliaUtil
       # This contains all the "default" import functionality for contributions
       def contribution_import!
         add_rel_from(@element_xml, 'author')
-        add_property_from(@element_xml, 'publishing_date')
+        add_property_from(@element_xml, 'publishing_date', current_timestamp)
         add_property_from(@element_xml, 'publisher')
         add_property_from(@element_xml, 'language')
         add_property_from(@element_xml, 'alreadyPublished')
@@ -51,6 +51,12 @@ module TaliaUtil
             assit_fail("Empty author found for #{src.uri.local_name}")
           end
         end
+      end
+
+      # Get a string containing the current date in UTC ISO8601 format as
+      # expected by Talia
+      def current_timestamp
+        Time.now.getutc.strftime('%d-%m-%YT%H:%MZ')
       end
       
     end

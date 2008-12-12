@@ -52,7 +52,7 @@ module TaliaUtil
           benchmark('Import relations') { import_relations! }
           benchmark('Import types') { import_types! }
           benchmark('Top import') do
-            add_property_from(@element_xml, 'title', self.class.needs_title) # The title should always exist
+            add_property_from(@element_xml, 'title', (self.class.needs_title ? :required : nil)) # The title should always exist
             import! # Calls the import features of the subclass
           end
           @source.autosave_rdf = true # Reactivate rdf creation for final save
@@ -164,11 +164,19 @@ module TaliaUtil
       # of the node.
       #
       # The node is acquired in the same way as in get_text.
-      def add_property_from(root, name, required = false)
+      #
+      # If a default value is given, it will be used as a default when the node
+      # does not exist or is empty.
+      #
+      # The default value can be the special value :required - which means that
+      # there is no default and
+      def add_property_from(root, name, required = false, default_value = nil)
         if(node = root.elements[name])
           ## Create an URI for the new property
           property = N::URI.make_uri(map_property(name), ':', N::HYPER)
-          quick_add_predicate(@source, property, node.text.strip) if(node.text && node.text.strip != "")
+          text = default_value
+          text = node.text.strip if(node.text && node.text.strip != '')
+          quick_add_predicate(@source, property, text) if(text)
         else
           assit(!required, "The node #{name} is required to exist.")
         end
