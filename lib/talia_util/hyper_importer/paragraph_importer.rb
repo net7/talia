@@ -58,7 +58,7 @@ module TaliaUtil
       
       private
       
-      # Creates a clone of the imported paragraph and add to the catalog specified in the xml (if any)
+      # Creates a clone of the imported paragraph and add it to the catalog specified in the xml (if any)
       def clone_to_catalog
         catalog = get_catalog
         if(catalog)

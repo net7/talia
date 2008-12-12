@@ -125,7 +125,11 @@ module TaliaCore
     def manifestations(type = nil)
       type ||= Source
       raise(ArgumentError, "Manifestation type should be a class") unless(type.is_a?(Class))
-      type.find(:all, :find_through => [N::HYPER.manifestation_of, self])
+      #FIXME: the find method returns duplicated entries, at least when the expression card has clones...
+      #      type.find(:all, :find_through => [N::HYPER.manifestation_of, self])
+      qry = Query.new(TaliaCore::Source).select(:m).distinct
+      qry.where(:m, N::HYPER.manifestation_of, self)
+      qry.execute
     end
     
     # Allows to add a manifestation
@@ -241,6 +245,6 @@ module TaliaCore
       N::DCNS.publisher,
       N::DCNS.rights
     
-     clone_inv_properties N::HYPER.manifestation_of
+    clone_inv_properties N::HYPER.manifestation_of
   end
 end

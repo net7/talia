@@ -54,6 +54,9 @@ ActionController::Routing::Routes.draw do |map|
   # Routes for types
   map.resources :types
 
+  # Routes for hyperedition previews
+  map.connect '/preview', :controller => 'preview'
+  
   # Routes for the source data
   map.connect 'source_data/:id', :controller => 'source_data',
     :action => 'show'

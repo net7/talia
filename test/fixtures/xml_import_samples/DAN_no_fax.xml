@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<sources>
+<source><book><siglum>DAN-BB</siglum><catalog>DAN</catalog><title>BB</title><type>works</type><subtype>printed_and_distributed</subtype><copyrightNote/><description>BB description</description><date> </date><collocation/><publisher> </publisher><publishingPlace> </publishingPlace><ordering>26</ordering><relations><relation><predicate>isInArchive</predicate><object/></relation></relations></book></source>
+
+<source><chapter><siglum>DAN-BB-[Text]</siglum><catalog>DAN</catalog><title>[Text]</title><type>work_chapter</type><first_page>DAN-BB,[Text]</first_page><position>000001</position><name>[Text]</name><book>DAN-BB</book></chapter></source>
+
+<source><page><siglum>DAN-BB,[Text]</siglum><catalog>DAN</catalog><title>BB,[Text]</title><type>work_page</type><width>0.00</width><height>0.00</height><position>000001</position><position_name>1</position_name><relations><relation><predicate>isSubPartOf</predicate><object>DAN-BB</object></relation></relations></page></source>
+
+<source><paragraph><siglum>DAN-BB-17</siglum><catalog>DAN</catalog><title/><type>work_page_annotation</type><notes><note><page>DAN-BB,[Text]</page><position>000017</position><coordinates/></note></notes></paragraph></source>
+
+<source><paragraph><siglum>DAN-BB-18</siglum><catalog>DAN</catalog><title/><type>work_page_annotation</type><notes><note><page>DAN-BB,[Text]</page><position>000018</position><coordinates/></note></notes></paragraph></source>
+</sources>
