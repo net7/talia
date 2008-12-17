@@ -69,17 +69,17 @@ class AdvancedSearch
 
     # check if words field is empty
     if title_words
-      data['title_words[]'] = title_words
+      data['title_words'] = title_words
     end
 
     # check if words field is empty
     if abstract_words
-      data['abstract_words[]'] = abstract_words
+      data['abstract_words'] = abstract_words
     end
 
     # check if words field is empty
     if keyword
-      data['keyword[]'] = keyword
+      data['keyword'] = keyword
     end
 
     # load exist options.
