@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- Lists entities used by texts from WAB encoding in XML. -->
+
+
+
+<!ENTITY o "&#x00F4;" > <!-- o role -->
+<!ENTITY ast "*" > <!-- asterix -->
+<!ENTITY tick "!!FIX!!" > <!-- tick -->
+<!ENTITY pown "&#x207F;" > <!-- pown -->
+
+
+<!ENTITY A.3dotl "&#x2234;" >
+<!ENTITY AElig "&#x00C6;" >
+<!ENTITY Aacute "&#x00C1;" >
+<!ENTITY Acirc "&#x00C2;" >
+<!ENTITY Agrave "&#x00C0;" >
+<!ENTITY Aring "&#x00C5;" >
+<!ENTITY Atilde "&#x00C3;" >
+<!ENTITY Auml "&#x00C4;" >
+<!ENTITY C.imp "C" >
+<!ENTITY CHR223 "&#x00DF;" >
+<!ENTITY CHR228 "&#x00E4;" >
+<!ENTITY CHR246 "&#x00F6;" >
+<!ENTITY CHR252 "&#x00FC;" >
+<!ENTITY Ccaron "&#x010C;" >
+<!ENTITY CHI.sm "&#x03C7;" >
+<!ENTITY Ccedil "&#x00C7;" >
+<!ENTITY ETH "&#x00D0;" >
+<!ENTITY Eacute "&#x00C9;" >
+<!ENTITY Ecirc "&#x00CA;" >
+<!ENTITY Egrave "&#x00C8;" >
+<!ENTITY Euml "&#x00CB;" >
+<!ENTITY E.exexi "E" >
+<!ENTITY Iacute "&#x00CD;" >
+<!ENTITY Icirc "&#x00CE;" >
+<!ENTITY Igrave "&#x00CC;" >
+<!ENTITY Iuml "&#x00CF;" >
+<!ENTITY Ntilde "&#x00D1;" >
+<!ENTITY OMEGA "&#937;" >
+<!ENTITY Oacute "&#x00D3;" >
+<!ENTITY Ocirc "&#x00D4;" >
+<!ENTITY Ograve "&#x00D2;" >
+<!ENTITY Oslash "&#x00D8;" >
+<!ENTITY Otilde "&#x00D5;" >
+<!ENTITY Ouml "&#x00D6;" >
+<!ENTITY PHI "&#x03A6;" >
+<!ENTITY THORN "&#x00DE;" >
+<!ENTITY Uacute "&#x00DA;" >
+<!ENTITY Ucirc "&#x00DB;" >
+<!ENTITY Ugrave "&#x00D9;" >
+<!ENTITY Uuml "&#x00DC;" >
+<!ENTITY V.dis "V" >
+<!ENTITY Yacute "&#x00DD;" >
+<!ENTITY aacute "&#x00E1;" >
+<!ENTITY acirc "&#x00E2;" >
+<!ENTITY aelig "&#x00E6;" >
+<!ENTITY aequiv "&#x2261;" >
+<!ENTITY agrave "&#x00E0;" >
+<!ENTITY alpha "&#x03B1;" >
+<!ENTITY amp.And "&amp;" >
+<!ENTITY amp.Und "&amp;" >
+<!ENTITY amp.and "&amp;" >
+<!ENTITY amp.con "&amp;" >
+<!ENTITY amp.et "&amp;" >
+<!ENTITY amp.und "&amp;" >
+<!ENTITY apos "&#x0027;" >
+<!ENTITY app "'" >
+<!ENTITY app.contr "'" >
+<!ENTITY app.gen "'" >
+<!ENTITY aring "&#x00E5;" >
+<!ENTITY arrowdown "&#x2193;" >
+<!ENTITY arrowleft "&#x2190;" >
+<!ENTITY arrowright "&#x2192;" >
+<!ENTITY arrowup "&#x2191;" >
+<!ENTITY atilde "&#x00E3;" >
+<!ENTITY auml "&#x00E4;" >
+<!ENTITY B.sm "B" >
+<!ENTITY backslash.sm "&#x2216;" >
+<!ENTITY bar "&#x007C;" >
+<!ENTITY bar.sm "&#x2223;" >
+<!ENTITY beta "&#x03B2;" >
+<!ENTITY blank " " > <!--sjekk-->
+<!ENTITY blb "&#x2045;;" >
+<!ENTITY brb "&#x2046;;" >
+<!ENTITY brackl "&#x005B;" >
+<!ENTITY brackr "&#x005D;" >
+<!ENTITY brackr "&#x005D;">
+<!ENTITY c.imp "C" >
+<!ENTITY carZ "&#x005A;&#x0302;" >
+<!ENTITY carr "&#x0D;">
+<!ENTITY ccedil "&#x00E7;" >
+<!ENTITY colon ":" >
+<!ENTITY colon.A.2grp "&#x2236;" >
+<!ENTITY comma.dec "," >
+<!ENTITY d "&#x002D;" >
+<!ENTITY dash "&#x2014;" >
+<!ENTITY dash.edoubt "&#x2014;" >
+<!ENTITY dash.sdoubt "&#x2014;" >
+<!ENTITY def "'def'" >
+<!ENTITY degrees "&#x02DA;" > <!--sjekk-->
+<!ENTITY div "-" >
+<!ENTITY dobslash.alt "//" >
+<!ENTITY dobslash.edoubt "//" >
+<!ENTITY dobslash.sdoubt "//" >
+<!ENTITY downarr "&#x2193;" >
+<!ENTITY eacute "&#x00E9;" >
+<!ENTITY ecirc "&#x00EA;" >
+<!ENTITY egrave "&#x00E8;" >
+<!ENTITY ekv "&#x2261;" >
+<!ENTITY E.exist "&#x2203;" >
+<!ENTITY em "!" >
+<!ENTITY em.ees "!" >
+<!ENTITY em.eis "!" >
+<!ENTITY emsp14 "&#x2005;" >
+<!ENTITY emsp15 "&#x2005;" >
+<!ENTITY emsp18 "&#x2005;" >
+<!ENTITY eps "&#x2208;" >
+<!ENTITY epsilon.sm "&#x03F5;" > <!--sjekk-->
+<!ENTITY equ "&#x003D;" >
+<!ENTITY equ.def "&#x003D;" >
+<!ENTITY es.eis "." >
+<!ENTITY eth "&#x00F0;" >
+<!ENTITY euml "&#x00EB;" >
+<!ENTITY ex "&#x2203;" >
+<!ENTITY F.sm "F" >
+<!ENTITY g.sm "g" >
+<!ENTITY gamma "&#x03B3;" >
+<!-- <!ENTITY hypl "-" >
+<!ENTITY hypp "-" > erstattes med lb-->
+<!ENTITY iacute "&#x00ED;" >
+<!ENTITY icirc "&#x00EE;" >
+<!ENTITY igrave "&#x00EC;" >
+<!ENTITY im "&#x22CE;" >
+<!ENTITY im.sm "&#x00A5;" >
+<!ENTITY iuml "&#x00EF;" >
+<!ENTITY lb "&#x005B;" >
+<!ENTITY lb.alt "&#x005B;" >
+<!ENTITY lcb "&#x007B;" >
+<!ENTITY ldq.sldq "&quot;" >
+<!ENTITY ldquo "&#x201C;">
+<!ENTITY ldquor "&quot;" >
+<!ENTITY leftarr "&#x2190;" >
+<!ENTITY lp "(" >
+<!ENTITY lp.alt "(" >
+<!ENTITY lp.sdoubt "(" >
+<!ENTITY lquo "&#171;">
+<!ENTITY lsq.slsq "&#x2018;" >
+<!ENTITY lsquo "&#x2018;">
+<!ENTITY lsquor "&apos;" >
+<!ENTITY mdash "&#x2014;" >
+<!ENTITY mdash "--" >
+<!ENTITY minus "-" >
+<!ENTITY nbsp "&#x0020;" >
+<!ENTITY ndash "-" >
+<!ENTITY non.neg "non" >
+<!ENTITY notequ "&#x2260;" >
+<!ENTITY ntilde "&#x00F1;" >
+<!ENTITY oacute "&#x00F3;" >
+<!ENTITY obldrarr "&#x2198;" >
+<!ENTITY oblurarr "&#x2197;" >
+<!ENTITY ocirc "&#x00F4;" >
+<!ENTITY ograve "&#x00F2;" >
+<!ENTITY oslash "&#x00F8;" >
+<!ENTITY otilde "&#x00F5;" >
+<!ENTITY ouml "&#x00F6;" >
+<!ENTITY p "&#x002E;" >
+<!ENTITY p.1grp "&#x00B7;" >
+<!ENTITY p.abb "." >
+<!ENTITY p.abbr ".">
+<!ENTITY p.dec "." >
+<!ENTITY p.eis "." >
+<!ENTITY p.es "." >
+<!ENTITY p.ord "&#x002E;" >
+<!ENTITY p.ordinal "&#x002E;" >
+<!ENTITY phigh.dec "&apos;" ><!-- Sjekkes-->
+<!ENTITY pi "&#x03C0;" >
+<!ENTITY plus "+" >
+<!ENTITY plusmin "&#x00B1;" >
+<!ENTITY pm.com "&#x0387;" >
+<!ENTITY pm.con " . " >
+<!ENTITY pmid.con " . " >
+<!ENTITY pmid.dec "." >
+<!ENTITY pow2 "&#x00B2;" >
+<!ENTITY pow3 "&#x00B3;" >
+<!ENTITY prsups. "&#x2283;" >
+<!ENTITY ps "&#x03C8;" >
+<!ENTITY qm "?" >
+<!ENTITY qm.doubt "?" >
+<!ENTITY qm.eis "?" >
+<!ENTITY qm.sm "&#x203D;" >
+<!ENTITY rb "&#x005D;" >
+<!ENTITY rb.alt "&#x005D;" >
+<!ENTITY rcb "&#x007D;" >
+<!ENTITY rdquo "&#x201D;">
+<!ENTITY rdquo "&quot;" >
+<!ENTITY rightarr "&#x2192;" >
+<!ENTITY root "&#x221A;" >
+<!ENTITY rp ")" >
+<!ENTITY rp.alt ")" >
+<!ENTITY rp.edoubt ")" >
+<!ENTITY rquo "&#187;">
+<!ENTITY rsquo "&#x2019;">
+<!ENTITY rsquo "&apos;" >
+<!ENTITY sdash "---" >
+<!ENTITY sdash.pea "---" >
+<!ENTITY sdash.sesec "---" >
+<!ENTITY sect "&#167;" >
+<!ENTITY shyphen "-" >
+<!ENTITY sigma "&#x03C3;" >
+<!ENTITY slash "&#x002F;" >
+<!ENTITY slash.sep "/" >
+<!ENTITY slash.sm "&#x2215;" >
+<!ENTITY sp "&#x2026;" >
+<!ENTITY sp.pea "&#x2026;" >
+<!ENTITY sp.pma "&#x2026;" >
+<!ENTITY sp.psa "&#x2026;" >
+<!ENTITY sp.ses "&#x2026;" >
+<!ENTITY sp.sms "&#x2026;" >
+<!ENTITY sp.sss "&#x2026;" >
+<!ENTITY St.sm "St" >
+<!ENTITY sz "&#x00DF;" >
+<!ENTITY szlig "&#x00DF;" >
+<!ENTITY thorn "&#x00FE;" >
+<!ENTITY tick.sm "&#x221A;" >
+<!ENTITY tilde.neg "~" >
+<!ENTITY uacute "&#x00FA;" >
+<!ENTITY ucirc "&#x00FB;" >
+<!ENTITY udq "&quot;" >
+<!ENTITY udq.eudq "&quot;" >
+<!ENTITY udq.sudq "&quot;" >
+<!ENTITY ugrave "&#x00F9;" >
+<!ENTITY unread "&#x2610;" >
+<!ENTITY uparr "&#x2191;" >
+<!ENTITY usc.lig "_" >
+<!ENTITY usq.eusq "&#x2019;" >
+<!ENTITY usq.susq "&#x2018;" >
+<!ENTITY uuml "&#x00FC;" >
+<!ENTITY V.vel "V" >
+<!ENTITY varph "&#x03D5;" >
+<!ENTITY W.sm "W" >
+<!ENTITY x.sm "x" >
+<!ENTITY x.xmult "&#215;" >
+<!ENTITY yacute "&#x00FD;" >
+<!ENTITY yuml "&#x00FF;" >
+
+

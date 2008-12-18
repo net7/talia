@@ -303,7 +303,7 @@ namespace :discovery do
   end
   
   
-  desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> header=<header_directory> description=<html_description_file> catalog=<catalog_siglum>" 
+  desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> header=<header_directory> descr  iption=<html_description_file> catalog=<catalog_siglum>"
   task :create_critical_edition => :disco_init do
  
     TaliaCore::Book
@@ -417,11 +417,7 @@ namespace :discovery do
     qry.where(:book, N::HYPER.in_catalog, catalog)
     qry.where(:book, N::RDF.type, N::HYPER.Book)
     books = qry.execute
-    books.each do |b|
-      puts b
-    end
-    
-    
+
     progress = ProgressBar.new('Books', books.size)
     
     books.each do |book|
