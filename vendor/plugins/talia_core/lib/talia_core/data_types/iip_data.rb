@@ -21,7 +21,7 @@ module TaliaCore
       
       # Returns the options for the thumbnail
       def thumb_options
-        TaliaCore::CONFIG['thumb_options'] ||= { 'width' => '128', 'height' => '128' }
+        TaliaCore::CONFIG['thumb_options'] ||= { 'width' => '80', 'height' => '120' }
       end
       
       # This is the mime type for the thumbnail - always tiff
@@ -53,7 +53,7 @@ module TaliaCore
         # create name for orginal temp file and destination temp file
         original_file_path, orig_is_temp = prepare_original_file
         will_delete_source = orig_is_temp || @delete_original_file
-        destination_thumbnail_file_path = File.join(Dir.tmpdir, "thumbnail_#{random_tempfile_filename}.jpg")
+        destination_thumbnail_file_path = File.join(Dir.tmpdir, "thumbnail_#{random_tempfile_filename}.gif")
         
         begin # Begin the file creation operation
           self.class.benchmark("Making thumb and pyramid for #{self.id}", Logger::INFO) do
@@ -126,7 +126,7 @@ module TaliaCore
         # execute vips command for create thumbnail
         # TODO: to add options, such as size, we can modify this row
         thumbnail_size = "#{thumb_options['width']}x#{thumb_options['height']}"
-        thumbnail_command = "#{convert_command} \"#{source}\" -resize #{thumbnail_size} \"#{destination}\""
+        thumbnail_command = "#{convert_command} \"#{source}\" -thumbnail \"#{thumbnail_size}>\" -background transparent -gravity center -extent #{thumbnail_size} \"#{destination}\""
         system_result = system(thumbnail_command)
 
         # check if thumbnails file is created
