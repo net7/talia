@@ -68,7 +68,7 @@ flags = CommandLineFlags.flags
 source_dir = flags.input
 destination = flags.output ? File.expand_path(flags.output) : File.join(source_dir, 'iip_staging')
 
-files = Dir["#{source_dir}/*.{jpg,gif,png,tif,jpeg}"] 
+files = Dir["#{source_dir}/*.{jpg,JPG,gif,GIF,png,PNG,tif,TIF,jpeg,JPEG}"]
 
 puts "Will process #{files.size} files."
 
