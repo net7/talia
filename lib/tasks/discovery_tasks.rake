@@ -113,10 +113,9 @@ namespace :discovery do
     row_count = 0
     CSV::Reader.parse(input, ';', "\r") do |row|
       row_count += 1
-      begin
+      if(row.size > 0)
         TaskHelper::media_from_row(row, ENV['thumbnail_directory'])
         print '.'
-      rescue Exception => e
         puts "Error importing row #{row_count}"
         puts row.join(', ')
         raise
