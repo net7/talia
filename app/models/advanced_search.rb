@@ -46,7 +46,7 @@ class AdvancedSearch
     self.size = doc.root.attribute('total').value
 
     # get level 2 group
-    groups = doc.get_elements('/*/*/*/talia:group/talia:entry')
+    groups = doc.get_elements('/talia:result//talia:group/talia:entry')
     # collect result. It create an array of hash {title, url, description}
     @result = groups.collect do |item|
       {:title => item.elements['talia:metadata/talia:standard_title'].text,

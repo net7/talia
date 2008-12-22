@@ -5,16 +5,18 @@
     <%= w.hidden_field_tag('search_type', params[:search_type]) %>
     <%= w.hidden_field_tag('words', params[:words]) %>
     <%= w.hidden_field_tag('operator', params[:operator]) %>
-    <% for mc in params[:mc]  %>
-      <%= w.hidden_field_tag('mc[]', mc) %>
+    <% unless params[:mc_from].nil? %>
+      <% for mc in params[:mc]  %>
+        <%= w.hidden_field_tag('mc[]', mc) %>
+      <% end %>
+      <% for mc_from in params[:mc_from]  %>
+        <%= w.hidden_field_tag('mc_from[]', mc_from) %>
+      <% end %>
+      <% for mc_to in params[:mc_to]  %>
+        <%= w.hidden_field_tag('mc_to[]', mc_to) %>
+      <% end %>
     <% end %>
-    <% for mc_from in params[:mc_from]  %>
-      <%= w.hidden_field_tag('mc_from[]', mc_from) %>
-    <% end %>
-    <% for mc_to in params[:mc_to]  %>
-      <%= w.hidden_field_tag('mc_to[]', mc_to) %>
-    <% end %>
-    
+
     <%= w.hidden_field_tag('mc_single') %>
     <%= w.hidden_field_tag 'advanced_search_submission', 'menu submission' %>
   <% end %>
@@ -30,6 +32,6 @@
 
   </ul>
 
-<% if w.advanced_search %>
+  <% if w.advanced_search %>
   </form>
 <% end %>
