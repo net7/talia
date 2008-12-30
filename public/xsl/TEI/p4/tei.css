@@ -1,40 +1,18 @@
-/* 
-** Copyright 2005 TEI Consortium
-
-$Id: tei.css 4800 2008-09-13 09:50:33Z rahtz $
-
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
- This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
- You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the 
-Free Software Foundation, Inc., 
-59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
-
-/* ODD */
-@import url("odd.css");
+/* tei.css */
 
 /* main layout */
 
 body.simple {
-   color: #000000;
    background-color: #FFFFFF;
+   color: #000000;
    margin: 10pt;
 }
 
 body{
-   color: #000000;
-   background-color: #FFFFFF;
    margin: 0;
    padding:0;
-   font-family: Verdana, Tahoma, Geneva, Arial, Helvetica, sans-serif;
+   background-color: #000066;
+   color: #000000;
 }
 
 body.pagetable {
@@ -53,7 +31,7 @@ body.pagetable {
    position : absolute;
    float: left;
    border-style: solid;
-   border-width: 1px;
+   border-width: 1;
    border-color: red;
 }
 
@@ -61,7 +39,7 @@ body.pagetable {
    background: #FFFFFF;
    color: #333333;
    border-style: solid;
-   border-width: 1px;
+   border-width: 1;
    border-color: #000000;
    margin: 0;
    margin-top: 10px;
@@ -77,7 +55,7 @@ body.pagetable {
    color: #000066;
    background: #FFFFFF;
    border-style: solid;
-   border-width: 1px;
+   border-width: 1;
    border-color: red;
    margin: 0;
    margin-top: 10px;
@@ -93,8 +71,8 @@ body.pagetable {
    margin-right: 10pt;
    padding: 5px;
    background-color: #FFFFFF;
+   position : relative;
    float: left;
-   font-weight:normal;
 }
 
 #rh-col{
@@ -102,22 +80,20 @@ body.pagetable {
    color: #333333;
    margin: 2pt;
    padding: 5px ;
-   float: right;
-   width: 75%;
-   font-weight:normal;
+   left: 17%;
+   width: 81%;
+   position : absolute;
 }
 
 
 /* now the layers of the header */
 
 /* the main title */
-div.stdheader {
-      border-bottom: 1pt solid black;
-}
-
 #hdr{
    width: auto;
    margin: 0;
+   color: #FFFFFF;
+   background-color : #000066;
    background-repeat : no-repeat;
    overflow : inherit;
 }
@@ -126,7 +102,7 @@ div.stdheader {
 #hdr2{
    width: auto;
    color: #000000;
-   font-family: Arial,Helvetica,sans-serif;
+   font-family: arial,sans-serif;
    font-weight: bold;
    background-color : #99CCFF;
    padding-left : 5px;
@@ -144,7 +120,7 @@ div.stdheader {
    padding-bottom : 2px;
    padding-top : 2px;
    padding-right : 5px;
-   font-family: Arial,Helvetica,sans-serif;
+   font-family: arial,sans-serif;
    font-weight : bold;
    font-size: smaller;
 }
@@ -160,10 +136,9 @@ div.stdheader {
 }
 
 /* section headings */
-#hdr h1 { color: red; }
 h1 {
    font-weight: bold;
-   font-size: 2em;
+   font-size: x-larger;
    line-height: 34pt;
 }
 
@@ -177,45 +152,38 @@ h2 {
 h3 {
    font-size: larger;
    line-height: 18pt;
+   color: #C63904
    font-weight: bold;
    font-style: italic;
-   color: #C63904;
 }
 
 
 h1.maintitle {
    margin-left: 100px;
-   font-family: Arial,Helvetica,sans-serif;
-   font-weight: bold;
-   bottom: 5px;
-}
-
-h1.title {
-   margin-left: 100px;
-   font-family: Arial,Helvetica,sans-serif;
+   font-family: arial,sans-serif;
    font-weight: bold;
    bottom: 5px;
 }
 
 h2.institution {
    margin-left: 100px;
-   font-family: Arial,Helvetica,sans-serif;
+   font-family: arial,sans-serif;
 }
 
 h2.department {
    margin-left: 100px;
-   font-family: Arial,Helvetica,sans-serif;
+   font-family: arial,sans-serif;
 }
 
 h2.subtitle {
    margin-left: 100px;
-   font-family: Arial,Helvetica,sans-serif;
+   font-family: arial,sans-serif;
    font-weight: bold;
 }
 
 .footer {
    text-align : center;
-   font-family: Arial,Helvetica,sans-serif; 
+   font-family: arial,sans-serif; 
    font-size : 0.8em;
 }
 
@@ -226,41 +194,38 @@ a.breadcrumb{
    color: #FFFFFF;
    text-decoration: none;
    padding-right : 5px;
-   font-family: Arial,Helvetica,sans-serif;
+   font-family: arial,sans-serif;
    font-weight : bold;
    font-size : 0.8em;
 }
 
 ul.breadcrumb
 {
-   display: inline;
-   font-size: 1.1em;
+	display: inline;
+	font-size: 1.1em;
 }
 
 li.breadcrumb
 {
-   padding-left: 12px;
-   padding-right: 5px;
-   display: inline;
-   color: #000000;
-   background: url(/images/rightarrow.gif);
-   background-repeat: no-repeat;
-   background-position: left;
+	padding-left: 12px;
+	padding-right: 5px;
+	display: inline;
+	color: #000000;
+	background: url(/images/rightarrow.gif);
+	background-repeat: no-repeat;
+	background-position: left;
 }
 li.breadcrumb-first
 {
-   padding-left: 12px;
-   padding-right: 5px;
-   display: inline;
-   color: #000000;
-   background: url(/images/rightarrow.gif);
-   background-repeat: no-repeat;
-   background-position: left;
+	padding-left: 12px;
+	padding-right: 5px;
+	display: inline;
+	color: #000000;
+	background: url(/images/rightarrow.gif);
+	background-repeat: no-repeat;
+	background-position: left;
 }
 
-div.breadcrumb {
-   display: inline;
-}
 
 .skiplinks{
    font-family: arial, sans-serif;
@@ -323,12 +288,12 @@ td.sidetext {
    border-right: 1pt solid #000000;
 }
 td.maintext p {
-   font-family: Arial,Helvetica,sans-serif;
+   font-family: sans-serif;
 }
 
 td.maintext {
    background-color: #FFFFFF;
-   font-family: Arial,Helvetica,sans-serif;
+   font-family: sans-serif;
    color: #000000;
    padding-left: 6pt;
    padding-right: 6pt;
@@ -340,49 +305,39 @@ table.wovenodd td,p.wovenodd {
 
 /* an inner <text>, eg inside a <q> */
 div.innertext {
-   margin: 6pt;
-   border: 1pt solid red;
+	margin: 6pt;
+	border: 1pt solid red;
 }
 /* literal code */
-
-div.cdata{
- white-space: pre;
+pre {
+   background-color: #FFFFCC;
 }
 
-div.pre,pre	{ 
- background-color: #FFFFCC;  
- font-family: monospace ;
- margin: 5px;
+pre.eg {
+   background-color: #DDDDDD;
 }
 
-div.pre_eg,pre.eg {
- margin: 5px;
- padding: 5px;
- font-family: monospace ;
- background-color: #DDDDDD;
- white-space: pre;
-}
 
 
 /* table of contents */
-ul.toc {list-style: none;}
-li.toc {list-style: none;}
+ul.toc {list-style: none; }
+li.toc {list-style: none; }
 
 /* table of contents links */
 
 a.inlinetoc:link,a.inlinetoc:visited
 {
-   color: #7A7A7A;
-   font-size: smaller; 
-   text-decoration: none;
+        color: #7A7A7A;
+        font-size: smaller; 
+        text-decoration: none;
 }
 
 a.inlinetoc-this:visited,a.inlinetoc-this:link
-{   
-   font-size: smaller; 
-   color: #000000;
-   font-weight: bold; 
-   text-decoration: underline;
+{	
+        font-size: smaller; 
+	color: #000000;
+	font-weight: bold; 
+        text-decoration: underline;
 }
 
 a.inlinetoc-sub:visited,a.inlinetoc-sub:link
@@ -394,95 +349,92 @@ a.inlinetoc-sub:visited,a.inlinetoc-sub:link
 }
 
 span.toclist{
-   font-size: smaller; 
-   font-family: Arial,Helvetica,sans-serif;
-   font-weight: bold;
-}
+        font-size: smaller; 
+	font-family: sans-serif;
+	font-weight: bold;
+	}
 
 p.toclist0 {
-   margin-left: 0.5em; 
-   margin-top: 1pt; 
-   margin-bottom: 3pt; 
-   text-indent: -0.5em;
-   font-size: small;    
-}
+	  margin-left: 0.5em; 
+	  margin-top: 1pt; 
+	  margin-bottom: 3pt; 
+	  text-indent: -0.5em;
+          font-size: small;	   
+	}
 
 p.toclist1 {
-   margin-left: 1em; 
-   margin-top: 1pt; 
-   margin-bottom: 2pt; 
-   text-indent: -0.7em;
-   font-size: small;    
-}
+	  margin-left: 1em; 
+	  margin-top: 1pt; 
+	  margin-bottom: 2pt; 
+	  text-indent: -0.7em;
+          font-size: small;	   
+	}
 
 p.toclist2 {
-   margin-left: 1.5em; 
-   text-indent: -1em;
-   font-size: small;    
-}
+	  margin-left: 1.5em; 
+	  text-indent: -1em;
+          font-size: small;	   
+	}
 
 p.toclist3 {
-   margin-left: 2em; 
-   text-indent: -1.5em;
-   font-size: small;    
-}
+	  margin-left: 2em; 
+	  text-indent: -1.5em;
+          font-size: small;	   
+	}
 
 span.toclist-this {
-   color: red;
-}
+		  color: red;
+		  }
 
 a.toclist:visited,a.toclist:link
 {
-   font-weight: bold; 
-   color: #000000;
-   text-decoration: none;
+	font-weight: bold; 
+	color: #000000;
+        text-decoration: none;
 }
 
 
 
 /* notes */
 div.noteHeading {
-   margin-top: 9pt;
-   border: 0;
-   border-top: 1pt;
-   border-style: solid;
-   padding-top: 6pt;
-   font-size: larger;
-   font-weight: bold;
-}
-div.noteBody {
-  display:inline;
-}
+	  margin-top: 9pt;
+	  border: 0;
+	  border-top: 1pt;
+	  border-style: solid;
+	  padding-top: 6pt;
+	  font-size: larger;
+	  font-weight: bold;
+	  }
 
 div.note {
-   margin-left: 1em; 
-   margin-bottom: 2pt; 
-   text-indent: -1em;
+	  margin-left: 1em; 
+	  margin-bottom: 2pt; 
+	  text-indent: -1em;
 }
 
 /* images */
 img.display {
-   margin-top: 10pt;
-   margin-bottom: 10pt;
-   display: block;
+	    margin-top: 10pt;
+	    margin-bottom: 10pt;
+	    display: block;
 }
 p.caption {
-   font-style: italic;
+	  font-style: italic;
 }
 
 .floatimage {
-   float : left;
-   margin-right : 6px;
-   vertical-align : top;
+	float : left;
+	margin-right : 6px;
+	vertical-align : top;
 }
 /* specialized divs */
 div.letter {
-   margin-left: 2em;
-   margin-right: 2em;
-   margin-top: 6pt;
-   margin-bottom: 6pt;
-   border-top: 1pt solid green;
-   border-bottom: 1pt solid green;
+ margin-left: 2em;
+ margin-right: 2em;
+ margin-top: 6pt;
+ margin-bottom: 6pt;
+ border-top: 1pt solid green;
+ border-bottom: 1pt solid green;
 }
 /* title page */
 div.titlePage {
@@ -494,232 +446,108 @@ div.titlePage {
    text-align: center;
 }
 div.docImprint {
-   font-style: italic;    
+	    font-style: italic;		
 }
 div.docDate {
-   font-style: italic;    
+	    font-style: italic;		
 }
 div.docTitle {
-    font-weight: bold;
+	      font-weight: bold;
 }
 div.docAuthor {
-    font-style: italic;
+	      font-style: italic;
 }
 
 div.byline {
 }   
 
 div.dateline{
-   text-align: right;
+	text-align: right;
 }
 /* verse */
 div.lg {
-   margin-left: 10px;
+       margin-left: 10px;
 }
 
-div.centerbold {
-    text-align:center;
-    font-weight: bold;
-}
 div.center {
-    text-align:center;
+	   text-align:center;
 }
 div.right {
-    text-align:right;
+	   text-align:right;
 }
 div.left {
-    text-align:left;
-}
-div.l {
-    text-align:left;
-}
-p.center {
-    text-align:center;
-}
-p.right {
-    text-align:right;
-}
-p.left {
-    text-align:left;
+	   text-align:left;
 }
 div.indent1 {
-   margin-left: 1em;
-}
+	    margin-left: 1em;
+	    }
 div.indent2 {
-   margin-left: 2em;
-}
+	    margin-left: 2em;
+	    }
 div.indent3 {
-   margin-left: 3em;
-}
+	    margin-left: 3em;
+	    }
 div.indent4 {
-   margin-left: 4em;
-}
+	    margin-left: 4em;
+	    }
 div.indent5 {
-   margin-left: 5em;
-}
+	    margin-left: 5em;
+	    }
 div.indent6 {
-   margin-left: 6em;
-}
+	    margin-left: 6em;
+	    }
 /* misc */
 .plain {
    font-weight: bold;
    text-decoration: none;
-   font-family: Arial,Helvetica,sans-serif;
-   color: #C63904;
+   font-family: sans-serif;
+   color: #C63904 
 }
 
 p.box {
-   border: 1pt solid #000000;
+      border: 1pt solid #000000;
 }
 
 .small {
    font-size: small;
 }
 
-td.label {
+span.label {
+	   background-color: white;
+	   color: red;
+	   }
+.label {
    font-weight: bold;
    background-color: #AAAAAA;
 }
+
 tr.label td {
    font-weight: bold;
    background-color: #AAAAAA;
 }
 
-span.label {
-    font-weight: bold;
-}
-
-h5 {    
+h5 {      
    font-size: 100%;
 }
-h6 {    
+h5 {      
+   font-size: 100%;
+}
+h6 {      
    font-size: 100%;
 }
 
 div.tocFront {
-   border-bottom: 1pt solid #000000;
+     bottom-border: 1pt solid #000000;
 }
 div.tocBack {
-   border-bottom: 1pt solid #000000;
+     bottom-border: 1pt solid #000000;
 }
 div.tocBody {
-   border-bottom: 1pt solid #000000;
-}
-/* a listBibl rend='labels' */
-div.listBibl {
-	     margin-top: 6pt;
-	     margin-bottom: 6pt;
-}
-div.bibl {
-   margin-left: 0.5em; 
-   text-indent: -0.5em;
-}
-span.biblLabel {
-	       font-weight: bold;
-	       margin-right: 1em;
+     bottom-border: 1pt solid #000000;
 }
 
-/* a <bibl> inside a <cit> */
-div.citbibl {
-   text-align:right;
-   font-size: smaller;
-}
-/* a <quote> inside a <cit> */
-div.citquote {
-}
+div.schemaFragment {
+		   border: 1pt solid #000000;
+		   margin: 1em;
+		   }
 
-/* gloss lists with bold labels */
-dt {
-   font-weight: bold;
-}
-div.blockquote {
-   margin: 10pt;
-}
-
-/* generic <hi> */
-span.hi {
-   font-weight: bold;
-}
-
-/* from drama */
-span.actor {  
-	   font-style:italic;
-}
-span.camera {
- font-style: italic;
-}
-span.caption {
- font-style: italic;
-}
-span.role {
- font-style: italic;
-}
-span.set {
- font-style: italic;
-}
-span.sound {
- font-style: italic;
-}
-span.stage {
- font-style: italic;
-}
-span.tech {
- font-style: italic;
-}
-span.view {
- font-style: italic;
-}
-span.mentioned {
-   font-style: italic;
-}
-span.nextLink {
-   font-style: italic;
-}
-span.previousLink {
-   font-style: italic;
-}
-span.upLink {
-   font-style: italic;
-}
-p, div.p {
- margin-top: 0.3em;
-}
-/* bibl */
-span.titlem {
-    font-style: italic;
-}
-span.titleu {
-}
-span.titles {
-}
-
-span.margnote {
-             display: block;
-	     font-size: smaller;
-	     clear: right;
-	     padding: 4pt;
-	     font-style: italic;
-	     width: 10%;
-	     float:right; 
-	     border: solid green 1pt; 
-	     margin: 6pt;
-}
-
-div.floatingText_back {
-    border-top: solid black 1pt;
-}
-div.floatingText_front {
-    border-top: solid black 1pt;
-}
-div.floatingText {
-    margin: 6pt;
-    border: solid black 1pt;
-}
-span.pagebreak {
-    background-color: green;
-    font-weight: bold;
-}
-div.pagebreak {
-    display: block;
-    border: solid red 1pt;
-}
