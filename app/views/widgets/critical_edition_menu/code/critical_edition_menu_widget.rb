@@ -21,10 +21,11 @@ class CriticalEditionMenuWidget < Widgeon::Widget
         uri = item.elements['talia:uri'].text.strip
         title = uri.split('/')[-1]
       end
-      title
     else
-      item.dcns::title.first.to_s
+      title = item.dcns::title.first.to_s
+      title = item.uri.local_name.to_s if (title.empty?)
     end
+    title
   end
 
   # Renders the given chapter in it's own element.
