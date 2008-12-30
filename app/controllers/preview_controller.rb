@@ -9,8 +9,8 @@ class PreviewController < ApplicationController
     
     xml = params[:xml]
     hyperedition_type = params[:type]
-    format = params[:format]
-    format = "application/xml+#{format.downcase}"
+    encoding = params[:encoding]
+    encoding = "application/xml+#{encoding.downcase}"
     layer = params[:layer] || 0
     options = params[:options]
     version = params[:version]
@@ -22,8 +22,9 @@ class PreviewController < ApplicationController
       edition = TaliaCore::Transcription.new()
     end
 
-    output = edition.to_html(version, layer, xml, format)
-    render :inline => output
+    @output = edition.to_html(version, layer, xml, encoding)
+    render :layout => false
+      #:inline => output
   end
 
 end

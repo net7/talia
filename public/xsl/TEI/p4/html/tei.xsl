@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"  xmlns:tei="http://www.tei-c.org/ns/1.0" version="1.0">
-<xsl:output method="html"/>
-
+<xsl:output
+ method="html"
+/>
 <!-- 
       
         AC = <div type="div1.aphorism"> |  <head /> | <p /> | <hi rend="bold" />  | <signed /> | <div type="div1-aphorismus" />
@@ -64,12 +65,14 @@
             <head>
 -->
                 <link  rel="stylesheet"  type="text/css" href="/stylesheets/TEI/p4/tei_style.css" />
-<!--            </head>
+<!--
+            </head>
             <body>
 -->
-<!--                <xsl:apply-templates select="tei:TEI" /> -->
-          <xsl:apply-templates select="*" />
-
+<!--
+                <xsl:apply-templates select="tei:TEI" />
+-->
+             <xsl:apply-templates select="*" />
 <!--            </body>
             </html>
 -->
