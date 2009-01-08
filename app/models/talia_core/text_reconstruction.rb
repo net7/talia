@@ -38,15 +38,15 @@ module TaliaCore
             xsl1 = 'public/xsl/hnml/edition_linear.xsl'
             xsl2 = 'public/xsl/hnml/edition_linear_2.xsl'
             mid_xml = perform_transformation(xsl1, @in_xml, transformer_parameters)
-            output = perform_transformation(xsl2, mid_xml, transformer_parameters)
+            output = '<div class="hnml">' + perform_transformation(xsl2, mid_xml, transformer_parameters) + '</div>'
           when 'application/xml+tei', 'application/xml+tei-p4', 'application/xml+tei-p5'
             xsl = 'public/xsl/TEI/p4/html/tei.xsl'
-            output = perform_transformation(xsl, @in_xml)
+            output = '<div class="tei">' + perform_transformation(xsl, @in_xml) + '</div>'
           when 'application/xml+wit_tei'
             xsl = 'public/xsl/WitTEI/wab-transform.xsl'    
             # visning is the parameter for the version in the wab-transform.xsl file        
             transformer_parameters = {'visning' => version}
-            output = perform_transformation(xsl, @in_xml, transformer_parameters)
+            output = '<div class="wittei">' + perform_transformation(xsl, @in_xml, transformer_parameters) + '</div>'
           when 'text/html'
             output = @in_xml
           end
