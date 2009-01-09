@@ -33,6 +33,15 @@ module ApplicationHelper
     return nil unless(element.name)
     t(:"talia.names.#{element.class.name.underscore}.#{element.name.underscore}")
   end
+
+  # Gets the translated name of the given edition
+  def translate_edition_name(edition)
+    assit_kind_of(TaliaCore::Catalog, edition)
+    title = edition.title
+    assit(title)
+    return nil unless(title)
+    t(:"talia.edition.#{title.underscore.downcase}")
+  end
   
   # To include the customization template with the given name
   def load_customization(template, options = {})

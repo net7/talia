@@ -1,3 +1,3 @@
 <li id="<%= edition.uri.local_name %>_li" style="background: url(/images/editions/<%= edition.uri.local_name  %>_button.gif) left center no-repeat;">
-  <%= link_to(edition.title,  "#{prefix_for(edition)}/#{edition.uri.local_name}")  %>
+  <%= link_to(translate_edition_name(edition),  "#{prefix_for(edition)}/#{edition.uri.local_name}")  %>
 </li>
