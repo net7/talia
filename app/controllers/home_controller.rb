@@ -37,7 +37,7 @@ class HomeController < ApplicationController
   private
   
   def allowed_locales
-    %w(en-US de-DE fr-FR it-IT)
+    I18n.locales.values
   end
   
 end
