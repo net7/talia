@@ -19,7 +19,7 @@
         <div id="header">
           <h1><%= edition_page_title %></h1>
           <h2><%= t(:'talia.global.simple_mode') %></h2>
-          <h3><%= @edition.title  %></h3>
+          <h3><%= translate_edition_name(@edition)  %></h3>
           <%= edition_partial :search_box %>
         </div>
         <!--[if !IE]>header<![endif]-->
