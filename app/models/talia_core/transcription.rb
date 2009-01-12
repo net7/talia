@@ -27,8 +27,8 @@ module TaliaCore
       #fills the @in_xml and the @format vars
       prepare_transformation(xml, format)
       # if no version is specified, it takes the first available
-      return '' if available_versions.nil? and version.nil?
-      version = available_versions[0] if version.nil?
+      return '' if available_versions(format).nil? and version.nil?
+      version = available_versions(format)[0] if version.nil?
       output = ''
       unless @in_xml.nil?
         #        begin
