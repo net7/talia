@@ -2,7 +2,11 @@ module TaliaCore
   
   # Refers to a transcription of a Manuscript subpart
   class Transcription < HyperEdition
-    def available_versions
+    def available_versions(format)
+      # this is needed because previews must provide the format, while in normal
+      # operations the format is retrieved from the source (which doesn't exist
+      # in the preview case)
+      @format = self.dcns::format.first if @format.nil?
       case @format
       when 'application/xml+hnml'
         ['linear', 'diplomatic']
@@ -27,43 +31,43 @@ module TaliaCore
       version = available_versions[0] if version.nil?
       output = ''
       unless @in_xml.nil?
-#        begin
-          case @format
-          when 'application/xml+hnml'
-            case version
-            when 'diplomatic'
-              xsl1 = 'transcription_diplomatic.xsl'
-              xsl2 = 'transcription_diplomatic_2.xsl'
-            when 'linear'   
-              xsl1 = 'transcription_linear.xsl'
-              xsl2 = 'transcription_linear_2.xsl'
-            end
-            max_layer = hnml_max_layer
-            middle_output = ''       
-            if max_layer != '' 
-              shown_layer = layer.nil? ? max_layer : layer
-              transformer_parameters = {'layer' => shown_layer}
-            end
-            xsl1 = 'public/xsl/hnml/' + xsl1
-            xsl2 = 'public/xsl/hnml/' + xsl2
-            mid_xml = perform_transformation(xsl1, @in_xml, transformer_parameters)
-            output = '<div class="hnml">' + perform_transformation(xsl2, mid_xml, transformer_parameters) + '</div>'
-          when 'application/xml+tei', 'application/xml+tei-p4', 'application/xml+tei-p5'
-            xsl = 'public/xsl/TEI/p4/html/tei.xsl'
-            output = '<div class="tei">' + perform_transformation(xsl, @in_xml) + '</div>'
-          when 'application/xml+wit_tei'
-            xsl = 'public/xsl/WitTEI/wab-transform.xsl'
-            # visning is the parameter for the version in the wab-transform.xsl file
-            transformer_parameters = {'visning' => version}
-            output = '<div class="wittei">' + perform_transformation(xsl, @in_xml, transformer_parameters) + '<div>'
-          when 'text/html'
-            output = @in_xml
+        #        begin
+        case @format
+        when 'application/xml+hnml'
+          case version
+          when 'diplomatic'
+            xsl1 = 'transcription_diplomatic.xsl'
+            xsl2 = 'transcription_diplomatic_2.xsl'
+          when 'linear'
+            xsl1 = 'transcription_linear.xsl'
+            xsl2 = 'transcription_linear_2.xsl'
           end
-#        rescue #TODO: handle these specific (java) exception:
-#          #   net.sf.saxon.trans.XPathException
-#          #    org.xml.sax.SAXParseException
-#          output = "XML is Broken!"
-#        end
+          max_layer = hnml_max_layer
+          middle_output = ''
+          if max_layer != ''
+            shown_layer = layer.nil? ? max_layer : layer
+            transformer_parameters = {'layer' => shown_layer}
+          end
+          xsl1 = 'public/xsl/hnml/' + xsl1
+          xsl2 = 'public/xsl/hnml/' + xsl2
+          mid_xml = perform_transformation(xsl1, @in_xml, transformer_parameters)
+          output = '<div class="hnml">' + perform_transformation(xsl2, mid_xml, transformer_parameters) + '</div>'
+        when 'application/xml+tei', 'application/xml+tei-p4', 'application/xml+tei-p5'
+          xsl = 'public/xsl/TEI/p4/html/tei.xsl'
+          output = '<div class="tei">' + perform_transformation(xsl, @in_xml) + '</div>'
+        when 'application/xml+wit_tei'
+          xsl = 'public/xsl/WitTEI/wab-transform.xsl'
+          # visning is the parameter for the version in the wab-transform.xsl file
+          transformer_parameters = {'visning' => version}
+          output = '<div class="wittei">' + perform_transformation(xsl, @in_xml, transformer_parameters) + '<div>'
+        when 'text/html'
+          output = @in_xml
+        end
+        #        rescue #TODO: handle these specific (java) exception:
+        #          #   net.sf.saxon.trans.XPathException
+        #          #    org.xml.sax.SAXParseException
+        #          output = "XML is Broken!"
+        #        end
       else
         puts "Warning file was missing: #{infile} calculation will continue"
       end

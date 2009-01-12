@@ -118,6 +118,13 @@ module TaliaCore
       html_data.create_html_version_of(self)
       self.html_data=html_data
     end
+
+    def recreate_html_data!
+      html_data_uri = self.uri.to_s + "_html_data"
+      html_data = TaliaCore::BookHtml.find(html_data_uri)
+      html_data.create_html_version_of(self)
+      html_data.data_records[0].save!
+    end
     
     # Returns the PDF representation of this book
     def pdf

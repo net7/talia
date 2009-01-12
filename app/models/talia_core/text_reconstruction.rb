@@ -2,7 +2,11 @@ module TaliaCore
 
   # Refers to a transcription of a Work subpart
   class TextReconstruction < HyperEdition
-    def available_versions
+    def available_versions(format)
+      # this is needed because previews must provide the format, while in normal
+      # operations the format is retrieved from the source (which doesn't exist
+      # in the preview case)
+      @format = self.dcns::format.first if @format.nil?
       case @format
       when 'application/xml+hnml', 'application/xml+gml'
         ['diplomatic']
