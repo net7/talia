@@ -2,7 +2,7 @@ module TaliaCore
   
   # Refers to a transcription of a Manuscript subpart
   class Transcription < HyperEdition
-    def available_versions(format)
+    def available_versions
       # this is needed because previews must provide the format, while in normal
       # operations the format is retrieved from the source (which doesn't exist
       # in the preview case)
@@ -24,11 +24,12 @@ module TaliaCore
     
     
     def to_html(version=nil, layer=nil, xml=nil, format=nil)
+      @format = format unless format.nil?
       #fills the @in_xml and the @format vars
       prepare_transformation(xml, format)
       # if no version is specified, it takes the first available
-      return '' if available_versions(format).nil? and version.nil?
-      version = available_versions(format)[0] if version.nil?
+      return '' if available_versions.nil? and version.nil?
+      version = available_versions[0] if version.nil?
       output = ''
       unless @in_xml.nil?
         #        begin
