@@ -509,7 +509,7 @@ $ID: requests a particular page
 	  </xsl:if>
 	  <xsl:text> using an XSLT version </xsl:text>
 	  <xsl:value-of select="system-property('xsl:version')"/> stylesheet
-	  based on <xsl:value-of select="$teixslHome"/>tei.xsl
+	  based on <xsl:value-of select="$teixslHome"/>teihtml.xsl
 	  processed using <xsl:value-of select="system-property('xsl:vendor')"/>
 	  on <xsl:call-template name="whatsTheDate"/>
 	</xsl:comment>

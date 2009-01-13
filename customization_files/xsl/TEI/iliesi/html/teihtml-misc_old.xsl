@@ -167,13 +167,13 @@ by Nick Nicholas -->
 	</xsl:call-template>
       </sub>
     </xsl:when>
-      <xsl:when test="$rend='sup'">
+    <xsl:when test="$rend='sup'">
       <sup>
 	<xsl:call-template name="applyRend">
 	  <xsl:with-param name="parms" select="$rest"/>
 	</xsl:call-template>
       </sup>
-   </xsl:when>
+    </xsl:when>
     <xsl:when test="$rend='important'">
       <span class="important">
 	<xsl:call-template name="applyRend">
@@ -438,11 +438,8 @@ by Nick Nicholas -->
   </div>
 </xsl:template>
   <!-- visible page number added
-  by ILIESI-->
-  <xsl:template match="pb[@ed='Pr']">
-  </xsl:template>
+    by ILIESI-->
   <xsl:template match="pb">
-<!--    <br></br>-->
     <b>Pag. <xsl:apply-templates select="@n"/> 
     </b><br/>
   </xsl:template>
@@ -454,7 +451,7 @@ by Nick Nicholas -->
   <xsl:template match="lb">
     <xsl:choose>
       <xsl:when test="@rend='indent'">
-        &#160;&#160;&#160;&#160;&#160;             
+        <br />&#160;&#160;&#160;&#160;&#160;             
         <xsl:apply-templates/>  
       </xsl:when>
       <xsl:when test="@n='seg'">
@@ -563,15 +560,10 @@ by Nick Nicholas -->
   </xsl:variable>
   <a name="{$ident}"></a><xsl:apply-templates/>
 </xsl:template>
-<!--gap for ILIESI-->
-<xsl:template match="div/p/gap">
-  <xsl:apply-templates/>
+
+<xsl:template match="gap">
+  [...]<xsl:apply-templates/>
 </xsl:template>
-  <!--end-->
-  
-  <xsl:template match="gap">
-    [...]<xsl:apply-templates/>
-  </xsl:template>
 
 <xsl:template match="mentioned">
   <xsl:choose>

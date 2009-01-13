@@ -13,8 +13,10 @@
 	<!-- end ILIESI-->
 	
 	<!-- omitted n for doc and text added by ILIESI-->
-	<xsl:template match="div[@type='doc']|div[@type='text']|div[@type='frammento']" > 
-	<xsl:apply-templates />
+	<xsl:template match="div[@type='doc']|div[@type='text']|div[@type='frammento']" >
+		<table width="80%"  border="0" align="center"><tr><td>
+			<xsl:apply-templates />
+		</td></tr></table>
 	</xsl:template>
 	<!-- end ILIESI-->
 	<!-- print id for frammento added by ILIESI-->
@@ -609,7 +611,7 @@
 	<xsl:text>
 	Generated using an XSLT version </xsl:text>
 	<xsl:value-of select="system-property('xsl:version')"/> stylesheet
-	based on <xsl:value-of select="$teixslHome"/>tei.xsl
+	based on <xsl:value-of select="$teixslHome"/>teihtml.xsl
 	processed using: <xsl:value-of select="system-property('xsl:vendor')"/> 
 	<!-- <xsl:call-template name="whatsTheDate"/> -->
       </xsl:comment>

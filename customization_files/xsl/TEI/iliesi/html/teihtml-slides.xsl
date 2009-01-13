@@ -33,7 +33,7 @@ Copyright 1999-2003 Sebastian Rahtz / Text Encoding Initiative Consortium
   xmlns:tei="http://www.tei-c.org/ns/1.0"
   version="1.0"  >
 
-<xsl:import href="tei.xsl"/>
+<xsl:import href="teihtml.xsl"/>
 
 <xsl:output encoding="iso-8859-1" 
 	    method="html" 

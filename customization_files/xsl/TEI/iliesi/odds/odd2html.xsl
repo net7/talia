@@ -38,7 +38,7 @@ Copyright 1999-2005 Sebastian Rahtz / Text Encoding Initiative Consortium
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 
-<xsl:import href="../html/tei.xsl"/>
+<xsl:import href="../html/teihtml.xsl"/>
 <xsl:import href="../html/teihtml-odds.xsl"/>
 <xsl:output method="html"/>
 <xsl:key name="NameToID" match="*" use="@ident"/>

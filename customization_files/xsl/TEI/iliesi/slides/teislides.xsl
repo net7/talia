@@ -3,7 +3,7 @@
                 extension-element-prefixes="xt">
 
 
-<xsl:import href="tei.xsl"/>
+<xsl:import href="teihtml.xsl"/>
 
 <xsl:output method="html" doctype-public="-//W3C//DTD HTML 4.0 Transitional//EN"/>
 <xsl:variable name="NumberHeadings"></xsl:variable>
