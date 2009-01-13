@@ -34,7 +34,12 @@ class AdvancedSearch
     raise "eXist configuration not found." if exist_options.nil?
 
     # execute post to servlet
-    resp = Net::HTTP.post_form_hack URI.parse(URI.join(exist_options['server_url'],"/#{exist_options['community']}/Search").to_s), data
+    uri = URI.parse(URI.join(exist_options['server_url'],"/#{exist_options['community']}/Search").to_s)
+    if !exist_options['server_login'].nil? && !exist_options['server_password'].nil?
+      uri.user = exist_options['exist_login']
+      uri.password = exist_options['exist_password']
+    end
+    resp = Net::HTTP.post_form_hack uri, data
     
     # error check
     raise "#{resp.code}: #{resp.message}" unless resp.kind_of?(Net::HTTPSuccess)
@@ -46,7 +51,7 @@ class AdvancedSearch
     self.size = doc.root.attribute('total').value
 
     # get level 2 group
-    groups = doc.get_elements('/talia:result/talia:group/talia:group/talia:group/talia:entry')
+    groups = doc.get_elements('/talia:result//talia:group/talia:entry')
     # collect result. It create an array of hash {title, url, description}
     @result = groups.collect do |item|
       {:title => item.elements['talia:metadata/talia:standard_title'].text,
@@ -87,7 +92,12 @@ class AdvancedSearch
     raise "eXist configuration not found." if exist_options.nil?
 
     # execute post to servlet
-    resp = Net::HTTP.post_form_hack URI.parse(URI.join(exist_options['server_url'],"/#{exist_options['community']}/Search").to_s), data
+    uri = URI.parse(URI.join(exist_options['server_url'],"/#{exist_options['community']}/Search").to_s)
+    if !exist_options['server_login'].nil? && !exist_options['server_password'].nil?
+      uri.user = exist_options['exist_login']
+      uri.password = exist_options['exist_password']
+    end
+    resp = Net::HTTP.post_form_hack uri, data
 
     # error check
     raise "#{resp.code}: #{resp.message}" unless resp.kind_of?(Net::HTTPSuccess)
