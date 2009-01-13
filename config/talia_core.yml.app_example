@@ -55,8 +55,8 @@ thumb_options:
 exist_options:
   server_url: 'exist server'
   community: 'my community'
-  exist_login: 'exist username'
-  exist_password: 'exist password'
+  server_login: 'server username'
+  server_password: 'server password'
   exist_namespace: 'http://trac.talia.discovery-project.eu/wiki/Exist#'
 
 # Configure the namespaces for use with RDF
