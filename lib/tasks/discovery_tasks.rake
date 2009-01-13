@@ -49,23 +49,19 @@ namespace :discovery do
     FileUtils.rm_rf(iip_dir) if(File.exist?(iip_dir))
   end
   
-  desc "Export given language to csv file. Options language=<iso 639.1 lang code> [file=<filename>] [encoding=MAC]"
+  desc "Export given language to csv file. Options language=<iso 639.1 lang code> [file=<filename>] [encoding=MAC] [separator=;] [linebreak={MAC|WIN}]"
   task :export_language => :disco_init do
-    language = Globalize::Language.find(:first, :conditions => { :iso_639_1 => ENV['language']})
-    unless(language)
-      puts "Language #{ENV['language']} not found."
-      exit 1
-    end
-    
-    encoding = ENV['encoding'] || 'MAC'
-    ic = Iconv.new(encoding, 'UTF-8')
-    
+    language = TaskHelper.language_for(ENV['language'])
+    ic = TaksHelper.iconv_for(ENV['encoding'], 'UTF-8')
+    sep = ENV['separator'] || ';'
+    lbreak = (ENV['linebreak'] == 'WIN') ? "\n" : "\r"
+    filename = ENV['file'] || "#{ENV['language']}_glob.csv"
+
     translations = Globalize::ViewTranslation.find(:all, :conditions => ['language_id = ? AND id > 7068', language.id])
     progress = ProgressBar.new('Exporting', translations.size)
-    filename = ENV['file'] || "#{ENV['language']}_glob.csv"
     
     File.open(filename, 'w') do |io|
-      CSV::Writer.generate(io, ';', "\r") do |csv|
+      CSV::Writer.generate(io, sep, lbreak) do |csv|
         for trans in translations
           text = ic.iconv(trans.text)
           key = ic.iconv(trans.tr_key)
@@ -77,18 +73,16 @@ namespace :discovery do
     progress.finish
   end
   
-  desc "Import the given language from the csv file. Options language=<iso 639.1 lang code> [file=<filename>] [encoding=MAC]"
+  desc "Import the given language from the csv file. Options language=<iso 639.1 lang code> [file=<filename>] [encoding=MAC] [separator=;] [linebreak={MAC|WIN}]"
   task :import_language => :disco_init do
-    language = Globalize::Language.find(:first, :conditions => { :iso_639_1 => ENV['language']})
-    unless(language)
-      puts "Language #{ENV['language']} not found."
-      exit 1
-    end
-    filename = ENV['file'] || "#{ENV['language']}_glob.csv" 
-    encoding = ENV['encoding'] || 'MAC'
-    ic = Iconv.new('UTF-8', encoding)
+    language = TaskHelper.language_for(ENV['language'])
+    ic = TaskHelper.iconv_for('UTF-8', ENV['encoding'])
+    sep = ENV['separator'] || ';'
+    lbreak = (ENV['linebreak'] == 'WIN') ? "\n" : "\r"
+    filename = ENV['file'] || "#{ENV['language']}_glob.csv"
+
     data = File.open(filename) { |io| ic.iconv(io.read) }
-    CSV::Reader.parse(data, ';', "\r") do |row|
+    CSV::Reader.parse(data, sep, lbreak) do |row|
       trans = nil
       unless(trans = (ViewTranslation.find(:first, :conditions => {:tr_key => row[0], :language_id => language.id})))
         trans = ViewTranslation.new

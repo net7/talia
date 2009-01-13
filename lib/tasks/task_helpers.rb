@@ -1,5 +1,6 @@
 require 'cgi'
 require 'fileutils'
+require 'iconv'
 
 class TaskHelper
   
@@ -276,6 +277,23 @@ class TaskHelper
     qry.where(:t, N::RDFS.subClassOf, N::HYPER.Contribution)
     
     qry.execute
+  end
+
+  # Get the language object for the language specified on the command line
+  def self.language_for(language)
+    language = Globalize::Language.find(:first, :conditions => { :iso_639_1 => language})
+    unless(language)
+      puts "Language #{language} not found."
+      exit 1
+    end
+    language
+  end
+
+  # Gets the specified iconv encoding
+  def self.iconv_for(to_enc, from_enc)
+    to_enc ||= 'MAC'
+    from_enc ||= 'MAC'
+    Iconv.new(to_enc, from_enc)
   end
   
 end
