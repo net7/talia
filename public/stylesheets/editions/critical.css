@@ -176,7 +176,7 @@ div.adder a.minus {
 #content.grey {
     background: #f3f3f3;
 }
-/*
+
 div#visore h1 {
     color: #584239;
     font-family: georgia, serif;
@@ -195,20 +195,20 @@ div#visore h2 {
 div#visore h2 span {
     color: #900;
 }
-*/
+
 div#visore.extended h1 {
     font-family: arial, helvetica, sans-serif;
     font-size: 1.4em;
     font-weight: bold;
     color: #000;
 } 
-/*
+
 div#visore p{
     color: #000;
     line-height: 2em;
     padding-bottom: 20px;
 }
-*/
+
 div#visore p.editedby {
     border-bottom: 1px solid #e5e5e5;
     padding-bottom: 20px;

@@ -419,7 +419,7 @@ namespace :discovery do
     progress = ProgressBar.new('Books', books.size)
     
     books.each do |book|
-      book.create_html_data!
+      book.recreate_html_data!
       progress.inc
     end
     progress.finish

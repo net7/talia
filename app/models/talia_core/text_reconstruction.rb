@@ -43,21 +43,23 @@ module TaliaCore
             xsl1 = 'public/xsl/hnml/edition_linear.xsl'
             xsl2 = 'public/xsl/hnml/edition_linear_2.xsl'
             mid_xml = perform_transformation(xsl1, @in_xml, transformer_parameters)
-            output = '<div class="hnml">' + perform_transformation(xsl2, mid_xml, transformer_parameters) + '</div>'
+            output = perform_transformation(xsl2, mid_xml, transformer_parameters)
           when 'application/xml+tei', 'application/xml+tei-p4', 'application/xml+tei-p5'
             xsl = 'public/xsl/TEI/p4/html/tei.xsl'
-            output = '<div class="tei">' + perform_transformation(xsl, @in_xml) + '</div>'
+            output = perform_transformation(xsl, @in_xml)
           when 'application/xml+wit_tei'
             xsl = 'public/xsl/WitTEI/wab-transform.xsl'    
             # visning is the parameter for the version in the wab-transform.xsl file        
             transformer_parameters = {'visning' => version}
-            output = '<div class="wittei">' + perform_transformation(xsl, @in_xml, transformer_parameters) + '</div>'
+            output = perform_transformation(xsl, @in_xml, transformer_parameters)
           when 'text/html'
             output = @in_xml
           end
-        rescue #TODO: handle these specific (java) exception:
+        rescue Exception => e
+          ##TODO: handle these specific (java) exception:
           #   net.sf.saxon.trans.XPathException
           #    org.xml.sax.SAXParseException
+          logger.warn("xml transformation failed with message: " + e.message)
           output = "XML is Broken!"
         end
       else

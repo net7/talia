@@ -25,7 +25,7 @@ module TaliaUtil
         # will correctly change the type and set the default catalog for
         # the element
         TaliaCore::Source.new(N::LOCAL + 'N-IV-1,8').save!
-        base_uri = File.join(File.expand_path(File.dirname(__FILE__)), "import_samples#{File::SEPARATOR}")
+        base_uri = '' #File.join(File.expand_path(File.dirname(__FILE__)), "import_samples#{File::SEPARATOR}")
         list_path = "list.xml"
         sig_path = ""
         
