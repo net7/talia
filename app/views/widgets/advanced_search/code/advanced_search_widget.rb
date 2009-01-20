@@ -85,7 +85,7 @@ class AdvancedSearchWidget < Widgeon::Widget
     else
       remote_function(:with => "'src_line_#{current_size}_field=' + $F('src_line_#{current_size}_field')",
         :url => {:controller => "widgeon", 
-          :action => "callback", 
+          :action => "callback",
           :call_options =>  WidgeonEncoding.encode_options({:javascript => 'retrieve_keyword_content', 
               :current_size => current_size, 
               :widget_class => self.class.widget_name,
@@ -98,27 +98,27 @@ class AdvancedSearchWidget < Widgeon::Widget
     widget_session[:work]
   end
   
-  # return an array of all paragraphs contained in current work.
+  # return an array of all subparts contained in current work.
   # * uri: String. Current work URI.
-  def paragraphs(uri)
+  def subparts(uri)
     # get book from uri
     book = TaliaCore::Source.find(uri)
-    # get book's paragraphs
-    paragraphs = book.subparts_with_manifestations(N::HYPER.HyperEdition, N::HYPER.Paragraph)
+    # get book's subparts
+    subparts = book.subparts_with_manifestations(N::HYPER.HyperEdition)
     
-    # create an array with uri and title for each paragraph
-    unless paragraphs.nil?
-      # get paragraph title
-      paragraphs.collect! do |paragraph| 
+    # create an array with uri and title for each subpart
+    unless subparts.nil?
+      # get subpart title
+      subparts.collect! do |subpart|
         # get title
-        title = paragraph.dcns.title.empty? ? paragraph.uri.local_name : paragraph.dcns.title
+        title = subpart.dcns.title.empty? ? subpart.uri.local_name : subpart.dcns.title
         # create array
-        [paragraph.uri.to_s, title]
+        [subpart.uri.to_s, title]
       end
     end
     
-    # return paragraphs array
-    paragraphs
+    # return subparts array
+    subparts
   end
   
   def keyword
@@ -177,7 +177,7 @@ class AdvancedSearchWidget < Widgeon::Widget
     page.hide 'search_adv'
   end
   
-  # retrieve paragraphs contained in current work
+  # retrieve subparts contained in current work
   callback :retrieve_work_content do |page|
     # check if current_size is present 
     raise(ArgumentError, "Required argument missing") unless(@current_size)
@@ -185,25 +185,25 @@ class AdvancedSearchWidget < Widgeon::Widget
     # get book uri
     book_uri = params["src_line_#{@current_size}_field_1_value"]
 
-    # get paragraphs
-    paragraphs = paragraphs(book_uri)
+    # get subparts
+    subparts = subparts(book_uri)
     
     # replace select field 2
     page.replace "src_line_#{current_size}_mc_from[]", partial(:advanced_search_select, 
       :locals => {:field_name=> 'mc_from[]', 
         :current_size => @current_size,
         :selected_index => :first,
-        :data => paragraphs})
+        :data => subparts})
 
     # replace select field 3
     page.replace "src_line_#{current_size}_mc_to[]", partial(:advanced_search_select, 
       :locals => {:field_name=> 'mc_to[]', 
         :current_size => @current_size, 
         :selected_index => :last,
-        :data => paragraphs})
+        :data => subparts})
   end
   
-  # retrieve paragraphs contained in current work
+  # retrieve subparts contained in current work
   callback :retrieve_keyword_content do |page|
     # check if current_size is present 
     raise(ArgumentError, "Required argument missing") unless(@current_size)

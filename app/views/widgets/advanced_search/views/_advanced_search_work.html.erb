@@ -7,9 +7,9 @@
     %>
     </select>
     <label><%= t(:"talia.search.#{field_2_label}") %></label> 
-    <%= w.partial :advanced_search_select, :locals => {:field_name=> 'mc_from[]', :current_size => current_size, :selected_index => :first, :data => w.paragraphs(w.works.first.uri)} %>
+    <%= w.partial :advanced_search_select, :locals => {:field_name=> 'mc_from[]', :current_size => current_size, :selected_index => :first, :data => w.subparts(w.works.first.uri)} %>
     <label><%= t(:"talia.search.#{field_3_label}") %></label> 
-    <%= w.partial :advanced_search_select, :locals => {:field_name=> 'mc_to[]', :current_size => current_size, :selected_index => :last, :data => w.paragraphs(w.works.first.uri)} %>
+    <%= w.partial :advanced_search_select, :locals => {:field_name=> 'mc_to[]', :current_size => current_size, :selected_index => :last, :data => w.subparts(w.works.first.uri)} %>
   </p>
   <%= w.partial :advanced_search_adder, :locals => {:current_size => current_size, :version=> "default"} %>
 
