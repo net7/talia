@@ -1,0 +1,14 @@
+<h2>Grouped List</h2>
+
+
+<% w.groups do |name, elements| %>
+  <h1 class="accordion_toggle">
+    <%= name.rdf_label %>
+  </h1>
+  <div class="accordion_content">
+    <%= w.partial('source_item', :collection => elements) %>
+    <%= w.more_link(name) %>
+  </div>
+<% end %>
+
+
