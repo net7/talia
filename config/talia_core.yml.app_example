@@ -46,8 +46,8 @@ start_page_editions: [ facsimile, critical, categories, series ]
 
 # Thumbnail size for IIP thumbnails 
 thumb_options:
-    width: '128'
-    height: '128'
+    width: '80'
+    height: '120'
 # The root directory for the IIP-served images
 # iip_root_directory_location: TALIA_ROOT/iip_root
 
