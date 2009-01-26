@@ -14,8 +14,7 @@ module TaliaCore
     
     
     # The card of the expressions of which this is a manifestation
-    def expressions      
-      #      Source.find(:all, :find_through => [N::HYPER.manifestation_of, self])
+    def expressions
       qry = Query.new(TaliaCore::Source).select(:s).distinct
       qry.where(self, N::HYPER.manifestation_of, :s)
       qry.execute
