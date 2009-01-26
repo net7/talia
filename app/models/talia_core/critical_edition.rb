@@ -2,7 +2,7 @@ module TaliaCore
   class CriticalEdition < Catalog
     
     # Prefix for edition URIS
-    EDITION_PREFIX = 'TE'
+    EDITION_PREFIX = 'texts'
     has_rdf_type N::HYPER.CriticalEdition
     
     # returns an array containing a list of all the books of the given type 

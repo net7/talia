@@ -49,15 +49,15 @@ module TaliaCore
               shown_layer = layer.nil? ? max_layer : layer
               transformer_parameters = {'layer' => shown_layer}
             end
-            xsl1 = 'public/xsl/hnml/' + xsl1
-            xsl2 = 'public/xsl/hnml/' + xsl2
+            xsl1 = "#{XSLT_ROOT}/hnml/#{xsl1}"
+            xsl2 = "#{XSLT_ROOT}/hnml/#{xsl2}"
             mid_xml = perform_transformation(xsl1, @in_xml, transformer_parameters)
             output = perform_transformation(xsl2, mid_xml, transformer_parameters)
           when 'application/xml+tei', 'application/xml+tei-p4', 'application/xml+tei-p5'
-            xsl = 'public/xsl/TEI/p4/html/tei.xsl'
+            xsl = "#{XSLT_ROOT}/TEI/p4/html/tei.xsl"
             output = perform_transformation(xsl, @in_xml)
           when 'application/xml+wit_tei'
-            xsl = 'public/xsl/WitTEI/wab-transform.xsl'
+            xsl = "#{XSLT_ROOT}/WitTEI/wab-transform.xsl"
             # visning is the parameter for the version in the wab-transform.xsl file
             transformer_parameters = {'visning' => version}
             output =  perform_transformation(xsl, @in_xml, transformer_parameters)

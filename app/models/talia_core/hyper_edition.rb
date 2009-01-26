@@ -1,5 +1,7 @@
 require 'JXslt/jxslt'
 
+TaliaCore::XSLT_ROOT = "#{RAILS_ROOT}/xslt"
+
 module TaliaCore
   
   # A super-class which has digital transpositions of the text found on a 
@@ -26,7 +28,7 @@ module TaliaCore
     # for HNML documents. It uses a special XSL to get the highest "layer" value
     def hnml_max_layer
       saxon = JXslt::Saxon.new
-      xsl = 'public/xsl/hnml/get_max_layer.xsl'
+      xsl = "#{RAILS_ROOT}/xslt/hnml/get_max_layer.xsl"
       saxon.transform(xsl, @in_xml, nil, options = {:in => "string", :out => "string"})
     end
 
