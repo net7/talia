@@ -9,21 +9,6 @@ module TaliaCore
         TaliaCore::CONFIG['iip_server_uri'] ||= 'http://localhost/fcgi-bin/iipsrv.fcgi'
       end
       
-      # Returns the command that is used for converting images
-      def vips_command
-        TaliaCore::CONFIG['vips_command'] ||= '/opt/local/bin/vips'
-      end
-      
-      # Returns the command that is used for converting thumbnails
-      def convert_command
-        TaliaCore::CONFIG['convert_command'] ||= '/opt/local/bin/convert'
-      end
-      
-      # Returns the options for the thumbnail
-      def thumb_options
-        TaliaCore::CONFIG['thumb_options'] ||= { 'width' => '80', 'height' => '120' }
-      end
-      
       # This is the mime type for the thumbnail - always tiff
       def set_mime_type
         self.mime = 'image/jpeg'
@@ -58,7 +43,7 @@ module TaliaCore
         begin # Begin the file creation operation
           self.class.benchmark("Making thumb and pyramid for #{self.id}", Logger::INFO) do
           
-            create_thumb(original_file_path, destination_thumbnail_file_path)
+            TaliaUtil::ImageConversions::create_thumb(original_file_path, destination_thumbnail_file_path)
             create_pyramid(original_file_path)
         
             # Run the super implementation for the thumbnail
@@ -71,7 +56,7 @@ module TaliaCore
           super
           
         ensure
-          # delete temp files
+          # delete teƒmp files
           File.delete original_file_path if(File.exists?(original_file_path) && will_delete_source)
         end
       end
@@ -120,19 +105,6 @@ module TaliaCore
         end
       end
       
-      
-      # Create the thumbnail by running the configured creation command.
-      def create_thumb(source, destination)
-        # execute vips command for create thumbnail
-        # TODO: to add options, such as size, we can modify this row
-        thumbnail_size = "#{thumb_options['width']}x#{thumb_options['height']}"
-        thumbnail_command = "#{convert_command} \"#{source}\" -thumbnail \"#{thumbnail_size}>\" -background transparent -gravity center -extent #{thumbnail_size} \"#{destination}\""
-        system_result = system(thumbnail_command)
-
-        # check if thumbnails file is created
-        raise(IOError, "Command #{thumbnail_command} failed (#{$?}).") unless (File.exists?(destination) || !system_result)
-      end
-      
       # Prepare for copying or creating the pyramid image
       def prepare_for_pyramid
         # set location
@@ -150,14 +122,8 @@ module TaliaCore
         raise(IOError, "File already exists: #{get_iip_root_file_path}") if(File.exists?(get_iip_root_file_path))
        
         prepare_for_pyramid
-        
-        # execute vips command for create pyramid image
-        # TODO: to add options, such as size, we can modify this row
-        pyramid_command = "#{vips_command} im_vips2tiff \"#{source}\" \"#{get_iip_root_file_path}\":deflate,tile,pyramid"
-        system_result = system(pyramid_command)
 
-        # check if thumbnails file is created
-        raise(IOError, "Command #{pyramid_command} failed (#{$?}).") unless (File.exists?(get_iip_root_file_path) || !system_result)
+        TaliaUtil::ImageConversions::create_pyramid(source, get_iip_root_file_path)
       end
       
       # Return the iip root directory for a specific iip image file
