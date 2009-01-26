@@ -54,7 +54,7 @@ module TaliaUtil
       # command. This automatically creates the file in the correct location
       # (IIP root)
       def create_pyramid(source, destination)
-        pyramid_command = "#{vips_command} im_vips2tiff \"#{source}\" \"#{destination}\":jpeg:75,tile:256x256,pyramid"
+        pyramid_command = "#{vips_command} im_vips2tiff \"#{source}\" \"#{destination}\":jpeg:85,tile:256x256,pyramid"
         execute_command(pyramid_command, destination)
       end
 
