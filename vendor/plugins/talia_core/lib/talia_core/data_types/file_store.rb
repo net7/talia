@@ -88,8 +88,8 @@ module TaliaCore
         return unless(@file_data_to_write)
     
         # check if file already exists
-        raise(RuntimeError, "File already exists: #{file_path}") if(File.exists?(file_path))
-          
+#        raise(RuntimeError, "File already exists: #{file_path}") if(File.exists?(file_path))
+
         begin
           self.class.benchmark("Saving file for #{self.id}") do
             # create data directory path

@@ -1,6 +1,6 @@
 include Java
 module JXslt
-  Dir[File.dirname(__FILE__) + "/*.jar"].each { |jar| require jar }
+  Dir["#{RAILS_ROOT}/lib/saxon*.jar"].each { |jar| require jar }
   include_class "javax.xml.transform.TransformerFactory"
   include_class "javax.xml.transform.Transformer"
   include_class "javax.xml.transform.stream.StreamSource"

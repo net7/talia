@@ -12,9 +12,8 @@ module TaliaCore
       include TempFileHandling
       extend TempFileHandling::ClassMethods
       
-      after_save :save_attachment
-      after_create :write_file_after_save # TODO: Is this really only for create operations
-   
+      after_save :save_attachment, :write_file_after_save
+      
       before_destroy :destroy_attachment
       
       # Returns and, if necessary, creates the file for "delayed" copy operations
