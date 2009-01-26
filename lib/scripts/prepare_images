@@ -65,7 +65,7 @@ def create_original(source, destination, force = false)
     system_success = system("cp #{from_file} #{to_file}")
     raise(IOError, "copy error #{from_file} #{to_file}") unless system_success
   else
-    destination = File.basenmae(destination, File.extname(destination))
+    destination = File.join(File.dirname(destination), File.basename(destination, File.extname(destination)))
     TaliaUtil::ImageConversions.to_png(source, destination)
   end
 end

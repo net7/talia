@@ -459,7 +459,7 @@ module TaliaUtil
         pyramid_file = File.join(import_options[:prepared_images], 'pyramids', "#{file_base}.tif")
         orig_file_l = Dir[File.join(import_options[:prepared_images], 'originals', "#{file_base}.*")]
         raise(ArgumentError('Original find not found for ' + url)) unless(orig_file_l.size > 0)
-        orig_file = orig_file.first
+        orig_file = orig_file_l.first
         assit_block { %w(.jpg .jpeg .png).include?(File.extname(orig_file).downcase) }
         
         iip_record.create_from_existing(thumb_file, pyramid_file)
