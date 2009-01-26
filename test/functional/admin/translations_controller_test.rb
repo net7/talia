@@ -11,7 +11,7 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
     login_as :admin
     get :edit, :id => locale
     assert_response :success
-    assert_layout :application
+    assert_layout :admin
     
     assert_select "#languages_picker", /^Pick a language:/
     assert_select "#languages_picker", /Add a translation/

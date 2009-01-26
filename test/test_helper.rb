@@ -3,35 +3,16 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 require 'talia_util/test_helpers'
 
+module I18n
+  mattr_writer :configuration, :locales
+end
+
 class Test::Unit::TestCase
-  # RoleRequirementTestHelper must be included to test RoleRequirement
+  include AuthenticatedTestHelper
   include RoleRequirementTestHelper
-  
-  # Transactional fixtures accelerate your tests by wrapping each test method
-  # in a transaction that's rolled back on completion.  This ensures that the
-  # test database remains unchanged so your fixtures don't have to be reloaded
-  # between every test method.  Fewer database queries means faster tests.
-  #
-  # Read Mike Clark's excellent walkthrough at
-  #   http://clarkware.com/cgi/blosxom/2005/10/24#Rails10FastTesting
-  #
-  # Every Active Record database supports transactions except MyISAM tables
-  # in MySQL.  Turn off transactional fixtures in this case; however, if you
-  # don't care one way or the other, switching from MyISAM to InnoDB tables
-  # is recommended.
+
   self.use_transactional_fixtures = true
-
-  # Instantiated fixtures are slow, but give you @david where otherwise you
-  # would need people(:david).  If you don't want to migrate your existing
-  # test cases which use the @david style and don't mind the speed hit (each
-  # instantiated fixtures translates to a database query per test method),
-  # then set this back to true.
   self.use_instantiated_fixtures  = false
-
-  # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
-  #
-  # Note: You'll currently still have to declare fixtures explicitly in integration tests
-  # -- they do not yet inherit this setting
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
@@ -40,6 +21,38 @@ class Test::Unit::TestCase
     expected = @response.layout.gsub(/layouts\//, '') if @response.layout
     assert_equal expected.to_s, actual.to_s, message
   end
+
+  # Assert the given message is displayed by flash.now
+  # When using flash.now[:blah] the flash will usually be directly rendered
+  # in your view, after which rails clears the flash.now flashes.
+  # This means you can’t test them in your functional controller tests by going (say)
+  # 
+  # http://wiki.rubyonrails.org/rails/pages/HowToTestFlash.Now
+  def assert_flash(status, message)
+    assert_select "#flash_#{status}", message
+  end
+
+  # Assert the given message is displayed by flash.now[:error]
+  def assert_flash_error(message)
+    assert_flash :error, message
+  end
+
+  # Assert the given message is displayed by flash.now[:notice]
+  def assert_flash_notice(message)
+    assert_flash :notice, message
+  end
+
+  private
+    def i18n_setup
+      I18n.configuration = File.join(RAILS_ROOT, 'test', 'fixtures', 'locales')
+      I18n.locales = nil
+    end
+    
+    def i18n_teardown
+      File.atomic_write(I18n.configuration, "./") do |file|
+        file.write({:english => 'en-GB'}.to_yaml)
+      end
+    end
 end
 
 def uses_mocha(description)
