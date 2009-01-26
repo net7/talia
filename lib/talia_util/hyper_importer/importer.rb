@@ -385,26 +385,23 @@ module TaliaUtil
               # extension for that at the moment - not the file_content_type
               file_ext = File.extname(file_name).downcase
               mime_type = process_content_type(file_content_type, file_ext)
-              data_obj = if(%w(.xml .hnml .tei .html .htm).include?(file_ext))
-                TaliaCore::DataTypes::XmlData.new
+              data_records = if(%w(.xml .hnml .tei .html .htm).include?(file_ext))
+                load_from_data_url!(:XmlData, file_name, file_url)
               elsif(%w(.jpg .gif .jpeg .png .tif).include?(file_ext))
-                TaliaCore::DataTypes::IipData.new
+                load_image_from_url!(file_name, file_url)
               elsif(%w(.txt).include?(file_ext))
-                TaliaCore::DataTypes::SimpleText.new
+                load_from_data_url!(:SimpleText, file_name, file_url)
               elsif(%w(.pdf).include?(file_ext))
-                TaliaCore::DataTypes::PdfData.new
+                load_from_data_url!(:PdfData, file_name, file_url)
               end
             
               # Check if we really got a data object, otherwise bail out
-              unless(data_obj)
+              unless(data_records && (data_records.size > 0))
                 assit_fail("Got unknown file extension: #{file_ext}, aborting import")
                 return
               end
             
-              # Now that we have the data object, we try to fill it with the data
-              # from the URL
-              load_from_data_url!(data_obj, file_name, file_url)
-              @source.data_records << data_obj
+              data_records.each { |data| @source.data_records << data }
               quick_add_predicate(@source, N::DCNS::format, mime_type)
             rescue Exception => e
               assit_fail("Exeption importing file #{file_name}: #{e}\n#{e.backtrace.join("\n")}\n")
@@ -451,53 +448,133 @@ module TaliaUtil
       # Returns true if (and only if) the object has been created with existing
       # data. Always fals if the data_record is not an IipData object or the
       # :prepared_images option is not set.
-      def prepare_data_from_existing!(data_record, url)
-        return false unless(data_record.is_a?(TaliaCore::DataTypes::IipData))
+      def prepare_image_from_existing!(iip_record, image_record, url, location)
+        return false unless(iip_record.is_a?(TaliaCore::DataTypes::IipData) && image_record.is_a?(TaliaCore::DataTypes::ImageData))
         return false unless(import_options && import_options[:prepared_images])
         
+        file_ext = File.extname(url)
+        file_base = File.basename(url, file_ext)
+
         thumb_file = File.join(import_options[:prepared_images], 'thumbs', File.basename(url))
-        pyramid_file = File.join(import_options[:prepared_images], 'pyramids', "#{File.basename(url, File.extname(url))}.tif")
+        pyramid_file = File.join(import_options[:prepared_images], 'pyramids', "#{file_base}.tif")
+        orig_file_l = Dir[File.join(import_options[:prepared_images], 'originals', "#{file_base}.*")]
+        raise(ArgumentError('Original find not found for ' + url)) unless(orig_file_l.size > 0)
+        orig_file = orig_file.first
+        assit_block { %w(.jpg .jpeg .png).include?(File.extname(orig_file).downcase) }
         
-        data_record.create_from_existing(thumb_file, pyramid_file)
+        iip_record.create_from_existing(thumb_file, pyramid_file)
+        image_record.create_from_existing(location, orig_file)
+
         true
       end
-      
+
+      # Opens the "original" image for the given url. This will convert the
+      # image to PNG image and the yield the io object for the PNG.
+      def open_original_image_for(url)
+        unconverted_file = url
+        converted_file = File.join(Dir.tmpdir, "talia_convert_#{rand 10E16}")
+        clean_unconverted = false # Indicates if the unconverted file must be deleted
+
+        # Check if we need to download the unconverted file
+        if(!File.exists?(url))
+          # First load this from the web to a temp file
+          tempfile = File.join(Dir.tmpdir, "talia_down_#{rand 10E16}#{File.extname(url)}")
+          open_from_url(url) do |io|
+            File.open(tempfile) do |fio|
+              fio << io.read # Download the file
+            end
+            url = unconverted_file
+            clean_unconverted = true
+          end
+        end
+
+        TaliaCore::ImageConversions.to_png(unconverted_file, converted_file)
+        File.open(converted_file) do |io|
+          yield(io)
+        end
+
+        FileUtils.rm(converted_file)
+        FileUtils.rm(unconverted_file) if(clean_unconverted)
+      end
+
+      # Loads an image for the given URL. This is a tad more complex than loading
+      # the data into a data record: It will create both an IIP data object and
+      # an Image data object. The image data record will contain the original
+      # image file. If the original image is not a JPEG or PNG file, it will be
+      # converted to PNG. (This is to always have an original image that can
+      # be converted to PDF).
+      def load_image_from_url!(location, url)
+        iip_record = TaliaCore::DataTypes::IipData.new
+        image_record = TaliaCore::DataTypes::ImageData.new
+        records = [iip_record, image_record]
+        return records if(prepare_image_from_existing!(iip_record, image_record, url, location))
+
+        is_file = File.exists?(url)
+        ext = File.extname(url).downcase
+        if(%w(.jpeg .jpg .png).include?(ext)) # The image doesn't need conversion
+          if(is_file)
+            iip_record.create_from_file(location, url)
+            image_record.create_from_file(location, url)
+          else
+            open_from_url(url) do |io|
+              data = io.read # Cache the data to use it with both records
+              iip_record.create_from_data(location, data)
+              iip_record.create_from_data(location, data)
+            end
+          end
+        else
+          # We have an image that needs to be converted
+          open_original_image_for(url) do |io|
+            data = io.read # Cache the data to use it with both records
+            iip_record.create_from_data(location, data)
+            iip_record.create_from_data(location, data)
+          end
+        end
+
+        return records
+      end
+
+      # Opens the given (web) URL, using URL encoding and necessary substitutions.
+      # The user must pass a block which will receive the io object from
+      # the url
+      def open_from_url(url)
+        url = URI.encode(url)
+        url.gsub!(/\[/, '%5B') # URI class doesn't like unescaped brackets
+        url.gsub!(/\]/, '%5D')
+        open_args = [ url ]
+        open_args << @credentials if(@credentials)
+
+        begin
+          open(*open_args) do |io|
+            yield(io)
+          end
+        rescue Exception => e
+          raise(IOError, "Error loading #{url} for #{@source.uri} (when file: #{url}, open_args: [#{open_args.join(', ')}]) #{e}")
+        end
+      end
+
       # Loads a data file from the given URL. This passes creates the given
       # record from the data at the given URL, using the given location string
       # on the data record.
-      def load_from_data_url!(data_record, location, url)
-        result = nil
-        
-        return if(prepare_data_from_existing!(data_record, url))
+      def load_from_data_url!(record_type, location, url)
+        data_record = TaliaCore::DataTypes.const_get(record_type).new
         
         # Let's first try if the url is a real file. In this case, we can
         # save ourselves a lot of heavy lifting.
         if(File.exist?(url))
-          result = data_record.create_from_file(location, url)
+          data_record.create_from_file(location, url)
         else
-          # This means we're loading from the web - so we need to cache the
-          # results
-          url = URI.encode(url)
-          url.gsub!(/\[/, '%5B') # URI class doesn't like unescaped brackets
-          url.gsub!(/\]/, '%5D')
-          open_args = [ url ]
-          open_args << @credentials if(@credentials)
-          
-          begin
-            open(*open_args) do |io|
-              result = data_record.create_from_data(location, io) 
-            end
-          rescue Exception => e
-            raise(IOError, "Error loading #{url} for #{@source.uri} (when file: #{File.expand_path(url)}, open_args: [#{open_args.join(', ')}]) #{e}")
+          open_from_url(url) do |io|
+            data_record.create_from_data(location, io) 
           end
         end
         
-        result
+        [ data_record ]
       end
       
       # Adds a relation to another source from the Source that is imported.
       # If the related Source does not yet exist it will be created. This
-      # means that a relation <tt>origin -[relation]-> destination</tt> is 
+      # means that a relation <tt>origin -[relation]-> destination</tt> is
       # created.
       #
       # All parameters should be URI objects or URI strings.
@@ -545,10 +622,10 @@ module TaliaUtil
         namespace = namespace.to_s.upcase
         unless(N.const_defined?(namespace))
           raise(RuntimeError, "ATTENTION: Namespace #{namespace} must be defined for the import to work.")
-        end   
+        end
       end
       
-      # Helper to indicate that the importer is for a primary source type. 
+      # Helper to indicate that the importer is for a primary source type.
       # This can be used in the importer subclass to "tag" the importer
       # as a primary source importer.
       #
@@ -574,7 +651,7 @@ module TaliaUtil
         RAILS_DEFAULT_LOGGER
       end
       
-      # Removes all characters that are illegal in IRIs, so that the 
+      # Removes all characters that are illegal in IRIs, so that the
       # URIs can be imported
       def irify(uri)
         N::URI.new(uri.to_s.gsub( /[{}|\\^`\s]/, '+'))
@@ -600,6 +677,5 @@ module TaliaUtil
       end
       
     end
-    
   end
 end

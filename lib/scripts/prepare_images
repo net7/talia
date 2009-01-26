@@ -1,8 +1,14 @@
 #!/usr/bin/env ruby
 
+# Image conversion tools and options
+VIPS_COMMAND='/opt/local/bin/vips'
+CONVERT_COMMAND='/opt/local/bin/convert'
+THUMB_OPTIONS = { 'width' => '80', 'height' => '120' }
+
 $: << File.join(File.dirname(__FILE__), '..', '..', 'vendor', 'plugins', 'talia_core', 'lib')
 require 'fileutils'
 require 'progressbar'
+require File.join('talia_util', 'image_conversions')
 
 begin
   require 'optiflag'
@@ -31,22 +37,10 @@ module CommandLineFlags extend OptiFlagSet
   and_process!
 end
 
-
-# Prepares the image files for the IIP server
-VIPS_COMMAND='/opt/local/bin/vips'
-CONVERT_COMMAND='/opt/local/bin/convert'
-THUMB_SIZE = '128x128'
-
 # Create the thumbnail by running the configured creation command.
 def create_thumb(source, destination, force = false)
   return if(File.exists?(destination) && !force)
-  # execute vips command for create thumbnail
-  # TODO: to add options, such as size, we can modify this row
-  thumbnail_command = "#{CONVERT_COMMAND} #{source} -resize #{THUMB_SIZE} #{destination}"
-  system_result = system(thumbnail_command)
-
-  # check if thumbnails file is created
-  puts "Error for #{source}: Command #{CONVERT_COMMAND} failed (#{$?})." unless (File.exists?(destination) || !system_result)
+  TaliaUtil::ImageConversions.create_thumb(source, destination)
 end
       
 # Creates the pyramid image for IIP by running the configured system
@@ -54,13 +48,26 @@ end
 # (IIP root)
 def create_pyramid(source, destination, force = false)
   return if(File.exists?(destination) && !force)
-  # execute vips command for create pyramid image
-  # TODO: to add options, such as size, we can modify this row
-  pyramid_command = "#{VIPS_COMMAND} im_vips2tiff #{source} #{destination}:deflate,tile,pyramid"
-  system_result = system(pyramid_command)
+  TaliaUtil::ImageConversions.create_pyramid(source, destination)
+end
 
-  # check if thumbnails file is created
-  puts "Error for #{source}: Command #{VIPS_COMMAND} failed (#{$?})." unless (File.exists?(destination) || !system_result)
+# Creates the original image file. If the source file is already a JPG or PNG
+# file, the original is just copied. Otherwise it will be converted into a
+# PNG file.
+def create_original(source, destination, force = false)
+  return if(File.exists?(destination) && !force)
+  ext = File.extname(source).downcase
+  if((ext == '.jpg') || (ext == '.jpeg') || (ext == '.png'))
+    # Call the copy as an external command. This is to work around the
+    # crashes that occurred using the builtin copy
+    from_file = File.expand_path(source)
+    to_file = File.expand_path(destination)
+    system_success = system("cp #{from_file} #{to_file}")
+    raise(IOError, "copy error #{from_file} #{to_file}") unless system_success
+  else
+    destination = File.basenmae(destination, File.extname(destination))
+    TaliaUtil::ImageConversions.to_png(source, destination)
+  end
 end
 
 flags = CommandLineFlags.flags
@@ -77,11 +84,13 @@ progress = ProgressBar.new('Processing', files.size)
 FileUtils.mkdir_p(destination) 
 FileUtils.mkdir_p(File.join(destination, 'pyramids'))
 FileUtils.mkdir_p(File.join(destination, 'thumbs'))
+FileUtils.mkdir_p(File.join(destination, 'originals'))
 
 
 files.each do |file|
   create_thumb(file, File.join(destination, 'thumbs', File.basename(file)), flags.force)
   create_pyramid(file, File.join(destination, 'pyramids', "#{File.basename(file, File.extname(file))}.tif"), flags.force)
+  create_original(file, File.join(destination, 'originals', File.basename(file)), flags.force)
   progress.inc
 end
 

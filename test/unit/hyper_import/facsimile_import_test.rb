@@ -75,9 +75,21 @@ module TaliaUtil
     
     # Test if the data file was imported
     def test_data
-      assert_equal(1, @src.data_records.size)
-      assert_kind_of(TaliaCore::DataTypes::IipData, @src.data_records[0])
-      assert_equal('N-V-4,97.jpeg', @src.data_records[0].location)
+      assert_equal(2, @src.data_records.size)
+    end
+
+    def test_iip_record
+      iip_recs = @src.data_records.find(:all, :conditions => { :type => 'IipData' })
+      assert_equal(1, iip_recs.size)
+      assert_kind_of(TaliaCore::DataTypes::IipData, iip_recs[0])
+      assert_equal('N-V-4,97.jpeg', iip_recs[0].location)
+    end
+
+    def test_image_record
+      image_recs = @src.data_records.find(:all, :conditions => { :type => 'ImageData' })
+      assert_equal(1, image_recs.size)
+      assert_kind_of(TaliaCore::DataTypes::ImageData, image_recs[0])
+      assert_equal('N-V-4,97.jpeg', image_recs[0].location)
     end
    
     def test_manifestation_of
