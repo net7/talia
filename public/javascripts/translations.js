@@ -6,6 +6,7 @@ var TranslationFetcher = Class.create({
     this.tableRows.shift(); // remove the row contains th
     // I didn't used #observe because it was double firing #loadTranslations
     this.selectElement.onchange = this.loadTranslations.bindAsEventListener(this);
+    if(autoloadReferenceTranslations) {this.loadTranslations()}; // if autoload enabled
   },
 
   loadTranslations: function(){

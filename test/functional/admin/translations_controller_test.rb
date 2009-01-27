@@ -26,6 +26,29 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
     end
   end
   
+  # TODO move this case in a integration test.
+  def test_translations_autoload
+    login_as :admin
+    reference_locale = 'it-IT'
+    
+    # Case 1: visit /admin/translations
+    get :index
+    assert_redirected_to edit_admin_translation_path(Locale.active.code)
+    assert_nil session[:reference_locale]
+    assert_false assigns(:autoload)
+    
+    # Case 2: manually load reference translations
+    get :search, { :locale => reference_locale, :key1 => "hello" }
+    assert_response :success
+    assert_equal reference_locale, session[:reference_locale]
+
+    # Case 3: go to next page and get reference translations autoloaded
+    get :edit, { :id => Locale.active.code, :page => 2 }
+    assert_response :success
+    assert_equal reference_locale, session[:reference_locale]
+    assert assigns(:autoload)
+  end
+  
   def test_should_update_translations
     login_as :admin
     put :update, params

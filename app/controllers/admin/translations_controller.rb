@@ -12,19 +12,21 @@ class Admin::TranslationsController < ApplicationController
   def search
     keys = params.map {|key, value| value if key.to_s =~ /key/}.compact
     translations = ViewTranslation.find_by_locale_and_tr_key(params[:locale], keys)
+    session[:reference_locale] = params[:locale]
     
     respond_to do |format|
       format.js { render :layout => false, :inline => translations.to_json }
     end
   end
 
-  # GET /admin/translations/edit/en-US
+  # GET /admin/translations/en-US/edit
   def edit
     @translations = ViewTranslation.find_by_locale(params[:id], params[:page], PER_PAGE)
     @locale_code = params[:id]
+    @autoload = load_reference_translations?
   end
 
-  # PUT /admin/translations/update/en-US
+  # PUT /admin/translations/en-US
   def update
     if ViewTranslation.create_or_update(params[:translations], params[:id])
       flash[:notice] = 'Your translations has been saved'
@@ -48,4 +50,9 @@ class Admin::TranslationsController < ApplicationController
       format.js
     end
   end
+  
+  private
+    def load_reference_translations?
+      !!session[:reference_locale] && session[:reference_locale] != params[:locale]
+    end
 end

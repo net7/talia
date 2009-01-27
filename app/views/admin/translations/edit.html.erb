@@ -1,4 +1,5 @@
 <%= languages_picker %>
+<% autoload_reference_translations %>
 <% javascript :translations %>
 
 <% form_tag(admin_translation_path(@locale_code), :method => :put) do -%>
