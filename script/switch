@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+#
+# Utility script for switch configuration files for different platforms.
+#
+# Prepare two template files for:
+#   - database.yml
+#   - rdfstore.yml
+#   - talia_core.yml
+#
+# Each template should end with .ruby and .jruby.
+#   Example:
+#     database.yml.ruby and database.yml.jruby
+#
+# Fill those templates with respective configurations
+#
+# $ ./script/switch       # => switch to default platform: JRuby
+# $ ./script/switch ruby  # => switch to Ruby (MRI)
+# $ ./script/switch jruby # => switch to JRuby
+
+require 'fileutils'
+
+DEFAULT_PLATFORM = 'jruby'.freeze
+CONFIG_FILES = %w( database.yml rdfstore.yml talia_core.yml ).freeze
+
+platform = if !ARGV[0].nil?
+  ARGV[0] if /^(ruby|jruby)$/i.match ARGV[0]
+else
+  DEFAULT_PLATFORM
+end
+
+exit(1) if platform.nil?
+puts "Switching to #{platform.upcase}.."
+
+CONFIG_FILES.each do |file|
+  puts file
+  file = File.join('config', file)
+  FileUtils.cp "#{file}.#{platform}", file
+end
