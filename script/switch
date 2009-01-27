@@ -22,13 +22,7 @@ require 'fileutils'
 DEFAULT_PLATFORM = 'jruby'.freeze
 CONFIG_FILES = %w( database.yml rdfstore.yml talia_core.yml ).freeze
 
-platform = if !ARGV[0].nil?
-  ARGV[0] if /^(ruby|jruby)$/i.match ARGV[0]
-else
-  DEFAULT_PLATFORM
-end
-
-exit(1) if platform.nil?
+platform = !ARGV[0].nil? && /^(ruby|jruby)$/i.match(ARGV[0]) ? ARGV[0] : DEFAULT_PLATFORM
 puts "Switching to #{platform.upcase}.."
 
 CONFIG_FILES.each do |file|
