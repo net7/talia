@@ -1,4 +1,4 @@
-include Java
+include Java if jruby?
 module JXslt
   Dir["#{RAILS_ROOT}/lib/saxon*.jar"].each { |jar| require jar }
   include_class "javax.xml.transform.TransformerFactory"
@@ -51,4 +51,4 @@ module JXslt
     @tf = TransformerFactory.newInstance
   end
 end
-end
+end if jruby?
