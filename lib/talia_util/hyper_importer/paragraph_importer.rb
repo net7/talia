@@ -9,7 +9,7 @@ module TaliaUtil
       
       def import!
         import_nodes
-        clone_to_catalog()
+#        clone_to_catalog()
       end
       
       # Imports the notes into the source

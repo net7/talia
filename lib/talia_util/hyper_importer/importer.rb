@@ -270,6 +270,18 @@ module TaliaUtil
       # on save!
       def get_or_create_source(source_uri, klass, save_new = true)
         set_class = (klass != nil) # this indicates if the class must be reset on an existing object
+        foo = klass.new('foo') unless klass.nil?
+        if foo.is_a?(TaliaCore::ExpressionCard)
+          catalog = get_catalog()
+          if catalog.nil?
+            base_uri = N::LOCAL
+          else
+            base_uri = catalog.uri.to_s + "/"
+          end
+          source_name = source_uri.local_name.to_s
+          source_uri = irify(base_uri + source_name)
+        end
+
         klass ||= TaliaCore::Source
         raise(ArgumentError, "This must have a klass as parameter: #{source_uri}") unless(klass.is_a?(Class))
         src = SourceCache.cache[source_uri]
@@ -289,11 +301,18 @@ module TaliaUtil
             # Update the cache with the changed source!
             SourceCache.cache[source_uri] = src
             src.autosave_rdf = false
-            src.catalog = TaliaCore::Catalog.default_catalog if(src.is_a?(TaliaCore::ExpressionCard))
           end
         else
           src = klass.new(source_uri)
           src.primary_source = primary_source? if(src.is_a?(TaliaCore::Source))
+          if src.is_a?(TaliaCore::ExpressionCard)
+            catalog = get_catalog()
+            if catalog.nil?
+              src.catalog = TaliaCore::Catalog.default_catalog
+            else
+              src.catalog = catalog
+            end
+          end
           src.autosave_rdf = false
           src.save! if(save_new)
           # Add the new source to the cache
@@ -348,8 +367,8 @@ module TaliaUtil
         Importer.type_cache_retrieve(N::URI.make_uri(value, ':', N::HYPER))
       end
 
-      # Add the types by using the type map and the type configured in the 
-      # importer. 
+      # Add the types by using the type map and the type configured in the
+      # importer.
       def import_types!
         types = @source.types
         if(self.class.get_source_type)

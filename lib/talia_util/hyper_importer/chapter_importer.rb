@@ -12,7 +12,7 @@ module TaliaUtil
         add_property_from(@element_xml, 'name')
         add_rel_from(@element_xml, 'book')
         add_rel_from(@element_xml, 'first_page')
-        clone_to_catalog()
+#        clone_to_catalog()
       end
       
       private

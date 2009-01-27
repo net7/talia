@@ -15,7 +15,7 @@ module TaliaUtil
         add_property_from(@element_xml, 'publisher')
         add_property_from(@element_xml, 'publishingPlace')
         add_property_from(@element_xml, 'ordering')
-        clone_to_catalog()
+#        clone_to_catalog()
       end
       
       private

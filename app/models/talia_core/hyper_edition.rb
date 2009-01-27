@@ -1,7 +1,8 @@
 require 'JXslt/jxslt'
 
-TaliaCore::XSLT_ROOT = "#{RAILS_ROOT}/xslt"
-
+TaliaCore::XSLT_ROOT = "#{RAILS_ROOT}/public/xslt"
+# when deploying in Tomcat, the content of the public directory is copied outside the RAILS_ROOT
+TaliaCore::XSLT_ROOT = "#{RAILS_ROOT}/../xslt" unless File.exists?(TaliaCore::XSLT_ROOT)
 module TaliaCore
   
   # A super-class which has digital transpositions of the text found on a 
