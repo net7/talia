@@ -50,7 +50,7 @@ module TaliaUtil
         import_doc.root.elements.each("siglum") do |siglum|
           progress.inc
           begin
-            sig_uri = base_uri + sig_request + URI.escape(siglum.text.strip) + file_ext
+            sig_uri = base_uri + sig_request + siglum.text.strip + file_ext
             TaliaUtil::HyperImporter::Importer.import(REXML::Document.new(read_from(sig_uri)), options)
           rescue Exception => e
             $stderr.puts("Error when importing #{sig_uri}: #{e}\nBacktrace: #{e.backtrace.join("\n")}")
@@ -71,7 +71,7 @@ module TaliaUtil
         # The "file://" type is not natively recognized. If it's there, we
         # strip it to get the real file name
         uri.gsub!(/^\s*file:\/\//, '') if(uri.kind_of?(String))
-        
+
         uri_plus_opts = [ uri ] # parameters for the open method
         if(@user || @password)
           uri_plus_opts << { :http_basic_authentication => [@user, @password] } if uri.match('http://')
