@@ -47,7 +47,7 @@ class FacsimileEditionsController < SimpleEditionController
     respond_to do |format|
       format.html do
         @book = TaliaCore::Book.find(URI::decode(request.url))
-        @type = @book.type.uri.local_name
+        @type = @book.material_type.local_name
         @path = [
           {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"},
           {:text => t_type, :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@type}"},
@@ -93,7 +93,7 @@ class FacsimileEditionsController < SimpleEditionController
         qry.where(@page, N::DCT.isPartOf, :b)
         result=qry.execute
         @book = result[0]
-        @type = @book.type.uri.local_name
+        @type = @book.material_type.local_name
         @path = page_path
         @page_title_suff = ", #{params[:page].t}"
         @page_title_suff += "- #{params[:page2].t}" if(params[:page2])

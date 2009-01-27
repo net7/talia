@@ -53,8 +53,8 @@ module TaliaCore
     end
 
     # returns the RDF.type of this book (e.g. Manuscript, Work, etc.)
-    def type 
-      qry = Query.new(TaliaCore::Source).select(:type).distinct
+    def material_type
+      qry = Query.new(N::SourceClass).select(:type).distinct
       qry.where(:self, N::RDF.type, :subtype)
       qry.where(:subtype, N::RDFS.subClassOf, :type)
       qry.where(:type, N::RDFS.subClassOf, N::HYPER.Material)
@@ -62,8 +62,8 @@ module TaliaCore
     end
   
     # returns the subClass of the RDF.type of this book (e.g. Copybook, Notebook, etc.) 
-    def subtype 
-      qry = Query.new(TaliaCore::Source).select(:subtype).distinct
+    def material_subtype
+      qry = Query.new(N::SourceClass).select(:subtype).distinct
       qry.where(:self, N::RDF.type, :subtype)
       qry.where(:subtype, N::RDFS.subClassOf, :type)
       qry.where(:type, N::RDFS.subClassOf, N::HYPER.Material)
