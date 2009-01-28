@@ -6,26 +6,24 @@ class SimpleModePathWidget < Widgeon::Widget
   def on_init    
   end
   
-
-  def breadcrumbs 
-    # It creates the html of the "navigation path" in the header of the pages
-    result = ''
-    # @path_elements is an array of hashes, containing all the "steps" in the 
-    # navigation path
-    @path_elements.each do |element|
-      result << ' &gt; '
-      url = element[:link]
-      text = element[:text]
-      if url.nil?
-        # if link data are not passed, only the text, with no links, is displayed
-        result << text
-      else
-        # if link data are passed, also a link is created
-        #        result << link_to(text, element)       
-        result << "<a href='#{url}'>#{text}</a>"
-      end
+  # It creates the html of the "navigation path" in the header of the pages
+  def breadcrumbs
+    returning html = separator do
+      html << @path_elements.map do |element|
+        url = element[:link]
+        text = element[:text]
+        unless url.blank?
+          url = "/#{url}" unless /^\//.match(url) || /^http/.match(url)
+          %(<a href="#{url}" title="#{text}">#{text}</a>)
+        else
+          text
+        end
+      end * separator
     end
-    result
   end
 
+  protected
+    def separator
+      ' &gt; '
+    end
 end
