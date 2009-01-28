@@ -236,8 +236,8 @@ module TaliaCore
             # crashes that occurred using the builtin copy
             from_file = File.expand_path(original)
             to_file = File.expand_path(target)
-            system_success = system("cp #{from_file} #{to_file}")
-            raise(IOError, "copy error #{from_file} #{to_file}") unless system_success
+            system_success = system("cp '#{from_file}' '#{to_file}'")
+            raise(IOError, "copy error '#{from_file}' '#{to_file}'") unless system_success
           end
         end
       end
