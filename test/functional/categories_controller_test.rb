@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class CategoriesControllerTest < ActionController::TestCase
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  def test_index_should_redirect_to_root_url
+    get :index
+    assert_redirected_to root_url
   end
 end

@@ -1,6 +1,11 @@
 class CategoriesController < ApplicationController
 
   layout 'simple_page'
+
+  # GET /categories
+  def index
+    redirect_to root_url
+  end
   
   def show
     cat_uri = N::LOCAL + request.request_uri[1..-1]
