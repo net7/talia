@@ -1,24 +1,25 @@
 # AssetsPackager
 #
 # List all the files you want to be included in all.js and all.css
-# Make sure of include javascripts frameworks first.
+# Make sure of include javascript frameworks first.
 #
 # For a detailed explanation:
 #   - http://lucaguidi.com/pages/assets_packager
 #   - http://github.com/jodosha/assets_packager
 --- 
 css: 
+- main
+- home
+- backend
 - advanced_search
 - auto_complete
-- backend
 - click_to_globalize
-- home
-- main
 - plain_shared
 - widgeon
 js:
 - prototype
 - scriptaculous
+- controls
 - lowpro
 - force_identify
 - application
