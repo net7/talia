@@ -33,8 +33,9 @@ Globalize::ViewTranslation.class_eval do
   def self.extract_translations_to_create(translations, locale)
     language_id = Locale.new(locale).language.id
     result = translations.inject([]) do |result, translation|
-      if translation['id'].blank?
+      if translation['id'].blank? && !translation['text'].blank?
         translation['language_id'] = language_id
+        translation['pluralization_index'] = 1
         result << translation
       end
       # clear the viewtranslations cache
@@ -58,7 +59,7 @@ Globalize::ViewTranslation.class_eval do
   #                  { "tr_key" => "rabbit", "text" => "Rabbit" } ] ]
   def self.extract_translations_to_update(translations)
     result = translations.inject({}) do |result, translation|
-      unless translation['id'].blank?
+      unless translation['id'].blank? || translation['text'].blank?
         id = translation.delete('id')
         result[id] = translation
       end
