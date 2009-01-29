@@ -21,6 +21,15 @@ class LanguagesControllerTest < ActionController::TestCase
     assert_layout nil
   end
   
+  # Make sure no exception is raised if an user manually change the language
+  # visiting /languages/it-IT/change
+  def test_should_always_set_referer
+    assert_nothing_raised ActionController::RedirectBackError do
+      get :change, :id => 'it-IT'
+      assert_redirected_to root_url
+    end
+  end
+  
   private
     def prepare_test
       # For some strange reason #setup isn't called.
