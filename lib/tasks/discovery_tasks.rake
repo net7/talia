@@ -459,7 +459,16 @@ namespace :discovery do
     end
     
   end
-  
+
+ desc "Deploy the application. Option: vhost_dir=<root dir of virtual host>"
+ task :deploy_war do
+    raise(ArgumentError, "Must give vhost_dir option") unless(ENV['vhost_dir'])
+    system('rake assets:package')
+    system('warble war:clean')
+    system('warble')
+    war_name = File.basename(File.expand_path(File.dirname(__FILE__))) + '.war'
+    system("cp #{war_name} #{vhost_dir}/ROOT.war")
+ end
   namespace :pdf do
     desc "Prepare the environment for PDF tasks"
     task :prepare => [ 'disco_init', 'talia_core:talia_init' ] do
