@@ -8,6 +8,15 @@ Globalize::ViewTranslation.class_eval do
     self.paginate_by_language_id(locale.language.id, :page => page, :per_page => per_page)
   end
   
+  # Update the translations with given id, otherwise create a new translation.
+  def self.create_or_update(translations, locale)
+    transaction do
+      self.create extract_translations_to_create(translations, locale)
+      keys, values = extract_translations_to_update(translations)
+      self.update keys, values
+    end
+  end
+
   def self.find_by_locale_and_tr_key(locale, tr_keys)
     locale = Locale.new(locale)
     result = self.find(:all, :select => "tr_key, text",
@@ -17,27 +26,20 @@ Globalize::ViewTranslation.class_eval do
       memo
     end
   end
-  
-  # Update the translations with given id, otherwise create a new translation.
-  def self.create_or_update(translations, locale)
-    transaction do
-      self.create extract_translations_to_create(translations, locale)
-      keys, values = extract_translations_to_update(translations)
-      self.update keys, values
-    end
-  end
-  
+
   # Extract and normalize translations to pass them to <tt>ActiveRecord#create</tt>.
   # It select translations without an id and inject the <tt>language_id</tt>
   # for the given <tt>Locale</tt>.
   def self.extract_translations_to_create(translations, locale)
     language_id = Locale.new(locale).language.id
     result = translations.inject([]) do |result, translation|
-      if translation['id'].blank?
+      if translation['id'].blank? && !translation['text'].blank?
         translation['language_id'] = language_id
         translation['pluralization_index'] = 1
         result << translation
       end
+      # clear the viewtranslations cache
+      Locale.translator.cache_reset
       result
     end
   end
@@ -57,7 +59,7 @@ Globalize::ViewTranslation.class_eval do
   #                  { "tr_key" => "rabbit", "text" => "Rabbit" } ] ]
   def self.extract_translations_to_update(translations)
     result = translations.inject({}) do |result, translation|
-      unless translation['id'].blank?
+      unless translation['id'].blank? || translation['text'].blank?
         id = translation.delete('id')
         result[id] = translation
       end
