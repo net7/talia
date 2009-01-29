@@ -1,6 +1,6 @@
 class LanguagesController < ApplicationController
   layout nil
-  before_filter :normalize_referer, :only => :change
+  before_filter :normalize_http_referer, :only => :change
 
   # GET /languages/en-US/change
   def change
@@ -10,7 +10,7 @@ class LanguagesController < ApplicationController
   end
   
   private
-    def normalize_referer
+    def normalize_http_referer
       request.env["HTTP_REFERER"] ||= root_url
     end
 end
