@@ -24,6 +24,10 @@ module SimpleEditionHelper
   def edition_javascript_include
     javascript_include_tag edition_include_name
   end
+
+  def tool_text(tool)
+    t(:"talia.tools.#{tool[:text].strip.underscore}")
+  end
   
   def edition_style_link
     links = ''

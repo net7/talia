@@ -54,7 +54,7 @@ class FacsimileEditionsController < SimpleEditionController
           {:text => params[:book] + " (#{t(:'talia.facsimile_edition.panorama')})"}
         ]
         print_tool # Enable the print button
-        @page_title_suff = ", #{params[:book].t}"
+        @page_title_suff = ", #{params[:book]}"
       end
       format.jpeg do
         book_uri = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:book]
@@ -95,8 +95,8 @@ class FacsimileEditionsController < SimpleEditionController
         @book = result[0]
         @type = @book.material_type.local_name
         @path = page_path
-        @page_title_suff = ", #{params[:page].t}"
-        @page_title_suff += "- #{params[:page2].t}" if(params[:page2])
+        @page_title_suff = ", #{params[:page]}"
+        @page_title_suff += "- #{params[:page2]}" if(params[:page2])
         print_tool # Enable the print button
       end
       format.jpeg do
