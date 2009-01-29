@@ -47,8 +47,17 @@ namespace :discovery do
     iip_dir = TaliaCore::CONFIG['iip_root_directory_location']
     FileUtils.rm_rf(data_dir) if(File.exist?(data_dir))
     FileUtils.rm_rf(iip_dir) if(File.exist?(iip_dir))
+    ontology_folder = ENV['ontology_folder'] || File.join(RAILS_ROOT, 'ontologies')
+    TaskHelper::setup_ontologies(ontology_folder)
   end
-  
+
+  desc "Update the Ontologies. Options ontologies=<ontology_folder>"
+  task :setup_ontologies => :disco_init do
+    ontology_folder = ENV['ontology_folder'] || File.join(RAILS_ROOT, 'ontologies')
+    TaskHelper::setup_ontologies(ontology_folder)
+  end
+
+
   desc "Export given language to csv file. Options language=<iso 639.1 lang code> [file=<filename>] [encoding=MAC] [separator=;] [linebreak={MAC|WIN}]"
   task :export_language => :disco_init do
     language = TaskHelper.language_for(ENV['language'])
@@ -460,15 +469,15 @@ namespace :discovery do
     
   end
 
- desc "Deploy the application. Option: vhost_dir=<root dir of virtual host>"
- task :deploy_war do
+  desc "Deploy the application. Option: vhost_dir=<root dir of virtual host>"
+  task :deploy_war do
     raise(ArgumentError, "Must give vhost_dir option") unless(ENV['vhost_dir'])
     system('rake assets:package')
     system('warble war:clean')
     system('warble')
     war_name = File.basename(File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))) + '.war'
-    system("cp -v #{war_name} #{ENV['vhost_dir']}/ROOT.war")
- end
+    system("cp -v #{war_name} #{File.join(ENV['vhost_dir'], ROOT.war)}")
+  end
   namespace :pdf do
     desc "Prepare the environment for PDF tasks"
     task :prepare => [ 'disco_init', 'talia_core:talia_init' ] do

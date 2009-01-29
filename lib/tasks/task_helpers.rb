@@ -297,6 +297,15 @@ class TaskHelper
       Iconv.new(to_enc, from_enc)
     end
 
+    # Set up the ontologies from the given folder
+    def setup_ontologies(ontology_folder)
+      puts "Ontologies loaded from: #{ontology_folder}"
+      files = Dir[File.join(ontology_folder, '*.{rdf*,owl}')]
+      ENV['rdf_syntax'] ||= 'rdfxml'
+      RdfImport::import(ENV['rdf_syntax'], files)
+      RdfUpdate::owl_to_rdfs
+    end
+
     # This will create a pdf for the given representation. The representation
     # is supposed to be a TaliaCore::Manifestation, which has one Image data
     # element attached. (If there is more than one, an image will be selected
