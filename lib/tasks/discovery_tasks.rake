@@ -466,7 +466,7 @@ namespace :discovery do
     system('rake assets:package')
     system('warble war:clean')
     system('warble')
-    war_name = File.basename(File.expand_path(File.dirname(__FILE__))) + '.war'
+    war_name = File.basename(File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))) + '.war'
     system("cp -v #{war_name} #{ENV['vhost_dir']}/ROOT.war")
  end
   namespace :pdf do
