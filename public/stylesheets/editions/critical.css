@@ -203,8 +203,18 @@ div#visore.extended h1 {
     color: #000;
 } 
 
+/*
 div#visore p{
     color: #000;
+    font-size: 1.2em;
+    line-height: 2em;
+    padding-bottom: 20px;
+}
+*/
+
+div#visore{
+    color: #000;
+    font-size: 1.2em;
     line-height: 2em;
     padding-bottom: 20px;
 }
