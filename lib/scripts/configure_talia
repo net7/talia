@@ -180,6 +180,13 @@ puts "Now migrating the databases"
   puts "Migrated #{env}"
 end
 
+puts "Installing the asset config"
+system('cp config/assets.yml.example config/assets.yml')
+
+puts "Importing ontologies"
+system('rake talia_core:rdf_import files=ontologies/*.owl rdf_syntax=rdfxml')
+system('rake talia_core:owl_to_rdfs_update')
+
 print "Importing language files..."
 Dir[File.join(rails_dir, 'languages', '*_glob.csv')].each do |lang_file|
   language = File.basename(lang_file)[0..1] # first two chars are the lang code
