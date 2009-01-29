@@ -1,3 +1,10 @@
+Element.addMethods({
+	getText: function(element){
+		element = $(element);
+		return ((element.firstChild && element.firstChild.nodeValue) ? element.firstChild.nodeValue : '').strip();
+	}
+});
+
 var TranslationFetcher = Class.create({
   initialize: function(selectId, tableId){
     this.url = "/admin/translations/search";
@@ -11,7 +18,7 @@ var TranslationFetcher = Class.create({
 
   loadTranslations: function(){
     keys = this.tableRows.map(function(row, i){
-      key = row.select("td:nth-child(1) input").first().value;
+      key = row.select("td:nth-child(1) label").first().getText();
       return "key"+i+"="+encodeURIComponent(key);
     }).join('&');
     locale = encodeURIComponent(this.selectElement.value);
@@ -26,7 +33,7 @@ var TranslationFetcher = Class.create({
   updateTableWithTranslations: function(translations){
     $$('.reference_translation').each(function(element){element.remove();});
     this.tableRows.each(function(row){
-      key = row.select("td:nth-child(1) input").first().value;
+      key = row.select("td:nth-child(1) label").first().getText();
       translation = translations.get(key);
       tr = document.createElement('tr');
       tr.addClassName('reference_translation');
