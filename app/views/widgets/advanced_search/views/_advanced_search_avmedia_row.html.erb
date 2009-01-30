@@ -8,11 +8,11 @@
       result =  w.tag_avmedia_select field_type
       result << case field_type
       when :title_words
-        w.tag_avmedia_title_words field_value
+        w.tag_avmedia_title_words current_size, field_value
       when :abstract_words
-        w.tag_avmedia_abstract_words field_value
+        w.tag_avmedia_abstract_words current_size, field_value
       when :keywords
-        w.tag_avmedia_keywords field_value
+        w.tag_avmedia_keywords current_size, field_value
       end
       result
     end %>
