@@ -482,7 +482,7 @@ namespace :discovery do
     system('svn update')
     if(update_p4)
       puts "Restoring p4 dir"
-      sytem("mv '#{p4_back}' '#{p4_path}'")
+      system("mv '#{p4_back}' '#{p4_path}'")
     end
   end
 
