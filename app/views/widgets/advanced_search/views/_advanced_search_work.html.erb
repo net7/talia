@@ -1,15 +1,8 @@
 <div id="<%= "src_line_#{current_size}" %>" name="src_line" class="src_line">	
-  <p><label><%= t(:"talia.search.#{field_1_label}") %></label> 
-    <select id="<%= "src_line_#{current_size}_field_1" %>" onchange="<%= w.onchange_link(current_size) %>" name="mc[]" >
-      <%= w.works.collect do |item|
-        "<option value=#{item.uri}>#{item.title}</option>"
-      end
-    %>
-    </select>
-    <label><%= t(:"talia.search.#{field_2_label}") %></label> 
-    <%= w.partial :advanced_search_select, :locals => {:field_name=> 'mc_from[]', :current_size => current_size, :selected_index => :first, :data => w.subparts(w.works.first.uri)} %>
-    <label><%= t(:"talia.search.#{field_3_label}") %></label> 
-    <%= w.partial :advanced_search_select, :locals => {:field_name=> 'mc_to[]', :current_size => current_size, :selected_index => :last, :data => w.subparts(w.works.first.uri)} %>
+  <p>
+    <%= w.tag_work %>
+    <%= w.tag_aphorisms %>
+    <%= w.tag_through %>
   </p>
   <%= w.partial :advanced_search_adder, :locals => {:current_size => current_size, :version=> "default"} %>
 
