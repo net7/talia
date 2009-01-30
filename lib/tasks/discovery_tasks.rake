@@ -471,7 +471,7 @@ namespace :discovery do
 
   desc "Update from svn. Includes a quick hack to handle the public/xslt/p4 dir"
   task :update_app do
-    xslt_path = File.join(TaskHelper::root_path, 'public', 'xslt')
+    xslt_path = File.join(TaskHelper::root_path, 'public', 'xslt', 'TEI')
     p4_path = File.join(xslt_path, 'p4')
     p4_back = File.join(xslt_path, 'p4.UPDATING')
     update_p4 = (File.exist?(p4_path) && !(File.exist?(File.join(p4_path, '.svn'))))
