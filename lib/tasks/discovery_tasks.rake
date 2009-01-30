@@ -493,7 +493,7 @@ namespace :discovery do
     system('warble war:clean')
     system('warble')
     war_name = File.basename(TaskHelper::root_path) + '.war'
-    system("cp -v #{war_name} #{File.join(ENV['vhost_dir'], ROOT.war)}")
+    system("cp -v #{war_name} #{File.join(ENV['vhost_dir'], 'ROOT.war')}")
   end
 
   desc "Update from svn and deploy the WAR file. Options = vhost_dir=<virtual host dir>"
