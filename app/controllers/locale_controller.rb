@@ -1,5 +1,6 @@
 class LocaleController < ApplicationController
   before_filter :check_globalize, :clear_cache
+  before_filter :normalize_key, :only => [ :translate, :translate_unformatted ]
   
   def set
     Locale.set(params[:id]) if params[:id]
@@ -47,5 +48,10 @@ class LocaleController < ApplicationController
       when :markdown  then 'markdown( @formatted_value )'
       else                 '@formatted_value'
     end
+  end
+  
+  # Normalize the translation key, according to Globalize keys handling.
+  def normalize_key
+    params[:key] = params[:key].gsub('_', ' ') unless params[:key].blank?
   end
 end
