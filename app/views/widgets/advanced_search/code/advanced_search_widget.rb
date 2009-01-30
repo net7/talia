@@ -222,33 +222,33 @@ class AdvancedSearchWidget < Widgeon::Widget
   end
 
   # return an input tag for avmedia title words
-  def tag_avmedia_title_words(value=nil)
+  def tag_avmedia_title_words(current_size=widget_session[:current_size], value=nil)
     if !is_avmedia_search
       raise("Tag supported only in avmedia search")
     else
-      tag_string = "<input type=\"text\" name=\"title_words[]\" id=\"#{"src_line_#{widget_session[:current_size]}_field_value"}\" value=\"#{value}\" />"
+      tag_string = "<input type=\"text\" name=\"title_words[]\" id=\"#{"src_line_#{current_size}_field_value"}\" value=\"#{value}\" />"
 
       return tag_string
     end
   end
 
   # return an input tag for avmedia abstract words
-  def tag_avmedia_abstract_words(value=nil)
+  def tag_avmedia_abstract_words(current_size=widget_session[:current_size], value=nil)
     if !is_avmedia_search
       raise("Tag supported only in avmedia search")
     else
-      tag_string = "<input type=\"text\" name=\"abstract_words[]\" id=\"src_line_#{widget_session[:current_size]}_field_value\" value=\"#{value}\" />"
+      tag_string = "<input type=\"text\" name=\"abstract_words[]\" id=\"src_line_#{current_size}_field_value\" value=\"#{value}\" />"
 
       return tag_string
     end
   end
 
   # return an input tag for avmedia keywords
-  def tag_avmedia_keywords(value=nil)
+  def tag_avmedia_keywords(current_size=widget_session[:current_size], value=nil)
     if !is_avmedia_search
       raise("Tag supported only in avmedia search")
     else
-      tag_string = "<select name=\"keywords[]\" id=\"src_line_#{widget_session[:current_size]}_field_value\">"
+      tag_string = "<select name=\"keywords[]\" id=\"src_line_#{current_size}_field_value\">"
       keyword.each do |item|
         tag_string << "<option #{"selected" if item == value} value='#{item}'>#{item}</option>"
       end
@@ -420,11 +420,11 @@ class AdvancedSearchWidget < Widgeon::Widget
     new_object = ""
     case params["src_line_#{@current_size}_field"]
     when "title"
-      new_object << tag_avmedia_title_words
+      new_object << tag_avmedia_title_words(@current_size)
     when "abstract"
-      new_object << tag_avmedia_abstract_words
+      new_object << tag_avmedia_abstract_words(@current_size)
     when "keyword"
-      new_object << tag_avmedia_keywords
+      new_object << tag_avmedia_keywords(@current_size)
     end
 
     # replace field
