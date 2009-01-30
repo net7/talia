@@ -306,6 +306,11 @@ class TaskHelper
       RdfUpdate::owl_to_rdfs
     end
 
+    # "Manually" get the root path
+    def root_path
+      File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
+    end
+
     # This will create a pdf for the given representation. The representation
     # is supposed to be a TaliaCore::Manifestation, which has one Image data
     # element attached. (If there is more than one, an image will be selected

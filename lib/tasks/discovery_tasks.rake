@@ -469,15 +469,33 @@ namespace :discovery do
     
   end
 
+  desc "Update from svn. Includes a quick hack to handle the public/xslt/p4 dir"
+  task :update_app do
+    xslt_path = File.join(TaskHelper::root_path, 'public', 'xslt')
+    p4_path = File.join(xslt_path, 'p4')
+    p4_back = File.join(xslt_path, 'p4.UPDATING')
+    update_p4 = (File.exist?(p4_path) && !(File.exist?(File.join(p4_path, '.svn'))))
+    puts "Backing up p4 dir" if(update_p4)
+    FileUtils::mv(p4_path, p4_back) if(update_p4)
+    system('svn update')
+    puts "Restoring p4 dir" if(update_p4)
+    FileUtils::mv(p4_back, p4_path) if(update_p4)
+  end
+
   desc "Deploy the application. Option: vhost_dir=<root dir of virtual host>"
   task :deploy_war do
     raise(ArgumentError, "Must give vhost_dir option") unless(ENV['vhost_dir'])
     system('rake assets:package')
     system('warble war:clean')
     system('warble')
-    war_name = File.basename(File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))) + '.war'
+    war_name = File.basename(TaskHelper::root_path) + '.war'
     system("cp -v #{war_name} #{File.join(ENV['vhost_dir'], ROOT.war)}")
   end
+
+  desc "Update from svn and deploy the WAR file. Options = vhost_dir=<virtual host dir>"
+  task :up_and_away => ['update_app', 'deploy_war']
+
+
   namespace :pdf do
     desc "Prepare the environment for PDF tasks"
     task :prepare => [ 'disco_init', 'talia_core:talia_init' ] do
