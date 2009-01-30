@@ -477,6 +477,7 @@ namespace :discovery do
     update_p4 = (File.exist?(p4_path) && !(File.exist?(File.join(p4_path, '.svn'))))
     if(update_p4)
       puts "Backing up p4 dir"
+      raise(IOError, "Backup p4 dir already exists") if(File.exists?(p4_back))
       FileUtils::mv(p4_path, p4_back)
     end
     system('svn update')
