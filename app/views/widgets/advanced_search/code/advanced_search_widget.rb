@@ -179,11 +179,11 @@ class AdvancedSearchWidget < Widgeon::Widget
   end
 
   # return a generic select tag with an element selected
-  def tag_search_select(field_name, selected_value, data = nil)
+  def tag_search_select(field_name, selected_value, current_size = widget_session[:current_size], data = nil)
     if is_avmedia_search
       raise("Tag not supported in avmedia search")
     else
-      tag_string = "<select name='#{field_name}' id='#{"src_line_#{widget_session[:current_size]}_#{field_name}"}' >"
+      tag_string = "<select name='#{field_name}' id='#{"src_line_#{current_size}_#{field_name}"}' >"
 
       unless data.nil?
         data.each_with_index do |item,index|
@@ -359,7 +359,6 @@ class AdvancedSearchWidget < Widgeon::Widget
     page.insert_html :before,
       'src_line_tail',
       self.add_work_line
-
   end
 
   # callback for plus button for AvMedia
@@ -389,10 +388,10 @@ class AdvancedSearchWidget < Widgeon::Widget
   # retrieve subparts contained in current work
   callback :retrieve_work_content do |page|
     # check if current_size is present
-    raise(ArgumentError, "Required argument missing") unless(@current_size)
+    raise(ArgumentError, "Required argument missing") unless(current_size)
 
     # get book uri
-    book_uri = params["src_line_#{@current_size}_field_1_value"]
+    book_uri = params["src_line_#{current_size}_field_1_value"]
 
     # get subparts
     subparts = subparts(book_uri)
@@ -401,14 +400,14 @@ class AdvancedSearchWidget < Widgeon::Widget
     page.replace "src_line_#{current_size}_mc_from[]", partial(:advanced_search_select,
       :locals => {:field_name=> 'mc_from[]',
         :current_size => @current_size,
-        :selected_index => :first,
+        :selected_value => :first,
         :data => subparts})
 
     # replace select field 3
     page.replace "src_line_#{current_size}_mc_to[]", partial(:advanced_search_select,
       :locals => {:field_name=> 'mc_to[]',
         :current_size => @current_size,
-        :selected_index => :last,
+        :selected_value => :last,
         :data => subparts})
   end
 
