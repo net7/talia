@@ -475,11 +475,15 @@ namespace :discovery do
     p4_path = File.join(xslt_path, 'p4')
     p4_back = File.join(xslt_path, 'p4.UPDATING')
     update_p4 = (File.exist?(p4_path) && !(File.exist?(File.join(p4_path, '.svn'))))
-    puts "Backing up p4 dir" if(update_p4)
-    FileUtils::mv(p4_path, p4_back) if(update_p4)
+    if(update_p4)
+      puts "Backing up p4 dir"
+      FileUtils::mv(p4_path, p4_back)
+    end
     system('svn update')
-    puts "Restoring p4 dir" if(update_p4)
-    FileUtils::mv(p4_back, p4_path) if(update_p4)
+    if(update_p4)
+      puts "Restoring p4 dir"
+      FileUtils::mv(p4_back, p4_path)
+    end
   end
 
   desc "Deploy the application. Option: vhost_dir=<root dir of virtual host>"
