@@ -482,7 +482,7 @@ namespace :discovery do
     system('svn update')
     if(update_p4)
       puts "Restoring p4 dir"
-      FileUtil.rm_rf(p4_path)
+      FileUtils.rm_rf(p4_path)
       FileUtils::mv(p4_back, p4_path)
     end
   end
