@@ -1,7 +1,7 @@
 <div id="search_adv" <%= "style='display: none;'" unless w.options[:visible] %> >
   <form action="<%= url_for(:action => 'advanced_search') %>" method="post" >
     <%= w.tag_search_type %>
-    <% if w.options[:mode] != "avmedia" %>
+    <% if !w.is_avmedia_search %>
       <div name="src_line_head" class="src_line">
         <p>
           <%= w.tag_word %>
@@ -13,9 +13,23 @@
             w.add_work_line
       end if !params[:mc_from].nil? %>
     <% else %>
-      <%= if (params[:title_words].nil? && params[:abstract_words].nil? && params[:keywords].nil?)
-        w.partial :advanced_search_avmedia_row, :locals => {:current_size => 0, :keyword_list => w.keyword}
-      end %>
+      <% if (params[:title_words].nil? && params[:abstract_words].nil? && params[:keywords].nil?) %>
+        <%= w.partial :advanced_search_avmedia_row, :locals => {:current_size => 0, :field_type => nil} %>
+      <% else %>
+
+        <%= params[:title_words].collect do |title_word|
+          w.add_avmedia_generic_row :title_words, title_word
+        end unless params[:title_words].nil? %>
+
+        <%= params[:abstract_words].collect do |abstract_word|
+          w.add_avmedia_generic_row :abstract_words, abstract_word
+        end unless params[:abstract_words].nil? %>
+
+        <%= params[:keywords].collect do |keyword|
+          w.add_avmedia_generic_row :keywords, keyword
+        end unless params[:keywords].nil? %>
+
+      <% end %>
     <% end %>
     <!--[if !IE]> linea ricerca<![endif]-->
 

@@ -1,16 +1,16 @@
 # Advanced search box
 class AdvancedSearchWidget < Widgeon::Widget
-  
+
   # Initialize the widget
   # * work => work object, for example TaliaCore::Book
   # * field_1_label => text for first field (default value is 'work')
   # * field_2_label => text for first field (default value is 'aphorisms')
   # * field_3_label => text for first field (default value is 'through')
   # * visible => boolean. Initial visible value.
-  # 
+  #
   # Example:
-  # widget(:advanced_search, 
-  #        :id => 'search_adv', 
+  # widget(:advanced_search,
+  #        :id => 'search_adv',
   #        :options => {:work => @critical_edition.books,
   #                     :field_1_label => 'work',
   #                     :field_2_label => 'aphorisms',
@@ -20,10 +20,13 @@ class AdvancedSearchWidget < Widgeon::Widget
     unless is_callback?
       # store work object
       widget_session[:work] = @options[:work] || nil
-      
+
       # reset current size value
       widget_session[:current_size] = 0
-      
+
+      # set search mode
+      widget_session[:mode] = @options[:mode]
+
       # set search mode
       widget_session[:mode] = @options[:mode]
 
@@ -31,24 +34,24 @@ class AdvancedSearchWidget < Widgeon::Widget
       widget_session[:field_1_label] = @options[:field_1_label] || 'work'
       widget_session[:field_2_label] = @options[:field_2_label] || 'aphorisms'
       widget_session[:field_3_label] = @options[:field_3_label] || 'through'
-    
+
       # store search field and type for sophia vision
       widget_session[:search_fields] = @options[:search_fields]
     end
   end
-  
+
   # Return a plus button
   def plus_link(current_size, version="default")
     if version == "default"
       remote_link('add',{
-          :javascript => :add_work_line, 
+          :javascript => :add_work_line,
           :current_size => current_size
         }, {
           :class => "plus"
         })
     else
       remote_link('add',{
-          :javascript => :add_avmedia_generic_row, 
+          :javascript => :add_avmedia_generic_row,
           :current_size => current_size
         }, {
           :class => "plus"
@@ -204,14 +207,14 @@ class AdvancedSearchWidget < Widgeon::Widget
   end
 
   # return a select tag for avmedia
-  def tag_avmedia_select
+  def tag_avmedia_select(field_type = :title_words)
     if !is_avmedia_search
       raise("Tag supported only in avmedia search")
     else
       tag_string = "<select id=\"#{ "src_line_#{widget_session[:current_size]}_field" }\" onchange=\"#{ onchange_link(widget_session[:current_size]) }\">"
-      tag_string << "<option value=\"title\" selected=\"selected\">#{t(:'talia.search.title')}</option>"
-      tag_string << "<option value=\"abstract\">#{t(:'talia.search.abstract') }</option>"
-      tag_string << "<option value=\"keyword\">#{t(:'talia.search.keyword')}</option>"
+      tag_string << "<option #{"selected" if field_type == :title_words} value=\"title\" selected=\"selected\">#{t(:'talia.search.title')}</option>"
+      tag_string << "<option #{"selected" if field_type == :abstract_words} value=\"abstract\">#{t(:'talia.search.abstract') }</option>"
+      tag_string << "<option #{"selected" if field_type == :keywords} value=\"keyword\">#{t(:'talia.search.keyword')}</option>"
       tag_string << "</select>"
 
       return tag_string
@@ -219,35 +222,35 @@ class AdvancedSearchWidget < Widgeon::Widget
   end
 
   # return an input tag for avmedia title words
-  def tag_avmedia_title_words
+  def tag_avmedia_title_words(value=nil)
     if !is_avmedia_search
       raise("Tag supported only in avmedia search")
     else
-      tag_string = "<input type=\"text\" name=\"title_words[]\" id=\"#{"src_line_#{widget_session[:current_size]}_field_value"}>\" />"
-      
+      tag_string = "<input type=\"text\" name=\"title_words[]\" id=\"#{"src_line_#{widget_session[:current_size]}_field_value"}\" value=\"#{value}\" />"
+
       return tag_string
     end
   end
 
   # return an input tag for avmedia abstract words
-  def tag_avmedia_abstract_words
+  def tag_avmedia_abstract_words(value=nil)
     if !is_avmedia_search
       raise("Tag supported only in avmedia search")
     else
-      tag_string = "<input type=\"text\" name=\"abstract_words[]\" id=\"src_line_#{widget_session[:current_size]}_field_value\" />"
+      tag_string = "<input type=\"text\" name=\"abstract_words[]\" id=\"src_line_#{widget_session[:current_size]}_field_value\" value=\"#{value}\" />"
 
       return tag_string
     end
   end
 
   # return an input tag for avmedia keywords
-  def tag_avmedia_keywords
+  def tag_avmedia_keywords(value=nil)
     if !is_avmedia_search
       raise("Tag supported only in avmedia search")
     else
       tag_string = "<select name=\"keywords[]\" id=\"src_line_#{widget_session[:current_size]}_field_value\">"
       keyword.each do |item|
-        tag_string << "<option value='#{item}'>#{item}</option>"
+        tag_string << "<option #{"selected" if item == value} value='#{item}'>#{item}</option>"
       end
       tag_string << "</select>"
     end
@@ -258,48 +261,48 @@ class AdvancedSearchWidget < Widgeon::Widget
   # Return a minus button
   def minus_link(current_size)
     if current_size > 0
-      remote_link('remove', { 
-          :javascript => :remove_work_line, 
+      remote_link('remove', {
+          :javascript => :remove_work_line,
           :current_size => current_size
         }, {
           :class => "minus"
         })
     else
-      remote_link('hide', { 
-          :javascript => :hide_search_adv, 
+      remote_link('hide', {
+          :javascript => :hide_search_adv,
           :current_size => current_size
         }, {
           :class => "minus"
         })
     end
   end
-  
+
   # return onchange link for work field
   def onchange_link(current_size)
     if !is_avmedia_search
       remote_function(:with => "'src_line_#{current_size}_field_1_value=' + $F('src_line_#{current_size}_field_1')",
-        :url => {:controller => "widgeon", 
-          :action => "callback", 
-          :call_options =>  WidgeonEncoding.encode_options({:javascript => 'retrieve_work_content', 
-              :current_size => current_size, 
+        :url => {:controller => "widgeon",
+          :action => "callback",
+          :call_options =>  WidgeonEncoding.encode_options({:javascript => 'retrieve_work_content',
+              :current_size => current_size,
               :widget_class => self.class.widget_name,
               :widget_id => self.widget_id})})
     else
       remote_function(:with => "'src_line_#{current_size}_field=' + $F('src_line_#{current_size}_field')",
-        :url => {:controller => "widgeon", 
+        :url => {:controller => "widgeon",
           :action => "callback",
           :call_options =>  WidgeonEncoding.encode_options({:javascript => 'retrieve_avmedia_content',
-              :current_size => current_size, 
+              :current_size => current_size,
               :widget_class => self.class.widget_name,
-              :widget_id => self.widget_id})})      
+              :widget_id => self.widget_id})})
     end
   end
-  
+
   # return an array of all work (for example: TaliaCore::Book)
   def works
     widget_session[:work]
   end
-  
+
   # return an array of all subparts contained in current work.
   # * uri: String. Current work URI.
   def subparts(uri)
@@ -307,7 +310,7 @@ class AdvancedSearchWidget < Widgeon::Widget
     book = TaliaCore::Source.find(uri)
     # get book's subparts
     subparts = book.subparts_with_manifestations(N::HYPER.HyperEdition)
-    
+
     # create an array with uri and title for each subpart
     unless subparts.nil?
       # get subpart title
@@ -318,13 +321,13 @@ class AdvancedSearchWidget < Widgeon::Widget
         [subpart.uri.to_s, title]
       end
     end
-    
+
     # return subparts array
     subparts
   end
-  
+
   def keyword
-    TaliaCore::Keyword.find(:all).collect do |item| 
+    TaliaCore::Keyword.find(:all).collect do |item|
       item.keyword_value
     end
   end
@@ -342,34 +345,34 @@ class AdvancedSearchWidget < Widgeon::Widget
       })    
   end
 
-  def add_avmedia_generic_row
+  def add_avmedia_generic_row(field_type = nil, field_value = nil)
     # increment current_size
     widget_session[:current_size] += 1
 
     # add new row to advanced search
-    partial(:advanced_search_avmedia_row, :locals => {:current_size => widget_session[:current_size], :keyword_list => keyword})
+    partial(:advanced_search_avmedia_row, :locals => {:current_size => widget_session[:current_size], :field_type => field_type, :field_value => field_value})
   end
-  
+
   # callback for plus button
   callback :add_work_line do |page|
-
+    # add new row to advanced search
     page.insert_html :before,
       'src_line_tail',
       self.add_work_line
 
   end
-  
+
   # callback for plus button for AvMedia
   callback :add_avmedia_generic_row do |page|
     # add new row to advanced search
-    page.insert_html :before, 
-      'src_line_tail', 
+    page.insert_html :before,
+      'src_line_tail',
       self.add_avmedia_generic_row
   end
-  
+
   # callback for minus button
   callback :remove_work_line do |page|
-    # check if current_size is present 
+    # check if current_size is present
     raise(ArgumentError, "Required argument missing") unless(@current_size)
 
     # add new row to advanced search if current size is > 0
@@ -377,15 +380,15 @@ class AdvancedSearchWidget < Widgeon::Widget
       page.remove "src_line_#{@current_size}"
     end
   end
-  
+
   # hide advanced search div
   callback :hide_search_adv do |page|
     page.hide 'search_adv'
   end
-  
+
   # retrieve subparts contained in current work
   callback :retrieve_work_content do |page|
-    # check if current_size is present 
+    # check if current_size is present
     raise(ArgumentError, "Required argument missing") unless(@current_size)
 
     # get book uri
@@ -393,25 +396,25 @@ class AdvancedSearchWidget < Widgeon::Widget
 
     # get subparts
     subparts = subparts(book_uri)
-    
+
     # replace select field 2
-    page.replace "src_line_#{current_size}_mc_from[]", partial(:advanced_search_select, 
-      :locals => {:field_name=> 'mc_from[]', 
+    page.replace "src_line_#{current_size}_mc_from[]", partial(:advanced_search_select,
+      :locals => {:field_name=> 'mc_from[]',
         :current_size => @current_size,
         :selected_index => :first,
         :data => subparts})
 
     # replace select field 3
-    page.replace "src_line_#{current_size}_mc_to[]", partial(:advanced_search_select, 
-      :locals => {:field_name=> 'mc_to[]', 
-        :current_size => @current_size, 
+    page.replace "src_line_#{current_size}_mc_to[]", partial(:advanced_search_select,
+      :locals => {:field_name=> 'mc_to[]',
+        :current_size => @current_size,
         :selected_index => :last,
         :data => subparts})
   end
-  
+
   # retrieve subparts contained in current work
-  callback :retrieve_keyword_content do |page|
-    # check if current_size is present 
+  callback :retrieve_avmedia_content do |page|
+    # check if current_size is present
     raise(ArgumentError, "Required argument missing") unless(@current_size)
 
     # replace current field tag with new field tag
@@ -424,14 +427,14 @@ class AdvancedSearchWidget < Widgeon::Widget
     when "keyword"
       new_object << tag_avmedia_keywords
     end
-        
+
     # replace field
-    page.replace "src_line_#{current_size}_field_value", new_object
+    page.replace "src_line_#{@current_size}_field_value", new_object
 
   end
 
   def is_avmedia_search
     return (widget_session[:mode] == :avmedia)
   end
-  
+
 end
