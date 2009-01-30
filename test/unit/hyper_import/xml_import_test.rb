@@ -38,7 +38,7 @@ include UtilTestMethods
     end
         
     def test_import_page_with_catalog
-#      clean_import_cache
+      clean_import_cache
       assert_difference "TaliaCore::Page.count", 2 do
         XmlImport::import(get_path('KGW-AC,[Text].xml'))
         assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC,[Text]'))
@@ -53,7 +53,7 @@ include UtilTestMethods
     end
 
     def test_import_book_with_catalog
-#      clean_import_cache
+      clean_import_cache
       assert_difference "TaliaCore::Book.count", 2 do
         XmlImport::import(get_path('KGW-AC.xml'))
         assit(TaliaCore::Source.exists?(N::LOCAL + 'KGW-AC'))

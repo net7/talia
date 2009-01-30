@@ -112,17 +112,17 @@ module TaliaCore
     
     # creates or update, the HTML document containing the whole Book text, starting
     # from HyperEditions' XML text, converted into HTML.
-    def create_html_data!
+    def create_html_data!(version=nil)
       html_data_uri = self.uri.to_s + "_html_data"
       html_data = TaliaCore::BookHtml.new(html_data_uri)
-      html_data.create_html_version_of(self)
+      html_data.create_html_version_of(self, version)
       self.html_data=html_data
     end
 
-    def recreate_html_data!
+    def recreate_html_data!(version=nil)
       html_data_uri = self.uri.to_s + "_html_data"
       html_data = TaliaCore::BookHtml.find(html_data_uri)
-      html_data.create_html_version_of(self)
+      html_data.create_html_version_of(self, version)
       html_data.data_records[0].save!
     end
     

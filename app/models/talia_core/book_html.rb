@@ -3,7 +3,7 @@ module TaliaCore
   class BookHtml < Manifestation
     # creates an HTML version of the whole book passed as argument. starting
     # from HyperEditions which are manifestation of subparts of the book
-    def create_html_version_of(book)
+    def create_html_version_of(book, version=nil)
       book_text = ''
       book.subparts_with_manifestations(N::HYPER.HyperEdition).each do |part|
         part.manifestations(TaliaCore::HyperEdition).each do |manifestation|
@@ -12,7 +12,7 @@ module TaliaCore
           # Needed when the full mode is ready
           # <p class="addons"><a href="#">1 facsimile </a>| <a href="#">2 commentaries</a> in <a href="#">Scholar Mode</a></p>       
           div_footer = "</div>"
-          book_text += div_header + manifestation.to_html() + div_footer
+          book_text += div_header + manifestation.to_html(version) + div_footer
         end
       end 
       book_text += ''

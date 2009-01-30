@@ -12,7 +12,7 @@ module TaliaCore
         ['diplomatic']
       when 'application/xml+tei', 'application/xml+tei-p4', 'application/xml+tei-p5'
         ['standard']
-      when 'application/xml+wit_tei'
+      when 'application/xml+wittei'
         ['dipl', 'norm', 'study']
       when 'text/html'
         ['standard']
@@ -47,10 +47,10 @@ module TaliaCore
           when 'application/xml+tei', 'application/xml+tei-p4', 'application/xml+tei-p5'
             xsl = "#{XSLT_ROOT}/TEI/p4/html/tei.xsl"
             output = perform_transformation(xsl, @in_xml)
-          when 'application/xml+wit_tei'
+          when 'application/xml+wittei'
             xsl = "#{XSLT_ROOT}/WitTEI/wab-transform.xsl"
             # visning is the parameter for the version in the wab-transform.xsl file        
-            transformer_parameters = {'visning' => version}
+            transformer_parameters = {'visning' => version, 'prosjekt' => 'discovery'}
             output = perform_transformation(xsl, @in_xml, transformer_parameters)
           when 'text/html'
             output = @in_xml

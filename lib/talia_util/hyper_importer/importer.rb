@@ -444,9 +444,7 @@ module TaliaUtil
             "text/#{content_type}"
         when 'xhtml':
             'application/xhtml+xml'
-        when 'wittei':
-            'application/xml+wit_tei'
-        when 'hnml', 'tei', 'tei-p4', 'tei-p5', 'gml':
+        when 'hnml', 'tei', 'tei-p4', 'tei-p5', 'gml', 'wittei':
             "application/xml+#{content_type}"
         when 'jpg', 'jpeg':
             'image/jpeg'

@@ -69,11 +69,8 @@ module FacsimileEditionsHelper
  
   # returns the copyright note to be shown below the facsimile images
   def copyright_note(page)
-    qry = Query.new(TaliaCore::Source).select(:f).distinct
-    qry.where(:f, N::HYPER.manifestation_of, page)
-    qry.where(:f, N::HYPER.type, N::HYPER.Facsimile)
-    facsimile = qry.execute
-    facsimile[0].dcns::rights.first if !facsimile.empty?
+    book = page.book
+    book.dcns::rights.first
   end
   
 end

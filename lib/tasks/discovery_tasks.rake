@@ -310,7 +310,7 @@ namespace :discovery do
   end
   
   
-  desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> header=<header_directory> descr  iption=<html_description_file> catalog=<catalog_siglum>"
+  desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> header=<header_directory> description=<html_description_file> catalog=<catalog_siglum> [version=<version>]"
   task :create_critical_edition => :disco_init do
  
     TaliaCore::Book
@@ -320,7 +320,10 @@ namespace :discovery do
     TaliaCore::TextReconstruction
     TaliaCore::Transcription
     TaliaCore::HyperEdition
-    
+
+    version = ENV['version']
+
+
     if ENV['catalog'].nil? 
       catalog = TaliaCore::Catalog.default_catalog
     else
@@ -400,14 +403,14 @@ namespace :discovery do
         chapter.order_pages!
       end
       begin
-        new_book.create_html_data!
+        new_book.create_html_data!(version)
       rescue Exception => e
         puts "Error creating html for #{new_book.uri}: #{e.message}"
       end
     end
   end
   
-  desc "recreate the book_html of all book in one catalog. Options catalog=<catalog>"
+  desc "recreate the book_html of all book in one catalog. Options catalog=<catalog> [version=<version>]"
   task :recreate_books_html => :disco_init do
     TaliaCore::Book
     TaliaCore::Page
@@ -416,6 +419,8 @@ namespace :discovery do
     TaliaCore::TextReconstruction
     TaliaCore::Transcription
     TaliaCore::HyperEdition
+
+    version = ENV['version']
     
     assit(TaliaCore::Catalog.exists?(N::LOCAL + ENV['catalog'])) 
     catalog = TaliaCore::Catalog.find(N::LOCAL + ENV['catalog']) 
@@ -428,7 +433,7 @@ namespace :discovery do
     progress = ProgressBar.new('Books', books.size)
     
     books.each do |book|
-      book.recreate_html_data!
+      book.recreate_html_data!(version)
       progress.inc
     end
     progress.finish
