@@ -172,7 +172,7 @@ class TaskHelper
       bibliography = row[11]
       abstract = row[12]
       
-      element_uri = N::LOCAL + 'av_media_sources/' + CGI::escape(title)
+      element_uri = N::LOCAL + 'av_media_sources/' + normalize_uri(title)
       element = TaliaCore::AvMedia.new(element_uri)
       element.series = series
       element.dcns::creator << author
@@ -321,6 +321,11 @@ class TaskHelper
     def create_pdf_for(representation)
       assit_kind_of(TaliaCore::Manifestation, representation)
       # image = represntation.data_records.find(:first, :conditions => { :type => })
+    end
+    
+    def normalize_uri(uri)
+      uri = CGI::unescape(uri.local_name).strip.gsub(' ', '+').gsub(/[^\w\d\(\)\'\+]/, '')
+      uri.gsub(/\b([a-z])/i) { $1.capitalize } # titleize
     end
   end
 end

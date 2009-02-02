@@ -15,8 +15,7 @@ require 'iconv'
 
 include TaliaUtil
 
-namespace :discovery do
-  
+namespace :discovery do  
   desc "Init for this tasks"
   task :disco_init do # => 'talia_core:talia_init' do
     unless(@talia_is_init)
@@ -105,28 +104,7 @@ namespace :discovery do
     end
     puts 'Done'
   end
-  
-  desc "Import from Sophiavision CSV file. Options csvfile=<file> [thumbnail_directory=<dir>] [encoding=MAC]"
-  task :sophia_csv => :disco_init do
-    ENV['nick'] = 'default'
-    ENV['name'] = 'default'
-    encoding = ENV['encoding'] || 'MAC'
-    ic = Iconv.new('UTF-8', encoding)
-    input = File.open(ENV['csvfile']) { |io| ic.iconv(io.read) }
-    row_count = 0
-    CSV::Reader.parse(input, ';', "\r") do |row|
-      row_count += 1
-      if(row.size > 9)
-        TaskHelper::media_from_row(row, ENV['thumbnail_directory'])
-        print '.'
-      else
-        print '_'
-      end
-    end
-    puts
-    puts 'done'
-  end
-  
+
   desc "Prepares the environment for the test server"
   task :prep_testserver => :disco_init do
     ENV['base_url'] = ''
@@ -627,5 +605,39 @@ namespace :discovery do
       puts "See the documentation of the FileStore class for more information."
     end
     
+  end
+end
+
+namespace :sophiavision do
+  namespace :import => 'discovery:disco_init' do
+    desc "Import from Sophiavision CSV file. Options csvfile=<file> [thumbnail_directory=<dir>] [encoding=MAC]"
+    task :csv do
+      ENV['nick'] = 'default'
+      ENV['name'] = 'default'
+      encoding = ENV['encoding'] || 'MAC'
+      ic = Iconv.new('UTF-8', encoding)
+      input = File.open(ENV['csvfile']) { |io| ic.iconv(io.read) }
+      row_count = 0
+      CSV::Reader.parse(input, ';', "\r") do |row|
+        row_count += 1
+        if(row.size > 9)
+          TaskHelper::media_from_row(row, ENV['thumbnail_directory'])
+          print '.'
+        else
+          print '_'
+        end
+      end
+      puts
+      puts 'done'
+    end
+  end
+
+  desc "Fix Sophiavision URI encoding for existing sources."
+  task :fix_uris => 'discovery:disco_init' do
+    TaliaCore::AvMedia.find(:all, :select => :uri).each do |source|
+      uri = N::LOCAL + TaskHelper::normalize_uri(source.uri)
+      puts uri
+      source.update_attribute('uri', uri)
+    end
   end
 end
