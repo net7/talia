@@ -32,6 +32,9 @@ class CriticalEditionsController < SimpleEditionController
   end
   
   def advanced_search
+    # set advanced search widget visible
+    set_advanced_search_visible true
+
     # set default path
     @path = [{:text => params[:id], :link => @edition.uri.to_s}]    
     

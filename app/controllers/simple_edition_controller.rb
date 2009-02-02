@@ -7,6 +7,7 @@ class SimpleEditionController < ApplicationController
   before_filter :set_custom_stylesheet
   before_filter :set_print_stylesheet
   before_filter :set_javascripts
+  before_filter :set_advanced_search_visible
   
   private
   
@@ -45,6 +46,14 @@ class SimpleEditionController < ApplicationController
   def set_javascripts
     @javascripts = self.class.javascripts || []
   end
+
+  def set_advanced_search_visible(is_visible = false)
+    if is_visible.nil?
+      @advanced_search_visible = self.class.advanced_search_visible
+    else
+      @advanced_search_visible = is_visible
+    end
+  end
   
   def self.edition_type
     @edition_type
@@ -60,6 +69,10 @@ class SimpleEditionController < ApplicationController
   
   def self.javascripts
     @javascripts
+  end
+
+  def self.advanced_search_visible
+    @advanced_search_visible
   end
   
   # Used to set the edition type
@@ -81,6 +94,10 @@ class SimpleEditionController < ApplicationController
   def self.add_javascripts(*scripts)
     @javascripts ||= []
     scripts.each { |s| @javascripts << s }
+  end
+
+  def self.set_advanced_search_visibile(is_visible = false)
+    @advanced_search_visible = is_visible
   end
   
 end

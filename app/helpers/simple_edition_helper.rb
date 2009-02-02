@@ -57,5 +57,9 @@ module SimpleEditionHelper
       links << stylesheet_link_tag(edition_include_custom_name(print_style), :media => 'print')
     end
   end
+
+  def advanced_search_visible
+    @advanced_search_visible
+  end
   
 end

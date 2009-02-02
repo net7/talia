@@ -28,7 +28,7 @@ class AdvancedSearchWidget < Widgeon::Widget
       widget_session[:mode] = @options[:mode]
 
       # set search mode
-      widget_session[:mode] = @options[:mode]
+      widget_session[:visible] = @options[:visible]
 
       # store label for all field
       widget_session[:field_1_label] = @options[:field_1_label] || 'work'
@@ -37,6 +37,14 @@ class AdvancedSearchWidget < Widgeon::Widget
 
       # store search field and type for sophia vision
       widget_session[:search_fields] = @options[:search_fields]
+    end
+  end
+
+  def visible_style
+    if widget_session[:visible]
+      "style='display: block;'"
+    else
+      "style='display: none;'"
     end
   end
 
