@@ -604,14 +604,13 @@ namespace :discovery do
       puts "The importing tasks can alse take the [delay_file_copies=yes] and [fast_copies=yes] options."
       puts "See the documentation of the FileStore class for more information."
     end
-    
   end
 end
 
 namespace :sophiavision do
-  namespace :import => 'discovery:disco_init' do
+  namespace :import do
     desc "Import from Sophiavision CSV file. Options csvfile=<file> [thumbnail_directory=<dir>] [encoding=MAC]"
-    task :csv do
+    task :csv => 'discovery:disco_init' do
       ENV['nick'] = 'default'
       ENV['name'] = 'default'
       encoding = ENV['encoding'] || 'MAC'
@@ -635,7 +634,7 @@ namespace :sophiavision do
   desc "Fix Sophiavision URI encoding for existing sources."
   task :fix_uris => 'discovery:disco_init' do
     TaliaCore::AvMedia.find(:all, :select => :uri).each do |source|
-      uri = N::LOCAL + TaskHelper::normalize_uri(source.uri)
+      uri = N::LOCAL + TaskHelper::normalize_uri(source.uri.local_name)
       puts uri
       source.update_attribute('uri', uri)
     end

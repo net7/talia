@@ -324,7 +324,7 @@ class TaskHelper
     end
     
     def normalize_uri(uri)
-      uri = CGI::unescape(uri.local_name).strip.gsub(' ', '+').gsub(/[^\w\d\(\)\'\+]/, '')
+      uri = CGI::unescape(uri).strip.gsub(' ', '+').gsub(/[^\w\d\(\)\'\+]/, '')
       uri.gsub(/\b([a-z])/i) { $1.capitalize } # titleize
     end
   end
