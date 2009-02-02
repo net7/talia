@@ -175,7 +175,7 @@ class AdvancedSearchWidget < Widgeon::Widget
       end
 
       # create tags
-      tag_string = "<label>#{t(:"talia.search.#{widget_session[:field_2_label]}")} </label>"
+      tag_string = "<label>#{t(:"talia.search.#{widget_session[:field_3_label]}")} </label>"
       tag_string << w.partial(:advanced_search_select,
         :locals => {:field_name=> 'mc_to[]',
           :current_size => widget_session[:current_size],
