@@ -55,4 +55,11 @@ module Admin::SourcesHelper
     items = entries.map { |entry| content_tag("li", phrase ? highlight(entry.send(field), phrase) : h(entry.send(field))) }
     content_tag("ul", items.uniq)
   end
+  
+  def escaped_source_identifiers(source)
+    tokens = source.uri.to_s.split('/')
+    name = unescape(tokens.pop)
+    uri = tokens.join('/') + "/" + escape(name)
+    [ uri, name ]
+  end
 end
