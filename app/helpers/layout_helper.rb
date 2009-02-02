@@ -66,4 +66,14 @@ module LayoutHelper
     @content_for_stylesheet ||= ""
     @content_for_stylesheet << file_names.map { |fn| stylesheet_link_tag(fn.to_s) }.join("\n")
   end
+  
+  # URL-encode a string
+  def escape(string)
+    CGI::escape string
+  end
+
+  # URL-decode a string
+  def unescape(string)
+    CGI::unescape string
+  end
 end
