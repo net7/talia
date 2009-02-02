@@ -20,6 +20,7 @@ class SeriesController < ApplicationController
   end
   
   def advanced_search
+    @advanced_search_visible = true
     @path = []
     
     # if user has clicked on seach button, execute search method
