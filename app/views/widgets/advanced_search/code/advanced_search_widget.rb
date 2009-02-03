@@ -19,7 +19,7 @@ class AdvancedSearchWidget < Widgeon::Widget
   def on_init
     unless is_callback?
       # store work object
-      widget_session[:work] = @options[:work] || nil
+      widget_session[:work] = save_works(@options[:work]) || nil
 
       # reset current size value
       widget_session[:current_size] = 0
@@ -120,7 +120,7 @@ class AdvancedSearchWidget < Widgeon::Widget
 
       works.each do |item|
         unless params[:mc].nil?
-          if(params[:mc][widget_session[:current_size]-1] == item.uri.to_s)
+          if(params[:mc][widget_session[:current_size]-1] == item)
             selected = true
           end
         end
@@ -442,6 +442,20 @@ class AdvancedSearchWidget < Widgeon::Widget
 
   def is_avmedia_search
     return (widget_session[:mode] == :avmedia)
+  end
+
+  private
+  
+  def save_works(books = [])
+    if is_avmedia_search
+      raise("Method not supported in avmedia search")
+    else
+      widget_session[:work] = []
+
+      books.each do |book|
+        widget_session[:work] << book.uri.to_s
+      end
+    end
   end
 
 end
