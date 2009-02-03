@@ -172,7 +172,7 @@ class TaskHelper
       bibliography = row[11]
       abstract = row[12]
       
-      element_uri = N::LOCAL + 'av_media_sources/' + normalize_uri(title)
+      element_uri = N::LOCAL + 'av_media_sources/' + UriEncoder.normalize_uri(title)
       element = TaliaCore::AvMedia.new(element_uri)
       element.series = series
       element.dcns::creator << author
@@ -227,20 +227,11 @@ class TaskHelper
   
     # Gets keywords for the slash-separated values in the string
     def keywords_from(key_string)
-      keys  = key_string.split('/').collect do |key_s|
-        # Data files sometimes seem to need some cleaning up
-        key_s.gsub!(/\s+/, ' ')
-        key_s.gsub!("\t", " ")
-        key_s.gsub!("\n", " ")
-        key_s.strip!
-        if(key_s != '')
-          TaliaCore::Keyword.get_with_key_value!(key_s)
-        else
-          nil # This was an empty kw
-        end
-      end
-      # Reject the empty keywords
-      keys.reject { |key| key.nil?}
+      key_string.split('/').map do |key|
+        # TODO can we use .gsub(/\s+\t\n/, ' ') instead?
+        key = key.gsub(/\s+/, ' ').gsub("\t", ' ').gsub("\n", ' ').strip
+        TaliaCore::Keyword.get_with_key_value!(key) unless key.empty?
+      end.compact
     end
   
     # Creates or gets a series for the given name
@@ -260,8 +251,7 @@ class TaskHelper
     # Helper to create or get an element of the given class in the
     # given 'namespace'. Can inject a block into the 'creation' phase.
     def create_or_find(name, klass, namespace)
-      # uri = N::LOCAL + "#{namespace}/" + CGI::escape(name.strip)
-      uri = N::LOCAL + "#{namespace}/" + normalize_uri(name.strip)
+      uri = N::LOCAL + "#{namespace}/" + UriEncoder.normalize_uri(name.strip)
       if(klass.exists?(uri))
         klass.find(uri)
       else
@@ -322,11 +312,6 @@ class TaskHelper
     def create_pdf_for(representation)
       assit_kind_of(TaliaCore::Manifestation, representation)
       # image = represntation.data_records.find(:first, :conditions => { :type => })
-    end
-    
-    def normalize_uri(uri)
-      uri = CGI::unescape(uri).strip.gsub(/\s\s/, '').gsub(' ', '+').gsub(/[^\w\d\(\)\'\+]/, '')
-      uri.gsub(/\b([a-z])/i) { $1.capitalize } # titleize
     end
   end
 end

@@ -46,7 +46,7 @@ module TaliaCore
     
     # Gets the uri for the given keyword
     def self.uri_for(keyword)
-      uri_prefix + URI.encode(keyword)
+      uri_prefix + UriEncoder.normalize_uri(keyword)
     end
     
     private 

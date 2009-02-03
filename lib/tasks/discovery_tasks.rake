@@ -633,13 +633,16 @@ namespace :sophiavision do
 
   desc "Fix Sophiavision URI encoding for existing sources."
   task :fix_uris => 'discovery:disco_init' do
-    { 'AvMedia' => 'av_media_sources', 'Series' => 'series' }.each { |type, path| fix_uris_for type, path }
+    { 'AvMedia' => 'av_media_sources',
+      'Series'  => 'series',
+      'Keyword' => 'keywords'
+    }.each { |type, path| fix_uris_for type, path }
   end
 end
 
 def fix_uris_for(type, path)
   "TaliaCore::#{type}".constantize.find(:all).each do |source|
-    uri = N::LOCAL + "#{path}/" + TaskHelper::normalize_uri(source.uri.local_name)
+    uri = N::LOCAL + "#{path}/" + UriEncoder.normalize_uri(source.uri.local_name)
     puts uri
     source.update_attribute('uri', uri)
   end

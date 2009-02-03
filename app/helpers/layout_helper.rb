@@ -69,11 +69,15 @@ module LayoutHelper
   
   # URL-encode a string
   def escape(string)
-    CGI::escape string
+    UriEncoder.escape string
   end
-
+  
   # URL-decode a string
   def unescape(string)
-    CGI::unescape string
+    UriEncoder.unescape string
+  end
+  
+  def unescape_link(link)
+    UriEncoder.unescape_link(link)
   end
 end
