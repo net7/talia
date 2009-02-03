@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   include RoleRequirementSystem
 
   before_filter :prepare_locale, :check_i18n_cache
+  before_filter :set_globalize
 
   helper :all # include all helpers, all the time
 
@@ -70,5 +71,13 @@ class ApplicationController < ActionController::Base
     Globalize::Locale.active.magick = magick_val
     session[:glob_cache] = magick_val unless(magick)
   end
+
+  # Sets a controller variable to indicate that the globalization is active
+  # (meaning that the current page allows transaltions). Used to provide a
+  # shortcut since this is called often
+  def set_globalize
+    @globalize = globalize?
+  end
+
   
 end

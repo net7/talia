@@ -14,7 +14,7 @@ module HomeHelper
   
   # Puts a list of links to all editions of the given type
   def edition_links(type)
-    render(:partial => 'edition', :collection => @editions[type]) if(@editions[type])
+    render(:partial => 'edition', :collection => @editions[type]) if(@editions && @editions[type])
   end
   
   # Puts the category links for the AvEdition
