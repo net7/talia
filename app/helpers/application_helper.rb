@@ -144,9 +144,7 @@ module ApplicationHelper
   
   def titled_link (url, text, title=nil)
     title ||= CGI::escape(text)
-    text = text
-    title = title
-    "<a href='#{URI::encode(url.to_s)}' title='#{title}'>#{text}</a>" 
+    %(<a href="#{unescape_link(url.to_s)}" title="#{title}">#{text}</a>)
   end
   
   def action_name
