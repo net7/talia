@@ -45,6 +45,7 @@ class CriticalEditionsController < SimpleEditionController
           (params[:mc].nil? or params[:mc].join.strip == "")
         redirect_to(:back) and return
       end
+      params[:mc] = "" unless params[:mc_from].nil?
 
       # execute advanced search
       adv_src = AdvancedSearch.new
@@ -99,6 +100,7 @@ class CriticalEditionsController < SimpleEditionController
   end
   
   def prepare_for_book
+    @href_for_text = @request_url
     @book = @source
     @path = [
       {:text => params[:id], :link => @edition.uri.to_s}, 

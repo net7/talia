@@ -41,7 +41,7 @@ function set_height (){
     var iipfview_height;
     for(i=0; i < array_iipfview.length; i++) {
         iipfview_height = windowHeight - array_iipfview[i].cumulativeOffset ( array_iipfview[i]).top  ;
-        array_iipfview[i].style.height = iipfview_height - 15 + "px";
+        array_iipfview[i].style.height = iipfview_height - 35 + "px";
     }
 }
     

@@ -20,19 +20,19 @@ function set_height(){
     /* Height of the whole window */
     var windowHeight = document.viewport.getDimensions().height;
     
-    $('visore').style.height = windowHeight - $('visore').cumulativeOffset().top + "px";
+    $('visore').style.height = windowHeight - $('visore').cumulativeOffset().top - 20 + "px";
     $('scroll').style.height = windowHeight - $('scroll').cumulativeOffset().top + "px";
 }
 
 // LOAD PAGE EVENT
 Event.observe(window, 'load', function() {
     // Call to function  that handles collapsing of left side lists
-    hanldeListCollapsing();
+    handleListCollapsing();
 });
 
 // Handles opening and closing of open elements in the left-bar list of pages
 // The function looks for list items with class "opened"
-function hanldeListCollapsing() {
+function handleListCollapsing() {
  for(i=0; i < $$('li.opened').length; i++) {
       var currentElement = $$('li.opened')[i]; 
       // Remove of link href

@@ -8,6 +8,8 @@
     <xsl:output method="html" doctype-public="-//W3C/DTD XHTML 1.0 STRICT//EN"
     doctype-system="http:://www.w3.org/TR/xhtml1-strict.dtd" encoding="ISO-8859-1"/>
     
+    <!-- Last update: 2009-01-30 1103 -->
+    
     <!-- 
         
         Instructions for manual conversion in Oxygen:
@@ -8239,13 +8241,13 @@
                                     <xsl:when test="contains($npc, 'study')">
                                         <xsl:element name="SPAN">
                                             <xsl:attribute name="style">color: #FF0000;</xsl:attribute>
-                                            <xsl:text>&#x21D3;</xsl:text>
+                                            <xsl:text>&#x2026;</xsl:text>
                                         </xsl:element>
                                     </xsl:when>
                                     <xsl:when test="contains($npc, 'norm')">
                                         <xsl:element name="SPAN">
                                             <xsl:attribute name="style">color: #FF0000;</xsl:attribute>
-                                            <xsl:text>&#x21D3;</xsl:text>
+                                            <xsl:text>&#x2026;</xsl:text>
                                         </xsl:element>
                                     </xsl:when>
                                     <xsl:otherwise>
@@ -8261,13 +8263,13 @@
                                     <xsl:when test="contains($npc, 'norm')">
                                         <xsl:element name="SPAN">
                                             <xsl:attribute name="style">color: #FF0000;</xsl:attribute>
-                                            <xsl:text>&#x21D3;</xsl:text>
+                                            <xsl:text>&#x2026;</xsl:text>
                                         </xsl:element>
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <xsl:element name="SPAN">
                                             <xsl:attribute name="style">color: #FF0000;</xsl:attribute>
-                                            <xsl:text>&#x21D3;</xsl:text>
+                                            <xsl:text>&#x2026;</xsl:text>
                                         </xsl:element>
                                     </xsl:otherwise>
                                 </xsl:choose>
@@ -8280,13 +8282,13 @@
                                     <xsl:when test="contains($npc, 'study')">
                                         <xsl:element name="SPAN">
                                             <xsl:attribute name="style">color: #FF0000;</xsl:attribute>
-                                            <xsl:text>&#x21D3;</xsl:text>
+                                            <xsl:text>&#x2026;</xsl:text>
                                         </xsl:element>
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <xsl:element name="SPAN">
                                             <xsl:attribute name="style">color: #FF0000;</xsl:attribute>
-                                            <xsl:text>&#x21D3;</xsl:text>
+                                            <xsl:text>&#x2026;</xsl:text>
                                         </xsl:element>
                                     </xsl:otherwise>
                                 </xsl:choose>
@@ -8301,7 +8303,7 @@
                                     <xsl:when test="contains($npcn, 'study')">
                                         <xsl:element name="SPAN">
                                             <xsl:attribute name="style">color: #FF0000;</xsl:attribute>
-                                            <xsl:text>&#x21D3;</xsl:text>
+                                            <xsl:text>&#x2026;</xsl:text>
                                         </xsl:element>
                                     </xsl:when>
                                     <xsl:when test="contains($npcn, 'norm')">
@@ -8325,7 +8327,7 @@
                                     <xsl:otherwise>
                                         <xsl:element name="SPAN">
                                             <xsl:attribute name="style">color: #FF0000;</xsl:attribute>
-                                            <xsl:text>&#x21D3;</xsl:text>
+                                            <xsl:text>&#x2026;</xsl:text>
                                         </xsl:element>
                                     </xsl:otherwise>
                                 </xsl:choose>
@@ -8338,7 +8340,7 @@
                                     <xsl:when test="contains($npcn, 'study')">
                                         <xsl:element name="SPAN">
                                             <xsl:attribute name="style">color: #FF0000;</xsl:attribute>
-                                            <xsl:text>&#x21D3;</xsl:text>
+                                            <xsl:text>&#x2026;</xsl:text>
                                         </xsl:element>
                                     </xsl:when>
                                     <xsl:otherwise>
@@ -9965,13 +9967,13 @@
             <xsl:when test="attribute::extent">
                 <xsl:choose>
                     <xsl:when test="contains(attribute::extent, 'words')">
-                        <xsl:text>&#x21D3;</xsl:text>
+                        <xsl:text>&#x2026;</xsl:text>
                     </xsl:when>
                     <xsl:when test="contains(attribute::extent, 'lines')">
-                        <xsl:text>&#x21D3;</xsl:text>
+                        <xsl:text>&#x2026;</xsl:text>
                     </xsl:when>
                     <xsl:when test="contains(attribute::extent, 'characters')">
-                        <xsl:text>&#x21D3;</xsl:text>
+                        <xsl:text>&#x2026;</xsl:text>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:apply-templates/>

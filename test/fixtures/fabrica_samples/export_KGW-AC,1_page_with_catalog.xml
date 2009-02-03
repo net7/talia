@@ -1,2 +1,2 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page><siglum>AC,1</siglum><catalog>KGW</catalog><title>AC,1</title><type>work_page</type><width>0.00</width><height>0.00</height><position>000001</position><position_name>1</position_name><relations><relation><predicate>isSubPartOf</predicate><object>AC</object></relation></relations></page>
+<page><siglum>AC,1</siglum><catalog>KGW</catalog><title>AC,1</title><type>work_page</type><width>0.00</width><height>0.00</height><position>000001</position><position_name>1</position_name><relations><relation><predicate>isSubPartOf</predicate><object>KGW/AC</object></relation></relations></page>
