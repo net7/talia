@@ -6,6 +6,7 @@ class LanguagesControllerTest < ActionController::TestCase
     get :change, :id => 'it-IT'
     assert_redirected_to @referer
     assert_equal 'it-IT', Locale.active.code
+    assert_equal 'it-IT', session[:locale]
   end
   
   def test_should_not_change_language_on_missing_code

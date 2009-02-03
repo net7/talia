@@ -1,9 +1,10 @@
 class LocaleController < ApplicationController
-  before_filter :check_globalize, :clear_cache
+  before_filter :check_globalize
   before_filter :normalize_key, :only => [ :translate, :translate_unformatted ]
   
   def set
     Locale.set(params[:id]) if params[:id]
+    flush_locale
     session[:locale] = Locale.active
     session[:__globalize_translations] = nil
     logger.debug("[#{Time.now.to_s(:db)}] - Set current Locale on #{Locale.language}")
@@ -36,10 +37,6 @@ class LocaleController < ApplicationController
   def check_globalize
     # Note: self.class.globalize? is deprecated.
     globalize? && self.class.globalize?
-  end
-  
-  def clear_cache
-    Locale.clear_cache
   end
   
   def inline

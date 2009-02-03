@@ -10,10 +10,10 @@
                     </xs:sequence>
                 </xs:complexType>
                 <!-- Keyref to source siglum. Disabled for multiple files -->
-                <!-- xs:keyref refer="sourceKey" name="relationTarget">
+                <xs:keyref refer="sourceKey" name="relationTarget">
                     <xs:selector xpath="object"></xs:selector>
                     <xs:field xpath="."></xs:field>
-                </xs:keyref -->
+                </xs:keyref>
                 
             </xs:element>
         </xs:sequence>

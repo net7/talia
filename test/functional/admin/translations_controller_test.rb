@@ -50,10 +50,13 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
   end
   
   def test_should_update_translations
+    orig_magick = Locale.active.magick
     login_as :admin
     put :update, params
     # assert_flash_notice "Your translations has been saved"
     assert_redirected_to edit_admin_translation_path(locale, {:page => 2})
+    assert_equal(session[:glob_cache], Locale.active.magick)
+    assert(Locale.active.magick && (Locale.active.magick != orig_magick))
   end
   
   uses_mocha 'Admin::TranslationsControllerTest' do

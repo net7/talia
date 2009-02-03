@@ -3,6 +3,8 @@ class Admin::TranslationsController < ApplicationController
   require_role 'admin'
   PER_PAGE = 30
 
+  after_filter :flush_locale, :only => [:update, :destroy]
+
   # GET /admin/translations
   def index
     redirect_to edit_admin_translation_path(Locale.active.code)
@@ -52,7 +54,8 @@ class Admin::TranslationsController < ApplicationController
   end
   
   private
-    def load_reference_translations?
-      !!session[:reference_locale] && session[:reference_locale] != params[:locale]
-    end
+
+  def load_reference_translations?
+    !!session[:reference_locale] && session[:reference_locale] != params[:locale]
+  end
 end
