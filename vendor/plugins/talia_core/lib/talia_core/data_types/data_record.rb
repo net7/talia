@@ -51,7 +51,7 @@ module TaliaCore
         # Lookup the mime type for the extension (removing the dot
         # in front of the file extension) Works only for the file
         # types supported by Rails' Mime class.
-        Mime::Type.lookup_by_extension(File.extname(location)[1..-1]).to_s
+        Mime::Type.lookup_by_extension((File.extname(location).downcase)[1..-1]).to_s
       end
     
       # class methods ============================================

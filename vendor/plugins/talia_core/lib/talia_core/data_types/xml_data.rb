@@ -37,7 +37,7 @@ module TaliaCore
       
       # return the mime_type for a file
       def extract_mime_type(location)
-        case File.extname(location)
+        case File.extname(location).downcase
         when '.htm', '.html','.xhtml'
           'text/html'
         when '.hnml'
