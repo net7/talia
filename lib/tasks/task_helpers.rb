@@ -260,7 +260,8 @@ class TaskHelper
     # Helper to create or get an element of the given class in the
     # given 'namespace'. Can inject a block into the 'creation' phase.
     def create_or_find(name, klass, namespace)
-      uri = N::LOCAL + "#{namespace}/" + CGI::escape(name.strip)
+      # uri = N::LOCAL + "#{namespace}/" + CGI::escape(name.strip)
+      uri = N::LOCAL + "#{namespace}/" + normalize_uri(name.strip)
       if(klass.exists?(uri))
         klass.find(uri)
       else
@@ -324,7 +325,7 @@ class TaskHelper
     end
     
     def normalize_uri(uri)
-      uri = CGI::unescape(uri).strip.gsub(' ', '+').gsub(/[^\w\d\(\)\'\+]/, '')
+      uri = CGI::unescape(uri).strip.gsub(/\s\s/, '').gsub(' ', '+').gsub(/[^\w\d\(\)\'\+]/, '')
       uri.gsub(/\b([a-z])/i) { $1.capitalize } # titleize
     end
   end
