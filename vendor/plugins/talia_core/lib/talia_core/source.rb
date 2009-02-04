@@ -124,6 +124,16 @@ module TaliaCore
           :limit => 10 }.merge!(options))
     end
    
+    # Find the fist Source that matches the given URI.
+    # It's useful for admin pane, because users visit:
+    #   /admin/sources/<source_id>/edit
+    # but that information is not enough, since we store
+    # into the database the whole reference as URI:
+    #   http://localnode.org/av_media_sources/source_id
+    def self.find_by_partial_uri(id)
+      find(:first, :conditions => ["uri LIKE ?", '%' + id + '%'])
+    end
+   
     # Return an hash of direct predicates, grouped by namespace.
     def grouped_direct_predicates
       direct_predicates.inject({}) do |result, predicate|
