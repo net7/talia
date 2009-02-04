@@ -23,7 +23,7 @@ class Admin::SourcesController < ApplicationController
 
   # GET /admin/sources/1/edit
   def edit
-    @source = TaliaCore::Source.find(params[:id])
+    @source = TaliaCore::Source.find_by_partial_uri(params[:id])
   end
 
   # PUT /admin/sources/1
