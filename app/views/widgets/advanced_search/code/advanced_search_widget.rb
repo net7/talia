@@ -18,17 +18,17 @@ class AdvancedSearchWidget < Widgeon::Widget
   #                     :visible => false})
   def on_init
     unless is_callback?
+       # set search mode
+      widget_session[:mode] = @options[:mode]
+
       # store work object
       widget_session[:work] = save_works(@options[:work]) || nil
 
       # reset current size value
       widget_session[:current_size] = 0
-
+     
       # set search mode
-      widget_session[:mode] = @options[:mode]
-
-      # set search mode
-      widget_session[:visible] = @options[:visible]
+      widget_session[:visible] = @options[:visible] || false
 
       # store label for all field
       widget_session[:field_1_label] = @options[:field_1_label] || 'work'
@@ -447,9 +447,7 @@ class AdvancedSearchWidget < Widgeon::Widget
   private
   
   def save_works(books = [])
-    if is_avmedia_search
-      raise("Method not supported in avmedia search")
-    else
+    if !is_avmedia_search
       widget_session[:work] = []
 
       books.each do |book|
