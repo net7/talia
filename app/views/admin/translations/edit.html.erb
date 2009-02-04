@@ -2,6 +2,8 @@
 <% autoload_reference_translations %>
 <% javascript :translations %>
 
+<p><%= will_paginate @translations %></p>
+
 <% form_tag(admin_translation_path(@locale_code), :method => :put) do -%>
 <table id="translations" border="0" cellspacing="5" cellpadding="5">
   <tr>
