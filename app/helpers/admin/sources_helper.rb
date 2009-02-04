@@ -59,7 +59,7 @@ module Admin::SourcesHelper
   def escaped_source_identifiers(source)
     tokens = source.uri.to_s.split('/')
     name = unescape(tokens.pop)
-    uri = tokens.join('/') + "/" + escape(name)
+    uri = tokens.join('/') + "/" + unescape_link(name)
     [ uri, name ]
   end
 end
