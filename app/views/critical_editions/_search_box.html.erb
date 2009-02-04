@@ -2,7 +2,6 @@
   <% form_tag :action => "advanced_search" do -%>
     <%= hidden_field_tag 'search_type', 'mc' %>
     <%= hidden_field_tag 'operator', 'or' %>
-    <%= hidden_field_tag 'mc', @edition.uri.to_s %>
     <p class="head_search">
       <label><%= t(:'talia.global.search') %></label> 
       <input type="text" name="words"/>

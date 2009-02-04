@@ -19,9 +19,11 @@ class AdvancedSearch
 
     # add mc - mc_from - mc_to if specified
     if mc_from
-      #data['mc'] = mc
+      data['mc'] = ''
       data['mc_from'] = mc_from
       data['mc_to'] = mc_to
+    else
+      data['mc'] = mc
     end
 
     # add mc_single if specified
