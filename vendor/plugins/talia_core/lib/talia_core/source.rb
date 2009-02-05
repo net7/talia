@@ -133,9 +133,10 @@ module TaliaCore
     def self.find_by_partial_uri(id)
       find(:first, :conditions => ["uri LIKE ?", '%' + id + '%'])
     end
-   
+
     # Return an hash of direct predicates, grouped by namespace.
     def grouped_direct_predicates
+      #TODO should it be memoized?
       direct_predicates.inject({}) do |result, predicate|
         predicates = self[predicate].collect { |p| SourceTransferObject.new(p.to_s) }
         namespace = predicate.namespace.to_s
@@ -145,19 +146,21 @@ module TaliaCore
         result
       end
     end
-    
-    # Returns a flat uri (as string) list of associated rdf objects (triple endpoint).
-    def direct_predicates_objects
-      @direct_predicates_objects ||= direct_predicates.collect do |predicate|
-        self[predicate].map(&:to_s)
-      end.flatten
+
+    def predicate_objects(namespace, name) #:nodoc:
+      predicate(namespace, name).flatten.map(&:to_s)
     end
-    
+
     # Check if the current source is related with the given rdf object (triple endpoint).
-    def associated?(object)
-      direct_predicates_objects.include? object.to_s
+    def associated?(namespace, name, stringified_predicate)
+      predicate_objects(namespace, name).include?(stringified_predicate)
     end
-    
+
+    # Check if a predicate is changed.
+    def changed?(namespace, name, objects)
+      not predicate_objects(namespace, name).eql?(objects.map(&:to_s))
+    end
+
     attr_reader :predicates_attributes
     def predicates_attributes=(predicates_attributes)
       @predicates_attributes = predicates_attributes.collect do |attributes_hash|
@@ -166,15 +169,26 @@ module TaliaCore
       end
     end
 
-    # Save, associate/disassociate given predicates attributes.
-    def save_predicates_attributes
-      each_predicate_attribute do |namespace, name, object, should_destroy|
-        object.save if object.is_a? Source and object.new_record?
-        self.predicate_set(namespace, name, object) unless associated? object
-        self.predicate(namespace, name).remove(object) if should_destroy
+    # Return an hash of new predicated attributes, grouped by namespace.
+    def grouped_predicates_attributes
+      @grouped_predicates_attributes ||= predicates_attributes.inject({}) do |result, predicate|
+        namespace, name = predicate['namespace'], predicate['name']
+        predicate = SourceTransferObject.new(predicate['titleized'])
+        result[namespace] ||= {}
+        result[namespace][name] ||= []
+        result[namespace][name] << predicate
+        result
       end
     end
-    
+
+    # Save, associate/disassociate given predicates attributes.
+    def save_predicates_attributes
+      each_predicate do |namespace, name, objects|
+        objects.each { |object| object.save if object.is_a?(Source) && object.new_record? }
+        self.predicate_replace(namespace, name, objects.to_s) if changed?(namespace, name, objects)
+      end
+    end
+
     # This will return a list of DataRecord objects. Without parameters, this
     # returns all data elements on the source. If a type is given, it will
     # return only the elements of the given type. If both type and location are
@@ -302,18 +316,16 @@ module TaliaCore
         Source.find_or_instantiate_by_uri(normalize_uri(attributes['uri']), name_or_uri)
       end
     end
-    
-    # Iterate through predicates_attributes, yielding the given code.
-    def each_predicate_attribute(&block)
-      predicates_attributes.each do |attributes_hash|
-        object         = attributes_hash['object']
-        namespace      = attributes_hash['namespace'].to_sym
-        name           = attributes_hash['name']
-        should_destroy = attributes_hash['should_destroy'].to_i == 1
-        block.call(namespace, name, object, should_destroy)
+
+    # Iterate through grouped_predicates_attributes, yielding the given code.
+    def each_predicate(&block)
+      grouped_predicates_attributes.each do |namespace, predicates|
+        predicates.each do |predicate, objects|
+          block.call(namespace, predicate, objects.flatten)
+        end
       end
     end
-        
+
     # Class methods
     class << self
       

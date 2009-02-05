@@ -32,7 +32,7 @@ module TaliaCore #:nodoc:
     end
     
     def to_s #:nodoc:
-      (uri || titleized).to_s
+      (uri || @name).to_s
     end
   end
 end
