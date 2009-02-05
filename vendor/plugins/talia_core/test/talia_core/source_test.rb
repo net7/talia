@@ -287,20 +287,20 @@ module TaliaCore
       assert_included predicates.keys, 'historical_character'
     end
     
-    def test_direct_predicates_objects
+    def test_predicate_objects
       source = make_dummy_source("http://star-wars.org/")
       source.default::jedi_knight << Source.new("http://star-wars.org/luke-skywalker")
       source.default::jedi_knight << "Obi-Wan Kenobi"
 
-      assert_included source.direct_predicates_objects, "http://star-wars.org/luke-skywalker"
-      assert_included source.direct_predicates_objects, "Obi-Wan Kenobi"
+      assert_included source.predicate_objects('default', 'jedi_knight'), "http://star-wars.org/luke-skywalker"
+      assert_included source.predicate_objects('default', 'jedi_knight'), "Obi-Wan Kenobi"
     end
     
     def test_associated
       source = make_dummy_source("http://star-wars.org/")
       associated_source = Source.new("http://star-wars.org/luke-skywalker")
       source.default::jedi_knight << associated_source
-      assert(source.associated?(associated_source))
+      assert(source.associated?('default', 'jedi_knight', associated_source.to_s))
     end
     
     def test_predicates_attributes_setter
@@ -313,19 +313,19 @@ module TaliaCore
       assert_kind_of(Source, source.predicates_attributes.first['object'])
     end
 
-    def test_save_predicates_attributes
-      source = create_source('http://star-warz.org/')
-      @predicates_attributes[1] = @predicates_attributes[1].merge({'should_destroy' => '1'})
-      @predicates_attributes << {"name"=>"in_epoch", "uri"=> N::LOCAL.to_s, "should_destroy"=>"", "namespace"=>"talia", "id"=>"", "titleized"=>"Paolo Guinigi"}
-      source.predicates_attributes = @predicates_attributes
-      source.save_predicates_attributes
-      
-      assert_source_exists "#{N::LOCAL}Paolo_Guinigi"
-      source = create_source('http://star-warz.org/') # force the source reload
-      # Expected size is equal to 5, because @predicates_attributes
-      # contains 6 sources, but 1 is marked for destroy.
-      assert_equal(2, source.direct_predicates_objects.size)
-    end
+    # def test_save_predicates_attributes
+    #   source = create_source('http://star-warz.org/')
+    #   @predicates_attributes[1] = @predicates_attributes[1].merge({'should_destroy' => '1'})
+    #   @predicates_attributes << {"name"=>"in_epoch", "uri"=> N::LOCAL.to_s, "should_destroy"=>"", "namespace"=>"talia", "id"=>"", "titleized"=>"Paolo Guinigi"}
+    #   source.predicates_attributes = @predicates_attributes
+    #   source.save_predicates_attributes
+    #   
+    #   assert_source_exists "#{N::LOCAL}Paolo_Guinigi"
+    #   source = create_source('http://star-warz.org/') # force the source reload
+    #   # Expected size is equal to 5, because @predicates_attributes
+    #   # contains 6 sources, but 1 is marked for destroy.
+    #   assert_equal(2, source.direct_predicates_objects.size)
+    # end
 
     def test_normalize_uri
       assert_equal("#{N::LOCAL}LocalSource", Source.normalize_uri(N::LOCAL.to_s, 'LocalSource'))
@@ -365,15 +365,15 @@ module TaliaCore
       assert_equal(%(Homer Simpson), result)
     end
     
-    def test_each_predicate_attribute
+    def test_each_predicate
       source = make_dummy_source("http://star-wars.org/")
       source.predicates_attributes = @predicates_attributes
       
-      source.send(:each_predicate_attribute) do |namespace, name, object, should_destroy|
-        assert_kind_of(Symbol, namespace)
-        assert_kind_of(String, name)
-        assert_kind_of_classes(object, Source, String)
-        assert_boolean should_destroy
+      source.send(:each_predicate) do |namespace, predicate, objects|
+        assert_kind_of(String, namespace)
+        assert_kind_of(String, predicate)
+        assert_not_empty objects
+        objects.each { |object| assert_kind_of(TaliaCore::SourceTransferObject, object) }
       end
     end
     

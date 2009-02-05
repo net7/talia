@@ -1,5 +1,6 @@
 $: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
 require 'test/unit'
+require 'core_ext'
 require "talia_core"
 require "talia_util/test_helpers"
 require 'active_support/testing'
