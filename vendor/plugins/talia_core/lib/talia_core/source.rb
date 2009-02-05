@@ -37,8 +37,6 @@ module TaliaCore
     # Wrapping for <tt>ActiveRecord</tt> <tt>update_attributes</tt>.
     def update_attributes(attributes)
       attributes, rdf_attributes = extract_attributes!(attributes)
-      self.ar_update_attributes(attributes)
-
       rdf_attributes.each do |k,v|
         send(k + "=", v)
         send('save_' + k)
