@@ -29,7 +29,7 @@ class Admin::SourcesController < ApplicationController
   # PUT /admin/sources/1
   # PUT /admin/sources/1.xml
   def update
-    @source = TaliaCore::Source.find(params[:id])
+    @source = TaliaCore::Source.find_by_id(params[:id])
 
     respond_to do |format|
       if @source.update_attributes(params[:source])

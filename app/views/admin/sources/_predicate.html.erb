@@ -6,7 +6,7 @@
       <%= predicate_form.hidden_field :uri,    :index => nil %>
       <%= hidden_field_tag 'source', predicate.is_a?(TaliaCore::ActiveSource), :id => 'source_predicates_attributes__source',
         :name => "source[predicates_attributes][][source]", :class => 'source' %>
-      <% unless @source.associated? predicate %>
+      <% unless @source.associated?(namespace, name, predicate.titleized) %>
         <%= link_to_function image_tag('remove.png', :size => '12x12', :alt => 'remove', :class => 'remove'),
           "remove_from_collection(this, '.predicate')" %>
       <% else %>

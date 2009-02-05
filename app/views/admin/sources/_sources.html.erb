@@ -2,14 +2,12 @@
   <tr>
   <th class="horizontal">Name</th>
   <th class="horizontal">Workflow State</th>
-  <th class="horizontal">Primary Source</th>
   <th class="horizontal"></th>
   </tr>
 <% for source in @sources -%>
   <tr class="<%= cycle("odd", "even") -%>">
     <% uri, name = escaped_source_identifiers(source) -%>
     <td><a href="<%=h uri %>" title="<%=h name.titleize %>"><%=h name.titleize %></a></td>
-    <td><%=h source.primary_source %></td>
     <td><%= link_to 'Edit', url_for(:action => :edit, :id => unescape_link(name)) %></td>
   </tr>
 <% end -%>
