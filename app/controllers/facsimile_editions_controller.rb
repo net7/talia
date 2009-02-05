@@ -128,6 +128,8 @@ class FacsimileEditionsController < SimpleEditionController
   def print_tool
     #TODO: PDF integration. the next line should add a call to the pdf.
     @tools = [:id => 'print', :text => t(:'talia.global.print'), :link => '#TODO: PDF creation']
+    @tools << { :id => 'download', :text => 'download', :link => '#TODO: PDF creation'}
+    @tools << { :id => 'fullscreen', :text => 'fullscreen', :link => '#TODO: PDF creation'}
   end
   
   # Makes the path for the page

@@ -33,7 +33,7 @@ class CriticalEditionMenuWidget < Widgeon::Widget
     select_class = ''
     if(element_chosen?(:chapter, chapter))
       # Set the class depending on if there's a selected sub-part
-      select_class = @chosen_part ?'class="opened"' : 'class="selected"'
+      select_class = @chosen_part ?'class="opened"' : 'class="selected opened"'
     end
     partial('item', :locals => { :item_uri => item_uri_for(chapter), :item_title => title_for(chapter), :select_class => select_class })
   end
@@ -43,7 +43,7 @@ class CriticalEditionMenuWidget < Widgeon::Widget
     select_class = ''
     if(element_chosen?(:book, book))
       # Set the class depending on if there's a selected sub-part
-      select_class = (@chosen_chapter || @chosen_part) ? 'class="opened"' : 'class="selected"'
+      select_class = (@chosen_chapter || @chosen_part) ? 'class="opened"' : 'class="selected opened"'
     end
     partial('item', :locals => { :item_uri => item_uri_for(book), :item_title => title_for(book), :select_class => select_class })
   end

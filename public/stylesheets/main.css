@@ -22,9 +22,11 @@ body {
     font-family: Arial, "Lucida Grande", "Bitstream Vera Sans", Avenir, Helvetica, sans-serif;
 }
 
+/*
 h1, h2, h3, h4, p, ul, li {
     font-size: 1em;
 }
+*/
 
 a {
     text-decoration: none;
@@ -65,13 +67,13 @@ a:active
 /* HEADER */
 /* ******************************************************************* */
 #header {
-    height: 71px;
+    height: 93px;
     width: 100%;
     position: relative;	
 }
 
 #header h1 {
-    height: 71px;
+    height: 93px;
     text-indent: -9999px;
     margin-right: 200px;
     outline: none;
@@ -79,8 +81,8 @@ a:active
     #header h2 {
             position: absolute;
             margin: 0; padding: 0;
-            top: 28px;
-            left: 348px;
+            bottom: 32px;
+            left: 358px;
             font-size: 1.8em;
             font-weight: normal;
             text-transform: uppercase;
@@ -93,8 +95,8 @@ a:active
     #header h3 {
             position: absolute;
             margin: 0; padding: 0;
-            top: 48px;
-            left: 348px;
+            bottom: 12px;
+            left: 358px;
             font-size: 1.4em;
             font-weight: normal;
             text-transform: uppercase;
@@ -182,63 +184,68 @@ a:active
     background:#433934 url(/images/bg_first_line.gif) repeat-x top;
     width: 100%;
     float: left;
-    height: 3.6em;
+    height: 2.6em;
+    overflow: hidden;
 }
+    /* Navigation path on the left */
     #navigate a {
         color: #e0e0e0;
         text-decoration: underline;
     }
 
     #navigate p {
-        padding: 10px;
+        padding: 0 10px;
         color: #fff;
-        font-size: 1.2em;
+        font-size: 1.15em;
+        line-height: 2.6em;
     }
 
-.simple_mode_path_widget {
-    padding: 10px;
-    color: #fff;
-    font-size: 1.2em;
-}
+    .simple_mode_path_widget {
+        padding: 0 10px;
+        color: #fff;
+        font-size: 1.15em;
+        line-height: 2.6em;
+    }
 
-#navigate #tools {
-    /* ******* FIX *********** */
-    float: right;
-    margin:0px 10px;
-    height: 3.6em;
-}
+    /* Tools on the right */
+    #navigate #tools {
+        float: right;
+        margin: 0px 10px;
+        height: 2.6em;
+    }
 
-/* EXPLORER FIX */
-#navigate #tools {
-  width: 200px;
-}
-html>body #navigate #tools {
-  width: auto;
-}
-/* EXPLORER FIX */
+    /* EXPLORER FIX */
+    #navigate #tools {
+      width: 200px;
+    }
+    html>body #navigate #tools {
+      width: auto;
+    }
+    /* EXPLORER FIX */
 
     #navigate #tools ul {
-    float: right;
+        float: right;
         list-style: none;
-        padding: 0;
+        padding: 0 2px 0 0;
         margin: 0;
         background: transparent url(../images/tool_side_line.gif) top right no-repeat;
-        height: 3.6em;
+        height: 2.6em;
     }
     #navigate #tools ul li {
         float: left;
-        padding: 0 0 0 0;
-        font-size: 1em; 
+        padding: 0;
+        margin: 0;
+        font-size: 1em;
         display: block;
         background: transparent url(../images/tool_side_line.gif) top left no-repeat;
-        height: 3.6em;
+        height: 2.6em;
     }
     #navigate #tools ul li span {
         display: block;
         float: left;
-        height: 3.6em;
-        margin: 0 2px;
-        padding-left: 10px;
+        height: 2.6em;
+        margin: 0 0 0 2px;
+        padding: 1px 0 0 10px;
         background: #554d49 url(../images/tool_bg.gif) top left repeat-x;
     }
     #navigate #tools ul li:hover span {
@@ -247,8 +254,8 @@ html>body #navigate #tools {
     #navigate #tools ul li span a {
       display: block;
       float: left;
-      line-height: 3.6em;
-      height: 3.6em;
+      line-height: 2.6em;
+      height: 2.6em;
       text-decoration: none;
       padding: 0 20px 0 30px;
       margin: 0 2px;
@@ -256,21 +263,21 @@ html>body #navigate #tools {
     #navigate #tools ul li span a:hover {
       text-decoration: underline;
     }
-    
+
     /* CUSTOMIZE ICONS ! */
     #navigate #tools ul li#panorama span a{
-        /* background: url(images/panorama.gif) no-repeat left center; */
-    }
-    #navigate #tools ul li#pdfdownload span a{
-        background: transparent url(../images/icons/download_white.gif) center left no-repeat;
     }
     #navigate #tools ul li#pagina span a{
-        /* margin-left: 10px;
-        background: url(imges/pagina.gif) no-repeat left center; */
+    }
+    #navigate #tools ul li#download span a{
+        background: transparent url(../images/icons/download_white.gif) center left no-repeat;
     }
     #navigate #tools ul li#print span a{
-      background: transparent url(../images/icons/print_white.gif) center left no-repeat;
-    }   
+        background: transparent url(../images/icons/print_white.gif) center left no-repeat;
+    }
+    #navigate #tools ul li#fullscreen span a{
+        background: transparent url(../images/icons/fullscreen_white.gif) center left no-repeat;
+    }
 /* ******************************************************************* */
 /* MENU LOCATION  - ORIZONTAL MENU UNDER PATH *******************************/
 /* ******************************************************************* */    
@@ -390,10 +397,12 @@ html>body #navigate #tools {
           }
 
           div#visore {
+            position: relative;
             overflow: auto;
             /* text-align: center; */
             padding:0;
-            margin: 0 0 0 229px;
+            /* margin: 0 0 0 229px; */
+            margin: 0 0 0 217px;
 
           }
 
@@ -548,14 +557,13 @@ ul#access_list {
     /* Span wrapping sigla */
     #block_container div.block p span, #scroll div.view_block p span {
         width: 80px;
-        border:1p solid red;
         float: left;
     }
     
     #block_container div.block p.lonely, #scroll div.view_block p.lonely {
-      margin:0 !important; padding: 0 !important;
-      text-align: center;
-      color: #848484;
+        margin:0 0 0 85px !important; padding: 0 !important;
+        text-align: center;
+        color: #848484;
         font-size: 0.9em;
     }
     #block_container div.block p.lonely img, #scroll div.view_block p.lonely img  {
@@ -602,7 +610,87 @@ ul#access_list {
     }
 /* ********************************* */
 /* ********************************* */
+
+
+
+/*  ******************************************/
+/* FACSIMILE: IIP IMAGE VIEW ***********************************/
+/*
+    Single and double
+*/
+/*  ******************************************/
+/* Freccia sinistra */
+#content.divided div#visore p.previous{
+    display: block;
+    position: absolute;
+    width: 19px;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #ebebeb;
+    border-right: 1px solid #e0e0e0;
+}
+    #content.divided div#visore p.previous a{
+        display: block;
+        width: 19px;
+        height: 100%;
+        text-indent: -9999px;
+        background: url(../images/facsimile_edition/previous_arrow.gif) center center no-repeat;
+    }
+    #content.divided div#visore p.previous a:hover{
+        background: url(../images/facsimile_edition/previous_arrow_ro.gif) center center no-repeat;
+    }
+/* Freccia destra */
+#content.divided div#visore p.next{
+    display: block;
+    position: absolute;
+    width: 19px;
+    top: 0;
+    right: 0;
+    height: 100%;
+    background-color: #ebebeb;
+    border-left: 1px solid #e0e0e0;
+}
+    #content.divided div#visore p.next a{
+        display: block;
+        width: 19px;
+        height: 100%;
+        text-indent: -9999px;
+        background: url(../images/facsimile_edition/next_arrow.gif) center center no-repeat;
+    }
+    #content.divided div#visore p.next a:hover{
+        background: url(../images/facsimile_edition/next_arrow_ro.gif) center center no-repeat;
+    }
     
+/* Vista immagine singola */
+#content.divided div#visore div#image_big{
+    text-align: center;
+    padding: 0;
+}
+
+/* Vista immagine doppia */
+#content.divided div#visore div#image_half{
+    border: 1px solid red;
+    text-align: center;
+}
+
+#content.divided div#visore div p.sigla {
+    margin: 4px 0;
+    font-size: 1.4em;
+    color: #757575;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Single */
+div.iipfview , div.iipfview_left, div.iipfview_right{
+    /* padding: 10ex; */
+    margin: 0;
+    border: 1px solid #e0e0e0;
+    padding: 2px;
+    height: 100%;
+}
+
 /*  ******************************************/
 /* TOOLBAR ***********************************/
 /*  
@@ -612,8 +700,10 @@ ul#access_list {
     Download page
 */
 /*  ******************************************/
+/*
+
 #toolbar {
-    margin: 6px 15px;
+    margin: 0;
     width: auto;
     float: left;
     text-align: center;
@@ -621,8 +711,7 @@ ul#access_list {
 #toolbar p {
     float: left;
     display: block;
-    font-size: 1.3em;	
-    background: #f4f4f4;
+    font-size: 1.2em;
     line-height: 2em;
     color: #757575;
     margin: 0 2px;
@@ -631,16 +720,17 @@ ul#access_list {
 #toolbar p.sigla {
     width: 5em;
     font-weight: bold;
-    border: 1px solid #d9d9d9;
     text-align: center;
 }
 #toolbar p.zoom {
+    display: none;
     border: 1px solid #d9d9d9;
     width: 5.4em;
     border-left: 0;
     border-right: 0;
 }
 #toolbar p select {
+    display: none;
     width: 5em;
     margin-top:5px ;	
     font-size:.7em;
@@ -648,11 +738,13 @@ ul#access_list {
     
 }
 #toolbar p.tooltools {
+    display: none;
     float: left;
     width: 120px;
     border: 1px solid #d9d9d9;
 }
 #toolbar p.tooltools a {
+    display: none;
     text-indent: -9999px;
     display: block;
     float: left;	
@@ -699,50 +791,8 @@ ul#access_list {
 #toolbar p.next a:active, #toolbar p.previous a:active {
   outline: none;
 }
+*/
 
-/* ********************************* */
-/* Main div on the right side, next to the scroll */
-/* ********************************* */
-#image_big {
-  height: 100%;
-  margin: 0 auto;
-  clear: both;
-  padding: 0;
-}
-#image_big img {
-    clear: both;
-    margin-top: 15px;
-}
-
-/* ********************************* */
-/* IIP Viewer - Flash Zoom Tool */
-/* ********************************* */
-/* Single */
-div.iipfview {
-    /* padding: 10ex; */
-    margin: 0 10px;
-    border: 1px solid #e0e0e0;
-    padding: 2px;
-    height: 100%;
-}
-
-/* Twins */
-div.iipfview_left {
-    /* padding: 10ex; */
-    margin: 0 10px;
-    border: 1px solid #e0e0e0;
-    padding: 2px;
-    height: 100%;
-    float: left;
-}
-div.iipfview_right {
-    /* padding: 10ex; */
-    margin: 0 10px;
-    border: 1px solid #e0e0e0;
-    padding: 2px;
-    height: 100%;
-    float: right;
-}
 
 /* ********************************* */
 

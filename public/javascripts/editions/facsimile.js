@@ -2,8 +2,9 @@
 Event.observe(window, 'load', function() {
   if ($('toolbar')) centerToolbar();
   // setThumbsSize($$('div.lonely p a img'));
-  setThumbsSize();
-  if($$('div.iipfview_left').length > 0) setIipTwinsWidths();
+  // setThumbsSize();
+  // Functions that set the position of the single or double IIP viewer, only if they exist
+    if($$('div.image_big').length > 0 || $$('div.image_half').length > 0) setIipViewerSize();
     
 });
 
@@ -11,9 +12,10 @@ Event.observe(window, 'load', function() {
 window.onresize = function () {
     /* I CALL TRHE FUNCTION THAT SETS VERTICAL DIMENSION FOR DIV ELEMENTS INSIDE THE PAGE */  
     set_height (); 
-    /* CALL TO THE FUNCTION THAT CENTERS THE TOOLBAR (IF EXISTS) */
+    // CALL TO THE FUNCTION THAT CENTERS THE TOOLBAR (IF EXISTS)
     if ($('toolbar')) centerToolbar();
-    if($$('div.iipfview_left').length > 0) setIipTwinsWidths();
+    // Functions that set the position of the single or double IIP viewer, only if they exist
+    if($$('div.image_big').length > 0 || $$('div.image_half').length > 0) setIipViewerSize();
 }
 
 
@@ -33,8 +35,8 @@ function set_height (){
 
     /* setting other heights */
     /* image big div */
-    var image_big_height = windowHeight - $('image_big').cumulativeOffset ( $('image_big')).top  ;
-    $('image_big').style.height = image_big_height + "px";
+    // var image_big_height = windowHeight - $('image_big').cumulativeOffset ( $('image_big')).top  ;
+    // $('image_big').style.height = image_big_height + "px";
 
     /* oggetti che contengono il visore flash */
     var array_iipfview = $$('div.iipfview');
@@ -67,7 +69,7 @@ function setThumbsSize() {
   // Scorro tutti gli elementi thumbnail
   // for(i=0; i<array_thumbs.length; i++) {
   for(i=0; i<array_full.length; i++) {
-    
+
     var finalWidth = 80;
     var finalHeight = 120;    
     
@@ -133,12 +135,47 @@ function resizeItem(itemToResize, maxWidth, maxHeight) {
 }// resizeAndCenterItem
 
 // Function that sets the correct widths of the twins iip flash viewer
-function setIipTwinsWidths() {
-    // Evaluate the width
-    var leftPosX = $$('div.iipfview_left')[0].cumulativeOffset().left;
-    var pageWidth = document.viewport.getDimensions().width;
-    var disposableWidth = pageWidth - leftPosX;
-    $$('div.iipfview_left')[0].style.width = ( disposableWidth/2 - 30 ) + "px";
-    $$('div.iipfview_right')[0].style.width = ( disposableWidth/2 - 30 ) + "px";
-    
+function setIipViewerSize() {
+    // Single viewer
+    if( $$('div.image_big').length > 0 ) {
+        var singleImageHolder = $$('div.image_big')[0];
+        var singleImageViewer = $$('div.iipfview')[0];
+
+        var availableWidth = $('visore').getDimensions().width;
+        var availableHeight = $('visore').getDimensions().height - $$('p.sigla')[0].getDimensions().height - 17;
+
+        singleImageHolder.setStyle({
+          position: 'absolute',
+          left: '24px',
+          right: '24px',
+          height: availableHeight + 'px'
+        });
+
+        singleImageViewer.setStyle({
+          height: availableHeight + 'px'
+        });
+    }
+
+    // Double Viewer
+    if( $$('div.image_half').length > 0 ) {
+        var leftImageViewer = $$('div.image_half')[0];
+        var rightImageViewer = $$('div.image_half')[1];
+
+        var availableWidth = $('visore').getDimensions().width;
+        var availableHeight = $('visore').getDimensions().height - $$('p.sigla')[0].getDimensions().height - 17;
+
+        leftImageViewer.setStyle({
+          position: 'absolute',
+          left: '24px',
+          width: ((availableWidth-50)/2) + 'px',
+          height: availableHeight + 'px'
+        });
+
+        rightImageViewer.setStyle({
+          position: 'absolute',
+          width: ((availableWidth-50)/2) + 'px',
+          right: '24px',
+          height: availableHeight + 'px'
+        });
+    }
 }

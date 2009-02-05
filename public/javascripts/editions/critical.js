@@ -42,11 +42,10 @@ function handleListCollapsing() {
      aLinkToDisable.writeAttribute({ href: 'javascript:;' });  
         
       Event.observe(currentElement, 'click', function(event) {
-        var nextItem = currentElement.next(0);
-        if(nextItem.getStyle('display') != 'none') {
-          Effect.BlindUp(nextItem, { duration: 0.3 });
+        if(this.next().getStyle('display') != 'none') {
+          Effect.BlindUp(this.next(), { duration: 0.3 });
         } else {
-            Effect.BlindDown(nextItem, { duration: 0.3 });
+            Effect.BlindDown(this.next(), { duration: 0.3 });
         }
       });
     }

@@ -5,9 +5,6 @@ body {
 }
 
 #header {
-    height: 71px;
-    width: 100%;
-    position: relative;	
     background: url(/images/editions/#EDITION_NAME#_bg_mainhead.jpg) no-repeat left top /*grafica di testata */;
     
 }

@@ -109,20 +109,20 @@ div.adder a.minus {
         margin: 0;
     }
     #scroll.menuList ul li a {
-        padding: 7px 0 4px 14px;
+        padding: 7px 0 4px 4px;
         display: block;
         color: #000;
         margin: 0 10px;
-        font-size: 1.5em;
+        font-size: 1.4em;
     }
     #scroll.menuList ul.book li a  {
-        background: url(/images/critical_edition/book.gif) no-repeat;
-        background-position: 0px 9px;
+        /* background: url(/images/critical_edition/book.gif) no-repeat;
+        background-position: 0px 9px; */
     }
     #scroll.menuList ul.secondlevel li a  {
         color: #666;
         margin: 0 20px;
-        font-size: 1.5em;
+        font-size: 1.4em;
     }
     #scroll.menuList ul.thirdlevel li {
         background-position: right;
@@ -130,30 +130,38 @@ div.adder a.minus {
     #scroll.menuList ul.thirdlevel li a  {
         color: #666;
         margin: 0 30px;
-        font-size: 1.5em;
+        font-size: 1.3em;
     }
     #scroll.menuList ul.pages li a {
-        background: url(/images/critical_edition/pages.gif) no-repeat;
+        /* background: url(/images/critical_edition/pages.gif) no-repeat; */
         background-position: 0px 11px;
     }
     #scroll.menuList ul.page li a {
-        background: url(/images/critical_edition/page.gif) no-repeat;
+        /* ackground: url(/images/critical_edition/page.gif) no-repeat; */
         background-position: 0px 11px;
     }
 
     /* Selected items */
     #scroll.menuList ul li.selected a {
         color: #990000;
+        color: #FFF;
     }
      #scroll.menuList ul.secondlevel li.selected a  {
         color: #990000;
+        color: #FFF;
     }
     
     #scroll.menuList ul.thirdlevel li.selected a  {
         color: #990000;
+        color: #FFF;
     }
+    #scroll.menuList ul li.opened {
+        background: #FFFFFF url(/images/critical_edition/bg_leftlist_opened.gif) top left no-repeat;
+    }
+    
     #scroll.menuList ul li.selected {
         background: #eeeeee url(/images/critical_edition/bg_leftlist_selected.gif) top left no-repeat;
+        background: #8b8b8b url(/images/critical_edition/bg_leftlist_selected_dark.gif) top left no-repeat;
     }
     
 /*  ******************************************/

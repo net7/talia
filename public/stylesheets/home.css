@@ -112,32 +112,33 @@ blockquote {
 #top_menu{
 	display: block;
 	height: 80px;
-	width: 758px;
-	padding-left: 45px;
+	width: 803px;
+    text-align: center;
 	background: transparent url(/images/start_page/menu_top_bg.jpg) top left no-repeat;
 	list-style: none;
 	color: #FFFFFF;
 }
 
-#top_menu ul{
-	margin-left: 170px;
-}
+    #top_menu ul{
+        text-align: center;
+        width: 803px;
+        padding-top: 51px;
+    }
 
-#top_menu li{
-	list-style: none;
-	float: left;
-	letter-spacing: 1.1px;
-	margin-top: 50px;
-}
-#top_menu li a{
-	color: #FFFFFF;
-	text-decoration: none;
-	text-transform: uppercase;
-	font-size: 9px;
-}
-#top_menu li a:hover{
-	text-decoration: underline;
-}
+    #top_menu li{
+        list-style: none;
+        display: inline;
+        letter-spacing: 1.1px;
+    }
+    #top_menu li a{
+        color: #FFFFFF;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 9px;
+    }
+    #top_menu li a:hover{
+        text-decoration: underline;
+    }
 /* ***************** ************** ************** */
 /* ***************** testata ************** */
 /* ***************** ************** ************** */
@@ -147,12 +148,12 @@ blockquote {
 	width: 803px;
 	background: transparent url(/images/start_page/header_bg.jpg) top left no-repeat;
 }
-#testata h1{
-	display: none;
-}
-#testata p{
-	display: none;
-}
+    #testata h1{
+        display: none;
+    }
+    #testata p{
+        display: none;
+    }
 
 /* ***************** ************** ************** */
 /* ***************** Menu ************** */
@@ -164,30 +165,30 @@ blockquote {
 	background: #000000 url(/images/start_page/menu_bg.jpg) top left no-repeat;
 	text-align: center;
 }
-#menu ul{
-	width: auto;
-	padding: 7px 0 0 0;
-}
-#menu li{
-	display: inline;
-	list-style: none;
-	letter-spacing: 1.1px;
-	text-align: center;
-	margin: 0 10px;
-}
-#menu li a{
-	color: #a19792;
-	text-decoration: none;
-	text-transform: uppercase;
-	font-size: 11px;
-	font-weight: bold;
-	background: transparent url(/images/start_page/triangolino.gif) bottom center no-repeat;
-	padding-bottom: 6px;
-}
-#menu li a:hover{
-	color: #FFFFFF;
-	background: transparent url(/images/start_page/triangolino_full.gif) bottom center no-repeat;
-}
+    #menu ul{
+        width: auto;
+        padding: 7px 0 0 0;
+    }
+    #menu li{
+        display: inline;
+        list-style: none;
+        letter-spacing: 1.1px;
+        text-align: center;
+        margin: 0 10px;
+    }
+    #menu li a{
+        color: #a19792;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 11px;
+        font-weight: bold;
+        background: transparent url(/images/start_page/triangolino.gif) bottom center no-repeat;
+        padding-bottom: 6px;
+    }
+    #menu li a:hover{
+        color: #FFFFFF;
+        background: transparent url(/images/start_page/triangolino_full.gif) bottom center no-repeat;
+    }
 
 /* ***************** ************** ************** */
 /* ***************** Contenuti ************** */
@@ -246,15 +247,16 @@ blockquote {
 		list-style: none;
 	}
 	#contenuti ul li{
-            list-style: none;
-            margin: 0 0 10px 0;
-            background: url(/images/start_page/switchscolar.gif) left center no-repeat;
+        list-style: none;
+        margin: 0 0 10px 0;
+        padding: 0 0 0 23px;
+        background: url(/images/start_page/switchscolar.gif) top left no-repeat;
 	}
         
-        #contenuti ul li a{
+    #contenuti ul li a{
 		color: #666;
-		padding: 0 0 0 23px;
-	}
+        padding: 0 0 0 0;
+    }
 	#contenuti ul li a:hover{
 	}
 

@@ -1,0 +1,24 @@
+/* 
+    Document   : error_pages
+    Created on : 5-feb-2009, 16.13.50
+    Author     : giorgio
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+body {
+    margin: 0;
+    padding: 150px 100px 100px 40px;
+    font-family: Georgia, Times, "Times New Roman", serif;
+    font-size: 0.9em;
+    background: #f0f0f0 url(../images/error_pages/error_pages_bg.gif) top left repeat-x;
+}
+p {
+    width: 400px;
+}
+

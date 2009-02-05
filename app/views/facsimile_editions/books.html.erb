@@ -12,7 +12,7 @@
     <% @books.each do |book| %>
       <li>
         <h1>
-          <%= thumb_link(book, :border => '0' ) %>
+          <%= thumb_link(book, :border => '0', :height => '60', :width => '40' ) %>
         </h1>
         <p>
           <%= material_description(book) %>

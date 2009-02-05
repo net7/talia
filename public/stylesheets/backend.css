@@ -8,7 +8,7 @@ body {
 	margin:0;
 	padding: 0;
 	border: 0;
-	background: #000000 url(/images/backend/page_bg.jpg) top left repeat-x;
+	background: #FFF url(/images/backend/header_bg.gif) top left repeat-x;
 	font-family: Avenir, Arial, "Lucida Grande", Verdana, "Bitstream Vera Sans", Helvetica, sans-serif;
 	font-size:0.8125em;
 }
@@ -65,8 +65,9 @@ a:hover{
 #paginaExt{
 	padding:0; border:0;
 	position: relative;
-	margin: 0 auto 0 auto;
-	width:800px;
+	margin: 0 0;
+	/* width:800px; */
+	width:100%;
 }
 
 #paginaInt{
@@ -80,8 +81,8 @@ a:hover{
 #testata{
 	display: block;
 	height: 181px;
-	width: 800px;
-	background: transparent url(/images/backend/header_bg.jpg) top left no-repeat;
+	width:100%;
+	background: transparent url(/images/backend/header.jpg) top left no-repeat;
 }
 	#testata h1{
 		display: none;
@@ -97,19 +98,25 @@ a:hover{
 	display: block;
 	height: 45px;
 	width: 800px;
-	background: #000000 url(/images/backend/menu_bg.jpg) top left no-repeat;
-	text-align: center;
+	width:100%;
+	background: url(/images/backend/menu_bg.gif) top left repeat-x;
+	text-align: left;
+    margin: 0; padding: 0;
 }
 	#menu ul{
 		width: auto;
-		padding: 14px 0 0 0;
+		padding: 14px 0 0 25px;
+        margin: 0;
+    	height: 45px;
+        background: url(/images/backend/menu.jpg) top left no-repeat;
+        background-position: -180px 0;
 	}
 	#menu li{
 		display: inline;
 		list-style: none;
 		letter-spacing: 1.1px;
 		text-align: center;
-		margin: 0 10px;
+		margin: 0 20px 0 00px;
 	}
 	#menu li a{
 		color: #a19792;
@@ -131,15 +138,15 @@ a:hover{
 #contenuti{
 	background-color:#fff;
 	width: 780px;
-	margin: 0 10px 0 10px;
+	width:100%;
+	
 	padding:  0 0 0 0;
 	text-align: center;
 }
 
 	#contenutoInterno{
-	background-color:#fff;
 		width: 740px;
-		padding: 20px 20px;
+		padding: 20px 25px;
 		text-align: left;
 	}
 
@@ -337,6 +344,13 @@ div.progressBar div.background {
 input.translation {
 	width: 180px;
 }
+
+/* Input field inside the table */
+table tr td input {
+    width: 500px;
+    padding: 4px;
+}
+
 
 /* ***************** ************** ************** */
 /* ***************** FOOTER ************** */
