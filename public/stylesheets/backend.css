@@ -294,6 +294,45 @@ div.main_menu_box a:hover{
   color: #fff;
 }
 
+.small {
+  font-size: .4em;
+}
+
+.grey {
+  color: #ccc;
+}
+
+.italic {
+  font-style: italic;
+}
+
+#data_form {
+	margin-top: 15px;
+	padding: 10px;
+	background-color: #ccc;
+}
+
+div.uploadStatus {
+  margin: 5px;
+}
+
+div.progressBar {
+	display: none;
+  margin: 5px;
+}
+
+div.progressBar div.border {
+  background-color: #fff;
+  border: 1px solid grey;
+  width: 100%;
+}
+
+div.progressBar div.background {
+  background-color: #0c0;
+  height: 18px;
+  width: 0%;
+}
+
 /* PAGINA TRANSLATIONS */
 input.translation {
 	width: 180px;
