@@ -228,13 +228,76 @@ div.main_menu_box a:hover{
 #translations_access a{
 }
 
+.rdf_header {
+	margin-top: 15px;
+	padding-left: 10px;
+	background: #333 url(/images/rdf_header_bg.gif) repeat-x top left;
+	color: #fff;
+	font-weight: bold;
+	font-size: 1em;
+}
+
+.add, .remove, .trash {
+	border: none;
+}
+
+.add {
+	float: right;
+	margin-top: -18px;
+	margin-right: 8px;
+}
+
+.predicates {
+	padding-left: 10px;
+}
+
+#data ul {
+	list-style-type: none;
+}
+
+#data p {
+	margin-top: 25px;
+}
+
+.data {
+	font-size: .7em;
+	padding: 2px;
+	margin-right: 2px;
+}
+
+.file {
+	background-color: #ff9;
+}
+
+.text {
+	background-color: #009;
+	color: #fff;
+}
+
+.xml {
+	background-color: #090;
+	color: #fff;
+}
+
+.image {
+	background-color: #900;
+	color: #fff;
+}
+
+.wmv {
+  background-color: #009;
+  color: #fff;
+}
+
+.mp4 {
+  background-color: #099;
+  color: #fff;
+}
 
 /* PAGINA TRANSLATIONS */
 input.translation {
 	width: 180px;
 }
-
-
 
 /* ***************** ************** ************** */
 /* ***************** FOOTER ************** */
