@@ -189,6 +189,11 @@ module TaliaCore
       constraint = new_record? ? {} : { :object_type => 'TaliaCore::ActiveSource'}
       get_objects_on(N::RDF.type.to_s, constraint, TypesWrapper)
     end
+
+    # Returns if the Facsimile is of the given type
+    def has_type?(type)
+      (self.types.include?(type))
+    end
     
     private
     
