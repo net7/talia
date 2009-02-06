@@ -62,16 +62,18 @@ module TaliaCore
       Book.find(:first, :find_through_inv => [N::DCT.isPartOf, self])
     end
 
-    # Returns the 
-    def to_image
-      manif = manifestations(Facsimile)
-      return nil unless(manif.size > 0)
-      @image ||= manif.first.data.first
-    end
-
-    def image_path
-      return nil unless(image = to_image)
-      image.file_path 
+    # Returns the facsimile for the page, if one exists. Nil otherwise. You have
+    # name a type (e.g. 'Color', which correponds to hyper:Color) to select
+    # the type of facsimile to return
+    def facsimile(type)
+      assit(type)
+      facs_qry = Query.new(Source).select(:facsimile).distinct
+      facs_qry.where(:facsimile, N::HYPER.manifestation_of, self)
+      facs_qry.where(:facsimile, N::RDF.type, N::HYPER + 'Facsimile')
+      facs_qry.where(:facsimile, N::RDF.type, N::HYPER + type)
+      facs = facs_qry.execute
+      assit(facs.size <= 1)
+      (facs.size > 0) ? facs.first : nil
     end
 
     private

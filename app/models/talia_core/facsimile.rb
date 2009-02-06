@@ -6,17 +6,19 @@ module TaliaCore
     
     singular_property :dimensions, N::DCT.extent
         
-    # The IIP path (identifier) that the IIP frontend uses to display the
-    # facsimile
-    def iip_path
-      # TODO: Implementation
+    # Return the IipData object if it exists. Nil otherwise.
+    def iip_data
+      data_records.find(:first, :conditions => {:type => 'IipData'})
+    end
+
+    # Return the Original image object if it exists. Nil otherwise
+    def original_image
+      data_records.find(:first, :conditions => {:type => 'ImageData'})
     end
     
-    # Returns the thumbnail ("minifax") of this element
-    def thumb
-      # TODO: Implementation
-      # the views wait for something like:
-      # send_data image.content_string, :type => 'image/jpeg', :disposition => 'inline'
+    # Return the pdf data if it exists, or nil otherwise
+    def pdf_data
+      data_records.find(:first, :conditions => {:type => 'PdfData'})
     end
     
   end

@@ -195,7 +195,6 @@ namespace :discovery do
   
   desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> header=<header_directory> description=<html_description_file> catalog=<catalog_siglum> [version=<version>]"
   task :create_critical_edition => :disco_init do
- 
     TaliaCore::Book
     TaliaCore::Page
     TaliaCore::Chapter
@@ -413,73 +412,82 @@ namespace :discovery do
           logger.info "[#{Time.now.to_s(:long)}] Generating #{title.titleize}"
 
           elapsed = Benchmark.realtime do
-            PDF::Writer.new do |pdf|
-              filename = "#{title}.pdf"
+            writer = PDF::Writer.new do |pdf|
               book.ordered_pages.each do |page|
                 # In order to make the image fit inside the page I have to resize it with this
                 # "magic number" (0.85), because the original pages doesn't have the same proportion
                 # of the A4 format.
                 # This means to have (for now) ugly and wide white borders.
                 # TODO find the right way to pack the images
-                pdf.image page.image_path, :justification => :center, :resize => 0.85
+                image = page.orignal_image
+                pdf.image(image.file_path, :justification => :center, :resize => 0.85) if(image)
               end
-            end.save_as File.join(pdf_path, filename)
-
-            TaliaCore::DataTypes::PdfData.create :location => filename, :source_id => book.id
+            end
+            filename = File.join(Dir.tmpdir, "#{rand 10E16}.pdf")
+            writer.save_as(filename)
+            pdf_data = TaliaCore::DataTypes::PdfData.new(:source_id => book.id)
+            pdf_data.create_from_file('', filename, true) # set to delete tempfile on create
+            pdf_data.save!
           end
 
           logger.info("[#{Time.now.to_s(:long)}] #{title.titleize} generated in %.2f secs" % elapsed)
         end
       end
       
-      desc "Create PDF pages"
-      task :pages => :prepare do
+      desc "Create PDF for books and single Facsimile objects."
+      task :stuff => :prepare do
         require 'pdf/writer'
-        logger = TaliaCore::Page.logger
+        logger = TaliaCore::Source.logger
 
-        pdf_path = File.join(DATA_PATH, 'PdfData')
-        FileUtils.mkdir_p pdf_path
+        # First go through the books
+        books = TaliaCore::Book.find(:all)
+        facsimiles = TaliaCore::Facsimile.find(:all)
 
-        pages = TaliaCore::Page.find(:all)
-        puts "Processing #{pages.size} pages"
-        progress = ProgressBar.new("PDF creation", pages.size)
-        found = 0
-        not_found = 0
-        
-        pages.each do |page|
-          title = page.uri.local_name
-          logger.info "[#{Time.now.to_s(:long)}] Generating #{title.titleize}"
+        puts "Processing #{facsimiles.size} facsimiles from #{books.size} books"
 
-          progress.inc
-          
-          filename = page.uri.local_name + '.pdf'
-          
-          f_path = page.image_path
-          elapsed = 0
-          if(f_path)
-            found += 1
-            elapsed = Benchmark.realtime do
-              PDF::Writer.new do |pdf|
-                filename = "#{title}.pdf"
-                # In order to make the image fit inside the page I have to resize it with this
-                # "magic number" (0.85), because the original pages doesn't have the same proportion
-                # of the A4 format.
-                # This means to have (for now) ugly and wide white borders.
-                # TODO find the right way to pack the images
-                pdf.image f_path, :justification => :center, :resize => 0.85
-              end.save_as File.join(pdf_path, filename)
+        progress = ProgressBar.new("PDF creation", facsimiles.size)
+
+        created = 0
+        blank = 0
+        book_pages = 0
+
+        books.each do |book|
+          logger.info "[#{Time.now.to_s(:long)}] Generating for book #{book.uri.local_name}"
+          copyright_info = book.dcns::rights.first || ''
+          book_sig = book.siglum || book.uri.local_name
+
+          book_writer = PDF::Writer.new
+          pdf_data_book = TaliaCore::DataTypes::PdfData.new(:source_id => book.id)
+          pdf_data_book.create_from_writer(:paper => 'A4') do |book_writer|
+            pages = book.ordered_pages.elements
+            puts "WARNING: Book with no pages #{book.uri}" if(pages.size == 0)
+            pages.each do |page|
+              facs = page.manifestations(TaliaCore::Facsimile)
+              facs.each do |f|
+                page_position = page.hyper::position_name.first || page.hyper::position.first
+                page_line = "Page #{page.siglum} (#{page_position} from #{book_sig})"
+                TaskHelper::create_facsimile_pdf(f, copyright_info, page_line) ? (created += 1) : (blank += 1)
+                if(f.has_type?(N::HYPER.Color) && (image = f.original_image))
+                  pos_line = "#{book_sig} - page #{page_position} (#{page.siglum})"
+                  TaskHelper::write_facs_pdf(book_writer, image, pos_line, book.uri.to_s, copyright_info)
+                  book_writer.start_new_page
+                  book_pages += 1
+                end
+                progress.inc if(facsimiles.delete(f))
+              end
             end
-          else
-            not_found += 1
           end
-
-          TaliaCore::DataTypes::PdfData.create :location => filename, :source_id => page.id
-       
-          logger.info("[#{Time.now.to_s(:long)}] #{title.titleize} generated in %.2f secs" % elapsed)
-          
+          pdf_data_book.save!
         end
+
+        # Now for the rest of the facsimiles
+        facsimiles.each do
+          |f| TaskHelper::create_facsimile_pdf(f) ? (created +=1) : (blank += 1)
+          progress.inc
+        end
+        
         progress.finish
-        puts "Done. Found #{found} pages with images and #{not_found} without"
+        puts "Done. Found #{created} facsimiles with images and #{blank} without. Created #{book_pages} book pages."
       end
     end
 
@@ -490,11 +498,7 @@ namespace :discovery do
       logger.info "[#{Time.now.to_s(:long)}] deleting all generated PDF"
 
       elapsed = Benchmark.realtime do
-        locations = Dir[pdf_path].map do |file|
-          FileUtils.rm file
-          file.split(File::SEPARATOR).last
-        end
-        TaliaCore::Book.delete_all([ "location IN(?)", locations ]) if locations.any?
+        TaliaCore::DataTypes::PdfData.destroy_all
       end
       
       logger.info("[#{Time.now.to_s(:long)}] deleted all genetated PDF in %.2f secs" % elapsed)

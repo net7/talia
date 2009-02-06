@@ -12,7 +12,7 @@ module TaliaCore
         true
       end
     end
-    
+
     private
     
     def make_keyword(name)

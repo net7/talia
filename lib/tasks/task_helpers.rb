@@ -297,21 +297,42 @@ class TaskHelper
       RdfUpdate::owl_to_rdfs
     end
 
+    # Create the PDF for a facsimile
+    def create_facsimile_pdf(facsimile, copyright_info = nil, top1 = nil, top2 = nil)
+      return nil if(facsimile.pdf_data) # Skip existing
+      
+      title = facsimile.uri.local_name
+      TaliaCore::Source.logger.info "[#{Time.now.to_s(:long)}] Generating #{title.titleize}"
+
+      result = nil
+      copyright_info ||= ''
+      top1 ||= "Facsimile #{facsimile.uri.local_name}"
+      top2 ||= facsimile.uri.to_s
+
+      if(image = facsimile.original_image)
+        pdf_data = TaliaCore::DataTypes::PdfData.new(:source_id => facsimile.id)
+        pdf_data.create_from_writer(:paper => 'A4') do |pdf|
+          write_facs_pdf(pdf, image, top1, top2, copyright_info)
+        end
+        pdf_data.save!
+        result = true
+      end
+
+      result # nil if nothing was done
+    end
+
+    # writes the page pdf to the pdf writer
+    def write_facs_pdf(pdf_writer, image, top_one, top_two, copyright_line)
+      # All coordinates assume an A4 ppage
+      pdf_writer.image(image.file_path, :justification => :center, :resize => :full)
+      pdf_writer.add_text(25, 822, top_one)
+      pdf_writer.add_text(25, 810, top_two)
+      pdf_writer.add_text(25, 20, copyright_line)
+    end
+
     # "Manually" get the root path
     def root_path
       File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
-    end
-
-    # This will create a pdf for the given representation. The representation
-    # is supposed to be a TaliaCore::Manifestation, which has one Image data
-    # element attached. (If there is more than one, an image will be selected
-    # randomly).
-    #
-    # The method will create a PDF represenation of the attached image, and
-    # attach it to the representation as a new data element.
-    def create_pdf_for(representation)
-      assit_kind_of(TaliaCore::Manifestation, representation)
-      # image = represntation.data_records.find(:first, :conditions => { :type => })
     end
   end
 end
