@@ -95,7 +95,7 @@ class CriticalEditionsController < SimpleEditionController
    
   # Activates the print button
   def print_tool
-    @tools = [{:id =>'print', :text=> 'Print', :target => 'blank', :link => "#{@book.uri.to_s}/print"}]
+    @tools = [{:id =>'print', :text=> :'talia.global.print', :target => 'blank', :link => "#{@book.uri.to_s}/print"}]
   end
   
   def prepare_for_book

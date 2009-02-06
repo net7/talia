@@ -29,7 +29,7 @@
               <% for tool in (@tools || []) %>
                 <li id="<%= tool[:id] %>">
                     <span>
-                        <a title="<%= tool_text(tool) %>" href="<%= tool[:link] %>" <%= "target='#{tool[:target]}'"if tool[:target] %>><%= tool_text(tool) %></a>
+                        <a title="#{tool[:text]}" href="<%= tool[:link] %>" <%= "target='#{tool[:target]}'"if tool[:target] %>><%= tool_text(tool) %></a>
                     </span>
                 </li>
               <% end  %>
