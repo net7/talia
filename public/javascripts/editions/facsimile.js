@@ -134,8 +134,15 @@ function resizeItem(itemToResize, maxWidth, maxHeight) {
   return arrayMargins;
 }// resizeAndCenterItem
 
+
 // Function that sets the correct widths of the twins iip flash viewer
 function setIipViewerSize() {
+
+    $$('p.next')[0].setStyle({
+          right: '0'
+      });
+
+
     // Single viewer
     if( $$('div.image_big').length > 0 ) {
         var singleImageHolder = $$('div.image_big')[0];

@@ -151,7 +151,7 @@ div.adder a.minus {
         color: #FFF;
     }
     
-    #scroll.menuList ul.thirdlevel li.selected a  {
+    #scroll.menuList ul.thirdlevel li.selected a {
         color: #990000;
         color: #FFF;
     }
@@ -163,11 +163,15 @@ div.adder a.minus {
         background: #eeeeee url(/images/critical_edition/bg_leftlist_selected.gif) top left no-repeat;
         background: #8b8b8b url(/images/critical_edition/bg_leftlist_selected_dark.gif) top left no-repeat;
     }
-    
+
+    /* Selected items */
+    #scroll.menuList ul li.selected ul li a, #scroll.menuList ul.secondlevel li.selected ul li a, #scroll.menuList ul.thirdlevel li.selected ul li a {
+        color: #666;
+    }
+
 /*  ******************************************/
 /* CONTENT */
 /*  ******************************************/
-
 
 /*  ******************************************/
 /* TXT BLOCK ******************* */
@@ -177,7 +181,7 @@ div.adder a.minus {
     border: 1px solid #e5e5e5;
     background: #fff;
     padding: 25px;
-    margin: 25px 20px 0 0;
+    margin: 25px 20px 0 20px;
     text-align: left;
 }
 
@@ -185,12 +189,20 @@ div.adder a.minus {
     background: #f3f3f3;
 }
 
+/* Generic definition of style */
+div#visore{
+    color: #000;
+    font-size: 1.2em;
+    line-height: 2em;
+    padding-bottom: 20px;
+}
+
 div#visore h1 {
     color: #584239;
     font-family: georgia, serif;
     font-weight: normal;
     font-size: 2.6em;
-    line-height: 3.8em;
+    /* line-height: 3.8em; */
 }
 
 div#visore h2 {
@@ -198,7 +210,7 @@ div#visore h2 {
     font-family: georgia, serif;
     font-weight: normal;
     font-size: 1.6em;
-    line-height: 2.4em;
+    /* line-height: 2.4em; */
 }
 div#visore h2 span {
     color: #900;
@@ -210,22 +222,6 @@ div#visore.extended h1 {
     font-weight: bold;
     color: #000;
 } 
-
-/*
-div#visore p{
-    color: #000;
-    font-size: 1.2em;
-    line-height: 2em;
-    padding-bottom: 20px;
-}
-*/
-
-div#visore{
-    color: #000;
-    font-size: 1.2em;
-    line-height: 2em;
-    padding-bottom: 20px;
-}
 
 div#visore p.editedby {
     border-bottom: 1px solid #e5e5e5;
@@ -253,7 +249,6 @@ div#visore p.about a {
 /*  ******************************************/
 /* tools */
 /*  ***************************************** */
-
 div#visore div.resultstools {
     padding:10px 15px;
     margin:15px 20px 10px 0;

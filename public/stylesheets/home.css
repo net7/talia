@@ -25,13 +25,12 @@ body {
 	text-align:center;
 	color: #333;
 	margin:0;
-	padding: 0 35px;
+	/* padding: 0 35px; */
 	border: 0;
 	background: #000000 url(/images/start_page/page_bg.jpg) top left repeat-x;
 	font-family: Arial, "Lucida Grande", Verdana, "Bitstream Vera Sans", Avenir, Helvetica, sans-serif;
 	font-size:0.8125em;
 }
-
 
 /* ***************** ************** ************** */
 /* ***************** CLASSI ************** */
@@ -43,7 +42,6 @@ body {
 .floatClear{
 	clear: both;
 }
-
 
 /* ***************** ************** ************** */
 /* ***************** TAG ************** */
@@ -98,21 +96,22 @@ blockquote {
 	padding:0; border:0;
 	position: relative;
 	margin: 18px auto 0 auto;
-	width:803px;
+	width:804px;
 }
 
 #paginaInt{
 	margin:0; padding:0; border:0;
-	width:100%;
+	width:804px;
 }
 
 /* ***************** ************** ************** */
 /* ***************** MENU IN ALTO ************** */
 /* ***************** ************** ************** */
 #top_menu{
+    margin: 0; padding: 0;
 	display: block;
 	height: 80px;
-	width: 803px;
+	width: 804px;
     text-align: center;
 	background: transparent url(/images/start_page/menu_top_bg.jpg) top left no-repeat;
 	list-style: none;
@@ -121,7 +120,7 @@ blockquote {
 
     #top_menu ul{
         text-align: center;
-        width: 803px;
+        width: 804px;
         padding-top: 51px;
     }
 
@@ -143,9 +142,10 @@ blockquote {
 /* ***************** testata ************** */
 /* ***************** ************** ************** */
 #testata{
+    margin: 0; padding: 0;
 	display: block;
 	height: 242px;
-	width: 803px;
+	width: 804px;
 	background: transparent url(/images/start_page/header_bg.jpg) top left no-repeat;
 }
     #testata h1{
@@ -159,10 +159,11 @@ blockquote {
 /* ***************** Menu ************** */
 /* ***************** ************** ************** */
 #menu{
+    margin: 0 0 0 0; padding: 0;
 	display: block;
 	height: 35px;
-	width: 803px;
-	background: #000000 url(/images/start_page/menu_bg.jpg) top left no-repeat;
+	width: 804px;
+	background: url(/images/start_page/menu_bg.jpg) top left no-repeat;
 	text-align: center;
 }
     #menu ul{
@@ -196,23 +197,26 @@ blockquote {
 #contenuti{
 	background-color:#fff;
 	width: 780px;
-	margin: 0 10px 0 11px;
-	padding:  20px 0 0 0;
+	margin: 0 13px 0 11px;
+	padding:  0px 0 0 0;
 	text-align: left;
+    /* float: left; */
 }
 
 	#contenutoTesta{
-		width: 740px;
+		/*
+        width: 740px;
 		padding: 0 20px;
-	}
+        */
+    }
 
-
-	#contenutoDoppio_ext{
+    #contenutoDoppio_ext{
 		background: #eee url(/images/start_page/filo_oriz.jpg) top center no-repeat;
-		background-color: #eeeeee;
+		/* background-color: #eeeeee; */
 		float: left;
 		width: 780px;
-		margin: 0; padding: 0;
+		margin: 20px 0 0 0; padding: 0;
+        padding-top: 00px;
 	}
 	
 	#contenutoDoppio_int{
@@ -222,7 +226,6 @@ blockquote {
 		margin: 0; padding: 0;
 	}
 	
-	
 	#contenutoDoppio_singolo{
 		background: #eee url(/images/start_page/filo_oriz.jpg) top center no-repeat;
 		background-color: #eeeeee;
@@ -230,9 +233,7 @@ blockquote {
 		width: 740px;
 		margin: 0; padding: 20px;
 	}
-	
-	
-		#contenutoSinistra{
+        #contenutoSinistra{
 			width: 350px;
 			float: left;
 			padding: 20px;
@@ -266,7 +267,7 @@ blockquote {
 #piede{
 	display: block;
 	width: 780px;
-	margin: 0 10px 0 11px;
+	margin: 0 13px 0 11px;
 	height: 45px;
 	background: #000000 url(/images/start_page/footer_bg.jpg) top left no-repeat;
 	text-align: center;

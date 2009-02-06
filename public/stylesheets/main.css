@@ -183,35 +183,45 @@ a:active
 #navigate {
     background:#433934 url(/images/bg_first_line.gif) repeat-x top;
     width: 100%;
-    float: left;
-    height: 2.6em;
+    height: 2.7em;
     overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #FFF;
 }
     /* Navigation path on the left */
-    #navigate a {
+    #navigate div.simple_mode_path_widget {
+        position: absolute;
+        top: 0; left: 0;
+        padding: 0 10px;
+        color: #fff;
+        font-size: 1.15em;
+        line-height: 2.6em;
+        height: 2.6em;
+    }
+
+    #navigate div.simple_mode_path_widget a {
         color: #e0e0e0;
         text-decoration: underline;
+        padding: 5px;
     }
 
     #navigate p {
+        color: #e0e0e0;
         padding: 0 10px;
         color: #fff;
         font-size: 1.15em;
         line-height: 2.6em;
+        float: left;
     }
-
-    .simple_mode_path_widget {
-        padding: 0 10px;
-        color: #fff;
-        font-size: 1.15em;
-        line-height: 2.6em;
-    }
-
+    
     /* Tools on the right */
     #navigate #tools {
-        float: right;
+        /* float: right; */
         margin: 0px 10px;
         height: 2.6em;
+
+        position: absolute;
+        top: 0; right: 0;
     }
 
     /* EXPLORER FIX */
@@ -252,16 +262,18 @@ a:active
         background: #5d5552 url(../images/tool_bg_rollover.gif) top left repeat-x;
     }
     #navigate #tools ul li span a {
-      display: block;
-      float: left;
-      line-height: 2.6em;
-      height: 2.6em;
-      text-decoration: none;
-      padding: 0 20px 0 30px;
-      margin: 0 2px;
+        display: block;
+        float: left;
+        line-height: 2.6em;
+        height: 2.6em;
+        text-decoration: none;
+        padding: 0 20px 0 30px;
+        margin: 0 2px;
+        color: #e0e0e0;
     }
     #navigate #tools ul li span a:hover {
       text-decoration: underline;
+        color: #e0e0e0;
     }
 
     /* CUSTOMIZE ICONS ! */
@@ -351,7 +363,7 @@ a:active
 #scroll {
     float: left;
     width: 205px;
-    display: auto;
+    /* display: auto; */
     margin: 0;
     padding: 0 5px;
     background: #f4f4f4;
@@ -386,25 +398,26 @@ a:active
 }
 
 #content.divided {
-            float: right;
-            /* Fix for duplicate text in explorer */
-            display: inline;
-            width: 100%;
-            /* SOLUZIONE */
-            z-index: -1;
-            /* SOLUZIONE */
-            margin-left: -229px;
-          }
+    float: right;
+    /* Fix for duplicate text in explorer */
+    display: inline;
+    width: 100%;
+    overflow: hidden;
+    /* SOLUZIONE */
+    z-index: -1;
+    /* SOLUZIONE */
+    margin-left: -229px;
+  }
 
-          div#visore {
-            position: relative;
-            overflow: auto;
-            /* text-align: center; */
-            padding:0;
-            /* margin: 0 0 0 229px; */
-            margin: 0 0 0 217px;
+  div#visore {
+    position: relative;
+    overflow: auto;
+    /* text-align: center; */
+    padding:0;
+    /* margin: 0 0 0 229px; */
+    margin: 0 0 0 217px;
 
-          }
+  }
 
 /*  ******************************************/
 /*  LIST OF MAIN ELEMENTS IN THE PAGE */
@@ -661,7 +674,8 @@ ul#access_list {
     #content.divided div#visore p.next a:hover{
         background: url(../images/facsimile_edition/next_arrow_ro.gif) center center no-repeat;
     }
-    
+
+
 /* Vista immagine singola */
 #content.divided div#visore div#image_big{
     text-align: center;
@@ -670,7 +684,6 @@ ul#access_list {
 
 /* Vista immagine doppia */
 #content.divided div#visore div#image_half{
-    border: 1px solid red;
     text-align: center;
 }
 
@@ -686,8 +699,10 @@ ul#access_list {
 div.iipfview , div.iipfview_left, div.iipfview_right{
     /* padding: 10ex; */
     margin: 0;
+    /*
     border: 1px solid #e0e0e0;
     padding: 2px;
+    */
     height: 100%;
 }
 
