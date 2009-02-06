@@ -1,8 +1,9 @@
 <ul class="secondlevel pages">
   <% for chapter in chapters %>
-    <%=  w.put_chapter(chapter) %>
+    <%=  w.open_chapter(chapter) %>
     <% if w.element_chosen?(:chapter, chapter) %>
       <%= w.partial('parts', :object => w.parts_for(chapter)) %>
     <% end %>
+    <%= w.close_chapter %>
   <% end %>
 </ul>

@@ -29,7 +29,7 @@ class CriticalEditionMenuWidget < Widgeon::Widget
   end
 
   # Renders the given chapter in it's own element.
-  def put_chapter(chapter)
+  def open_chapter(chapter)
     select_class = ''
     if(element_chosen?(:chapter, chapter))
       # Set the class depending on if there's a selected sub-part
@@ -38,8 +38,12 @@ class CriticalEditionMenuWidget < Widgeon::Widget
     partial('item', :locals => { :item_uri => item_uri_for(chapter), :item_title => title_for(chapter), :select_class => select_class })
   end
 
+  def close_chapter
+    "</li>"
+  end
+
   # Renders the given book in it's own element.
-  def put_book(book)
+  def open_book(book)
     select_class = ''
     if(element_chosen?(:book, book))
       # Set the class depending on if there's a selected sub-part
@@ -48,10 +52,18 @@ class CriticalEditionMenuWidget < Widgeon::Widget
     partial('item', :locals => { :item_uri => item_uri_for(book), :item_title => title_for(book), :select_class => select_class })
   end
 
+  def close_book
+    "</li>"
+  end
+
   # Renders the given part in it's own element
-  def put_part(part)
+  def open_part(part)
     select_class = element_chosen?(:part, part) ? 'class="selected"' : ''
     partial('item', :locals => { :item_uri => item_uri_for(part), :item_title => title_for(part), :select_class => select_class })
+  end
+
+  def close_part
+    "</li>"
   end
 
   # Returns true if the given element is the chosen element of the given type

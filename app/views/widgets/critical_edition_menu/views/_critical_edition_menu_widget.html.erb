@@ -24,10 +24,11 @@
   <ul class="toplevel book">
 
     <% for book in w.books %>
-      <%= w.put_book(book) %>
+      <%= w.open_book(book) %>
       <% if w.element_chosen?(:book, book) %>
         <%= w.show_second_level_for(book) %>
       <% end %>
+      <%= w.close_book %>
     <% end %>
 
   </ul>
