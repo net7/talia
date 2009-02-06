@@ -170,7 +170,7 @@ class Feeder
       url = '' #TODO
       content = '' #TODO
       add_version(versions, content_version, "1", "talia:url", content, true)
-#    when TaliaCore::Comment
+      #    when TaliaCore::Comment
       #TODO: implementation
     when TaliaCore::Path
       #TODO: implementation
@@ -230,13 +230,12 @@ class Feeder
         node.add_element(REXML::Element.new("talia:title").add_text(material.dcns.title.to_s))
         case material
         when TaliaCore::Page
-          tmp_position = material.hyper.position.to_s
+          position = '000000' + material.hyper.position.to_s
         when TaliaCore::Paragraph
-          tmp_position = material.position_in_book
+          position = material.position_in_book
         else
-          tmp_position = ''
+          position = '000000'
         end
-        position = ("000000" + tmp_position)[-6..-1]
         node.add_element(REXML::Element.new("talia:position").add_text(position))
       end
     end

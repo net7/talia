@@ -68,8 +68,8 @@ module FacsimileEditionsHelper
   end
  
   # returns the copyright note to be shown below the facsimile images
-  def copyright_note(page)
-    book = page.book
+  def copyright_note(book_part)
+    book = book_part.book
     book.dcns::rights.first
   end
 
