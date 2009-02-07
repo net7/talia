@@ -11,7 +11,7 @@ module TaliaCore
       
       # This is the mime type for the thumbnail - always tiff
       def set_mime_type
-        self.mime = 'image/jpeg'
+        self.mime = 'image/gif'
       end
       
       alias :get_thumbnail :all_bytes
