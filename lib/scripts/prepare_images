@@ -90,7 +90,7 @@ FileUtils.mkdir_p(File.join(destination, 'originals'))
 files.each do |file|
   file_base = File.basename(file, File.extname(file))
   create_original(file, File.join(destination, 'originals', File.basename(file)), flags.force)
-  create_thumb(file, File.join(destination, 'thumbs', "#{file_base}.jpg"), flags.force)
+  create_thumb(file, File.join(destination, 'thumbs', "#{file_base}.gif"), flags.force)
   create_pyramid(file, File.join(destination, 'pyramids', "#{file_base}.tif"), flags.force)
   progress.inc
 end
