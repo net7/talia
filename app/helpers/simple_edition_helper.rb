@@ -26,7 +26,7 @@ module SimpleEditionHelper
   end
 
   def tool_text(tool)
-    t(:"talia.tools.#{tool[:text].strip.underscore}")
+    t(:"talia.tools.#{tool[:text]}")
   end
   
   def edition_style_link
