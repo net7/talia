@@ -9,7 +9,9 @@
 class FacsimileEditionsController < SimpleEditionController
   set_edition_type :facsimile
   add_javascripts 'swfobject', 'iip_flashclient', 'shadowbox-prototype', 'shadowbox'
-    
+
+  before_filter :setup_tools
+
     # GET /facsimile_editions/1
   def show
     @path = [{:text => params[:id]}]
@@ -53,7 +55,7 @@ class FacsimileEditionsController < SimpleEditionController
           {:text => t_type, :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@type}"},
           {:text => params[:book] + " (#{t(:'talia.facsimile_edition.panorama')})"}
         ]
-        print_tool # Enable the print button
+        download_tool(@book)
         @page_title_suff = ", #{params[:book]}"
       end
       format.jpeg do
@@ -88,6 +90,7 @@ class FacsimileEditionsController < SimpleEditionController
           @page2 = TaliaCore::Page.find(page2)
         else
           @page = TaliaCore::Page.find(URI::decode(request.url))
+          download_tool(@page.manifestations(TaliaCore::Facsimile).first)
         end         
         qry = Query.new(TaliaCore::Book).select(:b).distinct
         qry.where(@page, N::DCT.isPartOf, :b)
@@ -97,7 +100,7 @@ class FacsimileEditionsController < SimpleEditionController
         @path = page_path
         @page_title_suff = ", #{params[:page]}"
         @page_title_suff += "- #{params[:page2]}" if(params[:page2])
-        print_tool # Enable the print button
+        fullscreen_tool # Enable the fullscreen button
       end
       format.jpeg do
         page = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]
@@ -127,11 +130,25 @@ class FacsimileEditionsController < SimpleEditionController
   # Activates the print button
   def print_tool
     #TODO: PDF integration. the next line should add a call to the pdf.
-    @tools = [:id => 'print', :text => :'talia.global.print', :link => '#TODO: PDF creation']
-    @tools << { :id => 'download', :text => 'download', :link => '#TODO: PDF creation'}
-    @tools << { :id => 'fullscreen', :text => 'fullscreen', :link => '#TODO: PDF creation'}
+    # @tools  << { :id => 'print', :text => :'talia.global.print', :link => '#TODO: PDF creation' }
+    # @tools << { :id => 'download', :text => 'download', :link => '#TODO: PDF creation'}
+    # @tools << { :id => 'fullscreen', :text => 'fullscreen', :link => '#TODO: PDF creation'}
   end
-  
+
+  # Activates the fullscreen button
+  def fullscreen_tool
+    @tools << { :id => 'fullscreen', :text => 'talia.global.fullscreen', :link => '#TODO: PDF creation'}
+  end
+
+  # Activates download button
+  def download_tool(element)
+    return unless(element)
+    pdf_data = element.data_records.find(:first, :conditions => { :type => 'PdfData' } )
+    if(pdf_data)
+      @tools << { :id => 'download', :text => 'download', :link => data_link(pdf_data) }
+    end
+  end
+
   # Makes the path for the page
   def page_path
     path =[
@@ -146,5 +163,19 @@ class FacsimileEditionsController < SimpleEditionController
     path << {:text => text}
     path
   end
+
+  def setup_tools
+    @tools = []
+  end
+
+  def data_link(data)
+    static_prefix = TaliaCore::CONFIG['static_data_prefix']
+    if(!static_prefix || static_prefix == '' || static_prefix == 'disabled')
+      url_for(:controller => 'source_data', :action => 'show', :id => data.id)
+    else
+      data.static_path
+    end
+  end
+
 
 end

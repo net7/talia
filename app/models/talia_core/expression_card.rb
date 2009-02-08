@@ -129,6 +129,7 @@ module TaliaCore
       #      type.find(:all, :find_through => [N::HYPER.manifestation_of, self])
       qry = Query.new(TaliaCore::Source).select(:m).distinct
       qry.where(:m, N::HYPER.manifestation_of, self)
+      qry.where(:m, N::RDF.type, (N::TALIA + type.name.demodulize)) if(type != Source)
       qry.execute
     end
     
