@@ -22,7 +22,7 @@ class AdvancedSearchWidget < Widgeon::Widget
       widget_session[:mode] = @options[:mode]
 
       # store work object
-      widget_session[:work] = save_works(@options[:work]) || nil
+      widget_session[:edition] = @options[:edition]
 
       # reset current size value
       widget_session[:current_size] = 0
@@ -308,7 +308,11 @@ class AdvancedSearchWidget < Widgeon::Widget
 
   # return an array of all work (for example: TaliaCore::Book)
   def works
-    widget_session[:work]
+    # get current edition
+    edition = TaliaCore::CriticalEdition.find widget_session[:edition]
+
+    # return all books in current edition
+    return edition.books
   end
 
   # return an array of all subparts contained in current work.
@@ -442,18 +446,6 @@ class AdvancedSearchWidget < Widgeon::Widget
 
   def is_avmedia_search
     return (widget_session[:mode] == :avmedia)
-  end
-
-  private
-  
-  def save_works(books = [])
-    if !is_avmedia_search
-      widget_session[:work] = []
-
-      books.each do |book|
-        widget_session[:work] << book.uri.to_s
-      end
-    end
   end
 
 end
