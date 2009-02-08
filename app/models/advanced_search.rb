@@ -14,7 +14,8 @@ class AdvancedSearch
 
     # check if words field is empty
     if words
-      data['words'] = words
+      # late minute hack, eliminates ' and " 
+      data['words'] = words.gsub(/["']/, ' ')
     end
 
     # add mc - mc_from - mc_to if specified
