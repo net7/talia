@@ -23,7 +23,8 @@
         <div id="top_menu">
           <ul>
             <% for link in @title_links %>
-              <li><%= titled_link(link[1], link[0])%>&nbsp;|&nbsp;</li>
+              <li><%= titled_link(link[1], link[0])%>
+              <% unless(link == @title_links.last) %> &nbsp;|&nbsp; <% end  %></li>
             <% end %>
           </ul>
         </div>
