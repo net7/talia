@@ -1,11 +1,7 @@
 require 'JXslt/jxslt'
 
 unless defined? TaliaCore::XSLT_ROOT
-  if "#{RAILS_ROOT}/public/xslt"
-    TaliaCore::XSLT_ROOT = "#{RAILS_ROOT}/public/xslt"
-  else  # when deploying in Tomcat, the content of the public directory is copied outside the RAILS_ROOT
-    TaliaCore::XSLT_ROOT = "#{RAILS_ROOT}/../xslt"
-  end
+  TaliaCore::XSLT_ROOT = "#{RAILS_ROOT}/xslt"
 end
 module TaliaCore
   
