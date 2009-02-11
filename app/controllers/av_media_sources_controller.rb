@@ -15,7 +15,7 @@ class AvMediaSourcesController < ApplicationController
   
   private
     def normalize_uri
-      params[:id] = CGI::unescape(params[:id]).gsub(' ', '+')
+      params[:id] = UriEncoder.unescape_link(params[:id]).gsub(' ', '+')
       params[:id] = N::LOCAL + 'av_media_sources/' + params[:id]
     end
 end
