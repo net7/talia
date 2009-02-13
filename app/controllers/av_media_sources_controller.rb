@@ -1,6 +1,7 @@
 class AvMediaSourcesController < ApplicationController
   before_filter :normalize_uri, :only => :show
-
+  caches_action :show
+  
   def show
     # TODO theoretically the following statement isn't needed and also performs a useless db query,
     # because AR::Base#find raise a proper exception if something is missing.

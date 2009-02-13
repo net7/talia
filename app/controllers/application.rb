@@ -79,5 +79,24 @@ class ApplicationController < ActionController::Base
     @globalize = globalize?
   end
 
-  
+  # Action caching callback.
+  # It's responsible to return the locale for the current request.
+  #
+  # Example:
+  #   class ArticlesController < ApplicationController
+  #     caches_action :show
+  #
+  #     def show
+  #       @article = Article.find(params[:id])
+  #     end
+  #   end
+  #
+  #   If no locale is set for the current request it will cache with default locale:
+  #     [GET] /articles/1 # => http://example.com/articles/1?locale=en-US
+  #
+  #   Otherwise:
+  #     [GET] /articles/1 # => http://example.com/articles/1?locale=it-IT
+  def current_locale
+    session[:locale] || Locale.base_language.code
+  end
 end
