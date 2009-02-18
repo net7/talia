@@ -4,6 +4,7 @@ class Admin::SourcesController < ApplicationController
   include TaliaCore
   require_role 'admin'
   layout 'admin'
+  cache_sweeper :av_media_sweeper, :only => :update
   
   # GET /admin/sources
   # GET /admin/sources.xml

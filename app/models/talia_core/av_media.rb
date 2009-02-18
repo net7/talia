@@ -17,7 +17,5 @@ module TaliaCore
     def media(file_type)
       data(file_type.to_s.camelize)
     end
-    
-    
   end
 end

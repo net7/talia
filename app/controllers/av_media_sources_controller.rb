@@ -1,5 +1,6 @@
 class AvMediaSourcesController < ApplicationController
   before_filter :normalize_uri, :only => :show
+  caches_action :show, :locale => :current_locale
   
   def show
     # TODO theoretically the following statement isn't needed and also performs a useless db query,
