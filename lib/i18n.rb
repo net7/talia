@@ -9,7 +9,10 @@ module I18n
     def locales
       @@locales ||= YAML.load_file(configuration).to_hash.symbolize_keys!
     end
-    alias_method :available_locales, :locales
+    
+    def available_locales
+      locales.values
+    end
 
     # Add a locale
     #
