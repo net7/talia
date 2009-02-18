@@ -84,11 +84,16 @@ class ApplicationController < ActionController::Base
   #
   # Example:
   #   class ArticlesController < ApplicationController
-  #     caches_action :show
+  #     caches_action :show, :locale => :current_locale
   #
   #     def show
   #       @article = Article.find(params[:id])
   #     end
+  #
+  #     private
+  #       def current_locale
+  #         # ...
+  #       end
   #   end
   #
   #   If no locale is set for the current request it will cache with default locale:
@@ -97,6 +102,6 @@ class ApplicationController < ActionController::Base
   #   Otherwise:
   #     [GET] /articles/1 # => http://example.com/articles/1?locale=it-IT
   def current_locale
-    session[:locale] || Locale.base_language.code
+    session[:locale] ||= Locale.base_language.code
   end
 end
