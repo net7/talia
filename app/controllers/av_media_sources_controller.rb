@@ -3,10 +3,6 @@ class AvMediaSourcesController < ApplicationController
   caches_action :show, :locale => :current_locale
   
   def show
-    # TODO theoretically the following statement isn't needed and also performs a useless db query,
-    # because AR::Base#find raise a proper exception if something is missing.
-    raise(ArgumentError, "Unknow Media Source #{params[:id]}") unless(TaliaCore::AvMedia.exists?(params[:id]))
-    
     @element = TaliaCore::AvMedia.find(params[:id])
     cat = @element.category
     @path = [ { :text => t(:"talia.names.#{cat.class.name.underscore}.#{cat.name.underscore}"), :link => ("#{N::LOCAL}categories/" + cat.uri.local_name) }, { :text => @element.title } ]
