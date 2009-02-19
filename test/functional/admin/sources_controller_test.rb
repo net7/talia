@@ -13,7 +13,7 @@ class Admin::SourcesControllerTest < ActionController::TestCase
 
   def _ignore_test_should_get_edit
     login_as :admin
-    get :edit, :id => source.label
+    get :edit, :id => source.id
     assert_response :success
     
     assert_select '.predicate' do
@@ -29,7 +29,7 @@ class Admin::SourcesControllerTest < ActionController::TestCase
 
   def test_should_update_source
     login_as :admin
-    put :update, :id => source.label, :source => { }
+    put :update, :id => source.id, :source => { }
     assert_redirected_to :action => 'index'
   end
     
