@@ -6,7 +6,7 @@ module TaliaCore
     def create_html_version_of(book, version=nil)
       book_text = ''
       book.subparts_with_manifestations(N::HYPER.HyperEdition).each do |part|
-        part.manifestations(TaliaCore::HyperEdition).each do |manifestation|
+        part.manifestations(N::HYPER.HyperEdition).each do |manifestation|
           div_header = "<div class='txt_block' id='#{part.uri.to_s}_text'>"
           #TODO: add the following too, to be calculated.
           # Needed when the full mode is ready

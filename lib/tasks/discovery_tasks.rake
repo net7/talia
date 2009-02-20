@@ -312,7 +312,10 @@ namespace :discovery do
     qry.where(:book, N::RDF.type, N::HYPER.Book)
     books = qry.execute
 
-    progress = ProgressBar.new('Books', books.size)
+    progress_size = books.size
+
+    puts "Processing #{progress_size} books..."
+    progress = ProgressBar.new('Books', progress_size)
     
     books.each do |book|
       book.recreate_html_data!(version)

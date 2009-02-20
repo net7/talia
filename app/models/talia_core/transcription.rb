@@ -1,5 +1,5 @@
 module TaliaCore
-  
+
   # Refers to a transcription of a Manuscript subpart
   class Transcription < HyperEdition
     def available_versions
@@ -21,8 +21,8 @@ module TaliaCore
         nil
       end
     end
-    
-    
+
+
     def to_html(version=nil, layer=nil, xml=nil, format=nil)
       @format = format unless format.nil?
       #fills the @in_xml and the @format vars

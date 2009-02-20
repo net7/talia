@@ -19,6 +19,6 @@ module TaliaCore
     
     def html
       self.data_records[0].content_string
-    end    
+    end
   end
 end

@@ -93,7 +93,7 @@ module TaliaCore
       catalog.save! if(catalog.new_record?)
       catalog
     end
-    
+
     protected
     
     
