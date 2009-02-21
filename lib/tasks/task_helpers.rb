@@ -32,7 +32,7 @@ class TaskHelper
       ed_uri = N::LOCAL +  ed_klass::EDITION_PREFIX + '/' + ENV['nick']
       raise(RuntimeError, "Edition does already exist: #{ed_uri}") if(TaliaCore::ActiveSource.exists?(ed_uri))
       edition = ed_klass.new(ed_uri)
-      edition.hyper::title << ENV['name']
+      edition.write_predicate(N::HYPER.title, ENV['name'])
       edition.save!
       edition
     end
@@ -58,7 +58,7 @@ class TaskHelper
       ed_qry.where(:manifestation, N::RDF.type, N::HYPER.HyperEdition)
       # Add the editions to the new paragraph
       ed_qry.execute.each do |edition|
-        quick_add_property(edition, N::HYPER.manifestation_of, destination)
+        edition.write_predicate(N::HYPER.manifestation_of, destination)
       end
     end
   
@@ -99,11 +99,11 @@ class TaskHelper
       # Check if the cloned paragraph already exists
       if(TaliaCore::Paragraph.exists?(catalog.concordant_uri_for(orig_paragraph)))
         paragraph = TaliaCore::Paragraph.find(catalog.concordant_uri_for(orig_paragraph))
-        quick_add_property(paragraph, N::HYPER.note, new_note)
+        paragraph.write_predicate(N::HYPER.note, new_note)
       else
         paragraph = catalog.add_from_concordant(orig_paragraph)
         clone_hyper_editions(orig_paragraph, paragraph)
-        paragraph.hyper::note << new_note
+        paragraph.write_predicate(N::HYPER.note, new_note)
         paragraph.save!
       end
     end
@@ -127,19 +127,6 @@ class TaskHelper
       query.where(:book, N::HYPER.in_catalog, catalog)
       query.where(:page, N::DCT.isPartOf, :book)
       query.execute.size
-    end
-    # Quick hack to "quickly" add a new property to the given Source. This
-    # will bypass the usual rdf creation routines and simply add the new
-    # property both to the db and rdf "manually" (which is quicker than recreating
-    # the rdf fully.
-    def quick_add_property(subject, predicate, object)
-      autosave = subject.autosave_rdf?
-      subject.autosave_rdf = false if(autosave)
-      subject[predicate] << object
-      subject.save!
-      subject.my_rdf[predicate] << object
-      subject.my_rdf.save
-      subject.autosave_rdf = autosave
     end
   
     # Loops through the given books (with a progress meter).
@@ -175,9 +162,9 @@ class TaskHelper
       element_uri = N::LOCAL + 'av_media_sources/' + UriEncoder.normalize_uri(title)
       element = TaliaCore::AvMedia.new(element_uri)
       element.series = series
-      element.dcns::creator << author
+      element.write_predicate(N::DCNS.creator, author)
       element.title = title
-      element.dcns::date << year if(year)
+      element.write_predicate(N::DCNS.date, year) if(year)
       element.play_length = "#{length} h:mm:ss"
       wmv_data = TaliaCore::DataTypes::WmvMedia.new
       wmv_data.location = wmv_file
@@ -186,9 +173,9 @@ class TaskHelper
       element.data_records << [wmv_data, mp4_data]
       element.download_url = download_url if(download_url && download_url.strip != '')
       element.category = category
-      element.hyper::keyword << keywords
-      element.hyper::bibliography << bibliography if(bibliography)
-      element.dct::abstract << abstract if(abstract)
+      element.write_predicate(N::HYPER.keyword, keywords)
+      element.write_predicate(N::HYPER.bibliography, bibliography) if(bibliography)
+      element.write_predicate(N::DCT.abstract, abstract) if(abstract)
     
       image = thumbnail_for(element, mp4_file, thumbnail_dir)
     
@@ -237,7 +224,7 @@ class TaskHelper
     # Creates or gets a series for the given name
     def series_for(name)
       create_or_find(name, TaliaCore::Series, 'series') do |ser|
-        ser.hyper::name << name
+        ser.write_predicate(N::HYPER.name, name)
       end
     end
   

@@ -259,6 +259,20 @@ module TaliaUtil
         source_uri = irify(N::LOCAL + source_name)
         get_or_create_source(source_uri, klass, save_new)
       end
+
+      # Sets the default catalog on the source, if applicable. This will
+      # return true if the catalog is reset
+      def set_catalog(src)
+        result = false
+        if(src.is_a?(TaliaCore::ExpressionCard))
+          catalog = get_catalog() || TaliaCore::Catalog.default_catalog
+          if(src.catalog != catalog)
+            src.catalog = catalog
+            result = true
+          end
+        end
+        result
+      end
       
       # Gets a source with the given type (type must be a class). If the source
       # already exists, this will change the Sources class (type property).
@@ -298,6 +312,7 @@ module TaliaUtil
             src[:type] = klass_name
             src.save!
             src = klass.find(src.id)
+            src.save! if(set_catalog(src))
             # Update the cache with the changed source!
             SourceCache.cache[source_uri] = src
             src.autosave_rdf = false
@@ -305,14 +320,7 @@ module TaliaUtil
         else
           src = klass.new(source_uri)
           src.primary_source = primary_source? if(src.is_a?(TaliaCore::Source))
-          if src.is_a?(TaliaCore::ExpressionCard)
-            catalog = get_catalog()
-            if catalog.nil?
-              src.catalog = TaliaCore::Catalog.default_catalog
-            else
-              src.catalog = catalog
-            end
-          end
+          set_catalog(src)
           src.autosave_rdf = false
           src.save! if(save_new)
           # Add the new source to the cache
@@ -370,7 +378,6 @@ module TaliaUtil
       # Add the types by using the type map and the type configured in the
       # importer.
       def import_types!
-        types = @source.types
         if(self.class.get_source_type)
           quick_add_predicate(@source, N::RDF.type, cached_type_by_string(self.class.get_source_type))
         end
@@ -586,7 +593,7 @@ module TaliaUtil
           data_record.create_from_file(location, url)
         else
           open_from_url(url) do |io|
-            data_record.create_from_data(location, io) 
+            data_record.create_from_data(location, io)
           end
         end
         
@@ -616,19 +623,7 @@ module TaliaUtil
       # the database. This should avoid any database hits except the one
       # that actually adds the elements.
       def quick_add_predicate(source, predicate, value)
-        predicate = predicate.uri if(predicate.respond_to?(:uri))
-        # We need to manually create the relation, to add the predicate_url
-        to_add = TaliaCore::SemanticRelation.new
-        to_add.predicate_uri = predicate
-        if(value.is_a?(TaliaCore::ActiveSource) || value.is_a?(TaliaCore::SemanticProperty))
-          to_add.object = value
-        else
-          prop = TaliaCore::SemanticProperty.new
-          prop.value = value
-          to_add.object = prop
-        end
-        to_add.subject = source
-        to_add.save!
+        source.write_predicate(predicate, value)
       end
 
       # Checks for the namespaces which must be defined for the

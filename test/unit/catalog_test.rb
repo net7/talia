@@ -22,6 +22,7 @@ module TaliaCore
       cat = make_catalog('can_add_card')
       card = make_card('test_add_card-card')
       cat.add_card(card)
+      card.save!
       assert_equal(1, cat.elements.size)
       assert_equal(cat.elements[0], card)
     end
@@ -38,7 +39,6 @@ module TaliaCore
       card = make_card('test_add_concordant-card')
       card.siglum = 'NCC-1701'
       clone = cat.add_from_concordant(card)
-      clone.save!
       assert_equal("#{cat.uri}/#{card.siglum}", clone.uri.to_s)
       assert_equal(2, card.concordant_cards.size)
       assert_property(card.concordant_cards, card, clone)
@@ -48,6 +48,7 @@ module TaliaCore
       cat = make_catalog('test_concordant_with_children')
       make_some_cards
       cat.add_from_concordant(@cards[:parent], true)
+      cat.save!
       assert_equal(3, cat.elements.size)
       cat.elements.each { |el| assert(el.uri.to_s =~ Regexp.new("^#{cat.uri}"), "Wrong: #{el.uri}")}
       cat.elements.each { |el| assert_equal(2, el.concordant_cards.size, "Element #{el.uri} has #{el.concordant_cards}")}

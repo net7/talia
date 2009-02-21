@@ -161,7 +161,7 @@ namespace :discovery do
       TaliaCore::Facsimile
       fe = TaskHelper::create_edition(TaliaCore::FacsimileEdition)
       TaskHelper::setup_header_images
-      fe.hyper::description << ENV['description']
+      fe.write_predicate(N::HYPER.description, ENV['description'])
       qry = TaskHelper::default_book_query(catalog)
       qry.where(:facsimile, N::HYPER.manifestation_of, :page)
       qry.where(:facsimile, N::RDF.type, N::HYPER + 'Facsimile')
@@ -182,7 +182,8 @@ namespace :discovery do
           qry_man.execute.each do |facsimile|
             # We just have to add the manifestation element - this is done
             # "manually" to avoid uneccessary calls to re-create the RDF
-            TaskHelper::quick_add_property(facsimile, N::HYPER.manifestation_of, new_page)
+            facsimile.write_predicate(N::HYPER.manifestation_of, new_page)
+            facsimile.save!
             facsimiles += 1
             progress.inc
           end
@@ -245,14 +246,13 @@ namespace :discovery do
           assit_kind_of(TaliaCore::Page, new_page)
         
           # Clone all editions that may exist on the page itself
-          # TODO: Why are editions existing on the page itself?
           TaskHelper::clone_hyper_editions(orig_page, new_page)
           progress.inc
 
           # Go through all the notes of the current page
           orig_page.notes.each do |note|
             new_note = ce.add_from_concordant(note)
-            new_note.hyper::page << new_page
+            new_note.write_predicate(N::HYPER.page, new_page)
             TaskHelper::handle_paragraph_for(note, new_note, ce)
             progress.inc
             new_note.save!
@@ -288,6 +288,7 @@ namespace :discovery do
         new_book.create_html_data!(version)
       rescue Exception => e
         puts "Error creating html for #{new_book.uri}: #{e.message}"
+        puts e.backtrace
       end
     end
   end
@@ -312,10 +313,7 @@ namespace :discovery do
     qry.where(:book, N::RDF.type, N::HYPER.Book)
     books = qry.execute
 
-    progress_size = books.size
-
-    puts "Processing #{progress_size} books..."
-    progress = ProgressBar.new('Books', progress_size)
+    progress = ProgressBar.new('Books', books.size)
     
     books.each do |book|
       book.recreate_html_data!(version)

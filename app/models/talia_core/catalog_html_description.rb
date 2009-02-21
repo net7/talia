@@ -13,12 +13,12 @@ module TaliaCore
       file_location = catalog.uri.local_name + ".html"
       data.create_from_data(file_location, html)
       self.data_records << data
-      self.dcns::format << 'text/html'
+      self.predicate_replace(:dcns, 'format', 'text/html')
       self.save!
     end
     
     def html
       self.data_records[0].content_string
-    end
+    end    
   end
 end

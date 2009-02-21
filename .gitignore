@@ -1,0 +1,4 @@
+config/*_auto.yml
+rails_secret
+delayed_copy*
+tmp/

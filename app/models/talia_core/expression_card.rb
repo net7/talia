@@ -32,7 +32,7 @@ module TaliaCore
     singular_property :series, N::HYPER.series
     
     before_create :set_default_catalog
-    after_save :update_concordance_rdf
+    after_save :save_concordance
     
     # Returns the properties that should be cloned when creating a new concordant
     # clone
@@ -53,12 +53,21 @@ module TaliaCore
     
     # Callbacks for the clone method
     class_inheritable_accessor :clone_callbacks
+
+    # To be used only be the class itself to assign the unsaved concordance
+    # for the class.
+    def my_concordance=(concord)
+      assit_block { !self.concordance }
+      assit_kind_of(Concordance, concord)
+      @my_concordance = concord
+    end
     
     # Get the concordance record for this card. This will return the
     # concordance itself, so that the metadata of the concordance record
     # can be inspected.
     def concordance
-      concs = Concordance.find(:all, :find_through => [N::HYPER.concordant_to, self])
+      return @my_concordance if(@my_concordance) # We may have a cached value with a "dirty" concordance
+      concs = Concordance.find(:all, :find_through => [N::HYPER.concordant_to, self], :readonly => false)
       assit(concs.size <= 1, "Should not have more than 1 concordance object")
       concs.size > 0 ? concs[0] : nil
     end
@@ -114,24 +123,24 @@ module TaliaCore
         conc = Concordance.new(N::LOCAL + 'concordance_' + Digest::MD5.new.hexdigest(uri.to_s))
         conc.add_card(self)
         conc.add_card(c_card)
-        conc.save!
+        @my_concordance = conc
       end
+      
+      c_card.my_concordance = concordance
       
       self.autosave_rdf = will_rdf_autosave
     end
     
     # This returns the manifestations of this card. You can give an optional
-    # type which must be a class or an URI.
+    # type which must be a class.
     def manifestations(type = nil)
-      raise(ArgumentError, "Manifestation type should be a Class or an URI") unless(type.is_a?(N::URI) or type.is_a?(Class) or type.nil?)
+      type ||= Source
+      raise(ArgumentError, "Manifestation type should be a class") unless(type.is_a?(Class))
+      #FIXME: the find method returns duplicated entries, at least when the expression card has clones...
+      #      type.find(:all, :find_through => [N::HYPER.manifestation_of, self])
       qry = Query.new(TaliaCore::Source).select(:m).distinct
       qry.where(:m, N::HYPER.manifestation_of, self)
-      case type
-      when Class
-        qry.where(:m, N::RDF.type, (N::TALIA + type.name.demodulize))
-      when N::URI
-        qry.where(:m, N::RDF.type, (type))
-      end
+      qry.where(:m, N::RDF.type, (N::TALIA + type.name.demodulize)) if(type != Source)
       qry.execute
     end
     
@@ -148,13 +157,14 @@ module TaliaCore
     # returns all the subpart of this expression card that have some manifestations 
     # of the given type related to them. Manifestation_type must be an URI
     def subparts_with_manifestations(manifestation_type, subpart_type = nil)
+      assit(false, 'Not Implemented')
     end
     
     # Add a keyword from a keyword string. If necessary the keyword object
     # will be created.
     def add_keyword(keyword)
       kw_object = Keyword.get_with_key_value!(keyword)
-      self[N::HYPER.keyword] << kw_object
+      self.write_predicate(N::HYPER.keyword, kw_object)
     end
     
     # Returns all keywords (as an array of strings)
@@ -167,11 +177,17 @@ module TaliaCore
       self[N::HYPER.keyword]
     end
     
-  
+
+    # Copies the "cloneable" properties of this source to the given target
+    # source. The options may specify a catalog to which the new source
+    # will be added.
     def clone_properties_to(clone, options={})
       self.class.props_to_clone.each { |p| cp_property(p, self, clone) }
       self.class.inverse_props_to_clone.each do |p|
-        self.inverse[p].each { |targ| targ[p] << clone }
+        self.inverse[p].each do |targ|
+          targ.write_predicate(p,clone)
+          targ.save!
+        end
       end
       # Execute the callback methods.
       if(self.clone_callbacks)
@@ -190,14 +206,13 @@ module TaliaCore
       return if(orig_prop.size == 0) # Nothing to copy: already done
       
       if(property != N::RDF.type)
-        target[property] << orig_prop
+        target.write_predicate(property, orig_prop)
       else
         # Only types need special handling, since they are already created on
         # new sources
-        the_types = target.types.collect { |t| ActiveSource.new(t) }
-        t_prop = target[property]
+        t_prop = target[property] # Cant't write directly with #write_predicate...
         orig_prop.each do |type|
-          t_prop << type unless(the_types.include?(type))
+          t_prop << type unless(t_prop.include?(type)) # ...we need to compare the values
         end
       end
     end
@@ -215,8 +230,8 @@ module TaliaCore
     end
     
     # Update the concordance's rdf after save
-    def update_concordance_rdf
-      self.concordance.create_rdf if(self.concordance)
+    def save_concordance
+      self.concordance.save! if(self.concordance)
     end
     
     # Helper to to register the properties that should be cloned

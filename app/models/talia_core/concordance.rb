@@ -17,8 +17,7 @@ module TaliaCore
       concord.concordant_cards.each { |card| add_card(card) }
       # Delete the existing concordance
       # TODO: Warning: This deletes all "extra" things that may exist on the old concordance!
-      SemanticRelation.delete_all(["subject_id = ? OR (object_type = 'TaliaCore::ActiveSource' AND object_id = ?)", concord.id, concord.id])
-      Concordance.delete(concord.id)
+      Concordance.destroy(concord.id)
     end
     
     # Gives all cards that are concordant to this one. If a catalog is given,
