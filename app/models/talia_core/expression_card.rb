@@ -82,8 +82,9 @@ module TaliaCore
     # Clone the current card and make the new one concordant to the current
     # one
     def clone_concordant(uri, options = {})
-      new_el = clone(uri, options)
-      make_concordant(new_el)
+      new_el = nil
+      self.class.benchmark('BUILDIT - clone it') { new_el = clone(uri, options) }
+      self.class.benchmark('BUILDIT - concord it') {make_concordant(new_el) }
       new_el
     end
     
@@ -182,13 +183,8 @@ module TaliaCore
     # source. The options may specify a catalog to which the new source
     # will be added.
     def clone_properties_to(clone, options={})
-      self.class.props_to_clone.each { |p| cp_property(p, self, clone) }
-      self.class.inverse_props_to_clone.each do |p|
-        self.inverse[p].each do |targ|
-          targ.write_predicate(p,clone)
-          targ.save!
-        end
-      end
+      cp_properties(clone)
+      cp_inverse_properties(clone)
       # Execute the callback methods.
       if(self.clone_callbacks)
         self.clone_callbacks.each { |cb| self.send(cb, clone, options) }
@@ -201,19 +197,50 @@ module TaliaCore
 
     # Copy a property from the original source to the target. This contains
     # some checks to make sure that no duplicate types are created on the target
-    def cp_property(property, original, target)
-      orig_prop = original[property]
-      return if(orig_prop.size == 0) # Nothing to copy: already done
-      
-      if(property != N::RDF.type)
-        target.write_predicate(property, orig_prop)
-      else
-        # Only types need special handling, since they are already created on
-        # new sources
-        t_prop = target[property] # Cant't write directly with #write_predicate...
-        orig_prop.each do |type|
-          t_prop << type unless(t_prop.include?(type)) # ...we need to compare the values
+    def cp_properties(target)
+      rels = self.semantic_relations.find(:all, :select => '*',
+        :joins => self.class.props_join,
+        :conditions => { :predicate_uri => self.class.props_to_clone })
+
+      types_tmp = nil
+
+      rels.each do |rel|
+        if(rel.predicate_uri == N::RDF.type.to_s)
+          types_tmp ||= target[N::RDF.type]
+          cp_relation(rel, target) unless(types_tmp.detect{ |t| t.id == rel.object_id })
+        else
+          cp_relation(rel, target)
         end
+      end
+    end
+
+    # Copies the inverse properties
+    def cp_inverse_properties(target)
+      rels = SemanticRelation.find(:all,
+        :conditions => {
+          :object_type => 'TaliaCore::ActiveSource',
+          :object_id => self.id,
+          :predicate_uri => self.class.inverse_props_to_clone
+        })
+      rels.each do |rel|
+        clone_rel = SemanticRelation.new(:subject_id => rel.subject_id,
+          :predicate_uri => rel.predicate_uri)
+        clone_rel.object = target
+        clone_rel.save!
+      end
+    end
+
+    # Copies the values of the given
+    def cp_relation(rel, target)
+      if(rel.object_type == 'TaliaCore::SemanticProperty')
+        target.write_predicate(rel.predicate_uri, rel.value)
+      else
+        # Build a new relations, assigned to this object, that is otherwise
+        # a copy of the original
+        # We have to pass the elements in "manually", because AR complains
+        # about the "additional" elements
+        target.semantic_relations.build(:predicate_uri => rel.predicate_uri,
+          :object_type => rel.object_type, :object_id => rel.object_id)
       end
     end
     
