@@ -275,6 +275,14 @@ class TaskHelper
 
     # Set up the ontologies from the given folder
     def setup_ontologies(ontology_folder)
+      adapter = ConnectionPool.write_adapter
+      # Clear out the RDF for the ontologies.
+      if(adapter.supports_context?)
+        adapter.clear(N::URI.new(N::LOCAL + 'ontology_space'))
+      else
+        puts "WARNING: Adapter doesn't support context, old ontologies were not removed."
+      end
+
       puts "Ontologies loaded from: #{ontology_folder}"
       files = Dir[File.join(ontology_folder, '*.{rdf*,owl}')]
       ENV['rdf_syntax'] ||= 'rdfxml'
