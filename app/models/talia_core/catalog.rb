@@ -24,7 +24,7 @@ module TaliaCore
       qry = Query.new(TaliaCore::ActiveSource).select(:element).distinct
       types.each do |type|
         qry.where(:element, N::RDF.type, type)
-        if type == N::HYPER.Book
+        if type == N::TALIA.Book
           qry.where(:element, N::HYPER.position, :position)
           qry.sort(:position)
         end
