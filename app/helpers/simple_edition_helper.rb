@@ -10,7 +10,7 @@ module SimpleEditionHelper
   end
   
   def edition_page_title
-    "#{TaliaCore::SITE_NAME} | #{@edition.title}#{@page_title_suff}"
+    "#{TaliaCore::SITE_NAME} | #{translate_edition_name(@edition, false)}#{@page_title_suff}"
   end
 
   def edition_include_name
