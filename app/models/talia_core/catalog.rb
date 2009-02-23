@@ -57,7 +57,7 @@ module TaliaCore
       if(children)
         for_children_of(concordant_element) do |child|
           add_from_concordant(child, true) do |child_clone|
-            child_clone.write_predicate(N::DCT.isPartOf, new_el)
+            child_clone.write_predicate_direct(N::DCT.isPartOf, new_el)
           end
         end
       end

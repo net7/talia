@@ -32,8 +32,8 @@ module TaliaCore
     singular_property :series, N::HYPER.series
     
     before_create :set_default_catalog
-    after_save :save_concordance
-    
+    before_save :clear_concordance
+
     # Returns the properties that should be cloned when creating a new concordant
     # clone
     class_inheritable_accessor :props_to_clone_var
@@ -53,20 +53,11 @@ module TaliaCore
     
     # Callbacks for the clone method
     class_inheritable_accessor :clone_callbacks
-
-    # To be used only be the class itself to assign the unsaved concordance
-    # for the class.
-    def my_concordance=(concord)
-      assit_block { !self.concordance }
-      assit_kind_of(Concordance, concord)
-      @my_concordance = concord
-    end
     
     # Get the concordance record for this card. This will return the
     # concordance itself, so that the metadata of the concordance record
     # can be inspected.
     def concordance
-      return @my_concordance if(@my_concordance) # We may have a cached value with a "dirty" concordance
       concs = Concordance.find(:all, :find_through => [N::HYPER.concordant_to, self], :readonly => false)
       assit(concs.size <= 1, "Should not have more than 1 concordance object")
       concs.size > 0 ? concs[0] : nil
@@ -84,7 +75,7 @@ module TaliaCore
     def clone_concordant(uri, options = {})
       new_el = nil
       self.class.benchmark('BUILDIT - clone it') { new_el = clone(uri, options) }
-      self.class.benchmark('BUILDIT - concord it') {make_concordant(new_el) }
+      make_concordant(new_el)
       new_el
     end
     
@@ -109,27 +100,24 @@ module TaliaCore
     # saves the sources.
     def make_concordant(c_card)
       raise(ArgumentError, "Concordant element must be a card") unless(c_card.is_a?(ExpressionCard))
-      will_rdf_autosave = self.autosave_rdf? # Disable the autosaving for concordance, since this will not cause new rdf on this card
-      
+      autosave = c_card.autosave_rdf?
+      c_card.autosave_rdf = false # There won't be anything added to it
       if(concordance && c_card.concordance)
         # There are two concordances, merge them
         concordance.merge(c_card.concordance)
+        concordance.save!
       elsif(concordance)
-        concordance.add_card(c_card) # concordance is on this, add the other card
+        concordance.add_card_direct!(c_card)# concordance is on this, add the other card
       elsif(c_card.concordance)
-        c_card.concordance.add_card(self) # c. is on the other, add this
+        c_card.concordance.add_card_direct!(self) # c. is on the other, add this
       else
         # No concordance, create one. We'll try to make a unique URL for this,
         # using a hash of the current URL
         conc = Concordance.new(N::LOCAL + 'concordance_' + Digest::MD5.new.hexdigest(uri.to_s))
-        conc.add_card(self)
-        conc.add_card(c_card)
-        @my_concordance = conc
+        conc.add_card_direct!(self)
+        conc.add_card_direct!(c_card)
       end
-      
-      c_card.my_concordance = concordance
-      
-      self.autosave_rdf = will_rdf_autosave
+      c_card.autosave_rdf = autosave
     end
     
     # This returns the manifestations of this card. You can give an optional
@@ -223,10 +211,7 @@ module TaliaCore
           :predicate_uri => self.class.inverse_props_to_clone
         })
       rels.each do |rel|
-        clone_rel = SemanticRelation.new(:subject_id => rel.subject_id,
-          :predicate_uri => rel.predicate_uri)
-        clone_rel.object = target
-        clone_rel.save!
+        rel.subject.write_predicate_direct(rel.predicate_uri, target)
       end
     end
 
@@ -256,11 +241,11 @@ module TaliaCore
       self.catalog = Catalog.default_catalog unless(self.catalog)
     end
     
-    # Update the concordance's rdf after save
-    def save_concordance
-      self.concordance.save! if(self.concordance)
+    def clear_concordance
+      @concordance = nil
     end
-    
+
+
     # Helper to to register the properties that should be cloned
     def self.clone_properties(*props)
       props.each { |p| props_to_clone << p }

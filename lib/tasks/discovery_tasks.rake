@@ -161,7 +161,7 @@ namespace :discovery do
       TaliaCore::Facsimile
       fe = TaskHelper::create_edition(TaliaCore::FacsimileEdition)
       TaskHelper::setup_header_images
-      fe.write_predicate(N::HYPER.description, ENV['description'])
+      fe.write_predicate_direct(N::HYPER.description, ENV['description'])
       qry = TaskHelper::default_book_query(catalog)
       qry.where(:facsimile, N::HYPER.manifestation_of, :page)
       qry.where(:facsimile, N::RDF.type, N::HYPER + 'Facsimile')
@@ -182,8 +182,7 @@ namespace :discovery do
           qry_man.execute.each do |facsimile|
             # We just have to add the manifestation element - this is done
             # "manually" to avoid uneccessary calls to re-create the RDF
-            facsimile.write_predicate(N::HYPER.manifestation_of, new_page)
-            facsimile.save!
+            facsimile.write_predicate_direct(N::HYPER.manifestation_of, new_page)
             facsimiles += 1
             progress.inc
           end

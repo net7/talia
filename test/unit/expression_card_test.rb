@@ -70,6 +70,7 @@ module TaliaCore
       clone = src.clone('http://expression_card_test/test_clone/the_clone')
       clone.save!
       assert_property(clone.rdf::clone_me, 'foo', 'bar')
+      assert_equal(clone.my_rdf[N::RDF.clone_me], ['foo', 'bar'])
       assert_property(clone.rdf::clone_me_too, src_rel)
       assert_property(src_rel.rdf::clone_me_inverted, src, clone)
       assert_property(clone.rdf::no_clone)

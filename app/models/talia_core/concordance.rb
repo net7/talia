@@ -9,6 +9,13 @@ module TaliaCore
       raise(ArgumentError, "Can only add cards to a concordance.") unless(new_source.is_a?(ExpressionCard))
       predicate_set_uniq(:hyper, :concordant_to, new_source)
     end
+
+    # Adds a card to the concordance "directly". This skips any checks if the
+    # the concordance already exists, and will write directly to the store
+    def add_card_direct!(new_card)
+      raise(ArgumentError, "Can only add cards to a concordance.") unless(new_card.is_a?(ExpressionCard))
+      write_predicate_direct(N::HYPER.concordant_to, new_card)
+    end
     
     # Merge two concordances together. This will add all concordances from
     # the given on to this object and delete the other record.
