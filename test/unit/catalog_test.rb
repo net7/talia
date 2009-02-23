@@ -53,6 +53,22 @@ module TaliaCore
       cat.elements.each { |el| assert(el.uri.to_s =~ Regexp.new("^#{cat.uri}"), "Wrong: #{el.uri}")}
       cat.elements.each { |el| assert_equal(2, el.concordant_cards.size, "Element #{el.uri} has #{el.concordant_cards}")}
     end
+
+    def test_multi_concordances
+      cat_orig = make_catalog('test_concordant_with_children')
+      cat1 = make_catalog('test_concordant_with_children_orig')
+      cat2 = make_catalog('test_concordant_with_children2')
+      card = make_card('test_concordant_with_children_card')
+      card.catalog = cat_orig
+      cat1.add_from_concordant(card)
+      cat2.add_from_concordant(card)
+      assert_equal(1, card.concordant_cards(cat1).size)
+      assert_equal(1, card.concordant_cards(cat2).size)
+      card.save!
+      card_fresh = TaliaCore::ActiveSource.find(card.uri)
+      assert_equal(1, card_fresh.concordant_cards(cat1).size)
+      assert_equal(1, card_fresh.concordant_cards(cat2).size)
+    end
     
     protected
     

@@ -32,8 +32,7 @@ class TaskHelper
       ed_uri = N::LOCAL +  ed_klass::EDITION_PREFIX + '/' + ENV['nick']
       raise(RuntimeError, "Edition does already exist: #{ed_uri}") if(TaliaCore::ActiveSource.exists?(ed_uri))
       edition = ed_klass.new(ed_uri)
-      edition.write_predicate(N::HYPER.title, ENV['name'])
-      edition.save!
+      edition.write_predicate_direct(N::HYPER.title, ENV['name'])
       edition
     end
   
@@ -58,7 +57,7 @@ class TaskHelper
       ed_qry.where(:manifestation, N::RDF.type, N::HYPER.HyperEdition)
       # Add the editions to the new paragraph
       ed_qry.execute.each do |edition|
-        edition.write_predicate(N::HYPER.manifestation_of, destination)
+        edition.write_predicate_direct(N::HYPER.manifestation_of, destination)
       end
     end
   
@@ -97,15 +96,14 @@ class TaskHelper
     def handle_paragraph_for(note, new_note, catalog)
       orig_paragraph = note.paragraph
       # Check if the cloned paragraph already exists
+      paragraph = nil
       if(TaliaCore::Paragraph.exists?(catalog.concordant_uri_for(orig_paragraph)))
         paragraph = TaliaCore::Paragraph.find(catalog.concordant_uri_for(orig_paragraph))
-        paragraph.write_predicate(N::HYPER.note, new_note)
       else
         paragraph = catalog.add_from_concordant(orig_paragraph)
         clone_hyper_editions(orig_paragraph, paragraph)
-        paragraph.write_predicate(N::HYPER.note, new_note)
-        paragraph.save!
       end
+      paragraph.write_predicate_direct(N::HYPER.note, new_note)
     end
   
     # Returns the count of paragraphs that are attached to books in the given
@@ -224,7 +222,7 @@ class TaskHelper
     # Creates or gets a series for the given name
     def series_for(name)
       create_or_find(name, TaliaCore::Series, 'series') do |ser|
-        ser.write_predicate(N::HYPER.name, name)
+        ser.write_predicate_direct(N::HYPER.name, name)
       end
     end
   
