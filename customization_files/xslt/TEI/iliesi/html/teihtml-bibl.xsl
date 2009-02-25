@@ -211,9 +211,9 @@ Copyright 1999-2005 Sebastian Rahtz / Text Encoding Initiative Consortium
    <xsl:variable name="ident">
     <xsl:apply-templates select="." mode="ident"/>
    </xsl:variable>
-   <a name="{$ident}"/>
+   <a name="{$ident}"></a>
    <xsl:apply-templates/>
-</xsl:template>
+ </xsl:template>
 
 <xsl:template match="title" mode="withbr">
   <xsl:value-of select="."/><br/>

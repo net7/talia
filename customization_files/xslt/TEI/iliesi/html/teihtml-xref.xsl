@@ -235,7 +235,7 @@ Copyright 1999-2005 Sebastian Rahtz / Text Encoding Initiative Consortium
 </xsl:template>
 
 <xsl:template match="anchor">
-   <a name="{@id}"/>
+   <a name="{@id}"></a>
 </xsl:template>
 
 <xsl:template match="note" mode="generateLink">
@@ -271,7 +271,7 @@ Copyright 1999-2005 Sebastian Rahtz / Text Encoding Initiative Consortium
 
 
 <xsl:template name="makeAnchor">
-  <xsl:if test="@id"><a name="{@id}"/></xsl:if>  
+  <xsl:if test="@id"><a name="{@id}"></a></xsl:if>  
 </xsl:template>
 
 <xsl:template name="makeInternalLink">

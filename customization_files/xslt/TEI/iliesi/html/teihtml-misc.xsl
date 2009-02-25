@@ -309,7 +309,7 @@ by Nick Nicholas -->
 
 <xsl:template  match="label">
   <xsl:if test="@id">
-    <a name="{@id}"/>
+    <a name="{@id}"></a>
   </xsl:if>
   <xsl:apply-templates/>
 </xsl:template>

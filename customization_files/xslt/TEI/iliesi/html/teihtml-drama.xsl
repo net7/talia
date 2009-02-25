@@ -37,7 +37,7 @@ Copyright 1999-2005 Sebastian Rahtz / Text Encoding Initiative Consortium
 <xsl:template match="sp">
 <dl>
  <dt>
-   <xsl:if test="@id"><a name="{@id}"/></xsl:if>
+   <xsl:if test="@id"><a name="{@id}"></a></xsl:if>
    <xsl:apply-templates select="speaker"/>
  </dt>
 <dd><xsl:apply-templates select="p | l | lg | seg | ab | stage"/></dd>

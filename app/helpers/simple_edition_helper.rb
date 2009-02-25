@@ -47,7 +47,10 @@ module SimpleEditionHelper
         links << stylesheet_link_tag(edition_include_custom_name(print_style), :media => 'print')
       end
     end
-    
+
+    # add stylesheet for the critical edition case
+    links << stylesheet_link_tag("TEI/p4/tei_style.css") if @edition.is_a?(TaliaCore::CriticalEdition)
+
     links
   end
   

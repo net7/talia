@@ -8,31 +8,26 @@
     xmlns:tei="http://www.tei-c.org/ns/1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     version="1.0"  >
-	<!-- omitted div for lemmas added by ILIESI-->
+<!-- omitted div for lemmas added by ILIESI-->
 	<xsl:template match="div[@type='lem']" /> 
-	<!-- end ILIESI-->
+<!-- end ILIESI-->
 	
-	<!-- omitted n for doc and text added by ILIESI-->
+<!-- omitted n for doc and text added by ILIESI-->
 	<xsl:template match="div[@type='doc']|div[@type='text']|div[@type='frammento']" >
-		<table width="80%"  border="0" align="center"><tr><td>
+		
+<!--		<table width="80%"  border="0" align="center"><tr><td>-->
 			<xsl:apply-templates />
-		</td></tr></table>
+<!--		</td></tr></table>-->
 	</xsl:template>
-	<!-- end ILIESI-->
-	<!-- print id for frammento added by ILIESI-->
+<!-- end ILIESI-->
+<!-- print id for frammento added by ILIESI-->
 	
-<!--	<xsl:template match="div[@type='frammento']" > 
- 		<h2><xsl:value-of select="@id" /></h2>
-		<xsl:apply-templates />
-	</xsl:template>			
-	
--->	<!-- end ILIESI-->	
-	<xsl:template match="div[@type = 'frammento']">
+          <xsl:template match="div[@type = 'frammento']">
 		<h2>
 			<xsl:value-of select="translate(./@id,'_',' ')"/>
 		</h2><xsl:apply-templates/>
 	</xsl:template>
-	
+<!-- end ILIESI-->	
   <xsl:template match="*" mode="paging">
     <xsl:choose>
       <xsl:when test="self::divGen[@type='summary']">
@@ -886,7 +881,7 @@
       <body>
 	<xsl:call-template name="bodyHook"/>
 	<xsl:call-template name="bodyJavaScriptHook"/>
-	<a name="TOP"/>
+	<a name="TOP"></a>
 	<div  class="teidiv">
 	  <xsl:call-template name="stdheader">
 	    <xsl:with-param name="title">
@@ -938,7 +933,7 @@
     <body class="simple">
       <xsl:call-template name="bodyHook"/>
       <xsl:call-template name="bodyJavaScriptHook"/>
-      <a name="TOP"/>
+      <a name="TOP"></a>
       <xsl:call-template name="stdheader">
 	<xsl:with-param name="title">
 	  <xsl:call-template name="generateTitle"/>

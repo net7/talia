@@ -269,7 +269,7 @@ $ID: requests a particular page
     <body class="simple">
       <xsl:call-template name="bodyHook"/>
       <xsl:call-template name="bodyJavaScriptHook"/>
-      <a name="TOP"/>
+      <a name="TOP"></a>
       <xsl:call-template name="stdheader">
 	<xsl:with-param name="title">
 	  <xsl:call-template name="generateTitle"/>
@@ -647,7 +647,7 @@ $ID: requests a particular page
 	    <body>
 	      <xsl:call-template name="bodyHook"/>
 	      <xsl:call-template name="bodyJavaScriptHook"/>
-	      <a name="TOP"/>
+	      <a name="TOP"></a>
 	      <xsl:call-template name="stdheader">
 		<xsl:with-param name="title">
 		  <xsl:call-template name="generateTitle"/>
