@@ -106,6 +106,11 @@ module TaliaUtil
       assert_property(@src.dct::extent, "2556x3988 pixel")
       assert_equal(@src.dimensions, "2556x3988 pixel")
     end
+
+    def test_blank
+      blank_facs = hyper_import(load_doc('egrepalysviola-blank'))
+      assert(blank_facs.blank == 'true')
+    end
     
   end
 end

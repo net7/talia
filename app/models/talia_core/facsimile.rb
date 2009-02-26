@@ -5,6 +5,7 @@ module TaliaCore
   class Facsimile < Manifestation
     
     singular_property :dimensions, N::DCT.extent
+    singular_property :blank, N::HYPER.blank_facsimile # If it's blank page without iip/image data
         
     # Return the IipData object if it exists. Nil otherwise.
     def iip_data
