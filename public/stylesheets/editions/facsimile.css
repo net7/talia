@@ -4,3 +4,12 @@
 div#visore {
     overflow: hidden;
 }
+
+div.blank_facs {
+    height: 388px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 25%;
+    font-size: 120%;
+}

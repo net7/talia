@@ -1,44 +1,4 @@
-<script language="javascript">
-  <!--
-
-  Shadowbox.loadSkin('classic', '/images/shadowbox/skin');
-  Shadowbox.loadLanguage('en', '/images/shadowbox/lang');
-  Shadowbox.loadPlayer(['html','iframe'], '/images/shadowbox/player');
-
-  document.observe('dom:loaded', function () {
-    set_height ();
-    go_to_anchor('<%= @page %>');
-
-
-    // Shadowbox
-    // Initzialize
-    Shadowbox.init({
-      onFinish:   shadowboxLoaded, // Function called when the pop up is created
-      skipSetup: true // skip the automatic setup
-    });
-    // Event CLICK on the link to zoom the iip viewer
-    Event.observe($('fullscreen'), 'click', function(event) {
-      // Shadowbox options set up
-      var shadowboxOptions = {
-        player:     'html',
-        title:      'Fullscreen View of <%= @page.uri.local_name %>',
-        content:    '<div style="overflow: hidden;" id="iipFullscreenLoader"></div>',
-        height:     document.viewport.getDimensions().height,
-        width:      document.viewport.getDimensions().width,
-        skipSetup:  true
-      };
-      // Open the shadowbox
-      Shadowbox.open(shadowboxOptions);
-    });
-    // Function loaded when shadowbox is completely loaded
-    function shadowboxLoaded(obj) {
-      flashIIPWidth = $('shadowbox_content').getWidth() - 3;
-      flashIIPHeight = $('shadowbox_content').getHeight() - 3;
-      load_iip_flashclient("<%= TaliaCore::DataTypes::IipData.iip_server_uri %>", "<%= get_iip_data_for(@page).get_iip_root_file_path %>", String(flashIIPWidth), String(flashIIPHeight), "iipFullscreenLoader");
-    }
-  });
-  //-->
-</script>
+<%= render(:partial => 'fullscreen_script') %>
 
 <div id="description">
 </div>
@@ -78,5 +38,4 @@
     
   </div> <!-- chiude visore -->
   <!--[if !IE]>visore<![endif]-->
-
 </div>
