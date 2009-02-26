@@ -32,6 +32,7 @@ namespace :discovery do
     iip_dir = TaliaCore::CONFIG['iip_root_directory_location']
     FileUtils.rm_rf(data_dir) if(File.exist?(data_dir))
     FileUtils.rm_rf(iip_dir) if(File.exist?(iip_dir))
+    puts "Attention! Data and iip director were removed! Remember to change the permissions for production."
     ontology_folder = ENV['ontology_folder'] || File.join(RAILS_ROOT, 'ontologies')
     TaskHelper::setup_ontologies(ontology_folder)
   end
