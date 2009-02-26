@@ -212,8 +212,7 @@ namespace :discovery do
       assit(TaliaCore::Catalog.exists?(N::LOCAL + ENV['catalog'])) 
       catalog = TaliaCore::Catalog.find(N::LOCAL + ENV['catalog']) 
     end
-    
-    ce = TaskHelper::create_edition(TaliaCore::CriticalEdition)
+    ce = TaskHelper::create_edition(TaliaCore::CriticalEdition, version)
     TaskHelper::setup_header_images
     # the description page must be passed as a path to the HTML file containing it
     description_file_path = ENV['description']

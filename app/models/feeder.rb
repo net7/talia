@@ -131,56 +131,7 @@ class Feeder
         keywords.add_element(REXML::Element.new("talia:keyword").add_text(keyword))
       end
     end
-         
-    versions = root.add_element(REXML::Element.new("talia:versions"))
-    
-    case contribution
-    when TaliaCore::HyperEdition
-      contribution.available_versions.each do |content_version|
-        if contribution.dcns::format.first == 'application/xml+hnml'
-          # special case for HNML editions/transcriptions (HyperEditions) which have layers
-          max_layer = contribution.hnml_max_layer
-          if !max_layer.empty?
-            i = 1
-            while i <= max_layer
-              preferred = true unless i != max_layer
-              content = contribution.to_html(content_version, i) # calls the XSLT transformation for this version and this layer
-              add_version(versions, content_version, i, "talia:content", content, preferred)
-            end
-          else
-            # there are no layers, it'll add the only layer with value "1", it will be the 
-            # preferred version too
-            content = contribution.to_html(content_version ) # calls the XSLT transformation for this version and this layer
-            add_version(versions, content_version, "1", "talia:content", content, true)
-          end
-        else # it's not HNML
-          # there are no layers, it'll add the only layer with value "1", it will be the 
-          # preferred version too
-          content = contribution.to_html(content_version ) # calls the XSLT transformation for this version and this layer
-          add_version(versions, content_version, "1", "talia:content", content, true)
-        end
-      end
-
-    when TaliaCore::Facsimile 
-      # no versions for Facsimiles
-    when TaliaCore::Essay
-      # for essays it will send an URL for the content or several URLs in the case the 
-      # essay has several image/PDF, one for each of its page
-      content_version = '' # TODO: ??
-      url = '' #TODO
-      content = '' #TODO
-      add_version(versions, content_version, "1", "talia:url", content, true)
-      #    when TaliaCore::Comment
-      #TODO: implementation
-    when TaliaCore::Path
-      #TODO: implementation
-    when TaliaCore::AvMedia
-      version = versions.add_element(REXML::Element.new("talia:version"))
-      content = version.add_element(REXML::Element.new("talia:content"))
-      abstract = contribution::dcns.abstract.first
-      content.add_element(REXML::Element.new("talia:abstract").add_text(abstract))
-    end
-    
+  
     macrocontributions = root.add_element(REXML::Element.new("talia:macrocontributions"))
 
     mc_qry = Query.new(TaliaCore::Source).select(:mc, :m).distinct
@@ -190,12 +141,17 @@ class Feeder
     mc_qry.where(:t, N::RDFS.subClassOf, N::HYPER.MacroContribution)
     mcs_data = mc_qry.execute
 
+    mc_version = nil
+
     mcs_data.each do |data| unless mcs_data.nil?
-        mc_uri = data[0]
+        mc = data[0]
         material = data[1]
-       
+        mc_version = mc.hyper::version[0]
+        # if a version wasn't requested at creation time, this means the default
+        # version was used. The same version we must feed
+        mc_version = 'default' if mc_version.nil?
         macrocontribution = macrocontributions.add_element(REXML::Element.new("talia:macrocontribution"))
-        macrocontribution.add_element(REXML::Element.new("talia:uri").add_text(mc_uri.to_s))
+        macrocontribution.add_element(REXML::Element.new("talia:uri").add_text(mc.to_s))
         #        mc_related_material = data[1]
         book = material.book
         chapter = material.chapter
@@ -239,11 +195,52 @@ class Feeder
         node.add_element(REXML::Element.new("talia:position").add_text(position))
       end
     end
+
+    versions = root.add_element(REXML::Element.new("talia:versions"))
+
+    case contribution
+    when TaliaCore::HyperEdition
+      case mc_version
+      when nil
+        contribution.available_versions.each do |content_version|
+          add_hyper_edition_versions(contribution, versions, content_version)
+        end
+      when 'default'
+        content_version = contribution.available_versions[0]
+        add_hyper_edition_versions(contribution, versions, content_version)
+      else
+        add_hyper_edition_versions(contribution, versions, mc_version)
+      end
+    when TaliaCore::Facsimile
+      # no versions for Facsimiles
+    when TaliaCore::Essay
+      # for essays it will send an URL for the content or several URLs in the case the
+      # essay has several image/PDF, one for each of its page
+      content_version = '' # TODO: ??
+      url = '' #TODO
+      content = '' #TODO
+      add_version(versions, content_version, "1", "talia:url", content, true)
+      #    when TaliaCore::Comment
+      #TODO: implementation
+    when TaliaCore::Path
+      #TODO: implementation
+    when TaliaCore::AvMedia
+      version = versions.add_element(REXML::Element.new("talia:version"))
+      content = version.add_element(REXML::Element.new("talia:content"))
+      abstract = contribution::dcns.abstract.first
+      content.add_element(REXML::Element.new("talia:abstract").add_text(abstract))
+    end
+
+
     doc
   end
   
   private
- 
+
+  # adds one version of the contribution content to the "versions" node
+  # each version contains, possibly, a different render of the same contribution content
+  # (this is the case of HyperEdition, for instance, where, starting from a single
+  # XML file, more versions can be rendered, by using different XSLT)
   def add_version(versions_node, content_version, layer, content_tag_name, content, preferred)
     version = versions_node.add_element(REXML::Element.new("talia:version"))
     version.add_element(REXML::Element.new("talia:version_type").add_text(content_version))
@@ -254,6 +251,31 @@ class Feeder
     content_tag.add(t)
     version
   end
-  
-  
+
+  # HyperEditions has to deal with different XML encoding, each of which has its
+  # own special cases, versions, ecc.
+  def add_hyper_edition_versions(contribution, versions, content_version)
+    if contribution.dcns::format.first == 'application/xml+hnml'
+      # special case for HNML editions/transcriptions (HyperEditions) which have layers
+      max_layer = contribution.hnml_max_layer
+      if !max_layer.empty?
+        i = 1
+        while i <= max_layer
+          preferred = true unless i != max_layer
+          content = contribution.to_html(content_version, i) # calls the XSLT transformation for this version and this layer
+          add_version(versions, content_version, i, "talia:content", content, preferred)
+        end
+      else
+        # there are no layers, it'll add the only layer with value "1", it will be the
+        # preferred version too
+        content = contribution.to_html(content_version ) # calls the XSLT transformation for this version and this layer
+        add_version(versions, content_version, "1", "talia:content", content, true)
+      end
+    else # it's not HNML
+      # there are no layers, it'll add the only layer with value "1", it will be the
+      # preferred version too
+      content = contribution.to_html(content_version ) # calls the XSLT transformation for this version and this layer
+      add_version(versions, content_version, "1", "talia:content", content, true)
+    end
+  end
 end
