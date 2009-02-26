@@ -26,20 +26,6 @@ namespace :discovery do
     end
   end
   
-  desc "Rebuild the RDF store from the database"
-  task :rebuild_rdf => :disco_init do
-    Util::flush_rdf
-    puts "Flushed RDF"
-    count = TaliaCore::ActiveSource.count
-    puts "Rebuilding #{count} elements"
-    prog = ProgressBar.new('Rebuilding', count)
-    TaliaCore::ActiveSource.find(:all).each do |source|
-      source.save!
-      prog.inc
-    end
-    prog.finish
-  end
-  
   desc "Clear all the data (files and data store) if this instance."
   task :clear_all => 'talia_core:clear_store' do
     data_dir = TaliaCore::CONFIG['data_directory_location']
