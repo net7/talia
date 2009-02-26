@@ -119,7 +119,7 @@ module ApplicationHelper
     
     # If this is a book we need to use the first page as a thumbnail
     data_element = if(element.is_a?(TaliaCore::Book))
-      element.ordered_pages.first
+      element.ordered_pages.elements.detect { |page| (page && !page_blank?(page)) }
     else
       element
     end
