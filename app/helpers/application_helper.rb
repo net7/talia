@@ -103,6 +103,14 @@ module ApplicationHelper
       %(<div id="#{status}">#{flash[status]}</div>) unless flash[status].nil?
     end
   end
+
+  # Insert the google analytics script code, if an id is set for the
+  # installation
+  def google_analytics
+    google_id = TaliaCore::CONFIG['google_analytics_id']
+    return unless(google_id)
+    render(:partial => 'shared/google_analytics', :locals => { :google_analytics_id => google_id })
+  end
   
   # Show the logout box if the user is loggedin.
   # TODO: in future should handle even the login link.
