@@ -111,6 +111,15 @@ module ApplicationHelper
     return unless(google_id)
     render(:partial => 'shared/google_analytics', :locals => { :google_analytics_id => google_id })
   end
+
+  # Privacy note on Google analytitcs. Will be empty unless analytics is enabled
+  def google_privacy_note
+    return '' unless(TaliaCore::CONFIG['google_analytics_id'])
+    result = t(:'talia.global.google_notice')
+    result << ' '
+    result << link_to(t(:'talia.global.privacy_policy'), 'http://www.google.com/intl/en/privacy_highlights.html')
+    result
+  end
   
   # Show the logout box if the user is loggedin.
   # TODO: in future should handle even the login link.
