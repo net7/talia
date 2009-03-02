@@ -25,7 +25,7 @@ module TaliaCore
       starting_page_position = book.ordered_pages.find_position_by_object(starting_page)        
       if ending_page.nil? 
         # this is the last chapter of the book
-        ending_page_position = book.ordered_pages.elements.size - 1
+        ending_page_position = book.ordered_pages.elements.size
       else
         ending_page_position = book.ordered_pages.find_position_by_object(ending_page) - 1
       end
