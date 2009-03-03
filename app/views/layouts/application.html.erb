@@ -8,7 +8,7 @@
     <%= widget_stylesheet_links :all %>
     <%= yield(:stylesheet) %>
   </head>
-  <body class="open">
+  <body id="page" class="open">
     <%= sidebar || yield(:sidebar) %>
     <%= render :partial => 'shared/header' %>
     <%= yield %>

@@ -13,7 +13,7 @@ function setElementsVerticalSettings() {
     // of the left sidebar. Given the dimension of the page just substract 
     // 'bottom_menu_lower_space' (a margin in px from the bottom of the page),
     // and set the style of the element.
-    var side_bar_top = Element.cumulativeOffset($('side_bar')).top;
+    var side_bar_top = Element.cumulativeOffset($('sidebar-main')).top;
     var bottom_menu_lower_space = 0;
     var bottom_menu_margin_top = (document.viewport.getDimensions().height) - 
           side_bar_top - bottom_menu_lower_space - ($('bottom_menu').getDimensions().height);
@@ -43,7 +43,7 @@ function loadFunctionSettings() {
     // that opens and closes the sidebar
     $('side_bar_button').onclick = function() {
 
-        switch_class($('side_bar') , "open", "closed");
+        switch_class($('sidebar-main') , "open", "closed");
         switch_class($('contents_ext'), "open", "closed");
         switch_class($('footer'), "open", "closed");
         switch_class($('page'), "open", "closed");
@@ -51,15 +51,15 @@ function loadFunctionSettings() {
         
         // GIULIO
         // If the sidebar is open, close it
-        if ($('side_bar').getWidth() > 200) {
-            $('side_bar').setStyle('width:43px;');
-            $('side_bar').setStyle('background:transparent url(/images/side_bar_icons/side_bar_top_closed.gif) top left no-repeat;');
+        if ($('sidebar-main').getWidth() > 200) {
+            $('sidebar-main').setStyle('width:43px;');
+            $('sidebar-main').setStyle('background:transparent url(/images/side_bar_icons/side_bar_top_closed.gif) top left no-repeat;');
             $('contents_ext').setStyle('margin-left:43px;');
 
         // If it's closed, open it
         } else {
-            $('side_bar').setStyle('width:270px;');
-            $('side_bar').setStyle('background:transparent url(/images/side_bar_icons/side_bar_top.gif) top left no-repeat;');
+            $('sidebar-main').setStyle('width:270px;');
+            $('sidebar-main').setStyle('background:transparent url(/images/side_bar_icons/side_bar_top.gif) top left no-repeat;');
             $('contents_ext').setStyle('margin-left:270px;');
         }
 

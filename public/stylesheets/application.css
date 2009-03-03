@@ -248,9 +248,9 @@ p.side_bar_loader{
 /* ***************** SIDE BAR ************** */
 /* ***************** ************** ************** */
 
-/* tree: #ext_page #int_page #side_bar */
+/* tree: #ext_page #int_page #sidebar-main */
 /* APERTO */
-#side_bar{
+#sidebar-main{
 	position:absolute;
 	top:158px;
         height: 300px;
@@ -264,23 +264,23 @@ p.side_bar_loader{
 /* ***************** SIDE BAR CONTENT : qui vengono caricati i contenuti contestuali della sidebar************** */
 /* ***************** ************** ************** */
 
-/*tree: #side_bar #side_bar_content */
-#side_bar #side_bar_content{
+/*tree: #sidebar-main #side_bar_content */
+#sidebar-main #side_bar_content{
 	margin: 18px 20px 20px 55px;
 	font-size: 0.85em;
 	line-height: 1.6em;
 }
 
-#side_bar #side_bar_content h1{
+#sidebar-main #side_bar_content h1{
 	
 }
 
 /* !!!! SIDE BAR APERTO !!!! */
-#side_bar.open #side_bar_content h1{
+#sidebar-main.open #side_bar_content h1{
 	margin:0 0 34px 0;
 	display: block;
 }
-#side_bar.open #side_bar_content p#open_close_button{
+#sidebar-main.open #side_bar_content p#open_close_button{
 	position:absolute;
 	left:236px;
 	top:17px;
@@ -288,48 +288,48 @@ p.side_bar_loader{
 	width:20px;
 	height:20px;
 }
-#side_bar.open #side_bar_content p#open_close_button a{
+#sidebar-main.open #side_bar_content p#open_close_button a{
 	display: block;
 	width:20px;
 	height:20px;
 	background:transparent url(/images/button_side_bar_close.gif) top left no-repeat;
 	text-indent:-9999px;
 }
-#side_bar.open #side_bar_content p#open_close_button a:hover{
+#sidebar-main.open #side_bar_content p#open_close_button a:hover{
 	background:transparent url(/images/button_side_bar_close_ro.gif) top left no-repeat;
 }
 
-#side_bar.open #side_bar_content p{
+#sidebar-main.open #side_bar_content p{
 	display: block;
 }
 /* !!!! SIDE BAR APERTO !!!! */
 
 /* !!!! SIDE BAR CHIUSO !!!! */
 
-#side_bar.closed #side_bar_content h1{
+#sidebar-main.closed #side_bar_content h1{
 	display: none;
 }
-#side_bar.closed #side_bar_content p#open_close_button{
+#sidebar-main.closed #side_bar_content p#open_close_button{
 	position:absolute;
 	left:10px;
 	display: block;
 	width:20px;
 	height:20px;
 }
-#side_bar.closed #side_bar_content p#open_close_button a{
+#sidebar-main.closed #side_bar_content p#open_close_button a{
 	display: block;
 	width:20px;
 	height:20px;
 	background:transparent url(/images/button_side_bar_open.gif) top left no-repeat;
 	text-indent:-9999px;
 }
-#side_bar.closed #side_bar_content p#open_close_button a:hover{
+#sidebar-main.closed #side_bar_content p#open_close_button a:hover{
 	background:transparent url(/images/button_side_bar_open_ro.gif) top left no-repeat;
 }
-#side_bar.closed #side_bar_content p{
+#sidebar-main.closed #side_bar_content p{
 	display: none;
 }
-#side_bar.closed #side_bar_content div{
+#sidebar-main.closed #side_bar_content div{
 	display: none;
 }
 
@@ -381,15 +381,15 @@ p.side_bar_loader{
 /* ***************** ************** ************** */
 /* ***************** ************** ************** */
 
-/* tree: #ext_page #int_page #side_bar */
+/* tree: #ext_page #int_page #sidebar-main */
 /* APERTO */
-#side_bar.open div#widget_navigation_bar_default{
+#sidebar-main.open div#widget_navigation_bar_default{
 	border-top: 2px solid #efefef;
 	display: block;
 	width: 212px;
 	padding: 10px 0 0 0;
 }
-#side_bar.open div#widget_navigation_bar_default h3{
+#sidebar-main.open div#widget_navigation_bar_default h3{
 	/* text-transform: uppercase; */
 	font: normal normal 13px "Lucida Grande", Lucida, Verdana, sans-serif;
 	display: block;
@@ -400,16 +400,16 @@ p.side_bar_loader{
 	text-decoration: none;
 }
 
-#side_bar.open div#widget_navigation_bar_default h3 a{
+#sidebar-main.open div#widget_navigation_bar_default h3 a{
 	text-decoration: none;
 	color: #929292;
 }
 
 /* CHIUSO */
-#side_bar.closed div#widget_navigation_bar_default{
+#sidebar-main.closed div#widget_navigation_bar_default{
 	display:  none;
 }
-#side_bar.closed div#widget_context_bar_default{
+#sidebar-main.closed div#widget_context_bar_default{
 	display:  none;
 }
 

@@ -30,6 +30,8 @@ module LayoutHelper
     sidebar_title = "#{@source.label} is" if @source
     @content_for_sidebar = widget :sidebar, 'active_tab' => 'context',
       'active_tab_options' => { :source => @source },
+      'widget_id' => 'main',
+      'html_options' => { :class => 'open' },
       'sidebar_title' => sidebar_title
   end
   
@@ -37,7 +39,9 @@ module LayoutHelper
     hide_sources_sidebar
     @content_for_sidebar = widget :sidebar, 
       'active_tab' => 'navigation',
-      'active_tab_options' => { :source_class => @type }
+      'active_tab_options' => { :source_class => @type },
+      'widget_id' => 'main',
+      'html_options' => { :class => 'open' }
   end
   
   def hide_sidebar
