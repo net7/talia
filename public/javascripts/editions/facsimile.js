@@ -136,11 +136,21 @@ function resizeItem(itemToResize, maxWidth, maxHeight) {
 
 // Function that sets the correct widths of the twins iip flash viewer
 function setIipViewerSize() {
-
+    // Right arrow to view the next image
     $$('p.next')[0].setStyle({
-          right: '0'
-      });
+        right: '0'
+    });
 
+    // Copyright
+    var copyright_paragraph = $$('p.facsimile_copyright')[0]
+    // Height of the copyright paragraph
+    var copyright_height = copyright_paragraph.getDimensions().height;
+    // I evaluate the left position of the copyright paragraph
+    var left_position_copyright = ( $('visore').getDimensions().width - copyright_paragraph.getDimensions().width) / 2;
+    // Arssign the value
+    copyright_paragraph.setStyle({
+        left: left_position_copyright + 'px'
+    });
 
     // Single viewer
     if( $$('div.image_big').length > 0 ) {
@@ -154,11 +164,11 @@ function setIipViewerSize() {
           position: 'absolute',
           left: '24px',
           right: '24px',
-          height: availableHeight + 'px'
+          height: ( availableHeight - copyright_height ) + 'px'
         });
 
         singleImageViewer.setStyle({
-          height: availableHeight + 'px'
+          height: ( availableHeight - copyright_height ) + 'px'
         });
     }
 
@@ -174,14 +184,14 @@ function setIipViewerSize() {
           position: 'absolute',
           left: '24px',
           width: ((availableWidth-50)/2) + 'px',
-          height: availableHeight + 'px'
+          height: ( availableHeight - copyright_height ) + 'px'
         });
 
         rightImageViewer.setStyle({
           position: 'absolute',
           width: ((availableWidth-50)/2) + 'px',
           right: '24px',
-          height: availableHeight + 'px'
+          height: ( availableHeight - copyright_height ) + 'px'
         });
     }
 }
