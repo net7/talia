@@ -143,8 +143,25 @@ function setIipViewerSize() {
 
     // Copyright
     var copyright_paragraph = $$('p.facsimile_copyright')[0]
-    // Height of the copyright paragraph
+
+    // Reset of the width
+    copyright_paragraph.setStyle({
+            width: '1500px'
+        });
+    
+    // Setting width:
+    // Retrieve the width of the paragraph
+    var copyright_width = copyright_paragraph.getDimensions().width;
+    // If the paragraph is too wide, i've to make it smaller
+    if(copyright_width > ( $('visore').getDimensions().width - (2 * 40) ) ) {
+        copyright_paragraph.setStyle({
+            width: ($('visore').getDimensions().width - (2 * 40) ) + 'px'
+        });
+    }
+
+    // Read the height of the copyright paragraph
     var copyright_height = copyright_paragraph.getDimensions().height;
+    
     // I evaluate the left position of the copyright paragraph
     var left_position_copyright = ( $('visore').getDimensions().width - copyright_paragraph.getDimensions().width) / 2;
     // Arssign the value
