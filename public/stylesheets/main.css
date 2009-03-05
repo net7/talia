@@ -214,6 +214,24 @@ a:active
         float: left;
     }
     
+    /* Powered by talia button */
+    #navigate #talia_link {
+        margin: 0px 10px;
+        height: 2.6em;
+        width: 112px;
+        position: absolute;
+        top: 0; right: 0;
+    }
+        #navigate #talia_link a {
+            background: url(/images/poweredTalia.gif) center right no-repeat;
+            text-indent: -9999px;
+            display: block;
+            height: 2.6em;
+            width: 112px;
+        }
+        #navigate #talia_link a:hover {
+            background: url(/images/poweredTalia_ro.gif) center right no-repeat;
+        }
     /* Tools on the right */
     #navigate #tools {
         /* float: right; */
@@ -221,7 +239,7 @@ a:active
         height: 2.6em;
 
         position: absolute;
-        top: 0; right: 0;
+        top: 0; right: 122px;
     }
 
     /* EXPLORER FIX */
