@@ -706,6 +706,17 @@ div.iipfview , div.iipfview_left, div.iipfview_right{
     height: 100%;
 }
 
+/* Facsimile Copyright */
+#content.divided div#visore p.facsimile_copyright {
+    position: absolute;
+    display: block;
+    bottom: 0;
+    margin: 4px 0;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+
 /*  ******************************************/
 /* TOOLBAR ***********************************/
 /*  
