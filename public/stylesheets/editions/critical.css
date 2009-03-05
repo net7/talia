@@ -43,6 +43,10 @@ div#search_adv {
         margin-right: 35px;
         min-width: 100px;
         max-width: 25%;
+        padding: 0;
+    }
+    div#search_adv form div.src_line select option{
+        padding: 3px 15px 3px 15px;
     }
     div#search_adv form div.src_line p.avvia input {
         border: 1px solid #c9c9c9;
