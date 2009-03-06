@@ -27,12 +27,12 @@ module TaliaCore
         # this is the last chapter of the book
         ending_page_position = book.ordered_pages.elements.size
       else
-        ending_page_position = book.ordered_pages.find_position_by_object(ending_page) - 1
+        ending_page_position = book.ordered_pages.find_position_by_object(book.ordered_pages.previous(ending_page))
       end
       ordered.add temp_page = book.ordered_pages.at(starting_page_position)
       while self.book.ordered_pages.find_position_by_object(temp_page) < ending_page_position
-        ordered.add temp_page = book.ordered_pages.next(temp_page)   
-      end    
+        ordered.add temp_page = book.ordered_pages.next(temp_page)
+      end
       ordered.save!
     end
     
