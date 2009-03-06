@@ -176,6 +176,7 @@ class TaskHelper
       keywords = keywords_from(row[10])
       bibliography = row[11]
       abstract = row[12]
+      transcription = row[13]
       
       element_uri = N::LOCAL + 'av_media_sources/' + UriEncoder.normalize_uri(title)
       element = TaliaCore::AvMedia.new(element_uri)
@@ -194,6 +195,7 @@ class TaskHelper
       element.hyper::keyword << keywords
       element.hyper::bibliography << bibliography if(bibliography)
       element.dct::abstract << abstract if(abstract)
+      element.hyper::transcription << transcription if(transcription)
     
       image = thumbnail_for(element, mp4_file, thumbnail_dir)
     
