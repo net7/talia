@@ -19,6 +19,7 @@ module TaliaCore
         (1..3).each do |n|
           book = make_book("fe_test_book#{n}", 4)
           clone_book = edition.add_from_concordant(book, true)
+          clone_book[N::HYPER.position] << n.to_s
           clone_book.save!
         end
         edition.save!

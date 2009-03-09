@@ -11,8 +11,7 @@ module TaliaCore
     # of which it is a subtype.
     # Returns all the books in the catalog. See elements
     def books
-      types = [N::TALIA.Book]
-      elements_by_type(*types)
+      elements_by_type(N::TALIA.Book, :sort => true)
     end
     
     # it reads the HTML from the given file and create a new CatalogHtmlDescription object

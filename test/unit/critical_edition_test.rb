@@ -19,6 +19,7 @@ module TaliaCore
         2.times do |n|
           book = make_big_book_with_text_reconstructions("ce_test_book#{n}")
           clone_book = edition.add_from_concordant(book, true)
+          clone_book[N::HYPER.position] << n.to_s
           clone_book.save!
         end
         edition.save!
