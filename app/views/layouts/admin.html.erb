@@ -8,17 +8,6 @@
   <meta name="copyright" content="Copyright" />
   <meta name="robots" content="all" />
   <meta http-equiv="pragma" content="no-cache" />
-  
-  <%= stylesheet_link_tag('backend')  %>
-  <%= javascript_include_tag('prototype') %>
-  <%= javascript_include_tag('scriptaculous') %>
-  <%= javascript_include_tag('lowpro') %>
-
-  <%= javascript_include_tag('backend') %>
-
-
-
-  <%= yield :javascript %>
   <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
   
   <title><%= page_title %></title>
@@ -55,4 +44,5 @@
       </div>
     </div>
   </div>
+  <%= sprockets_include_tag %>
 </body>

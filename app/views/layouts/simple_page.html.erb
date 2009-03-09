@@ -6,8 +6,6 @@
     <%= stylesheet_link_tag 'advanced_search' %>
     <%= stylesheet_link_tag 'main' %>
     <%= stylesheet_link_tag 'plain_shared' %>
-    <%= javascript_include_tag 'prototype' %>
-    <%= javascript_include_tag 'in_place_translator' %> 
   </head>
   <body>
     <div id="page_ext">
@@ -57,6 +55,8 @@
       <!--[if !IE]>page_int<![endif]-->
     </div>
     <!--[if !IE]>page_ext<![endif]-->
+    <%= sprockets_include_tag %>
+    <%= javascript_include_tag 'in_place_translator' %>
     <%= google_analytics %>
   </body>
 </html>

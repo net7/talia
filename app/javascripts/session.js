@@ -1,7 +1,12 @@
+//= require <prototype>
+//= require <lowpro>
+//= require <effects>
+
 Event.onReady(function() {
-	// hide open-id form by default	
-  $('openid_login').hide();
-  $('login').focus();
+	// hide open-id form by default
+	// SPROCKETIZED
+  if(openidLogin = $('openid_login')) { openidLogin.hide(); } 
+  if(login = $('login')) { login.focus(); }
 });
 
 Event.addBehavior({

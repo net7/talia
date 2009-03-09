@@ -1,3 +1,6 @@
+//= require <prototype>
+//= require <lowpro>
+
 Event.addBehavior({
   '#show_transcription:click': function(e) {
     $('transcription').visualEffect('blind_down');

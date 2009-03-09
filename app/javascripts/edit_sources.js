@@ -1,5 +1,11 @@
+//= require <prototype>
+//= require <lowpro>
+//= require <effects>
+//= require 'force_identify'
+
 Event.onReady(function() {
-	$('data_form').hide();
+  // SPROCKETIZED
+	if(dataForm = $('data_form')) { dataForm.hide(); }
 	$$('.predicates').each(function(element){ element.hide(); });
 	$$('.predicate').each(function(element){ attachAjaxAutocompleter(element); });
 });
