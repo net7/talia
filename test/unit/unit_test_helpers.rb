@@ -230,7 +230,7 @@ module TaliaCore
 
     def prop_for_clone(prop)
       value = "#{prop} the value"
-      (prop == N::RDF.type) ? TaliaCore::ActiveSource.new(value) : value
+      (prop == N::RDF.type) ? N::SourceClass.new(value) : value
     end
 
     # Asserts if the given properties are cloned on this class

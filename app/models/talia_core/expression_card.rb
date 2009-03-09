@@ -74,7 +74,7 @@ module TaliaCore
     # one
     def clone_concordant(uri, options = {})
       new_el = nil
-      self.class.benchmark('BUILDIT - clone it') { new_el = clone(uri, options) }
+      new_el = clone(uri, options)
       make_concordant(new_el)
       new_el
     end
@@ -153,7 +153,7 @@ module TaliaCore
     # will be created.
     def add_keyword(keyword)
       kw_object = Keyword.get_with_key_value!(keyword)
-      self.write_predicate(N::HYPER.keyword, kw_object)
+      self[N::HYPER.keyword] << kw_object
     end
     
     # Returns all keywords (as an array of strings)
@@ -195,7 +195,7 @@ module TaliaCore
       rels.each do |rel|
         if(rel.predicate_uri == N::RDF.type.to_s)
           types_tmp ||= target[N::RDF.type]
-          cp_relation(rel, target) unless(types_tmp.detect{ |t| t.id == rel.object_id })
+          cp_relation(rel, target) unless(types_tmp.detect{ |t| t.uri == rel.object.uri })
         else
           cp_relation(rel, target)
         end
@@ -211,21 +211,22 @@ module TaliaCore
           :predicate_uri => self.class.inverse_props_to_clone
         })
       rels.each do |rel|
-        rel.subject.write_predicate_direct(rel.predicate_uri, target)
+        subject = rel.subject
+        subject[rel.predicate_uri] << target
+        subject.save!
       end
     end
 
     # Copies the values of the given
     def cp_relation(rel, target)
       if(rel.object_type == 'TaliaCore::SemanticProperty')
-        target.write_predicate(rel.predicate_uri, rel.value)
+        target[rel.predicate_uri] << rel.value
       else
-        # Build a new relations, assigned to this object, that is otherwise
-        # a copy of the original
-        # We have to pass the elements in "manually", because AR complains
-        # about the "additional" elements
-        target.semantic_relations.build(:predicate_uri => rel.predicate_uri,
-          :object_type => rel.object_type, :object_id => rel.object_id)
+        rel = SemanticRelation.new(:predicate_uri => rel.predicate_uri,
+          :object_type => rel.object_type, :object_id => rel.object_id,
+          :subject_id => target.id)
+        rel_item = SemanticCollectionItem.new(rel, :plain)
+        target[rel.predicate_uri].send(:insert_item, rel_item)
       end
     end
     

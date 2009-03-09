@@ -144,7 +144,7 @@ module TaliaCore
         page = ordered_pages.at(index)
         next unless(page) # Skip empty elements
         page_clone = catalog.add_from_concordant(page)
-        page_clone.write_predicate(N::DCT.isPartOf, my_clone)
+        page_clone[N::DCT.isPartOf] << my_clone
         # We insert the page at the same index as the old page
         cloned_order.insert_at(index, page_clone)
         

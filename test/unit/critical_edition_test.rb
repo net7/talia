@@ -20,6 +20,7 @@ module TaliaCore
           book = make_big_book_with_text_reconstructions("ce_test_book#{n}")
           clone_book = edition.add_from_concordant(book, true)
           clone_book.save!
+          clone_book
         end
         edition.save!
         edition

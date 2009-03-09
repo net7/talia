@@ -37,7 +37,7 @@ class TaskHelper
       edition.write_predicate_direct(N::HYPER.title, ENV['name'])
       # if a version was given, then we store it so we know which version
       # it has to be fed to exist
-      edition.write_predicate(N::HYPER.version, version) unless version.nil?
+      edition.write_predicate_direct(N::HYPER.version, version) unless version.nil?
       edition.save!
       edition
     end
@@ -166,9 +166,9 @@ class TaskHelper
       element_uri = N::LOCAL + 'av_media_sources/' + UriEncoder.normalize_uri(title)
       element = TaliaCore::AvMedia.new(element_uri)
       element.series = series
-      element.write_predicate(N::DCNS.creator, author)
+      element[N::DCNS.creator] << author
       element.title = title
-      element.write_predicate(N::DCNS.date, year) if(year)
+      element[N::DCNS.date] << year if(year)
       element.play_length = "#{length} h:mm:ss"
       wmv_data = TaliaCore::DataTypes::WmvMedia.new
       wmv_data.location = wmv_file
@@ -177,9 +177,9 @@ class TaskHelper
       element.data_records << [wmv_data, mp4_data]
       element.download_url = download_url if(download_url && download_url.strip != '')
       element.category = category
-      element.write_predicate(N::HYPER.keyword, keywords)
-      element.write_predicate(N::HYPER.bibliography, bibliography) if(bibliography)
-      element.write_predicate(N::DCT.abstract, abstract) if(abstract)
+      element[N::HYPER.keyword] << keywords
+      element[N::HYPER.bibliography] << bibliography if(bibliography)
+      element[N::DCT.abstract] << abstract if(abstract)
     
       image = thumbnail_for(element, mp4_file, thumbnail_dir)
     

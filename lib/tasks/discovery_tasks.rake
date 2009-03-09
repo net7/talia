@@ -237,7 +237,7 @@ namespace :discovery do
           # Go through all the notes of the current page
           orig_page.notes.each do |note|
             new_note = ce.add_from_concordant(note)
-            new_note.write_predicate(N::HYPER.page, new_page)
+            new_note[N::HYPER.page] << new_page
             TaskHelper::handle_paragraph_for(note, new_note, ce)
             progress.inc
             new_note.save!
