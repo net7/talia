@@ -158,7 +158,7 @@ class FacsimileEditionsController < SimpleEditionController
     path =[
       {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"},
       {:text => t_type, :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@type}"},
-      {:text => @book.uri.local_name + " (#{t(:'talia.facsimile_edition.panorama')})", :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@book.uri.local_name}"}
+      {:text => @book.name + " (#{t(:'talia.facsimile_edition.panorama')})", :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@book.uri.local_name}"}
     ]
     text = params[:page]
     if (params[:page2])

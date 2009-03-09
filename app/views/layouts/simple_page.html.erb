@@ -27,7 +27,7 @@
                 <label class="invia"><%= t(:'talia.global.search') %></label>
                 <input type="submit" class="invia" value="" name="advanced_search_submission"/>
               </p>
-              <a href="#" onclick="Element.toggle('search_adv'); return false;" class="advsrch"><%=  t(:'talia.global.search_advanced') %></a>
+              <a href="#" onclick="Element.toggle('search_adv'); set_height(); return false;" class="advsrch"><%=  t(:'talia.global.search_advanced') %></a>
             
             <% end -%>
           </div>
@@ -42,6 +42,7 @@
           </div> -->
           <!--[if !IE]>tools<![endif]-->
 <%= widget(:simple_mode_path, :path_elements => @path) %>
+        <div id="talia_link"><a href="http://www.talia.discovery-project.eu/">Powered by Talia</a></div>
         </div>
         
         

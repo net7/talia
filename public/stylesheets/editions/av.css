@@ -39,6 +39,11 @@ div#page_ext div#page_int #scroll div.view_block {
   padding: 10px;
 }
 
+.right {
+  float: right;
+  margin-right: 15px;
+}
+
 /* ********************************* */
 /* Video */
 /* ********************************* */

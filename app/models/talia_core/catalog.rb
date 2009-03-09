@@ -20,11 +20,27 @@ module TaliaCore
     # (manuscripts, works, etc.). Types can also contain subtypes (notebook, draft, etc.) 
     # 
     # The types should be a list of N::URI elements indicating the RDF classes.
-    def elements_by_type(*types)
+    #
+    # It's possible to pass either a single, type, a list of types and also
+    # an optional array of options.
+    #
+    #  * :sort - if set to true, will sort the result on the "position" property.
+    #     elements that have that property will be completely ignored.
+    #
+    # ==Examples==
+    #
+    #   > elements_by_type(N::TALIA.Book)
+    #   > elements_by_type(N::TALIA.Book, :sort => true)
+    def elements_by_type(*args)
+      # Setup the options from the arguments
+      options = {}
+      options = args.pop if(args.last.kind_of?(Hash))
+      types = args
+
       qry = Query.new(TaliaCore::ActiveSource).select(:element).distinct
       types.each do |type|
         qry.where(:element, N::RDF.type, type)
-        if type == N::TALIA.Book
+        if(options[:sort])
           qry.where(:element, N::HYPER.position, :position)
           qry.sort(:position)
         end

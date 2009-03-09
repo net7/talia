@@ -33,11 +33,16 @@ module FacsimileEditionsHelper
   end
   
   def panorama_tabs
-    [{:link => "", :text => params[:book], :selected => true}] 
+    tabs = [{:link => "", :text => params[:book], :selected => true}]
+    subtype = @book.material_subtype
+    @edition.books(subtype).each do |book|
+      tabs << {:link => book.uri.to_s, :text => book.name, :selected => false} unless book == @book
+    end
+    tabs
   end
   
   def page_tabs
-    [{:link => "", :text => @book.uri.local_name, :selected => true}]
+    [{:link => "", :text => @book.name, :selected => true}]
   end
   
   # returns a link to the next page, used in the "page" action

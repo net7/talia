@@ -5,6 +5,11 @@ module TaliaCore
   # exactly in one Catalog/Macrocontribution (see ExpressionCard).
   class Book < ExpressionCard
 
+    # return the string to be shown as book name
+    def name
+      self.dcns.title.empty? ? self.uri.local_name : self.dcns.title
+    end
+
     # The pages of this book
     def pages
       Page.find(:all, :find_through => [N::DCT.isPartOf, self])
@@ -54,7 +59,7 @@ module TaliaCore
     # returns the RDF.type of this book (e.g. Manuscript, Work, etc.)
     def material_type
       qry = Query.new(N::SourceClass).select(:type).distinct
-      qry.where(:self, N::RDF.type, :subtype)
+      qry.where(self, N::RDF.type, :subtype)
       qry.where(:subtype, N::RDFS.subClassOf, :type)
       qry.where(:type, N::RDFS.subClassOf, N::HYPER.Material)
       qry.execute[0]
@@ -63,7 +68,7 @@ module TaliaCore
     # returns the subClass of the RDF.type of this book (e.g. Copybook, Notebook, etc.) 
     def material_subtype
       qry = Query.new(N::SourceClass).select(:subtype).distinct
-      qry.where(:self, N::RDF.type, :subtype)
+      qry.where(self, N::RDF.type, :subtype)
       qry.where(:subtype, N::RDFS.subClassOf, :type)
       qry.where(:type, N::RDFS.subClassOf, N::HYPER.Material)
       qry.execute[0]

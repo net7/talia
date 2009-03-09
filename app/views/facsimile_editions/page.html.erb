@@ -17,25 +17,26 @@
       <!-- Vista Facing Pages -->
       <div class="image_half">
         <p class="sigla"><%= @page.uri.local_name %></p>
-        <%= iip_flash_viewer(@page, "100%", "100%", "iipfview_left") %>
+        <%= iip_flash_viewer(@page_facsimile, "100%", "100%", "iipfview_left") %>
       </div>
 
       <div class="image_half">
         <p class="sigla"><%= @page2.uri.local_name %></p>
-        <%= iip_flash_viewer(@page2, "100%", "100%", "iipfview_right") %>
+        <%= iip_flash_viewer(@page_facsimile2, "100%", "100%", "iipfview_right") %>
       </div>
     <% else %>
       <!-- Vista pagina singola -->
       <div class="image_big">
         <p class="sigla"><%= @page.uri.local_name %></p>
-        <%= iip_flash_viewer(@page, "100%", "100%", "iipfview") %>
+        <%= iip_flash_viewer(@page_facsimile, "100%", "100%", "iipfview") %>
 
       </div>
     <% end %>
     <%= facsimile_edition_next_page %>
 
+    <p class="facsimile_copyright">
     <%= copyright_note(@page) %>
-    
+    </p>
   </div> <!-- chiude visore -->
   <!--[if !IE]>visore<![endif]-->
 </div>

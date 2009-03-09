@@ -34,10 +34,10 @@ class TaskHelper
       ed_uri = N::LOCAL +  ed_klass::EDITION_PREFIX + '/' + ENV['nick']
       raise(RuntimeError, "Edition does already exist: #{ed_uri}") if(TaliaCore::ActiveSource.exists?(ed_uri))
       edition = ed_klass.new(ed_uri)
-      edition.write_predicate_direct(N::HYPER.title, ENV['name'])
+      edition.hyper::title << ENV['name']
       # if a version was given, then we store it so we know which version
       # it has to be fed to exist
-      edition.write_predicate_direct(N::HYPER.version, version) unless version.nil?
+      edition.hyper::version << version unless version.nil?
       edition.save!
       edition
     end
@@ -63,7 +63,7 @@ class TaskHelper
       ed_qry.where(:manifestation, N::RDF.type, N::HYPER.HyperEdition)
       # Add the editions to the new paragraph
       ed_qry.execute.each do |edition|
-        edition.write_predicate_direct(N::HYPER.manifestation_of, destination)
+        quick_add_property(edition, N::HYPER.manifestation_of, destination)
       end
     end
   
@@ -102,14 +102,15 @@ class TaskHelper
     def handle_paragraph_for(note, new_note, catalog)
       orig_paragraph = note.paragraph
       # Check if the cloned paragraph already exists
-      paragraph = nil
       if(TaliaCore::Paragraph.exists?(catalog.concordant_uri_for(orig_paragraph)))
         paragraph = TaliaCore::Paragraph.find(catalog.concordant_uri_for(orig_paragraph))
+        quick_add_property(paragraph, N::HYPER.note, new_note)
       else
         paragraph = catalog.add_from_concordant(orig_paragraph)
         clone_hyper_editions(orig_paragraph, paragraph)
+        paragraph.hyper::note << new_note
+        paragraph.save!
       end
-      paragraph.write_predicate_direct(N::HYPER.note, new_note)
     end
   
     # Returns the count of paragraphs that are attached to books in the given
@@ -162,6 +163,7 @@ class TaskHelper
       keywords = keywords_from(row[10])
       bibliography = row[11]
       abstract = row[12]
+      transcription = row[13]
       
       element_uri = N::LOCAL + 'av_media_sources/' + UriEncoder.normalize_uri(title)
       element = TaliaCore::AvMedia.new(element_uri)
@@ -177,9 +179,10 @@ class TaskHelper
       element.data_records << [wmv_data, mp4_data]
       element.download_url = download_url if(download_url && download_url.strip != '')
       element.category = category
-      element[N::HYPER.keyword] << keywords
-      element[N::HYPER.bibliography] << bibliography if(bibliography)
-      element[N::DCT.abstract] << abstract if(abstract)
+      element.hyper::keyword << keywords
+      element.hyper::bibliography << bibliography if(bibliography)
+      element.dct::abstract << abstract if(abstract)
+      element.hyper::transcription << transcription if(transcription)
     
       image = thumbnail_for(element, mp4_file, thumbnail_dir)
     

@@ -15,6 +15,14 @@ class Test::Unit::TestCase
   self.use_instantiated_fixtures  = false
   fixtures :all
 
+  def self.with_cache
+    ActionController::Base.perform_caching = true
+    yield
+    FileUtils.rm_rf(RAILS_ROOT + '/tmp/cache/localhost:3000')
+  ensure
+    ActionController::Base.perform_caching = false
+  end
+
   # Add more helper methods to be used by all tests here...
   # Assert the current response is served with the given layout.
   def assert_layout(actual, message = nil)

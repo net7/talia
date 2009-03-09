@@ -11,11 +11,18 @@ notebook: ":Notebook"
 copybook: ":Copybook"
 dossier: ":Dossier"
 manuscript_for_printing: ":ManuscriptForPrinting"
-posthumous_fragments: ":PosthumousFragments"
+# icn is not going to be used anymore. It's here for legacy support
 icn: ":ICN"
 draft: ":Draft"
+posthumous_fragment: ":PosthumousFragment"
+authorized_manuscript: ":AuthorizedManuscript"
+posthumous_writing: ":PosthumousWriting"
+lecture_manuscript: ":LectureManuscript"
+correspondence: ":Correspondence"
 # Types for books - works
 printed_and_distributed: ":PrintedAndDistributed"
+# the new icn name
+private_publication: ":PrivatePublication"
 not_distributed: ":NotDistributed"
 unprinted: ":Unprinted"
 # Types for chapters

@@ -35,7 +35,11 @@ module TaliaCore
   # Returns all the books in the catalog. See elements
     def books(*types)
       types = [N::TALIA.Book] if(types.empty?)
-      elements_by_type(*types)
+      options = {}
+      options[:sort] = (types == [N::TALIA.Book])
+      args = types.clone
+      args << options
+      elements_by_type(*args)
     end 
     
     # Search for the given book and page (only the book if no page is given).

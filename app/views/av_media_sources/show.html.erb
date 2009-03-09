@@ -20,10 +20,20 @@
     <%= render(:partial => 'info_box') %>
     <!--[if !IE]>infomovie<![endif]-->  
     <div class="float_clear"></div>
+    <h2><%= t(:'talia.media.abstract') %></h2>
     <p class="text_long">
       <%= @element.dct::abstract.first %>
     </p>
+
+    <%= link_to t(:'talia.av_media.show_transcription'), "#", :id => 'show_transcription', :class => 'right' %>
+    <%= link_to t(:'talia.av_media.hide_transcription'), "#", :id => 'hide_transcription', :class => 'right', :style => 'display:none' %>
+
+    <div id="transcription" style="display:none">
+      <h2><%= t(:'talia.media.transcription') %></h2>
+      <p class="text_long">
+        <%= @element.hyper::transcription.first %>
+      </p>
+    </div>
   </div>
   <!--[if !IE]>visore<![endif]-->  
 </div>
-
