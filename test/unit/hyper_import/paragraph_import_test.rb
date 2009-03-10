@@ -28,7 +28,7 @@ module TaliaUtil
     def test_messed_up_note
       test_par = hyper_import(load_doc('D-12,3r[1]et4r[1]'))
       test_par.hyper::note.each do |note|
-        puts note[N::HYPER.coordinates].join(', ')
+        puts note[N::HYPER.coordinates].values.join(', ')
       end
     end
     
@@ -74,6 +74,11 @@ module TaliaUtil
     def test_paragraph_notes_page
       note = @paragraph.hyper::note[0]
       assert_property(note.hyper::page, N::LOCAL + "AC,[Text]")
+    end
+
+    # Test if the imported value arrives correctly at the "pages" accessor
+    def test_paragraph_pages
+      assert_equal(@paragraph.pages.collect { |p| p.uri }, [ N::LOCAL + "AC,[Text]" ])
     end
     
     # Test import of a paragraph with multiple notes

@@ -273,7 +273,19 @@ module TaliaUtil
         end
         result
       end
-      
+
+      # Gets the URI for the given source, depending on the currently set
+      # catalog
+      def uri_on_catalog(source_uri)
+        base_uri = if(get_catalog)
+          get_catalog.uri.to_s + '/'
+        else
+          N::LOCAL
+        end
+        name = source_uri.local_name.to_s
+        irify(base_uri + name)
+      end
+
       # Gets a source with the given type (type must be a class). If the source
       # already exists, this will change the Sources class (type property).
       #
@@ -284,19 +296,11 @@ module TaliaUtil
       # on save!
       def get_or_create_source(source_uri, klass, save_new = true)
         set_class = (klass != nil) # this indicates if the class must be reset on an existing object
-        foo = klass.new('foo') unless klass.nil?
-        if foo.is_a?(TaliaCore::ExpressionCard)
-          catalog = get_catalog()
-          if catalog.nil?
-            base_uri = N::LOCAL
-          else
-            base_uri = catalog.uri.to_s + "/"
-          end
-          source_name = source_uri.local_name.to_s
-          source_uri = irify(base_uri + source_name)
-        end
 
         klass ||= TaliaCore::Source
+        # Set the URI on the given catalog (<= checks for subclass here)
+        source_uri = uri_on_catalog(source_uri) if(klass <= TaliaCore::ExpressionCard)
+
         raise(ArgumentError, "This must have a klass as parameter: #{source_uri}") unless(klass.is_a?(Class))
         src = SourceCache.cache[source_uri]
         if(src)
@@ -321,8 +325,8 @@ module TaliaUtil
           src = klass.new(source_uri)
           src.primary_source = primary_source? if(src.is_a?(TaliaCore::Source))
           set_catalog(src)
-          src.autosave_rdf = false
           src.save! if(save_new)
+          src.autosave_rdf = false
           # Add the new source to the cache
           SourceCache.cache[source_uri] = src
         end
