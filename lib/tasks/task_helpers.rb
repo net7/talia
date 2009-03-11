@@ -63,7 +63,7 @@ class TaskHelper
       ed_qry.where(:manifestation, N::RDF.type, N::HYPER.HyperEdition)
       # Add the editions to the new paragraph
       ed_qry.execute.each do |edition|
-        quick_add_property(edition, N::HYPER.manifestation_of, destination)
+        edition.write_predicate_direct(N::HYPER.manifestation_of, destination)
       end
     end
   
@@ -104,7 +104,7 @@ class TaskHelper
       # Check if the cloned paragraph already exists
       if(TaliaCore::Paragraph.exists?(catalog.concordant_uri_for(orig_paragraph)))
         paragraph = TaliaCore::Paragraph.find(catalog.concordant_uri_for(orig_paragraph))
-        quick_add_property(paragraph, N::HYPER.note, new_note)
+        paragraph.write_predicate_direct(N::HYPER.note, new_note)
       else
         paragraph = catalog.add_from_concordant(orig_paragraph)
         clone_hyper_editions(orig_paragraph, paragraph)
