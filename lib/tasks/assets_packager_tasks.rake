@@ -1,8 +1,7 @@
 RAILS_ROOT = File.expand_path(Dir.pwd) unless defined? RAILS_ROOT
 CONFIGURATION = "#{RAILS_ROOT}/config/assets.yml"
-JS_PATH = RAILS_ROOT + '/public/javascripts'
+JS_PATH = RAILS_ROOT + '/public'
 CSS_PATH = RAILS_ROOT + '/public/stylesheets'
-JAVASCRIPTS = JS_PATH + '/*.js'
 STYLESHEETS = CSS_PATH + '/*.css'
 JSMIN = "#{RAILS_ROOT}/script/jsmin"
 
@@ -16,9 +15,8 @@ namespace :assets do
   desc "Write the configuration file"
   task :config do
     require 'yaml'
-    javascripts = file_list JAVASCRIPTS, true
     stylesheets = file_list STYLESHEETS, true
-    configuration = {'js' => javascripts.reverse, 'css' => stylesheets}
+    configuration = { 'css' => stylesheets }
     File.open(CONFIGURATION, "w+") { |file| file.write(configuration.to_yaml) }
   end
 
@@ -38,9 +36,7 @@ namespace :assets do
     task :all => [ :js, :css ]
     
     desc "Merge all the javascripts"
-    task :js do
-      merge JS_PATH, :js
-    end
+    task :js => 'sprockets:install_script'
     
     desc "Merge all the stylesheets"
     task :css do
@@ -54,12 +50,11 @@ namespace :assets do
     
     desc "Compress all the javascripts"
     task :js do
-      path = JS_PATH + '/all.js'
-      `#{JSMIN} <#{path} >#{JS_PATH}/all_compressed.js \n`
-      `mv #{JS_PATH}/all_compressed.js #{path}`
+      `#{JSMIN} <#{sprockets_path} >#{JS_PATH}/sprockets_compressed.js \n`
+      `mv #{JS_PATH}/sprockets_compressed.js #{sprockets_path}`
       # Remove the blank line on the top of the file
-      lines = File.readlines(path)[1..-1]
-      File.open(path, 'w+') { |file| file.write lines }
+      lines = File.readlines(sprockets_path)[1..-1]
+      File.open(sprockets_path, 'w+') { |file| file.write lines }
     end
     
     desc "Compress all the stylesheets"
@@ -74,16 +69,20 @@ namespace :assets do
     desc "Clear all the assets"
     task :all => [ :js, :css ]
     
-    desc "Package all the javascripts"
+    desc "Clear all the packaged javascripts"
     task :js do
-      FileUtils.rm(JS_PATH + '/all.js') if File.exist?(JS_PATH + '/all.js')
+      FileUtils.rm sprockets_path rescue nil
     end
     
-    desc "Package all the stylesheets"
+    desc "Clear all the packaged stylesheets"
     task :css do
-      FileUtils.rm(CSS_PATH + '/all.css') if File.exist?(CSS_PATH + '/all.css')
+      FileUtils.rm(CSS_PATH + '/all.css') rescue nil
     end    
   end
+end
+
+def sprockets_path
+  File.join(JS_PATH, 'sprockets.js')
 end
 
 def file_list(path, trail_extension = false)
@@ -102,7 +101,6 @@ def merge(path, type)
   File.open("#{path}/all.#{type}", "w+") { |file| file.write lines }
 end
 
-# Thanks to Scott Becker
 def compress_css(source)
   source.gsub!(/\s+/, " ")           # collapse space
   source.gsub!(/\/\*(.*?)\*\/ /, "") # remove comments - caution, might want to remove this if using css hacks
