@@ -24,7 +24,10 @@
           <% @result.each_with_index do |item, index| %>
             <li name="result_item[]">
               <h3><%= index + 1 %><%= hidden_field_tag 'counter[]', (index+1).to_s %> <label> select to print</label><input name="checkbox[]" type="checkbox" value="<%= index.to_s %>" checked /> <span><a href="<%= item[:url] %>"><%= item[:title] %></a><%= hidden_field_tag 'title[]', item[:title] %></span></h3>
-              <p name="p_description[]"><%= item[:description] %><%= hidden_field_tag 'description[]', item[:description] %></p>
+              <p name="p_description[]">
+                <%= item[:description] %><%= hidden_field_tag 'description[]', item[:description] %>
+                <%= " (#{item[:more_occurrence]} #{(t(:'talia.search.more occurrences') if item[:more_occurrence] > 1) || t(:'talia.search.more occurrence')})"  if item[:more_occurrence] > 0 %>
+              </p>
             </li>
           <% end %>
         </ul>
