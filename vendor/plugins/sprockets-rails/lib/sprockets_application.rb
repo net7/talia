@@ -31,7 +31,8 @@ module SprocketsApplication
       end
 
       def asset_path
-        File.join(Rails.public_path, "sprockets.js")
+        # HACK for Rails 2.0.5 compatibility
+        File.join(RAILS_ROOT, "public", "sprockets.js")
       end
 
       def source_is_unchanged?
