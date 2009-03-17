@@ -7,7 +7,7 @@ module TaliaCore
 
     # return the string to be shown as book name
     def name
-      self.dcns.title.empty? ? self.uri.local_name : self.dcns.title[0]
+      self.dcns::title.empty? ? self.uri.local_name : self.dcns::title.first
     end
 
     # The pages of this book
