@@ -1,3 +1,6 @@
+//= require <prototype>
+//= require <effects>
+
 // LOAD PAGE EVENT
 Event.observe(window, 'load', function() {
     // Call to function  that handles collapsing of left side lists
