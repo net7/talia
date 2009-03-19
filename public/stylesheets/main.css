@@ -32,7 +32,7 @@ a {
     text-decoration: none;
     outline: none;
 }
-a:hover {
+a[href]:hover {
     text-decoration: underline;
     background-color: transparent;
     outline: none;

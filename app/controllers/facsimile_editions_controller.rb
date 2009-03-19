@@ -12,7 +12,7 @@ class FacsimileEditionsController < SimpleEditionController
 
   before_filter :setup_tools
 
-    # GET /facsimile_editions/1
+  # GET /facsimile_editions/1
   def show
     @path = [{:text => params[:id]}]
   end
@@ -55,7 +55,7 @@ class FacsimileEditionsController < SimpleEditionController
           {:text => t_type, :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@type}"},
           {:text => params[:book] + " (#{t(:'talia.facsimile_edition.panorama')})"}
         ]
-        download_tool(@book)
+        pdf_tool(@book)
         @page_title_suff = ", #{params[:book]}"
       end
       format.jpeg do
@@ -141,11 +141,20 @@ class FacsimileEditionsController < SimpleEditionController
 
   # Activates the fullscreen button
   def fullscreen_tool
-    @tools << { :id => 'fullscreen', :text => 'talia.global.fullscreen', :link => '#TODO: PDF creation'}
+    @tools << { :id => 'fullscreen', :text => 'talia.global.fullscreen', :link => ''}
   end
 
-  # Activates download button
+
+  # Activates original image download button
   def download_tool(element)
+    return unless(element)
+    if image = element.original_image
+      @tools << { :id => 'download', :text => 'download', :link => data_link(image) }
+    end
+  end
+
+  # Activates pdf download button
+  def pdf_tool(element)
     return unless(element)
     pdf_data = element.data_records.find(:first, :conditions => { :type => 'PdfData' } )
     if(pdf_data)
