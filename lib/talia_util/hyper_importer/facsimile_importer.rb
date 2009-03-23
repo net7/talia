@@ -26,16 +26,23 @@ module TaliaUtil
 
       # Add a default thumb image if the page is empty
       def check_for_empty_file!
-        @source.blank = 'true'unless(has_file?)
+        @source.blank = 'true' unless(has_file?)
       end
 
       def has_file?
-        file_name = get_text(@element_xml, 'file_name')
-        file_url = get_text(@element_xml, 'file_url')
-        file_content_type = get_text(@element_xml, 'file_content_type')
-        file_name && file_url && file_content_type
+        all_strings?('file_name', 'file_url', 'file_content_type')
       end
       
+      # True if all properties are non-empty strings
+      def all_strings?(*str)
+        all_strings = true
+        str.each do |el|
+          el_str = get_text(@element_xml, el)
+          all_strings = (all_strings && el_str && el_str != '')
+        end
+        all_strings
+      end
+
     end
   end
 end
