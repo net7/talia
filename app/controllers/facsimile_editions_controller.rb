@@ -164,6 +164,7 @@ class FacsimileEditionsController < SimpleEditionController
 
   # Makes the path for the page
   def page_path
+    return []
     path =[
       {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"},
       {:text => t_type, :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@type}"},

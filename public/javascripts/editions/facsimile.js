@@ -180,6 +180,8 @@ function setIipViewerSize() {
         var availableWidth = $('visore').getDimensions().width;
         var availableHeight = $('visore').getDimensions().height - $$('p.sigla')[0].getDimensions().height - 17;
 
+        alert('Avail ('+$('visore').getDimensions().height+','+$$('p.sigla')[0].getDimensions().height+') '+availableHeight+' width '+availableWidth)
+
         singleImageHolder.setStyle({
           position: 'absolute',
           left: '24px',
