@@ -50,7 +50,9 @@ class CriticalEditionsController < SimpleEditionController
       adv_src = AdvancedSearch.new
       @result = adv_src.search(edition_prefix, params[:id], params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to], params[:mc_single])
       @result_count = adv_src.size
-      @exist_result = adv_src.xml_doc.get_elements('/talia:result/talia:group')
+
+      # get result for menu
+      @exist_result = adv_src.menu_for_search(edition_prefix, params[:id], params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to])
 
       # search word
       @words = params[:words]

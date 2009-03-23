@@ -141,6 +141,12 @@ class AdvancedSearch
 
   end
 
+  def menu_for_search(edition_prefix, edition_id, words, operator, mc = nil, mc_from = nil, mc_to = nil)
+    search(edition_prefix, edition_id, words, operator, mc, mc_from, mc_to)
+
+    return self.xml_doc.get_elements('/talia:result/talia:group')
+  end
+
 end
 
 module Net
