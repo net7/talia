@@ -11,5 +11,5 @@
   var authenticityToken = '<%= protect_against_forgery? ? form_authenticity_token : "" %>';
 </script>
 
-<%= javascript :controls, :force_identify, :edit_sources %>
-<%= stylesheet :auto_complete %>
+<%= javascript_include_tag 'controls', 'force_identify', 'edit_sources' %>
+<%= stylesheet_link_tag 'auto_complete' %>
