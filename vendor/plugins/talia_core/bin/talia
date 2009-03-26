@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+# -*- Ruby -*-
+
+# Talia command line tool
+# Helper for local requires
+def local_requires
+  require "talia_cl"
+end
+
+# Little helper for running the command line in development mode/without gem
+# installed. If the 
+begin
+  local_requires
+rescue LoadError
+  puts "Talia gem does not seem to be installed, trying fallback locations."
+  lib_path_local = File.expand_path(File.join(".", "lib"))
+  lib_path_rails = File.expand_path(File.join(".", "vendor", "plugins", "talia_core", "lib"))
+  if(FileTest.exists?(File.join(lib_path_local, "talia_cl.rb")))
+    puts "...seems to be the local talia directory. Using local config."
+    $: << lib_path_local
+    local_requires
+  elsif(FileTest.exists?(File.join(lib_path_rails, "talia_cl.rb")))
+    puts "... seems to be a rails installation with talia. Using Rails config."
+    $: << lib_path_rails
+    $: << lib_path_local # Also put the path to the "local" rails-specific stuff
+    local_requires
+  else
+    puts "No Talia installation found. Try to run this within the Talia root dir."
+    raise LoadError, "Talia installation not found."
+  end
+end
+
+run_command_line
