@@ -1,0 +1,16 @@
+# RDF store setup for rdland
+development:
+  type: rdflite
+  dbfile: rdflite_development.db
+
+# Warning: The database defined as 'test' will be erased and
+# re-generated from your development database when you run 'rake'.
+# Do not set this db to the same as development or production.
+test:
+  type: rdflite
+
+
+# WARNING: YOU REALLY DO NOT WANT TO USE RDFLIT IN AN PRODUCTION ENVIRONMENT!
+production:
+  type: rdflite
+  dbfile: rdflist_production.db
