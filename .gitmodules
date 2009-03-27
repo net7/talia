@@ -1,0 +1,12 @@
+[submodule "vendor/plugins/ActiveRDF"]
+	path = vendor/plugins/ActiveRDF
+	url = git://github.com/net7/active_rdf_talia.git
+[submodule "vendor/plugins/semantic_naming"]
+	path = vendor/plugins/semantic_naming
+	url = git://github.com/net7/semantic_naming.git
+[submodule "vendor/plugins/widgeon"]
+	path = vendor/plugins/widgeon
+	url = git://github.com/net7/widgeon.git
+[submodule "vendor/plugins/assit"]
+	path = vendor/plugins/assit
+	url = git://github.com/averell23/assit.git
