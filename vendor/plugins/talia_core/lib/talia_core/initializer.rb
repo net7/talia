@@ -1,6 +1,7 @@
 require 'assit'
 require 'semantic_naming'
 require 'active_rdf'
+require 'fileutils'
 
 module TaliaCore
   
@@ -194,7 +195,13 @@ module TaliaCore
       unless(defined?(talia_logger))
         Object.instance_eval do
           def talia_logger
-            @talia_logger ||= Logger.new(File.join(TALIA_ROOT, 'log', 'talia_core.log'))
+            @talia_logger ||= if(defined?(RAILS_DEFAULT_LOGGER))
+              RAILS_DEFAULT_LOGGER
+            else
+              log_name = File.join(TALIA_ROOT, 'log', 'talia_core.log')
+              FileUtils.makedirs(File.dirname(log_name))
+              @talia_logger ||= Logger.new(log_name)
+            end
           end
         end
       end
