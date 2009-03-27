@@ -308,7 +308,7 @@ module TaliaCore
       
       # Register the default name
       N::Namespace.shortcut(:default, @config["default_namespace_uri"])
-      talia_logger.info("Default Dome: #{N::DEFAULT}")
+      talia_logger.debug("Default Domain: #{N::DEFAULT}")
       
       # Register namespace for database dupes
       N::Namespace.shortcut(:talia, "http://talia.discovery-project.eu/wiki/TaliaInternal#")
