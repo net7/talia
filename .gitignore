@@ -12,3 +12,4 @@ log/*
 /iip_root/
 /data/
 delayed_copy*
+*.db

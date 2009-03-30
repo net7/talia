@@ -66,9 +66,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :data_records, :controller => 'source_data'
   
   # Routes for the widget engine
-  map.resources :widgeon, :collection => { :callback => :all } do |widgets|
-    widgets.connect ':file', :controller => 'widgeon', :action => 'load_file', :requirements => { :file => %r([^;,?]+) }
-  end
+  # map.resources :widgeon, :collection => { :callback => :all } do |widgets|
+  #   widgets.connect ':file', :controller => 'widgeon', :action => 'load_file', :requirements => { :file => %r([^;,?]+) }
+  # end
     
   # Routes for import
   map.connect 'import/:action', :controller => 'import', :action => 'start_import'
@@ -137,10 +137,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'  
   
-  map.resources :FE do |facsimile_edition|
-    facsimile_edition.resource :book do |book|
-      book.resources :pages
-    end
-  end
+  # map.resources :FE do |facsimile_edition|
+  #   facsimile_edition.resource :book do |book|
+  #     book.resources :pages
+  #   end
+  # end
   
 end

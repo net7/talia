@@ -1,0 +1,9 @@
+--- 
+production: 
+  type: sesame
+  location: /usr/local/discovery/sophiavision_sesame/sesame_production.db
+test: 
+  type: sesame
+development: 
+  type: sesame
+  location: /usr/local/discovery/sophiavision_sesame/sesame_development.db
