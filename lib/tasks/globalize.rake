@@ -29,7 +29,7 @@ namespace :globalize do
     GlobalizeLegacyTranslation.find(:all, :conditions => {:table_name => nil}).each do |legacy_translation|
       GlobalizeTranslation.create :key => legacy_translation.tr_key,
         :locale => legacy_translation.globalize_language.iso_639_1,
-        :pluralization_index => legacy_translation.pluralization_index,
+        :pluralization_index => legacy_translation.pluralization_index || 1,
         :text => legacy_translation.text
     end
 
