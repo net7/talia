@@ -1,10 +1,12 @@
 # Filters added to this controller will be run for all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
-module Globalize
-  class Locale
-    attr_accessor :magick
-  end
-end
+
+# TODO fix magick
+# module Globalize
+#   class Locale
+#     attr_accessor :magick
+#   end
+# end
 
 
 class ApplicationController < ActionController::Base
