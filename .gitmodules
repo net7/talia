@@ -10,3 +10,6 @@
 [submodule "vendor/plugins/assit"]
 	path = vendor/plugins/assit
 	url = git://github.com/averell23/assit.git
+[submodule "vendor/plugins/globalize2"]
+	path = vendor/plugins/globalize2
+	url = git://github.com/jodosha/globalize2.git
