@@ -4,6 +4,7 @@ config/rdfstore.yml
 config/talia_core.yml
 config/database.yml
 config/rails_secret
+config/*.*ruby
 nbproject
 tmp
 sesame*db
