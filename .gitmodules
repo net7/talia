@@ -13,3 +13,6 @@
 [submodule "vendor/plugins/globalize2"]
 	path = vendor/plugins/globalize2
 	url = git://github.com/jodosha/globalize2.git
+[submodule "vendor/plugins/has_many_polymorphs"]
+	path = vendor/plugins/has_many_polymorphs
+	url = git://github.com/fauna/has_many_polymorphs.git
