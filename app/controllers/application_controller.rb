@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   # You can move this into a different controller, if you wish.  This module gives you the require_role helpers, and others.
   include RoleRequirementSystem
 
-  before_filter :prepare_locale, :check_i18n_cache
+  before_filter :prepare_locale #, :check_i18n_cache
   before_filter :set_globalize
 
   helper :all # include all helpers, all the time
@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
 
   # Delegate to I18n instead of hardcode locales there, because application.rb
   # is evauated *one* time in production.
-  self.languages = I18n.locales
+  # self.languages = I18n.available_locales
 
   # Override to allow the translations only to the translators
   def globalize?
@@ -38,10 +38,10 @@ class ApplicationController < ActionController::Base
       current_user.authorized_as?('translator')
   end
   
-  # Translate the symbol
-  def t(symbol)
-    symbol.to_s.t
-  end
+  # # Translate the symbol
+  # def t(symbol)
+  #   symbol.to_s.t
+  # end
 
   private
 
@@ -55,13 +55,14 @@ class ApplicationController < ActionController::Base
 
   # Sets the local to the value from the session
   def prepare_locale
-    locale = session[:locale] || "en-US"
-    if(locale != Locale.active.code)
+    locale = session[:locale] || I18n.default_locale
+    if(locale != I18n.locale)
       # set the new locale
       Locale.set(locale)
-      session[:locale] = Locale.active.code
+      I18n.locale = locale
+      session[:locale] = locale
       session[:__globalize_translations] = nil
-      logger.debug("[#{Time.now.to_s(:db)}] - Set current Locale on #{Locale.language}")
+      logger.debug("[#{Time.now.to_s(:db)}] - Set current Locale on #{locale}")
     end
   end
 
