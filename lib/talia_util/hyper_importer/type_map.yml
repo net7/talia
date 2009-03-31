@@ -11,6 +11,7 @@ notebook: ":Notebook"
 copybook: ":Copybook"
 dossier: ":Dossier"
 manuscript_for_printing: ":ManuscriptForPrinting"
+posthumous_fragments: ":PosthumousFragments"
 icn: ":ICN"
 draft: ":Draft"
 # Types for books - works

@@ -5,17 +5,20 @@ require 'uri'
 module ApplicationHelper
   
   
-  def iip_flash_viewer(element, height = 400, width = 400, klass='iipviewer')
-    iip_data = get_iip_data_for(element)
-    return "No iip data for #{element.uri}" unless(iip_data)
-    
-    render :partial => 'shared/iip_flash_viewer', :locals => {
-      :image_path => iip_data.get_iip_root_file_path,
-      :height => height.to_s,
-      :width => width.to_s,
-      :element_id => "iip_viewer_#{rand 10E16}", # Random name so that multiple instances can be used
-      :div_class => klass
-    }
+  def iip_flash_viewer(facsimile, height = 400, width = 400, klass='iipviewer')
+    if(facsimile.blank)
+      render :partial => 'shared/facsimile_blank', :locals => { :div_class => klass }
+    else
+      iip_data = get_iip_data_for_facs(facsimile)
+      return "No iip data for #{facsimile.uri}" unless(iip_data)
+      render :partial => 'shared/iip_flash_viewer', :locals => {
+        :image_path => iip_data.get_iip_root_file_path,
+        :height => height.to_s,
+        :width => width.to_s,
+        :element_id => "iip_viewer_#{rand 10E16}", # Random name so that multiple instances can be used
+        :div_class => klass
+      }
+    end
   end
   
   # The (translated) material description for the element
@@ -100,6 +103,23 @@ module ApplicationHelper
       %(<div id="#{status}">#{flash[status]}</div>) unless flash[status].nil?
     end
   end
+
+  # Insert the google analytics script code, if an id is set for the
+  # installation
+  def google_analytics
+    google_id = TaliaCore::CONFIG['google_analytics_id']
+    return unless(google_id)
+    render(:partial => 'shared/google_analytics', :locals => { :google_analytics_id => google_id })
+  end
+
+  # Privacy note on Google analytitcs. Will be empty unless analytics is enabled
+  def google_privacy_note
+    return '' unless(TaliaCore::CONFIG['google_analytics_id'])
+    result = t(:'talia.global.google_notice')
+    result << ' '
+    result << link_to(t(:'talia.global.privacy_policy'), 'http://www.google.com/intl/en/privacy_highlights.html')
+    result
+  end
   
   # Show the logout box if the user is loggedin.
   # TODO: in future should handle even the login link.
@@ -116,14 +136,14 @@ module ApplicationHelper
     
     # If this is a book we need to use the first page as a thumbnail
     data_element = if(element.is_a?(TaliaCore::Book))
-      element.ordered_pages.first
+      element.ordered_pages.elements.detect { |page| (page && !page_blank?(page)) }
     else
       element
     end
     
     # Try to get the iip data record for the manifestation of the element
-    iip_data = get_iip_data_for(data_element)
-    return titled_link(url, "missing image for #{title}", title) unless(iip_data)
+    iip_data = get_iip_data_for_card(data_element)
+    return titled_link(url, empty_thumb(:alt => title), title) unless(iip_data)
 
     img_options = { :alt => title }.merge(img_options)
     img_tag = talia_image_tag(iip_data, img_options)
@@ -141,6 +161,10 @@ module ApplicationHelper
       image_tag(static_url, options)
     end
   end
+
+  def empty_thumb(options)
+    image_tag('/images/empty_thumb.gif', options)
+  end
   
   def titled_link (url, text, title=nil)
     title ||= text
@@ -153,11 +177,27 @@ module ApplicationHelper
   end
   
   private
-  
-  def get_iip_data_for(expression_card)
-    return nil unless(expression_card.manifestations.size > 0)
-    iip_data = TaliaCore::DataTypes::IipData.find(:first, :conditions => { :source_id => expression_card.manifestations.first.id })
+
+
+  def facsimile_for(expression_card)
+    expression_card.manifestations(TaliaCore::Facsimile).first
+  end
+
+  def page_blank?(page)
+    blank = facsimile_for(page).blank
+    (blank != nil) && (blank != 'false')
+  end
+
+  def get_iip_data_for_facs(facsimile)
+    iip_data = TaliaCore::DataTypes::IipData.find(:first, :conditions => { :source_id => facsimile.id })
     iip_data
   end
+
+  def get_iip_data_for_card(expression_card)
+    facsimile = facsimile_for(expression_card)
+    return nil unless(facsimile)
+    get_iip_data_for_facs(facsimile)
+  end
+
   
 end

@@ -304,6 +304,9 @@
   <owl:ObjectProperty rdf:ID="translation_of">
     <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/relation"/>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="transcription_of">
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/relation"/>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="first_page">
     <rdfs:domain rdf:resource="#Chapter"/>
     <rdfs:range rdf:resource="#Page"/>

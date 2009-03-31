@@ -26,26 +26,13 @@ namespace :discovery do
     end
   end
   
-  desc "Rebuild the RDF store from the database"
-  task :rebuild_rdf => :disco_init do
-    Util::flush_rdf
-    puts "Flushed RDF"
-    count = TaliaCore::ActiveSource.count
-    puts "Rebuilding #{count} elements"
-    prog = ProgressBar.new('Rebuilding', count)
-    TaliaCore::ActiveSource.find(:all).each do |source|
-      source.save!
-      prog.inc
-    end
-    prog.finish
-  end
-  
   desc "Clear all the data (files and data store) if this instance."
   task :clear_all => 'talia_core:clear_store' do
     data_dir = TaliaCore::CONFIG['data_directory_location']
     iip_dir = TaliaCore::CONFIG['iip_root_directory_location']
     FileUtils.rm_rf(data_dir) if(File.exist?(data_dir))
     FileUtils.rm_rf(iip_dir) if(File.exist?(iip_dir))
+    puts "Attention! Data and iip director were removed! Remember to change the permissions for production."
     ontology_folder = ENV['ontology_folder'] || File.join(RAILS_ROOT, 'ontologies')
     TaskHelper::setup_ontologies(ontology_folder)
   end
@@ -212,8 +199,7 @@ namespace :discovery do
       assit(TaliaCore::Catalog.exists?(N::LOCAL + ENV['catalog'])) 
       catalog = TaliaCore::Catalog.find(N::LOCAL + ENV['catalog']) 
     end
-    
-    ce = TaskHelper::create_edition(TaliaCore::CriticalEdition)
+    ce = TaskHelper::create_edition(TaliaCore::CriticalEdition, version)
     TaskHelper::setup_header_images
     # the description page must be passed as a path to the HTML file containing it
     description_file_path = ENV['description']

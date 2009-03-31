@@ -83,7 +83,7 @@ class FacsimileEditionsController < SimpleEditionController
       format.html do
         # if a 'pages' params with 'double' as a value and a 'page2' param with
         # the siglum of a page have been passed, we need to show the large images of both pages 
-        if (params[:pages] == 'double')
+        if (@double_page = (params[:pages] == 'double'))
           page = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]
           page2 = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page2]  
           @page = TaliaCore::Page.find(page)
@@ -91,7 +91,11 @@ class FacsimileEditionsController < SimpleEditionController
         else
           @page = TaliaCore::Page.find(URI::decode(request.url))
           download_tool(@page.manifestations(TaliaCore::Facsimile).first)
-        end         
+        end
+        # Cache the facsimile
+        @page_facsimile = facsimile_for(@page)
+        @page2_facsimile = facsimile_for(@page2) if(@page2)
+
         qry = Query.new(TaliaCore::Book).select(:b).distinct
         qry.where(@page, N::DCT.isPartOf, :b)
         result=qry.execute
@@ -100,7 +104,7 @@ class FacsimileEditionsController < SimpleEditionController
         @path = page_path
         @page_title_suff = ", #{params[:page]}"
         @page_title_suff += "- #{params[:page2]}" if(params[:page2])
-        fullscreen_tool # Enable the fullscreen button
+        fullscreen_tool unless(@double_page || @page_facsimile.blank) # Enable the fullscreen button
       end
       format.jpeg do
         page = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]
@@ -166,6 +170,10 @@ class FacsimileEditionsController < SimpleEditionController
 
   def setup_tools
     @tools = []
+  end
+
+  def facsimile_for(page)
+    page.manifestations(TaliaCore::Facsimile).first
   end
 
   def data_link(data)

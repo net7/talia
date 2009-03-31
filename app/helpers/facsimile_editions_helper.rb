@@ -75,7 +75,7 @@ module FacsimileEditionsHelper
 
   # To indicate if the current page is a double page
   def double_page?
-    (params[:pages] == 'double')
+    @double_page
   end
   
 end
