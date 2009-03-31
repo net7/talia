@@ -4,8 +4,8 @@ class LanguagesController < ApplicationController
 
   # GET /languages/en-US/change
   def change
-    Locale.set(params[:id]) if params[:id]
-    session[:locale] = Locale.active.code
+    I18n.locale = params[:id]
+    session[:locale] = I18n.locale
     redirect_to :back
   end
   

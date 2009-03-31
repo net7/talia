@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   # You can move this into a different controller, if you wish.  This module gives you the require_role helpers, and others.
   include RoleRequirementSystem
-
+                                # TODO check if still useful
   before_filter :prepare_locale #, :check_i18n_cache
   before_filter :set_globalize
 
@@ -58,7 +58,6 @@ class ApplicationController < ActionController::Base
     locale = session[:locale] || I18n.default_locale
     if(locale != I18n.locale)
       # set the new locale
-      Locale.set(locale)
       I18n.locale = locale
       session[:locale] = locale
       session[:__globalize_translations] = nil
@@ -105,6 +104,6 @@ class ApplicationController < ActionController::Base
   #   Otherwise:
   #     [GET] /articles/1 # => http://example.com/articles/1?locale=it-IT
   def current_locale
-    session[:locale] ||= Locale.base_language.code
+    session[:locale] ||= I18n.default_locale
   end
 end
