@@ -627,7 +627,7 @@ module TaliaUtil
       # the database. This should avoid any database hits except the one
       # that actually adds the elements.
       def quick_add_predicate(source, predicate, value)
-        source.write_predicate_direct(predicate, value)
+        source[predicate] << value
       end
 
       # Checks for the namespaces which must be defined for the
