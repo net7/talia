@@ -35,12 +35,12 @@ module ApplicationHelper
   end
 
   # Gets the translated name of the given edition
-  def translate_edition_name(edition)
+  def translate_edition_name(edition, in_place_allowed = true)
     assit_kind_of(TaliaCore::Catalog, edition)
     title = edition.title
     assit(title)
     return nil unless(title)
-    t(:"talia.edition.#{title.underscore.downcase}")
+    t(:"talia.edition.#{title.underscore.downcase}", in_place_allowed)
   end
   
   # To include the customization template with the given name
