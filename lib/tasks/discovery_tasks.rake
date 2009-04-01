@@ -201,9 +201,6 @@ namespace :discovery do
     end
     ce = TaskHelper::create_edition(TaliaCore::CriticalEdition, version)
     TaskHelper::setup_header_images
-    # the description page must be passed as a path to the HTML file containing it
-    description_file_path = ENV['description']
-    ce.create_html_description!(description_file_path)
     
     # HyperEditions may be manifestations of both pages and paragraphs
     par_qry = TaskHelper::default_book_query(catalog)

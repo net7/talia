@@ -1,5 +1,6 @@
 class CriticalEditionsController < SimpleEditionController
   set_edition_type :critical
+  add_javascripts 'tooltip'
   
   def dispatcher
     @request_url = URI::decode(request.url)
@@ -12,6 +13,7 @@ class CriticalEditionsController < SimpleEditionController
     else
       prepare_for_part
     end
+    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
     print_tool # Enable the print button
   end
  
@@ -21,6 +23,7 @@ class CriticalEditionsController < SimpleEditionController
   end
   
   def print
+    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
     source_uri = "#{N::LOCAL}#{edition_prefix}/#{params[:id]}/#{params[:part]}"    
     source = TaliaCore::Source.find(source_uri)
     if source.class == TaliaCore::Book
@@ -90,7 +93,7 @@ class CriticalEditionsController < SimpleEditionController
   
   def advanced_search_print
     # set custom stylesheet for screen and print media
-    set_custom_stylesheet ['critical_print']
+    set_custom_edition_stylesheet ['critical_print']
     set_print_stylesheet ['critical_printreal']
     
     @path = []
