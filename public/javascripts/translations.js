@@ -1,3 +1,6 @@
+//= require <prototype>
+//= require <effects>
+
 Element.addMethods({
 	getText: function(element){
 		element = $(element);
@@ -49,5 +52,8 @@ var TranslationFetcher = Class.create({
 });
 
 document.observe('dom:loaded', function(e){
-  new TranslationFetcher('reference_languages', 'translations');
+  // SPROCKETIZED
+  if($('reference_languages') && $('translations')) {
+    new TranslationFetcher('reference_languages', 'translations');
+  }
 });

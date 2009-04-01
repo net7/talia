@@ -12,7 +12,12 @@
   <div class="floatclear"></div>
   <div id="content" class="divided grey">
     <div id="visore">
-      <h2><%= @result_count %> <%= t(:'talia.search.result phrase 1') %> <span class="red">'<%= @words  %>'</span> <%= t(:'talia.search.result phrase 2') %> <%= @edition.hyper::title %></h2>
+      <h2><%= @result_count %> <%= t(:'talia.search.result phrase 1') %> <span class="red"><%= @words  %></span>
+      <%= @searched_works.collect do |item|
+        " #{t(:'talia.search.result.optional.in the work')} '#{item[:work]}' #{t(:'talia.search.result.optional.in aphorisms')} #{item[:from]} #{t(:'talia.search.result.optional.through')} #{item[:to]},"
+      end unless @searched_works.nil?
+      %>
+      <%= t(:'talia.search.result phrase 2') %> <%= @edition.hyper::title %></h2>
     
       <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="getElementsByName('advanced_search_result_form')[0].submit(); return false;"><%= t(:'talia.search.print results') %></a></div>
         <div class="select_deselect"><a href="#" title="select all" onclick="($A(getElementsByName('checkbox[]'))).each(function(item){item.checked = true;});return false;"><%= t(:'talia.search.select all') %></a> | <a href="#" title="deselect" onclick="($A(getElementsByName('checkbox[]'))).each(function(item){item.checked = false;});return false;"><%= t(:'talia.search.deselect all') %></a></div>
@@ -24,7 +29,10 @@
           <% @result.each_with_index do |item, index| %>
             <li name="result_item[]">
               <h3><%= index + 1 %><%= hidden_field_tag 'counter[]', (index+1).to_s %> <label> select to print</label><input name="checkbox[]" type="checkbox" value="<%= index.to_s %>" checked /> <span><a href="<%= item[:url] %>"><%= item[:title] %></a><%= hidden_field_tag 'title[]', item[:title] %></span></h3>
-              <p name="p_description[]"><%= item[:description] %><%= hidden_field_tag 'description[]', item[:description] %></p>
+              <p name="p_description[]">
+                <%= item[:description] %><%= hidden_field_tag 'description[]', item[:description] %>
+                <%= " (#{item[:more_occurrence]} #{(t(:'talia.search.more occurrences') if item[:more_occurrence] > 1) || t(:'talia.search.more occurrence')})"  if item[:more_occurrence] > 0 %>
+              </p>
             </li>
           <% end %>
         </ul>

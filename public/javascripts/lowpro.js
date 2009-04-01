@@ -1,3 +1,5 @@
+//= require <prototype>
+
 LowPro = {};
 LowPro.Version = '0.5';
 LowPro.CompatibleWithPrototype = '1.6';

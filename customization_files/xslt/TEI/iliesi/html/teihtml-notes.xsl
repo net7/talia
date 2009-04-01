@@ -68,7 +68,7 @@ Copyright 1999-2005 Sebastian Rahtz / Text Encoding Initiative Consortium
         </span> 
      </xsl:when>
       <xsl:when test="@place='npp'">
-        <span style="font-size: 50%">
+        <span style="font-size: 75%">
           <xsl:apply-templates />
         </span>
       </xsl:when>

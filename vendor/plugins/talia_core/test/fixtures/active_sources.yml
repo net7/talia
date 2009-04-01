@@ -1,0 +1,116 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+testy:
+    uri: http://testy.com/testme/hard
+
+duplicator:
+    uri: http://testy.com/testme/duplicator
+
+multirel:
+    uri: http://testy.com/testme/multirel
+
+dup_for_delete:
+    uri: http://testy.com/testme/dup_for_delete
+
+deltest:
+    uri: http://testy.com/testme/delete_test
+
+deltest_rel:
+    uri: http://testy.com/testme/delete_test_relates
+
+deltest_rel_target1:
+    uri: http://testy.com/testme/delete_test_relates_t1
+
+deltest_rel_target2:
+    uri: http://testy.com/testme/delete_test_relates_t2
+
+assoc_test:
+    uri: http://testy.com/testme/assoc_test
+
+assoc_test_target:
+    uri: http://testy.com/testme/assoc_test_target
+
+assoc_inverse_start:
+    uri: http://testy.com/testme/inverse_start
+
+assoc_inverse_end_a:
+    uri: http://testy.com/testme/inverse_end_a
+
+assoc_inverse_end_b:
+    uri: http://testy.com/testme/inverse_end_b
+
+assoc_inverse_end_c:
+    uri: http://testy.com/testme/inverse_end_c
+
+assoc_predicate_test:
+    uri: http://testy.com/testme/assoc_predicate_test
+
+predicate_search_a:
+    uri: http://testy.com/testme/assoc_predicate_search_a
+
+predicate_search_b:
+    uri: http://testy.com/testme/assoc_predicate_search_b
+
+type_a:
+    uri: http://testy.com/types/a
+
+type_b:
+    uri: http://testy.com/types/b
+
+sti_source:
+    uri: http://testy.com/sti_source
+    type: TaliaCore::OrderedSource
+
+sti_source_b:
+    uri: http://testy.com/sti_source_b
+
+sti_source_reltest:
+    uri: http://testy.com/sti_source_reltest
+    type: TaliaCore::OrderedSource
+
+sti_source_reltest_b:
+    uri: http://testy.com/sti_source_reltest_b
+    type: TaliaCore::OrderedSource
+
+sti_source_reltest_c:
+    uri: http://testy.com/sti_source_reltest_c
+
+strange_attach:
+    uri: http://testy.com/strangeattachtest
+
+pred_destroy_test:
+    uri: http://testy.com/preddestroytest
+
+pred_destroy_target:
+    uri: http://testy.com/preddestroy_target
+
+find_through_test:
+    uri: http://testy.com/find_through_source
+
+find_through_target:
+    uri: http://testy.com/find_through_target
+
+find_through_type:
+    uri: http://testy.com/find_through_type
+
+# Sources
+
+something:
+  uri: http://localnode.org/something
+  type: Source
+
+otherthing:
+  uri: http://localnode.org/otherthing
+  type: Source
+  
+first_book:
+  uri: http://localnode.org/firstbook
+  type: Source
+  
+second_book:
+  uri: http://localnode.org/secondbook
+  type: Source
+  
+third_book:
+  uri: http://localnode.org/thirdbook
+  type: Source

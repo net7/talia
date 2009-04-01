@@ -7,7 +7,7 @@ module TaliaCore
 
     # return the string to be shown as book name
     def name
-      self.dcns.title.empty? ? self.uri.local_name : self.dcns::title.first
+      self.dcns::title.empty? ? self.uri.local_name : self.dcns::title.first
     end
 
     # The pages of this book
@@ -40,11 +40,11 @@ module TaliaCore
       qry.where(:p, N::HYPER.position, :pos)
       qry.sort(:pos)
       pages = qry.execute
-      pages.each do |page|
-        ordered.add(page)
+      pages.each do |page| 
+        ordered.add(page)        
       end
-      ordered.save!
-    end
+        ordered.save!
+      end
       
     # Returns an array containing all the pages in this book, ordered
     def ordered_pages
@@ -154,7 +154,7 @@ module TaliaCore
         cloned_order.insert_at(index, page_clone)
         
         yield(page, page_clone) if(block_given?)
-
+        
         page_clone.save!
       end
       

@@ -1,7 +1,4 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+//= require <prototype>
 
 // LOAD PAGE EVENT
 Event.observe(window, 'load', function() {
@@ -10,15 +7,18 @@ Event.observe(window, 'load', function() {
 
 // RESIZE PAGE EVENT 
 window.onresize = function () {
-     setContentHeight();
+  setContentHeight();
 }
 
 // Set the height of div content from back end
 function setContentHeight() {
+  // SPROCKETIZED
+  if(contents = $('contenuti')) {
     // Height of the whole window
     var windowHeight = document.viewport.getDimensions().height;
      // Top position of div content
      var contentPosY = $('contenuti').cumulativeOffset().top;
-    $('contenuti').style.height = ( windowHeight - contentPosY ) + "px";
+    contents.style.height = ( windowHeight - contentPosY ) + "px";
+  }
 }
 

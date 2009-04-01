@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<!--
 	<xsl:output method="xml" omit-xml-declaration="yes" indent="yes"/>
-
+-->
+	<xsl:output method="html" indent="yes"/>
 	<!-- 
       
         AC = <div type="div1.aphorism"> |  <head /> | <p /> | <hi rend="bold" />  | <signed /> | <div type="div1-aphorismus" />
@@ -63,7 +65,7 @@
 <!--     <html>
            <head>
 -->
-                <link rel="stylesheet"  type="text/css" href="/stylesheets/TEI/p4/tei_style.css" />
+<!--                <link rel="stylesheet"  type="text/css" href="/stylesheets/TEI/p4/tei_style.css" /> -->
 <!--            </head>
             <body>
 -->
@@ -94,17 +96,38 @@
     </xsl:template>
 
 	<xsl:template match="tei:head">
-		<div class="head{@type}">
-			<h2>
-				<xsl:apply-templates/>
-			</h2>
-		</div>
+		<h4>
+		<xsl:apply-templates/>
+		</h4>
 	</xsl:template>
 
-	<xsl:template match="tei:head[@type='Aphorismus']"/>
+	<xsl:template match="tei:head[@type='untertitel']">
+		<span><xsl:apply-templates/></span>
+	</xsl:template>
 
-	<xsl:template match="tei:head[@type='aphorism']"/>
 
+	<xsl:template match="tei:head[@rend='Titel']">
+		<h1><xsl:apply-templates/></h1>
+	</xsl:template>
+
+	<xsl:template match="tei:head[@rend='Titel_Kapitel']">
+		<h2><xsl:apply-templates/></h2>
+	</xsl:template>
+	
+	
+	<xsl:template match="tei:head[@rend='Titel_aphorismus']">
+		<h3><xsl:apply-templates/></h3>
+	</xsl:template>
+	
+	
+	<xsl:template match="tei:head[@type='Untertitel']">
+		<p class="Untertitel"><xsl:apply-templates/></p>
+	</xsl:template>
+	
+	<xsl:template match="tei:foreign[@xml:lang='grc']">
+		<span class="greek"><xsl:apply-templates/></span>
+	</xsl:template>
+	
 
 	<xsl:template match="tei:p">
 		<div class="p">
@@ -122,20 +145,18 @@
 	<xsl:template match="tei:space[@dim='vertical']"><br/></xsl:template>
 
 	<xsl:template match="tei:choice">
+		<span style="position:relative">
 		<span style="background-color: #FFD700">
 			<xsl:attribute name="onMouseOver">document.getElementById('hidden<xsl:value-of select="generate-id()"/>').style.display='block'</xsl:attribute>
 			<xsl:attribute name="onMouseOut">document.getElementById('hidden<xsl:value-of select="generate-id()"/>').style.display='none'</xsl:attribute>
 			<xsl:apply-templates select="tei:corr"/>
 		</span>
-		<span style="margin: 2px; display:none; border: 1px solid black; padding: 2px; background-color: yellow">
+		<span class="popup">
 			<xsl:attribute name="id">hidden<xsl:value-of select="generate-id()"/></xsl:attribute>
 			<xsl:apply-templates select="tei:sic"/>
 			<xsl:if test=" string-length(tei:sic)=0">[editorial addition]</xsl:if>
-<!--			<span style="display: block; margin: 2px; font-size: 60%">
-				<a><xsl:attribute name="onClick">document.getElementById('hidden<xsl:value-of select="generate-id()"
-						/>').style.display='none'</xsl:attribute>[Close]</a>
-			</span> -->
 		</span>
+			</span>
 	</xsl:template>
 
 	<xsl:template match="tei:hi[@rend='bold']">
@@ -161,18 +182,24 @@
 
 	</xsl:template>
 
+	<xsl:template match="tei:hi[@rend='bold italic']">
+		<span class="bolditalic">
+			<xsl:apply-templates/>
+		</span>
+	</xsl:template>
+
 	<xsl:template match="tei:dateline">
 		<div class="dateline">
 			<xsl:apply-templates/>
 		</div>
 	</xsl:template>
 
-	<xsl:template match="tei:date">
+<!--	<xsl:template match="tei:date">
 		<div class="date">
 			<xsl:apply-templates/>
 		</div>
 	</xsl:template>
-
+-->
 
 	<xsl:template match="tei:emph">
 		<span class="emph">
@@ -281,6 +308,11 @@
 			<xsl:apply-templates/>
 		</td>
 	</xsl:template>
+	
+    <xsl:template match="tei:figure[@rend='horizontal-line']">
+        <hr class='hline-thin'/>
+    </xsl:template>
+	
 	<!-- <xsl:template match="*" /> -->
 
 

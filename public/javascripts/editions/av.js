@@ -1,3 +1,5 @@
+//= require <prototype>
+
 function set_height(){
     /* Height of the whole window */
     var windowHeight = document.viewport.getDimensions().height;

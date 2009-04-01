@@ -1,0 +1,22 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+testvalue:
+    value: The test value
+
+other_value:
+    value: The other value
+
+delete_me:
+    value: Delete Me!
+
+delete_me_not:
+    value: Keep Me!
+
+predicate_test:
+    value: I'm a redshirt, going to die!
+
+find_through_prop:
+    value: the_value
+
+find_through_prop2:
+    value: other value

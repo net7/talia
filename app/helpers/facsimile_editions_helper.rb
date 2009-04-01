@@ -33,10 +33,17 @@ module FacsimileEditionsHelper
   end
   
   def panorama_tabs
-    tabs = [{:link => "", :text => params[:book], :selected => true}]
+    tabs = []
     subtype = @book.material_subtype
     @edition.books(subtype).each do |book|
-      tabs << {:link => book.uri.to_s, :text => book.name, :selected => false} unless book == @book
+      link = book.uri.to_s
+      selected = false
+      if book == @book
+        # we're showing the selected book, no link must be shown, and the style must be "selected"
+        link = ''
+        selected = true
+      end
+      tabs << {:link => link, :text => book.name, :selected => selected}
     end
     tabs
   end

@@ -44,6 +44,9 @@ convert_command: /opt/local/bin/convert
 # it will simply control which data will be made available to the templates.
 start_page_editions: [ facsimile, critical, categories, series ]
 
+# Setting this value enables the Google Analytics tracking for the site
+# google_analytics_id: XX-0000000-0
+
 # Thumbnail size for IIP thumbnails 
 thumb_options:
     width: '80'

@@ -60,7 +60,9 @@ class AdvancedSearch
     @result = groups.collect do |item|
       {:title => item.elements['talia:metadata/talia:standard_title'].text,
         :url => "#{N::LOCAL}#{edition_prefix}/#{edition_id}/#{item.elements['talia:metadata/talia:standard_title'].text}",
-        :description => item.elements['talia:excerpt'].children.to_s}
+        :description => item.elements['talia:excerpt'].children.to_s,
+        :more_occurrence => (item.elements['talia:excerpt'].attributes['more_occurrence'].to_i unless item.elements['talia:excerpt'].attributes['more_occurrence'].nil?) || 0
+        }
     end
 
     #store xml doc into local variable
@@ -137,6 +139,12 @@ class AdvancedSearch
     # return value
     return result
 
+  end
+
+  def menu_for_search(edition_prefix, edition_id, words, operator, mc = nil, mc_from = nil, mc_to = nil)
+    search(edition_prefix, edition_id, words, operator, mc, mc_from, mc_to)
+
+    return self.xml_doc.get_elements('/talia:result/talia:group')
   end
 
 end

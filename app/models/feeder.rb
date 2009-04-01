@@ -186,7 +186,7 @@ class Feeder
         node.add_element(REXML::Element.new("talia:title").add_text(material.dcns.title.to_s))
         case material
         when TaliaCore::Page
-          position = '000000' + material.hyper.position.to_s
+          position =  material.hyper.position.to_s + '000000'
         when TaliaCore::Paragraph
           position = material.position_in_book
         else

@@ -1,3 +1,4 @@
+//= require <prototype>
 Element.addMethods({
 	identify: function(element, force) {
     element = $(element);

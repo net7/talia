@@ -149,7 +149,7 @@ or name(.) = 'cellpadding'">
    <xsl:if test="@role">
      <xsl:attribute name="class"><xsl:value-of select="@role"/></xsl:attribute>
    </xsl:if>
-   <xsl:if test="@id"><a name="{@id}"/></xsl:if>
+   <xsl:if test="@id"><a name="{@id}"></a></xsl:if>
    <xsl:apply-templates/>
  </td>
 </xsl:template>

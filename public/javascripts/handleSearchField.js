@@ -1,3 +1,5 @@
+//= require <prototype>
+
 var InputSearch = Class.create({
 	initialize: function(id, label){
 		this.element = $(id);
@@ -33,5 +35,8 @@ var InputSearch = Class.create({
 });
 
 document.observe('dom:loaded', function(){
-  new InputSearch('s');	
+  // SPROCKETIZED
+  if($('s')){
+    new InputSearch('s');
+  }
 });

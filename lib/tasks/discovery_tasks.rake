@@ -47,7 +47,7 @@ namespace :discovery do
   desc "Export given language to csv file. Options language=<iso 639.1 lang code> [file=<filename>] [encoding=MAC] [separator=;] [linebreak={MAC|WIN}]"
   task :export_language => :disco_init do
     language = TaskHelper.language_for(ENV['language'])
-    ic = TaksHelper.iconv_for(ENV['encoding'], 'UTF-8')
+    ic = TaskHelper.iconv_for(ENV['encoding'], 'UTF-8')
     sep = ENV['separator'] || ';'
     lbreak = (ENV['linebreak'] == 'WIN') ? "\n" : "\r"
     filename = ENV['file'] || "#{ENV['language']}_glob.csv"

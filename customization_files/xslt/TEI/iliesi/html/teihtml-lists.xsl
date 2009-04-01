@@ -185,10 +185,10 @@ Copyright 1999-2005 Sebastian Rahtz / Text Encoding Initiative Consortium
     </xsl:if>
     <xsl:choose>
       <xsl:when test="@id">
-	<a name="{@id}"/>
+	<a name="{@id}"></a>
       </xsl:when>
       <xsl:when test="$generateParagraphIDs='true'">
-	<a name="{generate-id()}"/>
+	<a name="{generate-id()}"></a>
       </xsl:when>
     </xsl:choose>
     <xsl:apply-templates/>
@@ -206,7 +206,7 @@ Copyright 1999-2005 Sebastian Rahtz / Text Encoding Initiative Consortium
 </xsl:template>
 
 <xsl:template match="label" mode="print">
-  <xsl:if test="@id"><a name="{@id}"/></xsl:if>
+  <xsl:if test="@id"><a name="{@id}"></a></xsl:if>
   <xsl:choose>
     <xsl:when test="@rend">
       <xsl:call-template name="rendering"/>

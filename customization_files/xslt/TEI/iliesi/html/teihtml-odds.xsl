@@ -135,7 +135,7 @@ Copyright 1999-2005 Sebastian Rahtz / Text Encoding Initiative Consortium
     <xsl:text>: </xsl:text><xsl:value-of select="@n"/>
   </xsl:if>
   </b>
-    <a name="{@xml:id}"/>
+    <a name="{@xml:id}"></a>
   </p>
   <dl>
     <xsl:apply-templates/>
@@ -804,7 +804,7 @@ Copyright 1999-2005 Sebastian Rahtz / Text Encoding Initiative Consortium
    <xsl:when test="$name">
      <a  name="{$name}"/>
    </xsl:when>
-   <xsl:when test="@id"><a name="{@id}"/></xsl:when>
+   <xsl:when test="@id"><a name="{@id}"></a></xsl:when>
  </xsl:choose>
 </xsl:template>
 
@@ -869,7 +869,7 @@ Copyright 1999-2005 Sebastian Rahtz / Text Encoding Initiative Consortium
 	</head>
 	<body>
 	  <xsl:call-template name="bodyHook"/>
-	  <a name="TOP"/>
+	  <a name="TOP"></a>
 	  <div class="teidiv">
 	    <xsl:call-template name="stdheader">
 	      <xsl:with-param name="title">

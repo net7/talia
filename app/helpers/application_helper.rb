@@ -67,11 +67,6 @@ module ApplicationHelper
     link_to(text, :controller => 'sources', :action => 'show', :id => source.uri.local_name)
   end
   
-  def javascript(*file_names)
-    file_names.each {|fn| content_for :javascript, javascript_include_tag(fn.to_s)}
-    nil
-  end
-  
   def stylesheet(*file_names)
     file_names.each {|fn| content_for :stylesheet, stylesheet_link_tag(fn.to_s)}
     nil

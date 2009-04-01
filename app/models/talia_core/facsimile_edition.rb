@@ -36,7 +36,7 @@ module TaliaCore
     def books(*types)
       types = [N::TALIA.Book] if(types.empty?)
       options = {}
-      options[:sort] = (types == [N::TALIA.Book])
+      options[:sort] = true #(types == [N::TALIA.Book])
       args = types.clone
       args << options
       elements_by_type(*args)

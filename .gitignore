@@ -1,4 +1,14 @@
-config/*_auto.yml
-rails_secret
+app/views/custom/_start_page.html.erb
+config/*auto.yml
+config/rdfstore.yml
+config/talia_core.yml
+config/database.yml
+config/rails_secret
+nbproject
+tmp
+sesame*db
+vendor/jruby-*
+log/*
+/iip_root/
+/data/
 delayed_copy*
-tmp/

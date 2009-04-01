@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<facsimile>
+    <siglum>egrepalysviola-000</siglum>
+    <title> </title>
+    <publishing_date>2003-06-24</publishing_date>
+    <publisher>HyperNietzsche</publisher>
+    <language/>
+    <alreadyPublished>no</alreadyPublished>
+    <relations>
+        <relation>
+            <predicate>isManifestationOf</predicate>
+            <object>N-V-4,97</object>
+        </relation>
+    </relations>
+    <copyrightNote>© Stiftung Weimarer Klassik und Kunstsammlungen, Goethe- und Schiller-Archiv, Weimar 2003</copyrightNote>
+    <subtype>color</subtype>
+    <dimensionX>2556</dimensionX>
+    <dimensionY>3988</dimensionY>
+    <authors>
+        <author>egrepaly</author>
+        <author>sviola</author>
+    </authors>
+</facsimile>

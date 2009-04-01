@@ -273,10 +273,10 @@ Copyright 1999-2005 Sebastian Rahtz / Text Encoding Initiative Consortium
 	  </xsl:choose>
 	  <xsl:choose>
 	    <xsl:when test="@id">
-	      <a name="{@id}"/>
+	      <a name="{@id}"></a>
 	    </xsl:when>
 	    <xsl:when test="$generateParagraphIDs='true'">
-	      <a name="{generate-id()}"/>
+	      <a name="{generate-id()}"></a>
 	    </xsl:when>
 	  </xsl:choose>
 	  <xsl:if test="$numberParagraphs='true'">

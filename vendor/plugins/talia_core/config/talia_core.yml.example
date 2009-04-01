@@ -1,0 +1,42 @@
+# TaliaCore configuration file
+
+# The domain URI that is the "local" domain of this installation
+local_uri: "http://test.dummy/"
+# The domain URI that is used as a default if no namespace is given
+default_namespace_uri: "http://default.dummy/"
+
+# The RDF store configuration can be read from a file
+rdf_connection_file: rdfstore
+# RDF configuration can also be given as a hash here
+# rdf_connection:
+
+# Set the logging level for ActiveRDF
+ardf_log_level: 0
+
+# If standalone_db is set, ActiveRecord will be configured for use
+# without the Rails environment
+standalone_db: true
+db_file: database
+# Database configuration can also be given as a hash here
+# db_connection: 
+# If unset, the databse log will end up in the default log directory
+# db_log: database.log
+
+# The location for data files (only set if you need to change
+# the default location)
+# data_directory_location: "/var/www/talia_data/"
+
+# Configure the namespaces for use with RDF
+namespaces:
+    # Default namespaces rdf, rdfs, xsd, owl are defined in the semantic_naming
+    # library.
+    # HyperNietzsche namespace
+    hyper: "http://www.hypernietzsche.org/ontology/"
+    # DublinCore namespace
+    dcns:     "http://purl.org/dc/elements/1.1/"
+    dct:      "http://purl.org/dc/terms/"
+    dcmit:    "http://purl.org/dc/dcmitype/"
+
+
+
+

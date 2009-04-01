@@ -100,7 +100,7 @@ Copyright 1999-2005 Sebastian Rahtz / Text Encoding Initiative Consortium
 <xsl:template name="showGraphic">
   <xsl:param name="ID"/>
   <xsl:if test="not($ID='')">
-    <a name="{$ID}"/>
+    <a name="{$ID}"></a>
   </xsl:if>
   <xsl:variable name="File">
     <xsl:choose> 

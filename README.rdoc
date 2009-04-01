@@ -1,0 +1,38 @@
+= TaliaCore
+
+This is the "core" of the Talia semantic digital web library system. Talia can
+be used with Ruby on Rails, or as a standalone package.
+
+More documentation can be found on the Talia website: 
+http:///trac.talia.discovery-project.eu/
+
+= Installation
+
+If you have the Talia files on your sytem, you're almost there. For now,
+please consult the web page for installation instructions.
+
+= Configuration
+
+When you're in Rails, you can start Talia in the environment.rb, using the
+TaliaCore::Initializer - if you're building a standalone application, it's
+almost the same (although you'll have to use standalone_db=yes to configure
+ActiveRecord manually)
+
+There are some sample configuration files in the distribution:
+
+* talia_core.yml - This file contains the main configuration. 
+* database.yml - Standalon Db configuration. Same format as for Rails.
+* rdfstore.yml - RDF storage configuration.
+
+The default configuration (talia_core.yml) will use the database.yml and
+rdfstore.yml to configure the data storage. See the example filme for an
+explanation of the options. The database configuration will only be used if
+you are running Talia standalone; otherwise you must use RAILS' existing
+database connection.
+
+The options for the RDF store vary depending on the store that you have selected,
+but some examples are provideed.
+
+= DB Migrations
+
+= Importing data

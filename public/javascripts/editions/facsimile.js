@@ -1,3 +1,6 @@
+//= require <prototype>
+//= require <effects>
+
 // LOAD PAGE EVENT
 Event.observe(window, 'load', function() {
   if ($('toolbar')) centerToolbar();
@@ -26,11 +29,10 @@ window.onresize = function () {
 function set_height (){
     /* Height of the whole window */
     var windowHeight = document.viewport.getDimensions().height;
-    /* height of the visore object - main pat of thepage where contents are displayed */
+    /* height of the visore object - main pat of the page where contents are displayed */
     var visoreHeight = windowHeight - $('visore').cumulativeOffset ( $('visore')).top  ;
     
     $('visore').style.height = visoreHeight - 0 + "px";
-    // $('scroll').style.height = visoreHeight - 15 + "px";
     $('scroll').style.height = windowHeight - $('scroll').cumulativeOffset().top + "px";
 
     /* setting other heights */
@@ -177,6 +179,8 @@ function setIipViewerSize() {
 
         var availableWidth = $('visore').getDimensions().width;
         var availableHeight = $('visore').getDimensions().height - $$('p.sigla')[0].getDimensions().height - 17;
+
+        alert('Avail ('+$('visore').getDimensions().height+','+$$('p.sigla')[0].getDimensions().height+') '+availableHeight+' width '+availableWidth)
 
         singleImageHolder.setStyle({
           position: 'absolute',

@@ -50,7 +50,22 @@ class CriticalEditionsController < SimpleEditionController
       adv_src = AdvancedSearch.new
       @result = adv_src.search(edition_prefix, params[:id], params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to], params[:mc_single])
       @result_count = adv_src.size
-      @exist_result = adv_src.xml_doc.get_elements('/talia:result/talia:group')
+
+      @searched_works = []
+      unless params[:mc].nil?
+        [params[:mc], params[:mc_from], params[:mc_to]].transpose.each do |work,from,to|
+          work_item = TaliaCore::Source.find(work)
+          from_item = TaliaCore::Source.find(from)
+          to_item = TaliaCore::Source.find(to)
+          @searched_works << {:work => work_item.title,
+            :from => from_item.title || from_item.local_name,
+            :to   => to_item.title || to_item.local_name
+          }
+        end
+      end
+
+      # get result for menu
+      @exist_result = adv_src.menu_for_search(edition_prefix, params[:id], params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to])
 
       # search word
       @words = params[:words]
