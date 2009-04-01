@@ -1,0 +1,39 @@
+div#content div#visore div.txt_block span.popup {display: none;
+    	position: absolute;
+    	top: 2em;
+    	left: 0;
+    	font: 80% "Lucida Grande", Lucida, Verdana, sans-serif;
+    	color: black;
+    	border: 1px solid black;
+    	padding: 0.4em;
+    	cursor: default;
+    	z-index: 10;
+    	text-indent: 0px;
+    	background-color: #ffe;
+     	text-align: left;
+}
+
+
+div#content div#visore div.txt_block hr.hline-thin {font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+	border-top-style: solid;
+	border-top-width: 1px;
+	width: 60px;
+	margin: auto;
+	height: 40px;
+}
+
+div#content div#visore div.txt_block img { display: block;
+	padding: 6px;
+	border: thin solid #966635;
+	margin: 12px auto;
+}
+
+div#content div#visore div.txt_block td { padding: 6px;
+	border-style: dotted;
+	border-width: thin;
+}
+
+
+
+
+/* @end */
