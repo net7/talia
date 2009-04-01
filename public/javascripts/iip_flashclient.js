@@ -10,8 +10,9 @@
  * with, height - dimension of the viewer window
  * element_id - the id of html element that will receive the viewer
  */
-function load_iip_flashclient(server, image_path, width, height, element_id) { 
-    var so = new SWFObject("/nietzsche/fliip.swf", "iip_flashview", width, height, "6.0.65", "#e0e0e0");
+function load_iip_flashclient(server, image_path, width, height, element_id) {
+    // TODO: Must be changed to work in subfolder URL
+    var so = new SWFObject("/fliip.swf", "iip_flashview", width, height, "6.0.65", "#e0e0e0");
     so.addParam("quality", "high");
     so.addParam("scale", "noscale");
     so.addParam("salign", "tl");
