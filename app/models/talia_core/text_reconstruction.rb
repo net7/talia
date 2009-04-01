@@ -18,7 +18,7 @@ module TaliaCore
         ['standard']
       else
         #FIXME: add a better thing for this after the review        raise(ArgumentError, "Unknown content type for #{self.uri}: #{self.dcns::format.first}")
-        nil
+        ['standard']
       end
     end
     

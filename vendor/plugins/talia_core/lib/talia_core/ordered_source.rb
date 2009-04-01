@@ -22,7 +22,7 @@ module TaliaCore
       relation = query(:first)
       relation ? relation.object : nil
     end
-    
+
     # return the item at position index.
     # 
     #  * index: int
@@ -38,7 +38,6 @@ module TaliaCore
       # raise exception if there is more than one item
       assit(result.size <= 1, "Problem with index predicate at index #{index} for #{self.uri}: More than one item.")
       
-      # return first item
       if result.empty?
         # if there aren't result, return nil
         nil
@@ -76,12 +75,18 @@ module TaliaCore
       
       # if current element is nil, next must return first value
       @current_index = 0 if @current_index.nil?
-      
-      if (@current_index < size)
-        return at(@current_index + 1)
-      else
-        raise "Last item reached"
+
+      # if there's a hole in the set, here we go over it, to the next true element
+      while (@current_index < size)
+        @current_index += 1
+        to_ret = at(@current_index)
+        return to_ret unless to_ret.nil?
       end
+
+      # if we're here, the whole while cicle has been passed through.
+      # reset the @current_index and raise a message
+      @current_index = size
+      raise "Last item reached"
     end
 
     # return previous item
@@ -110,14 +115,20 @@ module TaliaCore
         end
       end
       
-      # if current element is nil, next must return first value
+      # if current element is nil, previous must return last value
       @current_index = (size + 1) if @current_index.nil?
-      
-      if (@current_index > 1)
-        return at(@current_index - 1)
-      else
-        raise "First item reached"
+
+      # if there's a hole in the set, here we go over it, to the next true element
+      while (@current_index > 1)
+        @current_index -= 1
+        to_ret = at(@current_index)
+        return to_ret unless to_ret.nil?
       end
+
+      # if we're here, the whole while cicle has been passed through.
+      # reset the @current_index and raise a message
+      @current_index = 1
+      raise "First item reached"
     end
     
     # return size of SeqContainer
@@ -135,7 +146,7 @@ module TaliaCore
       end
     end
     
-        # Inserts an element at the given index.
+    # Inserts an element at the given index.
     def insert_at(index, object)
       predicate =  index_to_predicate(index)
 

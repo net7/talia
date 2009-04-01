@@ -41,7 +41,7 @@ module TaliaCore
       qry.sort(:pos)
       pages = qry.execute
       pages.each do |page| 
-        ordered.add(page)        
+        ordered.insert_at(page.position, page)
         ordered.save!
       end
       

@@ -90,7 +90,7 @@ class FacsimileEditionsController < SimpleEditionController
           @page2 = TaliaCore::Page.find(page2)
         else
           @page = TaliaCore::Page.find(URI::decode(request.url))
-          download_tool(@page.manifestations(TaliaCore::Facsimile).first)
+          download_tool(@page)
         end
         # Cache the facsimile
         @page_facsimile = facsimile_for(@page)
@@ -107,11 +107,10 @@ class FacsimileEditionsController < SimpleEditionController
         fullscreen_tool unless(@double_page || @page_facsimile.blank) # Enable the fullscreen button
       end
       format.jpeg do
-        page = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]
-        facsimile = TaliaCore::Page.find("#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]).manifestations(TaliaCore::Facsimile)
-        facsimile.iip_path
-        return facsimile.iip_path unless (params[:size] == 'thumbnail')
-        return facsimile.thumb
+         page_uri = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]
+         page = TaliaCore::Page.find("#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page])
+         facsimile = page.manifestations(TaliaCore::Facsimile)[0]
+         send_file facsimile.original_image.file_path, :type => 'image/jpeg', :filename => page.uri.local_name.to_s + '.jpeg', :disposition => 'attachment'
       end
     end
   end
@@ -148,9 +147,7 @@ class FacsimileEditionsController < SimpleEditionController
   # Activates original image download button
   def download_tool(element)
     return unless(element)
-    if image = element.original_image
-      @tools << { :id => 'download', :text => 'download', :link => data_link(image) }
-    end
+      @tools << { :id => 'download', :text => 'download', :link => element.to_s + '.jpeg' }
   end
 
   # Activates pdf download button

@@ -4,6 +4,7 @@ class SimpleEditionController < ApplicationController
   
   before_filter :find_edition
   before_filter :set_edition_type
+  before_filter :set_custom_edition_stylesheet
   before_filter :set_custom_stylesheet
   before_filter :set_print_stylesheet
   before_filter :set_javascripts
@@ -34,6 +35,14 @@ class SimpleEditionController < ApplicationController
       @custom_stylesheet = custom_stylesheet
     end
   end
+
+  def set_custom_edition_stylesheet(custom_edition_stylesheet = nil)
+    if custom_edition_stylesheet.nil?
+      @custom_edition_stylesheet = self.class.custom_edition_stylesheet
+    else
+      @custom_edition_stylesheet = custom_edition_stylesheet
+    end
+  end
   
   def set_print_stylesheet(print_stylesheet = nil)
     if print_stylesheet.nil?
@@ -62,6 +71,10 @@ class SimpleEditionController < ApplicationController
   def self.custom_stylesheet
     @custom_stylesheet
   end
+
+  def self.custom_edition_stylesheet
+    @custom_edition_stylesheet
+  end
   
   def self.print_stylesheet
     @print_styleshee
@@ -78,6 +91,11 @@ class SimpleEditionController < ApplicationController
   # Used to set the edition type
   def self.set_edition_type(type)
     @edition_type = type
+  end
+
+  # Set custom edition stylesheet for single action
+  def self.set_custom_edition_stylesheet(custom_edition_stylesheet)
+    @custom_edition_stylesheet = custom_edition_stylesheet
   end
 
   # Set custom stylesheet for single action
