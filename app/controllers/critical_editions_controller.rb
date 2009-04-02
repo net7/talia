@@ -13,12 +13,12 @@ class CriticalEditionsController < SimpleEditionController
     else
       prepare_for_part
     end
-    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
     print_tool # Enable the print button
   end
  
   # GET /critical_editions/1
-  def show 
+  def show
+    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip', 'front_page']
     @path = [{:text => params[:id]}]
   end
   
@@ -123,6 +123,7 @@ class CriticalEditionsController < SimpleEditionController
       {:text => params[:id], :link => @edition.uri.to_s}, 
       {:text => @book.dcns.title.first.to_s}        
     ]  
+    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
   end
   
   def prepare_for_chapter
@@ -134,6 +135,7 @@ class CriticalEditionsController < SimpleEditionController
       {:text => @book.dcns.title.first.to_s, :link => @book.uri.to_s},
       {:text => @chapter.dcns.title.first.to_s}
     ]
+    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
   end
   
   def prepare_for_part
@@ -147,6 +149,7 @@ class CriticalEditionsController < SimpleEditionController
     ]
     @path << {:text => @chapter.dcns::title.first.to_s, :link => @chapter.uri.to_s} unless @chapter.nil?
     @path << {:text => @part.dcns::title.empty? ? @part.uri.local_name.to_s : @part.dcns.title.first.to_s}
+    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
   end
 end
  

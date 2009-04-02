@@ -1,0 +1,56 @@
+div.frontpage {
+    margin: 0 auto;
+    text-align: center;
+    width: 400px;
+    background-color: #FFF;
+    padding: 95px 30px 70px 30px;
+    border: 1px solid #e0e0e0;
+}
+
+div.frontpage p.author{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 18px;
+    color: #6c5449;
+    font-weight: normal;
+}
+
+div.frontpage h2.title{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 24px;
+    color: #000;
+    font-weight: normal;
+}
+
+div.frontpage p.description{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 13px;
+    color: #666666;
+    font-weight: normal;
+    margin-bottom: 100px;
+}
+
+div.frontpage p.logo{
+    display: block;
+    width: 198px;
+    height: 52px;
+    background: url(/images/front_page_logo.gif) center center no-repeat;
+    text-indent: -9999px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+div.frontpage p.link{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 14px;
+    color: #6b5349;
+    font-weight: normal;
+    margin: 0; padding: 0;
+}
+
+div.frontpage p.year{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 14px;
+    color: #666666;
+    font-weight: normal;
+    margin: 0; padding: 0;
+}
