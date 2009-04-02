@@ -20,9 +20,9 @@ module FacsimileEditionsHelper
     }
     type = params[:type]
     available_subtypes = @edition.book_subtypes(N::HYPER + type)
-    available_subtypes.each do |st|
-      @subtypes << st.local_name if ordered_subtypes[type].include?(st.local_name)
-    end unless available_subtypes.empty?
+    ordered_subtypes[type].each do |st|
+      @subtypes << st if available_subtypes.include?(N::HYPER + st)
+    end unless ordered_subtypes.empty?
   end
 
   # creates the elements to be shown in the tabs, depending on the action we're in
