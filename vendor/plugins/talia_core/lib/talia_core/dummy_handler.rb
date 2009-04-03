@@ -10,7 +10,6 @@ module TaliaCore
   # evaluated to (source.namespace).name 
   # This means that source.namespace must return an object on which
   # "name" can be called with the desired effect. This is the "dummy handler"
-  # TODO: This duplicates functionality from ActiveRDF
   class DummyHandler
     
     # Create the new handler

@@ -37,9 +37,14 @@ module TaliaCore
 
     # Clears all rdf for this resource. FIXME: Not context-aware.
     def clear_rdf
-      FederationManager.delete(self, nil, nil)
+      FederationManager.delete_all(self)
     end
 
+    # Removes the given predicate (restrict to the triple with the
+    # given value if a value is given).
+    def remove(predicate, value = nil)
+      FederationManager.delete(self, predicate, value)
+    end
 
     # Returns the value(s) of the given predicates as a PropertyList filled
     # with the defined object_class objects.

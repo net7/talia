@@ -1,7 +1,6 @@
 require 'assit'
 require 'semantic_naming'
 require 'active_rdf'
-require 'fileutils'
 
 module TaliaCore
   
@@ -195,13 +194,7 @@ module TaliaCore
       unless(defined?(talia_logger))
         Object.instance_eval do
           def talia_logger
-            @talia_logger ||= if(defined?(RAILS_DEFAULT_LOGGER))
-              RAILS_DEFAULT_LOGGER
-            else
-              log_name = File.join(TALIA_ROOT, 'log', 'talia_core.log')
-              FileUtils.makedirs(File.dirname(log_name))
-              @talia_logger ||= Logger.new(log_name)
-            end
+            @talia_logger ||= Logger.new(File.join(TALIA_ROOT, 'log', 'talia_core.log'))
           end
         end
       end
@@ -308,7 +301,7 @@ module TaliaCore
       
       # Register the default name
       N::Namespace.shortcut(:default, @config["default_namespace_uri"])
-      talia_logger.debug("Default Domain: #{N::DEFAULT}")
+      talia_logger.info("Default Dome: #{N::DEFAULT}")
       
       # Register namespace for database dupes
       N::Namespace.shortcut(:talia, "http://talia.discovery-project.eu/wiki/TaliaInternal#")

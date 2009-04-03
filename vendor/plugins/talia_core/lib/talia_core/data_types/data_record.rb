@@ -55,14 +55,6 @@ module TaliaCore
       end
     
       # class methods ============================================
-    
-      # TODO: return the data checksum 
-      def checksum
-      end
-
-      # TODO: an iterator that calls a block on each byte in the object
-      def each_byte
-      end
       
       def mime_type
         self.mime

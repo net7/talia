@@ -146,7 +146,7 @@ module TaliaCore
     end
 
     def predicate_objects(namespace, name) #:nodoc:
-      predicate(namespace, name).flatten.map(&:to_s)
+      predicate(namespace, name).values.flatten.map(&:to_s)
     end
 
     # Check if the current source is related with the given rdf object (triple endpoint).

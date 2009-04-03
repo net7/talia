@@ -31,14 +31,16 @@ module TaliaCore
     # This creates the RDF subgraph for this Source and saves it to disk. This
     # may be an expensive operation since it removes the existing elements.
     # (Could be optimised ;-)
-    def create_rdf
+    #
+    # Unless the force option is specified, this will ignore predicates that
+    # remain unchanged. This means that writing will be faster if a predicate
+    # will not changed, but if database objects were not added through the
+    # standard API they'll be missed
+    def create_rdf(force = false)
       self.class.benchmark('Creating RDF for source') do
         assit(!new_record?, "Record must exist here: #{self.uri}")
-        # First remove all data on this
-        my_rdf.clear_rdf
-        # Now create the new RDF subgraph. Force reloading so that no dupes are
-        # created
-        s_rels = semantic_relations(true)
+        # Get the stuff to write. This will also erase the old data
+        s_rels = force ? prepare_all_predicates_to_write : prepare_predicates_to_write
         s_rels.each do |sem_ref|
           # We pass the object on. If it's a SemanticProperty, we need to add
           # the value. If not the RDF handler will detect the #uri method and
@@ -52,13 +54,36 @@ module TaliaCore
       end
     end
     
-      private
-    
-      def auto_create_rdf
-        if(autosave_rdf?)
-          create_rdf
-        end
+    private
+
+    # Get the "standard" predicates to write (which is just the ones changed
+    # through the standard API. This will erase the
+    def prepare_predicates_to_write
+      preds_to_write = []
+      each_cached_wrapper do |wrap|
+        # If it wasn't loaded, it hasn't been written to
+        next if(wrap.clean?)
+        # Remove the existing data. TODO: Not using contexts
+        my_rdf.remove(N::URI.new(wrap.instance_variable_get(:@assoc_predicate)))
+        items = wrap.send(:items) # Get the items
+        items.each { |it| preds_to_write << it.relation }
       end
-    
+      preds_to_write
     end
+
+    # This will get all existing predicates from the database. This will also
+    # erase the rdf for this source completely
+    # TODO: Could load with a single sql
+    def prepare_all_predicates_to_write
+      my_rdf.clear_rdf # TODO: Not using contexts here
+      SemanticRelation.find(:all, :conditions => { :subject_id => self.id })
+    end
+    
+    def auto_create_rdf
+      if(autosave_rdf?)
+        create_rdf
+      end
+    end
+    
   end
+end

@@ -3,10 +3,6 @@ module TaliaCore
     
     # Class to manage image data type
     class ImageData < FileRecord
-    
-      # include the module to work with files
-      # TODO: paramterize this. If we'll have to work with file inculde the following
-      #       otherwise, include the database mixin
       
       # return the mime_type for a file
       def extract_mime_type(location)
