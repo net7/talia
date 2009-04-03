@@ -14,3 +14,4 @@ vendor/jruby-*
 /data/
 delayed_copy*
 *~
+public/images/front_page_logo.gif
