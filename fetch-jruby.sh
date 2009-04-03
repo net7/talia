@@ -1,3 +1,5 @@
 #!/bin/bash
 cd vendor
-svn co http://svn.talia.discovery-project.eu/talia/trunk/jruby-1.1.5 jruby-1.1.5
+curl http://cloud.github.com/downloads/net7/talia/jruby-1.2.0.tgz > jruby-1.2.0.tgz
+tar xvzf jruby-1.2.0.tgz
+rm jruby-1.2.0.tgz

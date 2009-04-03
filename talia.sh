@@ -1,7 +1,14 @@
-#!/bin/bash
+#!/bin/sh
 pd=`dirname "$0"`
 prog_dir=`cd $pd && pwd`
-jruby_dir="vendor/jruby-1.1.5"
+jruby_dir="vendor/jruby-1.2.0"
+# We start the shell that the user is currently running
+shell=$SHELL
+
+if test -z $SHELL ; then
+    # Fall back to bash
+    shell = '/bin/bash'
+fi
 
 export PATH=$prog_dir/$jruby_dir/bin:$prog_dir/$jruby_dir/lib/ruby/gems/1.8/bin:$PATH
 export PATH=$prog_dir/lib/scripts:$PATH
@@ -11,8 +18,9 @@ export PS1="talia-bash \w >> "
 case $1 in
 	shell)
 		echo ;
-		echo "Opening JRuby environment for Talia..."
-		/bin/bash -i
+		echo "Opening JRuby environment for Talia (using $shell)..."
+		export TALIA_SHELL=true
+		$shell -i
 	;;
 	start)
 		jruby script/server
