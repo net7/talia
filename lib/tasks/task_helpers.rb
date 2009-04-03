@@ -295,22 +295,6 @@ class TaskHelper
       Iconv.new(to_enc, from_enc)
     end
 
-    # Set up the ontologies from the given folder
-    def setup_ontologies(ontology_folder)
-      # Clear the ontologies from RDF, if possible
-      if((adapter = ConnectionPool.write_adapter).supports_context?)
-        adapter.clear(N::URI.new(N::LOCAL + 'ontology_space'))
-      else
-        puts "WARNING: Cannot remove old ontologies, adapter doesn't support contexts."
-      end
-      
-      puts "Ontologies loaded from: #{ontology_folder}"
-      files = Dir[File.join(ontology_folder, '*.{rdf*,owl}')]
-      ENV['rdf_syntax'] ||= 'rdfxml'
-      RdfImport::import(ENV['rdf_syntax'], files)
-      RdfUpdate::owl_to_rdfs
-    end
-
     # Create the PDF for a facsimile
     def create_facsimile_pdf(facsimile, copyright_info = nil, top1 = nil, top2 = nil)
       return nil if(facsimile.pdf_data) # Skip existing

@@ -14,7 +14,7 @@ include TaliaUtil
 
 namespace :talia_core do
   
-    # Standard initialization
+  # Standard initialization
   desc "Initialize the TaliaCore"
   task :talia_init do
     Util::title
@@ -77,7 +77,12 @@ namespace :talia_core do
   task :rdf_import => :talia_init do
     RdfImport::import(ENV['rdf_syntax'], TaliaUtil::Util::get_files)
   end
-  
+
+  desc "Update the Ontologies. Options [ontologies=<ontology_folder>]"
+  task :setup_ontologies => :talia_init do
+    Util::setup_ontologies
+  end
+
   # Task for importing YAML data into the data store
   desc "Import YAML data file in Talia format."
   task :yaml_import => :talia_init do
@@ -145,13 +150,23 @@ namespace :talia_core do
     
     ConnectionPool.add_data_source(rdf_cfg)
   end
-  
+
   # Help info
   desc "Help on general options for the TaliaCore tasks"
   task :help do
     Util.title
     puts "Talia Core tasks usage information."
     Util::print_options
+  end
+
+  desc "Rebuild the RDF store from the database. Option [hard_reset=(true|false)]"
+  task :rebuild_rdf => :talia_init do
+    count = TaliaCore::SemanticRelation.count
+    puts "Rebuilding RDF for #{count} triples."
+    prog = ProgressBar.new('Rebuilding', count)
+    Util::rewrite_rdf { prog.inc }
+    prog.finish
+    puts "Finished rewriting. ATTENTION: You may want to call setup_ontologies now."
   end
   
 end
