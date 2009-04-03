@@ -31,25 +31,28 @@ module SimpleEditionHelper
   
   def edition_style_link
     links = ''
-    if @custom_stylesheet.nil?
+    if @custom_edition_stylesheet.nil?
       links << stylesheet_link_tag(edition_include_name)
       links << stylesheet_link_tag("editions/#{@edition.uri.local_name}")
       links << stylesheet_link_tag("editions/#{@edition.uri.local_name}", :media => 'print')
     else
-      @custom_stylesheet.each do |custom_style|
+      @custom_edition_stylesheet.each do |custom_style|
         links << stylesheet_link_tag(edition_include_custom_name(custom_style))
       end
     end
-    
+
+    unless @custom_stylesheet.nil?
+      @custom_stylesheet.each do |custom_style|
+        links << stylesheet_link_tag(custom_style)
+      end
+    end
+
     # add print stylesheet if present
     unless @print_stylesheet.nil?
       @print_stylesheet.each do |print_style|
         links << stylesheet_link_tag(edition_include_custom_name(print_style), :media => 'print')
       end
     end
-
-    # add stylesheet for the critical edition case
-    links << stylesheet_link_tag("TEI/p4/tei_style.css") if @edition.is_a?(TaliaCore::CriticalEdition)
 
     links
   end

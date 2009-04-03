@@ -19,9 +19,6 @@
 [submodule "vendor/plugins/has_many_polymorphs"]
 	path = vendor/plugins/has_many_polymorphs
 	url = git://github.com/fauna/has_many_polymorphs.git
-[submodule "vendor/plugins/role_requirement"]
-	path = vendor/plugins/role_requirement
-	url = git://github.com/ivanvanderbyl/role_requirement.git
 [submodule "vendor/plugins/upload_progress"]
 	path = vendor/plugins/upload_progress
 	url = git://github.com/rails/upload_progress.git

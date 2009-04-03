@@ -11,7 +11,7 @@ module TaliaCore
   class OrderedSource < ActiveSource
     
     attr_reader :current_index
-
+    
     before_save :rewrite_order_relations
 
     # Initialize SeqContainer
@@ -36,7 +36,7 @@ module TaliaCore
     def first
       ordered_objects.find { |el| !el.nil? }
     end
-    
+
     # return the item at position index.
     # 
     #  * index: int
@@ -44,7 +44,7 @@ module TaliaCore
     def at(index)
       @current_index = index
       ordered_objects.at(index)
-    end
+      end
     
     # return next item
     # * current_element: int or string. Current element. If nil, the index is the last integer used with at method
@@ -53,12 +53,12 @@ module TaliaCore
       
       # if current element is nil, next must return first value
       @current_index ||= 0
-      
+
       if (@current_index < (size - 1))
         return at(@current_index + 1) # TODO: Current is not increased, is this intentional? Do we need this method at all?
       else
-        raise "Last item reached"
-      end
+      raise "Last item reached"
+    end
     end
 
     # return previous item
@@ -68,12 +68,12 @@ module TaliaCore
       
       # if current element is nil, next must return first value
       @current_index = (size + 1) if @current_index.nil?
-      
+
       if (@current_index > 1) # TODO: This assumes a one-base array, not really useful
         return at(@current_index - 1) # TODO: See above
       else
-        raise "First item reached"
-      end
+      raise "First item reached"
+    end
     end
     
     # Return the "size" of the collection. This is actually the maximum position
@@ -86,7 +86,7 @@ module TaliaCore
     # The cached counter will be reset on saving.
     def size
       ordered_objects.size
-    end
+      end
     
     # Inserts an element at the given index.
     def insert_at(index, object)
@@ -113,7 +113,7 @@ module TaliaCore
     #       value is not reliable
     def delete_all
       @ordered_objects = []
-    end
+      end
     
     # replace item as position index with object
     # * index: int
@@ -126,8 +126,8 @@ module TaliaCore
     # first occurence
     def find_position_by_object(object)
       ordered_objects.index(object)
-    end
-
+      end
+      
     # return string for index
     def index_to_predicate(index)
       'http://www.w3.org/1999/02/22-rdf-syntax-ns#_' << ("%06d" % index.to_i) 
@@ -212,6 +212,6 @@ module TaliaCore
       # execute query
       self.semantic_relations.find(scope, :conditions => ['predicate_uri LIKE ?', "http://www.w3.org/1999/02/22-rdf-syntax-ns#_%"], :order => :predicate_uri)
     end
-    
+
   end
 end
