@@ -95,15 +95,15 @@ class CriticalEditionsController < SimpleEditionController
     # set custom stylesheet for screen and print media
     set_custom_edition_stylesheet ['critical_print']
     set_print_stylesheet ['critical_printreal']
-    
+
     @path = []
-    
+
     @result = []
 
     unless params[:advanced_search_result].nil? || params[:checkbox].nil?
       params[:checkbox].each do |checkbox_id|
         index = checkbox_id.to_i
-        @result << {:counter => params[:counter][index], :title => params[:title][index], :description => params[:description][index]}
+        @result << {:counter => params[:counter][index], :title => params[:title][index], :description => params[:description][index], :full_description => params[:full_description][index]}
       end
     end
 
