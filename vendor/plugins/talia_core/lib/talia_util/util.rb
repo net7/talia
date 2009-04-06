@@ -119,6 +119,21 @@ module TaliaUtil
           FederationManager.add(subject, predicate, object)
           yield if(block_given?)
         end
+
+        # Rewriting all the "runtime type" rdf triples
+        # We'll select the type as something else, so that it doesn't try to do
+        # STI instantiation (which would cause this to blow for classes that
+        # are defined outside the core.
+        TaliaCore::ActiveSource.find(:all, :select => 'uri, type AS runtime_type').each do |src|
+          type = (src.runtime_type || 'ActiveSource')
+          FederationManager.add(src, N::RDF.type, N::TALIA + type)
+          yield if(block_given?)
+        end
+      end
+
+      # This gives the number of triples that would be rewritten on #rewrite_rdf
+      def rewrite_count
+        TaliaCore::SemanticRelation.count + TaliaCore::ActiveSource.count
       end
 
       # Load the fixtures
