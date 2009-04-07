@@ -10,7 +10,12 @@ module SimpleEditionHelper
   end
   
   def edition_page_title
-    "#{TaliaCore::SITE_NAME} | #{translate_edition_name(@edition, false)}#{@page_title_suff}"
+    "#{TaliaCore::SITE_NAME} - #{translate_window_title(@edition)}#{@page_title_suff}"
+  end
+
+  def translate_window_title(edition)
+    title = edition_title(edition)
+    t(:"talia.edition.#{title.underscore.downcase}.window_title", false)
   end
 
   def edition_include_name
@@ -67,5 +72,5 @@ module SimpleEditionHelper
   def advanced_search_visible
     @advanced_search_visible
   end
-  
+
 end

@@ -39,10 +39,7 @@ module ApplicationHelper
 
   # Gets the translated name of the given edition
   def translate_edition_name(edition, in_place_allowed = true)
-    assit_kind_of(TaliaCore::Catalog, edition)
-    title = edition.title
-    assit(title)
-    return nil unless(title)
+    title = edition_title(edition)
     t(:"talia.edition.#{title.underscore.downcase}", in_place_allowed)
   end
   
@@ -192,6 +189,14 @@ module ApplicationHelper
     facsimile = facsimile_for(expression_card)
     return nil unless(facsimile)
     get_iip_data_for_facs(facsimile)
+  end
+
+  def edition_title(edition)
+    assit_kind_of(TaliaCore::Catalog, edition)
+    title = edition.title
+    assit(title)
+    return nil unless(title)
+    title
   end
 
   
