@@ -10,36 +10,39 @@ module FacsimileEditionsHelper
 
   # prepares an ordered hash of valid book subtypes (containing only those available
   # given the actual book shown
-  def set_book_subtypes
-    @subtypes = []
-    ordered_subtypes = {
-      'Work' => ['PrintedAndDistributed', 'Unprinted', 'NotDistributed', 'PrivatePublication'],
-      'Manuscript' => ['Notebook', 'Copybook', 'Dossier', 'ManuscriptForPrinting',
-        'Draft', 'PosthumousFragment', 'PosthumousWriting', 'AuthorizedManuscript',
-        'Correspondence', 'ICN', 'LectureManuscript']
-    }
-    type = params[:type]
-    available_subtypes = @edition.book_subtypes(N::HYPER + type)
-    ordered_subtypes[type].each do |st|
-      @subtypes << st if available_subtypes.include?(N::HYPER + st)
-    end unless ordered_subtypes.empty?
-  end
+#  def set_book_subtypes
+#    @subtypes = []
+#    ordered_subtypes = {
+#      'Work' => ['PrintedAndDistributed', 'Unprinted', 'NotDistributed', 'PrivatePublication'],
+#      'Manuscript' => ['Notebook', 'Copybook', 'Dossier', 'ManuscriptForPrinting',
+#        'Draft', 'PosthumousFragment', 'PosthumousWriting', 'AuthorizedManuscript',
+#        'Correspondence', 'ICN', 'LectureManuscript']
+#    }
+#    type = params[:type]
+#    available_subtypes = @edition.book_subtypes(N::HYPER + type)
+#    ordered_subtypes[type].each do |st|
+#      @subtypes << st if available_subtypes.include?(N::HYPER + st)
+#    end unless ordered_subtypes.empty?
+
+
+#  end
 
   # creates the elements to be shown in the tabs, depending on the action we're in
   def book_tabs
+    subtypes = @edition.book_subtypes(N::HYPER + params[:type])
     tabs = []
     if (params[:subtype])
       selected_subtype = params[:subtype]
     else
-      selected_subtype = @subtypes[0]
+      selected_subtype = subtypes[0]
     end
-    @subtypes.each do |subtype|
+    subtypes.each do |subtype|
       if (subtype == selected_subtype)
         selected = true
       else 
         selected = false
       end
-      tabs << {:link => "/#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}/#{params[:type]}/#{subtype}", :text => t(:"talia.types.#{subtype}"), :selected => selected}
+      tabs << {:link => "/#{TaliaCore::FacsimileEdition::EDITION_PREFIX}/#{params[:id]}/#{params[:type]}/#{subtype.local_name}", :text => t(:"talia.types.#{subtype.local_name}"), :selected => selected}
     end
     tabs
   end

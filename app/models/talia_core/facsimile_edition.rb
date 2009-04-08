@@ -4,6 +4,13 @@ module TaliaCore
     # URI prefix for editions
     EDITION_PREFIX = 'facsimiles'
 
+    ORDERED_BOOK_SUBTYPES = {
+      'Work' => ['PrintedAndDistributed', 'Unprinted', 'NotDistributed', 'PrivatePublication'],
+      'Manuscript' => ['Notebook', 'Copybook', 'Dossier', 'ManuscriptForPrinting',
+        'Draft', 'PosthumousFragment', 'PosthumousWriting', 'AuthorizedManuscript',
+        'Correspondence', 'ICN', 'LectureManuscript']
+    }
+
     # returns an array containing a list of the book types available and connected to this facsimile edition
     # (e.g.: 'Works', 'Manuscripts', ...)
     def book_types
@@ -30,9 +37,15 @@ module TaliaCore
         qry.where(:b, N::HYPER.in_catalog, self)        
         qry.execute
       end
+
+      result_subtypes = []
+      ORDERED_BOOK_SUBTYPES[type.local_name].each do |st|
+        result_subtypes << N::HYPER + st if @subtypes[type.to_s].include?(N::HYPER + st)
+      end unless ORDERED_BOOK_SUBTYPES[type.local_name].empty?
+      result_subtypes || @subtypes
     end
      
-  # Returns all the books in the catalog. See elements
+    # Returns all the books in the catalog. See elements
     def books(*types)
       types = [N::TALIA.Book] if(types.empty?)
       options = {}

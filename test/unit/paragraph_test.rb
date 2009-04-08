@@ -44,7 +44,7 @@ module TaliaCore
     def test_position_in_book
       book = make_big_book('test_position_in_book')
       paragraph = book.paragraphs[0]
-      assert_equal('000000000001', paragraph.position_in_book)
+      assert_equal('000001000001', paragraph.position_in_book)
     end
   end
 end

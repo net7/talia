@@ -8,12 +8,10 @@ window.onresize = function() {
 	// alert('resized');
 };
 
-
-// Look trhu the whole code looking for the right stuff
+// Look thru the whole code looking for the right stuff
 function configurePopUp() {
 	popUpElements = $$('span.popup');
-	// alert("length: " + popUpElements.length);
-	
+
 	for(i=0; i < popUpElements.length; i++) {
 		configureSinglePopUp(popUpElements[i]);
 	}
@@ -23,22 +21,18 @@ function configurePopUp() {
 function configureSinglePopUp(element) {
 	var ballonText = element;
 	var highlightedText = ballonText.previous();
-	
-	
-	// highlightedText.wrap('span', {'class': 'highlightedTextWrapper'});
-	highlightedText.insert("<div class='tooltip'>" + ballonText.innerHTML + "</div>");
-	
-	highlightedText.setStyle({cursor: 'pointer'});
-	
+
+	highlightedText.setStyle({cursor: 'pointer', backgroundColor: '#e9dbb1', position: 'relative'});
+
+	highlightedText.insert("<div class='tooltip' style='position:absolute;'>" + ballonText.innerHTML + "</div>");
 	var newElement = highlightedText.select('div.tooltip')[0];
-	
+
 	newElement.insert("<div class='stem'></div>");
 	newElement.insert("<div class='close'></div>");
-	
-	
+
 	var newElementStem = newElement.select('div.stem')[0];
 	var newElementClose = newElement.select('div.close')[0];
-	
+
 	highlightedText.observe('click', function(event){
 		var clickedToolTip = highlightedText.select('div.tooltip')[0];
 		var clickedToolTipStatus;
@@ -47,45 +41,41 @@ function configureSinglePopUp(element) {
 		} else {
 			clickedToolTipStatus = true;
 		}
-		
+
 		hideAllPopUps();
-		
+
 		if(clickedToolTipStatus == true) {
 			highlightedText.select('div.tooltip')[0].hide();
 		} else {
 			highlightedText.select('div.tooltip')[0].show();
 		}
-		
-		
-		
-		
+
 		// highlightedText.select('div.tooltip')[0].show();
 		// highlightedText.select('div.tooltip')[0].toggle();
-		
-	});
 
+	});
 
 	newElementClose.observe('click', function(event){
 		// this.ancestors()[0].toggle();
 		// hideAllPopUps();
 	});
-	 
-	 
+
 	newElement.setStyle({
 	  display: 'none',
 	  position: 'absolute',
 	  backgroundColor: '#e1e1e1',
 	  fontSize: '12px',
+	  zIndex: '100',
 	  textAlign: 'justify',
-	  padding: '30px 10px 10px 10px',
+	  padding: '22px 10px 10px 10px',
 	  border: '5px solid #7d7d7d',
 	  lineHeight: '16px',
 	  top: '0',
 	  left: '0',
-	  color: '#363636'
+	  color: '#363636',
+	  textIndent: '0px'
 	});
-	
-	
+
 	newElementStem.setStyle({
 	  position: 'absolute',
 	  top: '0',
@@ -93,7 +83,7 @@ function configureSinglePopUp(element) {
 	  height: '15px',
 	  left: '0'
 	});
-	
+
 	newElementClose.setStyle({
 	  position: 'absolute',
 	  top: '0',
@@ -102,27 +92,23 @@ function configureSinglePopUp(element) {
 	  height: '15px',
 	  left: '0'
 	});
-	
+
 	setPopUpWidth(newElement);
 	setPopUpPosition(newElement, highlightedText, newElementStem, newElementClose);
-	
-	// var roundCorners = Rico.Corner.round.bind(Rico.Corner);
-	// roundCorners(newElement,{corners:"top",color: "transparent"});
 }
 
 
 // Larghezza della popUp
 function setPopUpWidth(popUp) {
-	var maxPopUpWidth = 300;
+	var maxPopUpWidth = 200;
 	popUp.setStyle({
-		width: '300px'
+		width: maxPopUpWidth + 'px'
 	});
 }
 
-
 // Posizione della popUp
 function setPopUpPosition(popUp, father, stem, close) {
-	
+
 	var fatherWidth = father.getWidth();
 	var fatherHeight = father.getHeight();
 	var fatherLeft = father.cumulativeOffset().left;
@@ -133,18 +119,17 @@ function setPopUpPosition(popUp, father, stem, close) {
 	var popUpHeight = popUp.getHeight();
 	var popUpLeft;
 	var popUpTop;
-	
-	
+
 	// Stem variables
 	var stemTop;
 	var stemLeft;
-	
+
 	// Close variables
 	var closeTop;
 	var closeLeft;
-	
+
 	var stemFile = "stem_";
-	
+
 	// Parte alta della finestra
 	if(fatherTop < (windowHeight/2)) {
 		popUpTop = fatherHeight + 20;
@@ -157,8 +142,7 @@ function setPopUpPosition(popUp, father, stem, close) {
 		closeTop = 5;
 		stemFile += "top_";
 	}
-	
-	
+
 	// La parola è a sinistra nella finestra
 	if(fatherLeft < (windowWidth/2)) {
 		popUpLeft = fatherWidth/2;
@@ -171,21 +155,21 @@ function setPopUpPosition(popUp, father, stem, close) {
 		closeLeft = popUpWidth - 20;
 		stemFile += "left.gif";
 	}
-	
+
 	popUp.setStyle({
 		top: popUpTop + 'px',
 		left: popUpLeft + 'px'
 	});
-	
+
 	close.setStyle({
 		top: closeTop + 'px',
 		left: closeLeft + 'px'
 	});
-	
+
 	stem.setStyle({
 		top: stemTop + 'px',
 		left: stemLeft + 'px',
-		background: 'url(/images/tooltip/'+ stemFile +') center center no-repeat',
+		background: 'url(/images/tooltip/'+ stemFile +') center center no-repeat'
 	});
 
 }
@@ -193,7 +177,7 @@ function setPopUpPosition(popUp, father, stem, close) {
 // Nasconde tutte le pop up
 function hideAllPopUps() {
 	allToolTipsPopUp = $$('div.tooltip');
-	
+
 	for(i=0; i < allToolTipsPopUp.length; i++) {
 		allToolTipsPopUp[i].setStyle({
 			display: 'none'
