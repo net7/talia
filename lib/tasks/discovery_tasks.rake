@@ -33,14 +33,7 @@ namespace :discovery do
     FileUtils.rm_rf(data_dir) if(File.exist?(data_dir))
     FileUtils.rm_rf(iip_dir) if(File.exist?(iip_dir))
     puts "Attention! Data and iip director were removed! Remember to change the permissions for production."
-    ontology_folder = ENV['ontology_folder'] || File.join(RAILS_ROOT, 'ontologies')
-    TaskHelper::setup_ontologies(ontology_folder)
-  end
-
-  desc "Update the Ontologies. Options ontologies=<ontology_folder>"
-  task :setup_ontologies => :disco_init do
-    ontology_folder = ENV['ontology_folder'] || File.join(RAILS_ROOT, 'ontologies')
-    TaskHelper::setup_ontologies(ontology_folder)
+    Util::setup_ontologies
   end
 
 

@@ -33,6 +33,9 @@ class AdvancedSearch
       data['mc_single'] = mc_single
     end
 
+    # require full content
+    data['full_content'] = true
+
     # load exist options.
     exist_options = TaliaCore::CONFIG['exist_options']
     raise "eXist configuration not found." if exist_options.nil?
@@ -44,7 +47,7 @@ class AdvancedSearch
       uri.password = exist_options['exist_password']
     end
     resp = Net::HTTP.post_form_hack uri, data
-    
+
     # error check
     raise "#{resp.code}: #{resp.message}" unless resp.kind_of?(Net::HTTPSuccess)
 
@@ -57,12 +60,21 @@ class AdvancedSearch
     # get level 2 group
     groups = doc.get_elements('/talia:result//talia:group/talia:entry')
     # collect result. It create an array of hash {title, url, description}
-    @result = groups.collect do |item|
-      {:title => item.elements['talia:metadata/talia:standard_title'].text,
+    @result = []
+    groups.each do |item|
+      # check if full content is present in search result
+      if item.elements['talia:full_content'].nil?
+        full_content = item.elements['talia:excerpt'].children.to_s
+      else
+        full_content = item.elements['talia:full_content'].children.to_s
+      end
+
+      @result <<  {:title => item.elements['talia:metadata/talia:standard_title'].text,
         :url => "#{N::LOCAL}#{edition_prefix}/#{edition_id}/#{item.elements['talia:metadata/talia:standard_title'].text}",
         :description => item.elements['talia:excerpt'].children.to_s,
+        :full_description => full_content,
         :more_occurrence => (item.elements['talia:excerpt'].attributes['more_occurrence'].to_i unless item.elements['talia:excerpt'].attributes['more_occurrence'].nil?) || 0
-        }
+      }
     end
 
     #store xml doc into local variable

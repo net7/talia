@@ -14,7 +14,7 @@ include TaliaUtil
 
 namespace :talia_core do
   
-    # Standard initialization
+  # Standard initialization
   desc "Initialize the TaliaCore"
   task :talia_init do
     Util::title
@@ -77,7 +77,40 @@ namespace :talia_core do
   task :rdf_import => :talia_init do
     RdfImport::import(ENV['rdf_syntax'], TaliaUtil::Util::get_files)
   end
-  
+
+  desc "Update the Ontologies. Options [ontologies=<ontology_folder>]"
+  task :setup_ontologies => :talia_init do
+    Util::setup_ontologies
+  end
+
+  # Rewrite your base URL. This will loose any comments in the config file
+  desc "Rewrite the database to move it to a new URL. Options new_home=<url>."
+  task :move_site => :talia_init do
+    new_site = ENV['new_home']
+    # Check if this looks like an URL
+    raise(RuntimeError, "Illegal new_home given. (It must start with http(s):// and end with a slash)") unless(new_site =~ /^https?:\/\/\S+\/$/)
+    # open up the configuration file
+    config_file_path = File.join(TALIA_ROOT, 'config', 'talia_core.yml')
+    config = YAML::load(File.open(config_file_path))
+    old_site = config['local_uri']
+    raise(RuntimeError, "Could not determine current local URI") unless(old_site && old_site.strip != '')
+    puts "New home URL: #{new_site}"
+    puts "Original home URL: #{old_site}"
+    # Rewrite the sql database
+    ActiveRecord::Base.connection.execute("UPDATE active_sources SET uri = replace(uri, '#{old_site}', '#{new_site}')")
+    puts('Updated database, now recreating RDF')
+    # Rebuild the RDF
+    prog = ProgressBar.new('Rebuilding', Util::rewrite_count)
+    Util::rewrite_rdf { prog.inc }
+    prog.finish
+    # Rebuild the ontologies
+    Util::setup_ontologies
+    # Write back to the config file
+    config['local_uri'] = new_site
+    open(config_file_path, 'w') { |io| io.puts(config.to_yaml) }
+    puts "New configuration saved. Finished site rebuilding."
+  end
+
   # Task for importing YAML data into the data store
   desc "Import YAML data file in Talia format."
   task :yaml_import => :talia_init do
@@ -145,13 +178,23 @@ namespace :talia_core do
     
     ConnectionPool.add_data_source(rdf_cfg)
   end
-  
+
   # Help info
   desc "Help on general options for the TaliaCore tasks"
   task :help do
     Util.title
     puts "Talia Core tasks usage information."
     Util::print_options
+  end
+
+  desc "Rebuild the RDF store from the database. Option [hard_reset=(true|false)]"
+  task :rebuild_rdf => :talia_init do
+    count = TaliaCore::SemanticRelation.count
+    puts "Rebuilding RDF for #{count} triples."
+    prog = ProgressBar.new('Rebuilding', count)
+    Util::rewrite_rdf { prog.inc }
+    prog.finish
+    puts "Finished rewriting. ATTENTION: You may want to call setup_ontologies now."
   end
   
 end
