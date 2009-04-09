@@ -16,3 +16,6 @@
 [submodule "vendor/plugins/has_many_polymorphs"]
 	path = vendor/plugins/has_many_polymorphs
 	url = git://github.com/fauna/has_many_polymorphs.git
+[submodule "vendor/plugins/click-to-globalize"]
+	path = vendor/plugins/click-to-globalize
+	url = git://github.com/jodosha/click-to-globalize.git
