@@ -20,7 +20,7 @@
             <li>
               <h3><%= item[:counter]  %> <label> select to print</label><input name="checkbox[]" type="checkbox" /> <span><%=  item[:title] %></span></h3>
               <p name="advanced_search_result_description[]"><%= item[:description] %></p>
-              <div name="advanced_search_result_full_description[]" style="display:none"><%= item[:full_description] %></div>
+              <div name="advanced_search_result_full_description[]" style="display:none" class="txt_block"><%= item[:full_description] %></div>
             </li>
           <% end %>
       </form></ul>

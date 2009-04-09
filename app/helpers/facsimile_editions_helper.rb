@@ -8,25 +8,6 @@ module FacsimileEditionsHelper
     @edition.book_subtypes(N::HYPER + @type)
   end
 
-  # prepares an ordered hash of valid book subtypes (containing only those available
-  # given the actual book shown
-#  def set_book_subtypes
-#    @subtypes = []
-#    ordered_subtypes = {
-#      'Work' => ['PrintedAndDistributed', 'Unprinted', 'NotDistributed', 'PrivatePublication'],
-#      'Manuscript' => ['Notebook', 'Copybook', 'Dossier', 'ManuscriptForPrinting',
-#        'Draft', 'PosthumousFragment', 'PosthumousWriting', 'AuthorizedManuscript',
-#        'Correspondence', 'ICN', 'LectureManuscript']
-#    }
-#    type = params[:type]
-#    available_subtypes = @edition.book_subtypes(N::HYPER + type)
-#    ordered_subtypes[type].each do |st|
-#      @subtypes << st if available_subtypes.include?(N::HYPER + st)
-#    end unless ordered_subtypes.empty?
-
-
-#  end
-
   # creates the elements to be shown in the tabs, depending on the action we're in
   def book_tabs
     subtypes = @edition.book_subtypes(N::HYPER + params[:type])
@@ -48,7 +29,7 @@ module FacsimileEditionsHelper
   end
     
   def show_tabs
-    [{:link => "", :text => t(:'talia.facsimile_edition.editors_introduction'), :selected => true}]
+    []
   end
   
   def panorama_tabs

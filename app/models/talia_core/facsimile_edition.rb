@@ -12,7 +12,7 @@ module TaliaCore
     }
 
     # returns an array containing a list of the book types available and connected to this facsimile edition
-    # (e.g.: 'Works', 'Manuscripts', ...)
+    # (e.g.: 'Work', 'Manuscript', ...)
     def book_types
       @types ||= begin
         qry = Query.new(N::SourceClass).select(:type).distinct

@@ -14,6 +14,7 @@ class FacsimileEditionsController < SimpleEditionController
 
   # GET /facsimile_editions/1
   def show
+    set_custom_stylesheet ['front_page']
     @path = [{:text => params[:id]}]
   end
 

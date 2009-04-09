@@ -1,3 +1,10 @@
+/* ******************************************** */
+/* CONTAINER OF THE EDITION FRONT PAGE */
+/* ******************************************** */
+div#frontpage_container {
+    padding: 20px;
+}
+
 div.frontpage {
     margin: 0 auto;
     text-align: center;

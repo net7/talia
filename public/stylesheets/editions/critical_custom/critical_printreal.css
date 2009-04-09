@@ -15,14 +15,14 @@ body {
 
 
 
-h1, h2, h3, h4, p, ul, li, {
+h1, h2, h3, h4, p, ul, li {
     font-size: 1em;
 }
 
 a {
     text-decoration: none;
 }
-a:hover {
+a[href]:hover {
     text-decoration: underline;
 }
 #page_ext {
@@ -262,4 +262,8 @@ div#visore ul.results li p {
     float: none;
     line-height: 1.6em;
     padding-bottom: 5px;
+}
+
+span.match {
+    font-weight: bold;
 }

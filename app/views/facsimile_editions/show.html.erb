@@ -4,10 +4,6 @@
   <%= widget(:simple_mode_tabs, :tabs_elements => show_tabs) %>
 </div>
 <!--[if !IE]>menulocation<![endif]-->
-
-<div id="description">
-  <p><%= material_description(@edition) %></p>
-</div>
 <!--[if !IE]>description<![endif]-->
 <div id="content">
 
@@ -23,23 +19,10 @@
                 :alt => "link to #{title} section",
                 :width => '78', :height => '70', :border => '0') + title, title) %>
           </h1>
-          <!-- <p><%= type_description(type) %></p> -->
+          <p><%= type_description(type) %></p>
         </li>
       <% end %>
     </ul>
   </div>
-
-  <div id="content" class="divided">
-    <div id="facsimile_frontpage_visore">
-      <div class="frontpage">
-        <p class="author"> talia.edition.Facsimile.frontpage author </p>
-        <h2 class="title"> talia.edition.Facsimile.frontpage title </h2>
-        <p class="description"> talia.edition.Facsimile.frontpage description </p>
-        <p class="logo"> Nietzsche Source </p>
-        <p class="link"> http://imac.local:3000 </p>
-        <p class="year"> talia.edition.Facsimile.frontpage year </p>
-      </div>
-    </div>
-  </div>
-
+  <%= render(:partial => "shared/edition_front_page") %>
 </div>
