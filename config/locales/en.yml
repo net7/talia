@@ -2,4 +2,70 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  talia:
+    facsimile_edition:
+      editors:
+        introduction: A Facsimile Edition is an edition of digital reproductions of original documents.
+        manuscript: Manuscript
+        page: Page
+        panorama: panorama
+    global:
+      author: Author
+      category: Category
+      date: Date
+      keyword: Keyword
+      list_of_works: List of works
+      print: Print
+      search: Search
+      search_advanced: Advanced search
+      series: Series
+      simple_mode: Simple Mode
+      scholar_mode_link: Go to Scholar Mode
+    media:
+      creation_date: Created
+      download: Download
+      format: Format
+      publication_date: Published
+    navigation:
+      home: Home
+    search:
+      abstract: Abstract
+      all: All
+      any: Any
+      aphorisms: in aphorisms
+      collapse_all: Collapse all
+      deselect_all: Deselect all
+      expand_all: Expand all
+      keyword: Keyword
+      print_results: Print results
+      result_phrase_1: occurrences of the words in the
+      result_phrase_2: in the
+      result_phrase_3: occurrences found
+        optional:
+          in_the_work: in the work
+          in_aphorisms: in aphorisms
+          through: through
+      search_phrase_prompt: Search phrase
+      select_all: Select all
+      through: through
+      title: Title
+      work: Work
+    start_page:
+      about_link: About
+      categories: Categories
+      categories_description: Categories group Sources
+      comittee_link: Committee of Scholars
+      contacts_link: Contact
+      devteam_link: Development Team
+      series: Series
+      series_description: Series are collections of episodes broadcasted on the same title
+      welcome_to: Welcome to
+      simple_mode: Simple Mode
+      simple_mode_description: The Simple Mode lets you easily view the collections we have prepared for you.
+      scholar_mode: Scholar Mode
+      scholar_mode_description: The Scholar mode gives you the full power of this Library.
+    types:
+      manuscript: Manuscript
+      manuscript_description: A Manuscript is a Source
+      notebook: Notebook
+  Print: print # ???
