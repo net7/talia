@@ -71,7 +71,10 @@ end
 puts
 puts "Enter the mySQL username for your application. This account will be created automatically."
 print "mySQL account for the application: "
-rails_user = readl(true)
+while((rails_user = readl(true)).size > 16)
+  puts "User name cannot have more than 16 characters"
+  print "mySQL account for the application: "
+end
 print "Enter the password for this account: "
 rails_pw = readl(true)
 
