@@ -18,7 +18,7 @@ module FacsimileEditionsHelper
       selected_subtype = subtypes[0]
     end
     subtypes.each do |subtype|
-      if (subtype == selected_subtype)
+      if (subtype == N::HYPER + selected_subtype)
         selected = true
       else 
         selected = false
