@@ -104,21 +104,21 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "facsimiles/:id/:type/:subtype",
     :controller => 'facsimile_editions',
     :action => 'books',
-    :requirements => { :type => /Work|Manuscript|Iconography|Library|Correspondence|Picture/ },
+    :requirements => {:type => /Work|Manuscript|Iconography|Library|Correspondence|Picture/},
     :subtype => nil
   
   map.connect "facsimiles/:id/:page:dot:format",
     :controller => 'facsimile_editions',
     :action => 'page',
     :dot => /\.?/,
-    :format => nil,
-    :requirements => {:page => /.*,[^\.]*/}
+    :requirements => {:page => /.*,[^\.]*/},
+    :defaults => {:format => 'html'}
   
   map.connect "facsimiles/:id/:book:dot:format",
     :controller => 'facsimile_editions',
     :action => 'panorama',
     :dot => /\.?/,
-    :format => nil
+    :defaults => {:format => 'html'}
   
   map.connect "categories/advanced_search",
     :controller => 'categories',

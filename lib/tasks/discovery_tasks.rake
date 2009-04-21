@@ -126,7 +126,7 @@ namespace :discovery do
   end
   
   # creates a facsimile edition and adds to it all the color facsimiles found in the DB
-  desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> description=<short_description> header=<header_image_folder> catalog=<catalog_siglum>"
+  desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> header=<header_image_folder> catalog=<catalog_siglum>"
   task :create_color_facsimile_edition => :disco_init do
     if ENV['catalog'].nil? 
       catalog = TaliaCore::Catalog.default_catalog
@@ -141,7 +141,6 @@ namespace :discovery do
       TaliaCore::Facsimile
       fe = TaskHelper::create_edition(TaliaCore::FacsimileEdition)
       TaskHelper::setup_header_images
-      fe.hyper::description << ENV['description']
       qry = TaskHelper::default_book_query(catalog)
       qry.where(:facsimile, N::HYPER.manifestation_of, :page)
       qry.where(:facsimile, N::RDF.type, N::HYPER + 'Facsimile')

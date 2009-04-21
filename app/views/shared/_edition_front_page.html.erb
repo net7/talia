@@ -1,26 +1,27 @@
 
 <!-- Front page starts here -->
-<div class="frontpage">
-	<p class="author">
-		<%= t("talia.edition.#{@edition.title}.frontpage author") %>
-	</p>
-	<h2 class="title">
-		<%= t("talia.edition.#{@edition.title}.frontpage title") %>
-	</h2>
-	<p class="description">
+  <div id="frontpage_container">
+    <div class="frontpage">
+      <p class="author">
+        <%= t("talia.edition.#{@edition.title}.frontpage author") %>
+      </p>
+      <h2 class="title">
+        <%= t("talia.edition.#{@edition.title}.frontpage title") %>
+      </h2>
+      <p class="description">
 
-		<%= t("talia.edition.#{@edition.title}.frontpage description") %>
-	</p>
-	<p class="logo">
-		Nietzsche Source
-	</p>
-	<p class="link">
-		<%= TaliaCore::CONFIG['local_uri'].chop %>
-	</p>
-	<p class="year">
-		<%= t("talia.edition.#{@edition.title}.frontpage year") %>
-	</p>
-
-</div>
+        <%= t("talia.edition.#{@edition.title}.frontpage description") %>
+      </p>
+      <p class="logo">
+        Nietzsche Source
+      </p>
+      <p class="link">
+        <%= TaliaCore::CONFIG['local_uri'].chop %>
+      </p>
+      <p class="year">
+        <%= t("talia.edition.#{@edition.title}.frontpage year") %>
+      </p>
+    </div>
+  </div>
 <!-- Front page ends here -->
 

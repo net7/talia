@@ -13,3 +13,40 @@ div.blank_facs {
     margin-top: 25%;
     font-size: 120%;
 }
+
+
+/* ******************************************** */
+/* LIST ON THE SIDE OF THE FACSIMILE FRONT PAGE */
+/* ******************************************** */
+ul#facsimile_frontpage_access_list {
+    margin: 15px 4%;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+}
+ul#facsimile_frontpage_access_list li {
+    padding: 2% 0 5% 0;
+    float: left;
+    clear: both;
+    display: inline;
+    background: url(/images/dot_orizz.gif) repeat-x bottom;
+    /* Box Model Hack */
+    width: 100%;
+    voice-family: "\"}\"";
+    voice-family:inherit;
+    width:96%;
+}
+ul#facsimile_frontpage_access_list li h1 {
+    color: #6a615d;
+    font-size: 1.6em;
+    margin-bottom: 5px;
+}
+ul#facsimile_frontpage_access_list li h1 a {
+    color: #6a615d;
+}
+ul#facsimile_frontpage_access_list li h1 img {
+    float: left;
+    margin-right: 8px;
+    display: inline;
+    border: 1px solid #e0e0e0;
+}
