@@ -184,7 +184,6 @@ namespace :discovery do
 
     version = ENV['version']
 
-
     if ENV['catalog'].nil? 
       catalog = TaliaCore::Catalog.default_catalog
     else

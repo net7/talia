@@ -108,6 +108,10 @@ db_config.set_database_names("#{db_prefix}discovery_talia")
 # db_config.set_socket(sock_file)
 
 puts
+print "Enter the site name (it will appear in the window title): "
+talia_config.site_name = readl
+
+puts
 print "Enter the URI for your site: "
 site_url = readl(true)
 

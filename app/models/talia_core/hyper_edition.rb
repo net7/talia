@@ -1,4 +1,4 @@
-require 'JXslt/jxslt'
+  require 'JXslt/jxslt'
 
 unless defined? TaliaCore::XSLT_ROOT
   TaliaCore::XSLT_ROOT = "#{RAILS_ROOT}/xslt"

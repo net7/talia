@@ -59,18 +59,10 @@ class FacsimileEditionsController < SimpleEditionController
         pdf_tool(@book)
         @page_title_suff = ", #{params[:book]}"
       end
-      format.jpeg do
-        book_uri = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:book]
-        qry = Query.new(TaliaCore::Source).select(:f).distinct.limit(1)
-        qry.where(:p, N::DCT.isPartOf, book_uri)
-        qry.where(:p, N::RDF.type, N::HYPER.Page)
-        qry.where(:f, N::HYPER.manifestation_of, :p)
-        qry.where(:p, N::HYPER.position, :pos)
-        qry.sort(:pos)
-        facsimile = qry.execute[0]
-        return facsimile.iip_path unless (params[:size] == 'thumbnail')
-        return url_for(:controller => 'source_data', :id => facsimile.id)
-      end
+      format.pdf do
+#        book_uri = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:book]
+#TODO it should return the whole book in PDF format (?)
+       end
     end
   end
     

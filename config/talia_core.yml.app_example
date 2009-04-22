@@ -62,6 +62,9 @@ exist_options:
   exist_password: 'server password'
   exist_namespace: 'http://trac.talia.discovery-project.eu/wiki/Exist#'
 
+# site name (appears in the page titles)
+site_name: Discovery Source
+
 # Configure the namespaces for use with RDF
 namespaces:
     # Default namespaces rdf, rdfs, xsd, owl are defined in the semantic_naming

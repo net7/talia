@@ -13,12 +13,12 @@ module FacsimileEditionsHelper
     subtypes = @edition.book_subtypes(N::HYPER + params[:type])
     tabs = []
     if (params[:subtype])
-      selected_subtype = params[:subtype]
+      selected_subtype = N::HYPER + params[:subtype]
     else
       selected_subtype = subtypes[0]
     end
     subtypes.each do |subtype|
-      if (subtype == N::HYPER + selected_subtype)
+      if (subtype == selected_subtype)
         selected = true
       else 
         selected = false
