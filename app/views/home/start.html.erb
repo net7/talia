@@ -35,10 +35,8 @@
         
         <div id="menu">
           <ul>
-            <% shortkey = 1 %>
             <% for language in @languages %>
-              <li><%= select_language(language[0], language[1], shortkey.to_s)  %></li>
-              <% shortkey += 1 %>
+              <li><%= select_language(language[0], language[1])  %></li>
             <% end %>
           </ul>
         </div>
