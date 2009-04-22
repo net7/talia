@@ -1,8 +1,19 @@
 module TaliaCore
+
+  # This class provides an ordering on the related sources. It will load the
+  # related elements into an array. All changes made to the OrderedSource will
+  # reflect on the Array, and will only be persisted to the store on save.
+  #
+  # The collection is contained in the ordered_objects - if you ever use that
+  # accessor all "ordering" relations for the object will be completely overwritten
+  # on saving. (You can still assign the predicates manually as long as the
+  # ordered_objects accesssor is not called before saving.)
   class OrderedSource < ActiveSource
     
     attr_reader :current_index
     
+    before_save :rewrite_order_relations
+
     # Initialize SeqContainer
     def self.new(uri)
       @resource = super(uri)
@@ -11,194 +22,112 @@ module TaliaCore
       #      @resource
     end
     
-    # Returns all elements (not the relations) in an ordered array.
+    # Returns all elements (not the relations) in an ordered array. Unlike the
+    # ordered_objects accessor this will not include nil elements and the
+    # index will not have a 1:1 relation to the position of the elment.
+    #
+    # The ordering of the elements will be preserved, though.
     def elements
       # execute query
-      query.collect { |relation| relation.object }
+      ordered_objects.compact
     end
     
     # Returns the first element of the collection
     def first
-      relation = query(:first)
-      relation ? relation.object : nil
+      ordered_objects.find { |el| !el.nil? }
     end
-    
+
     # return the item at position index.
     # 
     #  * index: int
     #  * return value: TaliaCore::ActiveSource
     def at(index)
       @current_index = index
-      # get predicate for next item
-      predicate =  index_to_predicate(index)
-
-      # add new object to ordered set
-      result = self[predicate]
-      
-      # raise exception if there is more than one item
-      assit(result.size <= 1, "Problem with index predicate at index #{index} for #{self.uri}: More than one item.")
-      
-      # return first item
-      if result.empty?
-        # if there aren't result, return nil
-        nil
-      else
-        # return first item
-        result.first
+      ordered_objects.at(index)
       end
-    end
     
     # return next item
     # * current_element: int or string. Current element. If nil, the index is the last integer used with at method
     def next(current_element = nil)
-      # check current_element item class
-      unless current_element.nil?
-        case current_element
-        when Fixnum   then @current_index = current_element
-        when String   then @current_index = predicate_to_index(current_element)
-        when TaliaCore::ActiveSource
-          # find semantic relation
-          pos = find_position_by_object(current_element)
-          # if no relations is found
-          if pos.nil?
-            raise "Object isn't in current OrderedSource"
-            # if many relation is found
-          elsif pos.is_a?(Array)
-            raise "Found more the one object in current OrderedSource"
-            # if one relation is found
-          else
-            @current_index = pos
-          end
-        else
-          raise "Class #{current_element.class} not supported"
-        end
-      end
+      set_current_index_for(current_element)
       
       # if current element is nil, next must return first value
-      @current_index = 0 if @current_index.nil?
-      
-      if (@current_index < size)
-        return at(@current_index + 1)
+      @current_index ||= 0
+
+      if (@current_index < (size - 1))
+        return at(@current_index + 1) # TODO: Current is not increased, is this intentional? Do we need this method at all?
       else
-        raise "Last item reached"
-      end
+      raise "Last item reached"
+    end
     end
 
     # return previous item
     # * current_element: int or string. Current element. If nil, the index is the last integer used with at method
     def previous(current_element = nil)
-      # check current_element item class
-      unless current_element.nil?
-        case current_element
-        when Fixnum   then @current_index = current_element
-        when String   then @current_index = predicate_to_index(current_element)
-        when TaliaCore::ActiveSource
-          # find semantic relation
-          pos = find_position_by_object(current_element)
-          # if no relations is found
-          if pos.nil?
-            raise "Object isn't in current OrderedSource"
-            # if many relation is found
-          elsif pos.is_a?(Array)
-            raise "Found more the one object in current OrderedSource"
-            # if one relation is found
-          else
-            @current_index = pos
-          end
-        else
-          raise "Class #{current_element.class} not supported"
-        end
-      end
+      set_current_index_for(current_element)
       
       # if current element is nil, next must return first value
       @current_index = (size + 1) if @current_index.nil?
-      
-      if (@current_index > 1)
-        return at(@current_index - 1)
+
+      if (@current_index > 1) # TODO: This assumes a one-base array, not really useful
+        return at(@current_index - 1) # TODO: See above
       else
-        raise "First item reached"
-      end
+      raise "First item reached"
+    end
     end
     
-    # return size of SeqContainer
-    #
-    # return value: int
+    # Return the "size" of the collection. This is actually the maximum position
+    # index that is used. The value is cached internally and will be increased
+    # on insert_at (only if inserting at a value larger at the current size) and
+    # on the add operation. If elements are added in another way, the count
+    # may be off, but in that case it would be off anyway. Delete will decrease
+    # the size by 1, if the index removed equals the size (this is a rough guess
+    # which may be off!)
+    # The cached counter will be reset on saving.
     def size
-      result = query
-
-      if result.empty?
-        return 0
-      else
-        # convert all predicate into integer
-        index = result.collect { |item| predicate_to_index(item.predicate_uri).to_i  }
-        return index.max.to_i
+      ordered_objects.size
       end
-    end
     
-        # Inserts an element at the given index.
+    # Inserts an element at the given index.
     def insert_at(index, object)
-      predicate =  index_to_predicate(index)
-
-      # add new object to ordered set
-      self[predicate] << object
+      write_for_index(ordered_objects, index, object)
     end
     
-    # add new item to ordered source
-    # * object = TaliaCore::ActiveSource
+    # Add new item to ordered source. This will add the object after the last
+    # element. ATTENTION: If you add on an empty collection, it will start at
+    # index 1 (One), for backwards compatability
     def add(object)
-      insert_at(size + 1, object)
+      position = (size > 0) ? size : 1
+      insert_at(position, object)
     end
     
-    # remove an existing object to ordered source
-    # * index: int
+    # remove an existing object to ordered source. This will reorder the
+    # existing positions if deleting from the middle! If you don't want
+    # that use insert_at(index, nil)
     def delete(index)
-      # get predicate to delete
-      predicate = index_to_predicate(index)
-    
-      # delete item
-      self[predicate].remove
+      ordered_objects.delete_at(index)
     end
   
     # remove all existing object to ordered source
+    # TODO: This will not reliably delete all elements, since the size
+    #       value is not reliable
     def delete_all
-      # call delete method
-      (1..size).each do |index|
-        self.delete(index)
+      @ordered_objects = []
       end
-    end
     
     # replace item as position index with object
     # * index: int
     # * object: TaliaCore::ActiveSource
     def replace(index, object)
-      # delete item
-      self.delete(index)
-      
-      # get predicate for index
-      predicate =  index_to_predicate(index)
-      
-      # add item
-      self[predicate] << object
+      replace_for_index(ordered_objects, index, object)
     end
     
-    # returns the object position
-    # return value is Fixnum if only one relation is found for current ordered source, otherwise it will be an Array of Fixnum
+    # Find the position index of the given object. This will always find the
+    # first occurence
     def find_position_by_object(object)
-      # find semantic relation with predicate that match with string and object_id is 'object'
-      result = self.semantic_relations.find(:all, :conditions => ['(predicate_uri LIKE ?) AND (object_id = ?)', "http://www.w3.org/1999/02/22-rdf-syntax-ns#_%", object.id], :order => :predicate_uri)
-      # if object is not found, return nil
-      if result.empty?
-        return nil
-      elsif result.size == 1
-        return predicate_to_index(result[0].predicate_uri)
-      else
-        result.collect {|item| predicate_to_index(item.predicate_uri) }
+      ordered_objects.index(object)
       end
       
-      #result = self.semantic_relations.find(:all) #, :conditions => ['predicate_uri LIKE ?', "http://www.w3.org/1999/02/22-rdf-syntax-ns#_%"]).uniq
-      #result.collect { |item| OrderedSource.new item.subject.uri}
-    end
-
     # return string for index
     def index_to_predicate(index)
       'http://www.w3.org/1999/02/22-rdf-syntax-ns#_' << ("%06d" % index.to_i) 
@@ -209,13 +138,80 @@ module TaliaCore
       predicate.sub('http://www.w3.org/1999/02/22-rdf-syntax-ns#_', '').to_i
     end
     
+    # Returns all the objects that are ordered in an array where the array
+    # index equals the position of the object in the ordered set. The array
+    # is zero-based, position that don't have an object attached will be set to 
+    # nil.
+    def ordered_objects
+      return @ordered_objects if(@ordered_objects)
+      relations = query
+      # Let's assume the follwing is a sane assumption ;-)
+      # Even if a one-base collection comes in, we need to push just one element
+      @ordered_objects = Array.new(relations.size)
+      # Now add the elements so that the relation property is reflected
+      # on the position in the array
+      relations.each do |rel|
+        index = predicate_to_index(rel.predicate_uri)
+        write_for_index(@ordered_objects, index, rel.object)
+      end
+
+      @ordered_objects
+    end
+
     private
+
+    # Set the current index for the given element, which can be a number, a
+    # predicate string or an object contained in the collection. Passing nil
+    # causes it to do nothing.
+    def set_current_index_for(current_element)
+      return unless(current_element)
+
+      case current_element
+      when Fixnum   then @current_index = current_element
+      when String   then @current_index = predicate_to_index(current_element)
+      when TaliaCore::ActiveSource
+        # find semantic relation
+        pos = find_position_by_object(current_element)
+        # if no relations is found
+        raise "Object isn't in current OrderedSource" if pos.nil?
+        # else we have a position
+        @current_index = pos
+      else
+        raise "Class #{current_element.class} not supported"
+      end
+    end
+
+    # This will be called before saving and will completely rewrite the relations
+    # that make up the ordered store, based on the internal array
+    def rewrite_order_relations
+      return unless(@ordered_objects) # If this is nil, the relations weren't loaded in the first place
+      objects = elements # Fetch them before deleting
+      # Now destroy the existing elements
+      SemanticRelation.destroy_all(['subject_id = ? AND predicate_uri LIKE ?', self.id, "http://www.w3.org/1999/02/22-rdf-syntax-ns#_%"])
+      # rewrite from the relations array
+      objects.each_index do |index|
+        if(obj = objects.at(index)) # Check if there's a value to handle
+          self[index_to_predicate(index)] << obj
+        end
+      end
+    end
+
+    # Helper to "grow" an array to the given index. Unless replace is true, it
+    # will raise an error if the element already exists.
+    def write_for_index(arr, index, value, replace = false)
+      raise(RuntimeError, "Duplicate element found on index #{index}") if(arr.at(index) && !replace)
+      arr[index] = value
+    end
+    
+    def replace_for_index(arr, index, value)
+      write_for_index(arr, index, value, true)
+    end
+
     # execute query and return the result
     def query(scope = :all)
       # execute query
       self.semantic_relations.find(scope, :conditions => ['predicate_uri LIKE ?', "http://www.w3.org/1999/02/22-rdf-syntax-ns#_%"], :order => :predicate_uri)
     end
 
-    
   end
 end

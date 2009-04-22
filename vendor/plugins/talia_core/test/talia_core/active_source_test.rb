@@ -1,4 +1,4 @@
-# Load the helper class
+
 require File.join(File.dirname(__FILE__), '..', 'test_helper')
 
 module TaliaCore
@@ -22,7 +22,7 @@ module TaliaCore
 
     def test_has_type
       facs = ActiveSource.new('http://facsimile/has_type_test')
-      facs[N::RDF.type] << N::HYPER.testtype
+      facs.types << N::HYPER.testtype
       assert(facs.has_type?(N::HYPER.testtype))
     end
 
@@ -91,11 +91,15 @@ module TaliaCore
     
     def test_accessor_tripledup_delete
       dupey = active_sources(:dup_for_delete)
+      dupdouble = TaliaCore::ActiveSource.find(dupey.uri)
       assert_equal(2, dupey['http://testvalue.org/dup_rel'].size)
-      dupey['http://testvalue.org/dup_rel'].remove('The test value')
+      dupey['http://testvalue.org/dup_rel'].remove(active_sources(:testy))
+      assert_equal(1, dupey['http://testvalue.org/dup_rel'].size)
       dupey.save!
-      assert_equal(1, active_sources(:dup_for_delete)['http://testvalue.org/dup_rel'].size)
-      dupey['http://testvalue.org/dup_rel'].remove('The test value')
+      assert_equal(1, dupdouble['http://testvalue.org/dup_rel'].size)
+      assert_equal(1, dupey['http://testvalue.org/dup_rel'].size)
+      dupey['http://testvalue.org/dup_rel'].remove(active_sources(:testy))
+      assert_equal(0, active_sources(:dup_for_delete)['http://testvalue.org/dup_rel'].size)
       dupey.save!
       assert_equal(0, active_sources(:dup_for_delete)['http://testvalue.org/dup_rel'].size)
     end
@@ -118,8 +122,12 @@ module TaliaCore
     def test_associate
       test_src = active_sources(:assoc_test)
       test_src["http://foo/assoc_test"] << active_sources(:assoc_test_target)
-      test_src["http://bar/assoc_test_prop"] << semantic_properties(:testvalue)
+      test_src["http://bar/assoc_test_prop"] << 'Test Value'
       test_src.save!
+      assert_equal(1, test_src["http://foo/assoc_test"].size)
+      assert_equal(1, active_sources(:assoc_test)["http://foo/assoc_test"].size)
+      assert_equal(1, active_sources(:assoc_test)["http://bar/assoc_test_prop"].size)
+      active_sources(:assoc_test).save!
       assert_equal(1, active_sources(:assoc_test)["http://foo/assoc_test"].size)
       assert_equal(1, active_sources(:assoc_test)["http://bar/assoc_test_prop"].size)
       assert_equal('TaliaCore::ActiveSource', SemanticRelation.find(:first, 
@@ -181,19 +189,32 @@ module TaliaCore
       src.save!
       assert_equal(src.uri, active_sources(:assoc_predicate_test)[N::AS_TEST_PREDS.test_rel][0].uri)
     end
-    
-    def test_predicate_assign_uniq
-      src = active_sources(:assoc_predicate_test)
-      src.predicate_set(:as_test_preds, :test_uniq, "foo")
-      src.predicate_set_uniq(:as_test_preds, :test_uniq, "bar")
-      src.predicate_set_uniq(:as_test_preds, :test_uniq, "foo")
-      assert_property(src.predicate(:as_test_preds, :test_uniq), "foo", "bar")
+
+    def test_semantic_build_success
+      src = TaliaCore::ActiveSource.new('http://buildsuccesstest/source')
+      src.predicate_set(:hyper, 'buildsucc', 'test')
+      src['http://buildsucc'] << 'test'
+      assert_equal(1, src['http://buildsucc'].size)
+      assert_equal(1,  src[N::HYPER.buildsucc].size)
+      src.save!
+      assert_equal(1, ActiveSource.find(src.uri)['http://buildsucc'].size)
     end
     
+    def test_predicate_set_uniq
+      src = active_sources(:assoc_predicate_test)
+      src.predicate_set_uniq(:as_test_preds, :test_uniq, "foo")
+       assert_property(src.predicate(:as_test_preds, :test_uniq), "foo")
+      src.predicate_set_uniq(:as_test_preds, :test_uniq, "bar")
+      src.predicate_set_uniq(:as_test_preds, :test_uniq, "foo")
+      src.save!
+      assert_property(src.predicate(:as_test_preds, :test_uniq), "foo", "bar")
+    end
+
     def test_predicate_replace
       src = active_sources(:assoc_predicate_test)
       src.predicate_set(:as_test_preds, :test_replace, "foo")
       src.predicate_replace(:as_test_preds, :test_replace, "bar")
+      src.save!
       assert_property(src.predicate(:as_test_preds, :test_replace), "bar")
     end
     
@@ -345,7 +366,87 @@ module TaliaCore
       src.autosave_rdf = false
       assert(src.autosave_rdf? == false)
     end
-    
+
+    def test_write_predicate
+      src = ActiveSource.new('http://activesourcetest/testwritepredicate')
+      src['http://activesourcetest/write_predicate'] << 'foo'
+      src.save!
+      assert_equal(['foo'], src['http://activesourcetest/write_predicate'].values)
+    end
+
+    def test_write_predicate_direct
+      src = ActiveSource.new('http://activesourcetest/testwritepredicate')
+      src.write_predicate_direct('http://activesourcetest/write_predicate', 'foo')
+      assert_equal(['foo'], src['http://activesourcetest/write_predicate'].values)
+      assert_equal(['foo'], src.my_rdf['http://activesourcetest/write_predicate'])
+    end
+
+    def test_write_direct_new_source
+      src = ActiveSource.new('http://activesourcetest/testwritepredicatenewsrc')
+      src2 = ActiveSource.new('http://activesourcetest/testwritepredicatenewsrctarg')
+      src.write_predicate_direct('http://activesourcetest/write_predicate', src2)
+      assert_equal([src2], src['http://activesourcetest/write_predicate'].values)
+      assert_equal([src2], src.my_rdf['http://activesourcetest/write_predicate'])
+    end
+
+
+    def test_write_predicate_multi
+      src = ActiveSource.new('http://activesourcetest/testwritepredicatemulti')
+      src[N::HYPER.multipred] << ['target1', 'target2']
+      assert_equal(['target1', 'target2'], src[N::HYPER.multipred].values)
+      src.save!
+      assert_equal(['target1', 'target2'], src[N::HYPER.multipred].values)
+    end
+
+    def test_write_predicate_advanced
+      src = ActiveSource.new('http://activesourcetest/testwritepredicateadv')
+      target1 = ActiveSource.new('http://activesourcetest/testwritepredtarget1')
+      target2 = ActiveSource.new('http://activesourcetest/testwritepredtarget2')
+      src[N::HYPER.write_pred] << [target1, target2]
+      assert_equal([target1, target2], src[N::HYPER.write_pred].values)
+      src.save!
+      assert_equal([target1, target2], src[N::HYPER.write_pred].values)
+    end
+
+    def test_assign_predicate
+      src = ActiveSource.new('http://activesourcetest/testclearpred')
+      src['http://activesourcetest/write_predicate'] << 'foo'
+      src['http://activesourcetest/write_predicate'] << 'bar'
+      src['http://activesourcetest/write_predicate2'] << 'bar'
+      src.save!
+      assert_equal(2, src['http://activesourcetest/write_predicate'].size)
+    end
+
+    def test_double_add_new_source
+      src = ActiveSource.new('http://activesourcetest/doubletest')
+      src2 = ActiveSource.new('http://activesourcetest/doubletest2')
+      src3 = ActiveSource.new('http://activesourcetest/doubletest2')
+      src[N::HYPER.bar] << src2
+      src[N::HYPER.bar] << src3
+      src.save!
+      assert_equal([src2, src2], src[N::HYPER.bar].values)
+    end
+
+    def test_double_add
+      src = ActiveSource.new('http://activesourcetest/doubleadd/test')
+      src[N::HYPER.bar] << 'foo'
+      src.save!
+      src2 =  ActiveSource.find(src.uri)
+      src2[N::HYPER.bar] << 'bar'
+      src2.save!
+      assert_property(ActiveSource.find(src.uri)[N::HYPER.bar], 'foo', 'bar')
+    end
+
+    def test_double_add_and_reset
+      src = ActiveSource.new('http://activesourcetest/doubleaddload/test')
+      src[N::HYPER.bar] << 'foo'
+      src.save!
+      src2 =  ActiveSource.find(src.uri)
+      src2[N::HYPER.bar] << 'bar'
+      src2.save!
+      src.reset!
+      assert_property(src[N::HYPER.bar], 'foo', 'bar')
+    end
   end
   
 end

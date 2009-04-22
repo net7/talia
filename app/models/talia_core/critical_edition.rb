@@ -28,6 +28,7 @@ module TaliaCore
       html_description = TaliaCore::CatalogHtmlDescription.new(html_description_uri)
       html_description.create_html(html, self)
       self.material_description = html_description
+      self.save!
     end
     
   end

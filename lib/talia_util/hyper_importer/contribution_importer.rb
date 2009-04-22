@@ -26,7 +26,7 @@ module TaliaUtil
       # If the source of which this is a manifestation has some previously created
       # clones, add this as a manifestation of them too.
       def add_manifestation_of_clones
-        related_sources = TaliaCore::Source.find(@source::hyper.manifestation_of)
+        related_sources = TaliaCore::Source.find(@source::hyper.manifestation_of.values)
         related_sources.each do |related_source|
           qry = Query.new(TaliaCore::Source).select(:clone).distinct
           qry.where(:concordance, N::HYPER.concordant_to, related_source)

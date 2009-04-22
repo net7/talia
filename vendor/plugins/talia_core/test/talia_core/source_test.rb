@@ -250,6 +250,8 @@ module TaliaCore
     def test_direct_predicates
       my_source = make_dummy_source("http://direct_predicate_haver/")
       my_source.default::author << "napoleon"
+      my_source.save!
+      
       # Expected size of direct predicates: One for the predicate set above
       # and one for the default type
       assert_equal(2, my_source.direct_predicates.size)
@@ -260,7 +262,9 @@ module TaliaCore
     def test_inverse_predicates
       source = make_dummy_source("http://predicate_source/")
       target = make_dummy_source("http://predicate_target/")
+      target.save!
       source.foo::invtest << target
+      source.save!
       assert(target.inverse_predicates.size > 0, "No inverse predicates")
       assert(target.inverse_predicates.include?(N::FOO::invtest), "Inverse predicate not found.")
     end
@@ -277,6 +281,8 @@ module TaliaCore
       source.default::historical_character << Source.new("#{N::LOCAL}napoleon")
       source.default::historical_character << "Giuseppe Garibaldi"
 
+      source.save!
+      
       assert_equal(2, source.grouped_direct_predicates.size)
       predicates = source.grouped_direct_predicates['default']
       predicates.each do |group, source_list|
@@ -440,6 +446,11 @@ module TaliaCore
       origin.foo::coworker << target
       origin2.foo::my_friend << target
       
+      origin.save!
+      origin2.save!
+      target.save!
+
+
       inverted = target.inverse[N::FOO::coworker]
       assert_equal(1, inverted.size)
       assert_equal(origin.uri, inverted[0].uri)

@@ -10,7 +10,7 @@ module TaliaCore
     def setup
       setup_once(:rdf_res) do
         TaliaUtil::Util.flush_rdf
-        active_sources(:multirel).send(:create_rdf) # Update the rdf
+        active_sources(:multirel).send(:create_rdf, true) # Update the rdf
         active_sources(:multirel).my_rdf
       end
     end
@@ -60,6 +60,17 @@ module TaliaCore
       assert(1, src[N::RDF.rew].size)
       src.save!
       assert_equal(1, src.my_rdf[N::RDF.rew].size)
+    end
+
+    def test_rdf_staggered_save
+      src = ActiveSource.new('http://as_test/rdf_saving_test_advanced')
+      src[N::RDF.rew] << 'foo'
+      src.save!
+      src[N::RDF.rew] << 'bar'
+      src.save!
+      res = ActiveSource.find(src.uri)
+      assert_property(res[N::RDF.rew], 'foo', 'bar')
+      assert_equal(['foo', 'bar'], res.my_rdf[N::RDF.rew])
     end
     
     protected

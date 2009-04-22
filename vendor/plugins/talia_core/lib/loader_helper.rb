@@ -11,7 +11,7 @@ module TLoad
   def self.require_module(gem_name, local_name, local_path, gem_version = nil)
     begin
       # Try to loaTad from local if it exists
-      search_dir = File.join(File.dirname(__FILE__), local_path, "lib")
+      search_dir = File.expand_path(File.join(File.dirname(__FILE__), local_path, "lib"))
       if(File.exists?(search_dir))
         $:.unshift(search_dir)  
         require local_name  

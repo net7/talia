@@ -5,10 +5,6 @@ module TaliaCore
   module DataTypes
   
     class SimpleText < FileRecord
-    
-      # include the module to work with files
-      # TODO: paramterize this. If we'll have to work with file inculde the following
-      #       otherwise, include the database mixin
       
       # return the mime_type for a file
       def extract_mime_type(location)

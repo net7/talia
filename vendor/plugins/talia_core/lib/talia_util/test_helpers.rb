@@ -10,7 +10,9 @@ module TaliaUtil
       type_list = ""
       source.types.each { |type| type_list << "#{type.local_name}\n" }
       assert_equal(types.size, source.types.size, "Type size mismatch: Source has #{source.types.size} instead of #{types.size}.\n#{type_list}")
-      types.each { |type| assert(source.types.include?(type), "#{source.uri.loca_name} should have type #{type}\n#{type_list}") }
+      types.each { |type| assert(source.types.include?(type), "#{source.uri.local_name} should have type #{type}\n#{type_list}") }
+      rdf_types = source.my_rdf[N::RDF.type].collect { |type| type.uri.to_s }
+      types.each { |type| assert(rdf_types.include?(type.to_s), "#{source.uri.local_name} should have RDF type #{type}\n#{rdf_types}")}
     end
     
     # Checks if the given property has the values given to this assertion. If
@@ -19,9 +21,8 @@ module TaliaUtil
     def assert_property(property, *values)
       assert_kind_of(TaliaCore::SemanticCollectionWrapper, property) # Just to be sure
       assert_equal(values.size, property.size, "Expected #{values.size} values instead of #{property.size}")
-      values = values.collect { |value| value.is_a?(N::URI) ? TaliaCore::Source.new(value) : value }
       property.each do |value|
-        assert(values.include?(value), "Found unexpected value #{value}. Value is a #{value.class}\nExpected:\n#{values.join("\n")}") 
+        assert(values.detect { |val| val.respond_to?(:uri) ? (val.uri.to_s == value.uri.to_s) : (value == val) }, "Found unexpected value #{value}. Value is a #{value.class}\nExpected:\n#{values.join("\n")}")
       end
     end
     

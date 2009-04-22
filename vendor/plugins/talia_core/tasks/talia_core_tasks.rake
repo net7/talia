@@ -14,7 +14,7 @@ include TaliaUtil
 
 namespace :talia_core do
   
-    # Standard initialization
+  # Standard initialization
   desc "Initialize the TaliaCore"
   task :talia_init do
     Util::title
@@ -152,6 +152,20 @@ namespace :talia_core do
     Util.title
     puts "Talia Core tasks usage information."
     Util::print_options
+  end
+
+  desc "Rebuild the RDF store from the database. Option [hard_reset=(true|false)]"
+  task :rebuild_rdf => :disco_init do
+    Util::flush_rdf
+    puts "Flushed RDF"
+    count = TaliaCore::ActiveSource.count
+    puts "Rebuilding #{count} elements"
+    prog = ProgressBar.new('Rebuilding', count)
+    TaliaCore::ActiveSource.find(:all).each do |source|
+      source.save!
+      prog.inc
+    end
+    prog.finish
   end
   
 end

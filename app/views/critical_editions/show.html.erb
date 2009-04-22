@@ -2,19 +2,19 @@
 
 <!-- scrolling side -->
 <div id="scroll" class="menuList">
-   <%= widget(:critical_edition_menu, :books => @edition.books) %>
+  <%= widget(:critical_edition_menu, :books => @edition.books) %>
 </div>
 <!-- scrolling side -->
 
 <!-- content -->
 <div id="content" class="divided">
-    <div id="visore">
-        <%= @edition.material_description.html %>
-   </div>
-    <!--[if !IE]>visore<![endif]-->
+  <div id="visore">
+    <%= render(:partial => "shared/edition_front_page") %>
+  </div>
+  <!--[if !IE]>visore<![endif]-->
 </div>
 <!-- content -->
-  
+
 
 
 

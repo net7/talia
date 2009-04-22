@@ -3,6 +3,9 @@
 <head>
   <title><%= @book.title %></title>
   <%= stylesheet_link_tag("editions/critical") %>
+  <% @custom_stylesheet.each do |style| %>
+    <%= stylesheet_link_tag(style) %>
+  <% end %>
 </head>
 <html>
   <body>

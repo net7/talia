@@ -32,8 +32,8 @@ module TaliaCore
     singular_property :series, N::HYPER.series
     
     before_create :set_default_catalog
-    after_save :update_concordance_rdf
-    
+    before_save :clear_concordance
+
     # Returns the properties that should be cloned when creating a new concordant
     # clone
     class_inheritable_accessor :props_to_clone_var
@@ -58,7 +58,7 @@ module TaliaCore
     # concordance itself, so that the metadata of the concordance record
     # can be inspected.
     def concordance
-      concs = Concordance.find(:all, :find_through => [N::HYPER.concordant_to, self])
+      concs = Concordance.find(:all, :find_through => [N::HYPER.concordant_to, self], :readonly => false)
       assit(concs.size <= 1, "Should not have more than 1 concordance object")
       concs.size > 0 ? concs[0] : nil
     end
@@ -73,6 +73,7 @@ module TaliaCore
     # Clone the current card and make the new one concordant to the current
     # one
     def clone_concordant(uri, options = {})
+      new_el = nil
       new_el = clone(uri, options)
       make_concordant(new_el)
       new_el
@@ -99,39 +100,36 @@ module TaliaCore
     # saves the sources.
     def make_concordant(c_card)
       raise(ArgumentError, "Concordant element must be a card") unless(c_card.is_a?(ExpressionCard))
-      will_rdf_autosave = self.autosave_rdf? # Disable the autosaving for concordance, since this will not cause new rdf on this card
-      
+      autosave = c_card.autosave_rdf?
+      c_card.autosave_rdf = false # There won't be anything added to it
       if(concordance && c_card.concordance)
         # There are two concordances, merge them
         concordance.merge(c_card.concordance)
+        concordance.save!
       elsif(concordance)
-        concordance.add_card(c_card) # concordance is on this, add the other card
+        concordance.add_card_direct!(c_card)# concordance is on this, add the other card
       elsif(c_card.concordance)
-        c_card.concordance.add_card(self) # c. is on the other, add this
+        c_card.concordance.add_card_direct!(self) # c. is on the other, add this
       else
         # No concordance, create one. We'll try to make a unique URL for this,
         # using a hash of the current URL
         conc = Concordance.new(N::LOCAL + 'concordance_' + Digest::MD5.new.hexdigest(uri.to_s))
-        conc.add_card(self)
-        conc.add_card(c_card)
-        conc.save!
+        conc.add_card_direct!(self)
+        conc.add_card_direct!(c_card)
       end
-      
-      self.autosave_rdf = will_rdf_autosave
+      c_card.autosave_rdf = autosave
     end
     
     # This returns the manifestations of this card. You can give an optional
-    # type which must be a class or an URI.
+    # type which must be a class.
     def manifestations(type = nil)
-      raise(ArgumentError, "Manifestation type should be a Class or an URI") unless(type.is_a?(N::URI) or type.is_a?(Class) or type.nil?)
+      type ||= Source
+      raise(ArgumentError, "Manifestation type should be a class") unless(type.is_a?(Class))
+      #FIXME: the find method returns duplicated entries, at least when the expression card has clones...
+      #      type.find(:all, :find_through => [N::HYPER.manifestation_of, self])
       qry = Query.new(TaliaCore::Source).select(:m).distinct
       qry.where(:m, N::HYPER.manifestation_of, self)
-      case type
-      when Class
-        qry.where(:m, N::RDF.type, (N::TALIA + type.name.demodulize))
-      when N::URI
-        qry.where(:m, N::RDF.type, (type))
-      end
+      qry.where(:m, N::RDF.type, (N::TALIA + type.name.demodulize)) if(type != Source)
       qry.execute
     end
     
@@ -148,6 +146,7 @@ module TaliaCore
     # returns all the subpart of this expression card that have some manifestations 
     # of the given type related to them. Manifestation_type must be an URI
     def subparts_with_manifestations(manifestation_type, subpart_type = nil)
+      assit(false, 'Not Implemented')
     end
     
     # Add a keyword from a keyword string. If necessary the keyword object
@@ -167,12 +166,13 @@ module TaliaCore
       self[N::HYPER.keyword]
     end
     
-  
+
+    # Copies the "cloneable" properties of this source to the given target
+    # source. The options may specify a catalog to which the new source
+    # will be added.
     def clone_properties_to(clone, options={})
-      self.class.props_to_clone.each { |p| cp_property(p, self, clone) }
-      self.class.inverse_props_to_clone.each do |p|
-        self.inverse[p].each { |targ| targ[p] << clone }
-      end
+      cp_properties(clone)
+      cp_inverse_properties(clone)
       # Execute the callback methods.
       if(self.clone_callbacks)
         self.clone_callbacks.each { |cb| self.send(cb, clone, options) }
@@ -185,20 +185,48 @@ module TaliaCore
 
     # Copy a property from the original source to the target. This contains
     # some checks to make sure that no duplicate types are created on the target
-    def cp_property(property, original, target)
-      orig_prop = original[property]
-      return if(orig_prop.size == 0) # Nothing to copy: already done
-      
-      if(property != N::RDF.type)
-        target[property] << orig_prop
-      else
-        # Only types need special handling, since they are already created on
-        # new sources
-        the_types = target.types.collect { |t| ActiveSource.new(t) }
-        t_prop = target[property]
-        orig_prop.each do |type|
-          t_prop << type unless(the_types.include?(type))
+    def cp_properties(target)
+      rels = self.semantic_relations.find(:all, :select => '*',
+        :joins => self.class.props_join,
+        :conditions => { :predicate_uri => self.class.props_to_clone })
+
+      types_tmp = nil
+
+      rels.each do |rel|
+        if(rel.predicate_uri == N::RDF.type.to_s)
+          types_tmp ||= target[N::RDF.type]
+          cp_relation(rel, target) unless(types_tmp.detect{ |t| t.uri == rel.object.uri })
+        else
+          cp_relation(rel, target)
         end
+      end
+    end
+
+    # Copies the inverse properties
+    def cp_inverse_properties(target)
+      rels = SemanticRelation.find(:all,
+        :conditions => {
+          :object_type => 'TaliaCore::ActiveSource',
+          :object_id => self.id,
+          :predicate_uri => self.class.inverse_props_to_clone
+        })
+      rels.each do |rel|
+        subject = rel.subject
+        subject[rel.predicate_uri] << target
+        subject.save!
+      end
+    end
+
+    # Copies the values of the given
+    def cp_relation(rel, target)
+      if(rel.object_type == 'TaliaCore::SemanticProperty')
+        target[rel.predicate_uri] << rel.value
+      else
+        rel = SemanticRelation.new(:predicate_uri => rel.predicate_uri,
+          :object_type => rel.object_type, :object_id => rel.object_id,
+          :subject_id => target.id)
+        rel_item = SemanticCollectionItem.new(rel, :plain)
+        target[rel.predicate_uri].send(:insert_item, rel_item)
       end
     end
     
@@ -214,11 +242,11 @@ module TaliaCore
       self.catalog = Catalog.default_catalog unless(self.catalog)
     end
     
-    # Update the concordance's rdf after save
-    def update_concordance_rdf
-      self.concordance.create_rdf if(self.concordance)
+    def clear_concordance
+      @concordance = nil
     end
-    
+
+
     # Helper to to register the properties that should be cloned
     def self.clone_properties(*props)
       props.each { |p| props_to_clone << p }

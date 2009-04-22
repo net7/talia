@@ -55,6 +55,8 @@ module TaliaCore
       book = make_book('test_tagged_sources_with_class')
       card.hyper::keyword << kw
       book.hyper::keyword << kw
+      card.save!
+      book.save!
       assert_equal([book], kw.tagged_sources(TaliaCore::Book))
       assert_equal(2, kw.tagged_sources.size)
     end

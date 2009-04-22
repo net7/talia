@@ -37,12 +37,12 @@ dup_rel2:
 
 dup_del_a:
     subject: dup_for_delete
-    object: testvalue (TaliaCore::SemanticProperty)
+    object: testy (TaliaCore::ActiveSource)
     predicate_uri: http://testvalue.org/dup_rel
 
 dup_del_b:
     subject: dup_for_delete
-    object: testvalue (TaliaCore::SemanticProperty)
+    object: testy (TaliaCore::ActiveSource)
     predicate_uri: http://testvalue.org/dup_rel
 
 delete_a:

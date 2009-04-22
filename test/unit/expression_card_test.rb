@@ -67,10 +67,14 @@ module TaliaCore
       src_rel.rdf::clone_me_inverted << src
       src.rdf::no_clone << 'none'
       src.save!
+      src_rel.reset!
+      
       clone = src.clone('http://expression_card_test/test_clone/the_clone')
       clone.save!
       assert_property(clone.rdf::clone_me, 'foo', 'bar')
+      assert_equal(clone.my_rdf[N::RDF.clone_me], ['foo', 'bar'])
       assert_property(clone.rdf::clone_me_too, src_rel)
+
       assert_property(src_rel.rdf::clone_me_inverted, src, clone)
       assert_property(clone.rdf::no_clone)
     end
@@ -132,7 +136,7 @@ module TaliaCore
       card.keywords << keywords
       card.save!
       card_n = TaliaCore::ExpressionCard.find(card.id)
-      assert_equal(card_n.keywords, keywords)
+      assert_equal(card_n.keywords.values, keywords)
       assert_equal(card_n.keywords_as_strings, keyw_strs)
     end
     

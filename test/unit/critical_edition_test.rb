@@ -21,6 +21,7 @@ module TaliaCore
           clone_book = edition.add_from_concordant(book, true)
           clone_book[N::HYPER.position] << n.to_s
           clone_book.save!
+          clone_book
         end
         edition.save!
         edition

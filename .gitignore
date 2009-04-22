@@ -1,10 +1,14 @@
 app/views/custom/_start_page.html.erb
 config/*auto.yml
 config/rdfstore.yml
+vendor/plugins/talia_core/config/rdfstore.yml
 config/talia_core.yml
+vendor/plugins/talia_core/config/talia_core.yml
 config/database.yml
 config/rails_secret
 config/*.*ruby
+vendor/plugins/talia_core/config/database.yml
+rails_secret
 nbproject
 tmp
 sesame*db
@@ -13,4 +17,6 @@ log/*
 /iip_root/
 /data/
 delayed_copy*
+*~
 *.db
+.rake_tasks
