@@ -59,7 +59,7 @@ class FacsimileEditionsController < SimpleEditionController
         pdf_tool(@book)
         @page_title_suff = ", #{params[:book]}"
       end
-      format.pdf do
+      format.jpeg do
 #        book_uri = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:book]
 #TODO it should return the whole book in PDF format (?)
        end
