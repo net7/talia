@@ -747,3 +747,99 @@ div.iipfview , div.iipfview_left, div.iipfview_right{
 .italic {
   font-style: italic;
 }
+
+
+
+/* ******************************************************************* */
+/* FOOTER */
+/* ******************************************************************* */
+#footer{
+	width: 100%;
+	margin: 0;
+	background-color: #cfccc7;
+    border-top: 1px solid #ada9a6;
+    padding: 10px 0 10px 0;
+    text-align: left;
+    overflow: hidden;
+    font-size: 12px;
+}
+#footer a{
+	text-decoration: none;
+    color: #71645c;
+}
+#footer a:hover{
+	text-decoration: underline;
+}
+#footer #footer_first_line {
+    padding:0 20px;
+    display: block;
+    clear: both;
+    float: none;
+    margin-bottom: 10px;
+    height: 25px;
+    overflow: hidden;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ada9a6;
+}
+    #footer #footer_first_line span.left{
+        display: block;
+        height: 25px;
+        line-height: 25px;
+        text-align: left;
+        float: left;
+    }
+    #footer #footer_first_line span.right{
+        display: block;
+        text-align: right;
+        float: right;
+        text-indent: -9999px;
+    }
+        #footer #footer_first_line span.right a#footer_europe{
+            margin: 0; padding: 0;
+            width: 36px;
+            display: block;
+            height: 25px;
+            background: #cfccc7 url(/images/start_page/footer_europe.gif) bottom left no-repeat;
+            text-indent: -9999px;
+            border: 0;
+            text-decoration: none;
+            overflow: hidden;
+        }
+
+#footer #footer_second_line {
+    padding:0 20px;
+    display: block;
+    clear: both;
+    float: none;
+    height: 25px;
+    overflow: hidden;
+    margin-bottom: 00px;
+}
+    #footer #footer_second_line span.left{
+        display: block;
+        text-align: left;
+        float: left;
+        height: 25px;
+        line-height: 25px;
+    }
+    #footer #footer_second_line span.right{
+        display: block;
+        text-align: right;
+        float: right;
+        height: 25px;
+        padding: 0;
+        margin: 6px 0;
+        display: block;
+    }
+        #footer #footer_second_line span.right a#footer_talia{
+            width: 114px;
+            height: 25px;
+            display: block;
+            background: #cfccc7 url(/images/start_page/footer_talia_logo.gif) top left no-repeat;
+            text-indent: -9999px;
+            border: 0;
+            text-decoration: none;
+        }
+
+
+
