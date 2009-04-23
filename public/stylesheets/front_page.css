@@ -3,6 +3,7 @@
 /* ******************************************** */
 div#frontpage_container {
     padding: 20px;
+    background-color: #f3f3f3;
 }
 
 div.frontpage {
@@ -40,7 +41,7 @@ div.frontpage p.logo{
     display: block;
     width: 198px;
     height: 52px;
-    background: url(/images/front_page_logo.gif) center center no-repeat;
+    background: url(/images/frontpage/front_page_logo.gif) center center no-repeat;
     text-indent: -9999px;
     margin: 0 auto;
     padding: 0;
