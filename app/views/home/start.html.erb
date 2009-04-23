@@ -60,12 +60,28 @@
           
         </div>
         
-        <div id="piede">
-          <p>
-            <%= titled_link(@footer_link[1], @footer_link[0]) %>
-            &#9679;
-            <%= google_privacy_note %>
-          </p>
+        <div id="footer">
+          <div id="footer_first_line">
+            <span class="left">
+            Istituzioni: <a href="http://www.cnrs.fr/">CNRS</a> | <a href="http://www.ens.fr/">ENS</a> |
+            <a href="http://www.item.ens.fr/">ITEM</a> | <a href="http://www.mfo.ac.uk/">MFO</a> |
+            <a href="http://www.humboldt-foundation.de/">Humboldt</a> | <a href="http://www.dfg.de/">DFG</a> |
+            <a href="http://www.klassik-stiftung.de/">KSW</a>
+            </span>
+            <span class="right">
+              Sponsor: <a href="http://www.mfo.ac.uk/">MFO</a> |
+            <a href="http://www.humboldt-foundation.de/">Humboldt</a> | <a href="http://www.dfg.de/">DFG</a> |
+            <a href="http://www.klassik-stiftung.de/">KSW</a>
+            </span>
+          </div>
+          <div id="footer_second_line">
+            <span class="left">
+              Responsabile: <a href="http://www.google.com">Paolo D'Iorio</a> | <a href="http://www.google.com">Disclaimer</a> | <a href="http://www.google.com">Rights</a>
+            </span>
+            <span class="right">
+              Powered by Talia | <%= titled_link(@footer_link[1], @footer_link[0]) %> | <%= google_privacy_note %>
+            </span>
+          </div>
         </div>
       </div>
     </div>

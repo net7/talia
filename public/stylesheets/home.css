@@ -262,33 +262,54 @@ blockquote {
 	}
 
 /* ***************** ************** ************** */
-/* ***************** Piede ************** */
+/* ***************** Piede | Footer ************** */
 /* ***************** ************** ************** */
-#piede{
+#footer{
 	display: block;
-	width: 780px;
+	width: 750px;
 	margin: 0 13px 0 11px;
-	height: 45px;
-	background: #000000 url(/images/start_page/footer_bg.jpg) top left no-repeat;
+	background: #cfccc7 url(/images/start_page/footer_bg.jpg) bottom left no-repeat;
 	text-align: center;
+    border-top: 1px solid #ada9a6;
+    padding: 15px 15px 30px 15px;
+    text-align: left;
+    overflow: hidden;
 }
-#piede p{
-	padding: 13px 0 0 0;
-	font-size: 10px;
-	color: #534741;
-	letter-spacing: 1.05px;
-}
-#piede p span{
-	font-weight: bold;
-}
-#piede p a{
+#footer a{
 	text-decoration: none;
-        color: #71645c;
+    color: #71645c;
 }
-#piede p a:hover{
+#footer a:hover{
 	text-decoration: underline;
 }
 
+#footer #footer_first_line {
+    clear: both;
+    float: none;
+    margin-bottom: 20px;
+}
+    #footer #footer_first_line span.left{
+        text-align: left;
+        float: left;
+    }
+    #footer #footer_first_line span.right{
+        text-align: right;
+        float: right;
+    }
+
+#footer #footer_second_line {
+    clear: both;
+    float: none;
+    margin-bottom: 20px;
+}
+    #footer #footer_second_line span.left{
+        text-align: left;
+        float: left;
+    }
+    #footer #footer_second_line span.right{
+        text-align: right;
+        float: right;
+    }
 
 
 
