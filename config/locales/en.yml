@@ -41,10 +41,10 @@ en:
       result_phrase_1: occurrences of the words in the
       result_phrase_2: in the
       result_phrase_3: occurrences found
-        optional:
-          in_the_work: in the work
-          in_aphorisms: in aphorisms
-          through: through
+      optional:
+        in_the_work: in the work
+        in_aphorisms: in aphorisms
+        through: through
       search_phrase_prompt: Search phrase
       select_all: Select all
       through: through
