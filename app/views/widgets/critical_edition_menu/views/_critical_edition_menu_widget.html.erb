@@ -1,4 +1,4 @@
-<h1><%= titled_link(locale_uri("/documentation/LANG/#{@edition.uri.local_name}"), t(:"talia.global.list of works")) %> </h1>
+<h1><%= titled_link(locale_uri("/documentation/LANG/#{@edition.uri.local_name}.html"), t(:"talia.global.list of works")) %> </h1>
 <% if w.advanced_search %>
   <form name="advanced_search_menu_form" action="<%= url_for(:action => 'advanced_search') %>" method="post" >
     <%= w.hidden_field_tag('search_type', params[:search_type]) %>
