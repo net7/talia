@@ -199,5 +199,10 @@ module ApplicationHelper
     title
   end
 
+  # Create a locale-sensitve URL by replacing "LANG" in the current string with
+  # the current language code
+  def locale_uri(string)
+    string.gsub(/LANG/, Locale.language_code)
+  end
   
 end
