@@ -23,9 +23,22 @@ module TaliaUtil
       end
       setup_once(:src) do 
         src = TaliaCore::Source.new("http://active_source_adapter_wrapper_test/test_source")
-        src.dcns::title << 'title'
-        src.dcns::format << 'format'
-        src.dct::abstract << 'abstract'
+
+        # Dublin Core
+        src.dcns::title     << 'title'
+        src.dcns::format    << 'format'
+        src.dct::abstract   << 'abstract'
+
+        # Europeana
+#        src.ese::userTag    << 'userTag'
+#        src.ese::unstored   << 'unstored'
+#        src.ese::object     << 'ese::object'
+#        src.ese::provider   << 'provider'
+#        src.ese::uri        << 'uri'
+#        src.ese::year       << 'year'
+#        src.ese::hasObject  << 'hasObject'
+#        src.ese::country    << 'country'
+
         src.save!
         src
       end
@@ -35,9 +48,20 @@ module TaliaUtil
     end
     
     def test_fields
+      # Dublin Core fields
       assert_equal(@adapter.title, ['title'] )
       assert_equal(@adapter.format, ['format'])
       assert_equal(@adapter.abstract, ['abstract'])
+
+      # Europeana fields
+#      assert_equal(@adapter.userTag, ['userTag'] )
+#      assert_equal(@adapter.unstored, ['unstored'] )
+#      assert_equal(@adapter.object, ['ese::object'] )
+#      assert_equal(@adapter.provider, ['provider'] )
+#      assert_equal(@adapter.uri, ['uri'] )
+#      assert_equal(@adapter.year, ['year'] )
+#      assert_equal(@adapter.hasObject, ['hasObject'] )
+#      assert_equal(@adapter.country, ['country'] )
     end
     
     def test_get_wrapper_for_specific
