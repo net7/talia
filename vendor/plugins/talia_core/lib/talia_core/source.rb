@@ -155,7 +155,7 @@ module TaliaCore
     end
 
     # Check if a predicate is changed.
-    def changed?(namespace, name, objects)
+    def predicate_changed?(namespace, name, objects)
       not predicate_objects(namespace, name).eql?(objects.map(&:to_s))
     end
 
@@ -183,7 +183,7 @@ module TaliaCore
     def save_predicates_attributes
       each_predicate do |namespace, name, objects|
         objects.each { |object| object.save if object.is_a?(Source) && object.new_record? }
-        self.predicate_replace(namespace, name, objects.to_s) if changed?(namespace, name, objects)
+        self.predicate_replace(namespace, name, objects.to_s) if predicate_changed?(namespace, name, objects)
       end
     end
 
