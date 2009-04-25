@@ -30,7 +30,7 @@ Rails::Initializer.run do |config|
   # :all can be used as a placeholder for all plugins not explicitly named
 
   # We push will_paginate to the beginning, it may be used by other plugins
-  config.plugins = [ :globalize, :will_paginate, :all ]
+  config.plugins = [ :globalize2, :will_paginate, :all ]
 
   # Skip frameworks you're not going to use. To use Rails without a database,
   # you must remove the Active Record framework.
