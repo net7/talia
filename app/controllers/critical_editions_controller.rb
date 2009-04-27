@@ -98,6 +98,7 @@ class CriticalEditionsController < SimpleEditionController
     set_print_stylesheet ['critical_printreal']
 
     @path = []
+    @edition_nick = params[:id]
 
     @result = []
 
