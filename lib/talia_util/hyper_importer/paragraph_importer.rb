@@ -60,7 +60,7 @@ module TaliaUtil
       
       # Creates a clone of the imported paragraph and add it to the catalog specified in the xml (if any)
       def clone_to_catalog
-        catalog = get_catalog
+        catalog = get_catalog()
         if(catalog)
           #          clone_uri = catalog.uri.to_s + '/' + @source.uri.local_name.to_s
           clone_uri = catalog.concordant_uri_for(@source)

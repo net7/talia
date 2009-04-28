@@ -20,7 +20,23 @@ module ApplicationHelper
       }
     end
   end
-  
+
+  # list of institutions to be shown in the footer
+  def institutions
+    institutions = TaliaCore::CONFIG['institutions']
+  end
+
+  # overseer link in the footer
+  def overseers_footer_link
+    overseers = TaliaCore::CONFIG['overseers']
+    @overseer = []
+    overseers.each do |link, title|
+      @overseer << titled_link(title, link)
+    end
+    @overseer
+  end
+
+
   # The (translated) material description for the element
   def material_description(element)
     t(:"talia.material_descriptions.#{element.uri.local_name.underscore}")
