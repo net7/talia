@@ -1,0 +1,23 @@
+<!-- Footer -->
+<div id="footer">
+  <div id="footer_first_line">
+    <span class="left">
+      <a id="footer_talia" href="http://www.talia.discovery-project.eu/"></a>
+    </span>
+    <%= t(:'talia.footer.institutions') %>:
+    <% institutions.each do |title, link| %>
+      <%= titled_link(link, title) %>
+      |
+    <% end %>
+    <%= t(:'talia.footer.overseer') %>:
+    <% overseers_footer_link.each do |ov| %>
+      <%= ov %> |
+    <% end %>
+    <a href="<%= locale_uri("documentation/LANG/rights.html")%>"> <%= t(:'talia.footer.rights') %> </a>
+
+    <span class="right">
+      <a id="footer_europe" href="<%= locale_uri("documentation/LANG/institutions.html") %>"></a>
+    </span>
+  </div>
+</div>
+<!-- Footer -->
