@@ -54,7 +54,7 @@ class FacsimileEditionsController < SimpleEditionController
         @path = [
           {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"},
           {:text => t_type, :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@type}"},
-          {:text => params[:book] + " (#{t(:'talia.facsimile_edition.panorama')})"}
+          {:text => params[:book] }
         ]
         pdf_tool(@book)
         @page_title_suff = ", #{params[:book]}"
@@ -157,7 +157,7 @@ class FacsimileEditionsController < SimpleEditionController
     path =[
       {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"},
       {:text => t_type, :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@type}"},
-      {:text => @book.name + " (#{t(:'talia.facsimile_edition.panorama')})", :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@book.uri.local_name}"}
+      {:text => (@book.siglum || @book.uri.local_name), :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@book.uri.local_name}"}
     ]
     text = params[:page]
     if (params[:page2])
