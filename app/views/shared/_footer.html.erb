@@ -2,21 +2,22 @@
 <div id="footer">
   <div id="footer_first_line">
     <span class="left">
-      <a id="footer_talia" href="http://www.talia.discovery-project.eu/"></a>
+      <a id="footer_talia" href="http://www.talia.discovery-project.eu/" target="_blank"></a>
     </span>
     <%= t(:'talia.footer.institutions') %>:
     <% institutions.each do |title, link| %>
-      <%= titled_link(link, title) %>
+      <a href="<%= link %>" target="_blank"><%= title %></a>
       |
     <% end %>
     <%= t(:'talia.footer.overseer') %>:
-    <% overseers_footer_link.each do |ov| %>
-      <%= ov %> |
+    <% overseers_footer_link.each do |overseer| %>
+      <a href="<%= overseer['link'] %>" target="_blank"><%= overseer['title'] %></a>
+      |
     <% end %>
     <a href="<%= locale_uri("documentation/LANG/rights.html")%>"> <%= t(:'talia.footer.rights') %> </a>
 
     <span class="right">
-      <a id="footer_europe" href="<%= locale_uri("documentation/LANG/institutions.html") %>"></a>
+      <a id="footer_europe" href="<%= locale_uri("documentation/LANG/institutions.html") %>" target="_blank"></a>
     </span>
   </div>
 </div>

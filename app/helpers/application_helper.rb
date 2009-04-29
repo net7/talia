@@ -26,12 +26,12 @@ module ApplicationHelper
     institutions = TaliaCore::CONFIG['institutions'] || []
   end
 
-  # overseer link in the footer
+  # overseer(s) link in the footer
   def overseers_footer_link
     overseers = TaliaCore::CONFIG['overseers'] || []
     @overseer = []
-    overseers.each do |link, title|
-      @overseer << titled_link(title, link)
+    overseers.each do |title, link|
+      @overseer << {'title' => title, 'link' => link}
     end
     @overseer
   end
