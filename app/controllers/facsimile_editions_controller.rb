@@ -97,7 +97,7 @@ class FacsimileEditionsController < SimpleEditionController
         @path = page_path
         @page_title_suff = ", #{params[:page]}"
         @page_title_suff += "- #{params[:page2]}" if(params[:page2])
-        fullscreen_tool unless(@double_page || @page_facsimile.blank) # Enable the fullscreen button
+        # fullscreen_tool unless(@double_page || @page_facsimile.blank) # Enable the fullscreen button
       end
       format.jpeg do
          page_uri = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]
