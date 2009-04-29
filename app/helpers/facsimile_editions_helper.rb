@@ -8,6 +8,13 @@ module FacsimileEditionsHelper
     @edition.book_subtypes(N::HYPER + @type)
   end
 
+  # Creates a title for the page, using the current book
+  def page_title(page)
+    page_str = t(:"talia.global.page")
+    pos_str = page.position_name || page.uri.local_name
+    "#{@book.name},  #{page_str} #{pos_str}."
+  end
+
   # creates the elements to be shown in the tabs, depending on the action we're in
   def book_tabs
     subtypes = @edition.book_subtypes(N::HYPER + params[:type])
