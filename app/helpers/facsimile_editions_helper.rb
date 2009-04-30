@@ -9,7 +9,7 @@ module FacsimileEditionsHelper
   end
 
   # Creates a title for the page, using the current book
-  def page_title(page)
+  def part_title(page)
     page_str = t(:"talia.global.page")
     pos_str = page.position_name || page.uri.local_name
     "#{@book.name},  #{page_str} #{pos_str}."
@@ -93,8 +93,8 @@ module FacsimileEditionsHelper
   end
 
   # To indicate if the current page is a double page
-  def double_page?
-    @double_page
+  def double_pages?
+    @double_pages
   end
   
 end

@@ -60,12 +60,35 @@ class FacsimileEditionsController < SimpleEditionController
         @page_title_suff = ", #{params[:book]}"
       end
       format.jpeg do
-#        book_uri = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:book]
-#TODO it should return the whole book in PDF format (?)
-       end
+        #        book_uri = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:book]
+        #TODO it should return the whole book in PDF format (?)
+      end
     end
   end
-    
+
+
+  def double_pages
+    # if a 'pages' params with 'double' as a value and a 'page2' param with
+    # the siglum of a page have been passed, we need to show the large images of both pages
+    @double_pages = true
+    page = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]
+    page2 = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page2]
+    @page = TaliaCore::Page.find(page)
+    @page2 = TaliaCore::Page.find(page2)
+
+    @page_facsimile = facsimile_for(@page)
+    @page2_facsimile = facsimile_for(@page2)
+    qry = Query.new(TaliaCore::Book).select(:b).distinct
+    qry.where(@page, N::DCT.isPartOf, :b)
+    result=qry.execute
+    @book = result[0]
+    @type = @book.material_type.local_name
+    @path = page_path
+    @page_title_suff = ", #{params[:page]}"
+    @page_title_suff += "- #{params[:page2]}"
+    render :action=> 'page'
+  end
+
   # TODO DRYup w/ panorama
   # GET /facsimile_editions/1,1
   # 
@@ -74,20 +97,10 @@ class FacsimileEditionsController < SimpleEditionController
   def page
     respond_to do |format|
       format.html do
-        # if a 'pages' params with 'double' as a value and a 'page2' param with
-        # the siglum of a page have been passed, we need to show the large images of both pages 
-        if (@double_page = (params[:pages] == 'double'))
-          page = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]
-          page2 = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page2]  
-          @page = TaliaCore::Page.find(page)
-          @page2 = TaliaCore::Page.find(page2)
-        else
-          @page = TaliaCore::Page.find(URI::decode(request.url))
-          download_tool(@page)
-        end
+        @page = TaliaCore::Page.find(URI::decode(request.url))
+        download_tool(@page)
         # Cache the facsimile
         @page_facsimile = facsimile_for(@page)
-        @page2_facsimile = facsimile_for(@page2) if(@page2)
 
         qry = Query.new(TaliaCore::Book).select(:b).distinct
         qry.where(@page, N::DCT.isPartOf, :b)
@@ -96,19 +109,17 @@ class FacsimileEditionsController < SimpleEditionController
         @type = @book.material_type.local_name
         @path = page_path
         @page_title_suff = ", #{params[:page]}"
-        @page_title_suff += "- #{params[:page2]}" if(params[:page2])
-        # fullscreen_tool unless(@double_page || @page_facsimile.blank) # Enable the fullscreen button
       end
       format.jpeg do
-         page_uri = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]
-         page = TaliaCore::Page.find("#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page])
-         facsimile = page.manifestations(TaliaCore::Facsimile)[0]
-         send_file facsimile.original_image.file_path, :type => 'image/jpeg', :filename => page.uri.local_name.to_s + '.jpeg', :disposition => 'attachment'
+        page_uri = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]
+        page = TaliaCore::Page.find("#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page])
+        facsimile = page.manifestations(TaliaCore::Facsimile)[0]
+        send_file facsimile.original_image.file_path, :type => 'image/jpeg', :filename => page.uri.local_name.to_s + '.jpeg', :disposition => 'attachment'
       end
     end
   end
   
-  def search 
+  def search
     searched_book = sanitize(params[:book]) unless params[:book].empty?
     searched_page = sanitize(params[:page]) unless params[:page].empty?
     search_result = @edition.search(searched_book, searched_page)
@@ -140,7 +151,7 @@ class FacsimileEditionsController < SimpleEditionController
   # Activates original image download button
   def download_tool(element)
     return unless(element)
-      @tools << { :id => 'download', :text => 'download', :link => element.to_s + '.jpeg' }
+    @tools << { :id => 'download', :text => 'download', :link => element.to_s + '.jpeg' }
   end
 
   # Activates pdf download button

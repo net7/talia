@@ -106,6 +106,12 @@ ActionController::Routing::Routes.draw do |map|
     :action => 'books',
     :requirements => {:type => /Work|Manuscript|Iconography|Library|Correspondence|Picture/},
     :subtype => nil
+
+  map.connect "facsimiles/:id/:page/:page2",
+    :controller => 'facsimile_editions',
+    :action => 'double_pages',
+    :requirements => {:page => /.*,[^\.]*/, :page2 => /.*,[^\.]*/}
+#  :defaults => {:format => 'html'}
   
   map.connect "facsimiles/:id/:page:dot:format",
     :controller => 'facsimile_editions',
@@ -119,7 +125,8 @@ ActionController::Routing::Routes.draw do |map|
     :action => 'panorama',
     :dot => /\.?/,
     :defaults => {:format => 'html'}
-  
+
+
   map.connect "categories/advanced_search",
     :controller => 'categories',
     :action => 'advanced_search'
