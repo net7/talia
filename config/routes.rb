@@ -81,6 +81,10 @@ ActionController::Routing::Routes.draw do |map|
     :controller => 'critical_editions',
     :action => 'advanced_search'
   
+  map.connect "texts/:id/advanced_search_popup",
+    :controller => 'critical_editions',
+    :action => 'advanced_search_popup'
+
   map.connect "texts/:id/advanced_search_print",
     :controller => 'critical_editions',
     :action => 'advanced_search_print'

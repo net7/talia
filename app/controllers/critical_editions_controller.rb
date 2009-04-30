@@ -90,6 +90,13 @@ class CriticalEditionsController < SimpleEditionController
       end
     end
   end
+
+  def advanced_search_popup
+
+    # remove layour
+    render :layout => false
+
+  end
   
   def advanced_search_print
     # set custom stylesheet for screen and print media
