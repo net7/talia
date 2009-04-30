@@ -5,20 +5,23 @@
 </div>
 <!--[if !IE]>menulocation<![endif]-->
 <!--[if !IE]>description<![endif]-->
-<div id="content">
+<div id="content" class="divided">
 
 
   <div id="scroll">
+    <h1 class="scroll_title">
+      <%= titled_link(locale_uri("/documentation/LANG/#{@edition.uri.local_name}.html"), t(:"talia.global.editor's introduction")) %>
+    </h1>
     <ul id="facsimile_frontpage_access_list">
       <% facsimile_edition_types.each do |type| %>
         <li id="<%= type.local_name %>">
-          <h1>
+          <h3>
             <% title = t(:"talia.types.#{type.local_name.underscore}") %>
             <%= titled_link("#{params[:id]}/#{type.local_name}",
               image_tag("facsimile_edition/ico_#{type.local_name}.jpg",
                 :alt => "link to #{title} section",
-                :width => '78', :height => '70', :border => '0') + title, title) %>
-          </h1>
+                :border => '0') + title, title) %>
+          </h3>
         </li>
       <% end %>
     </ul>

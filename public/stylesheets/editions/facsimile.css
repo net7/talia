@@ -22,32 +22,52 @@ ul#facsimile_frontpage_access_list {
     margin: 15px 4%;
     padding: 0;
     list-style: none;
-    text-align: left;
-    background-color: red;
+    text-align: center;
 }
 ul#facsimile_frontpage_access_list li {
     padding: 2% 0 5% 0;
-    float: left;
     clear: both;
-    display: inline;
     background: url(/images/dot_orizz.gif) repeat-x bottom;
     /* Box Model Hack */
     width: 100%;
     voice-family: "\"}\"";
     voice-family:inherit;
     width:96%;
+    text-align: center;
 }
-ul#facsimile_frontpage_access_list li h1 {
+ul#facsimile_frontpage_access_list li h3 {
     color: #6a615d;
+    text-align: center;
+    display: block;
     font-size: 1.6em;
     margin-bottom: 5px;
 }
-ul#facsimile_frontpage_access_list li h1 a {
+ul#facsimile_frontpage_access_list li h3 a {
     color: #6a615d;
+    text-align: center;
+    display: block;
 }
-ul#facsimile_frontpage_access_list li h1 img {
-    float: left;
-    margin-right: 8px;
-    display: inline;
-    border: 1px solid #e0e0e0;
+ul#facsimile_frontpage_access_list li h3 a img {
+    display: block;
+    margin-left: 43px;
+    text-align: center;
 }
+
+
+/*  ******************************************/
+/* SCROLL MENU *************************** */
+/* MENU LIST IN THE SIDE SCROLL */
+/*  ******************************************/
+#scroll{
+    padding: 0 !important;
+}
+    #scroll h1 {
+        font-family: georgia, serif;
+        font-weight: normal;
+        font-size: 1.8em;
+        background: #fff;
+        padding: 14px 12px 14px 12px ;
+        border-bottom: 1px solid #e0e0e0;
+        display: block;
+        text-align: center;
+    }

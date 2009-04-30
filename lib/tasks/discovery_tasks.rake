@@ -265,7 +265,9 @@ namespace :discovery do
       end
     end
   end
-  
+
+  # When using the following task for recreating a Critical edition text, you must
+  # use the "full" catalog, that is, including the "texts/" part. e.g. : catalog=texts/Bruno
   desc "recreate the book_html of all book in one catalog. Options catalog=<catalog> [version=<version>]"
   task :recreate_books_html => :disco_init do
     TaliaCore::Book

@@ -3,12 +3,26 @@
 <head>
   <title><%= @book.title %></title>
   <%= stylesheet_link_tag("editions/critical") %>
+  <%= stylesheet_link_tag("editions/critical_print") %>
+  <link href="/stylesheets/editions/critical_print.css" media="print" rel="stylesheet" type="text/css" />
+
   <% @custom_stylesheet.each do |style| %>
     <%= stylesheet_link_tag(style) %>
   <% end %>
 </head>
 <html>
   <body>
+
+    <div id="critical_print_header">
+      <div id="logo_print">
+        <img src="/images/editions/<%= "#{@edition_nick}" %>_logo_print.png" alt="" />
+      </div>
+      <div id="header_text">
+        <h3>Simple Mode</h3>
+        <h4>Colli montonari ed.</h4>
+      </div>
+    </div>
+
     <%= render(:partial => "html_data_pane") %>
   </body>
 </html>

@@ -1,4 +1,4 @@
-<%= render(:partial => 'fullscreen_script') %>
+<%= render(:partial => 'page_script') %>
 
 <div id="description">
 </div>
@@ -13,21 +13,21 @@
 
     <%= facsimile_edition_previous_page %>
 
-    <% if double_page? %>
-      <!-- Vista Facing Pages -->
+    <% if double_pages? %>
+      <!-- Facing Pages -->
       <div class="image_half">
-        <p class="sigla"><%= @page.uri.local_name %></p>
+        <p class="sigla"><%= part_title(@page) %></p>
         <%= iip_flash_viewer(@page_facsimile, "100%", "100%", "iipfview_left") %>
       </div>
 
       <div class="image_half">
-        <p class="sigla"><%= @page2.uri.local_name %></p>
-        <%= iip_flash_viewer(@page_facsimile2, "100%", "100%", "iipfview_right") %>
+        <p class="sigla"><%= part_title(@page2) %></p>
+        <%= iip_flash_viewer(@page2_facsimile, "100%", "100%", "iipfview_right") %>
       </div>
     <% else %>
-      <!-- Vista pagina singola -->
+      <!-- Single Page -->
       <div class="image_big">
-        <p class="sigla"><%= @page.uri.local_name %></p>
+        <p class="sigla"><%= part_title(@page) %></p>
         <%= iip_flash_viewer(@page_facsimile, "100%", "100%", "iipfview") %>
 
       </div>

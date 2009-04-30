@@ -20,7 +20,23 @@ module ApplicationHelper
       }
     end
   end
-  
+
+  # list of institutions to be shown in the footer
+  def institutions
+    institutions = TaliaCore::CONFIG['institutions'] || []
+  end
+
+  # overseer(s) link in the footer
+  def overseers_footer_link
+    overseers = TaliaCore::CONFIG['overseers'] || []
+    @overseer = []
+    overseers.each do |title, link|
+      @overseer << {'title' => title, 'link' => link}
+    end
+    @overseer
+  end
+
+
   # The (translated) material description for the element
   def material_description(element)
     t(:"talia.material_descriptions.#{element.uri.local_name.underscore}")
@@ -138,7 +154,7 @@ module ApplicationHelper
     return titled_link(url, empty_thumb(:alt => title), title) unless(iip_data)
 
     img_options = { :alt => title }.merge(img_options)
-    img_tag = talia_image_tag(iip_data, img_options)
+    img_tag = image_tag('/images/empty_thumb.gif', img_options)
     
 
     titled_link(url, img_tag, title)

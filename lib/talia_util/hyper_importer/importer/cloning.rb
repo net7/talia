@@ -29,7 +29,7 @@ module TaliaUtil
       end
 
       # Get the catalog for the currently imported source.
-      def get_catalog
+      def get_catalog()
         return @catalog if(defined?(@catalog))
 
         @catalog = nil

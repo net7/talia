@@ -9,11 +9,12 @@
 </div>
 <!--[if !IE]>description<![endif]-->
 <div id="content">
-  <ul id="access_list" class="minilist">
+  <ul id="access_list" class="minilist facsimile_books">
     <% @books.each do |book| %>
       <li>
         <h1>
-          <%= thumb_link(book, :border => '0', :height => '60', :width => '40' ) %>
+          <%= thumb_link(book, :border => '0', :height => '90', :width => '60' ) %>
+           <%= book.siglum %>
         </h1>
         <p>
           <%= material_description(book) %>
