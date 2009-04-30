@@ -154,8 +154,7 @@ module ApplicationHelper
     return titled_link(url, empty_thumb(:alt => title), title) unless(iip_data)
 
     img_options = { :alt => title }.merge(img_options)
-    img_tag = image_tag('/images/empty_thumb.gif', img_options)
-    
+    img_tag = talia_image_tag(iip_data, img_options)
 
     titled_link(url, img_tag, title)
   end
