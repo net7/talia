@@ -7,7 +7,6 @@
     border: 0;
 }
 
-
 /* ******************************************************************* */
 /* TAG SETTINGS */
 /* ******************************************************************* */
@@ -55,7 +54,6 @@ a:active
 #page_ext {
     width: 100%;
 }
-
 
 .translate_element {
     background: transparent url(/images/icons/pen.png) center center no-repeat;
@@ -221,6 +219,7 @@ a:active
         width: 112px;
         position: absolute;
         top: 0; right: 0;
+        display: none;
     }
         #navigate #talia_link a {
             background: url(/images/poweredTalia.gif) center right no-repeat;
@@ -235,11 +234,10 @@ a:active
     /* Tools on the right */
     #navigate #tools {
         /* float: right; */
-        margin: 0px 10px;
+        margin: 0 0 0 10px;
         height: 2.6em;
-
         position: absolute;
-        top: 0; right: 122px;
+        top: 0; right: 0px;
     }
 
     /* EXPLORER FIX */
@@ -254,9 +252,9 @@ a:active
     #navigate #tools ul {
         float: right;
         list-style: none;
-        padding: 0 2px 0 0;
+        padding: 0;
         margin: 0;
-        background: transparent url(../images/tool_side_line.gif) top right no-repeat;
+        /* background: transparent url(../images/tool_side_line.gif) top right no-repeat; */
         height: 2.6em;
     }
     #navigate #tools ul li {
@@ -346,8 +344,9 @@ a:active
         #menulocation ul li.selected {
             background-color: #f2f1f1;	
         }
-        #menulocation ul li.selected  a{
-            color: #6a615d;
+        #menulocation ul li.selected a{
+            /* color: #6a615d; */
+            color: #9E0B0F;
         }
 
 /* ******************************************************************* */
@@ -383,21 +382,24 @@ a:active
     width: 205px;
     /* display: auto; */
     margin: 0;
-    padding: 0 5px;
+    /* padding: 0 5px; */
+    padding: 0 0 0 5px;
+
     background: #f4f4f4;
+    background: #FFF;
    /*  border: 1px solid #e0e0e0; */
     border-right: 1px solid #e0e0e0;
     overflow: auto;
     text-align: left;
     /* setting height here... but later is changed with js */
-    height: 550px;
+    /* height: 550px; */
     /* SOLUZIONE */
     position: relative;
     z-index: 100;
     /* SOLUZIONE */
 }
 #scroll div.simple_mode_panorama_widget {
-  padding: 5px 0 100px 0;
+  /* padding: 5px 0 100px 0; */
 }
 #scroll div.critical_edition_menu_widget {
   padding: 0 0 50px 0;
@@ -424,14 +426,15 @@ a:active
 #content.divided {
     float: right;
     /* Fix for duplicate text in explorer */
-    display: inline;
-    width: 100%;
     overflow: hidden;
     /* SOLUZIONE */
     z-index: -1;
     /* SOLUZIONE */
-    margin-left: -229px;
-  }
+    /* margin-left: -229px; */
+    margin-left: -212px;
+    margin-right: 0;
+    background-color: #f3f3f3;
+}
 
   div#visore {
     position: relative;
@@ -439,9 +442,10 @@ a:active
     /* text-align: center; */
     padding:0;
     /* margin: 0 0 0 229px; */
-    margin: 0 0 0 217px;
+    margin: 0 0 0 212px;
+    background-color: #f3f3f3;
 
-  }
+}
 
 /*  ******************************************/
 /*  LIST OF MAIN ELEMENTS IN THE PAGE */
@@ -454,8 +458,7 @@ ul#access_list {
     list-style: none;
     text-align: left;
 }
-  
-  ul#access_list li {
+    ul#access_list li {
         padding: 2% 0;
         float: left;
         clear: both;
@@ -545,8 +548,17 @@ ul#access_list {
             display: block;
             margin-bottom: 4px;
             padding-right: 0;
-            border:1px solid #808080;
+            /* border:1px solid #808080; */
         }
+
+/* Modifications for books list in facsimile edition */
+ul#access_list.facsimile_books{
+    margin: 5px 15px 15px 15px;
+}
+ul#access_list.facsimile_books li h1 {
+    text-align: center;
+}
+
 
 /* ********************************* */
 /* Blocks that conains the pages in the panorama view */
@@ -556,10 +568,12 @@ ul#access_list {
 /* Let''s assume images will be displayed at maximum size 80 x 120 pixels */
 
 #block_container {
-        margin: 15px 5%;
+        margin: 15px 1%;
+        /* margin: 15px; */
         float: left;
         display: inline;
-        width: 90%;
+        /* width: 90%; */
+        width: 98%;
         text-align: left;
     }
     #block_container div.block, #scroll div.view_block  {
@@ -570,13 +584,14 @@ ul#access_list {
         padding: 5px 0 2px 5px;
         border: 1px solid #e0e0e0;
         background-color: #f3f3f3;
+        margin:8px 0 2px 5px;
     }
     
     #block_container div.block {
       margin: 0 10px 10px 0;
     }
     #scroll div.view_block  {
-      margin: 0 10px 3px 0;
+      /* margin: 0 10px 3px 0; */
     }
     #view div.view_block p img {
         /* margin-bottom: 5px; */
@@ -627,8 +642,8 @@ ul#access_list {
         /* height: 140px; */
         float: left;
         text-align: center;
-        margin: 0 10px 10px 0;
         display: inline;
+        margin:0 0 2px 5px;
     }
     div#scroll div.simple_mode_panorama_widget div.facing_pages a{
         display: block;
@@ -761,6 +776,8 @@ div.iipfview , div.iipfview_left, div.iipfview_right{
 /* ******************************************************************* */
 #footer{
 	width: 100%;
+    float: none;
+    clear: both;
 	margin: 0;
 	background-color: #cfccc7;
     border-top: 1px solid #ada9a6;
@@ -776,6 +793,32 @@ div.iipfview , div.iipfview_left, div.iipfview_right{
 #footer a:hover{
 	text-decoration: underline;
 }
+
+#footer #footer_table {
+    border: 1px solid red;
+}
+
+#footer table td#footer_table_left{
+    width: 114px;
+}
+    #footer table td#footer_table_left a{
+        width: 114px;
+        height: 25px;
+        display: block;
+        background: #cfccc7 url(/images/start_page/footer_talia_logo.gif) top left no-repeat;
+        text-indent: -9999px;
+        border: 0;
+        text-decoration: none;
+    }
+#footer table td#footer_table_center{
+    
+}
+#footer table td#footer_table_right{
+}
+    #footer table td#footer_table_right a{
+    }
+
+/*
 #footer #footer_first_line {
     padding:0 20px;
     display: block;
@@ -847,5 +890,5 @@ div.iipfview , div.iipfview_left, div.iipfview_right{
             text-decoration: none;
         }
 
-
+*/
 

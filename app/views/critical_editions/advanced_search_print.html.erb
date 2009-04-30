@@ -1,10 +1,22 @@
 <% unless @result.nil? %>
+  <div id="critical_print_header">
+      <div id="logo_print">
+        <img src="/images/editions/<%= "#{@edition_nick}" %>_logo_print.png" alt="" />
+      </div>
+      <div id="header_text">
+        <h3>Simple Mode</h3>
+        <h4>Colli montonari ed.</h4>
+      </div>
+    </div>
+
   <div class="floatclear"></div>
   <div id="content" class="divided grey">
-    <div id="logo_print">
+  <!--
+  <div id="logo_print">
       <img src="/images/editions/<%= "#{@edition_nick}" %>_logo_print.png" alt="" />
     </div>
-    <div id="visore">
+  -->
+  <div id="visore">
       <h2><%= @result.size %>  <%= t(:'talia.search.result phrase 1') %> <span class="red">'<%= params[:words] %>'</span> <%= t(:'talia.search.result phrase 2') %> <%= params[:edition_title] %></h2>
 
 
