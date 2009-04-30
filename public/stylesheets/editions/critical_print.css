@@ -1,0 +1,29 @@
+div#critical_print_header {
+    border-bottom: 1px solid #000;
+    margin: 0 0 1em 0;
+    height: 108px;
+    position: relative;
+}
+div#critical_print_header #logo_print{
+    position: absolute;
+    top: 0;
+    left: 15px;
+}
+
+div#critical_print_header #header_text{
+    position: absolute;
+    top:48px;
+    left: 230px;
+}
+
+div#critical_print_header #header_text h3{
+    font-weight: normal;
+    margin: 0;
+    padding:0;
+}
+
+div#critical_print_header #header_text h4{
+    font-weight: normal;
+    margin: 0;
+    padding:0;
+}
