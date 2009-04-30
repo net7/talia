@@ -74,7 +74,7 @@ class CriticalEditionsController < SimpleEditionController
       @words = params[:words]
             
       # get chosen_book for menu
-      if params[:mc_single]
+      if ((params[:mc_single]) && (params[:mc_single] != ''))
         @source = TaliaCore::Source.find(params[:mc_single])
         case @source
         when TaliaCore::Book
@@ -89,6 +89,13 @@ class CriticalEditionsController < SimpleEditionController
         end
       end
     end
+  end
+
+  def advanced_search_popup
+
+    # remove layour
+    render :layout => false
+
   end
   
   def advanced_search_print

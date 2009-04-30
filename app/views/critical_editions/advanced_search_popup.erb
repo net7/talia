@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title><%= edition_page_title %></title>
+    <%= stylesheet_link_tag 'main' %>
+    <%= edition_style_link %>
+    <%= stylesheet_link_tag 'editions/critical_custom/critical_print.css', :media => "print" %>
+    <%= stylesheet_link_tag 'editions/critical_custom/critical_printreal.css', :media => "print" %>
+    <%= javascript_include_tag 'prototype' %>
+  </head>
+  <body>
+    <div id="navigate">
+      <div id="tools">
+        <ul>
+
+          <li id="print">
+            <span>
+              <a href="#" onclick="print();return false;"><%= t(:'talia.tools.talia.global.print') %></a>
+            </span>
+          </li>
+          <li id="close">
+            <span>
+              <a href="#" onclick="window.close();return false;"><%= t(:'talia.tools.talia.global.close') %></a>
+            </span>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+    <div id="content" class="divided grey">
+      <div id="visore" style="margin: 0px;">
+        <div id="popup_content">
+          <script type="text/javascript">
+            document.getElementById('popup_content').innerHTML = window.opener.document.getElementById('advanced_search_popup_value').value;
+          </script>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

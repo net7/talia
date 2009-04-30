@@ -410,6 +410,11 @@ a:active
     color: #555555;
 }
 
+#scroll h1.scroll_title_red a{
+    font-size: 15px;
+    color: red;
+}
+
 
 /*  ******************************************/
 /* CONTENT ***********************************/

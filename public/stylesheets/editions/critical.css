@@ -344,3 +344,7 @@ div#visore ul.results li p {
 div#visore ul.results li p span.match {
     color: red;
 }
+
+div#popup_content span.match {
+    color: red;
+}
