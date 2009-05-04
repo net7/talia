@@ -5,9 +5,9 @@
 /*  ******************************************/
 /* Advanced Search */
 /*  ******************************************/
-div#search_adv {
-    border-top: 1px solid #bababa;
-}
+    div#search_adv {
+        border-top: 1px solid #bababa;
+    }
     div#search_adv form {
     }
     div#search_adv form div.src_line {
@@ -85,9 +85,9 @@ div.adder a.minus {
 /* SCROLL MENU *************************** */
 /* MENU LIST IN THE SIDE SCROLL */
 /*  ******************************************/
-#scroll.menuList{
-    padding: 0px;
-}
+    #scroll.menuList{
+        padding: 0px;
+    }
     #scroll.menuList h1 {
         font-family: georgia, serif;
         font-weight: normal;
@@ -151,7 +151,7 @@ div.adder a.minus {
         color: #990000;
         color: #FFF;
     }
-     #scroll.menuList ul.secondlevel li.selected a  {
+    #scroll.menuList ul.secondlevel li.selected a  {
         color: #990000;
         color: #FFF;
     }
