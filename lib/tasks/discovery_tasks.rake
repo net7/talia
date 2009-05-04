@@ -357,6 +357,10 @@ namespace :discovery do
   desc "Deploy the application. Option: vhost_dir=<root dir of virtual host>"
   task :deploy_war do
     raise(ArgumentError, "Must give vhost_dir option") unless(ENV['vhost_dir'])
+    puts "Backing up locally customized css files"
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/TEI/p4/tei_style.css public/stylesheets/TEI/p4/tei_style.css")
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/WEB-INF/xslt/TEI/p4/html/tei.xsl xslt/TEI/p4/html/tei.xsl")
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/front_page.css public/stylesheets/front_page.css")
     system('rake assets:package')
     system('warble war:clean')
     system('warble')
