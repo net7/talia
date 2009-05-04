@@ -68,7 +68,7 @@ class CriticalEditionsController < SimpleEditionController
       end
 
       # get result for menu
-      @exist_result = adv_src.menu_for_search(edition_prefix, params[:id], params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to])
+      @exist_result = adv_src.menu_for_search(params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to])
 
       # search word
       @words = params[:words]
