@@ -449,7 +449,6 @@ a:active
     /* margin: 0 0 0 229px; */
     margin: 0 0 0 212px;
     background-color: #f3f3f3;
-
 }
 
 /*  ******************************************/
@@ -562,6 +561,12 @@ ul#access_list.facsimile_books{
 }
 ul#access_list.facsimile_books li h1 {
     text-align: center;
+    font-size:14px;
+    font-weight: bold;
+}
+ul#access_list.facsimile_books li p {
+    margin-top: 20px;
+    font-size: 15px;
 }
 
 
