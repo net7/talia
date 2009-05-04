@@ -3,21 +3,23 @@
   <table id="footer_table">
     <tr>
       <td align="center" id="footer_table_left">
-        <a id="footer_talia" href="http://www.talia.discovery-project.eu/" target="_blank">Cazzo</a>
+        <a id="footer_talia" href="documentation/LANG/institutions.html" target="_blank"></a>
       </td>
-      <td align="center" id="footer_table_center"><%= t(:'talia.footer.institutions') %>:
-            <% institutions.each do |title, link| %>
+      <td align="center" id="footer_table_center">
+        <% institutions.each do |title, link| %>
           <a href="<%= link %>" target="_blank"><%= title %></a>
           |
         <% end %>
+        <a href="<%= locale_uri("documentation/LANG/rights.html")%>"> <%= t(:'talia.footer.rights') %> </a>
+        |
         <%= t(:'talia.footer.overseer') %>:
         <% overseers_footer_link.each do |overseer| %>
           <a href="<%= overseer['link'] %>" target="_blank"><%= overseer['title'] %></a>
           |
         <% end %>
-      <a href="<%= locale_uri("documentation/LANG/rights.html")%>"> <%= t(:'talia.footer.rights') %> </a></td>
+      </td>
       <td align="center" id="footer_table_right">
-        <a id="footer_europe" href="<%= locale_uri("documentation/LANG/institutions.html") %>" target="_blank">Merda</a>
+        <a id="footer_europe" href="<%= locale_uri("http://www.talia.discovery-project.eu/") %>" target="_blank"></a>
       </td>
     </tr>
   </table>
