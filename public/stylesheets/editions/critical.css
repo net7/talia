@@ -341,6 +341,6 @@ div#visore ul.results li p {
     padding-bottom: 5px;
 }
 
-div#visore ul.results li p span.match {
+span.match {
     color: red;
 }
