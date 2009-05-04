@@ -10,6 +10,9 @@ document.observe("dom:loaded", function() {
 // All Page Contents Loaded
 Event.observe(window, 'load', function() {
     if ($('toolbar')) centerToolbar();
+
+    // Set height of elements
+    set_height();
     
     // setThumbsSize($$('div.lonely p a img'));
     // setThumbsSize();
