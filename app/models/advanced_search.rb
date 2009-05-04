@@ -5,10 +5,10 @@ class AdvancedSearch
 
   # advanced search for simple edition.
   # Return an array of hash {title, uri, description}
-  def search(edition_prefix, edition_id, words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil, full_content_required = true)
+  def search(edition_prefix, edition_id, words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil, content_required = true)
 
     # load params for query
-    data = query_params(words, operator, mc, mc_from, mc_to, mc_single, full_content_required)
+    data = query_params(words, operator, mc, mc_from, mc_to, mc_single, content_required)
 
     # execute query
     doc = execute_query(data)
@@ -98,7 +98,7 @@ class AdvancedSearch
 
   private
 
-  def query_params(words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil, full_content_required = true)
+  def query_params(words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil, content_required = true)
     # collect data to post
     data = {
       'search_type' => 'mc',
@@ -126,9 +126,9 @@ class AdvancedSearch
       data['mc_single'] = mc_single
     end
 
-    # require full content
-    if full_content_required
-      data['full_content'] = true
+    # require content
+    if content_required
+      data['content_required'] = true
     end
 
     return data
@@ -152,6 +152,9 @@ class AdvancedSearch
     if keyword
       data['keyword'] = keyword
     end
+
+    # require content
+    data['content_required'] = true
 
     return data
   end
