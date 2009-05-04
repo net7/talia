@@ -3,7 +3,7 @@
   <table id="footer_table">
     <tr>
       <td align="center" id="footer_table_left">
-        <a id="footer_talia" href="documentation/LANG/institutions.html" target="_blank"></a>
+        <a id="footer_europe" href="<%= locale_uri("documentation/LANG/institutions.html") %>" target="_blank"></a>
       </td>
       <td align="center" id="footer_table_center">
         <% institutions.each do |title, link| %>
@@ -15,11 +15,11 @@
         <%= t(:'talia.footer.overseer') %>:
         <% overseers_footer_link.each do |overseer| %>
           <a href="<%= overseer['link'] %>" target="_blank"><%= overseer['title'] %></a>
-          |
+          <% unless overseers_footer_link.last == overseer %>|<% end %>
         <% end %>
       </td>
       <td align="center" id="footer_table_right">
-        <a id="footer_europe" href="<%= locale_uri("http://www.talia.discovery-project.eu/") %>" target="_blank"></a>
+        <a id="footer_talia" href="http://www.talia.discovery-project.eu/" target="_blank"></a>
       </td>
     </tr>
   </table>

@@ -290,13 +290,15 @@ blockquote {
     width: 114px;
 }
     #footer table td#footer_table_left a{
-        width: 114px;
-        height: 25px;
+        margin: 0; padding: 0;
+        width: 36px;
         display: block;
+        height: 25px;
         background: #cfccc7 url(/images/start_page/footer_europe.gif) top left no-repeat;
         text-indent: -9999px;
         border: 0;
         text-decoration: none;
+        overflow: hidden;
     }
 #footer table td#footer_table_center{
     padding: 0 15px;
@@ -305,14 +307,13 @@ blockquote {
     width: 114px;
 }
     #footer table td#footer_table_right a{
-        margin: 0; padding: 0;
-        width: 36px;
-        display: block;
+        width: 114px;
         height: 25px;
+        display: block;
         background: #cfccc7 url(/images/start_page/footer_talia_logo.gif) top left no-repeat;
         text-indent: -9999px;
         border: 0;
         text-decoration: none;
-        overflow: hidden;
+
     }
 
