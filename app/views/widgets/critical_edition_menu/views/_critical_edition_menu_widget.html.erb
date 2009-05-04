@@ -1,4 +1,3 @@
-<h1 class="scroll_title"><%= titled_link(locale_uri("/documentation/LANG/#{@edition.uri.local_name}.html"), t(:"talia.global.list of works")) %></h1>
 <% if w.advanced_search %>
   <form name="advanced_search_menu_form" action="<%= url_for(:action => 'advanced_search') %>" method="post" >
     <% if ((params[:mc_single]) && (params[:mc_single] != '')) %>
@@ -26,6 +25,8 @@
 
     <%= w.hidden_field_tag('mc_single') %>
     <%= w.hidden_field_tag 'advanced_search_submission', 'menu submission' %>
+  <% else %>
+    <h1 class="scroll_title"><%= titled_link(locale_uri("/documentation/LANG/#{@edition.uri.local_name}.html"), t(:"talia.global.list of works")) %></h1>
   <% end %>
 
   <ul class="toplevel book">
