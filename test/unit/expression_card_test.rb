@@ -87,10 +87,10 @@ module TaliaCore
     end
     
     def test_clone_concordant_multi
-      src = make_card('clone_concordant')
-      clone = src.clone_concordant('http://expression_card_test/test_clone_concordant/conc')
+      src = make_card('clone_concordant_multi')
+      clone = src.clone_concordant('http://expression_card_test/test_clone_concordant_multi/conc')
       clone.save!
-      clone2 = src.clone_concordant('http://expression_card_test/test_clone_concordant/conc2')
+      clone2 = src.clone_concordant('http://expression_card_test/test_clone_concordant_multi/conc2')
       clone2.save!
       assert_equal(src.concordance, clone.concordance)
       assert_equal(clone2.concordance, clone.concordance)

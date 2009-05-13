@@ -307,12 +307,12 @@ module TaliaUtil
           # If the Source already exists, push the types in
           src.autosave_rdf = false
           # If the class
-          klass_name = klass.to_s.demodulize
+          klass_name = klass.to_s
           if((src[:type] != klass_name) && set_class)
             # In this case we will have to change the STI type on the Source
             # this happens if the Source had been created before the import
             # as a referenced object on another Source
-            assit(src[:type] == 'Source', "Source should not change from #{src[:type]} to #{klass_name}: #{src.uri} ")
+            assit(src[:type] == TaliaCore::Source.name, "Source should not change from #{src[:type]} to #{klass_name}: #{src.uri} ")
             src[:type] = klass_name
             src.save!
             src = klass.find(src.id)

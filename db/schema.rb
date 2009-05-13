@@ -1,5 +1,5 @@
 # This file is auto-generated from the current state of the database. Instead of editing this file, 
-# please use the migrations feature of ActiveRecord to incrementally modify your database, and
+# please use the migrations feature of Active Record to incrementally modify your database, and
 # then regenerate this schema definition.
 #
 # Note that this schema.rb definition is the authoritative source for your database schema. If you need
@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 15) do
+ActiveRecord::Schema.define(:version => 20090330141401) do
 
   create_table "active_sources", :force => true do |t|
     t.datetime "created_at"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(:version => 15) do
     t.string  "type"
     t.string  "location",                :null => false
     t.string  "mime"
-    t.integer "source_id", :limit => 10, :null => false
+    t.integer "source_id", :limit => 11, :null => false
   end
 
   add_index "data_records", ["source_id"], :name => "index_data_records_on_source_id"
@@ -66,24 +66,15 @@ ActiveRecord::Schema.define(:version => 15) do
   add_index "globalize_languages", ["rfc_3066"], :name => "index_globalize_languages_on_rfc_3066"
 
   create_table "globalize_translations", :force => true do |t|
-    t.string  "type"
-    t.string  "tr_key"
-    t.string  "table_name"
-    t.integer "item_id",             :limit => 10
-    t.string  "facet"
-    t.boolean "built_in",                          :default => true
-    t.integer "language_id",         :limit => 10
-    t.integer "pluralization_index", :limit => 10
-    t.text    "text"
-    t.string  "namespace"
+    t.string "key",                 :null => false
+    t.string "locale",              :null => false
+    t.string "pluralization_index", :null => false
+    t.string "text"
   end
 
-  add_index "globalize_translations", ["tr_key", "language_id"], :name => "index_globalize_translations_on_tr_key_and_language_id"
-  add_index "globalize_translations", ["table_name", "item_id", "language_id"], :name => "globalize_translations_table_name_and_item_and_language"
-
   create_table "open_id_authentication_associations", :force => true do |t|
-    t.integer "issued",     :limit => 10
-    t.integer "lifetime",   :limit => 10
+    t.integer "issued",     :limit => 11
+    t.integer "lifetime",   :limit => 11
     t.string  "handle"
     t.string  "assoc_type"
     t.binary  "server_url"
@@ -91,7 +82,7 @@ ActiveRecord::Schema.define(:version => 15) do
   end
 
   create_table "open_id_authentication_nonces", :force => true do |t|
-    t.integer "timestamp",  :limit => 10, :null => false
+    t.integer "timestamp",  :limit => 11, :null => false
     t.string  "server_url"
     t.string  "salt",                     :null => false
   end
@@ -101,8 +92,8 @@ ActiveRecord::Schema.define(:version => 15) do
   end
 
   create_table "roles_users", :id => false, :force => true do |t|
-    t.integer "role_id", :limit => 10
-    t.integer "user_id", :limit => 10
+    t.integer "role_id", :limit => 11
+    t.integer "user_id", :limit => 11
   end
 
   add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
@@ -117,9 +108,9 @@ ActiveRecord::Schema.define(:version => 15) do
   create_table "semantic_relations", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "object_id",     :limit => 10, :null => false
+    t.integer  "object_id",     :limit => 11, :null => false
     t.string   "object_type",                 :null => false
-    t.integer  "subject_id",    :limit => 10, :null => false
+    t.integer  "subject_id",    :limit => 11, :null => false
     t.string   "predicate_uri",               :null => false
   end
 
@@ -151,7 +142,7 @@ ActiveRecord::Schema.define(:version => 15) do
     t.string  "state",                   :null => false
     t.string  "arguments",               :null => false
     t.string  "type"
-    t.integer "source_id", :limit => 10, :null => false
+    t.integer "source_id", :limit => 11, :null => false
   end
 
   add_index "workflows", ["source_id"], :name => "index_workflows_on_source_id", :unique => true

@@ -11,9 +11,9 @@ class Test::Unit::TestCase
   include AuthenticatedTestHelper
   include RoleRequirementTestHelper
 
-  self.use_transactional_fixtures = true
-  self.use_instantiated_fixtures  = false
-  fixtures :all
+  # self.use_transactional_fixtures = true
+  # self.use_instantiated_fixtures  = false
+  # fixtures :all
 
   def self.with_cache
     ActionController::Base.perform_caching = true

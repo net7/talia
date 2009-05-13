@@ -35,7 +35,7 @@ module HomeHelper
     # Create a locale-sensitve URL by replacing "LANG" in the current string with
   # the current language code
   def locale_uri(string)
-    string.gsub(/LANG/, Locale.language_code)
+    string.gsub(/LANG/, I18n.locale.to_s)
   end
   
 end

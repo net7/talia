@@ -43,7 +43,7 @@ module ApplicationHelper
     title = edition.title
     assit(title)
     return nil unless(title)
-    t(:"talia.edition.#{title.underscore.downcase}", in_place_allowed)
+    t(:"talia.edition.#{title.underscore.downcase}") # TODO: How's in-place working now
   end
   
   # To include the customization template with the given name
