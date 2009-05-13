@@ -1,3 +1,7 @@
+<%
+  # Customizable footer for the start page.
+%>
+
 <!-- Footer -->
 <div id="footer">
   <table id="footer_table">
@@ -6,17 +10,11 @@
         <a id="footer_europe" href="<%= locale_uri("documentation/LANG/institutions.html") %>" target="_blank"></a>
       </td>
       <td align="center" id="footer_table_center">
-        <% institutions.each do |title, link| %>
-          <a href="<%= link %>" target="_blank"><%= title %></a>
-          |
-        <% end %>
+        <%= institution_link('CNRS') %>
         <a href="<%= locale_uri("documentation/LANG/rights.html")%>"> <%= t(:'talia.footer.rights') %> </a>
         |
         <%= t(:'talia.footer.overseer') %>:
-        <% overseers_footer_link.each do |overseer| %>
-          <a href="<%= overseer['link'] %>" target="_blank"><%= overseer['title'] %></a>
-          <% unless overseers_footer_link.last == overseer %>|<% end %>
-        <% end %>
+        <%= link_to("Paolo D'Iorio", 'http://diorio.org/', :target => '_blank') %>
       </td>
       <td align="right" id="footer_table_right">
         <a id="footer_talia" href="http://www.talia.discovery-project.eu/" target="_blank"></a>

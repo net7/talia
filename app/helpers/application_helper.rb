@@ -21,20 +21,10 @@ module ApplicationHelper
     end
   end
 
-  # list of institutions to be shown in the footer
-  def institutions
-    institutions = TaliaCore::CONFIG['institutions'] || []
-  end
-
-  # overseer(s) link in the footer
-  def overseers_footer_link
-    overseers = TaliaCore::CONFIG['overseers'] || []
-    @overseer = []
-    overseers.each do |title, link|
-      @overseer << {'title' => title, 'link' => link}
-    end
-    @overseer
-  end
+ def institution_link(name, url = nil)
+   url ||= '/documentation/institutions.html'
+   link_to(name, url, :target => '_blank')
+ end
 
 
   # The (translated) material description for the element
