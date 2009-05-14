@@ -34,6 +34,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :translations, :collection => { :search => :get }
     admin.resources :users
     admin.resources :sources
+    admin.resources :locales
   end
 
   # Routes for login and users handling

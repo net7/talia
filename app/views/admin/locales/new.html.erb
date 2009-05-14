@@ -1,4 +1,4 @@
-<% form_tag '/admin/locales/create' do -%>
+<% form_tag :controller => 'admin/locales', :action => 'create' do -%>
   <p><label for="name">Name</label><br/>
   <%= text_field_tag 'name' %> <span class="small grey italic">(example: English)</span></p>
 
