@@ -1,8 +1,8 @@
 /*
 
 /* 
-   To CUSTOMIZE THE HEADER BANNER:
-   copy the image to public/images/start_page/header_bg.jpg 
+To CUSTOMIZE THE HEADER BANNER:
+copy the image to public/images/start_page/header_bg.jpg 
 */
 
 /* 
@@ -10,7 +10,7 @@
 To CUSTOMIZE EDITION LISTINGS, add them below like this:
 
 div#paginaInt div#contenuti ul li#diorio a {
-    background: url(/images/start_page/edizionediorio.gif) left center no-repeat;
+background: url(/images/start_page/edizionediorio.gif) left center no-repeat;
 }
 
 */
@@ -22,64 +22,64 @@ div#paginaInt div#contenuti ul li#diorio a {
 /* ***************** ************** ************** */
 * {margin: 0; padding: 0;}
 body {
-	text-align:center;
-	color: #333;
-	margin:0;
-	/* padding: 0 35px; */
-	border: 0;
-	background: #000000 url(/images/start_page/page_bg.jpg) top left repeat-x;
-	font-family: Arial, "Lucida Grande", Verdana, "Bitstream Vera Sans", Avenir, Helvetica, sans-serif;
-	font-size:0.8125em;
+    text-align:center;
+    color: #333;
+    margin:0;
+    /* padding: 0 35px; */
+    border: 0;
+    background: #000000 url(/images/start_page/page_bg.jpg) top left repeat-x;
+    font-family: Arial, "Lucida Grande", Verdana, "Bitstream Vera Sans", Avenir, Helvetica, sans-serif;
+    font-size:0.8125em;
 }
 
 /* ***************** ************** ************** */
 /* ***************** CLASSI ************** */
 /* ***************** ************** ************** */
 .nascosto{
-	display:none;
+    display:none;
 }
 
 .floatClear{
-	clear: both;
+    clear: both;
 }
 
 /* ***************** ************** ************** */
 /* ***************** TAG ************** */
 /* ***************** ************** ************** */
 h1{
-	color: #9e0b0f;
-	font-size: 20px;
-	font-weight: normal;
-	font-family:Georgia, "Times New Roman", Times, serif;
-	margin-bottom: 10px;
+    color: #9e0b0f;
+    font-size: 20px;
+    font-weight: normal;
+    font-family:Georgia, "Times New Roman", Times, serif;
+    margin-bottom: 10px;
 }
 
 h2{
-	color: #9e0b0f;
-	font-size: 16px;
-	font-weight: normal;
-	font-family:Georgia, "Times New Roman", Times, serif;
-	margin-bottom: 10px;
+    color: #9e0b0f;
+    font-size: 16px;
+    font-weight: normal;
+    font-family:Georgia, "Times New Roman", Times, serif;
+    margin-bottom: 10px;
 }
 
 p{
-	margin-bottom: 13px;
-	font-size: 0.88em;
-	line-height: 1.5em;
+    margin-bottom: 13px;
+    font-size: 0.88em;
+    line-height: 1.5em;
 }
 
 a{
-	color: #9e0b0f;
-	text-decoration: none;
+    color: #9e0b0f;
+    text-decoration: none;
 }
 
 a:hover{
-	color: #9e0b0f;
-	text-decoration: underline;
+    color: #9e0b0f;
+    text-decoration: underline;
 }
 
 blockquote {
-  display: none;
+    display: none;
 }
 
 .translate_element {
@@ -93,15 +93,15 @@ blockquote {
 /* ***************** PAGINA (contiene tutto) ************** */
 /* ***************** ************** ************** */
 #paginaExt{
-	padding:0; border:0;
-	position: relative;
-	margin: 18px auto 0 auto;
-	width:804px;
+    padding:0; border:0;
+    position: relative;
+    margin: 18px auto 0 auto;
+    width:804px;
 }
 
 #paginaInt{
-	margin:0; padding:0; border:0;
-	width:804px;
+    margin:0; padding:0; border:0;
+    width:804px;
 }
 
 /* ***************** ************** ************** */
@@ -109,165 +109,169 @@ blockquote {
 /* ***************** ************** ************** */
 #top_menu{
     margin: 0; padding: 0;
-	display: block;
-	height: 80px;
-	width: 804px;
+    display: block;
+    height: 80px;
+    width: 804px;
     text-align: center;
-	background: transparent url(/images/start_page/menu_top_bg.jpg) top left no-repeat;
-	list-style: none;
-	color: #FFFFFF;
+    background: transparent url(/images/start_page/menu_top_bg.jpg) top left no-repeat;
+    list-style: none;
+    color: #FFFFFF;
 }
 
-    #top_menu ul{
-        text-align: center;
-        width: 804px;
-        padding-top: 51px;
-    }
+#top_menu ul{
+    text-align: center;
+    width: 804px;
+    padding-top: 51px;
+}
 
-    #top_menu li{
-        list-style: none;
-        display: inline;
-        letter-spacing: 1.1px;
-    }
-    #top_menu li a{
-        color: #FFFFFF;
-        text-decoration: none;
-        text-transform: uppercase;
-        font-size: 9px;
-    }
-    #top_menu li a:hover{
-        text-decoration: underline;
-    }
+#top_menu li{
+    list-style: none;
+    display: inline;
+    letter-spacing: 1.1px;
+}
+#top_menu li a{
+    color: #FFFFFF;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 9px;
+}
+#top_menu li a:hover{
+    text-decoration: underline;
+}
 /* ***************** ************** ************** */
 /* ***************** testata ************** */
 /* ***************** ************** ************** */
 #testata{
     margin: 0; padding: 0;
-	display: block;
-	height: 242px;
-	width: 804px;
-	background: transparent url(/images/start_page/header_bg.jpg) top left no-repeat;
+    display: block;
+    height: 242px;
+    width: 804px;
+    background: transparent url(/images/start_page/header_bg.jpg) top left no-repeat;
 }
-    #testata h1{
-        display: none;
-    }
-    #testata p{
-        display: none;
-    }
+#testata h1{
+    display: none;
+}
+#testata p{
+    display: none;
+}
 
 /* ***************** ************** ************** */
 /* ***************** Menu ************** */
 /* ***************** ************** ************** */
 #menu{
     margin: 0 0 0 0; padding: 0;
-	display: block;
-	height: 35px;
-	width: 804px;
-	background: url(/images/start_page/menu_bg.jpg) top left no-repeat;
-	text-align: center;
+    display: block;
+    height: 35px;
+    width: 804px;
+    background: url(/images/start_page/menu_bg.jpg) top left no-repeat;
+    text-align: center;
 }
-    #menu ul{
-        width: auto;
-        padding: 7px 0 0 0;
-    }
-    #menu li{
-        display: inline;
-        list-style: none;
-        letter-spacing: 1.1px;
-        text-align: center;
-        margin: 0 10px;
-    }
-    #menu li a{
-        color: #a19792;
-        text-decoration: none;
-        text-transform: uppercase;
-        font-size: 11px;
-        font-weight: bold;
-        background: transparent url(/images/start_page/triangolino.gif) bottom center no-repeat;
-        padding-bottom: 6px;
-    }
-    #menu li a:hover{
-        color: #FFFFFF;
-        background: transparent url(/images/start_page/triangolino_full.gif) bottom center no-repeat;
-    }
+#menu ul{
+    width: auto;
+    padding: 7px 0 0 0;
+}
+#menu li{
+    display: inline;
+    list-style: none;
+    letter-spacing: 1.1px;
+    text-align: center;
+    margin: 0 10px;
+}
+#menu li a{
+    color: #a19792;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: bold;
+    background: transparent url(/images/start_page/triangolino.gif) bottom center no-repeat;
+    padding-bottom: 6px;
+}
+#menu li a:hover{
+    color: #FFFFFF;
+    background: transparent url(/images/start_page/triangolino_full.gif) bottom center no-repeat;
+}
 
 /* ***************** ************** ************** */
 /* ***************** Contenuti ************** */
 /* ***************** ************** ************** */
 #contenuti{
-	background-color:#fff;
-	width: 780px;
-	margin: 0 13px 0 11px;
-	padding:  0px 0 0 0;
-	text-align: left;
+    background-color:#fff;
+    width: 780px;
+    margin: 0 13px 0 11px;
+    padding:  0px 0 0 0;
+    text-align: left;
     /* float: left; */
 }
 
-	#contenutoTesta{
-		/*
-        width: 740px;
-		padding: 0 20px;
-        */
-    }
+#contenutoTesta{
+    /*
+    width: 740px;
+    padding: 0 20px;
+    */
+}
 
-    #contenutoDoppio_ext{
-		background: #eee url(/images/start_page/filo_oriz.jpg) top center no-repeat;
-		/* background-color: #eeeeee; */
-		float: left;
-		width: 780px;
-		margin: 20px 0 0 0; padding: 0;
-        padding-top: 00px;
-	}
-	
-	#contenutoDoppio_int{
-		background: transparent url(/images/start_page/filo_vert.jpg) top center repeat-y;
-		float: left;
-		width: 780px;
-		margin: 0; padding: 0;
-	}
-	
-	#contenutoDoppio_singolo{
-		background: #eee url(/images/start_page/filo_oriz.jpg) top center no-repeat;
-		background-color: #eeeeee;
-		float: left;
-		width: 740px;
-		margin: 0; padding: 20px;
-	}
-        #contenutoSinistra{
-			width: 350px;
-			float: left;
-			padding: 20px;
-		}
-		#contenutoDestra{
-			width: 350px;
-			float: right;
-			padding: 20px;
-		}
-		
-	#contenuti ul{
-		list-style: none;
-	}
-	#contenuti ul li{
-        list-style: none;
-        margin: 0 0 10px 0;
-        padding: 0 0 0 23px;
-        background: url(/images/start_page/switchscolar.gif) top left no-repeat;
-	}
-        
-    #contenuti ul li a{
-		color: #666;
-        padding: 0 0 0 0;
-    }
-	#contenuti ul li a:hover{
-	}
+#contenutoDoppio_ext{
+    background: #eee url(/images/start_page/filo_oriz.jpg) top center no-repeat;
+    /* background-color: #eeeeee; */
+    float: left;
+    width: 780px;
+    margin: 20px 0 0 0; padding: 0;
+    padding-top: 00px;
+}
+
+#contenutoDoppio_int{
+    background: transparent url(/images/start_page/filo_vert.jpg) top center repeat-y;
+    float: left;
+    width: 780px;
+    margin: 0; padding: 0;
+}
+
+#contenutoDoppio_singolo{
+    background: #eee url(/images/start_page/filo_oriz.jpg) top center no-repeat;
+    background-color: #eeeeee;
+    float: left;
+    width: 740px;
+    margin: 0; padding: 20px;
+}
+#contenutoSinistra{
+    width: 350px;
+    float: left;
+    padding: 20px;
+}
+#contenutoDestra{
+    width: 335px;
+    float: right;
+    padding: 20px 35px 20px 20px;
+}
+
+#contenutoDestra p {
+    text-align: justify;
+}
+
+#contenuti ul{
+    list-style: none;
+}
+#contenuti ul li{
+    list-style: none;
+    margin: 0 0 10px 0;
+    padding: 0 0 0 23px;
+    background: url(/images/start_page/switchscolar.gif) top left no-repeat;
+}
+
+#contenuti ul li a{
+    color: #666;
+    padding: 0 0 0 0;
+}
+#contenuti ul li a:hover{
+}
 
 /* ***************** ************** ************** */
 /* ***************** Piede | Footer ************** */
 /* ***************** ************** ************** */
 #footer{
-	width: 710px;
-	margin: 0 13px 20px 11px;
-	background: #cfccc7 url(/images/start_page/footer_bg.jpg) bottom left no-repeat;
+    width: 710px;
+    margin: 0 13px 20px 11px;
+    background: #cfccc7 url(/images/start_page/footer_bg.jpg) bottom left no-repeat;
     border-top: 1px solid #ada9a6;
     padding: 15px 35px 22px 35px;
     text-align: left;
@@ -275,11 +279,11 @@ blockquote {
     font-size: 12px;
 }
 #footer a{
-	text-decoration: none;
+    text-decoration: none;
     color: #71645c;
 }
 #footer a:hover{
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 #footer #footer_table {
@@ -289,31 +293,31 @@ blockquote {
 #footer table td#footer_table_left{
     width: 114px;
 }
-    #footer table td#footer_table_left a{
-        margin: 0; padding: 0;
-        width: 36px;
-        display: block;
-        height: 25px;
-        background: #cfccc7 url(/images/start_page/footer_europe.gif) top left no-repeat;
-        text-indent: -9999px;
-        border: 0;
-        text-decoration: none;
-        overflow: hidden;
-    }
+#footer table td#footer_table_left a{
+    margin: 0; padding: 0;
+    width: 36px;
+    display: block;
+    height: 25px;
+    background: #cfccc7 url(/images/start_page/footer_europe.gif) top left no-repeat;
+    text-indent: -9999px;
+    border: 0;
+    text-decoration: none;
+    overflow: hidden;
+}
 #footer table td#footer_table_center{
     padding: 0 15px;
 }
 #footer table td#footer_table_right{
     width: 114px;
 }
-    #footer table td#footer_table_right a{
-        width: 114px;
-        height: 25px;
-        display: block;
-        background: #cfccc7 url(/images/start_page/footer_talia_logo.gif) top left no-repeat;
-        text-indent: -9999px;
-        border: 0;
-        text-decoration: none;
+#footer table td#footer_table_right a{
+    width: 114px;
+    height: 25px;
+    display: block;
+    background: #cfccc7 url(/images/start_page/footer_talia_logo.gif) top left no-repeat;
+    text-indent: -9999px;
+    border: 0;
+    text-decoration: none;
 
-    }
+}
 
