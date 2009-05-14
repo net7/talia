@@ -23,7 +23,7 @@ module ApplicationHelper
 
  def institution_link(name, url = nil)
    url ||= '/documentation/institutions.html'
-   link_to(name, url, :target => '_blank')
+   link_to(name, url)
  end
 
 
