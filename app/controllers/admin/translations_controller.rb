@@ -23,7 +23,7 @@ class Admin::TranslationsController < ApplicationController
 
   # GET /admin/translations/en-US/edit
   def edit
-    @translations = ViewTranslation.find_by_locale(params[:id], params[:page], PER_PAGE)
+    @translations = ViewTranslation.find_by_locale(params[:id], params[:page], PER_PAGE, :order => "tr_key ASC")
     @locale_code = params[:id]
     @autoload = load_reference_translations?
   end

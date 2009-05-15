@@ -1,5 +1,6 @@
-app/views/custom/_start_page.html.erb
+app/views/custom/*.html.erb
 config/*auto.yml
+config/assets.yml
 config/rdfstore.yml
 vendor/plugins/talia_core/config/rdfstore.yml
 config/talia_core.yml
@@ -15,3 +16,4 @@ vendor/jruby-*
 delayed_copy*
 *~
 public/images/front_page_logo.gif
+*.db
