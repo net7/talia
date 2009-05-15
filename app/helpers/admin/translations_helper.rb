@@ -6,7 +6,7 @@ module Admin::TranslationsHelper
   
   def add_translation
     link_to_function "Add a translation" do |page|
-      page.insert_html :bottom, "translations", :partial => 'translation', :object => ViewTranslation.new
+      page.insert_html :bottom, "translations", :partial => 'new_translation', :object => ViewTranslation.new
       page['translations'].select('.translation').last.focus
     end
   end
