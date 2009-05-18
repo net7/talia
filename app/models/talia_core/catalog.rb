@@ -4,6 +4,8 @@ module TaliaCore
   class Catalog < Source
     
     singular_property :material_description, N::HYPER.material_description
+    singular_property :siglum, N::HYPER.siglum
+    singular_property :position, N::HYPER.position
     
     DEFAULT_CATALOG_NAME = N::LOCAL + 'system_default_catalog'
     

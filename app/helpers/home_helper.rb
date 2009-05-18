@@ -16,6 +16,18 @@ module HomeHelper
   def edition_links(type)
     render(:partial => 'edition', :collection => @editions[type]) if(@editions && @editions[type])
   end
+
+  # Puts the editions of all the given types in one list, ordered by the editions
+  # 'position' property.
+  def sorted_editions(*types)
+    return unless @editions
+    all_editions = []
+    types.each do |type|
+      all_editions.concat(@editions[type]) if(@editions[type])
+    end
+    all_editions.sort! { |a,b| a.position.to_i <=> b.position.to_i }
+    render(:partial => 'edition', :collection => all_editions)
+  end
   
   # Puts the category links for the AvEdition
   def category_links
