@@ -42,6 +42,7 @@ Globalize::ViewTranslation.class_eval do
       if translation['id'].blank? && !translation['text'].blank?
         translation['language_id'] = language_id
         translation['pluralization_index'] = 1
+        translation['built_in'] = false
         result << translation
       end
       # clear the viewtranslations cache
