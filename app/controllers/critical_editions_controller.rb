@@ -61,8 +61,8 @@ class CriticalEditionsController < SimpleEditionController
           from_item = TaliaCore::Source.find(from)
           to_item = TaliaCore::Source.find(to)
           @searched_works << {:work => work_item.title,
-            :from => from_item.title || from_item.local_name,
-            :to   => to_item.title || to_item.local_name
+            :from => from_item.title || from_item.uri.local_name,
+            :to   => to_item.title || to_item.uri.local_name
           }
         end
       end
