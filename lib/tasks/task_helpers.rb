@@ -234,7 +234,7 @@ class TaskHelper
   
     # Gets keywords for the slash-separated values in the string
     def keywords_from(key_string)
-      key_string.split('/').map do |key|
+      key_string.split(key_string =~ /\// ? "/" : "\n").map do |key|
         # TODO can we use .gsub(/\s+\t\n/, ' ') instead?
         key = key.gsub(/\s+/, ' ').gsub("\t", ' ').gsub("\n", ' ').strip
         TaliaCore::Keyword.get_with_key_value!(key) unless key.empty?
