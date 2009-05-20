@@ -162,7 +162,7 @@ class Feeder
           node.add_element(REXML::Element.new("talia:granularity").add_text("Book"))
           node.add_element(REXML::Element.new("talia:uri").add_text(book.uri.to_s))
           node.add_element(REXML::Element.new("talia:title").add_text(book.dcns.title.to_s))
-          position = ("000000" + book.hyper.position.to_s)[-6..-1]
+          position = book.position_for_search_key
           node.add_element(REXML::Element.new("talia:position").add_text(position))
         end     
         
@@ -171,7 +171,7 @@ class Feeder
           node.add_element(REXML::Element.new("talia:granularity").add_text("Chapter"))
           node.add_element(REXML::Element.new("talia:uri").add_text(chapter.uri.to_s))
           node.add_element(REXML::Element.new("talia:title").add_text(chapter.dcns.title.to_s))
-          position = ("000000" + chapter.hyper.position.to_s)[-6..-1]
+          position = chapter.position_for_search_key
           node.add_element(REXML::Element.new("talia:position").add_text(position))
         end
           
@@ -186,9 +186,9 @@ class Feeder
         node.add_element(REXML::Element.new("talia:title").add_text(material.dcns.title.to_s))
         case material
         when TaliaCore::Page
-          position =  material.hyper.position.to_s + '000000'
+          position =  material.position_for_search_key
         when TaliaCore::Paragraph
-          position = material.position_in_book
+          position = material.position_for_search_key
         else
           position = '000000'
         end
