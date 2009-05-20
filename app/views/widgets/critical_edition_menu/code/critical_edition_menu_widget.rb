@@ -66,6 +66,13 @@ class CriticalEditionMenuWidget < Widgeon::Widget
     "</li>"
   end
 
+  # Link to "editor's introduction. (This has a magic parameter to override
+  # the default name globally, in case the site has only one introduction
+  def introduction_link(edition, text)
+    local_name = TaliaCore::CONFIG['force_introduction'] || edition.uri.local_name
+    titled_link(locale_uri("/documentation/LANG/#{local_name}.html"), text)
+  end
+
   # Returns true if the given element is the chosen element of the given type
   # (:book or :chapter). "Chosen" means that the element is currently selected.
   def element_chosen?(type, element)
