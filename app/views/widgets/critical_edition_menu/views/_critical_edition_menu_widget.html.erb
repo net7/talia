@@ -26,7 +26,7 @@
     <%= w.hidden_field_tag('mc_single') %>
     <%= w.hidden_field_tag 'advanced_search_submission', 'menu submission' %>
   <% else %>
-    <h1 class="scroll_title"><%= w.introduction_link(@edition, t(:"talia.global.list of works")) %></h1>
+    <h1 class="scroll_title"><%= introduction_link(@edition, t(:"talia.global.list of works")) %></h1>
   <% end %>
 
   <ul class="toplevel book">

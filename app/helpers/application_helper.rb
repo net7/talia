@@ -26,6 +26,13 @@ module ApplicationHelper
     link_to(name, url)
   end
 
+  # Link to "editor's introduction. (This has a magic parameter to override
+  # the default name globally, in case the site has only one introduction
+  def introduction_link(edition, text)
+    local_name = TaliaCore::CONFIG['force_introduction'] || edition.uri.local_name
+    titled_link(locale_uri("/documentation/LANG/#{local_name}.html"), text)
+  end
+
 
   # The (translated) material description for the element
   def material_description(element)
