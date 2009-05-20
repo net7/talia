@@ -114,9 +114,18 @@ class AdvancedSearch
 
     # add mc - mc_from - mc_to if specified
     if mc_from
+      # tranlate mc_from and mc_to
+      mc_from_search_key = mc_from.collect do |uri|
+        uri = search_key(uri)
+      end
+
+      mc_to_search_key = mc_to.collect do |uri|
+        uri = search_key(uri)
+      end
+
       data['mc'] = ''
-      data['mc_from'] = mc_from
-      data['mc_to'] = mc_to
+      data['mc_from'] = mc_from_search_key
+      data['mc_to'] = mc_to_search_key
     else
       data['mc'] = mc
     end
@@ -180,6 +189,46 @@ class AdvancedSearch
 
     # return response
     return doc
+  end
+
+  def search_key(uri)
+    
+    material = TaliaCore::Source.find(uri)
+
+    result = []
+
+    # add macrocontribution siglum to search_key
+    result << material.hyper.in_catalog[0].uri.local_name
+
+    # add book string and position
+    if !material.book.nil?
+      result << "book"
+      result << material.book.position_for_search_key
+      result << material.book.uri.local_name
+    end
+    
+    # add chapter string and position
+    if !material.chapter.nil?
+      result << "chap"
+      result << material.chapter.position_for_search_key
+      result << material.chapter.uri.local_name
+    end
+
+    # add page or paragraph and position
+    case material
+    when TaliaCore::Page
+      result << "page"
+      result << material.position_for_search_key
+      result << material.uri.local_name
+    when TaliaCore::Paragraph
+      result << "para"
+      result << material.position_for_search_key
+      result << material.uri.local_name
+    else
+      result << '000000'
+    end
+
+    return result.join(".")
   end
 
 end

@@ -361,6 +361,7 @@ namespace :discovery do
     system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/TEI/p4/tei_style.css public/stylesheets/TEI/p4/tei_style.css")
     system("cp -fv #{ENV['vhost_dir']}/ROOT/WEB-INF/xslt/TEI/p4/html/tei.xsl xslt/TEI/p4/html/tei.xsl")
     system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/front_page.css public/stylesheets/front_page.css")
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/WEB-INF/xslt/WitTEI/* xslt/WitTEI/")
     system('rake assets:package')
     system('warble war:clean')
     system('warble')
