@@ -35,32 +35,20 @@ module TaliaCore
         begin
           case @format
           when 'application/xml+hnml'
-            case version
-            when 'diplomatic'
-              xsl1 = 'transcription_diplomatic.xsl'
-              xsl2 = 'transcription_diplomatic_2.xsl'
-            when 'linear'
-              xsl1 = 'transcription_linear.xsl'
-              xsl2 = 'transcription_linear_2.xsl'
-            end
             max_layer = hnml_max_layer
             middle_output = ''
             if max_layer != ''
               shown_layer = layer.nil? ? max_layer : layer
               transformer_parameters = {'layer' => shown_layer}
             end
-            xsl1 = "#{XSLT_ROOT}/hnml/#{xsl1}"
-            xsl2 = "#{XSLT_ROOT}/hnml/#{xsl2}"
-            mid_xml = perform_transformation(xsl1, @in_xml, transformer_parameters)
-            output = perform_transformation(xsl2, mid_xml, transformer_parameters)
+            mid_xml = perform_transformation("transcription_#{version}", @in_xml, transformer_parameters)
+            output = perform_transformation("transcription_#{version}_2", mid_xml, transformer_parameters)
           when 'application/xml+tei', 'application/xml+tei-p4', 'application/xml+tei-p5'
-            xsl = "#{XSLT_ROOT}/TEI/p4/html/tei.xsl"
-            output = perform_transformation(xsl, @in_xml)
+            output = perform_transformation('tei', @in_xml)
           when 'application/xml+wittei'
-            xsl = "#{XSLT_ROOT}/WitTEI/wab-transform.xsl"
             # visning is the parameter for the version in the wab-transform.xsl file
             transformer_parameters = {'visning' => version, 'prosjekt' => 'discovery'}
-            output =  perform_transformation(xsl, @in_xml, transformer_parameters)
+            output =  perform_transformation('wab-transform', @in_xml, transformer_parameters)
           when 'text/html'
             output = @in_xml
           end

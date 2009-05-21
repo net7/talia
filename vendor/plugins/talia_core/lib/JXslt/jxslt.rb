@@ -25,7 +25,13 @@ module JXslt
         sw = java.io.StringWriter.new()
         out_var = StreamResult.new(sw)
       end
-      transformer = @tf.newTransformer(StreamSource.new(xslt))
+      if options[:xslt] == "stream"
+        xslt_var = StreamSource.new(xslt)
+      else
+        sxs = java.io.StringReader.new(xslt)
+        xslt_var = StreamSource.new(sxs)
+      end
+      transformer = @tf.newTransformer(xslt_var)
       unless options[:transformer_parameters].nil?
         options[:transformer_parameters].each do |key, value|
           transformer.setParameter(key, java.lang.String.new(value))

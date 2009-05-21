@@ -40,18 +40,14 @@ module TaliaCore
               shown_layer = layer.nil? ? max_layer : layer
               transformer_parameters = {'layer' => shown_layer}
             end
-            xsl1 = "#{XSLT_ROOT}/hnml/edition_linear.xsl"
-            xsl2 = "#{XSLT_ROOT}/hnml/edition_linear_2.xsl"
-            mid_xml = perform_transformation(xsl1, @in_xml, transformer_parameters)
-            output = perform_transformation(xsl2, mid_xml, transformer_parameters)
+            mid_xml = perform_transformation('edition_linear', @in_xml, transformer_parameters)
+            output = perform_transformation('edition_linear_2', mid_xml, transformer_parameters)
           when 'application/xml+tei', 'application/xml+tei-p4', 'application/xml+tei-p5'
-            xsl = "#{XSLT_ROOT}/TEI/p4/html/tei.xsl"
-            output = perform_transformation(xsl, @in_xml)
+            output = perform_transformation('tei', @in_xml)
           when 'application/xml+wittei'
-            xsl = "#{XSLT_ROOT}/WitTEI/wab-transform.xsl"
             # visning is the parameter for the version in the wab-transform.xsl file        
             transformer_parameters = {'visning' => version, 'prosjekt' => 'discovery'}
-            output = perform_transformation(xsl, @in_xml, transformer_parameters)
+            output = perform_transformation('wab-transform', @in_xml, transformer_parameters)
           when 'text/html'
             output = @in_xml
           end

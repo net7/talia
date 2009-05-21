@@ -18,12 +18,14 @@ class CriticalEditionsController < SimpleEditionController
  
   # GET /critical_editions/1
   def show
-    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip', 'front_page']
+    set_custom_stylesheet ['tooltip']
+    set_user_stylesheet ['tei_style', 'front_page']
     @path = [{:text => params[:id]}]
   end
   
   def print
-    set_custom_stylesheet ['TEI/p4/tei_style_print.css', 'tooltip']
+    set_custom_stylesheet ['tooltip']
+    set_user_stylesheet ['tei_style_print']
     source_uri = "#{N::LOCAL}#{edition_prefix}/#{params[:id]}/#{params[:part]}"    
     source = TaliaCore::Source.find(source_uri)
     if source.class == TaliaCore::Book
@@ -92,7 +94,7 @@ class CriticalEditionsController < SimpleEditionController
   end
 
   def advanced_search_popup
-    set_custom_stylesheet ['TEI/p4/tei_style_print.css']
+    set_user_stylesheet ['tei_style_print']
     # remove layour
     render :layout => false
 
@@ -100,7 +102,8 @@ class CriticalEditionsController < SimpleEditionController
   
   def advanced_search_print
     # set custom stylesheet for screen and print media
-    set_custom_stylesheet ['TEI/p4/tei_style_print.css', 'tooltip']
+    set_custom_stylesheet ['tooltip']
+    set_user_stylesheet['tei_style_print']
     set_custom_edition_stylesheet ['critical_print']
     set_print_stylesheet ['critical_printreal']
 
@@ -132,7 +135,7 @@ class CriticalEditionsController < SimpleEditionController
       {:text => params[:id], :link => @edition.uri.to_s}, 
       {:text => @book.dcns.title.first.to_s}        
     ]  
-    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
+    set_user_stylesheet ['tei_style', 'tooltip']
   end
   
   def prepare_for_chapter
@@ -144,7 +147,7 @@ class CriticalEditionsController < SimpleEditionController
       {:text => @book.dcns.title.first.to_s, :link => @book.uri.to_s},
       {:text => @chapter.dcns.title.first.to_s}
     ]
-    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
+    set_user_stylesheet ['tei_style', 'tooltip']
   end
   
   def prepare_for_part
@@ -158,7 +161,8 @@ class CriticalEditionsController < SimpleEditionController
     ]
     @path << {:text => @chapter.dcns::title.first.to_s, :link => @chapter.uri.to_s} unless @chapter.nil?
     @path << {:text => @part.dcns::title.empty? ? @part.uri.local_name.to_s : @part.dcns.title.first.to_s}
-    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
+    set_custom_stylesheet ['tooltip']
+    set_user_stylesheet ['tei_style']
   end
 end
  
