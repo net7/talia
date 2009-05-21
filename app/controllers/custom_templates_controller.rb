@@ -3,7 +3,7 @@ class CustomTemplatesController < ApplicationController
   layout nil
   session :off
   
-  caches_page :stylesheets, :xslt
+  caches_page :xslt
   
   def stylesheets
     render_template('css', 'text/css')
