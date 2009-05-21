@@ -38,16 +38,16 @@
             </li>
           <% end %>
         </ul>
-        <ul class="results">
-          <li>
-            <% if @pages > 1 %>
+        <% if @pages > 1 %>
+          <ul class="results">
+            <li>
               <h2 align="center">
                 There are <%= @result_count.to_i - @limit.to_i %> other results.
                 <a href="#" onClick="document.forms['advanced_search_form'].page.value='all';document.forms['advanced_search_form'].submit();return false">Show them all</a> (it may take long to load)
               </h2>
-            <% end  %>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        <% end  %>
       </form>
     </div>
     <!--[if !IE]>visore<![endif]-->
