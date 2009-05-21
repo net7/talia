@@ -61,7 +61,6 @@ class CriticalEditionsController < SimpleEditionController
         @limit = ADVANCED_SEARCH_RESULTS_PER_PAGE
       end
       @result = adv_src.search(edition_prefix, params[:id], params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to], params[:mc_single], true, page, @limit)
-      #      @result = adv_src.search(edition_prefix, 'eKGWB', params[:words], params[:operator], 'http://www.nietzschesource.org/texts/eKGWB', params[:mc_from], params[:mc_to], params[:mc_single], true, page, @limit)
 
       @result_count = adv_src.size
 
