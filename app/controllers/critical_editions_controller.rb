@@ -1,7 +1,9 @@
 class CriticalEditionsController < SimpleEditionController
   set_edition_type :critical
   add_javascripts 'tooltip'
-  
+
+  ADVANCED_SEARCH_RESULTS_PER_PAGE = 20
+
   def dispatcher
     @request_url = URI::decode(request.url)
     @source = TaliaCore::Source.find(@request_url)
@@ -48,12 +50,27 @@ class CriticalEditionsController < SimpleEditionController
           (params[:mc].nil? or params[:mc].join.strip == "")
         redirect_to(:back) and return
       end
-      
+
       # execute advanced search
       adv_src = AdvancedSearch.new
-      @result = adv_src.search(edition_prefix, params[:id], params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to], params[:mc_single])
+      page = params[:page] || '1'
+      if page == 'all'
+        page = '1'
+        @limit = 0
+      else
+        @limit = ADVANCED_SEARCH_RESULTS_PER_PAGE
+      end
+      @result = adv_src.search(edition_prefix, params[:id], params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to], params[:mc_single], true, page, @limit)
+
       @result_count = adv_src.size
 
+      # the number of pages we have to display
+      if @limit == 0
+        @pages = 1
+      else
+        @pages = (@result_count.to_f / @limit).ceil
+      end
+      
       @searched_works = []
       unless params[:mc].nil?
         [params[:mc], params[:mc_from], params[:mc_to]].transpose.each do |work,from,to|
@@ -68,7 +85,9 @@ class CriticalEditionsController < SimpleEditionController
       end
 
       # get result for menu
-      @exist_result = adv_src.menu_for_search(params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to])
+      #      @exist_result = adv_src.menu_for_search(params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to])
+
+      @exist_result = adv_src.menu_for_search(params[:words], params[:operator], 'http://www.nietzschesource.org/texts/eKGWB', params[:mc_from], params[:mc_to])
 
       # search word
       @words = params[:words]
