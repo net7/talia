@@ -140,6 +140,8 @@ namespace :discovery do
       TaliaCore::Page
       TaliaCore::Facsimile
       fe = TaskHelper::create_edition(TaliaCore::FacsimileEdition)
+      # Copy position from catalog to edition
+      fe.position = catalog.position
       TaskHelper::setup_header_images
       qry = TaskHelper::default_book_query(catalog)
       qry.where(:facsimile, N::HYPER.manifestation_of, :page)
@@ -191,6 +193,7 @@ namespace :discovery do
       catalog = TaliaCore::Catalog.find(N::LOCAL + ENV['catalog']) 
     end
     ce = TaskHelper::create_edition(TaliaCore::CriticalEdition, version)
+    ce.position = catalog.position # Duplicate the position of the catalog on the edition
     TaskHelper::setup_header_images
     
     # HyperEditions may be manifestations of both pages and paragraphs
