@@ -87,9 +87,7 @@ class CriticalEditionsController < SimpleEditionController
       end
 
       # get result for menu
-      #      @exist_result = adv_src.menu_for_search(params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to])
-
-      @exist_result = adv_src.menu_for_search(params[:words], params[:operator], 'http://www.nietzschesource.org/texts/eKGWB', params[:mc_from], params[:mc_to])
+      @exist_result = adv_src.menu_for_search(params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to])
 
       # search word
       @words = params[:words]
