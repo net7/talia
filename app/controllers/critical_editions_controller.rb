@@ -1,6 +1,8 @@
 class CriticalEditionsController < SimpleEditionController
   set_edition_type :critical
   add_javascripts 'tooltip'
+
+  layout 'simple_edition', :except => [:advanced_search_popup, :advanced_search_print]
   
   def dispatcher
     @request_url = URI::decode(request.url)
@@ -93,29 +95,12 @@ class CriticalEditionsController < SimpleEditionController
 
   def advanced_search_popup
     set_custom_stylesheet ['TEI/p4/tei_style_print.css']
-    # remove layour
-    render :layout => false
 
   end
   
   def advanced_search_print
-    # set custom stylesheet for screen and print media
-    set_custom_stylesheet ['TEI/p4/tei_style_print.css', 'tooltip']
-    set_custom_edition_stylesheet ['critical_print']
-    set_print_stylesheet ['critical_printreal']
-
     @path = []
     @edition_nick = params[:id]
-
-    @result = []
-
-    unless params[:advanced_search_result].nil? || params[:checkbox].nil?
-      params[:checkbox].each do |checkbox_id|
-        index = checkbox_id.to_i
-        @result << {:counter => params[:counter][index], :title => params[:title][index], :description => params[:description][index], :full_description => params[:full_description][index]}
-      end
-    end
-
   end
 
   private
