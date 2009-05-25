@@ -17,6 +17,7 @@ class TaskHelper
       qry.where(:page, N::DCT.isPartOf, :book)
       qry
     end
+
   
     # Returns an RDF query that will find all manifestations of the given card.
     def manifestations_query_for(card)
@@ -41,7 +42,29 @@ class TaskHelper
       edition.save!
       edition
     end
-  
+
+    # Reads the configuration for an edition from the config file, if it exists
+    def edition_config
+      raise(ArgumentError, "Edition nick not given") unless(ENV['nick'])
+      nick = ENV['nick'].downcase
+      params = %w(version catalog name header description)
+      config_file = File.join(TALIA_ROOT, 'config', 'editions', "#{nick}.yml")
+      if(File.exists?(config_file))
+        config_yml = YAML::load_file(config_file)
+        cnick = config_yml['nick']
+        raise(ArgumentError, "Expected nick #{ENV['nick']} in file #{config_file}.") if(!cnick || cnick.downcase != nick)
+        ENV['nick'] = cnick
+        params.each do |parameter|
+          ENV[parameter] ||= config_yml[parameter]
+        end
+        puts "Config for edition from #{config_file}."
+      end
+      puts "Nick: #{ENV['nick']}"
+      params.each { |parm|  puts "#{parm}: #{ENV[parm]}" }
+      # Check the parameters beforehand
+      %w(name header description).each { |parm| raise(ArgumentError, "Parameter must be set: #{parm}") unless(ENV[parm]) }
+    end
+
     # Count the number of color facsimiles in the given catalog
     def count_color_facsimiles_in(catalog)
       facs_q = Query.new(N::URI).select(:facsimile).distinct
@@ -112,7 +135,7 @@ class TaskHelper
         paragraph.save!
       end
     end
-  
+
     # Returns the count of paragraphs that are attached to books in the given
     # catalog
     def count_notes_in(catalog)
@@ -234,7 +257,7 @@ class TaskHelper
   
     # Gets keywords for the slash-separated values in the string
     def keywords_from(key_string)
-      key_string.split('/').map do |key|
+      key_string.split(key_string =~ /\// ? "/" : "\n").map do |key|
         # TODO can we use .gsub(/\s+\t\n/, ' ') instead?
         key = key.gsub(/\s+/, ' ').gsub("\t", ' ').gsub("\n", ' ').strip
         TaliaCore::Keyword.get_with_key_value!(key) unless key.empty?
