@@ -111,6 +111,10 @@ ActionController::Routing::Routes.draw do |map|
     :action => 'books',
     :requirements => {:type => /Work|Manuscript|Iconography|Library|Correspondence|Picture/},
     :subtype => nil
+    
+  map.connect "translations/:action/:id",
+    :controller => 'translations',
+    :requirements => { :id => /.*/ }
 
   map.connect "facsimiles/:id/:page/:page2",
     :controller => 'facsimile_editions',
