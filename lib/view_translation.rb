@@ -3,9 +3,15 @@
 
 Globalize::ViewTranslation.class_eval do
   # Find and paginate translations for given locale.
-  def self.find_by_locale(locale, page, per_page, options = {})
+  # def self.find_by_locale(locale, page, per_page, options = {})
+  #   locale = Locale.new(locale)
+  #   self.paginate_by_language_id(locale.language.id, {:page => page, :per_page => per_page}.merge(options))
+  # end
+
+  # Find and paginate translations for given locale.
+  def self.find_by_locale(locale, options = {})
     locale = Locale.new(locale)
-    self.paginate_by_language_id(locale.language.id, {:page => page, :per_page => per_page}.merge(options))
+    self.find_all_by_language_id(locale.language.id, options)
   end
 
   # Update the translations with given id, otherwise create a new translation.
@@ -49,6 +55,7 @@ Globalize::ViewTranslation.class_eval do
       if translation['id'].blank? && !translation['text'].blank?
         translation['language_id'] = language_id
         translation['pluralization_index'] = 1
+        translation['built_in'] = false
         result << translation
       end
       # clear the viewtranslations cache

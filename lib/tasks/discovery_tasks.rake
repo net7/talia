@@ -128,6 +128,7 @@ namespace :discovery do
   # creates a facsimile edition and adds to it all the color facsimiles found in the DB
   desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> header=<header_image_folder> catalog=<catalog_siglum>"
   task :create_color_facsimile_edition => :disco_init do
+    TaskHelper::edition_config # Setup the configuration
     if ENV['catalog'].nil? 
       catalog = TaliaCore::Catalog.default_catalog
     else
@@ -140,6 +141,8 @@ namespace :discovery do
       TaliaCore::Page
       TaliaCore::Facsimile
       fe = TaskHelper::create_edition(TaliaCore::FacsimileEdition)
+      # Copy position from catalog to edition
+      fe.position = catalog.position if(catalog.position)
       TaskHelper::setup_header_images
       qry = TaskHelper::default_book_query(catalog)
       qry.where(:facsimile, N::HYPER.manifestation_of, :page)
@@ -182,6 +185,8 @@ namespace :discovery do
     TaliaCore::Transcription
     TaliaCore::HyperEdition
 
+    TaskHelper::edition_config # Setup the configuration
+
     version = ENV['version']
 
     if ENV['catalog'].nil? 
@@ -191,6 +196,7 @@ namespace :discovery do
       catalog = TaliaCore::Catalog.find(N::LOCAL + ENV['catalog']) 
     end
     ce = TaskHelper::create_edition(TaliaCore::CriticalEdition, version)
+    ce.position = catalog.position if(catalog.position) # Duplicate the position of the catalog on the edition
     TaskHelper::setup_header_images
     
     # HyperEditions may be manifestations of both pages and paragraphs
@@ -361,6 +367,7 @@ namespace :discovery do
     system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/TEI/p4/tei_style.css public/stylesheets/TEI/p4/tei_style.css")
     system("cp -fv #{ENV['vhost_dir']}/ROOT/WEB-INF/xslt/TEI/p4/html/tei.xsl xslt/TEI/p4/html/tei.xsl")
     system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/front_page.css public/stylesheets/front_page.css")
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/WEB-INF/xslt/WitTEI/* xslt/WitTEI/")
     system('rake assets:package')
     system('warble war:clean')
     system('warble')

@@ -5,10 +5,11 @@ class AdvancedSearch
 
   # advanced search for simple edition.
   # Return an array of hash {title, uri, description}
-  def search(edition_prefix, edition_id, words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil, content_required = true)
+  def search(edition_prefix, edition_id, words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil, content_required = true, page=nil, limit=nil)
 
     # load params for query
-    data = query_params(words, operator, mc, mc_from, mc_to, mc_single, content_required)
+    data = query_params(words, operator, mc, mc_from, mc_to, mc_single, content_required, page, limit)
+
 
     # execute query
     doc = execute_query(data)
@@ -98,7 +99,8 @@ class AdvancedSearch
 
   private
 
-  def query_params(words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil, content_required = true)
+  def query_params(words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil, content_required = true, page=nil, limit=nil)
+
     # collect data to post
     data = {
       'search_type' => 'mc',
@@ -114,9 +116,18 @@ class AdvancedSearch
 
     # add mc - mc_from - mc_to if specified
     if mc_from
+      # tranlate mc_from and mc_to
+      mc_from_search_key = mc_from.collect do |uri|
+        uri = search_key(uri)
+      end
+
+      mc_to_search_key = mc_to.collect do |uri|
+        uri = search_key(uri)
+      end
+
       data['mc'] = ''
-      data['mc_from'] = mc_from
-      data['mc_to'] = mc_to
+      data['mc_from'] = mc_from_search_key
+      data['mc_to'] = mc_to_search_key
     else
       data['mc'] = mc
     end
@@ -129,6 +140,16 @@ class AdvancedSearch
     # require content
     if content_required
       data['content_required'] = true
+    end
+
+    # for result pagination, this indicates the page to show
+    if page
+      data['page'] = page
+    end
+    
+    # for result pagination, this is the number of result per page
+    if limit 
+      data['limit'] = limit
     end
 
     return data
@@ -180,6 +201,46 @@ class AdvancedSearch
 
     # return response
     return doc
+  end
+
+  def search_key(uri)
+    
+    material = TaliaCore::Source.find(uri)
+
+    result = []
+
+    # add macrocontribution siglum to search_key
+    result << material.hyper.in_catalog[0].uri.local_name
+
+    # add book string and position
+    if !material.book.nil?
+      result << "book"
+      result << material.book.position_for_search_key
+      result << material.book.uri.local_name
+    end
+    
+    # add chapter string and position
+    if !material.chapter.nil?
+      result << "chap"
+      result << material.chapter.position_for_search_key
+      result << material.chapter.uri.local_name
+    end
+
+    # add page or paragraph and position
+    case material
+    when TaliaCore::Page
+      result << "page"
+      result << material.position_for_search_key
+      result << material.uri.local_name
+    when TaliaCore::Paragraph
+      result << "para"
+      result << material.position_for_search_key
+      result << material.uri.local_name
+    else
+      result << '000000'
+    end
+
+    return result.join(".")
   end
 
 end

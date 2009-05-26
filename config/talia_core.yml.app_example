@@ -62,6 +62,9 @@ exist_options:
   exist_password: 'server password'
   exist_namespace: 'http://trac.talia.discovery-project.eu/wiki/Exist#'
 
+# Force a single editor's introduction for all simple editions
+# force_introduction: 'Editorial'
+
 # site name (appears in the page titles)
 site_name: Discovery Source
 

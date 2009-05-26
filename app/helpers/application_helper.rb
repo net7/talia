@@ -21,10 +21,17 @@ module ApplicationHelper
     end
   end
 
- def institution_link(name, url = nil)
-   url ||= '/documentation/institutions.html'
-   link_to(name, url)
- end
+  def institution_link(name, url = nil)
+    url ||= locale_uri('/documentation/LANG/institutions.html')
+    link_to(name, url)
+  end
+
+  # Link to "editor's introduction. (This has a magic parameter to override
+  # the default name globally, in case the site has only one introduction
+  def introduction_link(edition, text)
+    local_name = TaliaCore::CONFIG['force_introduction'] || edition.uri.local_name
+    titled_link(locale_uri("/documentation/LANG/#{local_name}.html"), text)
+  end
 
 
   # The (translated) material description for the element
@@ -172,7 +179,14 @@ module ApplicationHelper
   def action_name
     controller.action_name
   end
+
+  # Create a locale-sensitve URL by replacing "LANG" in the current string with
+  # the current language code
+  def locale_uri(string)
+    string.gsub(/LANG/, Locale.language_code)
+  end
   
+
   private
 
 
@@ -204,10 +218,4 @@ module ApplicationHelper
     title
   end
 
-  # Create a locale-sensitve URL by replacing "LANG" in the current string with
-  # the current language code
-  def locale_uri(string)
-    string.gsub(/LANG/, Locale.language_code)
-  end
-  
 end
