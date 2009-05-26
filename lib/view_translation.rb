@@ -23,6 +23,19 @@ Globalize::ViewTranslation.class_eval do
     end
   end
 
+  # Find all translations for the given key. This will return a hash that contains all language codes
+  # enabled in the system as keys, and the value will be a hash where :translation points to the
+  # translation object and :lang_name to the language name
+  def self.find_all_for(key)
+    translations = self.find(:all, :conditions => ['language_id IN (?) AND tr_key = ?', language_ids, key])
+    result = {}
+    language_codes.each do |code, lang| 
+      translation = translations.find { |tr| tr.language_id == lang[:id] }
+      result[code] = { :translation => translation, :lang_name => lang[:name] } 
+    end
+    result
+  end
+
   def self.find_by_locale_and_tr_key(locale, tr_keys)
     locale = Locale.new(locale)
     result = self.find(:all, :select => "tr_key, text", :order => "tr_key ASC",
@@ -74,4 +87,36 @@ Globalize::ViewTranslation.class_eval do
     end
     [ result.keys, result.values ]
   end
+  
+  # Stupid encoding for quotes, in case someone does put them in translation keys, and
+  # CGI::escape is mangled throuhgh internal Rails mechanis. 
+  def self.s_encode(key)
+    key.gsub(/'/, '__apos__').gsub(/"/, '__quote__')
+  end
+  
+  # Unencode for the stupid encoding, see above
+  def self.s_unencode(key)
+    key.gsub(/__apos__/, "'").gsub(/__quote__/, '"')
+  end  
+  
+  private
+  
+  # A list of all languages as ids
+  def self.language_ids
+    result = language_codes.collect { |code, lang| lang[:id].to_i }
+  end
+  
+  # Language codes in the system, as a mapping hash. The language code is the key for each element, and
+  # each element contains another hash, containing the :id and the :name of the language
+  def self.language_codes
+    @language_codes ||= begin
+      codes = {}
+      I18n.locales.values.each do |val| 
+        locale = Locale.new(val)
+        codes[val] = {:name => locale.language, :id => locale.language.id  }
+      end
+      codes
+    end
+  end
+  
 end

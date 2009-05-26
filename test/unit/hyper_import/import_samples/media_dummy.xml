@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<media>
+    <series>Aforismi di filosofia</series>
+    <author>Hans-Georg Gadamer</author>
+    <title>Il pozzo di Talete</title>
+    <publishing_date>2000</publishing_date>
+    <play_length>0:05:33</play_length>
+    <downloadable>yes</downloadable>
+    <category>Ancient Greek Philosophy</category>
+    <keywords>
+        <keyword>origine della filosofia</keyword>
+        <keyword>scienza e osservazione scientifica</keyword>
+        <keyword>il pozzo di Talete</keyword>
+    </keywords>
+    <relations>
+        <relation>
+            <predicate>refers</predicate>
+            <object>I frammenti dei presocratici (Talete)</object>
+        </relation>
+        <relation>
+            <predicate>refers</predicate>
+            <object>Platone, Teeteto</object>
+        </relation>
+    </relations>
+    <media_links>
+        <media>
+            <type>wmv</type>
+            <uri>mms://rntlivewm.rai.it/rai/discovery/Gadamer-IlpozzodiTalete.wmv</uri>
+        </media>
+        <media>
+            <type>mp4</type>
+            <uri>mms://rntlivewm.rai.it/rai/discovery/MPEG4/Gadamer-IlpozzodiTalete.mp4</uri>
+        </media>
+    </media_links>
+</media>

@@ -1,0 +1,32 @@
+<% if(@globalize) %>
+<%= javascript_include_tag 'shadowbox/shadowbox' %>
+<%= stylesheet_link_tag 'shadowbox'%>
+<script language="javascript">
+<!--
+
+Shadowbox.init({
+	language: 'en',
+	skipSetup: true,
+	players: ['html'],
+	modal:      true,
+	displayCounter: false,
+	enableKeys: false
+})
+
+function translate_shadow(key) {
+	// Shadowbox options set up
+	var shadowboxOptions = {
+		player:     'html',
+		title:      'Translate ' + key,
+		content:    '<div class="box_loader">Loading...</div>',
+		height:     600,
+		width:      600
+	};
+	// Open the shadowbox
+	Shadowbox.open(shadowboxOptions);
+	/* need to wait until the screen is up */
+	setTimeout("new Ajax.Updater('sb-content', '/translations/edit/" + key +"', { method: 'get' });", 600);
+}
+-->
+</script>
+<% end %>

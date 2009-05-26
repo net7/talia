@@ -7,7 +7,7 @@
     <%= stylesheet_link_tag 'main' %>
     <%= stylesheet_link_tag 'plain_shared' %>
     <%= javascript_include_tag 'prototype' %>
-    <%= javascript_include_tag 'in_place_translator' %>
+	<%= render(:partial => 'shared/translation_boxes') %>
   </head>
   <body>
     <div id="page_ext">
