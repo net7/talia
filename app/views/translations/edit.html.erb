@@ -3,7 +3,7 @@
 	<% each_language do |code, trans| %>
 			<tr>
 				<td><label for='<%= code %>'><%= trans[:lang_name] %></label></td>
-				<td><%= text_field_tag code, (trans[:translation].text if trans[:translation]), :size => 50 %>
+				<td><%= translate_field(code, trans) %>
 				    <%= (hidden_field_tag "#{code}_id", trans[:translation].id) if(trans[:translation]) %></td>
 			</tr>
 	<% end %>

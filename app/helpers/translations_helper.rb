@@ -8,6 +8,16 @@ module TranslationsHelper
   end
   alias_method :t, :translate
   
+  def translate_field(code, trans)
+    translation = trans[:translation]
+    text = (translation && translation.text) ? translation.text : ''
+    if(text.size > 50)
+      text_area_tag(code, text, :rows => 5, :cols => 45)
+    else
+      text_field_tag(code, text, :size => 50)
+    end
+  end
+  
   def localize(object, *arguments)
     object.localize(*arguments)
   end
