@@ -25,7 +25,7 @@ function translate_shadow(key) {
 	// Open the shadowbox
 	Shadowbox.open(shadowboxOptions);
 	/* need to wait until the screen is up */
-	setTimeout("new Ajax.Updater('sb-content', '/translations/edit/" + key +"', { method: 'get' });", 600);
+	setTimeout("new Ajax.Updater('sb-content', '/translations/edit/" + key +"', { method: 'get' });", 1000);
 }
 -->
 </script>
