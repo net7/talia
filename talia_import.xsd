@@ -20,16 +20,11 @@
                         <xs:element name="object" type="xs:string"/>
                     </xs:sequence>
                 </xs:complexType>
-                <!-- 
-                    Keyref to source siglum. 
-                    This needs to be disabled if the data is in multiple files,
-                    since then the references cannot be checked.
-                -->
-                <xs:keyref refer="sourceKey" name="relationTarget">
-                    <xs:selector xpath="object"></xs:selector>
-                    <xs:field xpath="."></xs:field>
-                </xs:keyref>
-                
+                <xs:unique name="predicateAndObject">
+                    <xs:selector xpath="."/>
+                    <xs:field xpath="object"/>
+                    <xs:field xpath="predicate"/>
+                </xs:unique>
             </xs:element>
         </xs:sequence>
     </xs:complexType>
@@ -93,7 +88,7 @@
                     <xs:element name="publisher" type="xs:string"/>
                     <xs:element name="publishingPlace" type="xs:string"/>
                     <xs:element name="ordering" type="xs:int"/>
-                    <xs:element name="relations" type="relationsType"/>
+                    <xs:element name="relations" type="relationsType" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -156,6 +151,7 @@
                     <xs:element name="alreadyPublished" type="xs:string"/>
                     <xs:element name="relations" type="relationsType"/>
                     <xs:element name="copyrightNote" type="xs:string"/>
+                    <xs:element name="subtype" type="xs:string" minOccurs="0"></xs:element>
                     <xs:element name="dimensionX" type="xs:int" default="0" minOccurs="0"/>
                     <xs:element name="dimensionY" type="xs:int" default="0" minOccurs="0"/>
                     <xs:element name="file_size" type="xs:int" default="0"/>
@@ -282,6 +278,27 @@
             <xs:selector xpath="source/*/siglum"/>
             <xs:field xpath="."/>
         </xs:key>
+        
+        <!--
+            WARNING: The keys and constraints defined here will not work in all
+            cases. This is due to the structure of the format, and how the
+            XSD Schema can be applied.
+            
+            If you run into problems, you may want to ignore these constraints.
+        -->
+        
+        <!-- 
+            Keyref to source siglum. 
+            This needs to be disabled if the data is in multiple files,
+            since then the references cannot be checked.
+            
+            (This has been disabled since it doesn't work in all cases, due
+            to limitations of XSD on the current layout of the schema)
+        -->
+        <xs:keyref refer="sourceKey" name="relationTarget">
+            <xs:selector xpath="source/*/relations/relation/object"></xs:selector>
+            <xs:field xpath="."></xs:field>
+        </xs:keyref>
         
         <!-- Ordering of the books -->
         <xs:unique name="bookOrder">
