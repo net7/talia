@@ -28,8 +28,24 @@ module ApplicationHelper
 
   # Link to "editor's introduction. (This has a magic parameter to override
   # the default name globally, in case the site has only one introduction
-  def introduction_link(edition, text)
-    local_name = TaliaCore::CONFIG['force_introduction'] || edition.uri.local_name
+  def introduction_link
+    text = t(:"talia.global.editors introduction")
+
+    force_mode = TaliaCore::CONFIG['force_introduction'] || ''
+    force_mode.downcase
+    local_name = case(force_mode)
+    when '':
+        @edition.uri.local_name
+    when 'per_work':
+        if(@book)
+          text = t(:"talia.global_introduction_on_#{@book.uri.local_name.downcase}")
+          @book.uri.local_name
+        else
+          @edition.uri.local_name
+        end
+    else
+        force_mode
+    end
     titled_link(locale_uri("/documentation/LANG/#{local_name}.html"), text)
   end
 
