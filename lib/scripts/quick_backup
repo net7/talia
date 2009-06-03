@@ -32,12 +32,20 @@ if(mode == :backup)
   if(ARGV.include?('-data'))
     puts "Backing up normal data..."
     data_dir = talia_conf['data_directory_location'] || './data/'
-    FileUtils.cp_r( data_dir, File.join(backup_dir, 'data'), :verbose => true)
+    if(File.exists?(data_dir))
+      FileUtils.cp_r( data_dir, File.join(backup_dir, 'data'), :verbose => true)
+    else
+      puts "skipped: no data directory found"
+    end
   end
   if(ARGV.include?('-iip'))
     puts "Backing up iip data..."
     iip_dir = talia_conf['iip_root_directory_location'] || './iip_root/'
-    FileUtils.cp_r(iip_dir, File.join(backup_dir, 'iip_root'), :verbose => true)
+    if(File.exists?(iip_dir))
+      FileUtils.cp_r(iip_dir, File.join(backup_dir, 'iip_root'), :verbose => true)
+    else
+      puts "skipped: no iip data found"
+    end
   end
   puts "Making tarball..."
   `tar czf #{backup_dir}.tar.gz #{backup_dir}`

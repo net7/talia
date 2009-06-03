@@ -1,4 +1,4 @@
-require 'JXslt/jxslt'
+  require 'JXslt/jxslt'
 
 unless defined? TaliaCore::XSLT_ROOT
   TaliaCore::XSLT_ROOT = "#{RAILS_ROOT}/xslt"
@@ -37,9 +37,11 @@ module TaliaCore
 
     def prepare_transformation(xml, format)
       if xml
+        # we're serving a preview request. Data are sent in POST variables
         @in_xml = xml
         @format = format
       else
+        # we're performing a transformation for a real hyperedition source
         file = File.open(self.data[0].file_path, 'r')
         @in_xml = file.read
         file.close

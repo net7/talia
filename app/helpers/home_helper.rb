@@ -1,7 +1,7 @@
 module HomeHelper
   
-  def select_language(name, locale, accesskey)
-    link_to(name, { :controller => 'languages', :action => 'change', :id => locale }, { :title => "#{name}, AccessKey: #{accesskey}", :accesskey => accesskey })
+  def select_language(name, locale)
+    link_to(name, { :controller => 'languages', :action => 'change', :id => locale })
   end
   
   def render_home(options)
@@ -15,6 +15,18 @@ module HomeHelper
   # Puts a list of links to all editions of the given type
   def edition_links(type)
     render(:partial => 'edition', :collection => @editions[type]) if(@editions && @editions[type])
+  end
+
+  # Puts the editions of all the given types in one list, ordered by the editions
+  # 'position' property.
+  def sorted_editions(*types)
+    return unless @editions
+    all_editions = []
+    types.each do |type|
+      all_editions.concat(@editions[type]) if(@editions[type])
+    end
+    all_editions.sort! { |a,b| a.position.to_i <=> b.position.to_i }
+    render(:partial => 'edition', :collection => all_editions)
   end
   
   # Puts the category links for the AvEdition
@@ -32,10 +44,5 @@ module HomeHelper
     edition.class::EDITION_PREFIX
   end
 
-    # Create a locale-sensitve URL by replacing "LANG" in the current string with
-  # the current language code
-  def locale_uri(string)
-    string.gsub(/LANG/, Locale.language_code)
-  end
   
 end

@@ -10,19 +10,19 @@ body {
     font-size: 62.5%;
     font-family: Arial, "Lucida Grande", Verdana, "Bitstream Vera Sans", Avenir, Helvetica, sans-serif;
     text-align: center;
-    
+
 }
 
 
 
-h1, h2, h3, h4, p, ul, li, {
+h1, h2, h3, h4, p, ul, li {
     font-size: 1em;
 }
 
 a {
     text-decoration: none;
 }
-a:hover {
+a[href]:hover {
     text-decoration: underline;
 }
 #page_ext {
@@ -43,7 +43,7 @@ a:hover {
     height: 3cm;
     width: 90%;
     background:#ffffff no-repeat left top;
-    
+
 }
 
 #header h1 {
@@ -57,7 +57,7 @@ a:hover {
 
 div#logo_print {
     display: block;
-    position: absolute;
+    position: relative;
     top: 0px;
 }
 
@@ -87,7 +87,7 @@ div#search_adv {
 
 #content {	
     text-align: left;
-    
+
 }
 
 
@@ -109,7 +109,8 @@ div#search_adv {
 /* *************************************** */
 
 #content.divided {
-    
+    background: #ffffff;
+    color: #000000;
 }
 
 
@@ -117,7 +118,10 @@ div#search_adv {
 
 #content.divided div#visore {
     margin-left: 0px;
+    background: #ffffff;
+    color: #000000;
 }
+
 #content.divided div#visore.extended {
     margin-left: 2em;
 }
@@ -132,8 +136,8 @@ div#visore h1 {
 }
 
 div#visore h2 {
-    color: #000;
-    
+    background: #ffffff;
+    color: #000000;
     font-family: georgia, serif;
     font-weight: normal;
     font-size: 1.6em;
@@ -142,7 +146,7 @@ div#visore h2 {
     border-left: 0;
     border-right: 0;
 }
-div#visore h2 span {
+div#visore h2 span.red {
     color: #666;
 }
 
@@ -176,7 +180,7 @@ div#visore p.editedby span {
 div#visore p.about {
     margin-top: 20px;
     border-top: 1px solid #e5e5e5;
-    
+
 }
 div#visore p.about a {
     color: #000;
@@ -199,12 +203,10 @@ div#visore div.resultstools {
     position: absolute;
     top: 1em;
     right: 0;
-    margin:15px 0 10px 0;
     color: #000;
-    width: 30%;
+    width: 30em;;
     float: right;
     font-size: 1.2em;
-    background: #fff;
     border-left: 0;
     border-bottom: 0;
 }
@@ -239,7 +241,7 @@ div#visore div.txt_block p.addons {
     color: #909090;
     border-top: 1px solid #e5e5e5;
     font-family: georgia, serif;
-    
+
 }
 div#visore div.txt_block p.addons a {
     text-decoration: underline;
@@ -283,4 +285,8 @@ div#visore ul.results li p {
     float: none;
     line-height: 1.6em;
     padding-bottom: 5px;
+}
+
+span.match {
+    font-weight: bold;
 }

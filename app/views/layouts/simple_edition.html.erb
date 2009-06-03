@@ -6,8 +6,8 @@
     <%= stylesheet_link_tag 'main' %>
     <%= edition_style_link %>
     <%= javascript_include_tag 'prototype' %> 
-    <%= javascript_include_tag 'scriptaculous' %> 
-    <%= javascript_include_tag 'in_place_translator' %>  
+    <%= javascript_include_tag 'scriptaculous' %>
+	<%= render(:partial => 'shared/translation_boxes') %>
     <%= edition_javascript_include %> 
     <% for js in @javascripts %> 
       <%= javascript_include_tag js %>  
@@ -15,6 +15,7 @@
   </head>
   <body>
     <%= edition_partial :script %>
+   
     <div id="page_ext">
       <div id="page_int">
         <div id="header">
@@ -36,9 +37,10 @@
               <% end  %>
             </ul>
           </div>
+
           <!--[if !IE]>tools<![endif]-->
 <%= widget(:simple_mode_path, :path_elements => @path) %>
-          <div id="talia_link"><a href="http://www.talia.discovery-project.eu/">Powered by Talia</a></div>
+          <!-- <div id="talia_link"><a href="http://www.talia.discovery-project.eu/">Powered by Talia</a></div> -->
         </div>
         <!--[if !IE]>navigate<![endif]-->
         
@@ -53,6 +55,7 @@
       <!--[if !IE]>page_int<![endif]-->
     </div>
     <!--[if !IE]>page_ext<![endif]-->
+
     <%= google_analytics %>
   </body>
 </html>

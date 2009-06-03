@@ -1,7 +1,11 @@
 class CriticalEditionsController < SimpleEditionController
   set_edition_type :critical
   add_javascripts 'tooltip'
-  
+
+  layout 'simple_edition', :except => [:advanced_search_popup, :advanced_search_print]  
+
+  ADVANCED_SEARCH_RESULTS_PER_PAGE = 20
+
   def dispatcher
     @request_url = URI::decode(request.url)
     @source = TaliaCore::Source.find(@request_url)
@@ -13,17 +17,17 @@ class CriticalEditionsController < SimpleEditionController
     else
       prepare_for_part
     end
-    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
     print_tool # Enable the print button
   end
  
   # GET /critical_editions/1
-  def show 
+  def show
+    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip', 'front_page']
     @path = [{:text => params[:id]}]
   end
   
   def print
-    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
+    set_custom_stylesheet ['TEI/p4/tei_style_print.css', 'tooltip']
     source_uri = "#{N::LOCAL}#{edition_prefix}/#{params[:id]}/#{params[:part]}"    
     source = TaliaCore::Source.find(source_uri)
     if source.class == TaliaCore::Book
@@ -48,12 +52,27 @@ class CriticalEditionsController < SimpleEditionController
           (params[:mc].nil? or params[:mc].join.strip == "")
         redirect_to(:back) and return
       end
-      
+
       # execute advanced search
       adv_src = AdvancedSearch.new
-      @result = adv_src.search(edition_prefix, params[:id], params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to], params[:mc_single])
+      page = params[:page] || '1'
+      if page == 'all'
+        page = '1'
+        @limit = 0
+      else
+        @limit = ADVANCED_SEARCH_RESULTS_PER_PAGE
+      end
+      @result = adv_src.search(edition_prefix, params[:id], params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to], params[:mc_single], true, page, @limit)
+
       @result_count = adv_src.size
 
+      # the number of pages we have to display
+      if @limit == 0
+        @pages = 1
+      else
+        @pages = (@result_count.to_f / @limit).ceil
+      end
+      
       @searched_works = []
       unless params[:mc].nil?
         [params[:mc], params[:mc_from], params[:mc_to]].transpose.each do |work,from,to|
@@ -61,20 +80,20 @@ class CriticalEditionsController < SimpleEditionController
           from_item = TaliaCore::Source.find(from)
           to_item = TaliaCore::Source.find(to)
           @searched_works << {:work => work_item.title,
-            :from => from_item.title || from_item.local_name,
-            :to   => to_item.title || to_item.local_name
+            :from => from_item.title || from_item.uri.local_name,
+            :to   => to_item.title || to_item.uri.local_name
           }
         end
       end
 
       # get result for menu
-      @exist_result = adv_src.menu_for_search(edition_prefix, params[:id], params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to])
+      @exist_result = adv_src.menu_for_search(params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to])
 
       # search word
       @words = params[:words]
             
       # get chosen_book for menu
-      if params[:mc_single]
+      if ((params[:mc_single]) && (params[:mc_single] != ''))
         @source = TaliaCore::Source.find(params[:mc_single])
         case @source
         when TaliaCore::Book
@@ -90,22 +109,16 @@ class CriticalEditionsController < SimpleEditionController
       end
     end
   end
+
+  def advanced_search_popup
+
+    set_custom_stylesheet ['TEI/p4/tei_style_print.css']
+
+  end
   
   def advanced_search_print
-    # set custom stylesheet for screen and print media
-    set_custom_edition_stylesheet ['critical_print']
-    set_print_stylesheet ['critical_printreal']
-    
     @path = []
-    
-    @result = []
-
-    unless params[:advanced_search_result].nil? || params[:checkbox].nil?
-      params[:checkbox].each do |checkbox_id|
-        index = checkbox_id.to_i
-        @result << {:counter => params[:counter][index], :title => params[:title][index], :description => params[:description][index]}
-      end
-    end
+    @edition_nick = params[:id]
 
   end
 
@@ -123,6 +136,7 @@ class CriticalEditionsController < SimpleEditionController
       {:text => params[:id], :link => @edition.uri.to_s}, 
       {:text => @book.dcns.title.first.to_s}        
     ]  
+    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
   end
   
   def prepare_for_chapter
@@ -134,6 +148,7 @@ class CriticalEditionsController < SimpleEditionController
       {:text => @book.dcns.title.first.to_s, :link => @book.uri.to_s},
       {:text => @chapter.dcns.title.first.to_s}
     ]
+    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
   end
   
   def prepare_for_part
@@ -147,7 +162,11 @@ class CriticalEditionsController < SimpleEditionController
     ]
     @path << {:text => @chapter.dcns::title.first.to_s, :link => @chapter.uri.to_s} unless @chapter.nil?
     @path << {:text => @part.dcns::title.empty? ? @part.uri.local_name.to_s : @part.dcns.title.first.to_s}
+    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
   end
 end
  
  
+
+
+

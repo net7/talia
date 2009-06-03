@@ -108,7 +108,7 @@ module TaliaCore
         page.save!        
         page.types << N::HYPER.Page
         page.dct::isPartOf << book
-        page.position = "%06d" % i
+        page.position = "%06d" % (i + 1)
         page.save!
         note1 = make_note("#{name}-page#{i}-paragraph1-note1")
         note1.save!

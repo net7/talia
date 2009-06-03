@@ -1,7 +1,13 @@
-<h1><%= t(:"talia.global.list of works") %> </h1>
-
 <% if w.advanced_search %>
   <form name="advanced_search_menu_form" action="<%= url_for(:action => 'advanced_search') %>" method="post" >
+    <% if ((params[:mc_single]) && (params[:mc_single] != '')) %>
+      <h1 class="scroll_title_red">
+        <a href="#" onclick="document['advanced_search_menu_form'].submit();return false">
+          <%= t(:"talia.search.all occurrence") %>
+        </a>
+      </h1>
+    <%  end %>
+
     <%= w.hidden_field_tag('search_type', params[:search_type]) %>
     <%= w.hidden_field_tag('words', params[:words]) %>
     <%= w.hidden_field_tag('operator', params[:operator]) %>
@@ -17,8 +23,11 @@
       <% end %>
     <% end %>
 
+    <%= hidden_field_tag 'page' %>
     <%= w.hidden_field_tag('mc_single') %>
     <%= w.hidden_field_tag 'advanced_search_submission', 'menu submission' %>
+  <% else %>
+    <h1 class="scroll_title"><%= introduction_link(@edition, t(:"talia.global.list of works")) %></h1>
   <% end %>
 
   <ul class="toplevel book">

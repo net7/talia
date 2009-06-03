@@ -1,9 +1,9 @@
 <% if @result.nil? %>
   <div id="visore" class="extended">
     <h1>Advanced search description</h1>
-  
+
     <p>Sed libero dolor, cursus et, varius eu, interdum sed, risus. Nam condimentum, est vitae tempus luctus, eros justo auctor pede, at tincidunt sem orci et nibh. In aliquet lacus sed diam. Duis rutrum. Aliquam erat volutpat. Mauris malesuada nunc non dui. Nullam congue laoreet mi. Nunc metus massa, viverra eget, rhoncus ac, ornare at, lorem. Curabitur suscipit, mauris non ultrices sollicitudin, sem elit mattis orci, eget dictum quam urna sit amet orci. Donec ut quam. Aenean vitae magna. Mauris massa nibh, viverra eu, volutpat sed, commodo sed, dolor. Nunc sit amet arcu. Sed vitae dui. Etiam feugiat diam eu lacus. Donec varius laoreet sem. Integer in nisl. Quisque tempus blandit magna.</p>
-  
+
     <p> Fusce vitae tortor vel libero auctor tristique. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam at eros a nisi faucibus pellentesque. In nec velit. Aliquam pretium, metus ut eleifend commodo, dui ipsum ullamcorper elit, quis blandit mauris ipsum dignissim lorem. In tempor. Nulla facilisi. Donec vel lorem. Donec dictum, nibh ac semper rhoncus, quam odio rutrum dolor, nec mattis justo odio ut justo. Maecenas odio risus, lacinia sagittis, vestibulum eget, mattis et, elit. Vestibulum quis erat.<br />
     Nunc ornare tincidunt dolor. Proin gravida. Integer arcu. Maecenas felis. Phasellus laoreet sodales enim. Suspendisse eget ante non tortor dignissim accumsan. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam eget arcu in dolor accumsan varius. Maecenas ut nunc non eros consectetuer suscipit. In porttitor diam in purus. Donec consectetuer. Ut quis diam id diam tristique ultrices.</p>
     <p class="about"><a href="#">about the edition</a></p>
@@ -13,40 +13,48 @@
   <div id="content" class="divided grey">
     <div id="visore">
       <h2><%= @result_count %> <%= t(:'talia.search.result phrase 1') %> <span class="red"><%= @words  %></span>
-      <%= @searched_works.collect do |item|
-        " #{t(:'talia.search.result.optional.in the work')} '#{item[:work]}' #{t(:'talia.search.result.optional.in aphorisms')} #{item[:from]} #{t(:'talia.search.result.optional.through')} #{item[:to]},"
-      end unless @searched_works.nil?
+        <%= @searched_works.collect do |item|
+          " #{t(:'talia.search.result.optional.in the work')} '#{item[:work]}' #{t(:'talia.search.result.optional.in aphorisms')} #{item[:from]} #{t(:'talia.search.result.optional.through')} #{item[:to]},"
+        end unless @searched_works.nil?
       %>
-      <%= t(:'talia.search.result phrase 2') %> <%= @edition.hyper::title %></h2>
-    
-      <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="getElementsByName('advanced_search_result_form')[0].submit(); return false;"><%= t(:'talia.search.print results') %></a></div>
+        <%= t(:'talia.search.result phrase 2') %> <%= @edition.hyper::title %></h2>
+
+      <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="window.open('<%= "/texts/#{params[:id]}/advanced_search_print" %>', '<%=  @edition.hyper::title %>', null); return false;"><%= t(:'talia.search.print results') %></a></div>
         <div class="select_deselect"><a href="#" title="select all" onclick="($A(getElementsByName('checkbox[]'))).each(function(item){item.checked = true;});return false;"><%= t(:'talia.search.select all') %></a> | <a href="#" title="deselect" onclick="($A(getElementsByName('checkbox[]'))).each(function(item){item.checked = false;});return false;"><%= t(:'talia.search.deselect all') %></a></div>
       </div>
-      <!--[if !IE]>resultstools<![endif]-->  
+      <!--[if !IE]>resultstools<![endif]-->
       <form name="advanced_search_result_form" action="<%= url_for(:action => 'advanced_search_print') %>" method="post" target="blank">
-        <%= hidden_field_tag 'advanced_search_result' %><%= hidden_field_tag 'words', @words %><%= hidden_field_tag 'edition_title', @edition.hyper::title %>
+        <%= hidden_field_tag 'advanced_search_result' %><%= hidden_field_tag 'words', @words %><%= hidden_field_tag 'edition_title', @edition.hyper::title %><%= hidden_field_tag 'advanced_search_popup_value', '' %>
+        <%= hidden_field_tag 'page' %>
         <ul class="results">
           <% @result.each_with_index do |item, index| %>
             <li name="result_item[]">
-              <h3><%= index + 1 %><%= hidden_field_tag 'counter[]', (index+1).to_s %> <label> select to print</label><input name="checkbox[]" type="checkbox" value="<%= index.to_s %>" checked /> <span><a href="<%= item[:url] %>"><%= item[:title] %></a><%= hidden_field_tag 'title[]', item[:title] %></span></h3>
+              <h3><%= index + 1 %><%= hidden_field_tag 'counter[]',(index+1).to_s %> <label> select to print</label><input name="checkbox[]" type="checkbox" value="<%= index.to_s %>" checked /> <span><a href="#" onclick="document['advanced_search_result_form'].advanced_search_popup_value.value='<%=  "full_description_#{index}" %>';window.open('<%= "/texts/#{params[:id]}/advanced_search_popup" %>', '<%= item[:title] %>', '');return false;"><%= item[:title] %></a><%= hidden_field_tag 'title[]', item[:title] %></span></h3>
               <p name="p_description[]">
                 <%= item[:description] %><%= hidden_field_tag 'description[]', item[:description] %>
                 <%= " (#{item[:more_occurrence]} #{(t(:'talia.search.more occurrences') if item[:more_occurrence] > 1) || t(:'talia.search.more occurrence')})"  if item[:more_occurrence] > 0 %>
               </p>
+              <%= hidden_field_tag 'full_description[]', item[:full_description], :id => "full_description_#{index}" %>
             </li>
           <% end %>
         </ul>
+        <% if @pages > 1 %>
+          <ul class="results">
+            <li>
+              <h2 align="center">
+                There are <%= @result_count.to_i - @limit.to_i %> other results.
+                <a href="#" onClick="if('<%= params[:mc_single]%>'!=''){document.forms['advanced_search_menu_form'].mc_single.value='<%= params[:mc_single]%>'};document.forms['advanced_search_menu_form'].page.value='all';document.forms['advanced_search_menu_form'].submit();return false">Show them all</a> (it may take long to load)
+              </h2>
+            </li>
+          </ul>
+        <% end  %>
       </form>
     </div>
     <!--[if !IE]>visore<![endif]-->
   </div>
   <!-- content -->
-  
+
   <div id="scroll" class="menuList">
     <%= widget(:critical_edition_menu, :advanced_search => true, :books => @exist_result, :chosen_book => @book, :chosen_chapter => @chapter, :chosen_part => @part) %>
   </div>
 <% end %>
-
-
-
-

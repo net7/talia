@@ -33,14 +33,7 @@ namespace :discovery do
     FileUtils.rm_rf(data_dir) if(File.exist?(data_dir))
     FileUtils.rm_rf(iip_dir) if(File.exist?(iip_dir))
     puts "Attention! Data and iip director were removed! Remember to change the permissions for production."
-    ontology_folder = ENV['ontology_folder'] || File.join(RAILS_ROOT, 'ontologies')
-    TaskHelper::setup_ontologies(ontology_folder)
-  end
-
-  desc "Update the Ontologies. Options ontologies=<ontology_folder>"
-  task :setup_ontologies => :disco_init do
-    ontology_folder = ENV['ontology_folder'] || File.join(RAILS_ROOT, 'ontologies')
-    TaskHelper::setup_ontologies(ontology_folder)
+    Util::setup_ontologies
   end
 
 
@@ -133,8 +126,9 @@ namespace :discovery do
   end
   
   # creates a facsimile edition and adds to it all the color facsimiles found in the DB
-  desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> description=<short_description> header=<header_image_folder> catalog=<catalog_siglum>"
+  desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> header=<header_image_folder> catalog=<catalog_siglum>"
   task :create_color_facsimile_edition => :disco_init do
+    TaskHelper::edition_config # Setup the configuration
     if ENV['catalog'].nil? 
       catalog = TaliaCore::Catalog.default_catalog
     else
@@ -147,8 +141,9 @@ namespace :discovery do
       TaliaCore::Page
       TaliaCore::Facsimile
       fe = TaskHelper::create_edition(TaliaCore::FacsimileEdition)
+      # Copy position from catalog to edition
+      fe.position = catalog.position if(catalog.position)
       TaskHelper::setup_header_images
-      fe.write_predicate_direct(N::HYPER.description, ENV['description'])
       qry = TaskHelper::default_book_query(catalog)
       qry.where(:facsimile, N::HYPER.manifestation_of, :page)
       qry.where(:facsimile, N::RDF.type, N::HYPER + 'Facsimile')
@@ -190,8 +185,9 @@ namespace :discovery do
     TaliaCore::Transcription
     TaliaCore::HyperEdition
 
-    version = ENV['version']
+    TaskHelper::edition_config # Setup the configuration
 
+    version = ENV['version']
 
     if ENV['catalog'].nil? 
       catalog = TaliaCore::Catalog.default_catalog
@@ -200,6 +196,7 @@ namespace :discovery do
       catalog = TaliaCore::Catalog.find(N::LOCAL + ENV['catalog']) 
     end
     ce = TaskHelper::create_edition(TaliaCore::CriticalEdition, version)
+    ce.position = catalog.position if(catalog.position) # Duplicate the position of the catalog on the edition
     TaskHelper::setup_header_images
     
     # HyperEditions may be manifestations of both pages and paragraphs
@@ -228,13 +225,14 @@ namespace :discovery do
           assit_kind_of(TaliaCore::Page, new_page)
         
           # Clone all editions that may exist on the page itself
+          # TODO: Why are editions existing on the page itself?
           TaskHelper::clone_hyper_editions(orig_page, new_page)
           progress.inc
 
           # Go through all the notes of the current page
           orig_page.notes.each do |note|
             new_note = ce.add_from_concordant(note)
-            new_note[N::HYPER.page] << new_page
+            new_note.hyper::page << new_page
             TaskHelper::handle_paragraph_for(note, new_note, ce)
             progress.inc
             new_note.save!
@@ -274,7 +272,9 @@ namespace :discovery do
       end
     end
   end
-  
+
+  # When using the following task for recreating a Critical edition text, you must
+  # use the "full" catalog, that is, including the "texts/" part. e.g. : catalog=texts/Bruno
   desc "recreate the book_html of all book in one catalog. Options catalog=<catalog> [version=<version>]"
   task :recreate_books_html => :disco_init do
     TaliaCore::Book
@@ -296,7 +296,7 @@ namespace :discovery do
     books = qry.execute
 
     progress = ProgressBar.new('Books', books.size)
-    
+
     books.each do |book|
       book.recreate_html_data!(version)
       progress.inc
@@ -361,6 +361,11 @@ namespace :discovery do
   desc "Deploy the application. Option: vhost_dir=<root dir of virtual host>"
   task :deploy_war do
     raise(ArgumentError, "Must give vhost_dir option") unless(ENV['vhost_dir'])
+    puts "Backing up locally customized css files"
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/TEI/p4/tei_style.css public/stylesheets/TEI/p4/tei_style.css")
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/WEB-INF/xslt/TEI/p4/html/tei.xsl xslt/TEI/p4/html/tei.xsl")
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/front_page.css public/stylesheets/front_page.css")
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/WEB-INF/xslt/WitTEI/* xslt/WitTEI/")
     system('rake assets:package')
     system('warble war:clean')
     system('warble')

@@ -38,18 +38,21 @@ var InPlaceTranslator = Class.create({
   initialize: function(id){
     this.id = id;
     this.url = '/locale/translate';
+    this.externalControl = this.id + '_activator', //.translate_element
     this.parentElement = $(this.id).up();
     this.parentElement.observe('click', function(event){
       if(event.element().tagName == 'A') {event.stop(); return;}
-      this.editor.handleFormSubmission(event);
+      // this.editor.createForm(); // force the form creation
+      // this.editor.handleFormSubmission(event);
+      $(this.externalControl).fire("click");
     }.bind(this));
     this.editor = this.createInPlaceEditor();
   },
   createInPlaceEditor: function(){
     return new Ajax.InPlaceEditor(this.id, this.url, {
       hiddenValue: this.id, // this.id should be the translation key too
-      externalControl: this.id + '_activator',
-      externalControlOnly: true,
+      externalControl: this.externalControl,
+      // externalControlOnly: true,
       callback: function(form, value) {
         return 'key='+escape(this.id)+'&value='+escape(value);
       }.bind(this)

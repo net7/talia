@@ -1,7 +1,6 @@
 <!--[if !IE]>menulocation<![endif]-->
 <div id="menulocation">
   <%# set up the subtypes to be shown in the tabs  %>
-  <% set_book_subtypes %>
   <%= widget(:simple_mode_tabs, :tabs_elements => book_tabs) %>
 </div>
 <!--[if !IE]>menulocation<![endif]-->
@@ -10,11 +9,12 @@
 </div>
 <!--[if !IE]>description<![endif]-->
 <div id="content">
-  <ul id="access_list" class="minilist">
+  <ul id="access_list" class="minilist facsimile_books">
     <% @books.each do |book| %>
       <li>
         <h1>
-          <%= thumb_link(book, :border => '0', :height => '60', :width => '40' ) %>
+          <%= thumb_link(book, :border => '0', :height => '81', :width => '54' ) %>
+           <%= book.siglum %>
         </h1>
         <p>
           <%= material_description(book) %>

@@ -13,3 +13,61 @@ div.blank_facs {
     margin-top: 25%;
     font-size: 120%;
 }
+
+
+/* ******************************************** */
+/* LIST ON THE SIDE OF THE FACSIMILE FRONT PAGE */
+/* ******************************************** */
+ul#facsimile_frontpage_access_list {
+    margin: 15px 4%;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+}
+ul#facsimile_frontpage_access_list li {
+    padding: 2% 0 5% 0;
+    clear: both;
+    background: url(/images/dot_orizz.gif) repeat-x bottom;
+    /* Box Model Hack */
+    width: 100%;
+    voice-family: "\"}\"";
+    voice-family:inherit;
+    width:96%;
+    text-align: center;
+}
+ul#facsimile_frontpage_access_list li h3 {
+    color: #6a615d;
+    text-align: center;
+    display: block;
+    font-size: 1.6em;
+    margin-bottom: 5px;
+}
+ul#facsimile_frontpage_access_list li h3 a {
+    color: #6a615d;
+    text-align: center;
+    display: block;
+}
+ul#facsimile_frontpage_access_list li h3 a img {
+    display: block;
+    margin-left: 43px;
+    text-align: center;
+}
+
+
+/*  ******************************************/
+/* SCROLL MENU *************************** */
+/* MENU LIST IN THE SIDE SCROLL */
+/*  ******************************************/
+#scroll{
+    padding: 0 !important;
+}
+    #scroll h1 {
+        font-family: georgia, serif;
+        font-weight: normal;
+        font-size: 1.8em;
+        background: #fff;
+        padding: 14px 12px 14px 12px ;
+        border-bottom: 1px solid #e0e0e0;
+        display: block;
+        text-align: center;
+    }

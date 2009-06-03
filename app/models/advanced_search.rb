@@ -5,51 +5,14 @@ class AdvancedSearch
 
   # advanced search for simple edition.
   # Return an array of hash {title, uri, description}
-  def search(edition_prefix, edition_id, words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil)
-    # collect data to post
-    data = {
-      'search_type' => 'mc',
-      'operator' => operator
-    }
+  def search(edition_prefix, edition_id, words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil, content_required = true, page=nil, limit=nil)
 
-    # check if words field is empty
-    if words
-      # late minute hack, eliminates ' and "
-      #TODO: revert to a proper solution
-      data['words'] = words.gsub(/["']/, ' ')
-    end
+    # load params for query
+    data = query_params(words, operator, mc, mc_from, mc_to, mc_single, content_required, page, limit)
 
-    # add mc - mc_from - mc_to if specified
-    if mc_from
-      data['mc'] = ''
-      data['mc_from'] = mc_from
-      data['mc_to'] = mc_to
-    else
-      data['mc'] = mc
-    end
 
-    # add mc_single if specified
-    if mc_single
-      data['mc_single'] = mc_single
-    end
-
-    # load exist options.
-    exist_options = TaliaCore::CONFIG['exist_options']
-    raise "eXist configuration not found." if exist_options.nil?
-
-    # execute post to servlet
-    uri = URI.parse(URI.join(exist_options['server_url'],"/#{exist_options['community']}/Search").to_s)
-    if !exist_options['server_login'].nil? && !exist_options['server_password'].nil?
-      uri.user = exist_options['exist_login']
-      uri.password = exist_options['exist_password']
-    end
-    resp = Net::HTTP.post_form_hack uri, data
-    
-    # error check
-    raise "#{resp.code}: #{resp.message}" unless resp.kind_of?(Net::HTTPSuccess)
-
-    # get response xml document
-    doc = REXML::Document.new resp.body
+    # execute query
+    doc = execute_query(data)
 
     # total item
     self.size = doc.root.attribute('total').value
@@ -57,12 +20,21 @@ class AdvancedSearch
     # get level 2 group
     groups = doc.get_elements('/talia:result//talia:group/talia:entry')
     # collect result. It create an array of hash {title, url, description}
-    @result = groups.collect do |item|
-      {:title => item.elements['talia:metadata/talia:standard_title'].text,
+    @result = []
+    groups.each do |item|
+      # check if full content is present in search result
+      if item.elements['talia:full_content'].nil?
+        full_content = item.elements['talia:excerpt'].children.to_s
+      else
+        full_content = item.elements['talia:full_content'].children.to_s
+      end
+
+      @result <<  {:title => item.elements['talia:metadata/talia:standard_title'].text,
         :url => "#{N::LOCAL}#{edition_prefix}/#{edition_id}/#{item.elements['talia:metadata/talia:standard_title'].text}",
         :description => item.elements['talia:excerpt'].children.to_s,
+        :full_description => full_content,
         :more_occurrence => (item.elements['talia:excerpt'].attributes['more_occurrence'].to_i unless item.elements['talia:excerpt'].attributes['more_occurrence'].nil?) || 0
-        }
+      }
     end
 
     #store xml doc into local variable
@@ -75,41 +47,12 @@ class AdvancedSearch
   # advanced search for av media.
   # Return an array of hash {title, uri, description, author, date, length, keyword}
   def av_search(title_words, abstract_words = nil, keyword = nil)
-    # collect data to post
-    data = {'search_type[]' => 'media'}
 
-    # check if words field is empty
-    if title_words
-      data['title_words'] = title_words
-    end
+    # load params for query
+    data = query_params(title_words, abstract_words, keyword)
 
-    # check if words field is empty
-    if abstract_words
-      data['abstract_words'] = abstract_words
-    end
-
-    # check if words field is empty
-    if keyword
-      data['keyword'] = keyword
-    end
-
-    # load exist options.
-    exist_options = TaliaCore::CONFIG['exist_options']
-    raise "eXist configuration not found." if exist_options.nil?
-
-    # execute post to servlet
-    uri = URI.parse(URI.join(exist_options['server_url'],"/#{exist_options['community']}/Search").to_s)
-    if !exist_options['server_login'].nil? && !exist_options['server_password'].nil?
-      uri.user = exist_options['exist_login']
-      uri.password = exist_options['exist_password']
-    end
-    resp = Net::HTTP.post_form_hack uri, data
-
-    # error check
-    raise "#{resp.code}: #{resp.message}" unless resp.kind_of?(Net::HTTPSuccess)
-
-    # return xml document
-    doc = REXML::Document.new resp.body
+    # execute query
+    doc = execute_query(data)
 
     # total item
     self.size = doc.root.attribute('total').value
@@ -141,10 +84,163 @@ class AdvancedSearch
 
   end
 
-  def menu_for_search(edition_prefix, edition_id, words, operator, mc = nil, mc_from = nil, mc_to = nil)
-    search(edition_prefix, edition_id, words, operator, mc, mc_from, mc_to)
+  def menu_for_search(words, operator, mc = nil, mc_from = nil, mc_to = nil)
+    #    search(edition_prefix, edition_id, words, operator, mc, mc_from, mc_to, nil, false)
 
-    return self.xml_doc.get_elements('/talia:result/talia:group')
+    # load params for query
+    data = query_params(words, operator, mc, mc_from, mc_to, nil, false)
+
+    # execute query
+    doc = execute_query(data)
+
+
+    return doc.get_elements('/talia:result/talia:group')
+  end
+
+  private
+
+  def query_params(words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil, content_required = true, page=nil, limit=nil)
+
+    # collect data to post
+    data = {
+      'search_type' => 'mc',
+      'operator' => operator
+    }
+
+    # check if words field is empty
+    if words
+      # late minute hack, eliminates ' and "
+      #TODO: revert to a proper solution
+      data['words'] = words.gsub(/["']/, ' ')
+    end
+
+    # add mc - mc_from - mc_to if specified
+    if mc_from
+      # tranlate mc_from and mc_to
+      mc_from_search_key = mc_from.collect do |uri|
+        uri = search_key(uri)
+      end
+
+      mc_to_search_key = mc_to.collect do |uri|
+        uri = search_key(uri)
+      end
+
+      data['mc'] = ''
+      data['mc_from'] = mc_from_search_key
+      data['mc_to'] = mc_to_search_key
+    else
+      data['mc'] = mc
+    end
+
+    # add mc_single if specified
+    if mc_single
+      data['mc_single'] = mc_single
+    end
+
+    # require content
+    if content_required
+      data['content_required'] = true
+    end
+
+    # for result pagination, this indicates the page to show
+    if page
+      data['page'] = page
+    end
+    
+    # for result pagination, this is the number of result per page
+    if limit 
+      data['limit'] = limit
+    end
+
+    return data
+  end
+
+  def av_query_params(title_words, abstract_words = nil, keyword = nil)
+    # collect data to post
+    data = {'search_type[]' => 'media'}
+
+    # check if words field is empty
+    if title_words
+      data['title_words'] = title_words
+    end
+
+    # check if words field is empty
+    if abstract_words
+      data['abstract_words'] = abstract_words
+    end
+
+    # check if words field is empty
+    if keyword
+      data['keyword'] = keyword
+    end
+
+    # require content
+    data['content_required'] = true
+
+    return data
+  end
+
+  def execute_query(data)
+    # load exist options.
+    exist_options = TaliaCore::CONFIG['exist_options']
+    raise "eXist configuration not found." if exist_options.nil?
+
+    # execute post to servlet
+    uri = URI.parse(URI.join(exist_options['server_url'],"/#{exist_options['community']}/Search").to_s)
+    if !exist_options['server_login'].nil? && !exist_options['server_password'].nil?
+      uri.user = exist_options['exist_login']
+      uri.password = exist_options['exist_password']
+    end
+    resp = Net::HTTP.post_form_hack uri, data
+
+    # error check
+    raise "#{resp.code}: #{resp.message}" unless resp.kind_of?(Net::HTTPSuccess)
+
+    # get response xml document
+    doc = REXML::Document.new resp.body
+
+    # return response
+    return doc
+  end
+
+  def search_key(uri)
+    
+    material = TaliaCore::Source.find(uri)
+
+    result = []
+
+    # add macrocontribution siglum to search_key
+    result << material.hyper.in_catalog[0].uri.local_name
+
+    # add book string and position
+    if !material.book.nil?
+      result << "book"
+      result << material.book.position_for_search_key
+      result << material.book.uri.local_name
+    end
+    
+    # add chapter string and position
+    if !material.chapter.nil?
+      result << "chap"
+      result << material.chapter.position_for_search_key
+      result << material.chapter.uri.local_name
+    end
+
+    # add page or paragraph and position
+    case material
+    when TaliaCore::Page
+      result << "page"
+      result << material.position_for_search_key
+      result << material.uri.local_name
+    when TaliaCore::Paragraph
+      result << "para"
+      result << material.position_for_search_key
+      result << material.uri.local_name
+    else
+      result << '000000'
+    end
+
+    return result.join(".")
   end
 
 end

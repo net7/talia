@@ -1,8 +1,13 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class AdvancedSearchTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  
+  def setup
+    setup_once(:init) do
+      TaliaUtil::Util.flush_rdf
+      TaliaUtil::Util.flush_db
+      true
+    end
   end
+
 end

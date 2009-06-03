@@ -15,6 +15,10 @@ module TaliaCore
         :source, :language, :relation, :coverage, :rights
       
       namespaced_field :dct, :isPartOf, :abstract
+
+      # namespaced field for Europeana
+      namespaced_field :userTag, :unstored, :object, :provider,
+                       :uri, :year, :hasObject, :country
       
       # Type information. Base class is not terribly useful, but needed to
       # overwrite default #type method

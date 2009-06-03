@@ -24,7 +24,7 @@ class HomeController < ApplicationController
       end
     end
     
-    @page_title = t(:'talia.start_page.welcome_to') + " #{TaliaCore::SITE_NAME}"
+    @page_title =  "#{TaliaCore::SITE_NAME} - " + t(:'talia.start_page.home')
   end
   
   def select_language

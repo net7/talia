@@ -29,7 +29,7 @@ module TaliaUtil
         add_property_from(@element_xml, 'position')
         add_property_from(@element_xml, 'position_name')
         import_dimensions!
-#        clone_to_catalog()
+        #        clone_to_catalog()
       end
       
       private
@@ -59,7 +59,7 @@ module TaliaUtil
             @source = clone
             order_page(clone_book)
           end
-        end 
+        end
       end
       
     end

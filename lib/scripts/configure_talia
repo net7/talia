@@ -71,7 +71,10 @@ end
 puts
 puts "Enter the mySQL username for your application. This account will be created automatically."
 print "mySQL account for the application: "
-rails_user = readl(true)
+while((rails_user = readl(true)).size > 16)
+  puts "User name cannot have more than 16 characters"
+  print "mySQL account for the application: "
+end
 print "Enter the password for this account: "
 rails_pw = readl(true)
 
@@ -103,6 +106,10 @@ db_config.set_credentials(rails_user, rails_pw)
 db_config.set_database_names("#{db_prefix}discovery_talia")
 # Don't set socket for jdbcmysql
 # db_config.set_socket(sock_file)
+
+puts
+print "Enter the site name (it will appear in the window title): "
+talia_config.site_name = readl
 
 puts
 print "Enter the URI for your site: "
@@ -214,6 +221,31 @@ end
 
 FileUtils.copy(File.expand_path(cust_page_file), File.join(rails_dir, 'app', 'views', 'custom', '_start_page.html.erb'))
 puts "Copied #{File.basename(cust_page_file)} to custom page."
+FileUtils.copy(File.join(rails_dir, 'customization_files', 'start_page', '_start_page_footer.html.erb'), 
+               File.join(rails_dir, 'app', 'views', 'custom', '_start_page_footer.html.erb'))
+puts "Copied customizable footer."
+
+puts
+
+
+puts "Customize the editions frontpage. The following custom logo are available:"
+cust_logos = Dir[File.join(rails_dir, 'customization_files', 'edition_logo', '*_logo.gif')]
+cust_logos.each do |cust_logo|
+  # Get the descriptive name
+  md = /(.*)_logo\.gif/.match(cust_logo)
+  puts "#{cust_logos.index(cust_logo)} - #{md[1]}"
+end
+
+cust_logo_file = nil
+
+while(!cust_logo_file)
+  print "Enter the number of the customized logo: "
+  cust_idx = readl
+  cust_logo_file = cust_logos[cust_idx.to_i]
+end
+
+FileUtils.copy(File.expand_path(cust_logo_file), File.join(rails_dir, 'public', 'images', 'front_page_logo.gif'))
+puts "Copied #{File.basename(cust_logo_file)} to custom logo"
 
 puts
 

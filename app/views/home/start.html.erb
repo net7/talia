@@ -2,25 +2,25 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-  
+
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta name="robots" content="all" />
     <meta http-equiv="pragma" content="no-cache" />
-    
+
     <%= stylesheet_link_tag 'home' %>
-    <%= javascript_include_tag :defaults %> 
-    <%= javascript_include_tag 'in_place_translator' %>
+    <%= javascript_include_tag :defaults %>
+	<%= render(:partial => 'shared/translation_boxes') %>
     <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
-    
+
     <title><%= page_title %> </title>
   </head>
-  
+
   <body>
     <blockquote>&nbsp;</blockquote>
     <div id="paginaExt">
       <div id="paginaInt">
-        
+
         <div id="top_menu">
           <ul>
             <% for link in @title_links %>
@@ -29,46 +29,34 @@
             <% end %>
           </ul>
         </div>
-        
+
         <div id="testata">
         </div>
-        
+
         <div id="menu">
           <ul>
-            <% shortkey = 1 %>
             <% for language in @languages %>
-              <li><%= select_language(language[0], language[1], shortkey.to_s)  %></li>
-              <% shortkey += 1 %>
+              <li><%= select_language(language[0], language[1])  %></li>
             <% end %>
           </ul>
         </div>
-        
+
         <div id="contenuti">
-          
           <div class="floatClear"></div>
-          
           <div id="contenutoDoppio_ext">
             <div id="contenutoDoppio_int"> <div id="contenutoSinistra">
                 <%= yield :left_box %>
               </div>
-              
               <div id="contenutoDestra">
                 <%= yield :right_box %>
               </div>
             </div>
           </div>
-          
           <div class="floatClear"></div>
-          
         </div>
-        
-        <div id="piede">
-          <p>
-            <%= titled_link(@footer_link[1], @footer_link[0]) %>
-            &#9679;
-            <%= google_privacy_note %>
-          </p>
-        </div>
+
+        <%= render(:partial => 'custom/start_page_footer') %>
+
       </div>
     </div>
     <%= google_analytics %>

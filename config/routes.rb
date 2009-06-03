@@ -34,6 +34,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :translations, :collection => { :search => :get }
     admin.resources :users
     admin.resources :sources
+    admin.resources :locales
   end
 
   # Routes for login and users handling
@@ -81,6 +82,10 @@ ActionController::Routing::Routes.draw do |map|
     :controller => 'critical_editions',
     :action => 'advanced_search'
   
+  map.connect "texts/:id/advanced_search_popup",
+    :controller => 'critical_editions',
+    :action => 'advanced_search_popup'
+
   map.connect "texts/:id/advanced_search_print",
     :controller => 'critical_editions',
     :action => 'advanced_search_print'
@@ -104,22 +109,33 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "facsimiles/:id/:type/:subtype",
     :controller => 'facsimile_editions',
     :action => 'books',
-    :requirements => { :type => /Work|Manuscript|Iconography|Library|Correspondence|Picture/ },
+    :requirements => {:type => /Work|Manuscript|Iconography|Library|Correspondence|Picture/},
     :subtype => nil
+    
+  map.connect "translations/:action/:id",
+    :controller => 'translations',
+    :requirements => { :id => /.*/ }
+
+  map.connect "facsimiles/:id/:page/:page2",
+    :controller => 'facsimile_editions',
+    :action => 'double_pages',
+    :requirements => {:page => /.*,[^\.]*/, :page2 => /.*,[^\.]*/}
+#  :defaults => {:format => 'html'}
   
   map.connect "facsimiles/:id/:page:dot:format",
     :controller => 'facsimile_editions',
     :action => 'page',
     :dot => /\.?/,
-    :format => nil,
-    :requirements => {:page => /.*,[^\.]*/}
+    :requirements => {:page => /.*,[^\.]*/},
+    :defaults => {:format => 'html'}
   
   map.connect "facsimiles/:id/:book:dot:format",
     :controller => 'facsimile_editions',
     :action => 'panorama',
     :dot => /\.?/,
-    :format => nil
-  
+    :defaults => {:format => 'html'}
+
+
   map.connect "categories/advanced_search",
     :controller => 'categories',
     :action => 'advanced_search'

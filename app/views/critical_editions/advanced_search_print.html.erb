@@ -1,33 +1,82 @@
-<% unless @result.nil? %>
-  <div class="floatclear"></div>
-  <div id="content" class="divided grey">
-    <div id="logo_print">
-      <img src="/images/critical_edition/logo_print.png" alt="" />
-    </div>
-    <div id="visore">
-      <h2><%= @result.size %>  <%= t(:'talia.search.result phrase 1') %> <span class="red">'<%= params[:words] %>'</span> <%= t(:'talia.search.result phrase 2') %> <%= params[:edition_title] %></h2>
-    
-    
-      <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="window.print(); return false;"><%= t(:'talia.search.print results') %></a></div>
-        <a href="#" title="expand all" onclick="($A(getElementsByName('advanced_search_result_description[]'))).each(function(item){Element.show(item);});return false;"><%= t(:'talia.search.expand all') %></a> | <a href="#" title="collapse" onclick="($A(getElementsByName('advanced_search_result_description[]'))).each(function(item){Element.hide(item);});return false;"><%= t(:'talia.search.collapse all') %></a>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title><%= edition_page_title %></title>
+    <%= stylesheet_link_tag 'main' %>
+    <%= stylesheet_link_tag 'tooltip.css' %>
+    <%= stylesheet_link_tag 'TEI/p4/tei_style.css' %>
+    <%= stylesheet_link_tag 'editions/critical_custom/critical_print.css', :media => "screen" %>
+    <%= stylesheet_link_tag 'editions/critical_custom/critical_printreal.css', :media => "print" %>
+    <%= javascript_include_tag 'prototype' %>
+    <%= javascript_include_tag 'tooltip.js' %>
+  </head>
+  <body>
+      <div id="critical_print_header">
+        <div id="logo_print">
+          <img src="/images/editions/<%= "#{@edition_nick}" %>_logo_print.png" alt="" />
+        </div>
+        <div id="header_text">
+          <h4><%= t(:"talia.search.#{@edition_nick}") %></h4>
+        </div>
       </div>
-      <!--[if !IE]>resultstools<![endif]-->  
-
-      <ul class="results"><form name="advanced_search_result" action="<%= url_for(:action => 'advanced_search') %>" method="post">
-          <% @result.each do |item| %>
-            <li>            
-              <h3><%= item[:counter]  %> <label> select to print</label><input name="checkbox[]" type="checkbox" /> <span><%=  item[:title] %></span></h3>
-              <p name="advanced_search_result_description[]"><%= item[:description] %></p>
-            </li>
-          <% end %>
-      </form></ul>
-    </div>
-    <!--[if !IE]>visore<![endif]-->
-  </div>
-  <!-- content -->
-
-<% end %>
 
 
+      <div id="content" class="divided">
 
+        <div id="visore">
+          <h2><span id="results_size"></span> <%= t(:'talia.search.result phrase 1') %> '<span id="words" class="red"></span>' <%= t(:'talia.search.result phrase 2') %> <%= params[:edition_title] %></h2>
 
+          <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="window.print(); return false;"><%= t(:'talia.search.print results') %></a></div>
+            <a href="#" title="full description" onclick="available_elements.each(function(i) {Element.show($('advanced_search_result_full_description_' + i.toString())); Element.hide($('advanced_search_result_description_' + i.toString()))});return false;"><%= t(:'talia.search.full content') %></a> |
+            <a href="#" title="expand all" onclick="available_elements.each(function(i) {Element.hide($('advanced_search_result_full_description_' + i.toString())); Element.show($('advanced_search_result_description_' + i.toString()))});return false;"><%= t(:'talia.search.expand all') %></a> |
+            <a href="#" title="collapse" onclick="available_elements.each(function(i) {Element.hide($('advanced_search_result_full_description_' + i.toString())); Element.hide($('advanced_search_result_description_' + i.toString()))});return false;"><%= t(:'talia.search.collapse all') %></a>
+          </div>
+          <!--[if !IE]>resultstools<![endif]-->
+
+          <ul id="results_content" class="results">
+            <script type="text/javascript">
+              var content = "";
+              
+              var counter =           $A(window.opener.document.getElementsByName('counter[]')).length;
+              var checkboxes =        $A(window.opener.document.getElementsByName('checkbox[]'));
+              var titles =            $A(window.opener.document.getElementsByName('title[]'));
+              var descriptions =      $A(window.opener.document.getElementsByName('description[]'));
+              var full_descriptions = $A(window.opener.document.getElementsByName('full_description[]'));
+
+              var available_elements = [];
+
+              for(var i = 0; i < counter; i++) {
+                if(checkboxes[i].checked) {
+                  content += "<li>";
+
+                  // add title
+                  content += "<h3>" + (i+1).toString() + "<span>" + titles[i].value + "</span></h3>";
+                  // add description
+                  content += "<div id='advanced_search_result_description_" + i.toString() + "' name='advanced_search_result_description'>" + descriptions[i].value + "</div>";
+                  // add full description
+                  content += "<div id='advanced_search_result_full_description_" + i.toString() + "' style='display: none;'><div class='txt_block'>" + full_descriptions[i].value + "</div></div>";
+
+                  content += "</li>";
+
+                  available_elements.push(i.toString());
+                }
+              }
+
+              // set words list
+              document.getElementById('words').innerHTML = (window.opener.document.getElementsByName('words')[1]).value;
+
+              // set size value
+              document.getElementById('results_size').innerHTML = counter;
+
+              // add new content to page
+              document.getElementById('results_content').innerHTML = content;
+            </script>
+
+          </ul>
+        </div>
+        <!--[if !IE]>visore<![endif]-->
+      </div>
+      <!-- content -->
+  </body>
+</html>

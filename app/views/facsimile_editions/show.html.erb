@@ -4,24 +4,32 @@
   <%= widget(:simple_mode_tabs, :tabs_elements => show_tabs) %>
 </div>
 <!--[if !IE]>menulocation<![endif]-->
-
-<div id="description">
-  <p><%= material_description(@edition) %></p>
-</div>
 <!--[if !IE]>description<![endif]-->
-<div id="content">
-  <ul id="access_list">    
+
+<div id="scroll">
+  <h1 class="scroll_title">
+    <%= introduction_link(@edition, t(:"talia.global.editor's introduction")) %>
+  </h1>
+  <ul id="facsimile_frontpage_access_list">
     <% facsimile_edition_types.each do |type| %>
       <li id="<%= type.local_name %>">
-        <h1>
+        <h3>
           <% title = t(:"talia.types.#{type.local_name.underscore}") %>
-          <%= titled_link("#{params[:id]}/#{type.local_name}", 
-            image_tag("facsimile_edition/ico_#{type.local_name}.jpg", 
+          <%= titled_link("#{params[:id]}/#{type.local_name}",
+            image_tag("facsimile_edition/ico_#{type.local_name}.jpg",
               :alt => "link to #{title} section",
-              :width => '78', :height => '70', :border => '0') + title, title) %>
-        </h1>
-        <p><%= type_description(type) %></p>
+              :border => '0') + title, title) %>
+        </h3>
       </li>
-    <% end %>        
-  </ul>  
+    <% end %>
+  </ul>
+</div>
+
+<div id="content" class="divided">
+
+
+
+  <div id="visore">
+    <%= render(:partial => "shared/edition_front_page") %>
+  </div>
 </div>

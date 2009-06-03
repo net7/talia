@@ -1,5 +1,6 @@
 <div id="search_adv" <%= w.visible_style %> >
-  <form action="<%= url_for(:action => 'advanced_search') %>" method="post" >
+  <form name="advanced_search_form" action="<%= url_for(:action => 'advanced_search') %>" method="post" >
+    <%= hidden_field_tag 'advanced_search_submission', 'true' %>
     <%= w.tag_search_type %>
     <% if !w.is_avmedia_search %>
       <div name="src_line_head" class="src_line">
@@ -35,7 +36,7 @@
     <!--[if !IE]> linea ricerca<![endif]-->
 
     <div id="src_line_tail" class="src_line">
-      <p class="avvia"><label><%= t(:'talia.global.search') %></label> <input type="submit" value="<%= t(:'talia.global.search') %> " name="advanced_search_submission" />
+      <p class="avvia"><label><%= t(:'talia.global.search') %></label> <input type="submit" value="<%= t(:'talia.global.search') %>"/>
     </div>
     <!--[if !IE]> linea ricerca<![endif]-->
   </form>

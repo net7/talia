@@ -56,6 +56,11 @@ module TaliaCore
       end
     end
 
+    # return the position for search_key
+    def position_for_search_key
+      ("000000" + self.hyper.position.to_s)[-6..-1]
+    end
+
     # returns the RDF.type of this book (e.g. Manuscript, Work, etc.)
     def material_type
       qry = Query.new(N::SourceClass).select(:type).distinct

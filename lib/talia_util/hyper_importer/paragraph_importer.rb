@@ -34,8 +34,8 @@ module TaliaUtil
         assit(page && position, "Must have page and position to create note")
         return unless(page && position)
         # Create a name for the note's source
-        position = select_position(position)
-        n_name = note_name(position)
+        position = select_position(page, position)
+        n_name = note_name(page, position)
         # Check if the note already exists - this should never happen!
         if(!TaliaCore::Source.exists?(n_name))
           note = get_source_with_class(n_name.local_name, TaliaCore::Note)
@@ -60,7 +60,7 @@ module TaliaUtil
       
       # Creates a clone of the imported paragraph and add it to the catalog specified in the xml (if any)
       def clone_to_catalog
-        catalog = get_catalog
+        catalog = get_catalog()
         if(catalog)
           #          clone_uri = catalog.uri.to_s + '/' + @source.uri.local_name.to_s
           clone_uri = catalog.concordant_uri_for(@source)
@@ -85,16 +85,16 @@ module TaliaUtil
       # Selects a name for the given note, updating the position until a 
       # "free" position is found. (The original Hyper may include duplicate
       # positions due to incorrect assignments). This returns the new position
-      def select_position(initial_position)
+      def select_position(page, initial_position)
         position = initial_position
-        while(TaliaCore::Source.exists?(note_name(position))) do position += 1 end
-        logger.warn("Had to adapt note #{initial_position} for #{source.uri.to_name_s} to #{position}") if(position != initial_position)
+        while(TaliaCore::Source.exists?(note_name(page, position))) do position += 1 end
+        logger.warn("Had to adapt note #{initial_position} for #{source.uri.to_name_s} on page #{page} to #{position}") if(position != initial_position)
         position
       end
       
       # Creates a name for a note
-      def note_name(position)
-        N::LOCAL + "#{source.uri.local_name}-note#{position}"
+      def note_name(page, position)
+        N::LOCAL + "#{page}-note#{position}"
       end
       
     end

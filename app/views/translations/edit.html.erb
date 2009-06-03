@@ -1,0 +1,14 @@
+<% form_remote_tag(:url => { :action => 'update', :id => @raw_key }, :html => { :class=> 'in_place_form' }) do -%>
+	<table>
+	<% each_language do |code, trans| %>
+			<tr>
+				<td><label for='<%= code %>'><%= trans[:lang_name] %></label></td>
+				<td><%= translate_field(code, trans) %>
+				    <%= (hidden_field_tag "#{code}_id", trans[:translation].id) if(trans[:translation]) %></td>
+			</tr>
+	<% end %>
+	</table>
+	<div class='in_place_save'>
+	<%= submit_tag 'Save' %>
+	</div>
+<% end -%>

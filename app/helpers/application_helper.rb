@@ -20,7 +20,20 @@ module ApplicationHelper
       }
     end
   end
-  
+
+  def institution_link(name, url = nil)
+    url ||= locale_uri('/documentation/LANG/institutions.html')
+    link_to(name, url)
+  end
+
+  # Link to "editor's introduction. (This has a magic parameter to override
+  # the default name globally, in case the site has only one introduction
+  def introduction_link(edition, text)
+    local_name = TaliaCore::CONFIG['force_introduction'] || edition.uri.local_name
+    titled_link(locale_uri("/documentation/LANG/#{local_name}.html"), text)
+  end
+
+
   # The (translated) material description for the element
   def material_description(element)
     t(:"talia.material_descriptions.#{element.uri.local_name.underscore}")
@@ -39,10 +52,7 @@ module ApplicationHelper
 
   # Gets the translated name of the given edition
   def translate_edition_name(edition, in_place_allowed = true)
-    assit_kind_of(TaliaCore::Catalog, edition)
-    title = edition.title
-    assit(title)
-    return nil unless(title)
+    title = edition_title(edition)
     t(:"talia.edition.#{title.underscore.downcase}", in_place_allowed)
   end
   
@@ -142,7 +152,6 @@ module ApplicationHelper
 
     img_options = { :alt => title }.merge(img_options)
     img_tag = talia_image_tag(iip_data, img_options)
-    
 
     titled_link(url, img_tag, title)
   end
@@ -162,7 +171,7 @@ module ApplicationHelper
   end
   
   def titled_link (url, text, title=nil)
-    title ||= text
+    title ||= ''
     title = CGI::escape(title)
     %(<a href="#{unescape_link(url.to_s)}" title="#{title}">#{text}</a>)
   end
@@ -170,7 +179,14 @@ module ApplicationHelper
   def action_name
     controller.action_name
   end
+
+  # Create a locale-sensitve URL by replacing "LANG" in the current string with
+  # the current language code
+  def locale_uri(string)
+    string.gsub(/LANG/, Locale.language_code)
+  end
   
+
   private
 
 
@@ -194,5 +210,12 @@ module ApplicationHelper
     get_iip_data_for_facs(facsimile)
   end
 
-  
+  def edition_title(edition)
+    assit_kind_of(TaliaCore::Catalog, edition)
+    title = edition.title
+    assit(title)
+    return nil unless(title)
+    title
+  end
+
 end

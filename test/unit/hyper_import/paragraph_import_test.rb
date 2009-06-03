@@ -100,7 +100,7 @@ module TaliaUtil
     # Assert auto create of new not positions
     def test_note_position_creation
       notes_pos = @work_para.hyper::note.collect {|note| note.hyper::position[0].to_i }
-      assert_equal([194, 195].sort, notes_pos.sort)
+      assert_equal([194, 194].sort, notes_pos.sort)
     end
     
     # Test coordinates

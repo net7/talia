@@ -53,7 +53,7 @@ class ImportControllerTest < ActionController::TestCase
       assert_kind_of TaliaCore::Paragraph, assigns(:document)
       paragraph = TaliaCore::Paragraph.find(N::LOCAL + 'KGW/AC-17')
       assert_equal(N::LOCAL + 'KGW/AC-17', paragraph.uri)
-      assert_equal(N::LOCAL + 'KGW/AC-17-note17', paragraph.notes[0].uri)
+      assert_equal(N::LOCAL + 'KGW/AC,[Text]-note17', paragraph.notes[0].uri)
       assert_equal(N::LOCAL + 'KGW/AC,[Text]', paragraph.pages[0].uri)
       assert_equal(N::LOCAL + 'KGW', paragraph.catalog.uri)
     end
