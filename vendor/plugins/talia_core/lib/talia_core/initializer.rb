@@ -88,11 +88,6 @@ module TaliaCore
       # Set the environmnet
       set_environment
       
-      
-      # Start logging
-      set_logger # Set the logger
-      talia_logger.info("TaliaCore initializing with environmnet #{@environment}")
-      
       # Load the config file if one is given
       if(config_file)
         config_file_path = File.join(TALIA_ROOT, 'config', "#{config_file}.yml")
@@ -101,7 +96,11 @@ module TaliaCore
         # Create the default configuration
         @config = create_default_config()
       end
-      
+
+      # Start logging
+      set_logger # Set the logger
+      talia_logger.info("TaliaCore initializing with environmnet #{@environment}")
+
       # Call the user code
       initializer.call(@config) if(initializer)
       
@@ -143,7 +142,9 @@ module TaliaCore
       talia_logger.info("TaliaCore initialization complete")
     end
     
-    
+    def self.talia_logger
+      @logger
+    end
     
     protected
   
@@ -192,21 +193,28 @@ module TaliaCore
     # Creates a logger if no logger is defined
     # At the moment, this just creates a logger to the default director
     def self.set_logger
-      unless(defined?(talia_logger))
-        Object.instance_eval do
-          def talia_logger
-            @talia_logger ||= if(defined?(RAILS_DEFAULT_LOGGER))
-              RAILS_DEFAULT_LOGGER
-            else
-              log_name = File.join(TALIA_ROOT, 'log', 'talia_core.log')
-              FileUtils.makedirs(File.dirname(log_name))
-              @talia_logger ||= Logger.new(log_name)
-            end
-          end
-        end
+      @logger ||= if(defined?(RAILS_DEFAULT_LOGGER))
+        RAILS_DEFAULT_LOGGER
+      else
+        log_name = @config['standalone_log'] || File.join(TALIA_ROOT, 'log', "talia_core_#{@environment}.log")
+        log_level = @config['standalone_log_level'] ? Logger.const_get(@config['standalone_log_level']) : default_log_level
+        FileUtils.makedirs(File.dirname(log_name))
+        logger = Logger.new(log_name)
+        logger.level = log_level
+        logger
       end
     end
-    
+
+    # Get the default log level for the standalone log
+    def self.default_log_level
+      case(@environment)
+      when 'development', 'test':
+          Logger::DEBUG
+      else
+        Logger::WARN
+      end
+    end
+
     # Set the Talia root directory first. Use the configured directory
     # if given, otherwise go for the RAILS_ROOT/current directory.
     def self.set_talia_root
@@ -257,14 +265,6 @@ module TaliaCore
       connection_opts(@config["db_connection"], @config["db_file"])
     end
     
-    # Gets the db log file
-    def self.db_logfile
-      if(@config["db_log"])
-        @config["db_log"]
-      else
-        File.join(TALIA_ROOT, 'log', 'database.log')
-      end
-    end
     
     # Configure the database connection
     def self.config_db
@@ -274,7 +274,7 @@ module TaliaCore
     
         ActiveRecord::Base.configurations['talia'] = db_connection_opts
         ActiveRecord::Base.establish_connection(:talia)
-        ActiveRecord::Base.logger = Logger.new(db_logfile)
+        ActiveRecord::Base.logger = talia_logger
       else
         talia_logger.info("TaliaCore using exisiting database connection.")
       end
@@ -292,10 +292,8 @@ module TaliaCore
     
     # Configure the RDF connection
     def self.config_rdf
-      # Configure the logging options for ActiveRDF
-      ENV['ACTIVE_RDF_LOG'] = File.join(TALIA_ROOT, 'log', 'active_rdf.log')
-      ardf_llevel = @config['ardf_log_level']
-      ENV['ACTIVE_RDF_LOG_LEVEL'] = ardf_llevel ? ardf_llevel : '0'
+      # Logginging goes to standard talia logger
+      ActiveRdfLogger.logger = talia_logger
       
       ConnectionPool.add_data_source(rdf_connection_opts)
     end

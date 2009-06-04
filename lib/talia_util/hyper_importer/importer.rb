@@ -669,7 +669,7 @@ module TaliaUtil
       
       # Gain access to the logger
       def logger
-        RAILS_DEFAULT_LOGGER
+        TaliaCore::Initializer.talia_logger
       end
       
       # Removes all characters that are illegal in IRIs, so that the
@@ -693,7 +693,7 @@ module TaliaUtil
           block.call
         else
           elapsed = Benchmark.realtime(&block)
-          logger.add(level, "[Importing #{Time.now.to_s(:long)}] #{message} completed in %.2f secs" % elapsed)
+          logger.add(level, "\033[1m\033[4m\033[35m#{self.class.name}\033[0m [Importing #{Time.now.to_s(:long)}] #{message} completed in %.2f secs" % elapsed)
         end
       end
       
