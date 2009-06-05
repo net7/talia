@@ -97,7 +97,7 @@ namespace :discovery do
     Util.flush_rdf
   end
   
-  desc "Import data from a local XML file. Options: xml=<file_path> [prepared_image=<directory>]"
+  desc "Import data from a local XML file. Options: xml=<file_path> [prepared_images=<directory>]"
   task :import_from_file => :disco_init do
     xml_file = ENV['xml']
     assit(File.exist?(xml_file))
@@ -175,7 +175,7 @@ namespace :discovery do
   end
   
   
-  desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> header=<header_directory> description=<html_description_file> catalog=<catalog_siglum> [version=<version>]"
+  desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> header=<header_directory> catalog=<catalog_siglum> [version=<version>]"
   task :create_critical_edition => :disco_init do
     TaliaCore::Book
     TaliaCore::Page
