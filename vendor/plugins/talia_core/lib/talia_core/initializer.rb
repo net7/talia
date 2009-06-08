@@ -277,6 +277,10 @@ module TaliaCore
         ActiveRecord::Base.logger = talia_logger
       else
         talia_logger.info("TaliaCore using exisiting database connection.")
+        unless(ActiveRecord::Base.logger)
+          talia_logger.info("ActiveRecord logger not active, setting it to Talia logger")
+          ActiveRecord::Base.logger = talia_logger
+        end
       end
     end
     
