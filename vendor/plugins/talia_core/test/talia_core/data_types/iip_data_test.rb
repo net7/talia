@@ -114,7 +114,7 @@ module TaliaCore
         assert(bytes.size > 100)
         assert_equal(false, new_record.is_file_open?)
         # Check if the mime was written correctly
-        assert_equal('image/jpeg', DataTypes::IipData.find(new_record.id).mime_type)
+        assert_equal('image/gif', DataTypes::IipData.find(new_record.id).mime_type)
         
         assert(File.exists?(new_record.file_path))
         

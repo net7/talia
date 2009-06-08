@@ -14,7 +14,6 @@ class TranslationsController < ApplicationController
     # Loop through all languages and save
     I18n.locales.values.each do |code|
       next unless(params[code] && params[code] != '')
-      puts "Putting: #{params[code]} for #{code}"
       ViewTranslation.create_or_update([{ 'id' =>  params["#{code}_id"], 'tr_key' => key, 'text' => params[code] }], code)
     end
     render(:update) do |page|

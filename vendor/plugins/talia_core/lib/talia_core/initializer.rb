@@ -193,7 +193,7 @@ module TaliaCore
     # Creates a logger if no logger is defined
     # At the moment, this just creates a logger to the default director
     def self.set_logger
-      @logger ||= if(defined?(RAILS_DEFAULT_LOGGER))
+      @logger ||= if(defined?(RAILS_DEFAULT_LOGGER) && RAILS_DEFAULT_LOGGER)
         RAILS_DEFAULT_LOGGER
       else
         log_name = @config['standalone_log'] || File.join(TALIA_ROOT, 'log', "talia_core_#{@environment}.log")
