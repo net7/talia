@@ -47,7 +47,7 @@ class TaskHelper
     def edition_config
       raise(ArgumentError, "Edition nick not given") unless(ENV['nick'])
       nick = ENV['nick'].downcase
-      params = %w(version catalog name header description)
+      params = %w(version catalog name header)
       config_file = File.join(TALIA_ROOT, 'config', 'editions', "#{nick}.yml")
       if(File.exists?(config_file))
         config_yml = YAML::load_file(config_file)
@@ -62,7 +62,7 @@ class TaskHelper
       puts "Nick: #{ENV['nick']}"
       params.each { |parm|  puts "#{parm}: #{ENV[parm]}" }
       # Check the parameters beforehand
-      %w(name header description).each { |parm| raise(ArgumentError, "Parameter must be set: #{parm}") unless(ENV[parm]) }
+      %w(name header).each { |parm| raise(ArgumentError, "Parameter must be set: #{parm}") unless(ENV[parm]) }
     end
 
     # Count the number of color facsimiles in the given catalog
