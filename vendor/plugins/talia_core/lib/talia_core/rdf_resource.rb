@@ -130,22 +130,20 @@ module TaliaCore
     
     # Saves the the "default" types of this resource to the writing adapter
     def save_default_types
-      db = ConnectionPool.write_adapter
       self.class.default_types.each do |t|
-        db.add(self, N::RDF::type, t)
+        FederationManager.add(self, N::RDF::type, t)
       end
     end
     
     # "Full" save which reads the triples from all adapters, and saves them
     # the writing adapter. This operation can be very slow.
     def full_save
-      db = ConnectionPool.write_adapter
       types.each do |t|
-        db.add(self, N::RDF::type, t)
+        FederationManager.add(self, N::RDF::type, t)
       end
 
       Query.new(N::URI).distinct(:p,:o).where(self, :p, :o).execute do |p, o|
-        db.add(self, p, o)
+        FederationManager.add(self, p, o)
       end
     end
     

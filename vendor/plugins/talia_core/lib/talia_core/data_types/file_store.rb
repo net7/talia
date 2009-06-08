@@ -91,7 +91,7 @@ module TaliaCore
 #        raise(RuntimeError, "File already exists: #{file_path}") if(File.exists?(file_path))
 
         begin
-          self.class.benchmark("Saving file for #{self.id}") do
+          self.class.benchmark("\033[36m\033[1m\033[4mFileStore\033[0m Saving file for #{self.id}") do
             # create data directory path
             FileUtils.mkdir_p(data_directory)
     

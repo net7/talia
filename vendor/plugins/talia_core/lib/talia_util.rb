@@ -1,5 +1,5 @@
 # TaliaCore loader
-require File.dirname(__FILE__) + '/talia_dependencies'
+require File.join(File.dirname(__FILE__), 'talia_dependencies')
 
 require 'core_ext'
 require 'talia_util/data_import'

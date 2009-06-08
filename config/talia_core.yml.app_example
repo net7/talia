@@ -15,7 +15,16 @@ rdf_connection_file: rdfstore
 standalone_db: false
 db_file: database
 # Database configuration can also be given as a hash here
-# db_connection: 
+# db_connection:
+
+# If Talia runs standalone, it will use this log file. If running inside Rails,
+# it will always use the current Rails log file. If not specified, Talia
+# will automatically put the files in the 'log/' directory and select a log
+# level depending on the current enviroment name.
+#
+# standalone_log: talia_core.log
+# standalone_log_level: debug
+
 # If unset, the databse log will end up in the default log directory
 # db_log: database.log
 

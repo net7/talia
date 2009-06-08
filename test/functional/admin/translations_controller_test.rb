@@ -54,7 +54,7 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
     login_as :admin
     put :update, params
     # assert_flash_notice "Your translations has been saved"
-    assert_redirected_to edit_admin_translation_path(locale, {:page => 2})
+    assert_redirected_to edit_admin_translation_path(locale)
     assert_equal(session[:glob_cache], Locale.active.magick)
     assert(Locale.active.magick && (Locale.active.magick != orig_magick))
   end
@@ -74,7 +74,7 @@ class Admin::TranslationsControllerTest < ActionController::TestCase
     delete :destroy, :id => 1, :locale => 'en-US', :page => "1"
     assert_raise(ActiveRecord::RecordNotFound) { ViewTranslation.find(1) }
     # assert_flash_notice "Your translation has been deleted"
-    assert_redirected_to edit_admin_translation_path(locale, {:page => 1})
+    assert_redirected_to edit_admin_translation_path(locale)
   end
 
   private
