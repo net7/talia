@@ -6,11 +6,10 @@ class AdvancedSearch
   # advanced search for simple edition.
   # Return an array of hash {title, uri, description}
   def search(edition_prefix, edition_id, words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil, content_required = true, page=nil, limit=nil)
-
+    
     # load params for query
     data = query_params(words, operator, mc, mc_from, mc_to, mc_single, content_required, page, limit)
-
-
+    
     # execute query
     doc = execute_query(data)
 
