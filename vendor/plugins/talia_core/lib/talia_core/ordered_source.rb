@@ -44,7 +44,7 @@ module TaliaCore
     def at(index)
       @current_index = index
       ordered_objects.at(index)
-      end
+    end
     
     # return next item
     # * current_element: int or string. Current element. If nil, the index is the last integer used with at method
@@ -113,7 +113,7 @@ module TaliaCore
     #       value is not reliable
     def delete_all
       @ordered_objects = []
-      end
+    end
     
     # replace item as position index with object
     # * index: int
@@ -126,16 +126,16 @@ module TaliaCore
     # first occurence
     def find_position_by_object(object)
       ordered_objects.index(object)
-      end
+    end
       
     # return string for index
     def index_to_predicate(index)
-      'http://www.w3.org/1999/02/22-rdf-syntax-ns#_' << ("%06d" % index.to_i) 
+      self.class.index_to_predicate(index)
     end
       
     # return index of predicate
     def predicate_to_index(predicate)
-      predicate.sub('http://www.w3.org/1999/02/22-rdf-syntax-ns#_', '').to_i
+      self.class.predicate_to_index(predicate)
     end
     
     # Returns all the objects that are ordered in an array where the array
@@ -151,11 +151,21 @@ module TaliaCore
       # Now add the elements so that the relation property is reflected
       # on the position in the array
       relations.each do |rel|
-        index = predicate_to_index(rel.predicate_uri)
+        index = rel.rel_order
         write_for_index(@ordered_objects, index, rel.object)
       end
 
       @ordered_objects
+    end
+    
+    # return string for index
+    def self.index_to_predicate(index)
+      'http://www.w3.org/1999/02/22-rdf-syntax-ns#_' << ("%06d" % index.to_i) 
+    end
+    
+    # return index of predicate
+    def self.predicate_to_index(predicate)
+      predicate.sub('http://www.w3.org/1999/02/22-rdf-syntax-ns#_', '').to_i
     end
 
     private
@@ -185,13 +195,14 @@ module TaliaCore
     # that make up the ordered store, based on the internal array
     def rewrite_order_relations
       return unless(@ordered_objects) # If this is nil, the relations weren't loaded in the first place
-      objects = elements # Fetch them before deleting
+      objects = ordered_objects # Fetch them before deleting
       # Now destroy the existing elements
-      SemanticRelation.destroy_all(['subject_id = ? AND predicate_uri LIKE ?', self.id, "http://www.w3.org/1999/02/22-rdf-syntax-ns#_%"])
+      SemanticRelation.destroy_all(['subject_id = ? AND rel_order IS NOT NULL', self.id])
       # rewrite from the relations array
       objects.each_index do |index|
         if(obj = objects.at(index)) # Check if there's a value to handle
-          self[index_to_predicate(index)] << obj
+          # Create a new relation with an order
+          self[index_to_predicate(index)].add_with_order(obj, index)
         end
       end
     end
@@ -210,7 +221,7 @@ module TaliaCore
     # execute query and return the result
     def query(scope = :all)
       # execute query
-      self.semantic_relations.find(scope, :conditions => ['predicate_uri LIKE ?', "http://www.w3.org/1999/02/22-rdf-syntax-ns#_%"], :order => :predicate_uri)
+      self.semantic_relations.find(scope, :conditions => 'rel_order IS NOT NULL', :order => :rel_order)
     end
 
   end

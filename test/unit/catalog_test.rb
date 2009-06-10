@@ -4,13 +4,16 @@ module TaliaCore
   class CatalogTest < Test::Unit::TestCase
     include TaliaUtil::TestHelpers
     include UnitTestHelpers
-    
+
+    suppress_fixtures
+
     def setup
       setup_once(:init) do
         TaliaUtil::Util.flush_rdf
         TaliaUtil::Util.flush_db
         true
       end
+      setup_once(:cards) { make_some_cards }
     end
     
     def test_can_create
@@ -29,7 +32,6 @@ module TaliaCore
     
     def test_add_with_children
       cat = make_catalog('test_add_with_children')
-      make_some_cards
       cat.add_card(@cards[:parent], true)
       assert_equal(3, cat.elements.size)
     end
@@ -46,7 +48,6 @@ module TaliaCore
     
     def test_add_concordant_with_children
       cat = make_catalog('test_concordant_with_children')
-      make_some_cards
       cat.add_from_concordant(@cards[:parent], true)
       cat.save!
       assert_equal(3, cat.elements.size)
@@ -73,13 +74,17 @@ module TaliaCore
     protected
     
     def make_some_cards
-      @cards ||= {}
-      @cards[:parent] = ExpressionCard.new('http://catalog_test/parent_card')
-      @cards[:child_a] = ExpressionCard.new('http://catalog_test/child_a')
-      @cards[:child_b] = ExpressionCard.new('http://catalog_test/child_b')
-      @cards[:child_a].dct::isPartOf << @cards[:parent]
-      @cards[:child_b].dct::isPartOf << @cards[:parent]
-      @cards.each_value { |v| v.save! }
+      cards = {}
+      cards[:parent] = ExpressionCard.new('http://catalog_test/parent_card')
+      cards[:child_a] = ExpressionCard.new('http://catalog_test/child_a')
+      cards[:child_b] = ExpressionCard.new('http://catalog_test/child_b')
+      cards[:child_a].dct::isPartOf << cards[:parent]
+      cards[:child_b].dct::isPartOf << cards[:parent]
+      cards.each_value { |v| v.save! }
+      assert_equal(cards[:parent], cards[:child_a].dct::isPartOf.first)
+      puts Source.find(:all, :find_through => [N::DCT.isPartOf, cards[:parent]]).size
+      assert_equal(2, Source.find(:all, :find_through => [N::DCT.isPartOf, cards[:parent]]).size)
+      cards
     end
     
   end

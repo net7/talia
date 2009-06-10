@@ -12,8 +12,9 @@ class AvMediaSourcesControllerTest < ActionController::TestCase
         result = TaliaCore::AvMedia.create(:uri => N::LOCAL + 'av_media_sources/media')
         cat = TaliaCore::Category.new(N::LOCAL + 'test_cat_for_av_media_test')
         wmv = TaliaCore::DataTypes::WmvMedia.new(:location => 'foo.wmv')
-        result.predicate_set('hyper','category', cat)
+        result.category = cat
         result.data_records << wmv
+        result.save!
         result
       end
     end

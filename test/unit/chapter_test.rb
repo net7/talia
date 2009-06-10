@@ -6,7 +6,9 @@ module TaliaCore
     include UnitTestHelpers
     
     test_cloning N::RDF.type, N::DCNS.title, N::HYPER.position, N::HYPER.name
-    
+
+    suppress_fixtures
+
     def setup
       setup_once(:init) do
         TaliaUtil::Util.flush_rdf

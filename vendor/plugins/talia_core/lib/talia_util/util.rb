@@ -92,6 +92,8 @@ module TaliaUtil
       # Flush the database. This only flushes the main data tables!
       def flush_db
         [ 'active_sources', 'data_records', 'semantic_properties', 'semantic_relations'].reverse.each { |f| ActiveRecord::Base.connection.execute "DELETE FROM #{f}" }
+        # Also remove the "unsaved cache" for the wrappers (may be important during testing)
+        TaliaCore::SemanticCollectionWrapper.instance_variable_set(:'@unsaved_source_cache', {})
       end
   
       # Flush the RDF store

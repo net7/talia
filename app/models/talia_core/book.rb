@@ -40,8 +40,8 @@ module TaliaCore
       qry.where(:p, N::HYPER.position, :pos)
       qry.sort(:pos)
       pages = qry.execute
-      pages.each do |page| 
-        ordered.add(page)        
+      pages.each do |page|
+        ordered.add(page)
       end
         ordered.save!
       end

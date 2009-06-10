@@ -26,7 +26,7 @@ module TaliaCore
       else
         predicate.to_s
       end
-      @force_type = self.class.special_types[predicate]
+      @force_type = self.class.special_types[@assoc_predicate]
     end
 
     # Get the element '''value''' at the given index
@@ -95,14 +95,21 @@ module TaliaCore
     # Push to collection. Giving a string will create a property to be created,
     # saved and associated.
     def <<(value)
-      raise(ArgumentError, "cannot add nil") unless(value != nil)
-      if(value.kind_of?(Array))
-        value.each { |v| add_record_for(v) }
-      else
-        add_record_for(value)
-      end
+      add_with_order(value, nil)
     end
     alias_method :concat, '<<'
+    
+    # Adds the object and gives the relation the given order. 
+    def add_with_order(value, order)
+      # We use order exclusively for "ordering" predicates
+      assit_equal(TaliaCore::OrderedSource.index_to_predicate(order), @assoc_predicate) if(order)
+      raise(ArgumentError, "cannot add nil") unless(value != nil)
+      if(value.kind_of?(Array))
+        value.each { |v| add_record_for(v, order) }
+      else
+        add_record_for(value, order)
+      end
+    end
     
     # Replace a value with a new one
     def replace(old_value, new_value)
@@ -222,7 +229,7 @@ module TaliaCore
     # The block can be given when you want to add the new SemanticCollectionItem
     # to the colleciton in a specific way.
     # are loaded.
-    def add_record_for(value)
+    def add_record_for(value, order = nil)
       if(@force_type)
         # If we have a type, we must transform the value
         value = value.respond_to?(:uri) ? value.uri : value
@@ -233,6 +240,7 @@ module TaliaCore
 
       # self.class.benchmark('Adding value to semantic property') do
       rel = create_predicate(value)
+      rel.rel_order = order if(order)
       item = SemanticCollectionItem.new(rel, :plain)
       block_given? ? yield(item) : insert_item(item)
     end

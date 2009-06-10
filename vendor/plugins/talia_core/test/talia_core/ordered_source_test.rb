@@ -35,9 +35,9 @@ module TaliaCore
       item_3 = ActiveSource.new('http://testvalue.org/item_3')
       
       # add items to OrderedSource
-      ordered_source[(RDF::_1).uri] << item_1
-      ordered_source[(RDF::_2).uri] << item_2
-      ordered_source[(RDF::_3).uri] << item_3
+      ordered_source[(RDF::_000001).uri].add_with_order(item_1, 1)
+      ordered_source[(RDF::_000002).uri].add_with_order(item_2, 2)
+      ordered_source[(RDF::_000003).uri].add_with_order(item_3, 3)
       ordered_source.save!
       
       # check if all items are inserted
@@ -383,6 +383,16 @@ module TaliaCore
       # test find method
       assert_equal 2, ordered_source.find_position_by_object(item_2)
     end
-    
+
+    def test_save_reload
+      ordered = OrderedSource.new('http://orderedsource_save_and_load')
+      item_1 = ActiveSource.new('http://orderedsource_save_and_load/item')
+      ordered.insert_at(15, item_1)
+      assert_equal(item_1, ordered.at(15))
+      ordered.save!
+      reload = OrderedSource.find(ordered.id)
+      assert_equal(item_1, reload.at(15))
+    end
+
   end
 end

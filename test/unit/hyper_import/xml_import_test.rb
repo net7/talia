@@ -119,7 +119,7 @@ module TaliaUtil
         XmlImport::import(get_path('egrepalysviola-1.xml'))
         assit(TaliaCore::Source.exists?(N::LOCAL + 'egrepalysviola-1'))
         fax = TaliaCore::Facsimile.find(N::LOCAL + 'egrepalysviola-1')
-        assert_equal(N::LOCAL + 'KGW/E,[Text]', fax::hyper.manifestation_of.to_s)
+        assert_equal(N::LOCAL + 'KGW/E,[Text]', fax::hyper.manifestation_of.first.to_s)
       end
     end
     
@@ -148,6 +148,7 @@ module TaliaUtil
         assert_equal(N::LOCAL + 'KGW/AC', page1.book.uri)
         assert_equal(N::LOCAL + 'KGW/AC', page2.book.uri)
         book = TaliaCore::Book.find(N::LOCAL + 'KGW/AC')
+        book.order_pages!
         assert_equal(2, book.ordered_pages.elements.size)
         assert_equal(page1, book.ordered_pages.first)
       end

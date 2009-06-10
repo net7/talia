@@ -79,7 +79,9 @@ module TaliaUtil
     end
     
     def test_archive_exists
-      assert(TaliaCore::Archive.exists?(N::LOCAL + "Goethe-+und+Schiller-Archiv"))
+      archives = ''
+      TaliaCore::Archive.find(:all).each { |ar| archives << ">> #{ar.uri} <<\n"}
+      assert(TaliaCore::Archive.exists?(N::LOCAL + "Goethe-+und+Schiller-Archiv"), "Existing archives #{archives}")
     end
     
     # This test if the page that was imported for a pre-existing Source 
