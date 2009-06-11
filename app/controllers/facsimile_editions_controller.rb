@@ -11,6 +11,7 @@ class FacsimileEditionsController < SimpleEditionController
   add_javascripts 'swfobject', 'iip_flashclient'
 
   before_filter :setup_tools
+  caches_action :show, :books, :panorama, :page, :double_page, :locale => :current_locale
 
   # GET /facsimile_editions/1
   def show
@@ -194,6 +195,5 @@ class FacsimileEditionsController < SimpleEditionController
       data.static_path
     end
   end
-
 
 end

@@ -22,7 +22,7 @@ class PreviewController < ApplicationController
       edition = TaliaCore::Transcription.new()
     end
 
-    @output = edition.to_html(version, layer, xml, encoding)
+    @output = edition.to_html(version, layer, xml, encoding, true)
     render :layout => false
       #:inline => output
   end

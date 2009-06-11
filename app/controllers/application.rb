@@ -41,6 +41,15 @@ class ApplicationController < ActionController::Base
     symbol.to_s.t
   end
 
+  # Define if the caching must be performed
+  # e.g. we don't need to use cache when we're logged in as a translator
+  #
+  # TODO: WARNING! this is a workaround for Rails 2.0, if/when Rails 2.1 or better
+  # is used, we can move to adding the :if parameter to the caches_action statements
+  def perform_caching
+    @@perform_caching && !logged_in?
+  end
+
   private
 
   # Removes the globalize cache if applicable
