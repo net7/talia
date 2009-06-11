@@ -8,4 +8,5 @@ div.tei span.sp_bold { font-weight: bold; letter-spacing:3pt}
 div.tei span.emph { font-style: italic; }
 div.tei ul li { list-style-type: none}
 
-
+a.result_title {}
+span.result_title_print {}

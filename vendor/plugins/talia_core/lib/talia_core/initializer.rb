@@ -193,7 +193,7 @@ module TaliaCore
     # Creates a logger if no logger is defined
     # At the moment, this just creates a logger to the default director
     def self.set_logger
-      @logger ||= if(defined?(RAILS_DEFAULT_LOGGER))
+      @logger ||= if(defined?(RAILS_DEFAULT_LOGGER) && RAILS_DEFAULT_LOGGER)
         RAILS_DEFAULT_LOGGER
       else
         log_name = @config['standalone_log'] || File.join(TALIA_ROOT, 'log', "talia_core_#{@environment}.log")
@@ -277,6 +277,10 @@ module TaliaCore
         ActiveRecord::Base.logger = talia_logger
       else
         talia_logger.info("TaliaCore using exisiting database connection.")
+        unless(ActiveRecord::Base.logger)
+          talia_logger.info("ActiveRecord logger not active, setting it to Talia logger")
+          ActiveRecord::Base.logger = talia_logger
+        end
       end
     end
     

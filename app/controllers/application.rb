@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
 
   # Delegate to I18n instead of hardcode locales there, because application.rb
   # is evauated *one* time in production.
-  self.languages = I18n.locales
+  # self.languages = I18n.locales
 
   # Override to allow the translations only to the translators
   def globalize?
@@ -62,6 +62,7 @@ class ApplicationController < ActionController::Base
 
   # Sets the local to the value from the session
   def prepare_locale
+    Locale.set(Locale.base_language.code) unless(Locale.active)
     locale = session[:locale] || "en-US"
     if(locale != Locale.active.code)
       # set the new locale
