@@ -14,18 +14,19 @@ Shadowbox.init({
 })
 
 function translate_shadow(key) {
+	var script = 'script' // Little hack, otherwise it will break the HTML if included inline
+	loader = "new Ajax.Updater('sb-content', '/translations/edit/" + key +"', { method: 'get' });"
 	// Shadowbox options set up
 	var shadowboxOptions = {
 		player:     'html',
 		title:      'Translate ' + key,
-		content:    '<div class="box_loader">Loading...</div>',
+		// The included javascript will kick off the loading once the box is complete
+		content:    '<' + script + ' type="text/javascript">' + loader + '</' + script + '><div class="box_loader">Loading...</div>',
 		height:     600,
 		width:      600
 	};
 	// Open the shadowbox
 	Shadowbox.open(shadowboxOptions);
-	/* need to wait until the screen is up */
-	setTimeout("new Ajax.Updater('sb-content', '/translations/edit/" + key +"', { method: 'get' });", 1000);
 }
 -->
 </script>
