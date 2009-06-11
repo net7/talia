@@ -3,6 +3,7 @@ class CriticalEditionsController < SimpleEditionController
   add_javascripts 'tooltip'
 
   layout 'simple_edition', :except => [:advanced_search_popup, :advanced_search_print]  
+  caches_action :show, :dispatcher, :locale => :current_locale
 
   ADVANCED_SEARCH_RESULTS_PER_PAGE = 20
 
@@ -164,6 +165,7 @@ class CriticalEditionsController < SimpleEditionController
     @path << {:text => @part.dcns::title.empty? ? @part.uri.local_name.to_s : @part.dcns.title.first.to_s}
     set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
   end
+
 end
  
  

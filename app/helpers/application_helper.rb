@@ -211,7 +211,8 @@ module ApplicationHelper
   end
 
   def page_blank?(page)
-    blank = facsimile_for(page).blank
+    facsimile = facsimile_for(page)
+    blank = facsimile.blank unless facsimile.nil?
     (blank != nil) && (blank != 'false')
   end
 
