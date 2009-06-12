@@ -41,10 +41,7 @@
         <% if @pages > 1 %>
           <ul class="results">
             <li>
-              <h2 align="center">
-                There are <%= @result_count.to_i - @limit.to_i %> other results.
-                <a href="#" onClick="if('<%= params[:mc_single]%>'!=''){document.forms['advanced_search_menu_form'].mc_single.value='<%= params[:mc_single]%>'};document.forms['advanced_search_menu_form'].page.value='all';document.forms['advanced_search_menu_form'].submit();return false">Show them all</a> (it may take long to load)
-              </h2>
+				<%= render(:partial => 'additional_results') %>
             </li>
           </ul>
         <% end  %>
