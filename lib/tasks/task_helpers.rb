@@ -156,7 +156,15 @@ class TaskHelper
       query.where(:page, N::DCT.isPartOf, :book)
       query.execute.size
     end
-  
+
+    def order_all
+      order_count = TaliaUtil::OrderUtil.to_order_count
+      puts "Ordering #{order_count} books and chapters."
+      progress = ProgressBar.new('Ordering', order_count)
+      TaliaUtil::OrderUtil.order_all { progress.inc }
+      progress.finish
+    end
+
     # Loops through the given books (with a progress meter).
     def process_books(books, progress_size = nil)
       progress_size ||= books.size

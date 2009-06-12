@@ -103,6 +103,7 @@ namespace :discovery do
     assit(File.exist?(xml_file))
     TaliaUtil::XmlImport::options[:prepared_images] = ENV['prepared_images'] if(ENV['prepared_images'])
     TaliaUtil::XmlImport::import(xml_file)
+    TaskHelper::order_all
   end
   
   desc "Import data and prepare the test server. Downloads data directly from the net."
@@ -123,6 +124,7 @@ namespace :discovery do
     TaliaUtil::HyperXmlImport::options[:prepared_images] = ENV['prepared_images'] if(ENV['prepared_images'])
     TaliaUtil::HyperXmlImport::set_auth(ENV['user'], ENV['password'])
     TaliaUtil::HyperXmlImport::import(ENV['base_url'], list_path, ENV['doc_path'], ENV['extension'])
+    TaskHelper::order_all
   end
   
   # creates a facsimile edition and adds to it all the color facsimiles found in the DB

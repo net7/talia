@@ -116,7 +116,19 @@ module TaliaCore
       assert_equal(1, card.manifestations.size)
       assert_equal(man, card.manifestations[0])
     end
-    
+
+
+    def test_manifestation_with_type
+      card = make_card('test_manifestation_with_type')
+      man = TextReconstruction.new('typed_manifestation')
+      card.add_manifestation(man)
+      man.save!
+      card.save!
+      manifs = card.manifestations(TaliaCore::TextReconstruction)
+      assert_equal(1, manifs.size)
+      assert_equal(man, manifs.first)
+    end
+
     def test_default_catalog
       card = make_card('test_default_catalog')
       assert_equal(card.catalog, Catalog.default_catalog)

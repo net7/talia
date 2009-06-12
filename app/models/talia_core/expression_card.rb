@@ -121,22 +121,26 @@ module TaliaCore
     end
     
     # This returns the manifestations of this card. You can give an optional
-    # type which must be a class.
+    # type which must be a class or an URI.
     def manifestations(type = nil)
-      type ||= Source
-      raise(ArgumentError, "Manifestation type should be a class") unless(type.is_a?(Class))
-      #FIXME: the find method returns duplicated entries, at least when the expression card has clones...
-      #      type.find(:all, :find_through => [N::HYPER.manifestation_of, self])
+      raise(ArgumentError, "Manifestation type should be a Class or an URI") unless(type.is_a?(N::URI) or type.is_a?(Class) or type.nil?)
       qry = Query.new(TaliaCore::Source).select(:m).distinct
       qry.where(:m, N::HYPER.manifestation_of, self)
-      qry.where(:m, N::RDF.type, (N::TALIA + type.name.demodulize)) if(type != Source)
+      case type
+      when Class
+        qry.where(:m, N::RDF.type, (N::TALIA + type.name.demodulize))
+      when N::URI
+        qry.where(:m, N::RDF.type, (type))
+      end
       qry.execute
     end
     
-    # Allows to add a manifestation
+    # Allows to add a manifestation (the manifestation will be auto-saved
     def add_manifestation(manifestation)
       raise(ArgumentError, "Only manifestations can be added here") unless(manifestation.is_a?(Manifestation))
       manifestation.predicate_set_uniq(:hyper, :manifestation_of, self)
+      manifestation.save!
+      manifestation
     end
     
     # returns all the subpart of this expression card
