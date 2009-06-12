@@ -8,6 +8,7 @@
     <%= stylesheet_link_tag 'TEI/p4/tei_style.css' %>
     <%= stylesheet_link_tag 'editions/critical_custom/critical_print.css', :media => "screen" %>
     <%= stylesheet_link_tag 'editions/critical_custom/critical_printreal.css', :media => "print" %>
+	<%= render(:partial => 'shared/translation_boxes') %>
     <%= javascript_include_tag 'prototype' %>
     <%= javascript_include_tag 'tooltip.js' %>
   </head>
@@ -17,7 +18,7 @@
           <img src="/images/editions/<%= "#{@edition_nick}" %>_logo_print.png" alt="" />
         </div>
         <div id="header_text">
-          <h4><%= t(:"talia.search.#{@edition_nick}") %></h4>
+          <h4><%= t(:"talia.search.print.#{@edition_nick}.advanced_search_header") %></h4>
         </div>
       </div>
 
@@ -25,7 +26,7 @@
       <div id="content" class="divided">
 
         <div id="visore">
-          <h2><span id="results_size"></span> <%= t(:'talia.search.result phrase 1') %> '<span id="words" class="red"></span>' <%= t(:'talia.search.result phrase 2') %> <%= params[:edition_title] %></h2>
+          <h2><span id="results_size"></span> <%= t(:'talia.search.result phrase 1') %> '<span id="words" class="red"></span>' <%= t(:'talia.search.result phrase 2') %> <%= @edition_nick %></h2>
 
           <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="window.print(); return false;"><%= t(:'talia.search.print results') %></a></div>
             <a href="#" title="full description" onclick="available_elements.each(function(i) {Element.show($('advanced_search_result_full_description_' + i.toString())); Element.hide($('advanced_search_result_description_' + i.toString()))});return false;"><%= t(:'talia.search.full content') %></a> |
@@ -51,7 +52,7 @@
                   content += "<li>";
 
                   // add title
-                  content += "<h3>" + (i+1).toString() + "<span>" + titles[i].value + "</span></h3>";
+                  content += "<h3>" + (i+1).toString() + "<span class='result_title_print'>" + titles[i].value + "</span></h3>";
                   // add description
                   content += "<div id='advanced_search_result_description_" + i.toString() + "' name='advanced_search_result_description'>" + descriptions[i].value + "</div>";
                   // add full description

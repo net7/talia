@@ -14,12 +14,16 @@ module TaliaCore
    
     # returns the following page
     def next_page
-      ordered_pages.next(self)      
+      ordered_pages.next(self)
+    rescue
+      nil # If we hit a problem, report nil. Makes the helpers easier
     end
 
     # returns the previous page
     def previous_page
-      ordered_pages.previous(self)      
+      ordered_pages.previous(self)
+    rescue
+      nil # See above
     end
     
     # The notes belonging to this page

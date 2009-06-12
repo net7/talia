@@ -19,7 +19,7 @@
       %>
         <%= t(:'talia.search.result phrase 2') %> <%= @edition.hyper::title %></h2>
 
-      <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="window.open('<%= "/texts/#{params[:id]}/advanced_search_print" %>', '<%=  @edition.hyper::title %>', null); return false;"><%= t(:'talia.search.print results') %></a></div>
+      <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="window.open('<%= "/texts/#{params[:id]}/advanced_search_print" %>', '<%=  @edition.hyper::title %>', 'scrollbars=1'); return false;"><%= t(:'talia.search.print results') %></a></div>
         <div class="select_deselect"><a href="#" title="select all" onclick="($A(getElementsByName('checkbox[]'))).each(function(item){item.checked = true;});return false;"><%= t(:'talia.search.select all') %></a> | <a href="#" title="deselect" onclick="($A(getElementsByName('checkbox[]'))).each(function(item){item.checked = false;});return false;"><%= t(:'talia.search.deselect all') %></a></div>
       </div>
       <!--[if !IE]>resultstools<![endif]-->
@@ -29,7 +29,7 @@
         <ul class="results">
           <% @result.each_with_index do |item, index| %>
             <li name="result_item[]">
-              <h3><%= index + 1 %><%= hidden_field_tag 'counter[]',(index+1).to_s %> <label> select to print</label><input name="checkbox[]" type="checkbox" value="<%= index.to_s %>" checked /> <span><a href="#" onclick="document['advanced_search_result_form'].advanced_search_popup_value.value='<%=  "full_description_#{index}" %>';window.open('<%= "/texts/#{params[:id]}/advanced_search_popup" %>', '<%= item[:title] %>', '');return false;"><%= item[:title] %></a><%= hidden_field_tag 'title[]', item[:title] %></span></h3>
+              <h3><%= index + 1 %><%= hidden_field_tag 'counter[]',(index+1).to_s %> <label> select to print</label><input name="checkbox[]" type="checkbox" value="<%= index.to_s %>" checked /> <span><a href="#" class="result_title" onclick="document['advanced_search_result_form'].advanced_search_popup_value.value='<%=  "full_description_#{index}" %>';window.open('<%= "/texts/#{params[:id]}/advanced_search_popup" %>', '<%= item[:title] %>', 'scrollbars=1');return false;"><%= item[:title] %></a><%= hidden_field_tag 'title[]', item[:title] %></span></h3>
               <p name="p_description[]">
                 <%= item[:description] %><%= hidden_field_tag 'description[]', item[:description] %>
                 <%= " (#{item[:more_occurrence]} #{(t(:'talia.search.more occurrences') if item[:more_occurrence] > 1) || t(:'talia.search.more occurrence')})"  if item[:more_occurrence] > 0 %>
@@ -41,10 +41,7 @@
         <% if @pages > 1 %>
           <ul class="results">
             <li>
-              <h2 align="center">
-                There are <%= @result_count.to_i - @limit.to_i %> other results.
-                <a href="#" onClick="if('<%= params[:mc_single]%>'!=''){document.forms['advanced_search_menu_form'].mc_single.value='<%= params[:mc_single]%>'};document.forms['advanced_search_menu_form'].page.value='all';document.forms['advanced_search_menu_form'].submit();return false">Show them all</a> (it may take long to load)
-              </h2>
+				<%= render(:partial => 'additional_results') %>
             </li>
           </ul>
         <% end  %>

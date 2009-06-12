@@ -22,7 +22,7 @@ module TaliaCore
       end
     end
     
-    def to_html(version=nil, layer=nil, xml=nil, format=nil)
+    def to_html(version=nil, layer=nil, xml=nil, format=nil, preview=false)
       self.class.benchmark("\033[36m\033[1m\033[4mTextReconstruction\033[0m Creating XML for #{self.id}") do
         @format = format unless format.nil?
         #fills the @in_xml and the @format vars
@@ -50,8 +50,13 @@ module TaliaCore
               output = perform_transformation(xsl, @in_xml)
             when 'application/xml+wittei'
               xsl = "#{XSLT_ROOT}/WitTEI/wab-transform.xsl"
+              if preview
+                project = 'discovery-preview'
+              else
+                project = 'discovery'
+              end
               # visning is the parameter for the version in the wab-transform.xsl file
-              transformer_parameters = {'visning' => version, 'prosjekt' => 'discovery'}
+              transformer_parameters = {'visning' => version, 'prosjekt' => project}
               output = perform_transformation(xsl, @in_xml, transformer_parameters)
             when 'text/html'
               output = @in_xml
