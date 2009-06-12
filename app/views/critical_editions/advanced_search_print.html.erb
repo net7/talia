@@ -26,7 +26,7 @@
       <div id="content" class="divided">
 
         <div id="visore">
-          <h2><span id="results_size"></span> <%= t(:'talia.search.result phrase 1') %> '<span id="words" class="red"></span>' <%= t(:'talia.search.result phrase 2') %> <%= params[:edition_title] %></h2>
+          <h2><span id="results_size"></span> <%= t(:'talia.search.result phrase 1') %> '<span id="words" class="red"></span>' <%= t(:'talia.search.result phrase 2') %> <%= @edition_nick %></h2>
 
           <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="window.print(); return false;"><%= t(:'talia.search.print results') %></a></div>
             <a href="#" title="full description" onclick="available_elements.each(function(i) {Element.show($('advanced_search_result_full_description_' + i.toString())); Element.hide($('advanced_search_result_description_' + i.toString()))});return false;"><%= t(:'talia.search.full content') %></a> |
