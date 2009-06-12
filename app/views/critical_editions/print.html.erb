@@ -18,7 +18,7 @@
         <img src="/images/editions/<%= "#{@edition.uri.local_name}" %>_logo_print.png" alt="" />
       </div>
       <div id="header_text">
-        <h4><%= t(:"talia.search.#{@edition.uri.local_name}") %></h4>
+        <h4><%= t(:"talia.search.print.#{@edition.uri.local_name}.header") %></h4>
       </div>
     </div>
     <%= render(:partial => "html_data_pane") %>
