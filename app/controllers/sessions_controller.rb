@@ -1,8 +1,9 @@
 # This controller handles the login/logout function of the site.  
 class SessionsController < ApplicationController
-  
+
+  cache_sweeper :editions_sweeper, :only => [:destroy]
   layout 'admin'
-  
+
   # render new.rhtml
   def new
   end
@@ -22,6 +23,20 @@ class SessionsController < ApplicationController
     cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."
+    # When a translator logs out, we want to perform a cache cleaning, since we don't
+    # know what that translator changed and where.
+    # Still, we don't want to perform the cache cleaning any time a user invokes the
+    # /logout URL 
+    # To check if we are _actually_ performing a logout, we check if we're logged_in?
+    #
+    # TODO: why are we still logged in here? Find a better way to perform the check
+    if logged_in?
+      # TODO: since we are still logged in here (why?), we need to empty the @current_user val
+      # otherwise the perform_caching method (in the application controller) will return false
+      # (as it esplicitely shuts down the caching when a user is logged in)
+      @current_user = nil
+      EditionsSweeper.instance.clean_cache
+    end
     redirect_back_or_default('/')
   end
   
