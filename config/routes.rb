@@ -120,7 +120,6 @@ ActionController::Routing::Routes.draw do |map|
     :controller => 'facsimile_editions',
     :action => 'double_pages',
     :requirements => {:page => /.*,[^\.]*/, :page2 => /.*,[^\.]*/}
-#  :defaults => {:format => 'html'}
   
   map.connect "facsimiles/:id/:page:dot:format",
     :controller => 'facsimile_editions',
