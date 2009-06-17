@@ -1,8 +1,10 @@
 <div id="<%= "src_line_#{current_size}" %>" name="src_line" class="src_line">	
   <p>
+    <% subparts = w.previous_subparts_selected %>
+    
     <%= w.tag_work %>
-    <%= w.tag_aphorisms %>
-    <%= w.tag_through %>
+    <%= w.tag_aphorisms(subparts) %>
+    <%= w.tag_through(subparts) %>
   </p>
   <%= w.partial :advanced_search_adder, :locals => {:current_size => current_size, :version=> "default"} %>
 
