@@ -1,6 +1,6 @@
 class CriticalEditionsController < SimpleEditionController
   set_edition_type :critical
-  add_javascripts 'tooltip'
+  add_javascripts 'tooltip', 'wit-js'
 
   layout 'simple_edition', :except => [:advanced_search_popup, :advanced_search_print]
   caches_action :show, :dispatcher, :locale => :current_locale
