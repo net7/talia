@@ -328,7 +328,11 @@ class AdvancedSearchWidget < Widgeon::Widget
       # get subpart title
       subparts.collect! do |subpart|
         # get title
-        title = subpart.dcns.title.empty? ? subpart.uri.local_name : subpart.dcns.title
+        title = subpart.dcns.title
+        if (title.empty?)
+          title = subpart.uri.local_name
+        end
+
         # create array
         [subpart.uri.to_s, title]
       end
