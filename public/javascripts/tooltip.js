@@ -25,6 +25,9 @@ function configureSinglePopUp(element) {
 	highlightedText.setStyle({cursor: 'pointer', backgroundColor: '#e9dbb1', position: 'relative'});
 
 	highlightedText.insert("<div class='tooltip' style='position:absolute;'>" + ballonText.innerHTML + "</div>");
+
+    ballonText.innerHTML = '';
+
 	var newElement = highlightedText.select('div.tooltip')[0];
 
 	newElement.insert("<div class='stem'></div>");

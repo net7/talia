@@ -2,13 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <title><%= @book.title %></title>
-  <%= stylesheet_link_tag("editions/critical") %>
-  <%= stylesheet_link_tag("editions/critical_print") %>
+  <%= stylesheet_link_tag "editions/critical_print", :media => "all" %>
+  <%= stylesheet_link_tag "tooltip.css", :media => "all" %>
   <%= javascript_include_tag 'tooltip.js' %>
-  <link href="/stylesheets/editions/critical_print.css" media="print" rel="stylesheet" type="text/css" />
 
   <% @custom_stylesheet.each do |style| %>
-    <%= stylesheet_link_tag(style) %>
+    <%= stylesheet_link_tag style, :media => "all" %>
   <% end %>
 </head>
 <html>
