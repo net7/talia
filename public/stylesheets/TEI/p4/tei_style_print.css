@@ -1,0 +1,12 @@
+/* TEI styles */
+div.tei div.text  { font-family: Verdana, Helvetica,Arial, Sans-serif; font-size:medium; text-align: justify; line-height: 150%  }
+div.tei div.edition-text  { font-family: Verdana,Arial,Helvetica, Sans-serif; font-size:medium; text-align: justify; line-height: 150%  }
+div.tei h2 { font-size: large; }
+
+div.tei span.bold { font-weight: bold;}
+div.tei span.sp_bold { font-weight: bold; letter-spacing:3pt}
+div.tei span.emph { font-style: italic; }
+div.tei ul li { list-style-type: none}
+
+a.result_title {}
+span.result_title_print {}

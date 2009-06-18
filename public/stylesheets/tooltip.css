@@ -4,13 +4,26 @@ div#content div#visore div.txt_block span.popup {display: none;
     	left: 0;
     	font: 80% "Lucida Grande", Lucida, Verdana, sans-serif;
     	color: black;
-    	border: 1px solid black;
+/*    	border: 1px solid black;*/
     	padding: 0.4em;
     	cursor: default;
     	z-index: 10;
     	text-indent: 0px;
-    	background-color: #ffe;
+/*    	background-color: #ffe;*/
      	text-align: left;
+}
+
+div.tooltip_table div.table-row{
+  margin-top: 0; margin-right: auto; margin-bottom: 0; margin-left: auto;
+  padding: 0; text-align: center; width: 96%;
+}
+
+div.tooltip_table div.table-row div.left-container {
+  border: none; float: left; margin: 0; padding: 0; width: 50%;
+}
+
+div.tooltip_table div.table-row div.right-container {
+  border: none; float: right; margin: 0; padding: 0; width: 50%;
 }
 
 /* @end */
