@@ -25,7 +25,8 @@ module TaliaUtil
       # Set up the ontologies from the given folder
       def setup_ontologies
         # Clear the ontologies from RDF, if possible
-        if((adapter = ConnectionPool.write_adapter).supports_context?)
+        adapter = ConnectionPool.write_adapter
+        if(adapter.supports_context?)
           TaliaCore::RdfImport.clear_file_contexts
         else
           puts "WARNING: Cannot remove old ontologies, adapter doesn't support contexts."
