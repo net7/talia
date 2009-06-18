@@ -13,10 +13,6 @@ module TaliaCore
       # value for each imported file
       def import(rdf_syntax, files, context=nil)
         puts "Importing #{files.size} files into the triple store."
-        if(context)
-          context = N::URI.new(N::LOCAL + context)
-          puts "Using context #{context}"
-        end
         
         raise(ArgumentError, "Cannot use context, adapter doesn't support it.") if(context && !adapter.supports_context?)
         
