@@ -34,7 +34,9 @@ module TaliaUtil
         puts "Ontologies loaded from: #{ontology_folder}"
         files = Dir[File.join(ontology_folder, '*.{rdf*,owl}')]
         ENV['rdf_syntax'] ||= 'rdfxml'
-        TaliaCore::RdfImport::import(ENV['rdf_syntax'], files)
+        params = [ENV['rdf_syntax'], files]
+        params << :auto if(adapter.supports_context?)
+        TaliaCore::RdfImport::import(*params)
         RdfUpdate::owl_to_rdfs
       end
 
