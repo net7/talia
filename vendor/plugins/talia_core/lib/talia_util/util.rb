@@ -26,7 +26,7 @@ module TaliaUtil
       def setup_ontologies
         # Clear the ontologies from RDF, if possible
         if((adapter = ConnectionPool.write_adapter).supports_context?)
-          adapter.clear(N::URI.new(N::LOCAL + 'ontology_space'))
+          TaliaCore::RdfImport.clear_file_contexts
         else
           puts "WARNING: Cannot remove old ontologies, adapter doesn't support contexts."
         end
@@ -34,7 +34,7 @@ module TaliaUtil
         puts "Ontologies loaded from: #{ontology_folder}"
         files = Dir[File.join(ontology_folder, '*.{rdf*,owl}')]
         ENV['rdf_syntax'] ||= 'rdfxml'
-        RdfImport::import(ENV['rdf_syntax'], files)
+        TaliaCore::RdfImport::import(ENV['rdf_syntax'], files)
         RdfUpdate::owl_to_rdfs
       end
 
