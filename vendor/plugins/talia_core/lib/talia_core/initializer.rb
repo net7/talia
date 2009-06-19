@@ -359,7 +359,7 @@ module TaliaCore
       
       # Clear out the RDF
       if(adapter.supports_context?)
-        adapter.clear(N::URI.new(N::LOCAL + 'ontology_space'))
+        TaliaCore::RdfImport.clear_file_contexts
       else
         adapter.respond_to?(:clear) ? adapter.clear : TaliaUtil::Util::flush_rdf
       end
@@ -369,7 +369,7 @@ module TaliaCore
       Dir.foreach(onto_dir) do |file|
         if(file =~ /\.owl$|\.rdf$|\.rdfs$/)
           file = File.expand_path(File.join(onto_dir, file))
-          adapter.supports_context? ? adapter.load(file, 'rdfxml', N::URI.new(N::LOCAL + 'ontology_space')) : adapter_load(file, 'rdfxml')
+          adapter.supports_context? ? TaliaCore::RdfImport.import_file(file, 'rdfxml', :auto) : TaliaCore::RdfImport.import_file(file, 'rdfxml')
           loaded_ontos << File.basename(file)
         end
       end

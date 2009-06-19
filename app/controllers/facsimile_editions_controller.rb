@@ -11,7 +11,7 @@ class FacsimileEditionsController < SimpleEditionController
   add_javascripts 'swfobject', 'iip_flashclient'
 
   before_filter :setup_tools
-  caches_action :show, :books, :panorama, :page, :double_page, :locale => :current_locale
+  caches_action :show, :books, :panorama, :page, :double_pages, :locale => :current_locale
 
   # GET /facsimile_editions/1
   def show
@@ -68,9 +68,9 @@ class FacsimileEditionsController < SimpleEditionController
   end
 
 
+  # GET /fasimile_editions/1/1/2
   def double_pages
-    # if a 'pages' params with 'double' as a value and a 'page2' param with
-    # the siglum of a page have been passed, we need to show the large images of both pages
+    # we need to show the large images of both pages
     @double_pages = true
     page = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]
     page2 = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page2]

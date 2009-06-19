@@ -40,8 +40,15 @@ module TaliaUtil
         modified = 0
         
         klasses.each do |klass|
+          
+          if(!klass)
+            puts "ERROR: Blank node in classes!"
+            next
+          end
+          
           already_exists = false
           assit_kind_of(RDFS::Resource, klass)
+          
           unless(klass.rdf::type.is_a?(RDFS::Resource) || klass.rdf::type.size < 2)
             klass.rdf::type.each do |type|
               already_exists = true if(type == make_res(N::RDFS + "Class"))

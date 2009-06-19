@@ -108,9 +108,7 @@ class AdvancedSearch
 
     # check if words field is empty
     if words
-      # late minute hack, eliminates ' and "
-      #TODO: revert to a proper solution
-      data['words'] = words.gsub(/["']/, ' ')
+      data['words'] = words
     end
 
     # add mc - mc_from - mc_to if specified
@@ -145,9 +143,9 @@ class AdvancedSearch
     if page
       data['page'] = page
     end
-    
+
     # for result pagination, this is the number of result per page
-    if limit 
+    if limit
       data['limit'] = limit
     end
 

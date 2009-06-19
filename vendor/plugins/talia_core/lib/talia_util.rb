@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), 'talia_dependencies')
 
 require 'core_ext'
 require 'talia_util/data_import'
-require 'talia_util/rdf_import'
+require 'talia_core/rdf_import'
 require 'talia_util/yaml_import'
 require 'talia_util/rdf_update'
 require 'talia_util/progressbar'
