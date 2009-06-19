@@ -4,7 +4,7 @@ class KeywordsController < ApplicationController
 
   def index
     @path     = [{ :text => 'Keywords' }]
-    @keys     = TaliaCore::Keyword.find(:all)
+    @keys     = TaliaCore::Keyword.find(:all, :order => "uri ASC")
     @title    = t(:'talia.global.keywords')
     @subtitle = t(:'talia.global.keywords')
   end
