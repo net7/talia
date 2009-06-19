@@ -779,7 +779,24 @@ div.iipfview , div.iipfview_left, div.iipfview_right{
   font-style: italic;
 }
 
+/* ******************************************************************* */
+/* KEYWORDS */
+/* ******************************************************************* */
+#tag_cloud {
+  padding: 20px;
+  text-align: center;
+}
 
+#tag_cloud span {
+  font-size: 1.8em;
+}
+
+#tag_cloud a:hover,
+#tag_cloud a:active {
+  background-color: #00F;
+  color: #FFF;
+  text-decoration: none;
+}
 
 /* ******************************************************************* */
 /* FOOTER */
