@@ -4,8 +4,8 @@ class KeywordsController < ApplicationController
   
   def show
     element_uri = N::LOCAL + 'keywords/' + params[:id]
-    raise(ArgumentError, "Unknow Keyword Source #{element_uri}") unless(TaliaCore::Keyword.exists?(element_uri))
-    
+    raise ActiveRecord::RecordNotFound, "Unknown Keyword Source #{element_uri}" unless TaliaCore::Keyword.exists?(element_uri)
+
     @element = TaliaCore::Keyword.find(element_uri)
     @keys = TaliaCore::Keyword.find(:all)
     val = t(:"talia.keywords.#{@element.keyword_value}")
