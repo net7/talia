@@ -73,7 +73,7 @@ module TaliaCore
         raise(ArgumentError, "Empty context") unless(context != '')
         
         file_context = if(context.to_s == 'auto')
-          name = URI.encode(File.basename(file, File.extname(file)))
+          name = URI.encode(File.basename(file, File.extname(file))).gsub(/\./, '_')
           N::URI.new(N::TALIA + name)
         elsif(context)
           N::URI.new(N::TALIA + context)
