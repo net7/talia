@@ -298,6 +298,7 @@ module TaliaUtil
             src[:type] = klass_name
             src.save!
             src = klass.find(src.id)
+            set_catalog_on(src)
             # Update the cache with the changed source!
             SourceCache.cache[source_uri] = src
             src.autosave_rdf = false
@@ -305,14 +306,7 @@ module TaliaUtil
         else
           src = klass.new(source_uri)
           src.primary_source = primary_source? if(src.is_a?(TaliaCore::Source))
-          if src.is_a?(TaliaCore::ExpressionCard)
-            catalog = get_catalog()
-            if catalog.nil?
-              src.catalog = TaliaCore::Catalog.default_catalog
-            else
-              src.catalog = catalog
-            end
-          end
+          set_catalog_on(src)
           src.autosave_rdf = false
           src.save! if(save_new)
           # Add the new source to the cache
@@ -320,6 +314,18 @@ module TaliaUtil
         end
         
         src
+      end
+      
+      # Sets the catalog on the given source
+      def set_catalog_on(src)
+        if(src.is_a?(TaliaCore::ExpressionCard) && !src.catalog)
+          catalog = get_catalog()
+          if catalog.nil?
+            src.catalog = TaliaCore::Catalog.default_catalog
+          else
+            src.catalog = catalog
+          end
+        end
       end
       
       # Reads all the relations on a Source that are given in the "relations"

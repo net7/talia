@@ -42,6 +42,11 @@ module TaliaUtil
       assert_property(@src.dcns::title, "D 12,10r")
     end
     
+    # Test title on RDF
+    def test_rdf_title
+      assert_equal(@src.my_rdf[N::DCNS.title].first, "D 12,10r")
+    end
+    
     # Test the ordering
     def test_position
       assert_property(@src.hyper::position, "000015")
