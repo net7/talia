@@ -5,8 +5,8 @@ module CriticalEditionsHelper
   
   def custom_styles
     styles = ''
-    if(@custom_edition_stylesheet)
-      @custom_edition_stylesheet.each do |style|
+    if(@custom_stylesheet)
+      @custom_stylesheet.each do |custom_style|
         styles << stylesheet_link_tag(custom_style)
       end
     end
