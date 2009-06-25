@@ -360,7 +360,7 @@ namespace :discovery do
     end
   end
 
-  desc "Deploy the application. Option: vhost_dir=<root dir of virtual host>"
+  desc "Deploy the application. Option: vhost_dir=<root dir of virtual host> [restart_tomcat=(true|false)]"
   task :deploy_war do
     raise(ArgumentError, "Must give vhost_dir option") unless(ENV['vhost_dir'])
     puts "Backing up locally customized css files"
