@@ -1,16 +1,7 @@
 @charset "ISO-8859-1";
 
-* {
-    margin: 0;
-    padding: 0;
-    border: 0;
-}
-
 body {
-    font-size: 62.5%;
-    font-family: Arial, "Lucida Grande", Verdana, "Bitstream Vera Sans", Avenir, Helvetica, sans-serif;
     text-align: center;
-
 }
 
 
@@ -19,12 +10,6 @@ h1, h2, h3, h4, p, ul, li {
     font-size: 1em;
 }
 
-a {
-    text-decoration: none;
-}
-a[href]:hover {
-    text-decoration: underline;
-}
 #page_ext {
     width: 90%;
     margin: 0 auto;
@@ -46,40 +31,6 @@ a[href]:hover {
 
 }
 
-#header h1 {
-    display: none;
-}
-
-
-#header h2 {
-    display: none;
-} 
-
-div#logo_print {
-    display: block;
-    position: relative;
-    top: 0px;
-}
-
-/* search_box */
-#search_box {
-    display: none;
-}
-
-
-
-/* NAVIGATE **********************************/
-
-#navigate {
-    display: none;
-}
-
-
-/* SEARCH ADVANCED */
-
-div#search_adv {
-    display: none;
-}
 
 /*  ******************************************/
 /* CONTENT ***********************************/
@@ -89,18 +40,6 @@ div#search_adv {
     text-align: left;
 
 }
-
-
-
-
-/* scroll laterale ************************ */
-
-#scroll {
-    display: none;
-}
-
-
-
 
 /* *************************************** */
 /* *************************************** */

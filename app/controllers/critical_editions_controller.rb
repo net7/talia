@@ -36,6 +36,7 @@ class CriticalEditionsController < SimpleEditionController
     else
       @book = source.book
     end
+    @header = :"talia.search.print.#{@edition.uri.local_name}.header"
     render :layout => 'critical_print'    
   end
   
@@ -121,6 +122,7 @@ class CriticalEditionsController < SimpleEditionController
   
   def advanced_search_print
     @path = []
+    @header = :"talia.search.print.#{@edition.uri.local_name}.advanced_search_header"
     set_custom_stylesheet ['editions/advanced_search_print', 'main']
     render :layout => 'critical_print'
   end

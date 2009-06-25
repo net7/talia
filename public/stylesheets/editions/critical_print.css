@@ -13,8 +13,10 @@ div#critical_print_header #logo_print{
 }
 
 div#critical_print_header #header_text{
+	  font-family:Arial,"Lucida Grande","Bitstream Vera Sans",Avenir,Helvetica,sans-serif;
+		font-size: 16px;
     position: absolute;
-    top:48px;
+    top: 69px;
     left: 230px;
 }
 
