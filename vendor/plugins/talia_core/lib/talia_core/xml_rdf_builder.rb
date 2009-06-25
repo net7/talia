@@ -63,19 +63,41 @@ module TaliaCore
     
     # Build an rdf/xml string for one predicate, with the given values
     def write_predicate(predicate, values)
-      @builder.tag!(predicate.to_name_s) do
-        # Get the predicate values
-        values.each do |value|
-          # If we have a (re)Source, we have to put in another description tag.
-          # Otherwise, we will take just the string
-          if(value.respond_to?(:uri))
-            @builder.rdf :Description, "rdf:about" => value.uri.to_s
-          else
-            @builder.text!(value.to_s)
-          end
-        end # end predicate loop
-      end # end tag!
+      values.each { |val| write_single_predicate(predicate, val) }
     end # end method
+    
+    def write_single_predicate(predicate, value)
+      is_property = value.respond_to?(:uri)
+      value_properties = is_property ? { 'value' => value } : extract_values(value.to_s)
+      value = value_properties.delete('value')
+      @builder.tag!(predicate.to_name_s, value_properties) do
+        if(is_property)
+          @builder.rdf :Description, 'rdf:about' => value.uri.to_s
+        else
+          @builder.text!(value)
+        end
+      end
+    end
+    
+    # Splits up the value, extracting encoded language codes and RDF data types. The 
+    # result will be returned as a hash, with the "true" value being "value"
+    def extract_values(value)
+      result = {}
+      # First split for the type
+      type_split = value.split('^^')
+      # Check if any of the elements contains a language string
+      type_split = type_split.collect { |element| extract_lang(element, result) }
+      result['rdf:datatype'] = type_split.last if(type_split.size > 1)
+      result['value'] = type_split.first
+      result
+    end
+    
+    # Helper to extract a language string. The lang value, if any, will be added to the hash
+    def extract_lang(value, hash)
+      lang_split = value.split('@')
+      hash['xml:lang'] = lang_split.last if(lang_split.size > 1)
+      lang_split.first
+    end
     
   end
 end
