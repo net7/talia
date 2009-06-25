@@ -121,6 +121,7 @@ class CriticalEditionsController < SimpleEditionController
   
   def advanced_search_print
     @path = []
+    set_custom_stylesheet ['editions/advanced_search_print', 'main']
     render :layout => 'critical_print'
   end
 
