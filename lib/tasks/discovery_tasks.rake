@@ -352,7 +352,7 @@ namespace :discovery do
       raise(IOError, "Backup p4 dir already exists") if(File.exists?(p4_back))
       FileUtils::mv(p4_path, p4_back)
     end
-    system('svn update')
+    system('git pull')
     if(update_p4)
       puts "Restoring p4 dir"
       FileUtils.rm_rf(p4_path)
@@ -373,6 +373,10 @@ namespace :discovery do
     system('warble')
     war_name = File.basename(TaskHelper::root_path) + '.war'
     system("cp -v #{war_name} #{File.join(ENV['vhost_dir'], 'ROOT.war')}")
+    unless(ENV['restart_tomcat'] && %w(false no).include?(ENV['restart_tomcat'].downcase))
+      puts "Restarting Tomcat server now (only works for Mac OS Leopard Server as root)"
+      system("kill `cat /Library/Tomcat/logs/tomcat.pid`")
+    end
   end
 
   desc "Update from svn and deploy the WAR file. Options = vhost_dir=<virtual host dir>"
