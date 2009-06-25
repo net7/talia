@@ -9,9 +9,7 @@
 	<%= render(:partial => 'shared/translation_boxes') %>
     <%= javascript_include_tag 'prototype' %>
     <%= javascript_include_tag 'tooltip.js' %>
-    <% for custom_style in @custom_edition_stylesheet.each %> 
-	<%= stylesheet_link_tag(custom_style) %>
-	<% end %>
+    <%= custom_styles %>
   </head>
   <body>
       <div id="critical_print_header">
