@@ -52,7 +52,7 @@
                   content += "<li>";
 
                   // add title
-                  content += "<h3>" + (i+1).toString() + "<span class='result_title_print'>" + titles[i].value + "</span></h3>";
+                  content += "<h3><span class='result_title_print'>" + (i+1).toString() + ") " + titles[i].value + "</span></h3>";
                   // add description
                   content += "<div id='advanced_search_result_description_" + i.toString() + "' name='advanced_search_result_description'>" + descriptions[i].value + "</div>";
                   // add full description
@@ -63,6 +63,7 @@
                   available_elements.push(i.toString());
                 }
               }
+
 
               // set words list
               document.getElementById('words').innerHTML = (window.opener.document.getElementsByName('words')[1]).value;
