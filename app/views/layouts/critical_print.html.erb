@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title><%= print_title %></title>
+    <%= stylesheet_link_tag 'main', :media => "all" %>
+    <%= stylesheet_link_tag 'tooltip.css', :media => "all" %>
+    <%= stylesheet_link_tag 'TEI/p4/tei_style.css', :media => "all" %>
+    <%= stylesheet_link_tag 'editions/critical_print.css', :media => "all" %>
+	<%= render(:partial => 'shared/translation_boxes') %>
+    <%= javascript_include_tag 'prototype' %>
+    <%= javascript_include_tag 'tooltip.js' %>
+  </head>
+  <body>
+      <div id="critical_print_header">
+        <div id="logo_print">
+          <img src="/images/editions/<%= "#{@edition.uri.local_name}" %>_logo_print.png" alt="" />
+        </div>
+        <div id="header_text">
+          <h4><%= t(:"talia.search.print.#{@edition.uri.local_name}.advanced_search_header") %></h4>
+        </div>
+      </div>
+
+
+      <div id="content" class="divided">
+
+        <div id="visore">
+			<%= yield %>
+        </div>
+        <!--[if !IE]>visore<![endif]-->
+      </div>
+      <!-- content -->
+  </body>
+</html>

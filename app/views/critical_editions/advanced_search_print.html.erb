@@ -1,31 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-    <title><%= edition_page_title %></title>
-    <%= stylesheet_link_tag 'main', :media => "all" %>
-    <%= stylesheet_link_tag 'tooltip.css', :media => "all" %>
-    <%= stylesheet_link_tag 'TEI/p4/tei_style.css', :media => "all" %>
-    <%= stylesheet_link_tag 'editions/critical_custom/critical_print.css', :media => "screen" %>
-    <%= stylesheet_link_tag 'editions/critical_custom/critical_printreal.css', :media => "print" %>
-	<%= render(:partial => 'shared/translation_boxes') %>
-    <%= javascript_include_tag 'prototype' %>
-    <%= javascript_include_tag 'tooltip.js' %>
-  </head>
-  <body>
-      <div id="critical_print_header">
-        <div id="logo_print">
-          <img src="/images/editions/<%= "#{@edition_nick}" %>_logo_print.png" alt="" />
-        </div>
-        <div id="header_text">
-          <h4><%= t(:"talia.search.print.#{@edition_nick}.advanced_search_header") %></h4>
-        </div>
-      </div>
-
-
-      <div id="content" class="divided">
-
-        <div id="visore">
           <h2><span id="results_size"></span> <%= t(:'talia.search.result phrase 1') %> '<span id="words" class="red"></span>' <%= t(:'talia.search.result phrase 2') %> <%= @edition_nick %></h2>
 
           <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="window.print(); return false;"><%= t(:'talia.search.print results') %></a></div>
@@ -76,9 +48,3 @@
             </script>
 
           </ul>
-        </div>
-        <!--[if !IE]>visore<![endif]-->
-      </div>
-      <!-- content -->
-  </body>
-</html>

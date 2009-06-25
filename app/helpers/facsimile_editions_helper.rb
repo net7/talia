@@ -105,7 +105,6 @@ module FacsimileEditionsHelper
     end
     "<p class='previous'><a href='#{uri}'>Previous page</a></p>"
   rescue Exception => e
-    puts "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX #{e.message}"
     # @page.previous_page will raise an exception if this is the first page
     # no previous button should be shown, then
     ''

@@ -2,7 +2,7 @@ class CriticalEditionsController < SimpleEditionController
   set_edition_type :critical
   add_javascripts 'tooltip', 'wit-js'
 
-  layout 'simple_edition', :except => [:advanced_search_popup, :advanced_search_print]
+  layout 'simple_edition', :except => [:advanced_search_popup]
   caches_action :show, :dispatcher, :locale => :current_locale
 
   ADVANCED_SEARCH_RESULTS_PER_PAGE = 20
@@ -36,7 +36,7 @@ class CriticalEditionsController < SimpleEditionController
     else
       @book = source.book
     end
-    render :layout => false    
+    render :layout => 'critical_print'    
   end
   
   def advanced_search
@@ -121,8 +121,7 @@ class CriticalEditionsController < SimpleEditionController
   
   def advanced_search_print
     @path = []
-    @edition_nick = params[:id]
-
+    render :layout => 'critical_print'
   end
 
   private
