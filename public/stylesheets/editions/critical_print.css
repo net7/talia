@@ -2,7 +2,7 @@
 
 div#critical_print_header {
     border-bottom: 1px solid #000;
-    margin: 0 0 1em 0;
+    margin: 0 0 0 0;
     height: 108px;
     position: relative;
 }
@@ -30,6 +30,10 @@ div#critical_print_header #header_text h4{
     font-weight: normal;
     margin: 0;
     padding:0;
+}
+
+div#critical_spacer {
+	height: 1em;
 }
 
 
