@@ -71,7 +71,14 @@ exist_options:
   exist_password: 'server password'
   exist_namespace: 'http://trac.talia.discovery-project.eu/wiki/Exist#'
 
-# Force a single editor's introduction for all simple editions
+# Force a single editor's introduction for all simple editions. If this is a simple
+# string, it will forward all editor's introductions to that link. If it's 
+# 'per_work' (without the quotes), it will create an automatic link for each book that 
+# is currently selected.
+#
+# If a hash of key: values is given, it will map the edition with the name 'key' to
+# the page 'value'. All editions that are not mentioned will use the default link
+#
 # force_introduction: 'Editorial'
 
 # site name (appears in the page titles)

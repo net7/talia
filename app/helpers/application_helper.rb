@@ -32,8 +32,10 @@ module ApplicationHelper
     text = t(:"talia.global.editors introduction")
 
     force_mode = TaliaCore::CONFIG['force_introduction'] || ''
-    force_mode.downcase
+    force_mode.downcase if(force_mode.is_a?(String))
     local_name = case(force_mode)
+    when Hash:
+        force_mode[@edition.uri.local_name] || @edition.uri.local_name
     when '':
         @edition.uri.local_name
     when 'per_work':
