@@ -23,7 +23,7 @@ module ApplicationHelper
 
   def institution_link(name, url = nil)
     url ||= locale_uri('/documentation/LANG/institutions.html')
-    link_to(name, url)
+    link_to(name, url, :target => "_blank")
   end
 
   # Link to "editor's introduction. (This has a magic parameter to override
