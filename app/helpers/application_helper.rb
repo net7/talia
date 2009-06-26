@@ -82,7 +82,11 @@ module ApplicationHelper
   # Returns the title for the whole page. This returns the value
   # set in the controller, or a default value
   def page_title
-    @page_title || TaliaCore::SITE_NAME
+    if (title = t_raw(:'talia.start_page.home')) && !title.blank?
+      title
+    else
+      TaliaCore::SITE_NAME
+    end
   end
   
   # Returns the subtitle for the page. See page_title

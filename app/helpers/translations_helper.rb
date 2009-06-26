@@ -7,7 +7,17 @@ module TranslationsHelper
     result << content_tag(:span, symbol.t, :id => esc_symbol.to_s)
   end
   alias_method :t, :translate
-  
+
+  # Fetch the translation for the given key, it returns +nil+ in case of missing result.
+  # This behavior breaks the default of Globalize, which returns the key itself, if the
+  # translation is missing.
+  #
+  # This is the new default of the i18n gem.
+  def translate_raw(symbol)
+    ViewTranslation.find_by_locale_and_tr_key(Locale.active.code, symbol).text rescue nil
+  end
+  alias_method :t_raw, :translate_raw
+
   def translate_field(code, trans)
     translation = trans[:translation]
     text = (translation && translation.text) ? translation.text : ''

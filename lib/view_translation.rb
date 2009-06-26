@@ -36,7 +36,13 @@ Globalize::ViewTranslation.class_eval do
     result
   end
 
-  def self.find_by_locale_and_tr_key(locale, tr_keys)
+  def self.find_by_locale_and_tr_key(locale, tr_key)
+    locale = Locale.new(locale)
+    self.find(:first, :select => "text",
+      :conditions => ["language_id = ? and tr_key = ?", locale.language.id, tr_key.to_s])
+  end
+
+  def self.find_all_by_locale_and_tr_key(locale, tr_keys)
     locale = Locale.new(locale)
     result = self.find(:all, :select => "tr_key, text", :order => "tr_key ASC",
       :conditions => ['language_id = ? and tr_key IN(?)', locale.language.id, tr_keys])
