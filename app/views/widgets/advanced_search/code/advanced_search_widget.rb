@@ -333,22 +333,8 @@ class AdvancedSearchWidget < Widgeon::Widget
     # get book from uri
     book = TaliaCore::Source.find(uri)
     # get book's subparts
-    @subparts = book.subparts_with_manifestations(N::HYPER.HyperEdition)
 
-    # create an array with uri and title for each subpart
-    unless @subparts.nil?
-      # get subpart title
-      @subparts.collect! do |subpart|
-        # get title
-        title = subpart.dcns.title
-        if (title.empty?)
-          title = subpart.uri.local_name
-        end
-
-        # create array
-        [subpart.uri.to_s, title]
-      end
-    end
+    @subparts = book.subparts_uri_and_title_with_manifestations(N::HYPER.HyperEdition)
 
     # return subparts array
     @subparts
