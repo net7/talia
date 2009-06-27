@@ -6,29 +6,30 @@
     <%= stylesheet_link_tag 'tooltip.css', :media => "all" %>
     <%= stylesheet_link_tag 'TEI/p4/tei_style_print.css', :media => "all" %>
     <%= stylesheet_link_tag 'editions/critical_print.css', :media => "all" %>
-	<%= render(:partial => 'shared/translation_boxes') %>
+    <%= render(:partial => 'shared/translation_boxes') %>
     <%= javascript_include_tag 'prototype' %>
     <%= javascript_include_tag 'tooltip.js' %>
     <%= custom_styles %>
   </head>
   <body>
-      <div id="critical_print_header">
-        <div id="logo_print">
-          <img src="/images/editions/<%= "#{@edition.uri.local_name}" %>_logo_print.png" alt="" />
-        </div>
-        <div id="header_text">
-          <%= t(@header) %>
-        </div>
+    <div id="critical_print_header">
+      <div id="logo_print">
+        <img src="/images/editions/<%= "#{@edition.uri.local_name}" %>_logo_print.png" alt="" />
       </div>
-
-
-      <div id="content" class="divided">
-
-        <div id="visore">
-			<%= yield %>
-        </div>
-        <!--[if !IE]>visore<![endif]-->
+      <div id="header_text">
+        <%= t(@header) %>
       </div>
-      <!-- content -->
+    </div>
+
+
+    <div id="content" class="divided">
+
+      <div id="visore">
+        <%= yield %>
+      </div>
+      <!--[if !IE]>visore<![endif]-->
+    </div>
+    <!-- content -->
+    <%= google_analytics %>
   </body>
 </html>

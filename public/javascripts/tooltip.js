@@ -68,7 +68,7 @@ function configureSinglePopUp(element) {
 	});
 	
 	newElementClose.observe('click', function(event){
-		// this.ancestors()[0].toggle();
+		 this.ancestors()[0].toggle();
 		// hideAllPopUps();
 	});
 	 
