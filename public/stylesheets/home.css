@@ -60,11 +60,13 @@ h2{
 	font-weight: normal;
 	font-family:Georgia, "Times New Roman", Times, serif;
 	margin-bottom: 10px;
+    text-align: center;
+    width: 740px;
 }
 
 p{
 	margin-bottom: 13px;
-	font-size: 0.88em;
+	font-size: 13px;
 	line-height: 1.5em;
 }
 
@@ -220,7 +222,7 @@ blockquote {
 	}
 	
 	#contenutoDoppio_int{
-		background: transparent url(/images/start_page/filo_vert.jpg) top center repeat-y;
+		/* background: transparent url(/images/start_page/filo_vert.jpg) top center repeat-y; */
 		float: left;
 		width: 780px;
 		margin: 0; padding: 0;
@@ -234,10 +236,15 @@ blockquote {
 		margin: 0; padding: 20px;
 	}
         #contenutoSinistra{
-			width: 350px;
+			/* width: 350px; */
 			float: left;
 			padding: 20px;
 		}
+            #contenutoSinistra p.edition_description{
+                margin-top: -8px;
+                font-size: 0.9em;
+            }
+
 		#contenutoDestra{
 			width: 350px;
 			float: right;

@@ -44,11 +44,19 @@
         <div id="contenuti">
           <div class="floatClear"></div>
           <div id="contenutoDoppio_ext">
-            <div id="contenutoDoppio_int"> <div id="contenutoSinistra">
+            <!--
+            <div id="contenutoDoppio_int">
+              <div id="contenutoSinistra">
                 <%= yield :left_box %>
               </div>
               <div id="contenutoDestra">
                 <%= yield :right_box %>
+              </div>
+            </div>
+            -->
+            <div id="contenutoDoppio_int">
+              <div id="contenutoSinistra">
+                <%= yield :left_box %>
               </div>
             </div>
           </div>
