@@ -142,10 +142,8 @@ class AdvancedSearchWidget < Widgeon::Widget
       # load previous mc_from used
       if params[:mc_from].nil?
         selected_value = :first
-        selected_mc = works.first.uri
       else
         selected_value = params[:mc_from][widget_session[:current_size]-1]
-        selected_mc = params[:mc][widget_session[:current_size]-1]
       end
 
       # create tags
@@ -168,10 +166,8 @@ class AdvancedSearchWidget < Widgeon::Widget
       # load previous mc_from used
       if params[:mc_to].nil?
         selected_value = :last
-        selected_mc = works.first.uri
       else
         selected_value = params[:mc_to][widget_session[:current_size]-1]
-        selected_mc = params[:mc][widget_session[:current_size]-1]
       end
 
       # create tags
