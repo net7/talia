@@ -35,7 +35,7 @@ function configureSinglePopUp(element) {
 
     //  highlightedText.setStyle({cursor: 'pointer', backgroundColor: '#e9dbb1', position: 'relative'});
 	//   highlightedText.insert("<div class='tooltip' style='position:absolute;'>" + ballonText.innerHTML + "</div>");
-    highlightedText.setStyle({cursor: 'pointer', backgroundColor: '#e9dbb1', position: 'relative'});
+	highlightedText.setStyle({cursor: 'pointer', backgroundColor: '#e9dbb1', position: 'relative'});
     highlightedText.insert("<div class='tooltip' style='position:absolute;'>" + tmpText + "</div>");
 
 	//ballonText.innerHTML = '';
@@ -59,7 +59,7 @@ function configureSinglePopUp(element) {
 		} else {
 			clickedToolTipStatus = true;
 		}
-		hideAllPopUps();
+		//		hideAllPopUps();
 		if(clickedToolTipStatus == true) {
 			highlightedText.select('div.tooltip')[0].hide();
 		} else {
@@ -77,15 +77,16 @@ function configureSinglePopUp(element) {
 	  position: 'absolute',
 	  backgroundColor: '#e1e1e1',
 	  fontSize: '12px',
+	  color: '#363636',
 	  zIndex: '100',
-	  textAlign: 'justify',
 	  padding: '22px 10px 10px 10px',
 	  border: '5px solid #7d7d7d',
 	  lineHeight: '16px',
+	  textAlign: 'left',
+	  textIndent: '0px',
 	  top: '0',
-	  left: '0',
-	  color: '#363636',
-	  textIndent: '0px'
+	  left: '0'
+	  
 	});
 	
 	newElementStem.setStyle({

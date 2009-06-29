@@ -16,6 +16,11 @@ Event.observe(window, 'resize', function () {
     set_height ();
 })
 
+document.addEventListener('DOMSubtreeModified', function(){
+    set_height ();
+}, true)
+
+
 // Functions
 function go_to_anchor(name){
     div_name_text = name + '_text';

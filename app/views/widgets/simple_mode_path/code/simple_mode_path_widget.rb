@@ -14,7 +14,7 @@ class SimpleModePathWidget < Widgeon::Widget
         text = element[:text]
         unless url.blank?
           url = "/#{url}" unless /^\//.match(url) || /^http/.match(url)
-          %(<a href="#{url}" title="#{text}">#{text}</a>)
+          %(<a href="#{url}">#{text}</a>)
         else
           text
         end

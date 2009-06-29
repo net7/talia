@@ -4,7 +4,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml">
 <!--
 	<xsl:output method="xml" omit-xml-declaration="yes" indent="yes"/>
 -->
-	<xsl:output method="html" indent="yes"/>
+	<xsl:output method="html" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" indent="yes"/>
 	<!-- 
       
         AC = <div type="div1.aphorism"> |  <head /> | <p /> | <hi rend="bold" />  | <signed /> | <div type="div1-aphorismus" />
@@ -175,7 +175,8 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml">
 			</span>
 			<span class="popup">
                            <xsl:attribute name="id">hidden<xsl:value-of select="ancestor::tei:div/@xml:id"/><xsl:value-of select="generate-id()"/></xsl:attribute>
-<!--<div class="tooltip_table">
+<!--
+<div class="tooltip_table">
  <div class="table-row">
   <div class="left-container"> 
     <xsl:apply-templates select="tei:sic"/><xsl:if test="string-length(tei:sic)=0">[editorial addition]</xsl:if>
@@ -197,10 +198,9 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml">
  </div>
 </div> 
 -->
-<em>errata:</em><xsl:text> </xsl:text><xsl:apply-templates select="tei:sic"/><xsl:if test="string-length(tei:sic)=0">[editorial addition]</xsl:if><br/>
-<em>corrige:</em><xsl:text> </xsl:text><xsl:apply-templates select="tei:corr"/><br/>
+<em>errata:</em>   <xsl:apply-templates select="tei:sic"/><xsl:if test="string-length(tei:sic)=0">[editorial addition]</xsl:if><br/>
+<em>corrige:</em>  <xsl:apply-templates select="tei:corr"/><br/>
 <a href="http://www.nietzschesource.org/documentation/corrections.html" target="_blank" style="font-style: italic">Nach KGW Nachberichte</a>
-
 			</span>
 		</span>
 	</xsl:template>

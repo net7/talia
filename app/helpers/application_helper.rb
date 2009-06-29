@@ -170,12 +170,12 @@ module ApplicationHelper
     
     # Try to get the iip data record for the manifestation of the element
     iip_data = get_iip_data_for_card(data_element)
-    return titled_link(url, empty_thumb(:alt => title), title) unless(iip_data)
+    return titled_link(url, empty_thumb(:alt => title)) unless(iip_data)
 
     img_options = { :alt => title }.merge(img_options)
     img_tag = talia_image_tag(iip_data, img_options)
 
-    titled_link(url, img_tag, title)
+    titled_link(url, img_tag)
   end
   
   def talia_image_tag(image, options = {})
