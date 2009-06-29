@@ -1,7 +1,12 @@
 class CriticalEditionsController < SimpleEditionController
   set_edition_type :critical
-  add_javascripts 'tooltip'
-  
+  add_javascripts 'tooltip', 'wit-js'
+
+  layout 'simple_edition', :except => [:advanced_search_popup]
+  caches_action :show, :dispatcher, :locale => :current_locale
+
+  ADVANCED_SEARCH_RESULTS_PER_PAGE = 20
+
   def dispatcher
     @request_url = URI::decode(request.url)
     @source = TaliaCore::Source.find(@request_url)
@@ -31,10 +36,13 @@ class CriticalEditionsController < SimpleEditionController
     else
       @book = source.book
     end
-    render :layout => false    
+    @header = :"talia.search.print.#{@edition.uri.local_name}.header"
+    render :layout => 'critical_print'    
   end
   
   def advanced_search
+    set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
+    
     # set advanced search widget visible
     set_advanced_search_visible true
 
@@ -48,12 +56,27 @@ class CriticalEditionsController < SimpleEditionController
           (params[:mc].nil? or params[:mc].join.strip == "")
         redirect_to(:back) and return
       end
-      
+
       # execute advanced search
       adv_src = AdvancedSearch.new
-      @result = adv_src.search(edition_prefix, params[:id], params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to], params[:mc_single])
+      page = params[:page] || '1'
+      if page == 'all'
+        page = '1'
+        @limit = 0
+      else
+        @limit = ADVANCED_SEARCH_RESULTS_PER_PAGE
+      end
+      @result = adv_src.search(edition_prefix, params[:id], params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to], params[:mc_single], true, page, @limit)
+
       @result_count = adv_src.size
 
+      # the number of pages we have to display
+      if @limit == 0
+        @pages = 1
+      else
+        @pages = (@result_count.to_f / @limit).ceil
+      end
+      
       @searched_works = []
       unless params[:mc].nil?
         [params[:mc], params[:mc_from], params[:mc_to]].transpose.each do |work,from,to|
@@ -61,8 +84,8 @@ class CriticalEditionsController < SimpleEditionController
           from_item = TaliaCore::Source.find(from)
           to_item = TaliaCore::Source.find(to)
           @searched_works << {:work => work_item.title,
-            :from => from_item.title || from_item.local_name,
-            :to   => to_item.title || to_item.local_name
+            :from => from_item.title || from_item.uri.local_name,
+            :to   => to_item.title || to_item.uri.local_name
           }
         end
       end
@@ -93,29 +116,15 @@ class CriticalEditionsController < SimpleEditionController
 
   def advanced_search_popup
 
-    # remove layour
-    render :layout => false
+    set_custom_stylesheet ['TEI/p4/tei_style_print.css']
 
   end
   
   def advanced_search_print
-    # set custom stylesheet for screen and print media
-    set_custom_stylesheet ['TEI/p4/tei_style_print.css', 'tooltip']
-    set_custom_edition_stylesheet ['critical_print']
-    set_print_stylesheet ['critical_printreal']
-
     @path = []
-    @edition_nick = params[:id]
-
-    @result = []
-
-    unless params[:advanced_search_result].nil? || params[:checkbox].nil?
-      params[:checkbox].each do |checkbox_id|
-        index = checkbox_id.to_i
-        @result << {:counter => params[:counter][index], :title => params[:title][index], :description => params[:description][index], :full_description => params[:full_description][index]}
-      end
-    end
-
+    @header = :"talia.search.print.#{@edition.uri.local_name}.advanced_search_header"
+    set_custom_stylesheet ['editions/advanced_search_print', 'main']
+    render :layout => 'critical_print'
   end
 
   private
@@ -160,6 +169,10 @@ class CriticalEditionsController < SimpleEditionController
     @path << {:text => @part.dcns::title.empty? ? @part.uri.local_name.to_s : @part.dcns.title.first.to_s}
     set_custom_stylesheet ['TEI/p4/tei_style.css', 'tooltip']
   end
+
 end
  
  
+
+
+

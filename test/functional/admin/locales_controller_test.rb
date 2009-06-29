@@ -12,7 +12,7 @@ class Admin::LocalesControllerTest < ActionController::TestCase
   def test_should_get_new
     get :new
     assert_select "form" do
-      assert_select "[action=?]", "/admin/locales/create"
+      assert_select "[action=?]", "/admin/locales"
       assert_select "input[type=text][name=name]", :count => 1
       assert_select "input[type=text][name=code]", :count => 1
       assert_select "input[type=submit][value=?]", "Create"

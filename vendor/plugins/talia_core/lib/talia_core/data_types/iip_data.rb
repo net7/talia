@@ -41,7 +41,7 @@ module TaliaCore
         destination_thumbnail_file_path = File.join(Dir.tmpdir, "thumbnail_#{random_tempfile_filename}.gif")
         
         begin # Begin the file creation operation
-          self.class.benchmark("Making thumb and pyramid for #{self.id}", Logger::INFO) do
+          self.class.benchmark("\033[36mIipData\033[0m Making thumb and pyramid for #{self.id}", Logger::INFO) do
           
             TaliaUtil::ImageConversions::create_thumb(original_file_path, destination_thumbnail_file_path)
             create_pyramid(original_file_path)
@@ -68,7 +68,7 @@ module TaliaCore
         return false unless(@file_data_to_write.kind_of?(Array))
         
         thumb, pyramid = @file_data_to_write
-        self.class.benchmark("Direct write for #{self.id}", Logger::INFO) do
+        self.class.benchmark("\033[36mIipData\033[0m Direct write for #{self.id}", Logger::INFO) do
           prepare_for_pyramid
         
           copy_or_move(pyramid, get_iip_root_file_path)

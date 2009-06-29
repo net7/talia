@@ -23,10 +23,11 @@
       <% end %>
     <% end %>
 
+    <%= hidden_field_tag 'page' %>
     <%= w.hidden_field_tag('mc_single') %>
     <%= w.hidden_field_tag 'advanced_search_submission', 'menu submission' %>
   <% else %>
-    <h1 class="scroll_title"><%= titled_link(locale_uri("/documentation/LANG/#{@edition.uri.local_name}.html"), t(:"talia.global.list of works")) %></h1>
+    <h1 class="scroll_title"><%= introduction_link %></h1>
   <% end %>
 
   <ul class="toplevel book">

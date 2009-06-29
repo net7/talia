@@ -1,0 +1,13 @@
+# Example file for the edition creation
+nick: text
+type: critical
+name: Critical Edition
+header: nietzsche_blue
+# This is a text for facsimile editions, but a file for critical
+description: ./description.html
+# Optional, only for text editions
+# version:
+# Optional
+# catalog:
+
+

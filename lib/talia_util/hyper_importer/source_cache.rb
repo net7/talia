@@ -40,15 +40,15 @@ module TaliaUtil
       def [](source_uri)
         source_uri = source_uri.uri if(source_uri.respond_to?(:uri))
         if(cached = @first_generation[source_uri])
-          logger.debug('[Source Cache] Cache hit')
+          logger.debug("\033[1m\033[4m\033[35mSource Cache\033[0m Cache hit")
           cached # return the cache value
         elsif(cached = @second_generation[source_uri])
-          logger.debug('[Source Cache] Cache hit 2nd gen')
+          logger.debug("\033[1m\033[4m\033[35mSource Cache\033[0m Cache hit 2nd gen")
           # try the second generation. If found, add back to the first
           add_value(source_uri, cached)
           cached
         else
-          logger.debug('[Source Cache] Cache miss')
+          logger.debug("\033[1m\033[4m\033[35mSource Cache\033[0m Cache miss")
           # Cache miss: Do the database lookup
           src = TaliaCore::ActiveSource.find(:first, :conditions => {:uri => source_uri })
           add_value(source_uri, src)
@@ -67,7 +67,7 @@ module TaliaUtil
 
       # Gain access to the logger
       def logger
-        RAILS_DEFAULT_LOGGER
+        TaliaCore::Initializer.talia_logger
       end
       
 

@@ -30,6 +30,10 @@ module SimpleEditionHelper
     javascript_include_tag edition_include_name
   end
 
+  def tool_title(tool)
+    t(:"talia.tools.#{tool[:text]}", false)
+  end
+
   def tool_text(tool)
     t(:"talia.tools.#{tool[:text]}")
   end

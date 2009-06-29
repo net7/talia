@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
 
   # Delegate to I18n instead of hardcode locales there, because application.rb
   # is evauated *one* time in production.
-  self.languages = I18n.locales
+  # self.languages = I18n.locales
 
   # Override to allow the translations only to the translators
   def globalize?
@@ -40,6 +40,29 @@ class ApplicationController < ActionController::Base
   def t(symbol)
     symbol.to_s.t
   end
+
+  # Define if the caching must be performed
+  # e.g. we don't need to use cache when we're logged in as a translator
+  #
+  # TODO: WARNING! this is a workaround for Rails 2.0, if/when Rails 2.1 or better
+  # is used, we can move to adding the :if parameter to the caches_action statements
+  def perform_caching
+    @@perform_caching && !logged_in?
+  end
+
+  protected
+    def local_request?
+      false
+    end
+
+    def rescue_action_in_public(exception)
+      case exception
+      when ActiveRecord::RecordNotFound
+        render :file => "#{RAILS_ROOT}/public/404.html", :status => :not_found
+      else
+        super
+      end
+    end
 
   private
 
@@ -53,6 +76,7 @@ class ApplicationController < ActionController::Base
 
   # Sets the local to the value from the session
   def prepare_locale
+    Locale.set(Locale.base_language.code) unless(Locale.active)
     locale = session[:locale] || "en-US"
     if(locale != Locale.active.code)
       # set the new locale

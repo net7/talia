@@ -1,13 +1,8 @@
 //= require <prototype>
 //= require <effects>
 
-// Dom Loaded
-document.observe('dom:loaded', function() {
-    // Set height of elements
-    set_height();
-    // Anchor handling
-    go_to_anchor('<%= @href_for_text %>');
-});
+
+//set height and goto_anchor are called on Dom Load in the views/critical_editions/_script.html/erb partial
 
 // All Page Contents Loaded
 Event.observe(window, 'load', function() {

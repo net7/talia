@@ -82,12 +82,18 @@ module TaliaUtil
       assert(TaliaCore::Archive.exists?(N::LOCAL + "Goethe-+und+Schiller-Archiv"))
     end
     
+    def test_rdf_page_title
+      assert(TaliaCore::Page.find(N::LOCAL + 'AC,1').my_rdf[N::DCNS.title], 'AC,1')
+    end
+    
+    
     # This test if the page that was imported for a pre-existing Source 
     # changed the type correctly and set the default catalog.
     def test_page_transformed_from_source
       src = TaliaCore::Page.find(N::LOCAL + 'N-IV-1,8')
       assert_kind_of(TaliaCore::Page, src)
       assert_equal(TaliaCore::Catalog.default_catalog, src.catalog)
+      assert(src.my_rdf[N::DCNS.title], 'N-IV-1,8')
     end
     
   end

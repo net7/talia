@@ -15,7 +15,16 @@ rdf_connection_file: rdfstore
 standalone_db: false
 db_file: database
 # Database configuration can also be given as a hash here
-# db_connection: 
+# db_connection:
+
+# If Talia runs standalone, it will use this log file. If running inside Rails,
+# it will always use the current Rails log file. If not specified, Talia
+# will automatically put the files in the 'log/' directory and select a log
+# level depending on the current enviroment name.
+#
+# standalone_log: talia_core.log
+# standalone_log_level: debug
+
 # If unset, the databse log will end up in the default log directory
 # db_log: database.log
 
@@ -62,6 +71,16 @@ exist_options:
   exist_password: 'server password'
   exist_namespace: 'http://trac.talia.discovery-project.eu/wiki/Exist#'
 
+# Force a single editor's introduction for all simple editions. If this is a simple
+# string, it will forward all editor's introductions to that link. If it's 
+# 'per_work' (without the quotes), it will create an automatic link for each book that 
+# is currently selected.
+#
+# If a hash of key: values is given, it will map the edition with the name 'key' to
+# the page 'value'. All editions that are not mentioned will use the default link
+#
+# force_introduction: 'Editorial'
+
 # site name (appears in the page titles)
 site_name: Discovery Source
 
@@ -79,3 +98,11 @@ namespaces:
     luccadom: "http://trac.talia.discovery-project.eu/wiki/LuccaOntology#"
     # HyperNietzsche namespace
     hyper: "http://trac.talia.discovery-project.eu/wiki/HyperOntology#"
+    # Philospace namespaces
+    scholar: http://discovery-project.eu/ontologies/scholar/0.1/
+    nietzsche: http://discovery-project.eu/ontologies/nietzschesource/
+    daphnet: http://discovery-project.eu/ontologies/daphnet/
+    wittgenstein: http://discovery-project.eu/ontologies/wittgensteinsource/
+    sophiavision: http://discovery-project.eu/ontologies/sophiavision/
+    philospace: http://discovery-project.eu/ontologies/philoSpace/
+    dbin: http://dbin.org/dbinont.owl#

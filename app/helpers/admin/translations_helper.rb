@@ -6,7 +6,7 @@ module Admin::TranslationsHelper
   
   def add_translation
     link_to_function "Add a translation" do |page|
-      page.insert_html :bottom, "translations", :partial => 'translation', :object => ViewTranslation.new
+      page.insert_html :bottom, "translations", :partial => 'new_translation', :object => ViewTranslation.new
       page['translations'].select('.translation').last.focus
     end
   end
@@ -33,7 +33,7 @@ module Admin::TranslationsHelper
   def languages_options_tags(locale_code, include_url = true)
     locales.map do |language, locale|
       language = language.to_s.titleize
-      selected = locale == locale_code
+      selected = "selected" if locale_code.match %r{#{locale}}
       value = include_url ? edit_admin_translation_url(locale) : locale
       content_tag(:option, language, :value => value, :selected => selected)
     end

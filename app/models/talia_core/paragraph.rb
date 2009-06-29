@@ -41,5 +41,10 @@ module TaliaCore
       note_position = notes[0].hyper.position[0]
       position = page_position + note_position
     end
+
+    # return the position for search_key
+    def position_for_search_key
+      position_in_book
+    end
   end
 end

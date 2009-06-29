@@ -5,9 +5,13 @@
     <title><%= edition_page_title %></title>
     <%= stylesheet_link_tag 'main' %>
     <%= edition_style_link %>
+    <%= stylesheet_link_tag 'tooltip.css' %>
+    <%= stylesheet_link_tag 'TEI/p4/tei_style.css' %>
     <%= stylesheet_link_tag 'editions/critical_custom/critical_print.css', :media => "print" %>
     <%= stylesheet_link_tag 'editions/critical_custom/critical_printreal.css', :media => "print" %>
+	<%= render(:partial => 'shared/translation_boxes') %>
     <%= javascript_include_tag 'prototype' %>
+    <%= javascript_include_tag 'tooltip.js' %>
   </head>
   <body>
     <div id="navigate">
@@ -30,9 +34,9 @@
     </div>
     <div id="content" class="divided grey">
       <div id="visore" style="margin: 0px;">
-        <div id="popup_content">
+        <div id="popup_content" class="txt_block">
           <script type="text/javascript">
-            document.getElementById('popup_content').innerHTML = window.opener.document.getElementById('advanced_search_popup_value').value;
+            document.getElementById('popup_content').innerHTML = window.opener.document.getElementById(window.opener.document.getElementById('advanced_search_popup_value').value).value;
           </script>
         </div>
       </div>

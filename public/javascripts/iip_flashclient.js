@@ -12,16 +12,13 @@
  */
 function load_iip_flashclient(server, image_path, width, height, element_id) {
     // TODO: Must be changed to work in subfolder URL
-    var so = new SWFObject("/fliip.swf", "iip_flashview", width, height, "6.0.65", "#e0e0e0");
+    var so = new SWFObject("/fliipish.swf", "flashZoomer", width, height, "9", "#e0e0e0");
     so.addParam("quality", "high");
     so.addParam("scale", "noscale");
     so.addParam("salign", "tl");
-	so.addVariable('iipimageserver', server)
-    so.addVariable('FIF', '')
-    so.addVariable('iipimagefif', "?fif=" + image_path)
-    so.addVariable('iipimagetitle', 'prova')
-    so.addVariable('iipimagepixels', '7')
-    so.addVariable('iipimagepixelsmeasure', 'cm')
+    so.addVariable("imgSrc", image_path);
+    so.addVariable("zoomSteps", "3");
+    so.addVariable("imgSrv", server);
     so.write(element_id);		
 }
 

@@ -70,12 +70,15 @@ namespace :talia_core do
   end
  
   # Task for importing ontologies/raw RDF data
-  desc "Import ontologies. Same as rdf_import."
-  task :ontology_import => [:rdf_import] # ontology_import is just another name
-  # The real import task
-  desc "Import RDF data directly into the triple store. Option: rdf_syntax={ntriples|rdfxml}"
+  desc "Import ontologies. This imports the given rdf files (same as rdf_import), and sets the context automatically"
+  task :ontology_import => :talia_init do
+    TaliaCore::RdfImport::import(ENV['rdf_syntax'], TaliaUtil::Util::get_files, :auto)
+  end
+  
+  # RDF importing task. A context can be freely assigned.
+  desc "Import RDF data directly into the triple store. Option: rdf_syntax={ntriples|rdfxml} [context=<context>]"
   task :rdf_import => :talia_init do
-    RdfImport::import(ENV['rdf_syntax'], TaliaUtil::Util::get_files)
+    TaliaCore::RdfImport::import(ENV['rdf_syntax'], TaliaUtil::Util::get_files, ENV['context'])
   end
 
   desc "Update the Ontologies. Options [ontologies=<ontology_folder>]"

@@ -34,6 +34,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :translations, :collection => { :search => :get }
     admin.resources :users
     admin.resources :sources
+    admin.resources :locales
   end
 
   # Routes for login and users handling
@@ -44,6 +45,9 @@ ActionController::Routing::Routes.draw do |map|
   map.open_id_complete 'session', :controller => 'sessions', :action => 'create', :requirements => { :method => :get }
   map.resource :session
   map.resources :languages, :member => { :change => :get }
+
+  # Routes for the ontologies
+  map.resources :ontologies
 
   # Routes for the sources
   map.resources :sources do |sources|
@@ -110,12 +114,15 @@ ActionController::Routing::Routes.draw do |map|
     :action => 'books',
     :requirements => {:type => /Work|Manuscript|Iconography|Library|Correspondence|Picture/},
     :subtype => nil
+    
+  map.connect "translations/:action/:id",
+    :controller => 'translations',
+    :requirements => { :id => /.*/ }
 
   map.connect "facsimiles/:id/:page/:page2",
     :controller => 'facsimile_editions',
     :action => 'double_pages',
     :requirements => {:page => /.*,[^\.]*/, :page2 => /.*,[^\.]*/}
-#  :defaults => {:format => 'html'}
   
   map.connect "facsimiles/:id/:page:dot:format",
     :controller => 'facsimile_editions',

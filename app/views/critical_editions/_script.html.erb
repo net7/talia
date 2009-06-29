@@ -1,2 +1,8 @@
-<script> 
+<script type="text/javascript"> 
+document.observe('dom:loaded', function() {
+    // Set height of elements
+    set_height();
+    // Anchor handling
+    go_to_anchor('<%= @href_for_text %>');
+});
 </script>

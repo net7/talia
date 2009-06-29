@@ -18,7 +18,7 @@ class AdvancedSearchWidget < Widgeon::Widget
   #                     :visible => false})
   def on_init
     unless is_callback?
-       # set search mode
+      # set search mode
       widget_session[:mode] = @options[:mode]
 
       # store work object
@@ -135,17 +135,15 @@ class AdvancedSearchWidget < Widgeon::Widget
   end
 
   # return a select tag for aphorisms
-  def tag_aphorisms
+  def tag_aphorisms(subparts)
     if is_avmedia_search
       raise("Tag not supported in avmedia search")
     else
       # load previous mc_from used
       if params[:mc_from].nil?
         selected_value = :first
-        selected_mc = works.first.uri
       else
         selected_value = params[:mc_from][widget_session[:current_size]-1]
-        selected_mc = params[:mc][widget_session[:current_size]-1]
       end
 
       # create tags
@@ -154,24 +152,22 @@ class AdvancedSearchWidget < Widgeon::Widget
         :locals => {:field_name=> 'mc_from[]',
           :current_size => widget_session[:current_size],
           :selected_value => selected_value,
-          :data => subparts(selected_mc)})
+          :data => subparts}) #subparts(selected_mc)})
 
       return tag_string
     end
   end
 
   # return a select tag for through
-  def tag_through
+  def tag_through(subparts)
     if is_avmedia_search
       raise("Tag not supported in avmedia search")
     else
       # load previous mc_from used
       if params[:mc_to].nil?
         selected_value = :last
-        selected_mc = works.first.uri
       else
         selected_value = params[:mc_to][widget_session[:current_size]-1]
-        selected_mc = params[:mc][widget_session[:current_size]-1]
       end
 
       # create tags
@@ -180,10 +176,22 @@ class AdvancedSearchWidget < Widgeon::Widget
         :locals => {:field_name=> 'mc_to[]',
           :current_size => widget_session[:current_size],
           :selected_value => selected_value,
-          :data => subparts(selected_mc)})
+          :data => subparts}) #subparts(selected_mc)})
 
       return tag_string
     end
+  end
+
+  # return previous book subpart or first book subpart, if user don't select a value
+  def previous_subparts_selected
+    # load previous mc_from used
+    if params[:mc_from].nil?
+      selected_mc = works.first.uri
+    else
+      selected_mc = params[:mc][widget_session[:current_size]-1]
+    end
+
+    return subparts(selected_mc)
   end
 
   # return a generic select tag with an element selected
@@ -321,21 +329,11 @@ class AdvancedSearchWidget < Widgeon::Widget
     # get book from uri
     book = TaliaCore::Source.find(uri)
     # get book's subparts
-    subparts = book.subparts_with_manifestations(N::HYPER.HyperEdition)
 
-    # create an array with uri and title for each subpart
-    unless subparts.nil?
-      # get subpart title
-      subparts.collect! do |subpart|
-        # get title
-        title = subpart.dcns.title.empty? ? subpart.uri.local_name : subpart.dcns.title
-        # create array
-        [subpart.uri.to_s, title]
-      end
-    end
+    @subparts = book.subparts_uri_and_title_with_manifestations(N::HYPER.HyperEdition)
 
     # return subparts array
-    subparts
+    @subparts
   end
 
   def keyword

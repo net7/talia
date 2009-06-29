@@ -25,10 +25,7 @@
       <%= @element.dct::abstract.first %>
     </p>
 
-    <%= link_to t(:'talia.av_media.show_transcription'), "#", :id => 'show_transcription', :class => 'right' %>
-    <%= link_to t(:'talia.av_media.hide_transcription'), "#", :id => 'hide_transcription', :class => 'right', :style => 'display:none' %>
-
-    <div id="transcription" style="display:none">
+    <div id="transcription">
       <h2><%= t(:'talia.media.transcription') %></h2>
       <p class="text_long">
         <%= @element.hyper::transcription.first %>

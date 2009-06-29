@@ -151,6 +151,7 @@ module TaliaUtil
         assert_equal(2, book.ordered_pages.elements.size)
         assert_equal(page1, book.ordered_pages.first)
       end
+      assert_equal(TaliaCore::Page.find(N::LOCAL + 'KGW/AC,1').my_rdf[N::DCNS.title].first, 'AC,1')
     end
        
     private

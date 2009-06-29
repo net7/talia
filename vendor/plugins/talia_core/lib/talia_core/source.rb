@@ -238,26 +238,13 @@ module TaliaCore
     
     # Creates an RDF/XML resprentation of the source
     def to_rdf
-      xml = String.new
+      rdf = String.new
       
-      builder = Builder::XmlMarkup.new(:target => xml, :indent => 2)
-      
-      # Xml instructions (version and charset)
-      builder.instruct!
-      
-      # Build the namespaces
-      namespaces = {}
-      N::Namespace.shortcuts.each { |key, value| namespaces["xmlns:#{key.to_s}"] = value.to_s }
-      
-      builder.rdf :RDF, namespaces do # The main RDF/XML element
-        builder.rdf :Description, :about => uri do # Element describing this resource
-          # loop through the predicates
-          direct_predicates.each do |predicate|
-            predicate_rdf(predicate, builder)
-          end
-        end
+      XmlRdfBuilder.open(:target => rdf, :indent => 2) do |builder|
+        builder.write_source(self)
       end
       
+      rdf
     end
     
     # Return the titleized uri local name.
@@ -339,6 +326,7 @@ module TaliaCore
         uri = N::LOCAL+label.gsub(' ', '_') if uri == N::LOCAL.to_s
         uri.to_s
       end
+      
     end
     
     # End of class methods
@@ -369,24 +357,6 @@ module TaliaCore
       
       DummyHandler.new(registered, self)
     end
-    
-    
-    # Build an rdf/xml string for one predicate
-    def predicate_rdf(predicate, builder)
-      builder.tag!(predicate.to_name_s) do
-        # Get the predicate values
-        self[predicate.to_s].each do |value|
-          # If we have a (re)Source, we have to put in another description tag.
-          # Otherwise, we will take just the string
-          if(value.respond_to?(:uri))
-            builder.rdf :Description, "rdf:about" => value.uri.to_s
-          else
-            builder.text!(value.to_s)
-          end
-        end # end predicate loop
-      end # end tag!
-    end # end method
-    
     
   end
 end

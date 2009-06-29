@@ -22,50 +22,57 @@ module TaliaCore
       end
     end
     
-    def to_html(version=nil, layer=nil, xml=nil, format=nil)
-      @format = format unless format.nil?
-      #fills the @in_xml and the @format vars
-      prepare_transformation(xml, format)
-      # if no version is specified, it takes the first available
-      return '' if available_versions.nil? and version.nil?
-      version = available_versions[0] if version.nil?
-      output = ''
-      unless @in_xml.nil?
-        begin
-          case @format
-          when 'application/xml+hnml'
-            max_layer = hnml_max_layer
-            middle_output = ''     
-            if max_layer != '' 
-              shown_layer = layer.nil? ? max_layer : layer
-              transformer_parameters = {'layer' => shown_layer}
+    def to_html(version=nil, layer=nil, xml=nil, format=nil, preview=false)
+      self.class.benchmark("\033[36m\033[1m\033[4mTextReconstruction\033[0m Creating XML for #{self.id}") do
+        @format = format unless format.nil?
+        #fills the @in_xml and the @format vars
+        prepare_transformation(xml, format)
+        # if no version is specified, it takes the first available
+        return '' if available_versions.nil? and version.nil?
+        version = available_versions[0] if version.nil?
+        output = ''
+        unless @in_xml.nil?
+          begin
+            case @format
+            when 'application/xml+hnml'
+              max_layer = hnml_max_layer
+              middle_output = ''
+              if max_layer != ''
+                shown_layer = layer.nil? ? max_layer : layer
+                transformer_parameters = {'layer' => shown_layer}
+              end
+              xsl1 = "#{XSLT_ROOT}/hnml/edition_linear.xsl"
+              xsl2 = "#{XSLT_ROOT}/hnml/edition_linear_2.xsl"
+              mid_xml = perform_transformation(xsl1, @in_xml, transformer_parameters)
+              output = perform_transformation(xsl2, mid_xml, transformer_parameters)
+            when 'application/xml+tei', 'application/xml+tei-p4', 'application/xml+tei-p5'
+              xsl = "#{XSLT_ROOT}/TEI/p4/html/tei.xsl"
+              output = perform_transformation(xsl, @in_xml)
+            when 'application/xml+wittei'
+              xsl = "#{XSLT_ROOT}/WitTEI/wab-transform.xsl"
+              if preview
+                project = 'discovery-preview'
+              else
+                project = 'discovery'
+              end
+              # visning is the parameter for the version in the wab-transform.xsl file
+              transformer_parameters = {'visning' => version, 'prosjekt' => project}
+              output = perform_transformation(xsl, @in_xml, transformer_parameters)
+            when 'text/html'
+              output = @in_xml
             end
-            xsl1 = "#{XSLT_ROOT}/hnml/edition_linear.xsl"
-            xsl2 = "#{XSLT_ROOT}/hnml/edition_linear_2.xsl"
-            mid_xml = perform_transformation(xsl1, @in_xml, transformer_parameters)
-            output = perform_transformation(xsl2, mid_xml, transformer_parameters)
-          when 'application/xml+tei', 'application/xml+tei-p4', 'application/xml+tei-p5'
-            xsl = "#{XSLT_ROOT}/TEI/p4/html/tei.xsl"
-            output = perform_transformation(xsl, @in_xml)
-          when 'application/xml+wittei'
-            xsl = "#{XSLT_ROOT}/WitTEI/wab-transform.xsl"
-            # visning is the parameter for the version in the wab-transform.xsl file        
-            transformer_parameters = {'visning' => version, 'prosjekt' => 'discovery'}
-            output = perform_transformation(xsl, @in_xml, transformer_parameters)
-          when 'text/html'
-            output = @in_xml
+          rescue Exception => e
+            ##TODO: handle these specific (java) exception:
+            #   net.sf.saxon.trans.XPathException
+            #    org.xml.sax.SAXParseException
+            logger.warn("\033[1m\033[4m\033[31mTextReconstruction\033[0m Xml transformation of #{self.uri} failed with message: " + e.message)
+            output = "XML is Broken!"
           end
-        rescue Exception => e
-          ##TODO: handle these specific (java) exception:
-          #   net.sf.saxon.trans.XPathException
-          #    org.xml.sax.SAXParseException
-          logger.warn("xml transformation failed with message: " + e.message)
-          output = "XML is Broken!"
+        else
+          puts "Warning file was missing: #{infile} calculation will continue"
         end
-      else
-        puts "Warning file was missing: #{infile} calculation will continue"  
+        output
       end
-      output
     end
    
   end

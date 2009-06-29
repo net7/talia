@@ -97,7 +97,7 @@ namespace :discovery do
     Util.flush_rdf
   end
   
-  desc "Import data from a local XML file. Options: xml=<file_path> [prepared_image=<directory>]"
+  desc "Import data from a local XML file. Options: xml=<file_path> [prepared_images=<directory>]"
   task :import_from_file => :disco_init do
     xml_file = ENV['xml']
     assit(File.exist?(xml_file))
@@ -128,6 +128,7 @@ namespace :discovery do
   # creates a facsimile edition and adds to it all the color facsimiles found in the DB
   desc "Creates a Facsimile Edition with all the available color facsimiles. Options nick=<nick> name=<full_name> header=<header_image_folder> catalog=<catalog_siglum>"
   task :create_color_facsimile_edition => :disco_init do
+    TaskHelper::edition_config # Setup the configuration
     if ENV['catalog'].nil? 
       catalog = TaliaCore::Catalog.default_catalog
     else
@@ -140,6 +141,8 @@ namespace :discovery do
       TaliaCore::Page
       TaliaCore::Facsimile
       fe = TaskHelper::create_edition(TaliaCore::FacsimileEdition)
+      # Copy position from catalog to edition
+      fe.position = catalog.position if(catalog.position)
       TaskHelper::setup_header_images
       qry = TaskHelper::default_book_query(catalog)
       qry.where(:facsimile, N::HYPER.manifestation_of, :page)
@@ -172,7 +175,7 @@ namespace :discovery do
   end
   
   
-  desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> header=<header_directory> description=<html_description_file> catalog=<catalog_siglum> [version=<version>]"
+  desc "Creates a Critical Edition with all the HyperEditions related to any subparts of any book in the default catalog. Options nick=<nick> name=<full_name> header=<header_directory> catalog=<catalog_siglum> [version=<version>]"
   task :create_critical_edition => :disco_init do
     TaliaCore::Book
     TaliaCore::Page
@@ -181,6 +184,8 @@ namespace :discovery do
     TaliaCore::TextReconstruction
     TaliaCore::Transcription
     TaliaCore::HyperEdition
+
+    TaskHelper::edition_config # Setup the configuration
 
     version = ENV['version']
 
@@ -191,6 +196,7 @@ namespace :discovery do
       catalog = TaliaCore::Catalog.find(N::LOCAL + ENV['catalog']) 
     end
     ce = TaskHelper::create_edition(TaliaCore::CriticalEdition, version)
+    ce.position = catalog.position if(catalog.position) # Duplicate the position of the catalog on the edition
     TaskHelper::setup_header_images
     
     # HyperEditions may be manifestations of both pages and paragraphs
@@ -346,7 +352,7 @@ namespace :discovery do
       raise(IOError, "Backup p4 dir already exists") if(File.exists?(p4_back))
       FileUtils::mv(p4_path, p4_back)
     end
-    system('svn update')
+    system('git pull')
     if(update_p4)
       puts "Restoring p4 dir"
       FileUtils.rm_rf(p4_path)
@@ -354,14 +360,24 @@ namespace :discovery do
     end
   end
 
-  desc "Deploy the application. Option: vhost_dir=<root dir of virtual host>"
+  desc "Deploy the application. Option: vhost_dir=<root dir of virtual host> [restart_tomcat=(true|false)]"
   task :deploy_war do
     raise(ArgumentError, "Must give vhost_dir option") unless(ENV['vhost_dir'])
+    puts "Backing up locally customized css files"
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/TEI/p4/* public/stylesheets/TEI/p4/")
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/WEB-INF/xslt/TEI/p4/html/tei.xsl xslt/TEI/p4/html/tei.xsl")
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/front_page.css public/stylesheets/front_page.css")
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/editions/* public/stylesheets/editions/")
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/WEB-INF/xslt/WitTEI/* xslt/WitTEI/")
     system('rake assets:package')
     system('warble war:clean')
     system('warble')
     war_name = File.basename(TaskHelper::root_path) + '.war'
     system("cp -v #{war_name} #{File.join(ENV['vhost_dir'], 'ROOT.war')}")
+    unless(ENV['restart_tomcat'] && %w(false no).include?(ENV['restart_tomcat'].downcase))
+      puts "Restarting Tomcat server now (only works for Mac OS Leopard Server as root)"
+      system("kill `cat /Library/Tomcat/logs/tomcat.pid`")
+    end
   end
 
   desc "Update from svn and deploy the WAR file. Options = vhost_dir=<virtual host dir>"

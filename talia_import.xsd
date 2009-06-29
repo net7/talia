@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Schema file for the Hyper Import Format. This format can be used to check the Hyper XML
+    that will be imported in Talia. The format is quite particular for the Discovery
+    project; it is based on the original data format of the Hyper software.
+-->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+    <!-- 
+        The 'relations' element can be used in almost all sources. Each relation
+        needs a predicate and an object. The predicate should refer to a predicate
+        defined in the ontology, and the object should refer to an actual Source
+    -->
     <xs:complexType name="relationsType">
         <xs:sequence>
             <xs:element name="relation" maxOccurs="unbounded">
@@ -9,12 +20,11 @@
                         <xs:element name="object" type="xs:string"/>
                     </xs:sequence>
                 </xs:complexType>
-                <!-- Keyref to source siglum. Disabled for multiple files -->
-                <xs:keyref refer="sourceKey" name="relationTarget">
-                    <xs:selector xpath="object"></xs:selector>
-                    <xs:field xpath="."></xs:field>
-                </xs:keyref>
-                
+                <xs:unique name="predicateAndObject">
+                    <xs:selector xpath="."/>
+                    <xs:field xpath="object"/>
+                    <xs:field xpath="predicate"/>
+                </xs:unique>
             </xs:element>
         </xs:sequence>
     </xs:complexType>
@@ -25,7 +35,27 @@
             <xs:pattern value="\d{4}(-\d{2})?(-\d{2})?(.\d{2}:\d{2}.?)?"/>
         </xs:restriction>
     </xs:simpleType>
-
+    
+    <!--
+        A 'catalog' element descries a catalog of elements. At the momet it
+        only accepts one parameter (apart from the siglm:
+        * position - Gives a position for ordering the catalogs on the site
+    -->
+    <xs:complexType name="catalogType">
+        <xs:sequence>
+            <xs:element name="siglum" type="xs:string"></xs:element>
+            <xs:element name="position" type="xs:integer"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!--
+        These are the base elements that are common to all sources:
+        * catalog - The catalog of which this source is part
+        * siglum - The unique (within this installation) siglum of the source
+        * title - The title of the surce
+        * type - Describes the internal type of the source (if any)
+        * subtype - Describes the internal subtype of the source's type (if any)
+    -->
     <xs:complexType name="sourceType">
         <xs:sequence>
             <xs:element name="catalog" type="xs:string" minOccurs="0"/>
@@ -36,6 +66,17 @@
         </xs:sequence>
     </xs:complexType>
 
+    <!--
+        A book element usually represents a (physical) book and consist of 
+        sub-elements like chapters and pages.
+        * coprightNote - String with a text describing the conditions for using this book
+        * description - A description of the book
+        * date - Date when the original book was published
+        * publisher - The person or organisation who published this book
+        * publishingPlace - The place where this book was published
+        * ordering - Position of the book within the current collection
+        * relations - Semantic relations for this Source
+    -->
     <xs:complexType name="bookType">
         <xs:complexContent>
             <xs:extension base="sourceType">
@@ -47,12 +88,18 @@
                     <xs:element name="publisher" type="xs:string"/>
                     <xs:element name="publishingPlace" type="xs:string"/>
                     <xs:element name="ordering" type="xs:int"/>
-                    <xs:element name="relations" type="relationsType"/>
+                    <xs:element name="relations" type="relationsType" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
     
+    <!-- 
+        The author of an element in the database. The author will have a siglum like all
+        sources, and in addition some business card data. The 'from_date' and 'to_date'
+        contain the dates between which the author was a member of the current site
+        (or institution)
+    -->
     <xs:complexType name="authorType">
         <xs:sequence>
             <xs:element name="siglum" type="xs:string"></xs:element>
@@ -73,13 +120,27 @@
             <xs:element name="to_date" type="taliaDate" default="0001-01-01"></xs:element>
         </xs:sequence>
     </xs:complexType>
-
+    
+    <!--
+        Type for assigning an author
+    -->
     <xs:complexType name="authorsType">
         <xs:sequence>
             <xs:element name="author" type="xs:string" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
+    <!--
+        A secondary source that was contributed to the current site.
+        'publishing_date' - The date on which the resource was published online
+        'publisher' - The person or institution responsible for the publication
+        'language' - language code for the language of this publication
+        'alreadyPublished' - Indicates if this element has already been published somewhere eles
+        'copyrightNote' - The conditions for using this Source
+        'dimensionsX, dimensionY' - Physical dimensions of the contribution (if applicabele)
+        'file_size, file_name, ...' - Points to the file contaiining the data
+        'authors' - List of authors of this resource
+    -->
     <xs:complexType name="contributionType">
         <xs:complexContent>
             <xs:extension base="sourceType">
@@ -90,6 +151,7 @@
                     <xs:element name="alreadyPublished" type="xs:string"/>
                     <xs:element name="relations" type="relationsType"/>
                     <xs:element name="copyrightNote" type="xs:string"/>
+                    <xs:element name="subtype" type="xs:string" minOccurs="0"></xs:element>
                     <xs:element name="dimensionX" type="xs:int" default="0" minOccurs="0"/>
                     <xs:element name="dimensionY" type="xs:int" default="0" minOccurs="0"/>
                     <xs:element name="file_size" type="xs:int" default="0"/>
@@ -102,6 +164,13 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <!--
+        A note is a single, coherent, piece of text that appears on a page.
+        - 'page' - Page on which the note appears
+        - 'position' - Gives the order in which the positions are sorted
+        - 'coordinates' - A list of coordinates that describe a polygon on the
+                          site that is the outline of the current not
+    -->
     <xs:complexType name="notesType">
         <xs:sequence>
             <xs:element name="note" maxOccurs="unbounded">
@@ -121,6 +190,11 @@
         </xs:sequence>
     </xs:complexType>
 
+    <!--
+        A paragraph is a paragraph of text, that may stretch over several notes
+        (especially if the paragraph strethes over more than one page. The 
+        pargraph referes all the notes that are part of it.
+    -->
     <xs:complexType name="paragraphType">
         <xs:complexContent>
             <xs:extension base="sourceType">
@@ -131,6 +205,15 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <!--
+        A page is a direct sub-part of a book. The page must declare the
+        'isSubPartOf' relation to associate it to a book.
+        
+        'width, height' - physical dimensions of the page, if aplicable
+        'position' - Number that gives the page's number in the current book
+        'position_name' - String that describes the position of  the page in the
+                          current book/selection (used for presentation)
+    -->
     <xs:complexType name="pageType">
         <xs:complexContent>
             <xs:extension base="sourceType">
@@ -145,6 +228,13 @@
         </xs:complexContent>
     </xs:complexType>
     
+    <!--
+        A chapter is a collection of pages in the same book (an auxialliare construct)
+        'first_page' - The 'position' of the first page in the book.
+        'position' - Number to order the existing chapters within the book
+        'name' - Name of the currrent chapter
+        'book' - Refers to the siglum of the book which is refereced
+    -->
     <xs:complexType name="chapterType">
         <xs:complexContent>
             <xs:extension base="sourceType">
@@ -158,6 +248,10 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <!--
+        This defines the main list of sources, with each entry 
+        refering to one Source that is imported.
+    -->
     <xs:element name="sources">
         <xs:complexType>
             <xs:sequence>
@@ -172,24 +266,54 @@
                             <xs:element name="text_reconstruction" type="contributionType"/>
                             <xs:element name="chapter" type="chapterType"/>
                             <xs:element name="author" type="authorType"></xs:element>
+                            <xs:element name="catalog" type="catalogType"></xs:element>
                         </xs:choice>
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
         </xs:complexType>
+        
+        <!-- Guruantees that each source has an unique siglum -->
         <xs:key name="sourceKey">
             <xs:selector xpath="source/*/siglum"/>
             <xs:field xpath="."/>
         </xs:key>
+        
+        <!--
+            WARNING: The keys and constraints defined here will not work in all
+            cases. This is due to the structure of the format, and how the
+            XSD Schema can be applied.
+            
+            If you run into problems, you may want to ignore these constraints.
+        -->
+        
+        <!-- 
+            Keyref to source siglum. 
+            This needs to be disabled if the data is in multiple files,
+            since then the references cannot be checked.
+            
+            (This has been disabled since it doesn't work in all cases, due
+            to limitations of XSD on the current layout of the schema)
+        -->
+        <xs:keyref refer="sourceKey" name="relationTarget">
+            <xs:selector xpath="source/*/relations/relation/object"></xs:selector>
+            <xs:field xpath="."></xs:field>
+        </xs:keyref>
+        
+        <!-- Ordering of the books -->
         <xs:unique name="bookOrder">
             <xs:selector xpath="source/book/ordering"/>
             <xs:field xpath="."/>
         </xs:unique>
+        
+        <!-- Ordering of the pages -->
         <xs:unique name="pageOrder">
             <xs:selector xpath="source/page"/>
             <xs:field xpath="position"/>
             <xs:field xpath="relations/relation/object"></xs:field>
         </xs:unique>
+        
+        <!-- Ordering of the chapters -->
         <xs:unique name="chapterOrder">
             <xs:selector xpath="source/chapter"/>
             <xs:field xpath="position"/>

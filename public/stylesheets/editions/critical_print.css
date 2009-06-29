@@ -1,6 +1,8 @@
+/* Critical Print stuff */
+
 div#critical_print_header {
     border-bottom: 1px solid #000;
-    margin: 0 0 1em 0;
+    margin: 0 0 0 0;
     height: 108px;
     position: relative;
 }
@@ -11,8 +13,10 @@ div#critical_print_header #logo_print{
 }
 
 div#critical_print_header #header_text{
+	  font-family:Arial,"Lucida Grande","Bitstream Vera Sans",Avenir,Helvetica,sans-serif;
+		font-size: 16px;
     position: absolute;
-    top:48px;
+    top: 69px;
     left: 230px;
 }
 
@@ -27,3 +31,9 @@ div#critical_print_header #header_text h4{
     margin: 0;
     padding:0;
 }
+
+div#critical_spacer {
+	height: 1em;
+}
+
+

@@ -14,12 +14,16 @@ module TaliaCore
    
     # returns the following page
     def next_page
-      ordered_pages.next(self)      
+      ordered_pages.next(self)
+    rescue
+      nil # If we hit a problem, report nil. Makes the helpers easier
     end
 
     # returns the previous page
     def previous_page
-      ordered_pages.previous(self)      
+      ordered_pages.previous(self)
+    rescue
+      nil # See above
     end
     
     # The notes belonging to this page
@@ -55,6 +59,11 @@ module TaliaCore
         position = self.hyper.position[0].to_i - chapter.first_page.hyper.position[0].to_i + 1
         "%0.6d" % position
       end
+    end
+
+    # return the position for search_key
+    def position_for_search_key
+      self.hyper.position.to_s + '000000'
     end
     
     # returns the Book this page is part of

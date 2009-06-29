@@ -88,7 +88,7 @@ module TaliaUtil
       def select_position(page, initial_position)
         position = initial_position
         while(TaliaCore::Source.exists?(note_name(page, position))) do position += 1 end
-        logger.warn("Had to adapt note #{initial_position} for #{source.uri.to_name_s} on page #{page} to #{position}") if(position != initial_position)
+        logger.warn("\033[4m\033[33m\033[1mParagraphImporter\033[0m Had to adapt note #{initial_position} for #{source.uri.to_name_s} on page #{page} to #{position}") if(position != initial_position)
         position
       end
       

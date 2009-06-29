@@ -22,7 +22,7 @@ module TaliaCore
 
     def test_has_type
       facs = ActiveSource.new('http://facsimile/has_type_test')
-      facs[N::RDF.type] << N::HYPER.testtype
+      facs.types << N::HYPER.testtype
       assert(facs.has_type?(N::HYPER.testtype))
     end
 

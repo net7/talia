@@ -21,19 +21,34 @@ module ApplicationHelper
     end
   end
 
-  # list of institutions to be shown in the footer
-  def institutions
-    institutions = TaliaCore::CONFIG['institutions'] || []
+  def institution_link(name, url = nil)
+    url ||= locale_uri('/documentation/LANG/institutions.html')
+    link_to(name, url, :target => "_blank")
   end
 
-  # overseer(s) link in the footer
-  def overseers_footer_link
-    overseers = TaliaCore::CONFIG['overseers'] || []
-    @overseer = []
-    overseers.each do |title, link|
-      @overseer << {'title' => title, 'link' => link}
+  # Link to "editor's introduction. (This has a magic parameter to override
+  # the default name globally, in case the site has only one introduction
+  def introduction_link
+    text = t(:"talia.global.editors introduction")
+
+    force_mode = TaliaCore::CONFIG['force_introduction'] || ''
+    force_mode.downcase if(force_mode.is_a?(String))
+    local_name = case(force_mode)
+    when Hash:
+        force_mode[@edition.uri.local_name] || @edition.uri.local_name
+    when '':
+        @edition.uri.local_name
+    when 'per_work':
+        if(@book)
+          text = t(:"talia.global_introduction_on_#{@book.uri.local_name.downcase}")
+          @book.uri.local_name
+        else
+          @edition.uri.local_name
+        end
+    else
+        force_mode
     end
-    @overseer
+    titled_link(locale_uri("/documentation/LANG/#{local_name}.html"), text)
   end
 
 
@@ -67,7 +82,11 @@ module ApplicationHelper
   # Returns the title for the whole page. This returns the value
   # set in the controller, or a default value
   def page_title
-    @page_title || TaliaCore::SITE_NAME
+    if (title = t_raw(:'talia.start_page.home')) && !title.blank?
+      title
+    else
+      TaliaCore::SITE_NAME
+    end
   end
   
   # Returns the subtitle for the page. See page_title
@@ -182,7 +201,14 @@ module ApplicationHelper
   def action_name
     controller.action_name
   end
+
+  # Create a locale-sensitve URL by replacing "LANG" in the current string with
+  # the current language code
+  def locale_uri(string)
+    string.gsub(/LANG/, Locale.language_code)
+  end
   
+
   private
 
 
@@ -191,7 +217,8 @@ module ApplicationHelper
   end
 
   def page_blank?(page)
-    blank = facsimile_for(page).blank
+    facsimile = facsimile_for(page)
+    blank = facsimile.blank unless facsimile.nil?
     (blank != nil) && (blank != 'false')
   end
 
@@ -214,10 +241,4 @@ module ApplicationHelper
     title
   end
 
-  # Create a locale-sensitve URL by replacing "LANG" in the current string with
-  # the current language code
-  def locale_uri(string)
-    string.gsub(/LANG/, Locale.language_code)
-  end
-  
 end

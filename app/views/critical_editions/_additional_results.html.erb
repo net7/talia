@@ -1,0 +1,5 @@
+<h2 align="center">
+  <%= t(:'talia.search.additional results 1') %> <%= @result_count.to_i - @limit.to_i %> <%= t(:'talia.search.additional results 2') %>
+  <a href="#" onClick="if('<%= params[:mc_single]%>'!=''){document.forms['advanced_search_menu_form'].mc_single.value='<%= params[:mc_single]%>'};document.forms['advanced_search_menu_form'].page.value='all';document.forms['advanced_search_menu_form'].submit();return false">
+	<%= t(:'talia.search.show all') %></a> <%= t(:'talia.search.long load')%>
+</h2>

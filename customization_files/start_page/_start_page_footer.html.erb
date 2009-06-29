@@ -1,0 +1,25 @@
+<%
+  # Customizable footer for the start page.
+%>
+
+<!-- Footer -->
+<div id="footer">
+  <table id="footer_table">
+    <tr>
+      <td align="left" id="footer_table_left">
+        <%= link_to "", locale_uri("documentation/LANG/institutions.html"), :target => '_blank', :id => "footer_europe" %>
+      </td>
+      <td align="center" id="footer_table_center">
+        <%= institution_link('CNRS') %>
+        <%= link_to t(:'talia.footer.rights'), locale_uri("documentation/LANG/rights.html"), :target => '_blank' %>
+        |
+        <%= t(:'talia.footer.overseer') %>:
+        <%= link_to "Paolo D'Iorio", 'http://diorio.org/', :target => '_blank' %>
+      </td>
+      <td align="right" id="footer_table_right">
+        <a id="footer_talia" href="http://www.talia.discovery-project.eu/" target="_blank"></a>
+      </td>
+    </tr>
+  </table>
+</div>
+<!-- Footer -->

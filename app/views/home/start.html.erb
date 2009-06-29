@@ -10,7 +10,7 @@
 
     <%= stylesheet_link_tag 'home' %>
     <%= javascript_include_tag :defaults %>
-    <%= javascript_include_tag 'in_place_translator' %>
+	<%= render(:partial => 'shared/translation_boxes') %>
     <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
 
     <title><%= page_title %> </title>
@@ -63,7 +63,7 @@
           <div class="floatClear"></div>
         </div>
 
-        <%= render (:partial => 'shared/footer') %>
+        <%= render(:partial => 'custom/start_page_footer') %>
 
       </div>
     </div>

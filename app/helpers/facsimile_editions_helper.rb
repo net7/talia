@@ -64,13 +64,23 @@ module FacsimileEditionsHelper
     # if we have the @page2 var set, this is the case where two pages are
     # shown (facing pages), otherwise, we'll use the @page one, which is set
     # in any case
-    current_page = @page2 || @page
-    page = @page.next_page
-    result = "<p class='next'><a href='#{page.uri.to_s}'>Next page</a></p>"
+    next_page = (@page2 || @page).next_page
+    return '' unless(next_page)
+    
+    uri = if(@page2)
+      # If we have 2 pages, we build a double-page URL for the next double page
+      past_next = next_page.next_page
+      # Add the double-uri only if the page after the next exists, otherwise
+      # behave like a single page links
+      next_page.uri + (past_next ? "/#{past_next.uri.local_name}" : '')
+    else
+      next_page.uri
+    end
+    "<p class='next'><a href='#{uri}'>Next page</a></p>"
   rescue
     # @page.next_page will raise an exception if this is the last page
     # no next button should be shown, then
-    result = ''
+    ''
   end
  
   # returns a link to the previous page, used in the "page" action
@@ -78,12 +88,26 @@ module FacsimileEditionsHelper
     # in both single and double pages cases, params[:page] is set
     # In the single page case, it's the only page, in the double pages one it's the
     # first page, and we want it's predecessor
-    page = @page.previous_page
-    result ="<p class='previous'><a href='#{page.uri.to_s}'>Previous page</a></p>"
-  rescue
+    previous_page = @page.previous_page
+    return '' unless(previous_page)
+    
+    uri = if(@page2)
+      second_page = previous_page
+      first_page = second_page.previous_page
+      # Check if we have two pages before this one. Othewise make a 'single' link
+      if(first_page)
+        first_page.uri + "/#{second_page.uri.local_name}"
+      else
+        second_page.uri
+      end
+    else
+      previous_page.uri
+    end
+    "<p class='previous'><a href='#{uri}'>Previous page</a></p>"
+  rescue Exception => e
     # @page.previous_page will raise an exception if this is the first page
     # no previous button should be shown, then
-    result = ''
+    ''
   end
  
   # returns the copyright note to be shown below the facsimile images
