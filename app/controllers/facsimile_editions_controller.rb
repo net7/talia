@@ -121,8 +121,9 @@ class FacsimileEditionsController < SimpleEditionController
   end
   
   def search
-    searched_book = sanitize(params[:book]) unless params[:book].empty?
-    searched_page = sanitize(params[:page]) unless params[:page].empty?
+    sanitizer = HTML::FullSanitizer.new
+    searched_book = sanitizer.sanitize(params[:book]) unless params[:book].empty?
+    searched_page = sanitizer.sanitize(params[:page]) unless params[:page].empty?
     search_result = @edition.search(searched_book, searched_page)
     redirect_to search_result[0].uri.to_s and return unless (search_result.empty?)
     flash[:search_notice] = t(:'talia.search.records_not_found')
