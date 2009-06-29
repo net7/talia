@@ -1,5 +1,5 @@
-          <h2><span id="results_size"></span> <%= t(:'talia.search.result phrase 1') %> '<span id="words" class="red"></span>' <%= t(:'talia.search.result phrase 2') %> <%= @edition_nick %></h2>
-
+          <div id="result_description"></div>
+          
           <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="window.print(); return false;"><%= t(:'talia.search.print results') %></a></div>
             <a href="#" title="full description" onclick="available_elements.each(function(i) {Element.show($('advanced_search_result_full_description_' + i.toString())); Element.hide($('advanced_search_result_description_' + i.toString()))});return false;"><%= t(:'talia.search.full content') %></a> |
             <a href="#" title="expand all" onclick="available_elements.each(function(i) {Element.hide($('advanced_search_result_full_description_' + i.toString())); Element.show($('advanced_search_result_description_' + i.toString()))});return false;"><%= t(:'talia.search.expand all') %></a> |
@@ -10,12 +10,14 @@
           <ul id="results_content" class="results">
             <script type="text/javascript">
               var content = "";
-              
-              var counter =           $A(window.opener.document.getElementsByName('counter[]')).length;
-              var checkboxes =        $A(window.opener.document.getElementsByName('checkbox[]'));
-              var titles =            $A(window.opener.document.getElementsByName('title[]'));
-              var descriptions =      $A(window.opener.document.getElementsByName('description[]'));
-              var full_descriptions = $A(window.opener.document.getElementsByName('full_description[]'));
+
+              document.getElementById('result_description').innerHTML = window.opener.document.getElementById('advanced_search_result_description').value;
+
+              var counter =               $A(window.opener.document.getElementsByName('counter[]')).length;
+              var checkboxes =            $A(window.opener.document.getElementsByName('checkbox[]'));
+              var titles =                $A(window.opener.document.getElementsByName('title[]'));
+              var descriptions =          $A(window.opener.document.getElementsByName('description[]'));
+              var full_descriptions =     $A(window.opener.document.getElementsByName('full_description[]'));
 
               var available_elements = [];
 
@@ -35,13 +37,6 @@
                   available_elements.push(i.toString());
                 }
               }
-
-
-              // set words list
-              document.getElementById('words').innerHTML = (window.opener.document.getElementsByName('words')[1]).value;
-
-              // set size value
-              document.getElementById('results_size').innerHTML = counter;
 
               // add new content to page
               document.getElementById('results_content').innerHTML = content;

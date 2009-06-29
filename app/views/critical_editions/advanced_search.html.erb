@@ -12,19 +12,14 @@
   <div class="floatclear"></div>
   <div id="content" class="divided grey">
     <div id="visore">
-      <h2><%= @result_count %> <%= t(:'talia.search.result phrase 1') %> <span class="red"><%= @words  %></span>
-        <%= @searched_works.collect do |item|
-          " #{t(:'talia.search.result.optional.in the work')} '#{item[:work]}' #{t(:'talia.search.result.optional.in aphorisms')} #{item[:from]} #{t(:'talia.search.result.optional.through')} #{item[:to]},"
-        end unless @searched_works.nil?
-      %>
-        <%= t(:'talia.search.result phrase 2') %> <%= @edition.hyper::title %></h2>
-
+      <%= advanced_search_result_description %>
+      
       <div class="resultstools"> <div class="print"><a href="#" title="print" onclick="window.open('<%= "/texts/#{params[:id]}/advanced_search_print" %>', '<%=  @edition.hyper::title %>', 'scrollbars=1'); return false;"><%= t(:'talia.search.print results') %></a></div>
         <div class="select_deselect"><a href="#" title="select all" onclick="($A(getElementsByName('checkbox[]'))).each(function(item){item.checked = true;});return false;"><%= t(:'talia.search.select all') %></a> | <a href="#" title="deselect" onclick="($A(getElementsByName('checkbox[]'))).each(function(item){item.checked = false;});return false;"><%= t(:'talia.search.deselect all') %></a></div>
       </div>
       <!--[if !IE]>resultstools<![endif]-->
       <form name="advanced_search_result_form" action="<%= url_for(:action => 'advanced_search_print') %>" method="post" target="blank">
-        <%= hidden_field_tag 'advanced_search_result' %><%= hidden_field_tag 'words', @words %><%= hidden_field_tag 'edition_title', @edition.hyper::title %><%= hidden_field_tag 'advanced_search_popup_value', '' %>
+        <%= hidden_field_tag 'advanced_search_result' %><%= hidden_field_tag 'advanced_search_result_description', "#{advanced_search_result_description}"  %> <%= hidden_field_tag 'advanced_search_popup_value', '' %>
         <%= hidden_field_tag 'page' %>
         <ul class="results">
           <% @result.each_with_index do |item, index| %>
