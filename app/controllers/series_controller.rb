@@ -1,6 +1,10 @@
 class SeriesController < ApplicationController
 
   layout 'simple_page'
+
+  def index
+    redirect_to root_path
+  end
   
   def show
     element_uri = N::LOCAL + 'series/' + params[:id]
@@ -12,13 +16,6 @@ class SeriesController < ApplicationController
     @subtitle = t(:'talia.global.series')
   end
 
-  def index
-    @path = [ { :text => 'Series' }]
-    @series = TaliaCore::Series.find(:all)
-    @title = t(:'talia.global.series')
-    @subtitle = t(:'talia.global.series')
-  end
-  
   def advanced_search
     @advanced_search_visible = true
     @path = []
