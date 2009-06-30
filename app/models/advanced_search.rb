@@ -5,10 +5,10 @@ class AdvancedSearch
 
   # advanced search for simple edition.
   # Return an array of hash {title, uri, description}
-  def search(edition_prefix, edition_id, words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil, content_required = true, page=nil, limit=nil)
-    
+  def search(edition_prefix, edition_uri, edition_id, words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil, content_required = true, page=nil, limit=nil)
+
     # load params for query
-    data = query_params(words, operator, mc, mc_from, mc_to, mc_single, content_required, page, limit)
+    data = query_params(edition_uri, words, operator, mc, mc_from, mc_to, mc_single, content_required, page, limit)
     
     # execute query
     doc = execute_query(data)
@@ -83,11 +83,11 @@ class AdvancedSearch
 
   end
 
-  def menu_for_search(words, operator, mc = nil, mc_from = nil, mc_to = nil)
+  def menu_for_search(edition_uri, words, operator, mc = nil, mc_from = nil, mc_to = nil)
     #    search(edition_prefix, edition_id, words, operator, mc, mc_from, mc_to, nil, false)
 
     # load params for query
-    data = query_params(words, operator, mc, mc_from, mc_to, nil, false)
+    data = query_params(edition_uri, words, operator, mc, mc_from, mc_to, nil, false)
 
     # execute query
     doc = execute_query(data)
@@ -98,7 +98,7 @@ class AdvancedSearch
 
   private
 
-  def query_params(words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil, content_required = true, page=nil, limit=nil)
+  def query_params(edition_uri, words, operator, mc = nil, mc_from = nil, mc_to = nil, mc_single = nil, content_required = true, page=nil, limit=nil)
 
     # collect data to post
     data = {
@@ -123,15 +123,41 @@ class AdvancedSearch
       end
 
       data['mc'] = ''
-      data['mc_from'] = mc_from_search_key
-      data['mc_to'] = mc_to_search_key
+      # if mc_single is nil, add all mc_from and mc_to
+      if (mc_single.nil? || mc_single == "")
+        data['mc'] = ''
+        data['mc_from'] = mc_from_search_key
+        data['mc_to'] = mc_to_search_key
+
+      else
+        # else add only restrinctions compatible with mc_single
+        data['mc_from'] = []
+        data['mc_to'] = []
+        
+        # get mc_single object
+        mc_single_object = TaliaCore::Source.find(mc_single)
+        # if mc_single object is a book, add only restrinctions compatible with it
+        if (mc_single_object.type == "Book")
+          # for each mc, if mc is equal to mc_single, add it to search criteria
+          mc.each_with_index do |item, index|
+            if(item == mc_single)
+              data['mc_from'].push(mc_from_search_key[index])
+              data['mc_to'].push(mc_to_search_key[index])
+            end
+          end
+        else
+          data['mc_single'] = mc_single
+        end
+      end
     else
-      data['mc'] = mc
+      data['mc'] = edition_uri
     end
 
     # add mc_single if specified
     if mc_single
-      data['mc_single'] = mc_single
+      unless mc_from
+        data['mc_single'] = mc_single
+      end
     end
 
     # require content
@@ -274,5 +300,5 @@ module Net
       self.content_type = 'application/x-www-form-urlencoded'
     end
   
-  end  
+  end
 end
