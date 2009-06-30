@@ -120,7 +120,7 @@ class AdvancedSearchWidget < Widgeon::Widget
 
       works.each do |item|
         unless params[:mc].nil?
-          if(params[:mc][widget_session[:current_size]-1] == item)
+          if(params[:mc][widget_session[:current_size]-1] == item.to_s)
             selected = true
           end
         end
@@ -152,7 +152,7 @@ class AdvancedSearchWidget < Widgeon::Widget
         :locals => {:field_name=> 'mc_from[]',
           :current_size => widget_session[:current_size],
           :selected_value => selected_value,
-          :data => subparts}) #subparts(selected_mc)})
+          :data => subparts})
 
       return tag_string
     end
