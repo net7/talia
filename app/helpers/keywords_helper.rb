@@ -15,5 +15,4 @@ module KeywordsHelper
   def translate_keyword(keyword)
     t(:"talia.keywords.#{keyword.keyword_value}")
   end
-  
 end
