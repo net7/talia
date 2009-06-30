@@ -13,7 +13,7 @@ class Admin::TranslationsController < ApplicationController
   # GET /admin/translations/search?key1=hello%20world&key2=good_morning
   def search
     keys = params.map {|key, value| value if key.to_s =~ /key/}.compact
-    translations = ViewTranslation.find_all_by_locale_and_tr_key(params[:locale], keys)
+    translations = ViewTranslation.find_by_locale_and_tr_key(params[:locale], keys)
     session[:reference_locale] = params[:locale]
 
     respond_to do |format|

@@ -23,6 +23,8 @@ class HomeController < ApplicationController
         @editions[edition] = "TaliaCore::#{edition.to_s.camelize}Edition".constantize.find(:all)
       end
     end
+    
+    @page_title =  "#{TaliaCore::SITE_NAME} - " + t(:'talia.start_page.home')
   end
   
   def select_language
