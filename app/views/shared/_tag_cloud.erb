@@ -1,5 +1,0 @@
-<div id="tag_cloud">
-  <% for keyword in tag_cloud %>
-    <span><%= link_to(translate_keyword(keyword), :action => 'show', :id => keyword.uri.local_name) %> |</span>
-  <% end %>
-</div>

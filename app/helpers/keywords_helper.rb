@@ -1,9 +1,4 @@
 module KeywordsHelper
-  
-  # def tag_cloud(keywords)
-  #   render(:partial => 'shared/tag_cloud', :object => keywords)
-  # end
-
   # Courtesy of acts_as_taggable_on_steroids team
   # http://svn.viney.net.nz/things/rails/plugins/acts_as_taggable_on_steroids
   def tag_cloud(keywords, classes)
