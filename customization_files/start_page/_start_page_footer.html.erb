@@ -7,14 +7,14 @@
   <table id="footer_table">
     <tr>
       <td align="left" id="footer_table_left">
-        <%= link_to "", locale_uri("documentation/LANG/institutions.html"), :target => '_blank', :id => "footer_europe" %>
+        <a id="footer_europe" href="<%= locale_uri("documentation/LANG/institutions.html") %>"></a>
       </td>
       <td align="center" id="footer_table_center">
         <%= institution_link('CNRS') %>
-        <%= link_to t(:'talia.footer.rights'), locale_uri("documentation/LANG/rights.html"), :target => '_blank' %>
+        <a href="<%= locale_uri("documentation/LANG/rights.html")%>"> <%= t(:'talia.footer.rights') %> </a>
         |
         <%= t(:'talia.footer.overseer') %>:
-        <%= link_to "Paolo D'Iorio", 'http://diorio.org/', :target => '_blank' %>
+        <%= link_to("Paolo D'Iorio", 'http://diorio.org/', :target => '_blank') %>
       </td>
       <td align="right" id="footer_table_right">
         <a id="footer_talia" href="http://www.talia.discovery-project.eu/" target="_blank"></a>
