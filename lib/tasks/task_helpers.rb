@@ -355,5 +355,16 @@ class TaskHelper
     def root_path
       File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
     end
+
+    def each_row_from_csv
+      ENV['nick'] = 'default'
+      ENV['name'] = 'default'
+      encoding = ENV['encoding'] || 'MAC'
+      ic = Iconv.new('UTF-8', encoding)
+      input = File.open(ENV['csvfile']) { |io| ic.iconv(io.read) }
+      CSV::Reader.parse(input, ';', "\r") do |row|
+        yield row
+      end
+    end
   end
 end

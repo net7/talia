@@ -515,13 +515,8 @@ namespace :sophiavision do
   namespace :import do
     desc "Import from Sophiavision CSV file. Options csvfile=<file> [thumbnail_directory=<dir>] [encoding=MAC]"
     task :csv => 'discovery:disco_init' do
-      ENV['nick'] = 'default'
-      ENV['name'] = 'default'
-      encoding = ENV['encoding'] || 'MAC'
-      ic = Iconv.new('UTF-8', encoding)
-      input = File.open(ENV['csvfile']) { |io| ic.iconv(io.read) }
       row_count = 0
-      CSV::Reader.parse(input, ';', "\r") do |row|
+      TaskHelper.each_row_from_csv do |row|
         row_count += 1
         if(row.size > 9)
           TaskHelper::media_from_row(row, ENV['thumbnail_directory'])
@@ -530,8 +525,29 @@ namespace :sophiavision do
           print '_'
         end
       end
-      puts
-      puts 'done'
+      puts "\ndone"
+    end
+
+    desc "Import keywords from CSV file. Options csvfile=<file>"
+    task :keywords => "discovery:disco_init" do
+      languages = %w(italian english german french)
+      languages.each do |language|
+        instance_eval <<-END
+          @#{language}_id = Globalize::Language.find_by_english_name("#{language.titleize}").id
+        END
+      end
+
+      TaskHelper.each_row_from_csv do |row|
+        italian, english, german, french = row.map {|translation| translation.gsub("\n", "")}
+        key = Globalize::ViewTranslation.find_by_language_id_and_text(@italian_id, italian).tr_key rescue nil
+        next unless key
+
+        languages.each do |language|
+          instance_eval <<-END
+            Globalize::ViewTranslation.find_or_create_by_language_id_and_tr_key_and_text(@#{language}_id, key, #{language})
+          END
+        end
+      end
     end
   end
 
