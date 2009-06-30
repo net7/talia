@@ -66,7 +66,7 @@ class CriticalEditionsController < SimpleEditionController
       else
         @limit = ADVANCED_SEARCH_RESULTS_PER_PAGE
       end
-      @result = adv_src.search(edition_prefix, params[:id], params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to], params[:mc_single], true, page, @limit)
+      @result = adv_src.search(edition_prefix, @edition.uri.to_s, params[:id], params[:words], params[:operator], params[:mc], params[:mc_from], params[:mc_to], params[:mc_single], true, page, @limit)
 
       @result_count = adv_src.size
 
@@ -100,7 +100,7 @@ class CriticalEditionsController < SimpleEditionController
       end
 
       # get result for menu
-      @exist_result = adv_src.menu_for_search(params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to])
+      @exist_result = adv_src.menu_for_search(@edition.uri.to_s, params[:words], params[:operator], params[:mc], params[:mc_from], params[:mc_to])
 
       # search word
       @words = params[:words]
