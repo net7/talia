@@ -4,7 +4,12 @@
 <!--[if !IE]>menulocation<![endif]-->
 
 <div id="description">
-  <p><%= tag_cloud(@keys) %></p>
+  <div id="tag_cloud">
+    <% tag_cloud @keywords, %w(tag1 tag2 tag3) do |keyword, css_class| %>
+      <span><%= link_to translate_keyword(keyword), { :action => 'show',
+        :id => keyword.uri.local_name }, { :class => css_class } %> |</span>
+    <% end %>
+  </div>
 </div>
 
 <!--[if !IE]>description<![endif]-->

@@ -788,7 +788,7 @@ div.iipfview , div.iipfview_left, div.iipfview_right{
 }
 
 #tag_cloud span {
-  font-size: 1.8em;
+  font-size: 1.4em;
 }
 
 #tag_cloud a:hover,
@@ -797,6 +797,10 @@ div.iipfview , div.iipfview_left, div.iipfview_right{
   color: #FFF;
   text-decoration: none;
 }
+
+.tag1 { font-size: 1.4em; }
+.tag2 { font-size: 1.8em; }
+.tag3 { font-size: 2.2em; }
 
 /* ******************************************************************* */
 /* FOOTER */
