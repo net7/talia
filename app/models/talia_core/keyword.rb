@@ -48,7 +48,11 @@ module TaliaCore
     def self.uri_for(keyword)
       uri_prefix + UriEncoder.normalize_uri(keyword)
     end
-    
+
+    def self.find_all_by_recurrences
+      self.find_by_sql "SELECT a.id, COUNT(*) AS count, a.uri FROM semantic_relations s, active_sources a WHERE s.object_id = a.id and a.type = 'Keyword' GROUP BY object_id ORDER BY a.uri ASC;"
+    end
+
     private 
     
     def validate
