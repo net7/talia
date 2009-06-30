@@ -92,7 +92,7 @@ class CriticalEditionsController < SimpleEditionController
       end
 
       # load information from left side menu
-      unless params[:mc_single].nil?
+      unless params[:mc_single].nil? || params[:mc_single] == ""
         single_work = TaliaCore::Source.find(params[:mc_single])
         @searched_works << {:single_work => single_work.title,
           :type => single_work.type
