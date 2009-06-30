@@ -124,15 +124,14 @@ class CriticalEditionsController < SimpleEditionController
   end
 
   def advanced_search_popup
-
-    set_custom_stylesheet ['TEI/p4/tei_style_print.css']
-
+    @header = :"talia.search.print.#{@edition.uri.local_name}.advanced_search_header"
+    set_custom_stylesheet ['TEI/p4/tei_style_print.css', ['editions/advanced_search_print_print', 'print']]
   end
   
   def advanced_search_print
     @path = []
     @header = :"talia.search.print.#{@edition.uri.local_name}.advanced_search_header"
-    set_custom_stylesheet ['editions/advanced_search_print', 'main']
+    set_custom_stylesheet [['editions/advanced_search_print_video', 'screen'], ['editions/advanced_search_print_print', 'print'], ['main', 'screen']]
     render :layout => 'critical_print'
   end
 

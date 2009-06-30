@@ -52,7 +52,14 @@ module SimpleEditionHelper
 
     unless @custom_stylesheet.nil?
       @custom_stylesheet.each do |custom_style|
-        links << stylesheet_link_tag(custom_style)
+#        links << stylesheet_link_tag(custom_style)
+         case custom_style
+        when Array
+          links << stylesheet_link_tag(custom_style[0], :media => custom_style[1])
+        when String
+          links << stylesheet_link_tag(custom_style, :media => "all")
+        end
+
       end
     end
 

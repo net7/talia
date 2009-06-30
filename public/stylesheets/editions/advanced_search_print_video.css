@@ -131,7 +131,7 @@ div#visore p.about a {
 /* TXT BLOCK ******************* */
 
 div#visore div.txt_block {
-    border: 1px solid #e5e5e5;
+/*    border: 1px solid #e5e5e5;*/
     background: #fff;
     padding: 25px;
     margin: 25px 20px 0 0 ;
