@@ -20,7 +20,12 @@ module CriticalEditionsHelper
     result += "<span class='red'>#{@result_count}</span> #{t(:'talia.search.result phrase 1')} <span class='red'> #{@words}</span>"
     # add subpart
     @searched_works.each_with_index do |item, index|
+      unless item[:work].nil?
         result += "<br /> #{t(:'talia.search.result.optional.in the work')} <i>#{item[:work]}</i> #{t(:'talia.search.result.optional.in aphorisms')} #{item[:from]} #{t(:'talia.search.result.optional.through')} #{item[:to]}"
+      end
+      unless item[:single_work].nil?
+        result += "<br /> #{t('talia.search.result.optional.in the ' + item[:type])} <i>#{item[:single_work]}</i>"
+      end
         if index == (@searched_works.size - 1)
           result += "."
         else
