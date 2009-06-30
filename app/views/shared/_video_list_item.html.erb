@@ -5,7 +5,7 @@
   <p class="data"><em><%= t(:'talia.global.author')%></em> <%= video_list_item.dcns::creator.join(', ') %> <em><%= t(:'talia.global.date') %> </em> <%= video_list_item.dcns::date.first  %> </p>
   <p class="keys">
     <% for keyword in video_list_item.keywords %>
-      <%= titled_link(keyword.uri, translate_keyword(keyword)) %>
+      <%= link_to translate_keyword(keyword), tag_path(keyword) %>
     <% end %>
   </p>
 </li>

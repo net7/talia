@@ -78,6 +78,7 @@ class CriticalEditionsController < SimpleEditionController
       end
       
       @searched_works = []
+      # load information from advanced search widget rows
       unless params[:mc].nil?
         [params[:mc], params[:mc_from], params[:mc_to]].transpose.each do |work,from,to|
           work_item = TaliaCore::Source.find(work)
@@ -88,6 +89,14 @@ class CriticalEditionsController < SimpleEditionController
             :to   => to_item.title || to_item.uri.local_name
           }
         end
+      end
+
+      # load information from left side menu
+      unless params[:mc_single].nil?
+        single_work = TaliaCore::Source.find(params[:mc_single])
+        @searched_works << {:single_work => single_work.title,
+          :type => single_work.type
+        }
       end
 
       # get result for menu

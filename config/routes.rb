@@ -145,12 +145,9 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "series/advanced_search",
     :controller => 'series',
     :action => 'advanced_search'
-  
-  map.resources :av_media_sources
-  map.resources :categories
-  map.resources :keywords
-  map.resources :series
-  map.resources :sources
+
+  map.resources :av_media_sources, :categories, :keywords, :series, :sources
+  map.resources :tags, :controller => "keywords"
 
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'  
