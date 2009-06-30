@@ -38,7 +38,7 @@ class FacsimileEditionsController < SimpleEditionController
     @page_title_suff = ", #{t_type.titleize}"
     @path = [
       {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"},
-      {:text => t_type.capitalize}
+      {:text => t_type}
     ]
   end
   

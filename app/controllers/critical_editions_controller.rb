@@ -115,9 +115,7 @@ class CriticalEditionsController < SimpleEditionController
   end
 
   def advanced_search_popup
-
     set_custom_stylesheet ['TEI/p4/tei_style_print.css']
-
   end
   
   def advanced_search_print
