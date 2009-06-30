@@ -3,13 +3,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
     <title><%= edition_page_title %></title>
-    <%= stylesheet_link_tag 'main' %>
+    <%= stylesheet_link_tag 'main', :media => "screen" %>
     <%= edition_style_link %>
-    <%= stylesheet_link_tag 'tooltip.css' %>
-    <%= stylesheet_link_tag 'TEI/p4/tei_style.css' %>
-    <%= stylesheet_link_tag 'editions/critical_custom/critical_print.css', :media => "print" %>
-    <%= stylesheet_link_tag 'editions/critical_custom/critical_printreal.css', :media => "print" %>
-	<%= render(:partial => 'shared/translation_boxes') %>
+    <%= stylesheet_link_tag 'tooltip.css'  %>
+    <%= stylesheet_link_tag 'TEI/p4/tei_style.css', :media => "screen"%>
+    <%= stylesheet_link_tag 'TEI/p4/tei_style_print.css', :media => "print"%>
+    <%= stylesheet_link_tag 'editions/critical_print.css', :media => "all" %>
+    <%= render(:partial => 'shared/translation_boxes') %>
     <%= javascript_include_tag 'prototype' %>
     <%= javascript_include_tag 'tooltip.js' %>
   </head>
@@ -32,9 +32,20 @@
         </ul>
       </div>
     </div>
+
+ <div id="critical_popup_header" style="visibility: hidden;">
+        <div id="logo_print">
+          <img src="/images/editions/<%= "#{@edition.uri.local_name}" %>_logo_print.png" alt="" />
+        </div>
+        <div id="header_text">
+              <%= t(@header) %>
+       </div>
+     </div>
+
     <div id="content" class="divided grey">
       <div id="visore" style="margin: 0px;">
         <div id="popup_content" class="txt_block">
+          
           <script type="text/javascript">
             document.getElementById('popup_content').innerHTML = window.opener.document.getElementById(window.opener.document.getElementById('advanced_search_popup_value').value).value;
           </script>

@@ -18,14 +18,6 @@ function configurePopUp() {
 
 // handle the single element
 function configureSinglePopUp(element) {
-    /*        var ballonText = element;
-	var highlightedText = ballonText.previous();
-    */
-	/***	var highlightedText = element.cloneNode(true);
-	highlightedText.innerHTML = '';
-	ballonText.parentNode.insertBefore(highlightedText, ballonText);
-	*/
-
 	var highlightedText = element;
 	var tmpText = element.innerHTML;
 	element.innerHTML = '';
@@ -33,8 +25,6 @@ function configureSinglePopUp(element) {
 	element.removeAttribute('class');
 
 
-    //  highlightedText.setStyle({cursor: 'pointer', backgroundColor: '#e9dbb1', position: 'relative'});
-	//   highlightedText.insert("<div class='tooltip' style='position:absolute;'>" + ballonText.innerHTML + "</div>");
 	highlightedText.setStyle({cursor: 'pointer', backgroundColor: '#e9dbb1', position: 'relative'});
     highlightedText.insert("<div class='tooltip' style='position:absolute;'>" + tmpText + "</div>");
 
@@ -100,7 +90,7 @@ function configureSinglePopUp(element) {
 	newElementClose.setStyle({
 	  position: 'absolute',
 	  top: '0',
-	  background: 'url(images/tooltip/close.gif) center center no-repeat',
+	  background: 'url(/images/tooltip/close.gif) center center no-repeat',
 	  width: '15px',
 	  height: '15px',
 	  left: '0'
@@ -250,7 +240,7 @@ function setPopUpPosition(popUp, father, stem, close) {
 	stem.setStyle({
 		top: stemTop + 'px',
 		left: stemLeft + 'px',
-		background: 'url(images/tooltip/'+ stemFile +') center center no-repeat'
+		background: 'url(/images/tooltip/'+ stemFile +') center center no-repeat'
 	});
 
 
