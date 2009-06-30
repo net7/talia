@@ -67,7 +67,7 @@ module TaliaCore
               end
               transformer_parameters = {'visning' => version, 'prosjekt' => project}
               output =  perform_transformation(xsl, @in_xml, transformer_parameters)
-            when 'text/html'
+            when 'text/html', 'application/xhtml+xml'
               output = @in_xml
             end
           rescue Exception => e

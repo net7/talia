@@ -410,7 +410,7 @@ module TaliaUtil
               # extension for that at the moment - not the file_content_type
               file_ext = File.extname(file_name).downcase
               mime_type = process_content_type(file_content_type, file_ext)
-              data_records = if(%w(.xml .hnml .tei .html .htm).include?(file_ext))
+              data_records = if(%w(.xml .hnml .tei .html .htm .xhtml).include?(file_ext))
                 load_from_data_url!(:XmlData, file_name, file_url)
               elsif(%w(.jpg .gif .jpeg .png .tif).include?(file_ext))
                 load_image_from_url!(file_name, file_url)
