@@ -7,7 +7,12 @@ module CriticalEditionsHelper
     styles = ''
     if(@custom_stylesheet)
       @custom_stylesheet.each do |custom_style|
-        styles << stylesheet_link_tag(custom_style)
+        case custom_style
+        when Array
+          styles << stylesheet_link_tag(custom_style[0], :media => custom_style[1])
+        when String
+          styles << stylesheet_link_tag(custom_style, :media => "all")
+        end
       end
     end
     
@@ -26,12 +31,12 @@ module CriticalEditionsHelper
       unless item[:single_work].nil?
         result += "<br /> #{t('talia.search.result.optional.in the ' + item[:type])} <i>#{item[:single_work]}</i>"
       end
-        if index == (@searched_works.size - 1)
-          result += "."
-        else
-          result += ", "
-        end
-      end unless @searched_works.nil?
+      if index == (@searched_works.size - 1)
+        result += "."
+      else
+        result += ", "
+      end
+    end unless @searched_works.nil?
 
     # add edition title
     # result += "#{t(:'talia.search.result phrase 2')} #{@edition.hyper::title}</h2>"
@@ -40,5 +45,5 @@ module CriticalEditionsHelper
 
     # return result
     return result
-    end
   end
+end
