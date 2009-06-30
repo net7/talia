@@ -11,7 +11,7 @@ class SeriesController < ApplicationController
     raise(ArgumentError, "Unknow Series #{element_uri}") unless(TaliaCore::Series.exists?(element_uri))
     
     @element = TaliaCore::Series.find(element_uri)
-    @path = [ { :text => 'Series', :link => 'series/' }, { :text => @element.hyper::name.first } ]
+    @path = [{ :text => @element.hyper::name.first }]
     @title = t(:'talia.global.series') + " | #{@element.hyper::name.first }"
     @subtitle = t(:'talia.global.series')
   end
