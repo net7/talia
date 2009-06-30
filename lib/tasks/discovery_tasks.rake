@@ -365,7 +365,7 @@ namespace :discovery do
     raise(ArgumentError, "Must give vhost_dir option") unless(ENV['vhost_dir'])
     puts "Backing up locally customized css files"
     system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/TEI/p4/* public/stylesheets/TEI/p4/")
-    system("cp -fv #{ENV['vhost_dir']}/ROOT/WEB-INF/xslt/TEI/p4/html/tei.xsl xslt/TEI/p4/html/tei.xsl")
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/WEB-INF/xslt/TEI/p4/html/* xslt/TEI/p4/html/*")
     system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/front_page.css public/stylesheets/front_page.css")
     system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/editions/* public/stylesheets/editions/")
     system("cp -fv #{ENV['vhost_dir']}/ROOT/WEB-INF/xslt/WitTEI/* xslt/WitTEI/")
