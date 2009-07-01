@@ -33,19 +33,19 @@
       </div>
     </div>
 
- <div id="critical_popup_header" style="visibility: hidden;">
-        <div id="logo_print">
-          <img src="/images/editions/<%= "#{@edition.uri.local_name}" %>_logo_print.png" alt="" />
-        </div>
-        <div id="header_text">
-              <%= t(@header) %>
-       </div>
-     </div>
+    <div id="critical_popup_header" style="visibility: hidden;">
+      <div id="logo_print">
+        <img src="/images/editions/<%= "#{@edition.uri.local_name}" %>_logo_print.png" alt="" />
+      </div>
+      <div id="header_text">
+        <%= t(@header) %>
+      </div>
+    </div>
 
     <div id="content" class="divided grey">
       <div id="visore" style="margin: 0px;">
         <div id="popup_content" class="txt_block">
-          
+ 
           <script type="text/javascript">
             document.getElementById('popup_content').innerHTML = window.opener.document.getElementById(window.opener.document.getElementById('advanced_search_popup_value').value).value;
           </script>
