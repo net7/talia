@@ -147,7 +147,7 @@ class FacsimileEditionsController < SimpleEditionController
   end
   
   def t_subtype
-    t(:"talia.types.#{@subtype.underscore}")
+    t(:"talia.types.#{@subtype}")
   end
   
   def link_for_type
