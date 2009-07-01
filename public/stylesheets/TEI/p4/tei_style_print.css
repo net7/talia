@@ -206,12 +206,19 @@ div#content div#visore div.txt_block td { padding: 6px;
 /* @end */
 
 .result_title_print {
-	font-weight: bold;
-	margin-left: 60px;
-    color: #f80a12;
+	font: bold 12px/160% Georgia, "Times New Roman", Times, serif;
+	margin-top: 6px;
+	margin-bottom: 0;
 }
 
 li {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+ul {
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
 

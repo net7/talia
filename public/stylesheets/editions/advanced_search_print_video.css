@@ -151,7 +151,7 @@ div#visore div.txt_block {
 
 /* tools */
 div#visore div.resultstools {
-    padding: 15px ;
+    padding: 0 15px ;
     position: absolute;
     top: 1em;
     right: 0;
