@@ -106,10 +106,10 @@ div#visore.extended h1 {
 } 
 
 div#visore p{
-    font-size: 1.2em;
+/*    font-size: 1.2em;*/
     color: #000;
-    line-height: 2em;
-    padding-bottom: 20px;
+/*    line-height: 2em;*/
+/*    padding-bottom: 20px;*/
 }
 
 div#visore p.editedby {
