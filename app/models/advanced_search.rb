@@ -123,12 +123,10 @@ class AdvancedSearch
       end
 
       data['mc'] = ''
-      # if mc_single is nil, add all mc_from and mc_to
       if (mc_single.nil? || mc_single == "")
-        data['mc'] = ''
+        # if mc_single is not present, add all mc_from and mc_to
         data['mc_from'] = mc_from_search_key
         data['mc_to'] = mc_to_search_key
-
       else
         # else add only restrinctions compatible with mc_single
         data['mc_from'] = []
