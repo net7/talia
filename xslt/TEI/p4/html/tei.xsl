@@ -168,42 +168,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml">
 		<br/>
 	</xsl:template>
 
-	<xsl:template match="tei:choice">
-		<span style="position:relative">
-			<span class="tooltip_corrige">
-				<xsl:apply-templates select="tei:corr"/>
-			</span>
-			<span class="popup">
-                           <xsl:attribute name="id">hidden<xsl:value-of select="ancestor::tei:div/@xml:id"/><xsl:value-of select="generate-id()"/></xsl:attribute>
-<!--
-<div class="tooltip_table">
- <div class="table-row">
-  <div class="left-container"> 
-    <xsl:apply-templates select="tei:sic"/><xsl:if test="string-length(tei:sic)=0">[editorial addition]</xsl:if>
-  </div>
-  <div class="right-container"> 
-    <em>errata</em>
-  </div>
- </div>
- <div class="table-row">
-  <div class="left-container">
-    <xsl:apply-templates select="tei:corr"/>
-  </div>
-  <div class="right-container"> 
-    <em>corrige</em>
-  </div>
- </div>
- <div class="table-row">   
-    <a href="http://www.nietzschesource.org/documentation/corrections.html" target="_blank" style="font-style: italic">Nach KGW Nachberichte</a>
- </div>
-</div> 
--->
-<em>errata:</em>   <xsl:apply-templates select="tei:sic"/><xsl:if test="string-length(tei:sic)=0">[editorial addition]</xsl:if><br/>
-<em>corrige:</em>  <xsl:apply-templates select="tei:corr"/><br/>
-<a href="http://www.nietzschesource.org/documentation/corrections.html" target="_blank" style="font-style: italic">Nach KGW Nachberichte</a>
-			</span>
-		</span>
-	</xsl:template>
+	<xsl:template match="tei:choice"><span style="position:relative"><span class="tooltip_corrige"><xsl:apply-templates select="tei:corr"/></span><span class="popup"><xsl:attribute name="id">hidden<xsl:value-of select="ancestor::tei:div/@xml:id"/><xsl:value-of select="generate-id()"/></xsl:attribute><em>Erratum:</em>   <xsl:apply-templates select="tei:sic"/><xsl:if test="string-length(tei:sic)=0">[editorial addition]</xsl:if><br/><em>lies:</em>  <xsl:apply-templates select="tei:corr"/><br/><a href="http://www.nietzschesource.org/documentation/corrections.html" target="_blank" style="font-style: italic">Nach KGW Nachberichte</a></span></span></xsl:template>
 
 	<xsl:template match="tei:hi[@rend='bold']">
 		<xsl:choose>

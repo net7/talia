@@ -46,7 +46,7 @@ div#content div#visore div.txt_block p { text-align: justify; color: black;
 	text-indent: 25px;
 	vertical-align: 100pt;
 	font: 12px/160% Georgia, "Times New Roman", Times, serif;
-/*	margin: 0 90px 0px;*/
+	margin: 0 90px 0px;
 }
 
 /* p // base text: first line indented, justify */

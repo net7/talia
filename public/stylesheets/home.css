@@ -259,10 +259,11 @@ blockquote {
 	}
 	#contenuti ul li{
         list-style: none;
-        margin: 17% 0 0 0;
+        margin: 17px 0 0 0;
         padding: 0 0 0 23px;
         background: url(/images/start_page/switchscolar.gif) top left no-repeat;
         font-size: 14px;
+        text-align: justify;
 	}
         
     #contenuti ul li a{
