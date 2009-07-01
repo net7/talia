@@ -57,10 +57,10 @@ h1{
 
 h2{
     color: #9e0b0f;
-	font-size: 16px;
+	font-size: 18px;
 	font-weight: normal;
 	font-family:Georgia, "Times New Roman", Times, serif;
-	margin-bottom: 10px;
+	margin-bottom: 26px;
     text-align: center;
     width: 740px;
 }
@@ -254,12 +254,15 @@ blockquote {
 		
 	#contenuti ul{
 		list-style: none;
+       	margin:	0 0 22px 0;
+
 	}
 	#contenuti ul li{
         list-style: none;
-        margin: 0 0 10px 0;
+        margin: 17% 0 0 0;
         padding: 0 0 0 23px;
         background: url(/images/start_page/switchscolar.gif) top left no-repeat;
+        font-size: 14px;
 	}
         
     #contenuti ul li a{
