@@ -23,6 +23,11 @@
               <a href="#" onclick="print();return false;"><%= t(:'talia.tools.talia.global.print') %></a>
             </span>
           </li>
+          <li id="show">
+            <span>
+              <a href="#" id="show_in_volume"><%= t(:'talia.tools.talia.global.show in volume') %></a>
+            </span>
+          </li>
           <li id="close">
             <span>
               <a href="#" onclick="window.close();return false;"><%= t(:'talia.tools.talia.global.close') %></a>
@@ -44,8 +49,16 @@
         <div id="popup_content" class="txt_block">
 
           <script type="text/javascript">
-            document.getElementById('popup_content').innerHTML = window.opener.document.getElementById(window.opener.document.getElementById('advanced_search_popup_value').value).value;
+            // set show in volume url
             document.getElementById('url').innerHTML = window.opener.document.getElementById('advanced_search_popup_url').value;
+            document.getElementById('show_in_volume').onclick = function() {
+              window.opener.location.href = window.opener.document.getElementById('advanced_search_popup_url').value;
+              window.close();
+              return false;
+            }
+
+            // set popup content
+            document.getElementById('popup_content').innerHTML = window.opener.document.getElementById(window.opener.document.getElementById('advanced_search_popup_value').value).value;
           </script>
         </div>
       </div>

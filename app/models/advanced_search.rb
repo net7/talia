@@ -115,11 +115,11 @@ class AdvancedSearch
     if mc_from
       # tranlate mc_from and mc_to
       mc_from_search_key = mc_from.collect do |uri|
-        uri = search_key(uri)
+        uri = self.class.search_key(uri)
       end
 
       mc_to_search_key = mc_to.collect do |uri|
-        uri = search_key(uri)
+        uri = self.class.search_key(uri)
       end
 
       data['mc'] = ''
@@ -224,7 +224,7 @@ class AdvancedSearch
     return doc
   end
 
-  def search_key(uri)
+  def self.search_key(uri)
     
     material = TaliaCore::Source.find(uri)
 
@@ -245,6 +245,10 @@ class AdvancedSearch
       result << "chap"
       result << material.chapter.position_for_search_key
       result << material.chapter.uri.local_name
+    else
+      result << "chap"
+      result << "000000"
+      result << ""
     end
 
     # add page or paragraph and position
