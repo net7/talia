@@ -18,7 +18,19 @@ h1, h2, h3, h4, p, ul, li {
 }
 
 
+/*danilo */
+div#visore {
+    position: relative;
+    overflow: auto;
+    /* text-align: center; */
+    padding: 0 0 0 0;
+    /* margin: 0 0 0 229px; */
+    margin: 0 0 0 212px;
+    background-color: #f3f3f3;
+}
 
+
+/* /danilo*/
 /*  ******************************************/
 /* TESTATA ***********************************/
 /*  ******************************************/
@@ -84,7 +96,7 @@ div#visore h2 {
     border: .03cm solid #000;
     border-left: 0;
     border-right: 0;
-		border-top: 0;
+    border-top: 0;
 }
 div#visore h2 span.red {
     color: #666;
@@ -131,7 +143,7 @@ div#visore p.about a {
 /* TXT BLOCK ******************* */
 
 div#visore div.txt_block {
-/*    border: 1px solid #e5e5e5;*/
+    /*    border: 1px solid #e5e5e5;*/
     background: #fff;
     padding: 25px;
     margin: 25px 20px 0 0 ;
@@ -139,7 +151,7 @@ div#visore div.txt_block {
 
 /* tools */
 div#visore div.resultstools {
-    padding:0 15px;
+    padding: 25px 15px ;
     position: absolute;
     top: 1em;
     right: 0;

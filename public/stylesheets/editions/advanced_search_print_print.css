@@ -58,7 +58,9 @@ div#critical_popup_header {
     color: #000000;
 }
 
-
+#url {
+    font-size: 90%;
+}
 
 
 #content.divided div#visore {
@@ -87,7 +89,7 @@ div#visore h2 {
     font-weight: normal;
     font-size: 1.6em;
     line-height: 2.4em;
-    border: .03cm solid #000;
+/*    border: .03cm solid #000; */
     border-left: 0;
     border-right: 0;
 		border-top: 0;
