@@ -208,6 +208,7 @@ div#content div#visore div.txt_block td { padding: 6px;
 .result_title_print {
 	font-weight: bold;
 	margin-left: 60px;
+    color: #f80a12;
 }
 
 li {

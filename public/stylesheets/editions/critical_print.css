@@ -24,6 +24,7 @@ div#critical_print_header #header_text h3{
     font-weight: normal;
     margin: 0;
     padding:0;
+    color: #f80a12;
 }
 
 div#critical_print_header #header_text h4{
