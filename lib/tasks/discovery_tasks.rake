@@ -221,7 +221,7 @@ namespace :discovery do
     
     TaskHelper::process_books(books, subparts_count) do |book, progress|
       new_book = book.clone_to(ce) do |orig_page, new_page|
-        begin
+        TaskHelper::handle_exception("Exception cloning page #{orig_page.uri}") do
           assit_kind_of(TaliaCore::Page, new_page)
         
           # Clone all editions that may exist on the page itself
@@ -237,14 +237,12 @@ namespace :discovery do
             progress.inc
             new_note.save!
           end
-        rescue Exception => e
-          puts "Exception cloning page #{orig_page.uri}: #{e.message}"
         end
       end
       
       # Now clone the chapters on the book      
       book.chapters.each do |chapter|
-        begin
+        TaskHelper::handle_exception("Error cloning chapter #{chapter}") do
           ce.add_from_concordant(chapter) do |cloned_chapt|
             cloned_chapt.book = new_book
             chapt_first = chapter.first_page
@@ -257,17 +255,13 @@ namespace :discovery do
               assit_fail("First page doesn't exist on #{chapter.uri}")
             end
           end
-        rescue Exception => e
-          puts "Error cloning chapter #{chapter}: #{e.message}"
         end
       end          
       new_book.chapters.each do |chapter|
         chapter.order_pages!
       end
-      begin
+      TaskHelper::handle_exception("Error creating html for #{new_book.uri}") do
         new_book.create_html_data!(version)
-      rescue Exception => e
-        puts "Error creating html for #{new_book.uri}: #{e.message}"
       end
     end
   end
@@ -323,10 +317,8 @@ namespace :discovery do
       puts "Processing #{progress_size} contributions (#{progress_size} elements to process)..."
       progress = ProgressBar.new('Contributions', progress_size)
       contributions.each do |contribution|
-        begin
+        TaskHelper::handle_exception("Error feeding contribution #{contribution.uri}") do
           feeder.feed_contribution(contribution.uri)
-        rescue Exception => e
-          puts "Error feeding contribution #{contribution.uri}: #{e.message}"
         end
         progress.inc
       end

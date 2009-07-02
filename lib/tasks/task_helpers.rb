@@ -366,5 +366,19 @@ class TaskHelper
         yield row
       end
     end
+    
+    def handle_exception(message)
+      begin
+        yield
+      rescue Exception => exception
+        puts "#{message}: #{exception.message}"
+        if(Rake.application.options.trace)
+          puts exception.backtrace
+        else
+          puts "(See full trace by running task with --trace)"
+        end
+      end
+    end
+    
   end
 end
