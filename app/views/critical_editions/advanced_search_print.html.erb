@@ -21,6 +21,10 @@
 
               var available_elements = [];
 
+              function nietzsche_hack_filter(txt){
+                return txt.replace(/Nach KGW Nachberichte/gi, "");
+              }
+
               for(var i = 0; i < counter; i++) {
                 if(checkboxes[i].checked) {
                   content += "<li>";
@@ -30,7 +34,7 @@
                   // add description
                   content += "<div id='advanced_search_result_description_" + i.toString() + "' name='advanced_search_result_description'>" + descriptions[i].value + "</div>";
                   // add full description
-                  content += "<div id='advanced_search_result_full_description_" + i.toString() + "' style='display: none;'><div class='txt_block'>" + full_descriptions[i].value + "</div></div>";
+                  content += "<div id='advanced_search_result_full_description_" + i.toString() + "' style='display: none;'><div class='txt_block'>" + nietzsche_hack_filter(full_descriptions[i].value) + "</div></div>";
 
                   content += "</li>";
 

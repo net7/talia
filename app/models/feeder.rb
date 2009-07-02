@@ -187,8 +187,10 @@ class Feeder
         case material
         when TaliaCore::Page
           position =  material.position_for_search_key
+          macrocontribution.add_element(REXML::Element.new("talia:search_key").add_text(AdvancedSearch.search_key(material.uri.to_s)))
         when TaliaCore::Paragraph
           position = material.position_for_search_key
+          macrocontribution.add_element(REXML::Element.new("talia:search_key").add_text(AdvancedSearch.search_key(material.uri.to_s)))
         else
           position = '000000'
         end

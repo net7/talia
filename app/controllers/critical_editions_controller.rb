@@ -132,7 +132,7 @@ class CriticalEditionsController < SimpleEditionController
   def advanced_search_print
     @path = []
     @header = :"talia.search.print.#{@edition.uri.local_name}.advanced_search_header"
-    set_custom_stylesheet [['editions/advanced_search_print_video', 'screen'], ['editions/advanced_search_print_print', 'print'], 'main']
+    set_custom_stylesheet [['editions/advanced_search_print_video', 'screen'], ['editions/advanced_search_print_print', 'print']]
     render :layout => 'critical_print'
   end
 

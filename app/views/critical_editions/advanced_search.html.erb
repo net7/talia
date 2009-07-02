@@ -19,12 +19,12 @@
       </div>
       <!--[if !IE]>resultstools<![endif]-->
       <form name="advanced_search_result_form" action="<%= url_for(:action => 'advanced_search_print') %>" method="post" target="blank">
-        <%= hidden_field_tag 'advanced_search_result' %><%= hidden_field_tag 'advanced_search_result_description', "#{advanced_search_result_description}"  %> <%= hidden_field_tag 'advanced_search_popup_value', '' %>
+        <%= hidden_field_tag 'advanced_search_result' %><%= hidden_field_tag 'advanced_search_result_description', "#{advanced_search_result_description}"  %> <%= hidden_field_tag 'advanced_search_popup_value', '' %><%= hidden_field_tag 'advanced_search_popup_url', '' %>
         <%= hidden_field_tag 'page' %>
         <ul class="results">
           <% @result.each_with_index do |item, index| %>
             <li name="result_item[]">
-              <h3><%= index + 1 %><%= hidden_field_tag 'counter[]',(index+1).to_s %> <label> select to print</label><input name="checkbox[]" type="checkbox" value="<%= index.to_s %>" checked /> <span><a href="#" class="result_title" onclick="document['advanced_search_result_form'].advanced_search_popup_value.value='<%=  "full_description_#{index}" %>';window.open('<%= "/texts/#{params[:id]}/advanced_search_popup" %>', '<%= item[:title] %>', 'scrollbars=1');return false;"><%= item[:title] %></a><%= hidden_field_tag 'title[]', item[:title] %></span></h3>
+              <h3><%= index + 1 %><%= hidden_field_tag 'counter[]',(index+1).to_s %> <label> select to print</label><input name="checkbox[]" type="checkbox" value="<%= index.to_s %>" checked /> <span><a href="#" class="result_title" onclick="document['advanced_search_result_form'].advanced_search_popup_value.value='<%=  "full_description_#{index}" %>';document['advanced_search_result_form'].advanced_search_popup_url.value='<%= "#{TaliaCore::CONFIG['local_uri']}texts/#{params[:id]}/#{item[:title]}"%>';window.open('<%= "/texts/#{params[:id]}/advanced_search_popup" %>', '<%= item[:title] %>', 'scrollbars=1');return false;"><%= item[:title] %></a><%= hidden_field_tag 'title[]', item[:title] %></span></h3>
               <p name="p_description[]">
                 <%= item[:description] %><%= hidden_field_tag 'description[]', item[:description] %>
                 <%= " (#{item[:more_occurrence]} #{(t(:'talia.search.more occurrences') if item[:more_occurrence] > 1) || t(:'talia.search.more occurrence')})"  if item[:more_occurrence] > 0 %>

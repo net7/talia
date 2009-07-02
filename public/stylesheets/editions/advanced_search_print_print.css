@@ -58,7 +58,9 @@ div#critical_popup_header {
     color: #000000;
 }
 
-
+#url {
+    font-size: 80%;
+}
 
 
 #content.divided div#visore {
@@ -87,7 +89,7 @@ div#visore h2 {
     font-weight: normal;
     font-size: 1.6em;
     line-height: 2.4em;
-    border: .03cm solid #000;
+/*    border: .03cm solid #000; */
     border-left: 0;
     border-right: 0;
 		border-top: 0;
@@ -104,10 +106,10 @@ div#visore.extended h1 {
 } 
 
 div#visore p{
-    font-size: 1.2em;
+/*    font-size: 1.2em;*/
     color: #000;
-    line-height: 2em;
-    padding-bottom: 20px;
+/*    line-height: 2em;*/
+/*    padding-bottom: 20px;*/
 }
 
 div#visore p.editedby {
