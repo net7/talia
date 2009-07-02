@@ -61,8 +61,6 @@ h2{
 	font-weight: normal;
 	font-family:Georgia, "Times New Roman", Times, serif;
 	margin-bottom: 26px;
-    text-align: center;
-    width: 740px;
 }
 
 p{
@@ -222,8 +220,14 @@ blockquote {
         padding-top: 00px;
 	}
 	
+	#contenutoSingolo_int{
+		float: left;
+		width: 780px;
+		margin: 0; padding: 0;
+	}
+	
 	#contenutoDoppio_int{
-		/* background: transparent url(/images/start_page/filo_vert.jpg) top center repeat-y; */
+		background: transparent url(/images/start_page/filo_vert.jpg) top center repeat-y;
 		float: left;
 		width: 780px;
 		margin: 0; padding: 0;
@@ -236,11 +240,22 @@ blockquote {
 		width: 740px;
 		margin: 0; padding: 20px;
 	}
-        #contenutoSinistra{
-			/* width: 350px; */
-			float: left;
-			padding: 20px;
-		}
+  
+	#contenutoSingolo {
+		float: left;
+		padding: 20px;
+	}
+	
+	#contenutoSingolo h2 {
+		text-align: center;
+    width: 740px;
+	}
+
+	#contenutoSinistra{
+		width: 350px;
+		float: left;
+		padding: 20px;
+	}
             #contenutoSinistra p.edition_description{
                 margin-top: -8px;
                 font-size: 0.9em;
