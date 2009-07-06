@@ -88,7 +88,7 @@ module TaliaCore
       # Check if any of the elements contains a language string
       type_split = type_split.collect { |element| extract_lang(element, result) }
       result['rdf:datatype'] = type_split.last if(type_split.size > 1)
-      result['value'] = type_split.first
+      result['value'] = (type_split.first || '')
       result
     end
     
@@ -96,7 +96,7 @@ module TaliaCore
     def extract_lang(value, hash)
       lang_split = value.split('@')
       hash['xml:lang'] = lang_split.last if(lang_split.size > 1)
-      lang_split.first
+      lang_split.first || ''
     end
     
   end
