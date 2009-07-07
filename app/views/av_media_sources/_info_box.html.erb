@@ -1,7 +1,6 @@
 <div id="infomovie"> <h2><span class="author"><%= @element.dcns::creator.first %></span>
   <%= @element.title %></h2>
   <p class="info"><em><%=  t(:'talia.media.creation_date') %></em>: <%= @element.dcns::date.first %> <br />
-  <em><%= t(:'talia.media.publication_date')  %> </em>: <!-- Missing from data so far --></p>
   <p class="tags">
     <%= @element.play_length %> <br />           
     Tags. 

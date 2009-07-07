@@ -530,7 +530,7 @@ namespace :sophiavision do
       end
 
       TaskHelper.each_row_from_csv do |row|
-        italian, english, german, french = row.map {|translation| translation.gsub("\n", "")}
+        italian, english, german, french = row.compact.map {|translation| translation.gsub("\n", "")}
         key = Globalize::ViewTranslation.find_by_language_id_and_text(@italian_id, italian.titleize).tr_key rescue nil
         next unless key
 
