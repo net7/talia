@@ -366,7 +366,7 @@ namespace :discovery do
     system('warble')
     war_name = File.basename(TaskHelper::root_path) + '.war'
     system("cp -v #{war_name} #{File.join(ENV['vhost_dir'], 'ROOT.war')}")
-    unless(ENV['restart_tomcat'] && %w(false no).include?(ENV['restart_tomcat'].downcase))
+    if(ENV['restart_tomcat'] && %w(true yes).include?(ENV['restart_tomcat'].downcase))
       puts "Restarting Tomcat server now (only works for Mac OS Leopard Server as root)"
       system("kill `cat /Library/Tomcat/logs/tomcat.pid`")
     end
