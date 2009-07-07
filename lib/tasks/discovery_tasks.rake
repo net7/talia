@@ -15,6 +15,8 @@ require 'iconv'
 
 include TaliaUtil
 
+KEYWORD_PREFIX = "talia.kewwords.*".freeze
+
 namespace :discovery do  
   desc "Init for this tasks"
   task :disco_init do # => 'talia_core:talia_init' do
