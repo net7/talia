@@ -2,7 +2,7 @@
     <!--
     
     /* AS THE PAGE IS LOADED, WE LOAD THE IIP FLASH VIEWER */
-    Event.observe(window, 'load', function() {
+    document.observe('dom:loaded', function() {
       load_iip_flashclient("<%= TaliaCore::DataTypes::IipData.iip_server_uri %>",
     "<%= image_path %>", "<%= height %>", "<%= width %>", "<%= element_id %>");
     });
