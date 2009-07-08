@@ -11,12 +11,21 @@ module ApplicationHelper
     else
       iip_data = get_iip_data_for_facs(facsimile)
       return "No iip data for #{facsimile.uri}" unless(iip_data)
+      
+      front_image = nil
+      
+      # Helping the ugly "front image" hack - this should never exist in the first place
+      unless((front_path = TaliaCore::CONFIG['page_front_image']).blank?)
+        front_image = @page.uri.to_s.gsub(/http.*facsimiles\/([^\/]*)\/([^,]*),([^,]*)/, "#{front_path}/\\1/\\2/\\2,\\3")
+      end
+      
       render :partial => 'shared/iip_flash_viewer', :locals => {
         :image_path => iip_data.get_iip_root_file_path,
         :height => height.to_s,
         :width => width.to_s,
         :element_id => "iip_viewer_#{rand 10E16}", # Random name so that multiple instances can be used
-        :div_class => klass
+        :div_class => klass,
+        :front_image => front_image # see above
       }
     end
   end

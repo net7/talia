@@ -755,6 +755,24 @@ div.iipfview , div.iipfview_left, div.iipfview_right{
     height: 100%;
 }
 
+.iipfview {
+	text-align: center;
+}
+
+.iipfview_left {
+	text-align: right;
+}
+
+.iipfview_right {
+	text-align: left;
+}
+
+/* Front image to hide IIP viewer */
+.front_image {
+	height: 100%;
+	cursor: pointer;
+}
+
 /* Facsimile Copyright */
 #content.divided div#visore p.facsimile_copyright {
     position: absolute;
