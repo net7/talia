@@ -17,18 +17,18 @@
       <!-- Facing Pages -->
       <div class="image_half">
         <p class="sigla"><%= part_title(@page) %></p>
-        <%= iip_flash_viewer(@page_facsimile, "100%", "100%", "iipfview_left") %>
+        <%= iip_flash_viewer(:left, "100%", "100%", "iipfview_left") %>
       </div>
 
       <div class="image_half">
         <p class="sigla"><%= part_title(@page2) %></p>
-        <%= iip_flash_viewer(@page2_facsimile, "100%", "100%", "iipfview_right") %>
+        <%= iip_flash_viewer(:right, "100%", "100%", "iipfview_right") %>
       </div>
     <% else %>
       <!-- Single Page -->
       <div class="image_big">
         <p class="sigla"><%= part_title(@page) %></p>
-        <%= iip_flash_viewer(@page_facsimile, "100%", "100%", "iipfview") %>
+        <%= iip_flash_viewer(:single, "100%", "100%", "iipfview") %>
 
       </div>
     <% end %>

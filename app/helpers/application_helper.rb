@@ -4,8 +4,19 @@ require 'uri'
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   
-  
-  def iip_flash_viewer(facsimile, height = 400, width = 400, klass='iipviewer')
+  # You may pass :single, :left or :right to the facsimile to fetch the
+  # objects from the standard environment variables. Otherwise the facsimile param
+  # will be treated as the object to use
+  def iip_flash_viewer(facsimile, height = 400, width = 400, klass='iipviewer', on_page = nil)
+    case(facsimile)
+    when :single, :left:
+      on_page = @page
+      facsimile = @page_facsimile
+    when :right:
+      on_page = @page2
+      facsimile = @page2_facsimile
+    end
+    
     if(facsimile.blank)
       render :partial => 'shared/facsimile_blank', :locals => { :div_class => klass }
     else
@@ -15,8 +26,8 @@ module ApplicationHelper
       front_image = nil
       
       # Helping the ugly "front image" hack - this should never exist in the first place
-      unless((front_path = TaliaCore::CONFIG['page_front_image']).blank?)
-        front_image = @page.uri.to_s.gsub(/http.*facsimiles\/([^\/]*)\/([^,]*),([^,]*)/, "#{front_path}/\\1/\\2/\\2,\\3")
+      unless(on_page && (front_path = TaliaCore::CONFIG['page_front_image']).blank?)
+        front_image = on_page.uri.to_s.gsub(/http.*facsimiles\/([^\/]*)\/([^,]*),([^,]*)/, "#{front_path}/\\1/\\2/\\2,\\3")
       end
       
       render :partial => 'shared/iip_flash_viewer', :locals => {
