@@ -84,6 +84,10 @@ exist_options:
 # site name (appears in the page titles)
 site_name: Discovery Source
 
+# Hack to put an image in front of the IIP viewer. Should not normally be used.
+# The url is created automatically below the given path.
+# page_front_image: /root_path
+
 # Configure the namespaces for use with RDF
 namespaces:
     # Default namespaces rdf, rdfs, xsd, owl are defined in the semantic_naming
