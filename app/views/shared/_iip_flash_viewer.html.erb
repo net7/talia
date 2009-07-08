@@ -7,5 +7,5 @@
 </script>
 <div id="<%= element_id %>" class="<%= div_class  %>">
 	<!-- Ugly hacky-ti-hack, as requested. Don't do this at home, kids. -->
-	<%= image_tag(front_image, :onclick => "load_iip_flashclient(\"#{TaliaCore::DataTypes::IipData.iip_server_uri}\", \"#{image_path}\", \"#{height}\", \"#{width}\", \"#{element_id}\");"
+	<%= image_tag(front_image, :onclick => "load_iip_flashclient(\"#{TaliaCore::DataTypes::IipData.iip_server_uri}\", \"#{image_path}\", \"#{height}\", \"#{width}\", \"#{element_id}\");" %>
 </div>
