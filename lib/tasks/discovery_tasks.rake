@@ -15,6 +15,8 @@ require 'iconv'
 
 include TaliaUtil
 
+KEYWORD_PREFIX = "talia.keywords.".freeze
+
 namespace :discovery do  
   desc "Init for this tasks"
   task :disco_init do # => 'talia_core:talia_init' do
@@ -504,6 +506,16 @@ namespace :discovery do
 end
 
 namespace :sophiavision do
+  namespace :normalize do
+    desc "Normalize all the translations keys for all the keywords on the system according to the Keyword#keyword_value."
+    task :keywords => "discovery:disco_init" do
+      Globalize::ViewTranslation.find_by_sql("SELECT * FROM globalize_translations WHERE type = 'ViewTranslation' AND tr_key LIKE 'talia.keywords.%'").each do |keyword|
+        key = normalized_keyword_key(keyword)
+        keyword.update_attribute("tr_key", key) if key
+      end
+    end
+  end
+
   namespace :import do
     desc "Import from Sophiavision CSV file. Options csvfile=<file> [thumbnail_directory=<dir>] [encoding=MAC]"
     task :csv => 'discovery:disco_init' do
@@ -530,15 +542,21 @@ namespace :sophiavision do
       end
 
       TaskHelper.each_row_from_csv do |row|
-        italian, english, german, french = row.compact.map {|translation| translation.gsub("\n", "")}
-        key = Globalize::ViewTranslation.find_by_language_id_and_text(@italian_id, italian.titleize).tr_key rescue nil
-        next unless key
+        italian, english, german, french = row.compact.map { |translation| translation.gsub("\n", "").strip }
+        key = Globalize::ViewTranslation.find_by_sql("SELECT * FROM globalize_translations WHERE type = 'ViewTranslation' AND language_id = #{@italian_id} AND text = '#{italian.titleize}'").tr_key rescue nil
 
+        unless key
+          key = "talia.keywords.#{italian.titleize.downcase}"
+          puts "Creating missing key for: #{italian.titleize} (#{key})"
+        end
+
+        key = normalized_keyword_key(key)
         languages.each do |language|
           instance_eval <<-END
-            Globalize::ViewTranslation.find_or_create_by_language_id_and_tr_key_and_text(@#{language}_id, key, #{language})
+            translation = Globalize::ViewTranslation.find_or_create_by_language_id_and_tr_key_and_pluralization_index(@#{language}_id, key, 1)
+            translation.update_attribute("text", #{language}.titleize) unless translation.text == #{language}.titleize
           END
-        end
+        end if key
       end
     end
   end
@@ -558,4 +576,25 @@ def fix_uris_for(type, path)
     puts uri
     source.update_attribute('uri', uri)
   end
+end
+
+def normalized_keyword_key(keyword)
+  return unless keyword
+
+  keyword = case keyword
+  when String
+    keyword
+  when Globalize::ViewTranslation
+    keyword.tr_key
+  end
+
+  key = keyword.gsub(KEYWORD_PREFIX, "").strip.titleize.gsub(".", "+").gsub(" ", "+")
+  keyword = TaliaCore::Keyword.find_by_sql("SELECT * FROM active_sources WHERE type = 'Keyword' AND uri LIKE '%#{key}' LIMIT 1").first
+  if keyword
+    key = keyword.keyword_value
+  else
+    key = nil
+  end
+
+  key ? "#{KEYWORD_PREFIX}#{key}" : nil
 end
