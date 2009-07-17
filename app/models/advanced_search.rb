@@ -48,7 +48,7 @@ class AdvancedSearch
   def av_search(title_words, abstract_words = nil, keyword = nil)
 
     # load params for query
-    data = query_params(title_words, abstract_words, keyword)
+    data = av_query_params(title_words, abstract_words, keyword)
 
     # execute query
     doc = execute_query(data)
