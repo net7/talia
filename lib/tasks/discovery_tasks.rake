@@ -15,6 +15,8 @@ require 'iconv'
 
 include TaliaUtil
 
+KEYWORD_PREFIX = "talia.keywords.".freeze
+
 namespace :discovery do  
   desc "Init for this tasks"
   task :disco_init do # => 'talia_core:talia_init' do
@@ -223,7 +225,7 @@ namespace :discovery do
     
     TaskHelper::process_books(books, subparts_count) do |book, progress|
       new_book = book.clone_to(ce) do |orig_page, new_page|
-        begin
+        TaskHelper::handle_exception("Exception cloning page #{orig_page.uri}") do
           assit_kind_of(TaliaCore::Page, new_page)
         
           # Clone all editions that may exist on the page itself
@@ -239,14 +241,12 @@ namespace :discovery do
             progress.inc
             new_note.save!
           end
-        rescue Exception => e
-          puts "Exception cloning page #{orig_page.uri}: #{e.message}"
         end
       end
       
       # Now clone the chapters on the book      
       book.chapters.each do |chapter|
-        begin
+        TaskHelper::handle_exception("Error cloning chapter #{chapter}") do
           ce.add_from_concordant(chapter) do |cloned_chapt|
             cloned_chapt.book = new_book
             chapt_first = chapter.first_page
@@ -259,18 +259,13 @@ namespace :discovery do
               assit_fail("First page doesn't exist on #{chapter.uri}")
             end
           end
-        rescue Exception => e
-          puts "Error cloning chapter #{chapter}: #{e.message}"
         end
       end          
       new_book.chapters.each do |chapter|
         chapter.order_pages!
       end
-      begin
+      TaskHelper::handle_exception("Error creating html for #{new_book.uri}") do
         new_book.create_html_data!(version)
-      rescue Exception => e
-        puts "Error creating html for #{new_book.uri}: #{e.message}"
-        puts e.backtrace
       end
     end
   end
@@ -323,10 +318,8 @@ namespace :discovery do
       puts "Processing #{progress_size} contributions (#{progress_size} elements to process)..."
       progress = ProgressBar.new('Contributions', progress_size)
       contributions.each do |contribution|
-        begin
+        TaskHelper::handle_exception("Error feeding contribution #{contribution.uri}") do
           feeder.feed_contribution(contribution.uri)
-        rescue Exception => e
-          puts "Error feeding contribution #{contribution.uri}: #{e.message}"
         end
         progress.inc
       end
@@ -352,7 +345,7 @@ namespace :discovery do
       raise(IOError, "Backup p4 dir already exists") if(File.exists?(p4_back))
       FileUtils::mv(p4_path, p4_back)
     end
-    system('svn update')
+    system('git pull')
     if(update_p4)
       puts "Restoring p4 dir"
       FileUtils.rm_rf(p4_path)
@@ -360,19 +353,24 @@ namespace :discovery do
     end
   end
 
-  desc "Deploy the application. Option: vhost_dir=<root dir of virtual host>"
+  desc "Deploy the application. Option: vhost_dir=<root dir of virtual host> [restart_tomcat=(true|false)]"
   task :deploy_war do
     raise(ArgumentError, "Must give vhost_dir option") unless(ENV['vhost_dir'])
     puts "Backing up locally customized css files"
     system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/TEI/p4/* public/stylesheets/TEI/p4/")
-    system("cp -fv #{ENV['vhost_dir']}/ROOT/WEB-INF/xslt/TEI/p4/html/tei.xsl xslt/TEI/p4/html/tei.xsl")
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/WEB-INF/xslt/TEI/p4/html/* xslt/TEI/p4/html/*")
     system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/front_page.css public/stylesheets/front_page.css")
+    system("cp -fv #{ENV['vhost_dir']}/ROOT/stylesheets/editions/* public/stylesheets/editions/")
     system("cp -fv #{ENV['vhost_dir']}/ROOT/WEB-INF/xslt/WitTEI/* xslt/WitTEI/")
     system('rake assets:package')
     system('warble war:clean')
     system('warble')
     war_name = File.basename(TaskHelper::root_path) + '.war'
     system("cp -v #{war_name} #{File.join(ENV['vhost_dir'], 'ROOT.war')}")
+    if(ENV['restart_tomcat'] && %w(true yes).include?(ENV['restart_tomcat'].downcase))
+      puts "Restarting Tomcat server now (only works for Mac OS Leopard Server as root)"
+      system("kill `cat /Library/Tomcat/logs/tomcat.pid`")
+    end
   end
 
   desc "Update from svn and deploy the WAR file. Options = vhost_dir=<virtual host dir>"
@@ -507,16 +505,21 @@ namespace :discovery do
 end
 
 namespace :sophiavision do
+  namespace :normalize do
+    desc "Normalize all the translations keys for all the keywords on the system according to the Keyword#keyword_value."
+    task :keywords => "discovery:disco_init" do
+      Globalize::ViewTranslation.find_by_sql("SELECT * FROM globalize_translations WHERE type = 'ViewTranslation' AND tr_key LIKE 'talia.keywords.%'").each do |keyword|
+        key = normalized_keyword_key(keyword)
+        keyword.update_attribute("tr_key", key) if key
+      end
+    end
+  end
+
   namespace :import do
     desc "Import from Sophiavision CSV file. Options csvfile=<file> [thumbnail_directory=<dir>] [encoding=MAC]"
     task :csv => 'discovery:disco_init' do
-      ENV['nick'] = 'default'
-      ENV['name'] = 'default'
-      encoding = ENV['encoding'] || 'MAC'
-      ic = Iconv.new('UTF-8', encoding)
-      input = File.open(ENV['csvfile']) { |io| ic.iconv(io.read) }
       row_count = 0
-      CSV::Reader.parse(input, ';', "\r") do |row|
+      TaskHelper.each_row_from_csv do |row|
         row_count += 1
         if(row.size > 9)
           TaskHelper::media_from_row(row, ENV['thumbnail_directory'])
@@ -525,8 +528,35 @@ namespace :sophiavision do
           print '_'
         end
       end
-      puts
-      puts 'done'
+      puts "\ndone"
+    end
+
+    desc "Import keywords from CSV file. Options csvfile=<file>"
+    task :keywords => "discovery:disco_init" do
+      languages = %w(italian english german french)
+      languages.each do |language|
+        instance_eval <<-END
+          @#{language}_id = Globalize::Language.find_by_english_name("#{language.titleize}").id
+        END
+      end
+
+      TaskHelper.each_row_from_csv do |row|
+        italian, english, german, french = row.compact.map { |translation| translation.gsub("\n", "").strip }
+        key = Globalize::ViewTranslation.find_by_sql("SELECT * FROM globalize_translations WHERE type = 'ViewTranslation' AND language_id = #{@italian_id} AND text = '#{italian.titleize}'").tr_key rescue nil
+
+        unless key
+          key = "talia.keywords.#{italian.titleize.downcase}"
+          puts "Creating missing key for: #{italian.titleize} (#{key})"
+        end
+
+        key = normalized_keyword_key(key)
+        languages.each do |language|
+          instance_eval <<-END
+            translation = Globalize::ViewTranslation.find_or_create_by_language_id_and_tr_key_and_pluralization_index(@#{language}_id, key, 1)
+            translation.update_attribute("text", #{language}.titleize) unless translation.text == #{language}.titleize
+          END
+        end if key
+      end
     end
   end
 
@@ -545,4 +575,25 @@ def fix_uris_for(type, path)
     puts uri
     source.update_attribute('uri', uri)
   end
+end
+
+def normalized_keyword_key(keyword)
+  return unless keyword
+
+  keyword = case keyword
+  when String
+    keyword
+  when Globalize::ViewTranslation
+    keyword.tr_key
+  end
+
+  key = keyword.gsub(KEYWORD_PREFIX, "").strip.titleize.gsub(".", "+").gsub(" ", "+")
+  keyword = TaliaCore::Keyword.find_by_sql("SELECT * FROM active_sources WHERE type = 'Keyword' AND uri LIKE '%#{key}' LIMIT 1").first
+  if keyword
+    key = keyword.keyword_value
+  else
+    key = nil
+  end
+
+  key ? "#{KEYWORD_PREFIX}#{key}" : nil
 end

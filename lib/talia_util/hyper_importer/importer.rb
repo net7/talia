@@ -259,7 +259,7 @@ module TaliaUtil
         source_uri = irify(N::LOCAL + source_name)
         get_or_create_source(source_uri, klass, save_new)
       end
-
+      
       # Sets the default catalog on the source, if applicable. This will
       # return true if the catalog is reset
       def set_catalog(src)
@@ -329,8 +329,8 @@ module TaliaUtil
           src.autosave_rdf = false
           # Add the new source to the cache
           SourceCache.cache[source_uri] = src
-        end
-        
+      end
+      
         src
       end
       
@@ -415,7 +415,7 @@ module TaliaUtil
               # extension for that at the moment - not the file_content_type
               file_ext = File.extname(file_name).downcase
               mime_type = process_content_type(file_content_type, file_ext)
-              data_records = if(%w(.xml .hnml .tei .html .htm).include?(file_ext))
+              data_records = if(%w(.xml .hnml .tei .html .htm .xhtml).include?(file_ext))
                 load_from_data_url!(:XmlData, file_name, file_url)
               elsif(%w(.jpg .gif .jpeg .png .tif).include?(file_ext))
                 load_image_from_url!(file_name, file_url)
@@ -597,7 +597,7 @@ module TaliaUtil
           data_record.create_from_file(location, url)
         else
           open_from_url(url) do |io|
-            data_record.create_from_data(location, io)
+            data_record.create_from_data(location, io) 
           end
         end
         
@@ -628,7 +628,7 @@ module TaliaUtil
       # that actually adds the elements.
       def quick_add_predicate(source, predicate, value)
         source[predicate] << value
-      end
+        end
 
       # Checks for the namespaces which must be defined for the
       # import to work

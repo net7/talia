@@ -120,7 +120,7 @@ class AdvancedSearchWidget < Widgeon::Widget
 
       works.each do |item|
         unless params[:mc].nil?
-          if(params[:mc][widget_session[:current_size]-1] == item)
+          if(params[:mc][widget_session[:current_size]-1] == item.to_s)
             selected = true
           end
         end
@@ -142,10 +142,8 @@ class AdvancedSearchWidget < Widgeon::Widget
       # load previous mc_from used
       if params[:mc_from].nil?
         selected_value = :first
-        selected_mc = works.first.uri
       else
         selected_value = params[:mc_from][widget_session[:current_size]-1]
-        selected_mc = params[:mc][widget_session[:current_size]-1]
       end
 
       # create tags
@@ -154,7 +152,7 @@ class AdvancedSearchWidget < Widgeon::Widget
         :locals => {:field_name=> 'mc_from[]',
           :current_size => widget_session[:current_size],
           :selected_value => selected_value,
-          :data => subparts}) #subparts(selected_mc)})
+          :data => subparts})
 
       return tag_string
     end
@@ -168,10 +166,8 @@ class AdvancedSearchWidget < Widgeon::Widget
       # load previous mc_from used
       if params[:mc_to].nil?
         selected_value = :last
-        selected_mc = works.first.uri
       else
         selected_value = params[:mc_to][widget_session[:current_size]-1]
-        selected_mc = params[:mc][widget_session[:current_size]-1]
       end
 
       # create tags
@@ -333,22 +329,8 @@ class AdvancedSearchWidget < Widgeon::Widget
     # get book from uri
     book = TaliaCore::Source.find(uri)
     # get book's subparts
-    @subparts = book.subparts_with_manifestations(N::HYPER.HyperEdition)
 
-    # create an array with uri and title for each subpart
-    unless @subparts.nil?
-      # get subpart title
-      @subparts.collect! do |subpart|
-        # get title
-        title = subpart.dcns.title
-        if (title.empty?)
-          title = subpart.uri.local_name
-        end
-
-        # create array
-        [subpart.uri.to_s, title]
-      end
-    end
+    @subparts = book.subparts_uri_and_title_with_manifestations(N::HYPER.HyperEdition)
 
     # return subparts array
     @subparts

@@ -1,0 +1,1252 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:xsp="http://www.owl-ontologies.com/2005/08/07/xsp.owl#"
+    xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/"
+    xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+    xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns="http://discovery-project.eu/ontologies/nietzschesource/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:scho="http://discovery-project.eu/ontologies/scholar/0.1/"
+  xml:base="http://discovery-project.eu/ontologies/nietzschesource/">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/"/>
+  </owl:Ontology>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Concordance">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ordering"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/DocumentTransmission">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Describing"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Manuscript">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/PrimarySource"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Collectanea">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ordering"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Edition">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Editing"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/BibliographicalDocument">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/PrimarySource"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Subject"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Translation">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Interpreting"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Description">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Describing"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Concept">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A term that denotes a concept (e.g. nihilism), a theory (e.g. will to power), or a metaphor (e.g. the 'spirit of gravity') relevant to Nietzsche scholarship.</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Concept (Nietzsche)</rdfs:label>
+    <rdfs:subClassOf>
+      <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Concept">
+        <rdfs:comment xml:lang="en"></rdfs:comment>
+      </rdf:Description>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Theory">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Theory (Nietzsche)</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >a complex of ideas</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Republication">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Editing"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Bibliography">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ordering"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Metaphor">
+    <rdfs:comment xml:lang="en">an expression used to denote something in a unusual or enigmatic way</rdfs:comment>
+    <rdfs:label xml:lang="en">Metaphor (Nietzsche)</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Interview">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Interpreting"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Work">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/PrimarySource"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Describing">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/SecondarySource"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Commentary">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Interpreting"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ordering">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/SecondarySource"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Cataloguing">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/nietzschesource/Describing"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Path">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/nietzschesource/Ordering"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Editing">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/SecondarySource"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Anastathic">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/nietzschesource/Edition"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Genetic">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/nietzschesource/Edition"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/ResearchStudy">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Interpreting"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Image">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/PrimarySource"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Correspondence">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/PrimarySource"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/PrimarySource">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/PrimarySource"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Primary Source</rdfs:label>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Lecture">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Interpreting"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Review">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Interpreting"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/LibraryReading">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    ></rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/nietzschesource/PrimarySource"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Critical">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/nietzschesource/Edition"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Interpreting">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/SecondarySource"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/SecondarySource">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/SecondarySource"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Secondary Source</rdfs:label>
+  </rdfs:Class>
+  <owl:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Axiom_1">
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+          <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+        </owl:unionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Axiom_2">
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+          <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+        </owl:unionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/includes">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isIncludedIn"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isPeculiarOf">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isIncludedIn">
+    <owl:inverseOf rdf:resource="http://discovery-project.eu/ontologies/nietzschesource/includes"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/contributesToConcept">
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/criticizes">
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+    <owl:inverseOf>
+      <owl:FunctionalProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isCriticizedBy"/>
+    </owl:inverseOf>
+    <rdfs:label xml:lang="em">criticizes</rdfs:label>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+          <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/hasSubject"/>
+    <rdfs:comment xml:lang="en">disapprove somebody or something, to say that something is untrue</rdfs:comment>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/explains">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/hasSubject"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >explains</rdfs:label>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isExplainedBy"/>
+    </owl:inverseOf>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/engenders">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isConnectedWith">
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isExampleOf">
+    <rdfs:comment xml:lang="en">to be representative of a group, an idea, a movement, etc.</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+    <rdfs:label xml:lang="en">is example of</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/damages">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/agreesWith">
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/hasSubject"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >agrees with</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isAlliedWith">
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:label xml:lang="en">is allied with</rdfs:label>
+    <rdfs:comment xml:lang="en">&lt;p style="margin-top: 0"&gt;
+      to support somebody and agree with him
+    &lt;/p&gt;</rdfs:comment>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isDefinedIn">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/defines"/>
+    </owl:inverseOf>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/hasTask">
+    <rdfs:comment xml:lang="en">&lt;p style="margin-top: 0"&gt;
+      to have a duty or a mission to complete
+    &lt;/p&gt;</rdfs:comment>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+          <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:label xml:lang="en">has task</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isTaksOf">
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isBasedOn">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/promotes">
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isContradictedIn">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/contradicts"/>
+    </owl:inverseOf>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/contradicts">
+    <owl:inverseOf rdf:resource="http://discovery-project.eu/ontologies/nietzschesource/isContradictedIn"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/hasSubject"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/unMasks">
+    <rdfs:comment xml:lang="en">to reveal someone in his own true character or something in its own true nature</rdfs:comment>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Subject"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:label xml:lang="en">unmasks</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isOvercomeBy">
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isExplainedBy">
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <owl:inverseOf rdf:resource="http://discovery-project.eu/ontologies/nietzschesource/explains"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >is explained by</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/defines">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+    <owl:inverseOf rdf:resource="http://discovery-project.eu/ontologies/nietzschesource/isDefinedIn"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/hasSubject"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/is"/>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/affirms">
+    <rdfs:comment xml:lang="en">to state that something is true or support something</rdfs:comment>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+          <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:label xml:lang="en">affirms</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isMentionedIn">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/mentions"/>
+    </owl:inverseOf>
+    <rdfs:comment xml:lang="en">to be written or spoken about</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+          <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+    <rdfs:label xml:lang="en">is mentioned in</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isOpposedTo">
+    <rdfs:label xml:lang="en">is opposed to</rdfs:label>
+    <rdfs:comment xml:lang="en">to be the contrary of something</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+          <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/hasSubject"/>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+          <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/bringsTo">
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/mentions">
+    <rdfs:comment xml:lang="en">to speak or write about something</rdfs:comment>
+    <owl:inverseOf rdf:resource="http://discovery-project.eu/ontologies/nietzschesource/isMentionedIn"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Subject"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+    <rdfs:label xml:lang="en">mentions</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/hasSubject"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/freesFrom">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/isRelatedTo"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+  </owl:ObjectProperty>
+  <owl:FunctionalProperty rdf:about="http://discovery-project.eu/ontologies/nietzschesource/isCriticizedBy">
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <owl:inverseOf rdf:resource="http://discovery-project.eu/ontologies/nietzschesource/criticizes"/>
+    <rdfs:label xml:lang="en">to be criticized by</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment xml:lang="en">to be said untruth or opposed by somebody</rdfs:comment>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/nietzschesource/IdealType"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+          <rdf:Description rdf:about="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+  </owl:FunctionalProperty>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Mathematik">
+    <rdfs:label xml:lang="de">Mathematik</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >science which deal with numbers and shapes. Branches of mathematics are arithmetic, algebra, geometry and trigonometry.</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Cultur">
+    <rdfs:label xml:lang="de">Cultur</rdfs:label>
+    <rdfs:comment xml:lang="en">civilisation. It pertains to a group of people who live in the same nation or in the same historical period.</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Schluss">
+    <rdfs:comment xml:lang="en">inference taken at the end of a process of thought</rdfs:comment>
+    <rdfs:label xml:lang="de">Schluss</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Physiologie">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >science which studies the functions of living beings.</rdfs:comment>
+    <rdfs:label xml:lang="de">Physiologie</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Welt">
+    <rdfs:label xml:lang="de">Welt </rdfs:label>
+    <rdfs:comment xml:lang="en">physical world</rdfs:comment>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Spir">
+    <rdfs:label xml:lang="de">Spir</rdfs:label>
+    <rdfs:comment xml:lang="en">Little-known Neo-Kantian philosopher (1837-1890) from Ukraine, whose book Denken und Wirklichkeit (Thought and Reality) exerted a very strong influence on the writings of Friedrich Nietzsche.</rdfs:comment>
+  </scho:Person>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Tragodie">
+    <rdfs:label xml:lang="de">Tragödie</rdfs:label>
+    <rdfs:comment xml:lang="en">play typical of ancient Greek or, in broader sense, a certain view of life and human destiny</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Bose">
+    <rdfs:comment xml:lang="en">From a moral point of view  is considered evil what has damaging effects on others</rdfs:comment>
+    <rdfs:label xml:lang="de">Böse</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Zweifel">
+    <rdfs:label xml:lang="de">Zweifel</rdfs:label>
+    <rdfs:comment xml:lang="en">doubt, to be not sure about something</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ding">
+    <rdfs:comment xml:lang="en">thing</rdfs:comment>
+    <rdfs:label xml:lang="de">Ding</rdfs:label>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Rafael">
+    <rdfs:label xml:lang="de">Rafael</rdfs:label>
+    <rdfs:comment xml:lang="en">Italian painter and architect of the High Renaissance (1483-1520)</rdfs:comment>
+  </scho:Person>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gesellschaft">
+    <rdfs:comment xml:lang="en">society : a group of people who share the same customs, laws, etc.</rdfs:comment>
+    <rdfs:label xml:lang="de">Gesellschaft</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gleichsetzen">
+    <rdfs:label xml:lang="de">Gleichsetzen</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >to equalize, to put something at the same level of something else, often reducing the value of the higher term of comparison.</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Phantasie">
+    <rdfs:label xml:lang="de">Phantasie</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >force of mediation between subject and object necessary to every operation of intellect, ability to find similiarities in different things</rdfs:comment>
+  </Concept>
+  <IdealType rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Dichter">
+    <rdfs:comment xml:lang="en">the poet according to Nietzsche</rdfs:comment>
+    <rdfs:label xml:lang="de">Dichter</rdfs:label>
+  </IdealType>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Vereherung">
+    <rdfs:comment xml:lang="en">veneration, reverence, deep admiration</rdfs:comment>
+    <rdfs:label xml:lang="de">Vereherung</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Begabung">
+    <rdfs:label xml:lang="de">Begabung</rdfs:label>
+    <rdfs:comment xml:lang="en">talent, ability</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Menschheit">
+    <rdfs:label xml:lang="de">Menschheit</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >manking, all the human beings</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Wesen">
+    <rdfs:label xml:lang="de">Wesen</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >essence, what lies beyond appearance</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Missverstandniss">
+    <rdfs:comment xml:lang="en">misunderstanding, a situation in which something is not understood correctly</rdfs:comment>
+    <rdfs:label xml:lang="de">Missverstandniss</rdfs:label>
+  </Concept>
+  <scho:FictionalEntity rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gott">
+    <rdfs:label xml:lang="de">Gott</rdfs:label>
+    <rdfs:comment xml:lang="en">Transcendental Being who created man and world. If not differently specified, Nietzsche mean the God of Christian Religion</rdfs:comment>
+  </scho:FictionalEntity>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Niedrigkeit">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >meanness, both intellectual and moral</rdfs:comment>
+    <rdfs:label xml:lang="de">Niedrigkeit</rdfs:label>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Wagner">
+    <rdfs:label xml:lang="de">Wagner  </rdfs:label>
+    <rdfs:comment xml:lang="en">German composer, conductor, theatre director and essayist, primarily known for his operas (1813 - 1883).</rdfs:comment>
+  </scho:Person>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Widerspruch">
+    <rdfs:label xml:lang="de">Widersprüch</rdfs:label>
+    <rdfs:comment xml:lang="en">contradition, lack of consistency</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Empfindung">
+    <rdfs:comment xml:lang="en">sensation is the first step of perception. It consist in the registration of a nervous stimulus by the brain.</rdfs:comment>
+    <rdfs:label xml:lang="de">Empfindung</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ahnlichkeit">
+    <rdfs:comment xml:lang="en">affinity, resemblance, similarity</rdfs:comment>
+    <rdfs:label xml:lang="de">Ähnlichkeit</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Erkenntniss">
+    <rdfs:comment xml:lang="en">Knowledge, understanding of a phenomenon or a situation gained through direct or mediate experience.</rdfs:comment>
+    <rdfs:label xml:lang="de">Erkenntniss</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Leben">
+    <rdfs:label xml:lang="de">Leben</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >physical phenomenon of birth, growing, decaying and death. It is proper of natural organisms (plants, animals and human being) but can be metaphorically predicated also of unorganic things.</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Seele">
+    <rdfs:label xml:lang="de">Seele</rdfs:label>
+    <rdfs:comment xml:lang="en">the spiritual and intimate part of a person, repository of emotions</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Religion">
+    <rdfs:comment xml:lang="en">the belief in the existence of a god or gods and the activities connected with the worship of them.</rdfs:comment>
+    <rdfs:label xml:lang="de">Religion</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ziellosigkeit">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >lack of a goal</rdfs:comment>
+    <rdfs:label xml:lang="de">Ziellosigkeit</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Selbstlosigkeit">
+    <rdfs:comment xml:lang="en">altruism, selflessness, thinking and acting more in view of other's need than of one's own interest.</rdfs:comment>
+    <rdfs:label xml:lang="de">Selbstlösigkeit</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Substanz">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >substratum which the properties of a thing inhere to.</rdfs:comment>
+    <rdfs:label xml:lang="de">Substanz</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Traum">
+    <rdfs:comment xml:lang="en">series of images that happen in your mind while you are asleep</rdfs:comment>
+    <rdfs:label xml:lang="de">Traum</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gluck">
+    <rdfs:comment xml:lang="en">both happiness and good luck, fortune</rdfs:comment>
+    <rdfs:label xml:lang="de">Glück</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Mitgefuhl">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >compassion, in the literal sense of feeling-together with (sympathy), or in the christian sense of commiseration, pity.</rdfs:comment>
+    <rdfs:label xml:lang="de">Mitgefühl</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Irrthum">
+    <rdfs:label xml:lang="de">Irrthum</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >error, falsity.</rdfs:comment>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Petrarca">
+    <rdfs:label xml:lang="de">Petrarca</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Italian scholar, poet and one of the earliest Renaissance humanists (1304-1374)</rdfs:comment>
+  </scho:Person>
+  <Theory rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Renaissance">
+    <rdfs:comment xml:lang="en">Cultural movement that spanned roughly the 14th to the 17th century, beginning in Italy in the Late Middle Ages and later spreading to the rest of Europe.</rdfs:comment>
+    <rdfs:label xml:lang="de">Renaissance</rdfs:label>
+  </Theory>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Beruhigung">
+    <rdfs:label xml:lang="de">Beruhigung</rdfs:label>
+    <rdfs:comment xml:lang="en">to sedate, pacify or make someone calm</rdfs:comment>
+  </Concept>
+  <Theory rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Reformation">
+    <rdfs:comment xml:lang="en">The Protestant Reformation was a Christian reform movement in Europe begun as an attempt to reform the Catholic Church. It is thought to have begun in 1517 with Martin Luther's Ninety-Five Theses and may be considered to have ended with the Peace of Westphalia in 1648.</rdfs:comment>
+    <rdfs:label xml:lang="de">Reformation</rdfs:label>
+  </Theory>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ehrfarung">
+    <rdfs:comment xml:lang="en">Experience is the knowledge gained through doing something.</rdfs:comment>
+    <rdfs:label xml:lang="de">Ehrfarung</rdfs:label>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Schopenhauer">
+    <rdfs:label xml:lang="de">Schopenhauer</rdfs:label>
+    <rdfs:comment xml:lang="en">German philosopher (1788-1860), who exerted a deep influence on Nietzsche</rdfs:comment>
+  </scho:Person>
+  <IdealType rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Kunstler">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >the artist according to Nietzsche</rdfs:comment>
+    <rdfs:label xml:lang="de">Künstler</rdfs:label>
+  </IdealType>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Herkunft">
+    <rdfs:comment xml:lang="en">origin, provenance, the place that something or someone came from</rdfs:comment>
+    <rdfs:label xml:lang="de">Herkunft</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Glaube">
+    <rdfs:comment xml:lang="en">Belief, to be strongly convinced / confident that something exists or that is so und so</rdfs:comment>
+    <rdfs:label xml:lang="de">Glaube</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Urtheil">
+    <rdfs:label xml:lang="de">Urtheil</rdfs:label>
+    <rdfs:comment xml:lang="en">judgment, opinion that you form about something after thinking about it carefully</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Vernunft">
+    <rdfs:label xml:lang="de">Vernunft</rdfs:label>
+    <rdfs:comment xml:lang="en">power of the mind to think in a logical way, to understand things and situations, to have opinion, etc.</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Bejahung">
+    <rdfs:label xml:lang="de">Bejahung</rdfs:label>
+    <rdfs:comment xml:lang="en">affirmation, manifested with words and actions</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Grund">
+    <rdfs:comment xml:lang="en">the cause of something, the reason why something is as it is</rdfs:comment>
+    <rdfs:label xml:lang="de">Grund</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Wiedererkennen">
+    <rdfs:comment xml:lang="en">recognition, the act of remembering who somebody or something is when you see them</rdfs:comment>
+    <rdfs:label xml:lang="de">Wiedererkennen</rdfs:label>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Schiller">
+    <rdfs:comment xml:lang="en">German poet, philosopher, historian, and playwright fried of Goethe and with him key figure of the movement Weimar Classicism (1759-1805)</rdfs:comment>
+    <rdfs:label xml:lang="de">Schiller</rdfs:label>
+  </scho:Person>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Sittlichkeit">
+    <rdfs:label xml:lang="de">Sittlichkeit</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >morals, set of social customs</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Sitten">
+    <rdfs:label xml:lang="de">Sitten</rdfs:label>
+    <rdfs:comment xml:lang="en">moral conventions, social customs</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Einsamkeit">
+    <rdfs:comment xml:lang="en">Feeling alone.</rdfs:comment>
+    <rdfs:label xml:lang="de">Einsamkeit</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Berechtigung">
+    <rdfs:label xml:lang="de">Berechtigung</rdfs:label>
+    <rdfs:comment xml:lang="en">to legitimate, to demonstrate that something is valid or justifiable</rdfs:comment>
+  </Concept>
+  <Theory rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Romantik">
+    <rdfs:label xml:lang="de">Romantik</rdfs:label>
+    <rdfs:comment xml:lang="en">Artistic, literary, and intellectual movement that originated in the second half of the 18th century in Western Europe. The movement stressed strong emotion as a source of aesthetic experience, placing new emphasis on such emotions as trepidation, horror and awe—especially that which is experienced in confronting the sublimity of untamed nature.</rdfs:comment>
+  </Theory>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Vernichtung">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >annihilation, distruction</rdfs:comment>
+    <rdfs:label xml:lang="de">Vernichtung</rdfs:label>
+  </Concept>
+  <IdealType rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Franzosen">
+    <rdfs:label xml:lang="de">Französen</rdfs:label>
+    <rdfs:comment xml:lang="en">french people according to Nietzsche</rdfs:comment>
+  </IdealType>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gerechtigkeit">
+    <rdfs:comment xml:lang="en">justice, fairness, equity: accoridng to Nietzsche the fair traitment of people or a sober consideration of facts</rdfs:comment>
+    <rdfs:label xml:lang="de">Gerechtigkeit</rdfs:label>
+  </Concept>
+  <IdealType rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Philosoph">
+    <rdfs:label xml:lang="de">Philosoph</rdfs:label>
+    <rdfs:comment xml:lang="en">what a philosopher has to be according to Nietzsche</rdfs:comment>
+  </IdealType>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Causalitat">
+    <rdfs:comment xml:lang="en">causality is the relationship between two events or things, one considered the reason why the other happens or exists.</rdfs:comment>
+    <rdfs:label xml:lang="de">Causalität</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Besserwerden">
+    <rdfs:comment xml:lang="en">to improve something, to make something better</rdfs:comment>
+    <rdfs:label xml:lang="de">Besserwerden</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Trost">
+    <rdfs:label xml:lang="de">Trost</rdfs:label>
+    <rdfs:comment xml:lang="en">consolation, something that makes you feel better when you are unhappy or disappointed</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Neigung">
+    <rdfs:label xml:lang="de">Neigung</rdfs:label>
+    <rdfs:comment xml:lang="en">disposition, propensity, predisposition to do something</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Erscheinung">
+    <rdfs:label xml:lang="de">Erscheinung</rdfs:label>
+    <rdfs:comment xml:lang="en">appearance, emergence of a thing, which is perceived and organized in a consistent mental representation.</rdfs:comment>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Michelangelo">
+    <rdfs:label xml:lang="de">Michelangelo</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Famous italian Renaissaince painter (1475 - 1564)</rdfs:comment>
+  </scho:Person>
+  <Theory rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Christenthum">
+    <rdfs:comment xml:lang="en">cristian religion or people who believe in it and act according its moral system of values</rdfs:comment>
+    <rdfs:label xml:lang="de">Christenthum</rdfs:label>
+  </Theory>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Kunst">
+    <rdfs:label xml:lang="de">Kunst</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >art, activity of select and composing elements togheter. It is necessarly subjective, but can be both conscious and unconscious</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Erklarung">
+    <rdfs:comment xml:lang="en">Explanation or explication of a statemen, a phenomenon or a situation.</rdfs:comment>
+    <rdfs:label xml:lang="de">Erklärung</rdfs:label>
+  </Concept>
+  <IdealType rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Logiker">
+    <rdfs:comment xml:lang="en">Scientist or person who believes in the absolute reliability of aristotelic logic.</rdfs:comment>
+    <rdfs:label xml:lang="de">Logiker</rdfs:label>
+  </IdealType>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Leiden">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >suffering arising from a physical or/and psychological condition</rdfs:comment>
+    <rdfs:label xml:lang="de">Leiden</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Originalitat">
+    <rdfs:comment xml:lang="en">quality to be new and different from everyone, true expression of its own character and personality</rdfs:comment>
+    <rdfs:label xml:lang="de">Originalität</rdfs:label>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Socrates">
+    <rdfs:comment xml:lang="en">Classical Greek philosopher, credited as one of the founders of Western philosophy, he is an enigmatic figure known only through the classical accounts of his students.</rdfs:comment>
+    <rdfs:label xml:lang="de">Socrates</rdfs:label>
+  </scho:Person>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Aufgabe">
+    <rdfs:label xml:lang="de">Aufgabe</rdfs:label>
+    <rdfs:comment xml:lang="en">mission, task</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Bildung">
+    <rdfs:comment xml:lang="en">culture of a person, mainly opposed to mere erudition</rdfs:comment>
+    <rdfs:label xml:lang="de">Bildung</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gut">
+    <rdfs:label xml:lang="de">Gut</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >good, moral value to strive for. What is good for the individual can be good for people too or not.</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Vergangenheit">
+    <rdfs:comment xml:lang="en">past events</rdfs:comment>
+    <rdfs:label xml:lang="en">Vergangenheit</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Freiheit">
+    <rdfs:comment xml:lang="en">freedom, state of being able to think and do what you want, without anything stopping you.</rdfs:comment>
+    <rdfs:label xml:lang="de">Freiheit</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Dasein">
+    <rdfs:comment xml:lang="en">existence</rdfs:comment>
+    <rdfs:label xml:lang="de">Dasein</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Instinct">
+    <rdfs:comment xml:lang="en">instinct, compulsory force to do something without reasoning about it</rdfs:comment>
+    <rdfs:label xml:lang="de">Instinct</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ziel">
+    <rdfs:label xml:lang="de">Ziel</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >goal, something to achieve</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Philosophie">
+    <rdfs:comment xml:lang="en">branch of knowledge which studies the nature and meaning of reality and of human being</rdfs:comment>
+    <rdfs:label xml:lang="de">Philosophie</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Entbehrung">
+    <rdfs:comment xml:lang="en">privation of something, often voluntary</rdfs:comment>
+    <rdfs:label xml:lang="de">Entbehrung</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Bewusstsein">
+    <rdfs:comment xml:lang="en">awareness, counsciousness</rdfs:comment>
+    <rdfs:label xml:lang="de">Bewusstsein</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Freude">
+    <rdfs:comment xml:lang="en">joy, happiness, condition of physical and mental wellbeing and power</rdfs:comment>
+    <rdfs:label xml:lang="de">Freude</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Umkehrung">
+    <rdfs:label xml:lang="de">Umkehrung</rdfs:label>
+    <rdfs:comment xml:lang="en">turnaround, complete change in mind and/or behaviour</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ressentiment">
+    <rdfs:label xml:lang="de">Ressentiment</rdfs:label>
+    <rdfs:comment xml:lang="en">feeling of anger directed against someone, which according to Nietzsche arises from a condition of physical illness, degeneration or distress.</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Reaktion">
+    <rdfs:label xml:lang="de">Reaktion</rdfs:label>
+    <rdfs:comment xml:lang="en">to behave in a particular way in response to something</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ursache">
+    <rdfs:label xml:lang="de">Ursache</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >cause, reason why something exists</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Bedurfniss">
+    <rdfs:comment xml:lang="en">need or necessity</rdfs:comment>
+    <rdfs:label xml:lang="de">Bedürfniss</rdfs:label>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Shakespeare">
+    <rdfs:comment xml:lang="en">English poet and playwright, widely regarded as the greatest writer in the English language and the world's preeminent dramatist-</rdfs:comment>
+    <rdfs:label xml:lang="de">Shakespeare</rdfs:label>
+  </scho:Person>
+  <IdealType rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Freigeist">
+    <rdfs:label xml:lang="de">Freigeist</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >key figure of nietzsche's philosophy from 1876 to 1878, basically characterised by moral independence and intellectual skepticism.</rdfs:comment>
+  </IdealType>
+  <IdealType rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Theolog">
+    <rdfs:label xml:lang="de">Theolog</rdfs:label>
+    <rdfs:comment xml:lang="en">the theologian according to Nietzsche</rdfs:comment>
+  </IdealType>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Denken">
+    <rdfs:comment xml:lang="en">conscious thought, which follows  principles dictated by reason or laws of intellect</rdfs:comment>
+    <rdfs:label xml:lang="de">Denken</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Abneigung">
+    <rdfs:label xml:lang="de">Abneigung</rdfs:label>
+    <rdfs:comment xml:lang="en">antipathy, aversion, repugnance</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Optimismus">
+    <rdfs:comment xml:lang="en">a feeling that things are going to get better, or tendency to believe that good things will happen</rdfs:comment>
+    <rdfs:label xml:lang="de">Optimismus</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Pessimismus">
+    <rdfs:comment xml:lang="en">tendency to think that things are getting worse or that bad things will happen</rdfs:comment>
+    <rdfs:label xml:lang="de">Pessimismus</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Fortschritt">
+    <rdfs:comment xml:lang="en">progress, advancement done in view of a goal</rdfs:comment>
+    <rdfs:label xml:lang="de">Fortschritt</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Entwickelung">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >development, process in which something transform itself according to internal laws and/ or external circumstances.</rdfs:comment>
+    <rdfs:label xml:lang="de">Entwickelung</rdfs:label>
+  </Concept>
+  <IdealType rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Mensch">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >human being according to nietzsche</rdfs:comment>
+    <rdfs:label xml:lang="de">Mensch</rdfs:label>
+  </IdealType>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Logik">
+    <rdfs:comment xml:lang="en">a set of rules to explain facts in a consistent way</rdfs:comment>
+    <rdfs:label xml:lang="de">Logik</rdfs:label>
+  </Concept>
+  <IdealType rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gehlerter">
+    <rdfs:label xml:lang="de">Gehlerter</rdfs:label>
+    <rdfs:comment xml:lang="en">academic scholar according to Nietzsche</rdfs:comment>
+  </IdealType>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Vielheit">
+    <rdfs:label xml:lang="de">Vielheit</rdfs:label>
+    <rdfs:comment xml:lang="en">multiplicity, presence of many different things</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Moral">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >sistem of values and rules of behaviour shared by a group of person.</rdfs:comment>
+    <rdfs:label xml:lang="de">Moral</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Tauschung">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >illusion, deception</rdfs:comment>
+    <rdfs:label xml:lang="de">Täuschung</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Selbstbetrug">
+    <rdfs:comment xml:lang="en">the act of making yourself believe something that you know is not true</rdfs:comment>
+    <rdfs:label xml:lang="de">Selbstbetrug</rdfs:label>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Voltaire">
+    <rdfs:label xml:lang="de">Voltaire</rdfs:label>
+    <rdfs:comment xml:lang="en">French Enlightenment writer, essayist, and philosopher (1624 - 1778).</rdfs:comment>
+  </scho:Person>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ding-an-sich">
+    <rdfs:comment xml:lang="en">Metaphysical concept. Thing-in itself is the essence of a thing. It is presupposed but never grasped by human senses.</rdfs:comment>
+    <rdfs:label xml:lang="de">Ding-an-sich</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Historie">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >lat: historia rerum gestarum. The story-telling, the process of compose past events in a story (logos).</rdfs:comment>
+    <rdfs:label xml:lang="de">Historie</rdfs:label>
+  </Concept>
+  <IdealType rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Deutschen">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >German people according to Nietzsche</rdfs:comment>
+    <rdfs:label xml:lang="de">Deutschen</rdfs:label>
+  </IdealType>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Perikle">
+    <rdfs:label xml:lang="de">Perikle</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >prominent and influential statesman, orator, and general of Athens during the city's Golden Age (495 – 429 BC).</rdfs:comment>
+  </scho:Person>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Unwahreit">
+    <rdfs:label xml:lang="de">Unwahreit</rdfs:label>
+    <rdfs:comment xml:lang="en">untruth, lack or absence of truth</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Vorstellung">
+    <rdfs:comment xml:lang="en">representation, internal (conception, idea, mental image) or external (portrayal, picture).</rdfs:comment>
+    <rdfs:label xml:lang="de">Vorstellung</rdfs:label>
+  </Concept>
+  <Theory rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Teleologie">
+    <rdfs:label xml:lang="de">Teleologie</rdfs:label>
+    <rdfs:comment xml:lang="en">Finality, theory according to which all events happens to fulfill a project, and all things and beings unconsciously strive to achieve a purpose.</rdfs:comment>
+  </Theory>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gefuhl">
+    <rdfs:comment xml:lang="en">emotion, feeling. It is given by sensation connected with an idea</rdfs:comment>
+    <rdfs:label xml:lang="de">Gefühl</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Zwang">
+    <rdfs:comment xml:lang="en">coercion, constraint, compulsion</rdfs:comment>
+    <rdfs:label xml:lang="de">Zwang</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Inspiration">
+    <rdfs:label xml:lang="de">Inspiration</rdfs:label>
+    <rdfs:comment xml:lang="en">ispiration is knowledge obtained through insight, without mediation or conscious effort</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Verachtung">
+    <rdfs:label xml:lang="de">Verachtung</rdfs:label>
+    <rdfs:comment xml:lang="en">despise, disrespect or dislike for something</rdfs:comment>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Cartesius">
+    <rdfs:comment xml:lang="en">French philosopher, mathematician and scientist considered the father of modern philosophy and a key figure in the scientific revolution (1596 - 1650).</rdfs:comment>
+    <rdfs:label xml:lang="de">Cartesius</rdfs:label>
+  </scho:Person>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Verneinung">
+    <rdfs:label xml:lang="de">Verneinung</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >negation</rdfs:comment>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Kant">
+    <rdfs:comment xml:lang="en">18th-Century German philosopher regarded as one of the most influent figure of Enlightment (1724-1804).</rdfs:comment>
+    <rdfs:label xml:lang="de">Kant</rdfs:label>
+  </scho:Person>
+  <Theory rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Aufklarung">
+    <rdfs:comment xml:lang="en">European intellectual movement known as the Age of Enlightenment, also called the Age of Reason referring to philosophical developments related to scientific rationality in the 17th and 18th centuries.</rdfs:comment>
+    <rdfs:label xml:lang="de">Aufklärung</rdfs:label>
+  </Theory>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Entstehung">
+    <rdfs:comment xml:lang="en">Rising, birth, emergence of something (a natural, artistic, social or historical phenomenon)</rdfs:comment>
+    <rdfs:label xml:lang="de">Entstehung</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Skepsis">
+    <rdfs:label xml:lang="de">Skepsis</rdfs:label>
+    <rdfs:comment xml:lang="en">scepticism, moral attitude to doubt or question the validity or legitimacy of something</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Metaphysik">
+    <rdfs:label xml:lang="de">Metaphysik</rdfs:label>
+    <rdfs:comment xml:lang="en">Metaphysics investigates principles of reality transcending those of any particular science. Cosmology and ontology are traditional branches of metaphysics. It is concerned with explaining the fundamental nature of being and the world.</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Lust">
+    <rdfs:label xml:lang="de">Lust</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >desire, appetite, striving for something</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Wille">
+    <rdfs:comment xml:lang="en">will, the ability to control your thoughts and action in order to achieve what you want. The ability to command to yourself what to do and not to do.</rdfs:comment>
+    <rdfs:label xml:lang="de">Wille</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Mythologie">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >body of myths, phantastic stories from a particular culture or religion used to interpret natural events and to explain the nature of the universe and humanity.</rdfs:comment>
+    <rdfs:label xml:lang="de">Mythologie</rdfs:label>
+  </Concept>
+  <IdealType rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Volk">
+    <rdfs:label xml:lang="de">Volk</rdfs:label>
+    <rdfs:comment xml:lang="en">all the persons who live in a same place or belong to the same race has collective subject which peculiar behaviour</rdfs:comment>
+  </IdealType>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Wahrheit">
+    <rdfs:comment xml:lang="en">truth, what can be believed and trusted in.</rdfs:comment>
+    <rdfs:label xml:lang="de">Wahrheit </rdfs:label>
+  </Concept>
+  <IdealType rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Philolog">
+    <rdfs:label xml:lang="de">Philolog</rdfs:label>
+    <rdfs:comment xml:lang="en">the philologist according to Nietzsche</rdfs:comment>
+  </IdealType>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Geist">
+    <rdfs:comment xml:lang="en">spirit, mind, the interiority of man</rdfs:comment>
+    <rdfs:label xml:lang="de">Geist</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Sprache">
+    <rdfs:comment xml:lang="en">system of symbols and rules used to communicate, to share feelings and intentions</rdfs:comment>
+    <rdfs:label xml:lang="de">Sprache</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Zukunft">
+    <rdfs:label xml:lang="de">Zukunft</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >future events</rdfs:comment>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Luter">
+    <rdfs:comment xml:lang="en">Theologian who initiated the movement of Protestantism within Christianity (1483 - 1546).</rdfs:comment>
+    <rdfs:label xml:lang="de">Luter</rdfs:label>
+  </scho:Person>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Stolz">
+    <rdfs:label xml:lang="de">Stolz</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >both pride and haughtiness</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Furcht">
+    <rdfs:label xml:lang="de">Furcht</rdfs:label>
+    <rdfs:comment xml:lang="en">to be afraid of something, to feel attacked by someone</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Theologie">
+    <rdfs:label xml:lang="de">Theologie</rdfs:label>
+    <rdfs:comment xml:lang="en">the study of religions, or also a sect of religious beliefs (i.d. christian theology)</rdfs:comment>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Erasmus">
+    <rdfs:comment xml:lang="en">Dutsch Renaissance humanist and theologian (1466/69-1536).</rdfs:comment>
+    <rdfs:label xml:lang="de">Erasmus</rdfs:label>
+  </scho:Person>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Wissenschaft">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >science, study according to a method based on verified experience</rdfs:comment>
+    <rdfs:label xml:lang="de">Wissenschaft</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gedachtniss">
+    <rdfs:label xml:lang="de">Gedächtniss</rdfs:label>
+    <rdfs:comment xml:lang="en">memory, repository of feelings, experience, mental images and patterns</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Egoismus">
+    <rdfs:comment xml:lang="en">selfishness, caring of oneself, is according to nietzsche a virtue, according to christian morality a sin.</rdfs:comment>
+    <rdfs:label xml:lang="de">Egoismus</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ungerechtigkeit">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >unjustice, unfairness</rdfs:comment>
+    <rdfs:label xml:lang="de">Ungerechtigkeit</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Erziehung">
+    <rdfs:comment xml:lang="en">education, both self-discipline that education given by others (teacher, and so on) or gained through experience</rdfs:comment>
+    <rdfs:label xml:lang="de">Erziehung</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Angst">
+    <rdfs:comment xml:lang="en">fear, feeling of being in danger</rdfs:comment>
+    <rdfs:label xml:lang="de">Angst</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/HistorischeSinn">
+    <rdfs:comment xml:lang="en">historical sense is the ability to feel past events as happening here and now, as having effect on the present. It comes from the active assimilation of history</rdfs:comment>
+    <rdfs:label xml:lang="de">Historische Sinn</rdfs:label>
+  </Concept>
+  <IdealType rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Genie">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >person characterised by Nietzsche as gifted by great intelligence, skill or artistic ability</rdfs:comment>
+    <rdfs:label xml:lang="de">Genie</rdfs:label>
+  </IdealType>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gesetz">
+    <rdfs:label xml:lang="de">Gesetz</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >law, both natural law and law established by men or God.</rdfs:comment>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Byron">
+    <rdfs:comment xml:lang="en">British poet and leading figure of Romanticism (1788 - 1824).</rdfs:comment>
+    <rdfs:label xml:lang="de">Byron</rdfs:label>
+  </scho:Person>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Nutzen">
+    <rdfs:comment xml:lang="en">advantage, profit, utility in an economic or moral frame</rdfs:comment>
+    <rdfs:label xml:lang="de">Nutzen</rdfs:label>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Plato">
+    <rdfs:comment xml:lang="en">Classical Greek philosopher, mathematician, writer of philosophical dialogues, and founder of the Academy in Athens (428/427-348/347 BC). He was pupil of Socrates and teacher of Aristotle.</rdfs:comment>
+    <rdfs:label xml:lang="de">Plato</rdfs:label>
+  </scho:Person>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Bach">
+    <rdfs:comment xml:lang="en">German composer and organist of the Baroque period (1685-1750).</rdfs:comment>
+    <rdfs:label xml:lang="de">Bach</rdfs:label>
+  </scho:Person>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Enttauschung">
+    <rdfs:label xml:lang="de">Enttäuschung</rdfs:label>
+    <rdfs:comment xml:lang="en">feeling of disappointment or frustration. It arises when one discovers that one's own hope or belief is not legitimate, or that things will go / are going / are gone in another way than foreseen.</rdfs:comment>
+  </Concept>
+  <scho:Person rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Goethe">
+    <rdfs:label xml:lang="de">Goethe</rdfs:label>
+    <rdfs:comment xml:lang="en">Key figure of german literature and the movement of Weimar Classicism (1749-1832).</rdfs:comment>
+  </scho:Person>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Trieb">
+    <rdfs:label xml:lang="de">Trieb</rdfs:label>
+    <rdfs:comment xml:lang="en">drive, state of physical and emotional activation, that push men and animals to act in order to fulfill a need</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Verzweifelung">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >despair, desperation, having no more hope that things can go better</rdfs:comment>
+    <rdfs:label xml:lang="de">Verzweifelung</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Misstrauen">
+    <rdfs:label xml:lang="de">Misstrauen</rdfs:label>
+    <rdfs:comment xml:lang="en">distrust, mistrust, suspicion: the feeling of not being able to trust somebody or something</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Aberglauben">
+    <rdfs:label xml:lang="de">Aberglauben</rdfs:label>
+    <rdfs:comment xml:lang="en">commonly: belief in the existence of supernatural beings. According to Nietzsche: belief in a metaphysical structure of the world</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Leidenschaft">
+    <rdfs:label xml:lang="de">Leidenschaft</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >passion, deep psychological involvment in something or with someone</rdfs:comment>
+  </Concept>
+  <Theory rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Atomenlehre">
+    <rdfs:label xml:lang="de">Atomenlehre</rdfs:label>
+    <rdfs:comment xml:lang="en">philosophical theory accordin to which all the objects in the universe are composed of very small, indestructible building blocks (atoms).</rdfs:comment>
+  </Theory>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Werth">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >value, posed by an individual or shared by a group or a community of persons</rdfs:comment>
+    <rdfs:label xml:lang="de">Werth</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Natur">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >nature, the complex of organic and unorganic being or the true essence of something or someone (i.d. the nature of man).</rdfs:comment>
+    <rdfs:label xml:lang="de">Natur</rdfs:label>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Naturwissenschaft">
+    <rdfs:label xml:lang="de">Naturwissenschaft</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >natural science. It includes chemistry, biology, anatomy and all disciplines which study natural beings.</rdfs:comment>
+  </Concept>
+  <Concept rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Geschichte">
+    <rdfs:label xml:lang="de">Geschichte</rdfs:label>
+    <rdfs:comment xml:lang="en">lat: res gestae, events happenend in the past.</rdfs:comment>
+  </Concept>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 3.4, Build 125)  http://protege.stanford.edu -->

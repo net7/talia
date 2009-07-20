@@ -1,16 +1,7 @@
 @charset "ISO-8859-1";
 
-* {
-    margin: 0;
-    padding: 0;
-    border: 0;
-}
-
 body {
-    font-size: 62.5%;
-    font-family: Arial, "Lucida Grande", Verdana, "Bitstream Vera Sans", Avenir, Helvetica, sans-serif;
     text-align: center;
-
 }
 
 
@@ -19,12 +10,6 @@ h1, h2, h3, h4, p, ul, li {
     font-size: 1em;
 }
 
-a {
-    text-decoration: none;
-}
-a[href]:hover {
-    text-decoration: underline;
-}
 #page_ext {
     width: 90%;
     margin: 0 auto;
@@ -32,7 +17,13 @@ a[href]:hover {
     position: relative;
 }
 
+div#navigate {
+    visibility: hidden;
+}
 
+div#critical_popup_header {
+    visibility: visible !important;
+}
 
 /*  ******************************************/
 /* TESTATA ***********************************/
@@ -46,40 +37,6 @@ a[href]:hover {
 
 }
 
-#header h1 {
-    display: none;
-}
-
-
-#header h2 {
-    display: none;
-} 
-
-div#logo_print {
-    display: block;
-    position: relative;
-    top: 0px;
-}
-
-/* search_box */
-#search_box {
-    display: none;
-}
-
-
-
-/* NAVIGATE **********************************/
-
-#navigate {
-    display: none;
-}
-
-
-/* SEARCH ADVANCED */
-
-div#search_adv {
-    display: none;
-}
 
 /*  ******************************************/
 /* CONTENT ***********************************/
@@ -89,18 +46,6 @@ div#search_adv {
     text-align: left;
 
 }
-
-
-
-
-/* scroll laterale ************************ */
-
-#scroll {
-    display: none;
-}
-
-
-
 
 /* *************************************** */
 /* *************************************** */
@@ -113,7 +58,9 @@ div#search_adv {
     color: #000000;
 }
 
-
+#url {
+    font-size: 80%;
+}
 
 
 #content.divided div#visore {
@@ -142,9 +89,10 @@ div#visore h2 {
     font-weight: normal;
     font-size: 1.6em;
     line-height: 2.4em;
-    border: .03cm solid #000;
+/*    border: .03cm solid #000; */
     border-left: 0;
     border-right: 0;
+		border-top: 0;
 }
 div#visore h2 span.red {
     color: #666;
@@ -158,10 +106,10 @@ div#visore.extended h1 {
 } 
 
 div#visore p{
-    font-size: 1.2em;
+/*    font-size: 1.2em;*/
     color: #000;
-    line-height: 2em;
-    padding-bottom: 20px;
+/*    line-height: 2em;*/
+/*    padding-bottom: 20px;*/
 }
 
 div#visore p.editedby {
@@ -191,7 +139,7 @@ div#visore p.about a {
 /* TXT BLOCK ******************* */
 
 div#visore div.txt_block {
-    border: 1px solid #e5e5e5;
+/*    border: 1px solid #e5e5e5;*/
     background: #fff;
     padding: 25px;
     margin: 25px 20px 0 0 ;
@@ -199,16 +147,7 @@ div#visore div.txt_block {
 
 /* tools */
 div#visore div.resultstools {
-    padding:0 15px;
-    position: absolute;
-    top: 1em;
-    right: 0;
-    color: #000;
-    width: 30em;;
-    float: right;
-    font-size: 1.2em;
-    border-left: 0;
-    border-bottom: 0;
+    visibility: hidden;
 }
 div#visore div.resultstools a {
     color: #000;
@@ -290,3 +229,4 @@ div#visore ul.results li p {
 span.match {
     font-weight: bold;
 }
+

@@ -17,3 +17,4 @@ delayed_copy*
 *~
 public/images/front_page_logo.gif
 *.db
+data/*

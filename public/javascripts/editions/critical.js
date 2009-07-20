@@ -6,19 +6,19 @@
 
 // All Page Contents Loaded
 Event.observe(window, 'load', function() {
-    // Set height of elements
-    set_height();
-
     // Call to function that handles collapsing of left side lists
     handleListCollapsing();
 });
 
 // Resize
-window.onresize = function () {
+Event.observe(window, 'resize', function () {
     // Set height of elements
     set_height ();
-}
+})
 
+document.addEventListener('DOMSubtreeModified', function(){
+    set_height ();
+}, true)
 
 
 // Functions

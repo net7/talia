@@ -326,6 +326,7 @@ module TaliaCore
         uri = N::LOCAL+label.gsub(' ', '_') if uri == N::LOCAL.to_s
         uri.to_s
       end
+      
     end
     
     # End of class methods

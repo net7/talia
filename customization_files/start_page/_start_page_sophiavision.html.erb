@@ -7,10 +7,7 @@
 <%
 # Defines the links on top of the homepage
 @title_links = [
-  [t(:"talia.start_page.about_link"), locale_uri("/documentation/index.php/LANG/home.html")],
-  [t(:"talia.start_page.comittee_link"), locale_uri("/documentation/index.php/LANG/comittee.html")],
-  [t(:"talia.start_page.devteam_link"), "http://www.talia.discovery-project.eu/"],
-  [t(:"talia.start_page.admin_link"), "/admin"]
+  [t(:"talia.start_page.about_link"), locale_uri("/documentation/index.php/LANG/home.html")]
 ]
 # Defines the languages that can be selected
 @languages = [
@@ -27,7 +24,6 @@
 <% content_for :left_box do %>
   <!-- Left content box -->
   <h2><%= t(:'talia.start_page.categories') %> </h2>
-  <p><%= t(:'talia.start_page.categories_description') %></p>
   <ul>
     <%= category_links %>
   </ul>
@@ -37,7 +33,6 @@
 <% content_for :right_box do %>
       <!-- right content box -->
   <h2><%= t(:'talia.start_page.series') %> </h2>
-  <p><%= t(:'talia.start_page.series_description')  %></p>
   <ul>
     <%= series_links %>
   </ul>

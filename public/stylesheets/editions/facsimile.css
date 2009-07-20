@@ -1,3 +1,4 @@
+
 /*  ******************************************/
 /* CONTENT ***********************************/
 /*  ******************************************/
@@ -20,19 +21,22 @@ div.blank_facs {
 /* ******************************************** */
 ul#facsimile_frontpage_access_list {
     margin: 15px 4%;
+	margin: 15px 0;
     padding: 0;
     list-style: none;
     text-align: center;
 }
 ul#facsimile_frontpage_access_list li {
-    padding: 2% 0 5% 0;
+    margin-bottom:  15px;
+    padding: 2% 0 10% 0;
     clear: both;
     background: url(/images/dot_orizz.gif) repeat-x bottom;
     /* Box Model Hack */
     width: 100%;
     voice-family: "\"}\"";
     voice-family:inherit;
-    width:96%;
+    /* width:96%; */
+	width: 100%;
     text-align: center;
 }
 ul#facsimile_frontpage_access_list li h3 {
@@ -40,16 +44,19 @@ ul#facsimile_frontpage_access_list li h3 {
     text-align: center;
     display: block;
     font-size: 1.6em;
-    margin-bottom: 5px;
+	padding: 0 15px;
 }
 ul#facsimile_frontpage_access_list li h3 a {
     color: #6a615d;
     text-align: center;
     display: block;
+    font-size:14px;
 }
 ul#facsimile_frontpage_access_list li h3 a img {
     display: block;
-    margin-left: 43px;
+    /* margin-left: 43px; */
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
 }
 

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+xmlns:xhtml="http://www.w3.org/1999/xhtml">
 <!--
 	<xsl:output method="xml" omit-xml-declaration="yes" indent="yes"/>
 -->
-	<xsl:output method="html" indent="yes"/>
+	<xsl:output method="html" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" indent="yes"/>
 	<!-- 
       
         AC = <div type="div1.aphorism"> |  <head /> | <p /> | <hi rend="bold" />  | <signed /> | <div type="div1-aphorismus" />
@@ -88,46 +89,61 @@
 		</div>
 	</xsl:template>
 
-    <xsl:template match="tei:div">
-        <div class="{@type}" id="{@xml:id}">
-            <a name="{@xml:id}" />
-            <xsl:apply-templates />
-         </div>
-    </xsl:template>
+
+
+	<!-- cut here -->
+
+	<xsl:template match="tei:div">
+		<div class="{@type}" id="{@xml:id}">
+			<a name="{@xml:id}"/>
+			<xsl:apply-templates/>
+		</div>
+		<div class="footnotes"><xsl:text> </xsl:text>
+			<xsl:call-template name="printFootNote"/>
+		</div>
+	</xsl:template>
 
 	<xsl:template match="tei:head">
-		<h4>
-		<xsl:apply-templates/>
-		</h4>
+		<div class="head{@type}">
+			<h2>
+				<xsl:apply-templates/>
+			</h2>
+		</div>
 	</xsl:template>
-
-	<xsl:template match="tei:head[@type='untertitel']">
-		<span><xsl:apply-templates/></span>
-	</xsl:template>
-
 
 	<xsl:template match="tei:head[@rend='Titel']">
-		<h1><xsl:apply-templates/></h1>
+		<h1>
+			<xsl:apply-templates/>
+		</h1>
 	</xsl:template>
 
 	<xsl:template match="tei:head[@rend='Titel_Kapitel']">
-		<h2><xsl:apply-templates/></h2>
+		<h2>
+			<xsl:apply-templates/>
+		</h2>
 	</xsl:template>
-	
-	
+
+
 	<xsl:template match="tei:head[@rend='Titel_aphorismus']">
-		<h3><xsl:apply-templates/></h3>
+		<h3>
+			<xsl:apply-templates/>
+		</h3>
 	</xsl:template>
-	
-	
+
+
 	<xsl:template match="tei:head[@type='Untertitel']">
-		<p class="Untertitel"><xsl:apply-templates/></p>
+		<p class="Untertitel">
+			<xsl:apply-templates/>
+		</p>
 	</xsl:template>
-	
+
 	<xsl:template match="tei:foreign[@xml:lang='grc']">
-		<span class="greek"><xsl:apply-templates/></span>
+		<span class="greek">
+			<xsl:apply-templates/>
+		</span>
 	</xsl:template>
-	
+
+
 
 	<xsl:template match="tei:p">
 		<div class="p">
@@ -137,32 +153,29 @@
 						<xsl:value-of select="@rend"/>
 					</xsl:attribute>
 				</xsl:if>
+				<xsl:if test="parent::tei:note and not(name( preceding-sibling::tei:*[1])='p')">
+					<span class="noteRef">
+						<xsl:value-of select="parent::tei:note/@n"/>
+					</span>
+					<xsl:text> </xsl:text>
+				</xsl:if>
 				<xsl:apply-templates/>
 			</p>
 		</div>
 	</xsl:template>
-	
-	<xsl:template match="tei:space[@dim='vertical']"><br/></xsl:template>
 
-	<xsl:template match="tei:choice">
-		<span style="position:relative">
-		<span style="background-color: #FFD700">
-			<xsl:attribute name="onMouseOver">document.getElementById('hidden<xsl:value-of select="generate-id()"/>').style.display='block'</xsl:attribute>
-			<xsl:attribute name="onMouseOut">document.getElementById('hidden<xsl:value-of select="generate-id()"/>').style.display='none'</xsl:attribute>
-			<xsl:apply-templates select="tei:corr"/>
-		</span>
-		<span class="popup">
-			<xsl:attribute name="id">hidden<xsl:value-of select="generate-id()"/></xsl:attribute>
-			<xsl:apply-templates select="tei:sic"/>
-			<xsl:if test=" string-length(tei:sic)=0">[editorial addition]</xsl:if>
-		</span>
-			</span>
+	<xsl:template match="tei:space[@dim='vertical']">
+		<br/>
 	</xsl:template>
+
+	<xsl:template match="tei:choice"><span style="position:relative"><span class="tooltip_corrige"><xsl:apply-templates select="tei:corr"/></span><span class="popup"><xsl:attribute name="id">hidden<xsl:value-of select="ancestor::tei:div/@xml:id"/><xsl:value-of select="generate-id()"/></xsl:attribute><em>Erratum:</em>   <xsl:apply-templates select="tei:sic"/><xsl:if test="string-length(tei:sic)=0">[editorial addition]</xsl:if><br/><em>lies:</em>  <xsl:apply-templates select="tei:corr"/><br/><a href="http://www.nietzschesource.org/documentation/corrections.html" target="_blank" style="font-style: italic">Nach KGW Nachberichte</a></span></span></xsl:template>
 
 	<xsl:template match="tei:hi[@rend='bold']">
 		<xsl:choose>
 			<xsl:when
-				test="not(preceding-sibling::tei:hi[@rend='bold']) and (parent::tei:p/preceding-sibling::tei:head[@type='Aphorismus'] or parent::tei:p/preceding-sibling::tei:head[@type='aphorism'])">
+				test="not(preceding-sibling::tei:hi[@rend='bold']) and
+        (parent::tei:p/preceding-sibling::tei:head[@type='Aphorismus'] or
+        parent::tei:p/preceding-sibling::tei:head[@type='aphorism'])">
 				<span class="sp_bold">
 					<xsl:apply-templates/>
 				</span>
@@ -179,7 +192,16 @@
 		<span class="bold">
 			<xsl:apply-templates/>
 		</span>
+	</xsl:template>
 
+
+	<xsl:template match="tei:hi">
+		<span>
+			<xsl:attribute name="style">
+				<xsl:value-of select="@rend"/>
+			</xsl:attribute>
+			<xsl:apply-templates/>
+		</span>
 	</xsl:template>
 
 	<xsl:template match="tei:hi[@rend='bold italic']">
@@ -194,12 +216,13 @@
 		</div>
 	</xsl:template>
 
-<!--	<xsl:template match="tei:date">
-		<div class="date">
-			<xsl:apply-templates/>
-		</div>
-	</xsl:template>
--->
+	<!--	
+    <xsl:template match="tei:date">
+    <div class="date">
+    <xsl:apply-templates/>
+    </div>
+    </xsl:template>
+  -->
 
 	<xsl:template match="tei:emph">
 		<span class="emph">
@@ -281,11 +304,20 @@
 		</span>
 	</xsl:template>
 
+
+
 	<xsl:template match="tei:table">
-		<table style="margin: 0px">
+		<table border="0">
+			<xsl:if test="@rend">
+				<xsl:attribute name="style">
+					<xsl:value-of select="@rend"/>
+				</xsl:attribute>
+			</xsl:if>
+
 			<xsl:apply-templates/>
 		</table>
 	</xsl:template>
+
 
 	<xsl:template match="tei:row">
 		<tr>
@@ -294,7 +326,12 @@
 	</xsl:template>
 
 	<xsl:template match="tei:cell">
-		<td style="vertical-align:top">
+		<td valign="top">
+			<xsl:if test="@rend">
+				<xsl:attribute name="style">
+					<xsl:value-of select="@rend"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="@cols">
 				<xsl:attribute name="colspan">
 					<xsl:value-of select="@cols"/>
@@ -308,12 +345,61 @@
 			<xsl:apply-templates/>
 		</td>
 	</xsl:template>
-	
-    <xsl:template match="tei:figure[@rend='horizontal-line']">
-        <hr class='hline-thin'/>
-    </xsl:template>
-	
 	<!-- <xsl:template match="*" /> -->
 
 
+	<xsl:template name="printFootNote">
+		<xsl:for-each select="//tei:note">
+			<div class="note">
+				<xsl:if test="not(tei:p)">
+					<span class="noteRef">
+						<xsl:value-of select="@n"/>
+					</span>
+					<xsl:text> </xsl:text>
+				</xsl:if>
+				<xsl:apply-templates/>
+			</div>
+
+		</xsl:for-each>
+	</xsl:template>
+
+	<xsl:template match="tei:note">
+		<xsl:value-of select="@n"/>
+	</xsl:template>
+
+	<xsl:template match="tei:figure">
+		<div class="image">
+			<img>
+				<xsl:attribute name="src">
+					<xsl:value-of select="tei:graphic/@url"/>
+				</xsl:attribute>
+
+				<xsl:attribute name="height">
+					<xsl:value-of select="tei:graphic/@height"/>
+				</xsl:attribute>
+
+				<xsl:attribute name="width">
+					<xsl:value-of select="tei:graphic/@width"/>
+				</xsl:attribute>
+			</img>
+		</div>
+	</xsl:template>
+
+	<xsl:template match="tei:figure[@rend='horizontal-line']">
+		<hr class="hline-thin"/>
+	</xsl:template>
+
+	<xsl:template match="tei:g">
+		<span>
+			<xsl:attribute name="style">
+				<xsl:value-of select="@rend"/>
+			</xsl:attribute>
+			<xsl:apply-templates/>
+		</span>
+	</xsl:template>
+
+	<xsl:template match="xhtml:*">
+		<xsl:copy-of select="."/>
+	</xsl:template>
 </xsl:stylesheet>
+

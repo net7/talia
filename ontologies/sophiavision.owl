@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns="http://discovery-project.eu/ontologies/sophiavision/"
+    xmlns:scho="http://discovery-project.eu/ontologies/scholar/0.1/"
+  xml:base="http://discovery-project.eu/ontologies/sophiavision/">
+  <owl:Ontology rdf:about="">
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    ></owl:versionInfo>
+    <owl:imports rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/"/>
+  </owl:Ontology>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/sophiavision/EpisodeSet">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >is a radio or tv programme broadcasted as series</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/sophiavision/Transcription">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >is the entire transcripted text of every multimedia contents (audio and video)</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/sophiavision/Audio">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >is a multimedia source provided only with audio stream. E.g. a part of a radio programme.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/sophiavision/Multimedia"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/sophiavision/Video">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >is a multimedia source provided with audio and video streams. E.g. a part of a television programme</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/sophiavision/Multimedia"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/sophiavision/Multimedia">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >is a source in a multimedia format</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/sophiavision/QuotedPerson">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >is a person quoted in a source</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/sophiavision/QuotedWork">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Source"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >is a work, mostly a philosophical one,  quoted in a source</rdfs:comment>
+  </rdfs:Class>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/sophiavision/hasLenght">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/sophiavision/Multimedia"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#time"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/sophiavision/quotesWork">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/sophiavision/Transcription"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/sophiavision/QuotedWork"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/hasSubject"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/sophiavision/hasFrameSize">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/sophiavision/Video"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/sophiavision/belongsTo">
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/sophiavision/EpisodeSet"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/sophiavision/hasKeyword">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/sophiavision/Transcription"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/sophiavision/isTranscriptionOf">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/sophiavision/Transcription"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/sophiavision/quotesPerson">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/sophiavision/Transcription"/>
+    <rdfs:subPropertyOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/hasSubject"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/sophiavision/QuotedPerson"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/sophiavision/hasSummary">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/sophiavision/Transcription"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/sophiavision/hasTitle">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/sophiavision/QuotedWork"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/sophiavision/hasTranscription">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/sophiavision/Multimedia"/>
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/sophiavision/Transcription"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/sophiavision/hasBitRate">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/sophiavision/Multimedia"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/sophiavision/hasEncodingFormat">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/sophiavision/Multimedia"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/sophiavision/hasEpisodeTitle">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/sophiavision/Transcription"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 3.4, Build 125)  http://protege.stanford.edu -->

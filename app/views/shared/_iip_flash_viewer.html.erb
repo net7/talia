@@ -1,12 +1,20 @@
+<% unless(front_image) %>
 <script>
     <!--
     
-    /* AS THE PAGE IS LOADED, WE LOAD THE IIP FLASH VIEWER */
-    Event.observe(window, 'load', function() {
+    /* AS THE PAGE IS LOADED, WE LOAD THE IIP FLASH VIEWER (no front image exists) */
+    document.observe('dom:loaded', function() {
       load_iip_flashclient("<%= TaliaCore::DataTypes::IipData.iip_server_uri %>",
     "<%= image_path %>", "<%= height %>", "<%= width %>", "<%= element_id %>");
     });
    
     -->
 </script>
-<div id="<%= element_id %>" class="<%= div_class  %>"></div>
+<% end %>
+
+<div id="<%= element_id %>" class="<%= div_class  %>">
+	<% if(front_image) %>
+	<!-- Ugly hacky-ti-hack, as requested. Don't do this at home, kids. -->
+	<%= image_tag(front_image, :class => "front_image", :onclick => "load_iip_flashclient('#{TaliaCore::DataTypes::IipData.iip_server_uri}', '#{image_path}', '#{height}', '#{width}', '#{element_id}');") %>
+	<% end %>
+</div>

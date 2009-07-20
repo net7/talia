@@ -1,12 +1,225 @@
-/* TEI styles */
-div.tei div.text  { font-family: Verdana, Helvetica,Arial, Sans-serif; font-size:medium; text-align: justify; line-height: 150%  }
-div.tei div.edition-text  { font-family: Verdana,Arial,Helvetica, Sans-serif; font-size:medium; text-align: justify; line-height: 150%  }
-div.tei h2 { font-size: large; }
+/* @group titles */
 
-div.tei span.bold { font-weight: bold;}
-div.tei span.sp_bold { font-weight: bold; letter-spacing:3pt}
-div.tei span.emph { font-style: italic; }
-div.tei ul li { list-style-type: none}
+div#content div#visore div.txt_block h1 { color: #000; text-align: center;
+	vertical-align: middle;
+	font: 500 24px Georgia, "Times New Roman", Times, serif;
+	margin: 30px 100px;
+}
 
-a.result_title {}
-span.result_title_print {}
+div#content div#visore div.txt_block p.Untertitel { text-align: center;
+	margin-bottom: 30px;
+	text-indent: 0;
+	margin-right: 100px;
+	margin-left: 100px;
+	font: 18px Georgia, "Times New Roman", Times, serif;
+}
+
+div#content div#visore div.txt_block h2 { color: #000; text-align: center;
+	margin: 30px 100px 40px;
+	font: 500 16px Georgia, "Times New Roman", Times, serif;
+}
+
+div#content div#visore div.txt_block h3 { color: black; text-align: center;
+	font: bold 12px Georgia, "Times New Roman", Times, serif;
+	margin: 20px 90px;
+}
+
+div#content div#visore div.txt_block h4 { color: black; text-align: left;
+	font: bold 12px Georgia, "Times New Roman", Times, serif;
+	margin: 20px 90px 10px;
+}
+
+div#content div#visore div.txt_block p.Gruppe { text-align: center;
+	text-indent: 0;
+	color: #000;
+	font: 14px Georgia, "Times New Roman", Times, serif;
+	margin: 20px 90px;
+}
+
+ 
+
+/* @end */
+
+/* @group text */
+
+div#content div#visore div.txt_block p { text-align: justify; color: black;
+	text-indent: 25px;
+	vertical-align: 100pt;
+	font: 12px/160% Georgia, "Times New Roman", Times, serif;
+	margin: 0 90px 0px;
+}
+
+/* p // base text: first line indented, justify */
+
+div#content div#visore div.txt_block p.Text_Linksbündig {text-indent: 0px;
+}
+
+/* no-indent // first line non indented */
+
+div#content div#visore div.txt_block p.left {text-align: left;
+	text-indent: 0;
+	line-height: 140%;
+}
+
+/* left // non indented, left align */
+
+div#content div#visore div.txt_block p.Rechtsbündig {text-align: right;
+	text-indent: 0;
+}
+
+/* right // non indented, right align */
+
+div#content div#visore div.txt_block p.Zentriert {text-align: center;
+	text-indent: 0;
+	margin-top: 16px;
+	margin-bottom: 14px;
+}
+
+/* center //  */
+
+div#content div#visore div.txt_block blockquote {line-height: 140%; font-size: 10px;
+	text-align: justify;
+	margin: 5px 90px 5px 115px;
+}
+
+div#content div#visore div.txt_block p.Motto {text-align: justify;
+	text-indent: 0;
+	line-height: 140%;
+	font-size: 10px;
+	margin: 20px 90px 20px 700px;
+}
+
+/* motto // smaller, right indented */
+
+div#content div#visore div.txt_block p.TextKlein {line-height: 140%; font-size: 10px;}
+
+/* small // smaller font */
+
+div#content div#visore div.txt_block .note {line-height: 140%; font-size: 10px;
+	color: black;
+	text-align: justify;
+}
+
+div#content div#visore div.txt_block br {
+	line-height: 16px;
+}
+
+div#content div#visore div.txt_block div.text  { font-family: "Lucida Grande", Lucida, Verdana, sans-serif; font-size:medium; text-align: justify; line-height: 150%;
+	color: #000;
+}
+
+div#content div#visore div.txt_block div.edition-text  { font-family: Verdana,Arial,Helvetica, Sans-serif; font-size:medium; text-align: justify; line-height: 150%;
+	color: #000;
+}
+
+/* @end */
+
+/* @group emphasize */
+
+div#content div#visore div.txt_block span.bold { letter-spacing:3pt;
+}
+
+div#content div#visore div.txt_block span.bolditalic {font-weight: bold;
+}
+
+div#content div#visore div.txt_block span.emph { font-style: italic;
+}
+
+div#content div#visore div.txt_block span.greek {color: black;
+}
+
+div#content div#visore div.txt_block span.sp_bold { letter-spacing:3pt;
+	text-decoration: underline;
+
+}
+
+/* span.sp bold: probably to be deleted */
+
+
+
+/* @end */
+
+/* @group verses and list */
+
+div#content div#visore div.txt_block .l {text-align: left; color: #000;
+	text-indent: -90px;
+	margin-left: 240px;
+	font: 10pt/150% Georgia, "Times New Roman", Times, serif;
+	margin-right: 90px;
+}
+
+div#content div#visore div.txt_block .lg {text-align: left; color: #000;
+	font: 10pt/150% Georgia, "Times New Roman", Times, serif;
+	margin: 20px 90px;
+}
+
+div#content div#visore div.txt_block p.Aufzählungen {margin-left: 135px; text-indent: -20px;
+	margin-right: 90px;
+}
+
+div#content div#visore div.txt_block p.Embedded_List_I {margin-left: 165px; text-indent: -20px;
+	margin-right: 90px;
+}
+div#content div#visore div.txt_block p.Embedded_List_II {margin-left: 195px; text-indent: -20px;
+	margin-right: 90px;
+}
+div#content div#visore div.txt_block p.Embedded_List_III {margin-left: 225px; text-indent: -20px;
+	margin-right: 90px;
+}
+
+div#content div#visore div.txt_block ul li { list-style-type: none;
+}
+
+div#content div#visore div.txt_block p.Text_indented {margin-left: 135px;
+	text-indent: 0;
+	margin-right: 90px;
+}
+
+div#content div#visore div.txt_block p.indented {margin-left: 135px;
+	text-indent: 25px;
+	margin-right: 90px;
+}
+
+/* @end */
+
+/* @group varia */
+
+div#content div#visore div.txt_block hr.hline-thin {font-family: "Lucida Grande", Lucida, Verdana, sans-serif; 
+	border-top-style: solid;
+	border-top-width: 1px;
+	width: 60px;
+	margin: auto 90px;
+	height: 40px;
+}
+
+div#content div#visore div.txt_block img { display: block;
+	padding: 6px;
+	border: thin solid #966635;
+	margin: 12px 90px;
+}
+
+div#content div#visore div.txt_block td { padding: 6px;
+	    border-style: none;
+	    border-width: thin;
+}
+
+/* @end */
+
+.result_title_print {
+	font: bold 12px/160% Georgia, "Times New Roman", Times, serif;
+	margin-top: 6px;
+	margin-bottom: 0;
+}
+
+li {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+ul {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+
+

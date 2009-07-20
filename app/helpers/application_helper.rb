@@ -4,19 +4,39 @@ require 'uri'
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   
-  
-  def iip_flash_viewer(facsimile, height = 400, width = 400, klass='iipviewer')
+  # You may pass :single, :left or :right to the facsimile to fetch the
+  # objects from the standard environment variables. Otherwise the facsimile param
+  # will be treated as the object to use
+  def iip_flash_viewer(facsimile, height = 400, width = 400, klass='iipviewer', on_page = nil)
+    case(facsimile)
+    when :single, :left:
+      on_page = @page
+      facsimile = @page_facsimile
+    when :right:
+      on_page = @page2
+      facsimile = @page2_facsimile
+    end
+    
     if(facsimile.blank)
       render :partial => 'shared/facsimile_blank', :locals => { :div_class => klass }
     else
       iip_data = get_iip_data_for_facs(facsimile)
       return "No iip data for #{facsimile.uri}" unless(iip_data)
+      
+      front_image = nil
+      
+      # Helping the ugly "front image" hack - this should never exist in the first place
+      unless(on_page && (front_path = TaliaCore::CONFIG['page_front_image']).blank?)
+        front_image = on_page.uri.to_s.gsub(/http.*facsimiles\/([^\/]*)\/([^,]*),([^,]*)/, "#{front_path}/\\1/\\2/\\2,\\3")
+      end
+      
       render :partial => 'shared/iip_flash_viewer', :locals => {
         :image_path => iip_data.get_iip_root_file_path,
         :height => height.to_s,
         :width => width.to_s,
         :element_id => "iip_viewer_#{rand 10E16}", # Random name so that multiple instances can be used
-        :div_class => klass
+        :div_class => klass,
+        :front_image => front_image # see above
       }
     end
   end
@@ -32,8 +52,10 @@ module ApplicationHelper
     text = t(:"talia.global.editors introduction")
 
     force_mode = TaliaCore::CONFIG['force_introduction'] || ''
-    force_mode.downcase
+    force_mode.downcase if(force_mode.is_a?(String))
     local_name = case(force_mode)
+    when Hash:
+        force_mode[@edition.uri.local_name] || @edition.uri.local_name
     when '':
         @edition.uri.local_name
     when 'per_work':
@@ -164,12 +186,12 @@ module ApplicationHelper
     
     # Try to get the iip data record for the manifestation of the element
     iip_data = get_iip_data_for_card(data_element)
-    return titled_link(url, empty_thumb(:alt => title), title) unless(iip_data)
+    return titled_link(url, empty_thumb(:alt => title)) unless(iip_data)
 
     img_options = { :alt => title }.merge(img_options)
     img_tag = talia_image_tag(iip_data, img_options)
 
-    titled_link(url, img_tag, title)
+    titled_link(url, img_tag)
   end
   
   def talia_image_tag(image, options = {})

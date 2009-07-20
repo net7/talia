@@ -350,5 +350,30 @@ class TaskHelper
     def root_path
       File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
     end
+
+    def each_row_from_csv
+      ENV['nick'] = 'default'
+      ENV['name'] = 'default'
+      encoding = ENV['encoding'] || 'MAC'
+      ic = Iconv.new('UTF-8', encoding)
+      input = File.open(ENV['csvfile']) { |io| ic.iconv(io.read) }
+      CSV::Reader.parse(input, ';', "\r") do |row|
+        yield row
+      end
+    end
+    
+    def handle_exception(message)
+      begin
+        yield
+      rescue Exception => exception
+        puts "#{message}: #{exception.message}"
+        if(Rake.application.options.trace)
+          puts exception.backtrace
+        else
+          puts "(See full trace by running task with --trace)"
+        end
+      end
+    end
+    
   end
 end

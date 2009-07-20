@@ -17,8 +17,7 @@
           <% title = t(:"talia.types.#{type.local_name.underscore}") %>
           <%= titled_link("#{params[:id]}/#{type.local_name}",
             image_tag("facsimile_edition/ico_#{type.local_name}.jpg",
-              :alt => "link to #{title} section",
-              :border => '0') + title, title) %>
+              :border => '0') + title) %> 
         </h3>
       </li>
     <% end %>

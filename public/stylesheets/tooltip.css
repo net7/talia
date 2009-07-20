@@ -1,4 +1,4 @@
-div#content div#visore div.txt_block span.popup {display: none;
+span.popup {display: none; 
     	position: absolute;
     	top: 2em;
     	left: 0;
@@ -12,6 +12,13 @@ div#content div#visore div.txt_block span.popup {display: none;
 /*    	background-color: #ffe;*/
      	text-align: left;
 }
+
+span.tooltip_corrige, span.tooltip_corrige * {
+  background-color: rgb(233, 219, 177);
+  cursor: pointer;
+  position: relative;
+}
+
 
 div.tooltip_table div.table-row{
   margin-top: 0; margin-right: auto; margin-bottom: 0; margin-left: auto;

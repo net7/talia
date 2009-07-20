@@ -2,7 +2,7 @@ class CriticalEditionsController < SimpleEditionController
   set_edition_type :critical
   add_javascripts 'tooltip', 'wit-js'
 
-  layout 'simple_edition', :except => [:advanced_search_popup, :advanced_search_print]
+  layout 'simple_edition', :except => [:advanced_search_popup]
   caches_action :show, :dispatcher, :locale => :current_locale
 
   ADVANCED_SEARCH_RESULTS_PER_PAGE = 20
@@ -36,7 +36,8 @@ class CriticalEditionsController < SimpleEditionController
     else
       @book = source.book
     end
-    render :layout => false    
+    @header = :"talia.search.print.#{@edition.uri.local_name}.header"
+    render :layout => 'critical_print'    
   end
   
   def advanced_search
@@ -65,7 +66,7 @@ class CriticalEditionsController < SimpleEditionController
       else
         @limit = ADVANCED_SEARCH_RESULTS_PER_PAGE
       end
-      @result = adv_src.search(edition_prefix, params[:id], params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to], params[:mc_single], true, page, @limit)
+      @result = adv_src.search(edition_prefix, @edition.uri.to_s, params[:id], params[:words], params[:operator], params[:mc], params[:mc_from], params[:mc_to], params[:mc_single], true, page, @limit)
 
       @result_count = adv_src.size
 
@@ -77,6 +78,7 @@ class CriticalEditionsController < SimpleEditionController
       end
       
       @searched_works = []
+      # load information from advanced search widget rows
       unless params[:mc].nil?
         [params[:mc], params[:mc_from], params[:mc_to]].transpose.each do |work,from,to|
           work_item = TaliaCore::Source.find(work)
@@ -89,8 +91,17 @@ class CriticalEditionsController < SimpleEditionController
         end
       end
 
+      # load information from left side menu
+      unless params[:mc_single].nil? || params[:mc_single] == ""
+        @searched_works = []
+        single_work = TaliaCore::Source.find(params[:mc_single])
+        @searched_works << {:single_work => single_work.title,
+          :type => single_work.type
+        }
+      end
+
       # get result for menu
-      @exist_result = adv_src.menu_for_search(params[:words], params[:operator], @edition.uri.to_s, params[:mc_from], params[:mc_to])
+      @exist_result = adv_src.menu_for_search(@edition.uri.to_s, params[:words], params[:operator], params[:mc], params[:mc_from], params[:mc_to])
 
       # search word
       @words = params[:words]
@@ -114,15 +125,15 @@ class CriticalEditionsController < SimpleEditionController
   end
 
   def advanced_search_popup
-
-    set_custom_stylesheet ['TEI/p4/tei_style_print.css']
-
+    @header = :"talia.search.print.#{@edition.uri.local_name}.advanced_search_header"
+    set_custom_stylesheet ['TEI/p4/tei_style_print.css', ['editions/advanced_search_print_print', 'print']]
   end
   
   def advanced_search_print
     @path = []
-    @edition_nick = params[:id]
-
+    @header = :"talia.search.print.#{@edition.uri.local_name}.advanced_search_header"
+    set_custom_stylesheet [['editions/advanced_search_print_video', 'screen'], ['editions/advanced_search_print_print', 'print']]
+    render :layout => 'critical_print'
   end
 
   private

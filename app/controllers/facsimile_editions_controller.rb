@@ -36,10 +36,16 @@ class FacsimileEditionsController < SimpleEditionController
     @type = params[:type]
     @subtype = params[:subtype]
     @page_title_suff = ", #{t_type.titleize}"
+    
     @path = [
-      {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"},
-      {:text => t_type.capitalize}
+      {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"}
     ]
+    if(@subtype)
+      @path << { :text => t_type, :link => link_for_type }
+      @path << { :text => t_subtype }
+    else
+      @path << { :text => t_type }
+    end
   end
   
   # GET /facsimile_editions/1/1
@@ -52,9 +58,11 @@ class FacsimileEditionsController < SimpleEditionController
       format.html do
         @book = TaliaCore::Book.find(URI::decode(request.url))
         @type = @book.material_type.local_name
+        @subtype = @book.material_subtype.local_name
         @path = [
           {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"},
-          {:text => t_type, :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@type}"},
+          {:text => t_type, :link => link_for_type},
+          {:text => t_subtype, :link => link_for_subtype},
           {:text => params[:book] }
         ]
         pdf_tool(@book)
@@ -77,14 +85,10 @@ class FacsimileEditionsController < SimpleEditionController
     @page = TaliaCore::Page.find(page)
     @page2 = TaliaCore::Page.find(page2)
 
-    @page_facsimile = facsimile_for(@page)
+    setup_vars_for_pages!
+
     @page2_facsimile = facsimile_for(@page2)
-    qry = Query.new(TaliaCore::Book).select(:b).distinct
-    qry.where(@page, N::DCT.isPartOf, :b)
-    result=qry.execute
-    @book = result[0]
-    @type = @book.material_type.local_name
-    @path = page_path
+    
     @page_title_suff = ", #{params[:page]}"
     @page_title_suff += "- #{params[:page2]}"
     render :action=> 'page'
@@ -101,14 +105,9 @@ class FacsimileEditionsController < SimpleEditionController
         @page = TaliaCore::Page.find(URI::decode(request.url))
         download_tool(@page)
         # Cache the facsimile
-        @page_facsimile = facsimile_for(@page)
 
-        qry = Query.new(TaliaCore::Book).select(:b).distinct
-        qry.where(@page, N::DCT.isPartOf, :b)
-        result=qry.execute
-        @book = result[0]
-        @type = @book.material_type.local_name
-        @path = page_path
+        setup_vars_for_pages!
+        
         @page_title_suff = ", #{params[:page]}"
       end
       format.jpeg do
@@ -121,8 +120,9 @@ class FacsimileEditionsController < SimpleEditionController
   end
   
   def search
-    searched_book = sanitize(params[:book]) unless params[:book].empty?
-    searched_page = sanitize(params[:page]) unless params[:page].empty?
+    sanitizer = HTML::FullSanitizer.new
+    searched_book = sanitizer.sanitize(params[:book]) unless params[:book].empty?
+    searched_page = sanitizer.sanitize(params[:page]) unless params[:page].empty?
     search_result = @edition.search(searched_book, searched_page)
     redirect_to search_result[0].uri.to_s and return unless (search_result.empty?)
     flash[:search_notice] = t(:'talia.search.records_not_found')
@@ -131,8 +131,31 @@ class FacsimileEditionsController < SimpleEditionController
   
   private
   
+  def setup_vars_for_pages!
+    qry = Query.new(TaliaCore::Book).select(:b).distinct
+    qry.where(@page, N::DCT.isPartOf, :b)
+    result=qry.execute
+    @book = result[0]
+    @type = @book.material_type.local_name
+    @subtype = @book.material_subtype.local_name
+    @path = page_path
+    @page_facsimile = facsimile_for(@page)
+  end
+  
   def t_type
     t(:"talia.types.#{@type.underscore}")
+  end
+  
+  def t_subtype
+    t(:"talia.types.#{@subtype}")
+  end
+  
+  def link_for_type
+    "#{N::LOCAL}#{edition_prefix}/#{params[:id]}/#{@type}"
+  end
+  
+  def link_for_subtype
+    link_for_type + "/#{@subtype}"
   end
   
   # Activates the print button
@@ -168,7 +191,8 @@ class FacsimileEditionsController < SimpleEditionController
   def page_path
     path =[
       {:text => params[:id], :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}"},
-      {:text => t_type, :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@type}"},
+      {:text => t_type, :link => link_for_type},
+      {:text => t_subtype, :link => link_for_subtype},
       {:text => (@book.siglum || @book.uri.local_name), :link => "#{N::LOCAL}#{edition_prefix}" + "/#{params[:id]}/#{@book.uri.local_name}"}
     ]
     text = params[:page]

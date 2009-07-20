@@ -1,6 +1,12 @@
 /* ******************************************** */
 /* CONTAINER OF THE EDITION FRONT PAGE */
 /* ******************************************** */
+
+/* Settare l'altezza qui */
+div#visore div#frontpage_container div.frontpage {
+ 	height: 350px;
+}
+
 div#visore div#frontpage_container {
     padding: 20px;
 }
@@ -10,8 +16,9 @@ div#visore div#frontpage_container div.frontpage {
     text-align: center;
     width: 400px;
     background-color: #FFF;
-    padding: 95px 30px 70px 30px;
+    padding: 100px 30px 70px 30px;
     border: 1px solid #e0e0e0;
+	position: relative;
 }
 
 div#visore div#frontpage_container div.frontpage p.author{
@@ -36,30 +43,41 @@ div#visore div#frontpage_container div.frontpage p.description{
     margin-bottom: 100px;
 }
 
+/* Bottom */
 div#visore div#frontpage_container div.frontpage p.logo{
-    display: block;
-    width: 198px;
+    position: absolute;
+	display: block;
+	width: 400px;
     height: 52px;
     background: url(/images/front_page_logo.gif) center center no-repeat;
-    text-indent: -9999px;
+	text-indent: -9999px;
     margin: 0 auto;
     padding: 0;
+	bottom: 65px;
 }
-
 div#visore div#frontpage_container div.frontpage p.link{
+	position: absolute;
+	width: 400px;
     font-family: Georgia, "Times New Roman", Times, serif;
     font-size: 14px;
     line-height: 18px;
     color: #6b5349;
     font-weight: normal;
-    margin: 0; padding: 0;
+    margin: 0 auto;
+	padding: 0;
+	bottom: 40px;
 }
-
 div#visore div#frontpage_container div.frontpage p.year{
+	position: absolute;
+	display: block;
+	width: 400px;
+	text-align: center;
     font-family: Georgia, "Times New Roman", Times, serif;
     font-size: 14px;
     line-height: 18px;
     color: #666666;
     font-weight: normal;
-    margin: 0; padding: 0;
+    margin: 0 auto;
+	padding: 0;
+	bottom: 20px;
 }

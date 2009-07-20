@@ -44,13 +44,22 @@
         <div id="contenuti">
           <div class="floatClear"></div>
           <div id="contenutoDoppio_ext">
-            <div id="contenutoDoppio_int"> <div id="contenutoSinistra">
-                <%= yield :left_box %>
-              </div>
-              <div id="contenutoDestra">
-                <%= yield :right_box %>
-              </div>
+<% if content_for?(:right_box)%>
+            <div id="contenutoDoppio_int">
+              	<div id="contenutoSinistra">
+	            	<%= yield :left_box %>
+				</div>
+				<div id="contenutoDestra">
+	             	<%= yield :right_box %>
+	             </div>
             </div>
+<% else %>
+			<div id="contenutoSingolo_int">
+				<div id="contenutoSingolo">
+					<%= yield :left_box %>
+				</div>
+			</div>
+<% end %>
           </div>
           <div class="floatClear"></div>
         </div>
