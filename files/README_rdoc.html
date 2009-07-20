@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README.rdoc</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README.rdoc</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>README.rdoc
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Mon May 18 11:59:00 +0200 2009</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1><a href="../classes/TaliaCore.html">TaliaCore</a></h1>
+<p>
+This is the &quot;core&quot; of the Talia semantic digital web library
+system. Talia can be used with Ruby on Rails, or as a standalone package.
+</p>
+<p>
+More documentation can be found on the Talia website: <a
+href="http:///trac.talia.discovery-project.eu">trac.talia.discovery-project.eu</a>/
+</p>
+<h1>Installation</h1>
+<p>
+If you have the Talia files on your sytem, you&#8216;re almost there. For
+now, please consult the web page for installation instructions.
+</p>
+<h1>Configuration</h1>
+<p>
+When you&#8216;re in Rails, you can start Talia in the environment.rb,
+using the TaliaCore::Initializer - if you&#8216;re building a standalone
+application, it&#8216;s almost the same (although you&#8216;ll have to use
+standalone_db=yes to configure ActiveRecord manually)
+</p>
+<p>
+There are some sample configuration files in the distribution:
+</p>
+<ul>
+<li>talia_core.yml - This file contains the main configuration.
+
+</li>
+<li>database.yml - Standalon Db configuration. Same format as for Rails.
+
+</li>
+<li>rdfstore.yml - RDF storage configuration.
+
+</li>
+</ul>
+<p>
+The default configuration (talia_core.yml) will use the database.yml and
+rdfstore.yml to configure the data storage. See the example filme for an
+explanation of the options. The database configuration will only be used if
+you are running Talia standalone; otherwise you must use RAILS&#8217;
+existing database connection.
+</p>
+<p>
+The options for the RDF store vary depending on the store that you have
+selected, but some examples are provideed.
+</p>
+<h1>DB Migrations</h1>
+<h1>Importing data</h1>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

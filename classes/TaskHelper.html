@@ -1,0 +1,1106 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: TaskHelper</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">TaskHelper</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/lib/tasks/task_helpers_rb.html">
+                lib/tasks/task_helpers.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000048">category_for</a>&nbsp;&nbsp;
+      <a href="#M000035">clone_hyper_editions</a>&nbsp;&nbsp;
+      <a href="#M000050">contributions</a>&nbsp;&nbsp;
+      <a href="#M000034">count_color_facsimiles_in</a>&nbsp;&nbsp;
+      <a href="#M000039">count_notes_in</a>&nbsp;&nbsp;
+      <a href="#M000040">count_pages_in</a>&nbsp;&nbsp;
+      <a href="#M000032">create_edition</a>&nbsp;&nbsp;
+      <a href="#M000053">create_facsimile_pdf</a>&nbsp;&nbsp;
+      <a href="#M000049">create_or_find</a>&nbsp;&nbsp;
+      <a href="#M000030">default_book_query</a>&nbsp;&nbsp;
+      <a href="#M000056">each_row_from_csv</a>&nbsp;&nbsp;
+      <a href="#M000033">edition_config</a>&nbsp;&nbsp;
+      <a href="#M000057">handle_exception</a>&nbsp;&nbsp;
+      <a href="#M000038">handle_paragraph_for</a>&nbsp;&nbsp;
+      <a href="#M000052">iconv_for</a>&nbsp;&nbsp;
+      <a href="#M000046">keywords_from</a>&nbsp;&nbsp;
+      <a href="#M000051">language_for</a>&nbsp;&nbsp;
+      <a href="#M000043">load_consts</a>&nbsp;&nbsp;
+      <a href="#M000031">manifestations_query_for</a>&nbsp;&nbsp;
+      <a href="#M000044">media_from_row</a>&nbsp;&nbsp;
+      <a href="#M000042">process_books</a>&nbsp;&nbsp;
+      <a href="#M000041">quick_add_property</a>&nbsp;&nbsp;
+      <a href="#M000055">root_path</a>&nbsp;&nbsp;
+      <a href="#M000047">series_for</a>&nbsp;&nbsp;
+      <a href="#M000036">setup_edition_style</a>&nbsp;&nbsp;
+      <a href="#M000037">setup_header_images</a>&nbsp;&nbsp;
+      <a href="#M000045">thumbnail_for</a>&nbsp;&nbsp;
+      <a href="#M000054">write_facs_pdf</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000048" class="method-detail">
+        <a name="M000048"></a>
+
+        <div class="method-heading">
+          <a href="#M000048" class="method-signature">
+          <span class="method-name">category_for</span><span class="method-args">(name)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates or get a category for the given name
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000048-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000048-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 275</span>
+275:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">category_for</span>(<span class="ruby-identifier">name</span>)
+276:       <span class="ruby-identifier">create_or_find</span>(<span class="ruby-identifier">name</span>, <span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">Category</span>, <span class="ruby-value str">'categories'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cat</span><span class="ruby-operator">|</span>
+277:         <span class="ruby-identifier">cat</span>.<span class="ruby-identifier">name</span> = <span class="ruby-identifier">name</span>
+278:       <span class="ruby-keyword kw">end</span>
+279:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000035" class="method-detail">
+        <a name="M000035"></a>
+
+        <div class="method-heading">
+          <a href="#M000035" class="method-signature">
+          <span class="method-name">clone_hyper_editions</span><span class="method-args">(original, destination)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Clones the HyperEditions from the original to the target element. This
+makes HyperEditions that are manifestations of the original also
+manifestations of the target.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000035-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000035-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 83</span>
+83:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">clone_hyper_editions</span>(<span class="ruby-identifier">original</span>, <span class="ruby-identifier">destination</span>)
+84:       <span class="ruby-comment cmt"># Find all HyperEditions that exist on the original paragraph</span>
+85:       <span class="ruby-identifier">ed_qry</span> = <span class="ruby-identifier">manifestations_query_for</span>(<span class="ruby-identifier">original</span>)
+86:       <span class="ruby-identifier">ed_qry</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:manifestation</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">RDF</span>.<span class="ruby-identifier">type</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-constant">HyperEdition</span>)
+87:       <span class="ruby-comment cmt"># Add the editions to the new paragraph</span>
+88:       <span class="ruby-identifier">ed_qry</span>.<span class="ruby-identifier">execute</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">edition</span><span class="ruby-operator">|</span>
+89:         <span class="ruby-identifier">quick_add_property</span>(<span class="ruby-identifier">edition</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-identifier">manifestation_of</span>, <span class="ruby-identifier">destination</span>)
+90:       <span class="ruby-keyword kw">end</span>
+91:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000050" class="method-detail">
+        <a name="M000050"></a>
+
+        <div class="method-heading">
+          <a href="#M000050" class="method-signature">
+          <span class="method-name">contributions</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Get all <a href="TaskHelper.html#M000050">contributions</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000050-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000050-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 296</span>
+296:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">contributions</span>
+297:       <span class="ruby-identifier">qry</span> = <span class="ruby-constant">Query</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">Source</span>).<span class="ruby-identifier">select</span>(<span class="ruby-identifier">:contribution</span>).<span class="ruby-identifier">distinct</span>
+298:       <span class="ruby-identifier">qry</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:contribution</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">RDF</span>.<span class="ruby-identifier">type</span>, <span class="ruby-identifier">:t</span>)
+299:       <span class="ruby-identifier">qry</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:t</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">RDFS</span>.<span class="ruby-identifier">subClassOf</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-constant">Contribution</span>)
+300:     
+301:       <span class="ruby-identifier">qry</span>.<span class="ruby-identifier">execute</span>
+302:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000034" class="method-detail">
+        <a name="M000034"></a>
+
+        <div class="method-heading">
+          <a href="#M000034" class="method-signature">
+          <span class="method-name">count_color_facsimiles_in</span><span class="method-args">(catalog)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Count the number of color facsimiles in the given catalog
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000034-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000034-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 69</span>
+69:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">count_color_facsimiles_in</span>(<span class="ruby-identifier">catalog</span>)
+70:       <span class="ruby-identifier">facs_q</span> = <span class="ruby-constant">Query</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">URI</span>).<span class="ruby-identifier">select</span>(<span class="ruby-identifier">:facsimile</span>).<span class="ruby-identifier">distinct</span>
+71:       <span class="ruby-identifier">facs_q</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:facsimile</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">RDF</span>.<span class="ruby-identifier">type</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-constant">Facsimile</span>)
+72:       <span class="ruby-identifier">facs_q</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:facsimile</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">RDF</span>.<span class="ruby-identifier">type</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-constant">Color</span>)
+73:       <span class="ruby-identifier">facs_q</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:facsimile</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-identifier">manifestation_of</span>, <span class="ruby-identifier">:page</span>)
+74:       <span class="ruby-identifier">facs_q</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:page</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">DCT</span>.<span class="ruby-identifier">isPartOf</span>, <span class="ruby-identifier">:book</span>)
+75:       <span class="ruby-identifier">facs_q</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:book</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-identifier">in_catalog</span>, <span class="ruby-identifier">catalog</span>)
+76:       
+77:       <span class="ruby-identifier">facs_q</span>.<span class="ruby-identifier">execute</span>.<span class="ruby-identifier">size</span>
+78:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000039" class="method-detail">
+        <a name="M000039"></a>
+
+        <div class="method-heading">
+          <a href="#M000039" class="method-signature">
+          <span class="method-name">count_notes_in</span><span class="method-args">(catalog)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the count of paragraphs that are attached to books in the given
+catalog
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000039-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000039-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 141</span>
+141:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">count_notes_in</span>(<span class="ruby-identifier">catalog</span>)
+142:       <span class="ruby-identifier">query</span> = <span class="ruby-constant">Query</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">URI</span>).<span class="ruby-identifier">select</span>(<span class="ruby-identifier">:note</span>).<span class="ruby-identifier">distinct</span>
+143:       <span class="ruby-identifier">query</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:book</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">RDF</span>.<span class="ruby-identifier">type</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-constant">Book</span>)
+144:       <span class="ruby-comment cmt"># only select from the default catalog</span>
+145:       <span class="ruby-identifier">query</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:book</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-identifier">in_catalog</span>, <span class="ruby-identifier">catalog</span>)
+146:       <span class="ruby-identifier">query</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:page</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">DCT</span>.<span class="ruby-identifier">isPartOf</span>, <span class="ruby-identifier">:book</span>)
+147:       <span class="ruby-identifier">query</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:note</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-identifier">page</span>, <span class="ruby-identifier">:page</span>)
+148:       <span class="ruby-identifier">query</span>.<span class="ruby-identifier">execute</span>.<span class="ruby-identifier">size</span>
+149:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000040" class="method-detail">
+        <a name="M000040"></a>
+
+        <div class="method-heading">
+          <a href="#M000040" class="method-signature">
+          <span class="method-name">count_pages_in</span><span class="method-args">(catalog)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000040-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000040-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 151</span>
+151:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">count_pages_in</span>(<span class="ruby-identifier">catalog</span>)
+152:       <span class="ruby-identifier">query</span> = <span class="ruby-constant">Query</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">URI</span>).<span class="ruby-identifier">select</span>(<span class="ruby-identifier">:page</span>).<span class="ruby-identifier">distinct</span>
+153:       <span class="ruby-identifier">query</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:book</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">RDF</span>.<span class="ruby-identifier">type</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-constant">Book</span>)
+154:       <span class="ruby-comment cmt"># only select from the default catalog</span>
+155:       <span class="ruby-identifier">query</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:book</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-identifier">in_catalog</span>, <span class="ruby-identifier">catalog</span>)
+156:       <span class="ruby-identifier">query</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:page</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">DCT</span>.<span class="ruby-identifier">isPartOf</span>, <span class="ruby-identifier">:book</span>)
+157:       <span class="ruby-identifier">query</span>.<span class="ruby-identifier">execute</span>.<span class="ruby-identifier">size</span>
+158:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000032" class="method-detail">
+        <a name="M000032"></a>
+
+        <div class="method-heading">
+          <a href="#M000032" class="method-signature">
+          <span class="method-name">create_edition</span><span class="method-args">(ed_klass, version=nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates a new edition, using the given edition class. This will use the
+environment variables passed to the rake task The optional version var will
+also be set in the edition to be used later on, in the feeder
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000032-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000032-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 33</span>
+33:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_edition</span>(<span class="ruby-identifier">ed_klass</span>, <span class="ruby-identifier">version</span>=<span class="ruby-keyword kw">nil</span>)
+34:       <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;Edition must be a Catalog type&quot;</span>) <span class="ruby-keyword kw">unless</span>(<span class="ruby-identifier">ed_klass</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">Catalog</span>))
+35:       <span class="ruby-identifier">ed_uri</span> = <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">LOCAL</span> <span class="ruby-operator">+</span>  <span class="ruby-identifier">ed_klass</span><span class="ruby-operator">::</span><span class="ruby-constant">EDITION_PREFIX</span> <span class="ruby-operator">+</span> <span class="ruby-value str">'/'</span> <span class="ruby-operator">+</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'nick'</span>]
+36:       <span class="ruby-identifier">raise</span>(<span class="ruby-constant">RuntimeError</span>, <span class="ruby-node">&quot;Edition does already exist: #{ed_uri}&quot;</span>) <span class="ruby-keyword kw">if</span>(<span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">ActiveSource</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">ed_uri</span>))
+37:       <span class="ruby-identifier">edition</span> = <span class="ruby-identifier">ed_klass</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">ed_uri</span>)
+38:       <span class="ruby-identifier">edition</span>.<span class="ruby-identifier">hyper</span><span class="ruby-operator">::</span><span class="ruby-identifier">title</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'name'</span>]
+39:       <span class="ruby-comment cmt"># if a version was given, then we store it so we know which version</span>
+40:       <span class="ruby-comment cmt"># it has to be fed to exist</span>
+41:       <span class="ruby-identifier">edition</span>.<span class="ruby-identifier">hyper</span><span class="ruby-operator">::</span><span class="ruby-identifier">version</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">version</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">version</span>.<span class="ruby-identifier">nil?</span>
+42:       <span class="ruby-identifier">edition</span>.<span class="ruby-identifier">save!</span>
+43:       <span class="ruby-identifier">edition</span>
+44:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000053" class="method-detail">
+        <a name="M000053"></a>
+
+        <div class="method-heading">
+          <a href="#M000053" class="method-signature">
+          <span class="method-name">create_facsimile_pdf</span><span class="method-args">(facsimile, copyright_info = nil, top1 = nil, top2 = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Create the PDF for a facsimile
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000053-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000053-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 322</span>
+322:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_facsimile_pdf</span>(<span class="ruby-identifier">facsimile</span>, <span class="ruby-identifier">copyright_info</span> = <span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">top1</span> = <span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">top2</span> = <span class="ruby-keyword kw">nil</span>)
+323:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">facsimile</span>.<span class="ruby-identifier">pdf_data</span>) <span class="ruby-comment cmt"># Skip existing</span>
+324:       
+325:       <span class="ruby-identifier">title</span> = <span class="ruby-identifier">facsimile</span>.<span class="ruby-identifier">uri</span>.<span class="ruby-identifier">local_name</span>
+326:       <span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">Source</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-node">&quot;[#{Time.now.to_s(:long)}] Generating #{title.titleize}&quot;</span>
+327: 
+328:       <span class="ruby-identifier">result</span> = <span class="ruby-keyword kw">nil</span>
+329:       <span class="ruby-identifier">copyright_info</span> <span class="ruby-operator">||=</span> <span class="ruby-value str">''</span>
+330:       <span class="ruby-identifier">top1</span> <span class="ruby-operator">||=</span> <span class="ruby-node">&quot;Facsimile #{facsimile.uri.local_name}&quot;</span>
+331:       <span class="ruby-identifier">top2</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">facsimile</span>.<span class="ruby-identifier">uri</span>.<span class="ruby-identifier">to_s</span>
+332: 
+333:       <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">image</span> = <span class="ruby-identifier">facsimile</span>.<span class="ruby-identifier">original_image</span>)
+334:         <span class="ruby-identifier">pdf_data</span> = <span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">DataTypes</span><span class="ruby-operator">::</span><span class="ruby-constant">PdfData</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">:source_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">facsimile</span>.<span class="ruby-identifier">id</span>)
+335:         <span class="ruby-identifier">pdf_data</span>.<span class="ruby-identifier">create_from_writer</span>(<span class="ruby-identifier">:paper</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'A4'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pdf</span><span class="ruby-operator">|</span>
+336:           <span class="ruby-identifier">write_facs_pdf</span>(<span class="ruby-identifier">pdf</span>, <span class="ruby-identifier">image</span>, <span class="ruby-identifier">top1</span>, <span class="ruby-identifier">top2</span>, <span class="ruby-identifier">copyright_info</span>)
+337:         <span class="ruby-keyword kw">end</span>
+338:         <span class="ruby-identifier">pdf_data</span>.<span class="ruby-identifier">save!</span>
+339:         <span class="ruby-identifier">result</span> = <span class="ruby-keyword kw">true</span>
+340:       <span class="ruby-keyword kw">end</span>
+341: 
+342:       <span class="ruby-identifier">result</span> <span class="ruby-comment cmt"># nil if nothing was done</span>
+343:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000049" class="method-detail">
+        <a name="M000049"></a>
+
+        <div class="method-heading">
+          <a href="#M000049" class="method-signature">
+          <span class="method-name">create_or_find</span><span class="method-args">(name, klass, namespace) {|el if(block_given?)| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Helper to create or get an element of the given class in the given
+&#8216;namespace&#8217;. Can inject a block into the &#8216;creation&#8217;
+phase.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000049-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000049-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 283</span>
+283:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_or_find</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">namespace</span>)
+284:       <span class="ruby-identifier">uri</span> = <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">LOCAL</span> <span class="ruby-operator">+</span> <span class="ruby-node">&quot;#{namespace}/&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">UriEncoder</span>.<span class="ruby-identifier">normalize_uri</span>(<span class="ruby-identifier">name</span>.<span class="ruby-identifier">strip</span>)
+285:       <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">klass</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">uri</span>))
+286:         <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">uri</span>)
+287:       <span class="ruby-keyword kw">else</span>
+288:         <span class="ruby-identifier">el</span> = <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">uri</span>)
+289:         <span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">el</span> <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">block_given?</span>)
+290:         <span class="ruby-identifier">el</span>.<span class="ruby-identifier">save!</span>
+291:         <span class="ruby-identifier">el</span>
+292:       <span class="ruby-keyword kw">end</span>
+293:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000030" class="method-detail">
+        <a name="M000030"></a>
+
+        <div class="method-heading">
+          <a href="#M000030" class="method-signature">
+          <span class="method-name">default_book_query</span><span class="method-args">(catalog)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a preset RDF query that will select all books that have pages in
+the default catalog. The books are referred to by :book and the pages by
+:page. You may add additional conditions to this query before executing
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000030-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000030-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 12</span>
+12:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">default_book_query</span>(<span class="ruby-identifier">catalog</span>)
+13:       <span class="ruby-identifier">qry</span> = <span class="ruby-constant">Query</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">Book</span>).<span class="ruby-identifier">select</span>(<span class="ruby-identifier">:book</span>).<span class="ruby-identifier">distinct</span>
+14:       <span class="ruby-identifier">qry</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:book</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">RDF</span>.<span class="ruby-identifier">type</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-constant">Book</span>)
+15:       <span class="ruby-comment cmt"># only select from the requested catalog</span>
+16:       <span class="ruby-identifier">qry</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:book</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-identifier">in_catalog</span>, <span class="ruby-identifier">catalog</span>)
+17:       <span class="ruby-identifier">qry</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:page</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">DCT</span>.<span class="ruby-identifier">isPartOf</span>, <span class="ruby-identifier">:book</span>)
+18:       <span class="ruby-identifier">qry</span>
+19:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000056" class="method-detail">
+        <a name="M000056"></a>
+
+        <div class="method-heading">
+          <a href="#M000056" class="method-signature">
+          <span class="method-name">each_row_from_csv</span><span class="method-args">() {|row| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000056-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000056-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 359</span>
+359:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">each_row_from_csv</span>
+360:       <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'nick'</span>] = <span class="ruby-value str">'default'</span>
+361:       <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'name'</span>] = <span class="ruby-value str">'default'</span>
+362:       <span class="ruby-identifier">encoding</span> = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'encoding'</span>] <span class="ruby-operator">||</span> <span class="ruby-value str">'MAC'</span>
+363:       <span class="ruby-identifier">ic</span> = <span class="ruby-constant">Iconv</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'UTF-8'</span>, <span class="ruby-identifier">encoding</span>)
+364:       <span class="ruby-identifier">input</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-value str">'csvfile'</span>]) { <span class="ruby-operator">|</span><span class="ruby-identifier">io</span><span class="ruby-operator">|</span> <span class="ruby-identifier">ic</span>.<span class="ruby-identifier">iconv</span>(<span class="ruby-identifier">io</span>.<span class="ruby-identifier">read</span>) }
+365:       <span class="ruby-constant">CSV</span><span class="ruby-operator">::</span><span class="ruby-constant">Reader</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">input</span>, <span class="ruby-value str">';'</span>, <span class="ruby-value str">&quot;\r&quot;</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
+366:         <span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">row</span>
+367:       <span class="ruby-keyword kw">end</span>
+368:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000033" class="method-detail">
+        <a name="M000033"></a>
+
+        <div class="method-heading">
+          <a href="#M000033" class="method-signature">
+          <span class="method-name">edition_config</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Reads the configuration for an edition from the config file, if it exists
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000033-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000033-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 47</span>
+47:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">edition_config</span>
+48:       <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;Edition nick not given&quot;</span>) <span class="ruby-keyword kw">unless</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-value str">'nick'</span>])
+49:       <span class="ruby-identifier">nick</span> = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'nick'</span>].<span class="ruby-identifier">downcase</span>
+50:       <span class="ruby-identifier">params</span> = <span class="ruby-node">%w(version catalog name header)</span>
+51:       <span class="ruby-identifier">config_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">TALIA_ROOT</span>, <span class="ruby-value str">'config'</span>, <span class="ruby-value str">'editions'</span>, <span class="ruby-node">&quot;#{nick}.yml&quot;</span>)
+52:       <span class="ruby-keyword kw">if</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">config_file</span>))
+53:         <span class="ruby-identifier">config_yml</span> = <span class="ruby-constant">YAML</span><span class="ruby-operator">::</span><span class="ruby-identifier">load_file</span>(<span class="ruby-identifier">config_file</span>)
+54:         <span class="ruby-identifier">cnick</span> = <span class="ruby-identifier">config_yml</span>[<span class="ruby-value str">'nick'</span>]
+55:         <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Expected nick #{ENV['nick']} in file #{config_file}.&quot;</span>) <span class="ruby-keyword kw">if</span>(<span class="ruby-operator">!</span><span class="ruby-identifier">cnick</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">cnick</span>.<span class="ruby-identifier">downcase</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">nick</span>)
+56:         <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'nick'</span>] = <span class="ruby-identifier">cnick</span>
+57:         <span class="ruby-identifier">params</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">parameter</span><span class="ruby-operator">|</span>
+58:           <span class="ruby-constant">ENV</span>[<span class="ruby-identifier">parameter</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">config_yml</span>[<span class="ruby-identifier">parameter</span>]
+59:         <span class="ruby-keyword kw">end</span>
+60:         <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Config for edition from #{config_file}.&quot;</span>
+61:       <span class="ruby-keyword kw">end</span>
+62:       <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Nick: #{ENV['nick']}&quot;</span>
+63:       <span class="ruby-identifier">params</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">parm</span><span class="ruby-operator">|</span>  <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{parm}: #{ENV[parm]}&quot;</span> }
+64:       <span class="ruby-comment cmt"># Check the parameters beforehand</span>
+65:       <span class="ruby-node">%w(name header)</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">parm</span><span class="ruby-operator">|</span> <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Parameter must be set: #{parm}&quot;</span>) <span class="ruby-keyword kw">unless</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-identifier">parm</span>]) }
+66:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000057" class="method-detail">
+        <a name="M000057"></a>
+
+        <div class="method-heading">
+          <a href="#M000057" class="method-signature">
+          <span class="method-name">handle_exception</span><span class="method-args">(message) {|| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000057-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000057-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 370</span>
+370:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_exception</span>(<span class="ruby-identifier">message</span>)
+371:       <span class="ruby-keyword kw">begin</span>
+372:         <span class="ruby-keyword kw">yield</span>
+373:       <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">exception</span>
+374:         <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{message}: #{exception.message}&quot;</span>
+375:         <span class="ruby-keyword kw">if</span>(<span class="ruby-constant">Rake</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">options</span>.<span class="ruby-identifier">trace</span>)
+376:           <span class="ruby-identifier">puts</span> <span class="ruby-identifier">exception</span>.<span class="ruby-identifier">backtrace</span>
+377:         <span class="ruby-keyword kw">else</span>
+378:           <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;(See full trace by running task with --trace)&quot;</span>
+379:         <span class="ruby-keyword kw">end</span>
+380:       <span class="ruby-keyword kw">end</span>
+381:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000038" class="method-detail">
+        <a name="M000038"></a>
+
+        <div class="method-heading">
+          <a href="#M000038" class="method-signature">
+          <span class="method-name">handle_paragraph_for</span><span class="method-args">(note, new_note, catalog)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This will look for the paragraph on the note, clone it if necessary, and
+add it to the new note.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000038-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000038-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 125</span>
+125:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_paragraph_for</span>(<span class="ruby-identifier">note</span>, <span class="ruby-identifier">new_note</span>, <span class="ruby-identifier">catalog</span>)
+126:       <span class="ruby-identifier">orig_paragraph</span> = <span class="ruby-identifier">note</span>.<span class="ruby-identifier">paragraph</span>
+127:       <span class="ruby-comment cmt"># Check if the cloned paragraph already exists</span>
+128:       <span class="ruby-keyword kw">if</span>(<span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">Paragraph</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">catalog</span>.<span class="ruby-identifier">concordant_uri_for</span>(<span class="ruby-identifier">orig_paragraph</span>)))
+129:         <span class="ruby-identifier">paragraph</span> = <span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">Paragraph</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">catalog</span>.<span class="ruby-identifier">concordant_uri_for</span>(<span class="ruby-identifier">orig_paragraph</span>))
+130:         <span class="ruby-identifier">quick_add_property</span>(<span class="ruby-identifier">paragraph</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-identifier">note</span>, <span class="ruby-identifier">new_note</span>)
+131:       <span class="ruby-keyword kw">else</span>
+132:         <span class="ruby-identifier">paragraph</span> = <span class="ruby-identifier">catalog</span>.<span class="ruby-identifier">add_from_concordant</span>(<span class="ruby-identifier">orig_paragraph</span>)
+133:         <span class="ruby-identifier">clone_hyper_editions</span>(<span class="ruby-identifier">orig_paragraph</span>, <span class="ruby-identifier">paragraph</span>)
+134:         <span class="ruby-identifier">paragraph</span>.<span class="ruby-identifier">hyper</span><span class="ruby-operator">::</span><span class="ruby-identifier">note</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">new_note</span>
+135:         <span class="ruby-identifier">paragraph</span>.<span class="ruby-identifier">save!</span>
+136:       <span class="ruby-keyword kw">end</span>
+137:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000052" class="method-detail">
+        <a name="M000052"></a>
+
+        <div class="method-heading">
+          <a href="#M000052" class="method-signature">
+          <span class="method-name">iconv_for</span><span class="method-args">(to_enc, from_enc)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Gets the specified iconv encoding
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000052-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000052-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 315</span>
+315:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">iconv_for</span>(<span class="ruby-identifier">to_enc</span>, <span class="ruby-identifier">from_enc</span>)
+316:       <span class="ruby-identifier">to_enc</span> <span class="ruby-operator">||=</span> <span class="ruby-value str">'MAC'</span>
+317:       <span class="ruby-identifier">from_enc</span> <span class="ruby-operator">||=</span> <span class="ruby-value str">'MAC'</span>
+318:       <span class="ruby-constant">Iconv</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">to_enc</span>, <span class="ruby-identifier">from_enc</span>)
+319:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000046" class="method-detail">
+        <a name="M000046"></a>
+
+        <div class="method-heading">
+          <a href="#M000046" class="method-signature">
+          <span class="method-name">keywords_from</span><span class="method-args">(key_string)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Gets keywords for the slash-separated values in the string
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000046-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000046-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 259</span>
+259:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">keywords_from</span>(<span class="ruby-identifier">key_string</span>)
+260:       <span class="ruby-identifier">key_string</span>.<span class="ruby-identifier">split</span>(<span class="ruby-identifier">key_string</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/\//</span> <span class="ruby-operator">?</span> <span class="ruby-value str">&quot;/&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-value str">&quot;\n&quot;</span>).<span class="ruby-identifier">map</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+261:         <span class="ruby-comment cmt"># TODO can we use .gsub(/\s+\t\n/, ' ') instead?</span>
+262:         <span class="ruby-identifier">key</span> = <span class="ruby-identifier">key</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp re">/\s+/</span>, <span class="ruby-value str">' '</span>).<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;\t&quot;</span>, <span class="ruby-value str">' '</span>).<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;\n&quot;</span>, <span class="ruby-value str">' '</span>).<span class="ruby-identifier">strip</span>
+263:         <span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">Keyword</span>.<span class="ruby-identifier">get_with_key_value!</span>(<span class="ruby-identifier">key</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">empty?</span>
+264:       <span class="ruby-keyword kw">end</span>.<span class="ruby-identifier">compact</span>
+265:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000051" class="method-detail">
+        <a name="M000051"></a>
+
+        <div class="method-heading">
+          <a href="#M000051" class="method-signature">
+          <span class="method-name">language_for</span><span class="method-args">(language)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Get the language object for the language specified on the command line
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000051-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000051-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 305</span>
+305:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">language_for</span>(<span class="ruby-identifier">language</span>)
+306:       <span class="ruby-identifier">language</span> = <span class="ruby-constant">Globalize</span><span class="ruby-operator">::</span><span class="ruby-constant">Language</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">:first</span>, <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-identifier">:iso_639_1</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">language</span>})
+307:       <span class="ruby-keyword kw">unless</span>(<span class="ruby-identifier">language</span>)
+308:         <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Language #{language} not found.&quot;</span>
+309:         <span class="ruby-identifier">exit</span> <span class="ruby-value">1</span>
+310:       <span class="ruby-keyword kw">end</span>
+311:       <span class="ruby-identifier">language</span>
+312:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000043" class="method-detail">
+        <a name="M000043"></a>
+
+        <div class="method-heading">
+          <a href="#M000043" class="method-signature">
+          <span class="method-name">load_consts</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Loads the constants/classes for the models
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000043-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000043-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 185</span>
+185:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">load_consts</span>
+186:       <span class="ruby-comment cmt"># Require some model classes that should always be present</span>
+187:       <span class="ruby-node">%w( source expression_card catalog facsimile_edition critical_edition manifestation book page paragraph note chapter facsimile text_reconstruction transcription av_media )</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">klass</span><span class="ruby-operator">|</span>
+188:         <span class="ruby-identifier">require_dependency</span> <span class="ruby-node">&quot;talia_core/#{klass}&quot;</span>
+189:       <span class="ruby-keyword kw">end</span>
+190:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000031" class="method-detail">
+        <a name="M000031"></a>
+
+        <div class="method-heading">
+          <a href="#M000031" class="method-signature">
+          <span class="method-name">manifestations_query_for</span><span class="method-args">(card)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns an RDF query that will find all manifestations of the given card.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000031-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000031-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 23</span>
+23:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">manifestations_query_for</span>(<span class="ruby-identifier">card</span>)
+24:       <span class="ruby-identifier">qry_man</span> = <span class="ruby-constant">Query</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">Source</span>).<span class="ruby-identifier">select</span>(<span class="ruby-identifier">:manifestation</span>).<span class="ruby-identifier">distinct</span>
+25:       <span class="ruby-identifier">qry_man</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">:manifestation</span>, <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">HYPER</span>.<span class="ruby-identifier">manifestation_of</span>, <span class="ruby-identifier">card</span>)
+26:       <span class="ruby-identifier">qry_man</span>
+27:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000044" class="method-detail">
+        <a name="M000044"></a>
+
+        <div class="method-heading">
+          <a href="#M000044" class="method-signature">
+          <span class="method-name">media_from_row</span><span class="method-args">(row, thumbnail_dir)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates a AvMedia object from the given csv row (given as an array)
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000044-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000044-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 193</span>
+193:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">media_from_row</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">thumbnail_dir</span>)
+194:       <span class="ruby-identifier">series</span> = <span class="ruby-identifier">series_for</span>(<span class="ruby-identifier">row</span>[<span class="ruby-value">0</span>])
+195:       <span class="ruby-identifier">author</span>, <span class="ruby-identifier">title</span>, <span class="ruby-identifier">year</span>, <span class="ruby-identifier">length</span> = <span class="ruby-identifier">row</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">row</span>[<span class="ruby-value">2</span>], <span class="ruby-identifier">row</span>[<span class="ruby-value">3</span>], <span class="ruby-identifier">row</span>[<span class="ruby-value">4</span>]
+196:       <span class="ruby-identifier">wmv_file</span>, <span class="ruby-identifier">mp4_file</span>, <span class="ruby-identifier">download_url</span> = <span class="ruby-identifier">row</span>[<span class="ruby-value">5</span>], <span class="ruby-identifier">row</span>[<span class="ruby-value">6</span>], <span class="ruby-identifier">row</span>[<span class="ruby-value">7</span>]
+197:       <span class="ruby-identifier">semantic_flag</span> = <span class="ruby-identifier">row</span>[<span class="ruby-value">8</span>]
+198:       <span class="ruby-identifier">category</span> = <span class="ruby-identifier">category_for</span>(<span class="ruby-identifier">row</span>[<span class="ruby-value">9</span>])
+199:       <span class="ruby-identifier">keywords</span> = <span class="ruby-identifier">keywords_from</span>(<span class="ruby-identifier">row</span>[<span class="ruby-value">10</span>])
+200:       <span class="ruby-identifier">bibliography</span> = <span class="ruby-identifier">row</span>[<span class="ruby-value">11</span>]
+201:       <span class="ruby-identifier">abstract</span> = <span class="ruby-identifier">row</span>[<span class="ruby-value">12</span>]
+202:       <span class="ruby-identifier">transcription</span> = <span class="ruby-identifier">row</span>[<span class="ruby-value">13</span>]
+203:       
+204:       <span class="ruby-identifier">element_uri</span> = <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">LOCAL</span> <span class="ruby-operator">+</span> <span class="ruby-value str">'av_media_sources/'</span> <span class="ruby-operator">+</span> <span class="ruby-constant">UriEncoder</span>.<span class="ruby-identifier">normalize_uri</span>(<span class="ruby-identifier">title</span>)
+205:       <span class="ruby-identifier">element</span> = <span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">AvMedia</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">element_uri</span>)
+206:       <span class="ruby-identifier">element</span>.<span class="ruby-identifier">series</span> = <span class="ruby-identifier">series</span>
+207:       <span class="ruby-identifier">element</span>.<span class="ruby-identifier">dcns</span><span class="ruby-operator">::</span><span class="ruby-identifier">creator</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">author</span>
+208:       <span class="ruby-identifier">element</span>.<span class="ruby-identifier">title</span> = <span class="ruby-identifier">title</span>
+209:       <span class="ruby-identifier">element</span>.<span class="ruby-identifier">dcns</span><span class="ruby-operator">::</span><span class="ruby-identifier">date</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">year</span> <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">year</span>)
+210:       <span class="ruby-identifier">element</span>.<span class="ruby-identifier">play_length</span> = <span class="ruby-node">&quot;#{length} h:mm:ss&quot;</span>
+211:       <span class="ruby-identifier">wmv_data</span> = <span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">DataTypes</span><span class="ruby-operator">::</span><span class="ruby-constant">WmvMedia</span>.<span class="ruby-identifier">new</span>
+212:       <span class="ruby-identifier">wmv_data</span>.<span class="ruby-identifier">location</span> = <span class="ruby-identifier">wmv_file</span>
+213:       <span class="ruby-identifier">mp4_data</span> = <span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">DataTypes</span><span class="ruby-operator">::</span><span class="ruby-constant">Mp4Media</span>.<span class="ruby-identifier">new</span>
+214:       <span class="ruby-identifier">mp4_data</span>.<span class="ruby-identifier">location</span> = <span class="ruby-identifier">mp4_file</span>
+215:       <span class="ruby-identifier">element</span>.<span class="ruby-identifier">data_records</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">wmv_data</span>, <span class="ruby-identifier">mp4_data</span>]
+216:       <span class="ruby-identifier">element</span>.<span class="ruby-identifier">download_url</span> = <span class="ruby-identifier">download_url</span> <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">download_url</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">download_url</span>.<span class="ruby-identifier">strip</span> <span class="ruby-operator">!=</span> <span class="ruby-value str">''</span>)
+217:       <span class="ruby-identifier">element</span>.<span class="ruby-identifier">category</span> = <span class="ruby-identifier">category</span>
+218:       <span class="ruby-identifier">element</span>.<span class="ruby-identifier">hyper</span><span class="ruby-operator">::</span><span class="ruby-identifier">keyword</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">keywords</span>
+219:       <span class="ruby-identifier">element</span>.<span class="ruby-identifier">hyper</span><span class="ruby-operator">::</span><span class="ruby-identifier">bibliography</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">bibliography</span> <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">bibliography</span>)
+220:       <span class="ruby-identifier">element</span>.<span class="ruby-identifier">dct</span><span class="ruby-operator">::</span><span class="ruby-identifier">abstract</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">abstract</span> <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">abstract</span>)
+221:       <span class="ruby-identifier">element</span>.<span class="ruby-identifier">hyper</span><span class="ruby-operator">::</span><span class="ruby-identifier">transcription</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">transcription</span> <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">transcription</span>)
+222:     
+223:       <span class="ruby-identifier">image</span> = <span class="ruby-identifier">thumbnail_for</span>(<span class="ruby-identifier">element</span>, <span class="ruby-identifier">mp4_file</span>, <span class="ruby-identifier">thumbnail_dir</span>)
+224:     
+225:       <span class="ruby-identifier">element</span>.<span class="ruby-identifier">save!</span>
+226:       <span class="ruby-identifier">wmv_data</span>.<span class="ruby-identifier">save!</span>
+227:       <span class="ruby-identifier">mp4_data</span>.<span class="ruby-identifier">save!</span>
+228:       <span class="ruby-identifier">image</span>.<span class="ruby-identifier">save!</span>
+229:     
+230:       <span class="ruby-identifier">element</span>
+231:     <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+232:       <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Error importing #{row[2]}: #{e.message}&quot;</span>
+233:       <span class="ruby-identifier">raise</span>
+234:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000042" class="method-detail">
+        <a name="M000042"></a>
+
+        <div class="method-heading">
+          <a href="#M000042" class="method-signature">
+          <span class="method-name">process_books</span><span class="method-args">(books, progress_size = nil) {|book,progress| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Loops through the given books (with a progress meter).
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000042-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000042-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 174</span>
+174:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">process_books</span>(<span class="ruby-identifier">books</span>, <span class="ruby-identifier">progress_size</span> = <span class="ruby-keyword kw">nil</span>)
+175:       <span class="ruby-identifier">progress_size</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">books</span>.<span class="ruby-identifier">size</span>
+176:       <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Processing #{books.size} books (#{progress_size} elements to process)...&quot;</span>
+177:       <span class="ruby-identifier">progress</span> = <span class="ruby-constant">ProgressBar</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'Books'</span>, <span class="ruby-identifier">progress_size</span>)
+178:       <span class="ruby-identifier">books</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">book</span><span class="ruby-operator">|</span>
+179:         <span class="ruby-keyword kw">yield</span>(<span class="ruby-identifier">book</span>,<span class="ruby-identifier">progress</span>)
+180:       <span class="ruby-keyword kw">end</span>
+181:       <span class="ruby-identifier">progress</span>.<span class="ruby-identifier">finish</span>
+182:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000041" class="method-detail">
+        <a name="M000041"></a>
+
+        <div class="method-heading">
+          <a href="#M000041" class="method-signature">
+          <span class="method-name">quick_add_property</span><span class="method-args">(subject, predicate, object)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Quick hack to &quot;quickly&quot; add a new property to the given Source.
+This will bypass the usual rdf creation routines and simply add the new
+property both to the db and rdf &quot;manually&quot; (which is quicker than
+recreating the rdf fully.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000041-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000041-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 163</span>
+163:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">quick_add_property</span>(<span class="ruby-identifier">subject</span>, <span class="ruby-identifier">predicate</span>, <span class="ruby-identifier">object</span>)
+164:       <span class="ruby-identifier">autosave</span> = <span class="ruby-identifier">subject</span>.<span class="ruby-identifier">autosave_rdf?</span>
+165:       <span class="ruby-identifier">subject</span>.<span class="ruby-identifier">autosave_rdf</span> = <span class="ruby-keyword kw">false</span> <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">autosave</span>)
+166:       <span class="ruby-identifier">subject</span>[<span class="ruby-identifier">predicate</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">object</span>
+167:       <span class="ruby-identifier">subject</span>.<span class="ruby-identifier">save!</span>
+168:       <span class="ruby-identifier">subject</span>.<span class="ruby-identifier">my_rdf</span>[<span class="ruby-identifier">predicate</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">object</span>
+169:       <span class="ruby-identifier">subject</span>.<span class="ruby-identifier">my_rdf</span>.<span class="ruby-identifier">save</span>
+170:       <span class="ruby-identifier">subject</span>.<span class="ruby-identifier">autosave_rdf</span> = <span class="ruby-identifier">autosave</span>
+171:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000055" class="method-detail">
+        <a name="M000055"></a>
+
+        <div class="method-heading">
+          <a href="#M000055" class="method-signature">
+          <span class="method-name">root_path</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+&quot;Manually&quot; get the root path
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000055-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000055-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 355</span>
+355:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">root_path</span>
+356:       <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword kw">__FILE__</span>), <span class="ruby-value str">'..'</span>, <span class="ruby-value str">'..'</span>))
+357:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000047" class="method-detail">
+        <a name="M000047"></a>
+
+        <div class="method-heading">
+          <a href="#M000047" class="method-signature">
+          <span class="method-name">series_for</span><span class="method-args">(name)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates or gets a series for the given name
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000047-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000047-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 268</span>
+268:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">series_for</span>(<span class="ruby-identifier">name</span>)
+269:       <span class="ruby-identifier">create_or_find</span>(<span class="ruby-identifier">name</span>, <span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">Series</span>, <span class="ruby-value str">'series'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ser</span><span class="ruby-operator">|</span>
+270:         <span class="ruby-identifier">ser</span>.<span class="ruby-identifier">hyper</span><span class="ruby-operator">::</span><span class="ruby-identifier">name</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">name</span>
+271:       <span class="ruby-keyword kw">end</span>
+272:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000036" class="method-detail">
+        <a name="M000036"></a>
+
+        <div class="method-heading">
+          <a href="#M000036" class="method-signature">
+          <span class="method-name">setup_edition_style</span><span class="method-args">(nick)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Sets up an edition stylesheet for the edition with the given name
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000036-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000036-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 94</span>
+ 94:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">setup_edition_style</span>(<span class="ruby-identifier">nick</span>)
+ 95:       <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">RAILS_ROOT</span>, <span class="ruby-value str">'customization_files'</span>, <span class="ruby-value str">'edition_styles'</span>, <span class="ruby-value str">'edition_template.css'</span>)) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">io</span><span class="ruby-operator">|</span>
+ 96:         <span class="ruby-identifier">style</span> = <span class="ruby-identifier">io</span>.<span class="ruby-identifier">read</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp re">/#EDITION_NAME#/</span>, <span class="ruby-identifier">nick</span>)
+ 97:         <span class="ruby-identifier">style_dir</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">RAILS_ROOT</span>, <span class="ruby-value str">'public'</span>, <span class="ruby-value str">'stylesheets'</span>, <span class="ruby-value str">'editions'</span>)
+ 98:         <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir_p</span>(<span class="ruby-identifier">style_dir</span>)
+ 99:         <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">style_dir</span>, <span class="ruby-node">&quot;#{nick}.css&quot;</span>), <span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">outfile</span><span class="ruby-operator">|</span>
+100:           <span class="ruby-identifier">outfile</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">style</span>
+101:         <span class="ruby-keyword kw">end</span>
+102:       <span class="ruby-keyword kw">end</span>
+103:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000037" class="method-detail">
+        <a name="M000037"></a>
+
+        <div class="method-heading">
+          <a href="#M000037" class="method-signature">
+          <span class="method-name">setup_header_images</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Sets up the header images for an edition
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000037-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000037-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 106</span>
+106:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">setup_header_images</span>
+107:       <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;No nick given&quot;</span>) <span class="ruby-keyword kw">unless</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-value str">'nick'</span>])
+108:       <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;Name of the header image folder not given&quot;</span>) <span class="ruby-keyword kw">unless</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-value str">'header'</span>])
+109:       <span class="ruby-identifier">head_folder</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">RAILS_ROOT</span>, <span class="ruby-value str">'customization_files'</span>, <span class="ruby-value str">'header_images'</span>, <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'header'</span>])
+110:       <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;Header image folder not valid.&quot;</span>) <span class="ruby-keyword kw">unless</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">stat</span>(<span class="ruby-identifier">head_folder</span>).<span class="ruby-identifier">directory?</span>)
+111:       <span class="ruby-comment cmt"># Copy and adapt the style sheet</span>
+112:       <span class="ruby-identifier">setup_edition_style</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-value str">'nick'</span>])
+113:       <span class="ruby-comment cmt"># Copy the images</span>
+114:       <span class="ruby-identifier">files</span> = <span class="ruby-constant">Dir</span>[<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">head_folder</span>, <span class="ruby-value str">'*.{jpg,jpeg,gif,png,tiff,tif}'</span>)]
+115:       <span class="ruby-identifier">edition_image_dir</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">RAILS_ROOT</span>, <span class="ruby-value str">'public'</span>, <span class="ruby-value str">'images'</span>, <span class="ruby-value str">'editions'</span>)
+116:       <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir_p</span>(<span class="ruby-identifier">edition_image_dir</span>)
+117:       <span class="ruby-identifier">files</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+118:         <span class="ruby-identifier">name</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">file</span>)
+119:         <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">copy</span>(<span class="ruby-identifier">file</span>, <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">edition_image_dir</span>, <span class="ruby-node">&quot;#{ENV['nick']}_#{name}&quot;</span>))
+120:       <span class="ruby-keyword kw">end</span>
+121:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000045" class="method-detail">
+        <a name="M000045"></a>
+
+        <div class="method-heading">
+          <a href="#M000045" class="method-signature">
+          <span class="method-name">thumbnail_for</span><span class="method-args">(element, mp4_url, pic_dir)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates a thumbnail for a media element
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000045-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000045-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 237</span>
+237:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">thumbnail_for</span>(<span class="ruby-identifier">element</span>, <span class="ruby-identifier">mp4_url</span>, <span class="ruby-identifier">pic_dir</span>)
+238:       <span class="ruby-identifier">pic_dir</span> <span class="ruby-operator">||=</span> <span class="ruby-value str">'.'</span>
+239:       <span class="ruby-identifier">default_thumb</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">TALIA_ROOT</span>, <span class="ruby-value str">'public'</span>, <span class="ruby-value str">'images'</span>, <span class="ruby-value str">'thumbvideo.jpg'</span>)
+240:       <span class="ruby-identifier">thumb_file</span> = <span class="ruby-identifier">default_thumb</span>
+241:       <span class="ruby-identifier">mp4_name</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">mp4_url</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">'/'</span>).<span class="ruby-identifier">last</span>, <span class="ruby-value str">'.mp4'</span>)
+242:       <span class="ruby-identifier">thumb_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">pic_dir</span>, <span class="ruby-identifier">mp4_name</span> <span class="ruby-operator">+</span> <span class="ruby-value str">'.jpg'</span>)
+243:       <span class="ruby-keyword kw">if</span>(<span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">thumb_file</span>))
+244:         <span class="ruby-identifier">puts</span>(<span class="ruby-node">&quot;WARNING: Thumbfile not found #{thumb_file} for #{element.uri}&quot;</span>)
+245:         <span class="ruby-identifier">thumb_file</span> = <span class="ruby-identifier">default_thumb</span>
+246:       <span class="ruby-keyword kw">end</span>
+247:     
+248:       <span class="ruby-comment cmt"># And now create an image for the thumbnail</span>
+249:       <span class="ruby-identifier">img</span> = <span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">DataTypes</span><span class="ruby-operator">::</span><span class="ruby-constant">ImageData</span>.<span class="ruby-identifier">new</span>
+250:       <span class="ruby-identifier">img</span>.<span class="ruby-identifier">source</span> = <span class="ruby-identifier">element</span>
+251:       <span class="ruby-identifier">img</span>.<span class="ruby-identifier">create_from_file</span>(<span class="ruby-value str">'thumb.jpg'</span>, <span class="ruby-identifier">thumb_file</span>, <span class="ruby-keyword kw">false</span>)
+252:       <span class="ruby-identifier">img</span>
+253:     
+254:     <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+255:       <span class="ruby-identifier">assert_fail</span>(<span class="ruby-node">&quot;Problem creating thumbnail for #{element.uri}: #{e.message}&quot;</span>)
+256:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000054" class="method-detail">
+        <a name="M000054"></a>
+
+        <div class="method-heading">
+          <a href="#M000054" class="method-signature">
+          <span class="method-name">write_facs_pdf</span><span class="method-args">(pdf_writer, image, top_one, top_two, copyright_line)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+writes the page pdf to the pdf writer
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000054-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000054-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/tasks/task_helpers.rb, line 346</span>
+346:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">write_facs_pdf</span>(<span class="ruby-identifier">pdf_writer</span>, <span class="ruby-identifier">image</span>, <span class="ruby-identifier">top_one</span>, <span class="ruby-identifier">top_two</span>, <span class="ruby-identifier">copyright_line</span>)
+347:       <span class="ruby-comment cmt"># All coordinates assume an A4 ppage</span>
+348:       <span class="ruby-identifier">pdf_writer</span>.<span class="ruby-identifier">image</span>(<span class="ruby-identifier">image</span>.<span class="ruby-identifier">file_path</span>, <span class="ruby-identifier">:justification</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:center</span>, <span class="ruby-identifier">:resize</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:full</span>)
+349:       <span class="ruby-identifier">pdf_writer</span>.<span class="ruby-identifier">add_text</span>(<span class="ruby-value">25</span>, <span class="ruby-value">822</span>, <span class="ruby-identifier">top_one</span>)
+350:       <span class="ruby-identifier">pdf_writer</span>.<span class="ruby-identifier">add_text</span>(<span class="ruby-value">25</span>, <span class="ruby-value">810</span>, <span class="ruby-identifier">top_two</span>)
+351:       <span class="ruby-identifier">pdf_writer</span>.<span class="ruby-identifier">add_text</span>(<span class="ruby-value">25</span>, <span class="ruby-value">20</span>, <span class="ruby-identifier">copyright_line</span>)
+352:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
