@@ -223,6 +223,12 @@ module TaliaCore
       assert_equal(4, preds.size)
       assert(preds.include?('http://testvalue.org/pred_b'), "#{preds} does not include the expected value")
     end
+
+    def tes_predicates_prefetch
+      uri = active_sources(:testy)
+      src = TaliaCore::ActiveSource.find(uri, :prefetch_relations => true)
+      assert_equal('The test value', src.predicate(:as_test_preds, :the_rel1)[0])
+    end
     
     def test_inverse_predicates
       preds = active_sources(:predicate_search_b).inverse_predicates

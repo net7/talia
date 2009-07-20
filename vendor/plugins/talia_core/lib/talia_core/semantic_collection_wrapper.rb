@@ -174,7 +174,15 @@ module TaliaCore
     def empty?
       self.size == 0
     end
-    
+
+    # Injector for a fat relation. This must take place before flagging the
+    # source as "loaded"
+    def inject_fat_item(fat_rel)
+      raise(RuntimeError, 'Trying to inject in loaded object.') if(loaded?)
+      @items ||= []
+      @items << SemanticCollectionItem.new(fat_rel, :fat)
+    end
+
     private
 
     # Load the current relation. (Loading should be lazy, so that the database
@@ -182,21 +190,22 @@ module TaliaCore
     def load!
       # The "fat" relations contain all the data to build the related objects if
       # required
-      joins = ActiveSource.sources_join
-      joins << ActiveSource.props_join
-      relations = SemanticRelation.find(:all, :conditions => {
-          :subject_id => @assoc_source.id,
-          :predicate_uri => @assoc_predicate
-        },
-        :joins => joins,
-        :select => fat_record_select
-      )
+      relations = SemanticRelation.find_fat_relations(@assoc_source, @assoc_predicate)
+
+      init_from_fat_rels(relations)
+    end
+
+    # Inject a fat relation into the items
+
+
+    # Inititlizes the collection from the given collection of "fat" relations
+    def init_from_fat_rels(fat_relations)
       # Check if there are records that have been added previously
       old_items = @items
       # Create the internal collection
-      @items = Array.new(relations.size)
-      relations.each_index do |idx|
-        rel = SemanticCollectionItem.new(relations.at(idx), :fat)
+      @items = Array.new(fat_relations.size)
+      fat_relations.each_index do |idx|
+        rel = SemanticCollectionItem.new(fat_relations.at(idx), :fat)
         @items[idx] = rel
       end
       @items = (@items | old_items) if(old_items)
@@ -276,19 +285,7 @@ module TaliaCore
       to_add
     end
 
-    # For selecting "fat" records on the semantic properties
-    def fat_record_select
-      select = 'semantic_relations.id AS id, semantic_relations.created_at AS created_at, '
-      select << 'semantic_relations.updated_at AS updated_at, '
-      select << 'object_id, object_type, subject_id, predicate_uri, '
-      select << 'obj_props.created_at AS property_created_at, '
-      select << 'obj_props.updated_at AS property_updated_at, '
-      select << 'obj_props.value AS property_value, '
-      select << 'obj_sources.created_at AS object_created_at, '
-      select << 'obj_sources.updated_at AS object_updated_at, obj_sources.type AS  object_realtype, '
-      select << 'obj_sources.uri AS object_uri'
-      select
-    end
+
 
     # This "checks" for the given source. If a source with the same URI has been
     # added to any collection wrapper unsaved

@@ -99,15 +99,30 @@ module TaliaCore
     #    combination
     #  * :type - specifically looks for sources with the given type.
     #  * :find_through_inv - like :find_through, but for the "inverse" lookup
+    #  * :prefetch_relations - if set to "true", this will pre-load all semantic
+    #                          relations for the sources
     def self.find(*args)
-      prepare_options!(args.last) if(args.last.is_a?(Hash))
-      if(args.size == 1 && (uri_s = uri_string_for(args[0])))
+      prefetching = false
+      if(args.last.is_a?(Hash))
+        options = args.last
+        prefetching =  options.delete(:prefetch_relations)
+        if(options.empty?) # If empty we remove the args hash, so that the 1-param uri search works
+          args.pop
+        else
+          prepare_options!(args.last)
+        end
+      end
+      result = if(args.size == 1 && (uri_s = uri_string_for(args[0])))
         src = super(:first, :conditions => { :uri => uri_s })
         raise(ActiveRecord::RecordNotFound, "Not found: #{uri_s}") unless(src)
         src
       else
         super
       end
+
+      prefetch_relations_for(result) if(prefetching)
+
+      result
     end
     
     # The pagination will also use the prepare_options! to have access to the
@@ -363,7 +378,7 @@ module TaliaCore
       join << " LEFT JOIN active_sources AS sub_sources ON semantic_relations.subject_id = sub_sources.id"
       join
     end
-    
+
     
     # Takes the "advanced" options that can be passed to the find method and
     # converts them into "standard" find options.
