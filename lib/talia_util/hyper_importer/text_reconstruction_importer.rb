@@ -2,7 +2,7 @@ module TaliaUtil
   
   module HyperImporter
     
-    # Import class for paragraphs
+    # Import class for text reconstructionos (aka Hyper Editions)
     class TextReconstructionImporter < ContributionImporter
 
       source_type 'hyper:HyperEdition'

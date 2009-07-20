@@ -14,13 +14,13 @@ module TaliaCore
   # An effort is made to treat RDF and database writes in the same way, so that
   # they should <i>usually</i> be in sync:
   #
-  #  * Write operations are usually lazy, the data should only be saved once
-  #    save! is called. However, ActiveRecord may still decide that the objects
-  #    need to be saved if they are involved in other operations.
-  #  * Operations that clear a predicate are <b>immediate</b>. That also means
-  #    that using singular property setter, if
-  #    used will immediately erase the old value. If the record is not saved,
-  #    the property will be left empty (and not revert to the original value!)
+  # * Write operations are usually lazy, the data should only be saved once
+  #   save! is called. However, ActiveRecord may still decide that the objects
+  #   need to be saved if they are involved in other operations.
+  # * Operations that clear a predicate are <b>immediate</b>. That also means
+  #   that using singular property setter, if
+  #   used will immediately erase the old value. If the record is not saved,
+  #   the property will be left empty (and not revert to the original value!)
   class ActiveSource < ActiveRecord::Base
     
     # Relations where this source is the subject of the triple
@@ -94,13 +94,13 @@ module TaliaCore
     # Finder also accepts uris as "ids". There are also some additional options
     # that are accepted:
     # 
-    #  * :find_through - accepts and array with an predicate name and an object
-    #    value/uri, to search for predicates that match the given predicate/value 
-    #    combination
-    #  * :type - specifically looks for sources with the given type.
-    #  * :find_through_inv - like :find_through, but for the "inverse" lookup
-    #  * :prefetch_relations - if set to "true", this will pre-load all semantic
-    #                          relations for the sources
+    # [*:find_through*] accepts and array with an predicate name and an object
+    #                   value/uri, to search for predicates that match the given predicate/value 
+    #                   combination
+    # [*:type] specifically looks for sources with the given type.
+    # [*:find_through_inv*] like :find_through, but for the "inverse" lookup
+    # [*:prefetch_relations*] if set to "true", this will pre-load all semantic
+    #                         relations for the sources (experimental, not fully implemented yet)
     def self.find(*args)
       prefetching = false
       if(args.last.is_a?(Hash))
@@ -149,7 +149,7 @@ module TaliaCore
       self[:uri]
     end
 
-    # This will work in the normal way for database attributes. If the value
+    # Works in the normal way for database attributes. If the value
     # is not an attribute, it tries to find objects related to this source
     # with the value as a predicate URL and returns a collection of those.
     #
@@ -174,7 +174,7 @@ module TaliaCore
       end
     end
 
-    # This returns a special object which collects the "inverse" properties 
+    # Returns a special object which collects the "inverse" properties 
     # of the Source - these are all RDF properties which have the current
     # Source as the object.
     #

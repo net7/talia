@@ -2,7 +2,7 @@ module TaliaUtil
   
   module HyperImporter
     
-    # Import class for paragraphs
+    # Import class for path steps
     class PathStepImporter < Importer
       
       source_type 'hyper:PathStep'

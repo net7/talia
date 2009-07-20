@@ -2,7 +2,7 @@ module TaliaUtil
   
   module HyperImporter
     
-    # Import class for paths
+    # Import class for essay pages
     class EssayPageImporter < Importer
       
       source_type 'hyper:EssayPage'

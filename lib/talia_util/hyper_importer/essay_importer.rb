@@ -2,7 +2,7 @@ module TaliaUtil
   
   module HyperImporter
     
-    # Import class for paragraphs
+    # Import class for essays
     class EssayImporter < ContributionImporter
       
       source_type 'hyper:Essay'

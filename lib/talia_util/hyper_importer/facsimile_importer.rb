@@ -2,7 +2,7 @@ module TaliaUtil
   
   module HyperImporter
     
-    # Import class for paragraphs
+    # Import class for facsimiles
     class FacsimileImporter < ContributionImporter
       
       source_type 'hyper:Facsimile'

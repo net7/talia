@@ -3,6 +3,9 @@ require File.join('talia_core', 'data_types', 'file_store')
 
 
 module TaliaCore
+  
+  # Contains all data types that are handled by the Talia system. All data elements
+  # should be subclasses of DataRecord
   module DataTypes
    
     # ActiveRecord interface to the data record in the database
@@ -104,9 +107,9 @@ module TaliaCore
       private
       
     
-      # Returns demodulized type or class name.
+      # Returns demodulized class name.
       def class_name
-        (self.type.to_s || self.class.name).demodulize
+        self.class.name.demodulize
       end
     
       # set mime type 

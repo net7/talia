@@ -54,15 +54,6 @@ namespace :talia_core do
     t.verbose = true
   end
   
-
-  desc 'Generate documentation for the talia_core plugin.'
-  Rake::RDocTask.new(:rdoc) do |rdoc|
-    rdoc.title    = 'TaliaCore'
-    rdoc.options << '--line-numbers' << '--inline-source'
-    rdoc.rdoc_files.include('README')
-    rdoc.rdoc_files.include('lib/**/*.rb')
-  end
-  
   # Just run the Talia init to test it
   desc "Test the TaliaCore startup"
   task :init_test => :talia_init do

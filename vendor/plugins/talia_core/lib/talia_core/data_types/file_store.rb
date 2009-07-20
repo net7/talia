@@ -1,9 +1,6 @@
 require 'fileutils'
 
 module TaliaCore
-  # Base module to manage the data storage in file
-  # To be included into every subclasse of DataRecord
-  # which have the necessity to work with file
   module DataTypes
     module FileStore
   

@@ -14,7 +14,7 @@
 #   get :index        # will return "hello world"
 #   hijacker.restore  # put things back the way you found it
 
-class Hijacker
+class Hijacker # :nodoc:
   def initialize(klass)
     @target_klass = klass
     @method_stores = {}

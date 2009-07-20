@@ -2,7 +2,7 @@ module TaliaUtil
   
   module HyperImporter
     
-    # Import class for paragraphs
+    # Import class for books
     class BookImporter < Importer
       
       source_type 'hyper:Book'

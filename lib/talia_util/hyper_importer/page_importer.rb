@@ -2,7 +2,7 @@ module TaliaUtil
   
   module HyperImporter
     
-    # Import class for paragraphs
+    # Import class for pages
     class PageImporter < Importer
       
       source_type 'hyper:Page'

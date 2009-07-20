@@ -2,7 +2,7 @@ module TaliaUtil
   
   module HyperImporter
     
-    # Import class for paragraphs
+    # Import class for transcriptions (aka Hyper Editions)
     class TranscriptionImporter < ContributionImporter
       
       source_type 'hyper:HyperEdition'

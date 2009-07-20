@@ -2,7 +2,7 @@ module TaliaUtil
   
   module HyperImporter
     
-    # Import class for paths
+    # Import class for external objects
     class ExternalObjectImporter < ContributionImporter
       
       source_type 'hyper:ExternalObject'

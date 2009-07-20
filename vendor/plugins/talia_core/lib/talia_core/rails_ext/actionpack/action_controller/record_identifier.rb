@@ -1,5 +1,5 @@
-module ActionController  
-  module RecordIdentifier
+module ActionController # :nodoc:  
+  module RecordIdentifier 
     def singular_class_name(record_or_class)
       class_from_record_or_class(record_or_class).underscore.tr('/', '_')
     end

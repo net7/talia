@@ -1,4 +1,4 @@
-module Platform
+module Platform # :nodoc:
   extend self
 
   def jruby?
