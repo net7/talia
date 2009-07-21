@@ -53,7 +53,6 @@ module TaliaCore
       src = ActiveSource.new('http://as_test/rdf_rewrite')
       src[N::RDF.rew] << 'value'
       src.save!
-      src.save!
       assert_equal(1, src.my_rdf[N::RDF.rew].size)
       src[N::RDF.rew].remove
       src[N::RDF.rew] << 'new value'
