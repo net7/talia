@@ -40,7 +40,6 @@ module TLoad
     require_module("activerecord", "active_record", "/../../../rails/activerecord", RAILS_GEM_VERSION) unless(defined?(ActiveRecord))
     require_module("activesupport", "active_support", "/../../../rails/activesupport", RAILS_GEM_VERSION) unless(defined?(ActiveSupport))
     require_module("actionpack", "action_controller", "/../../../rails/actionpack", RAILS_GEM_VERSION)
-    require_module("has_many_polymorphs", "has_many_polymorphs", "/../../has_many_polymorphs")
     # This sets the automatic loader path for Talia, allowing the ActiveSupport
     # classes to automatically load classes from this directory.
     Dependencies.load_paths << TLoad.start_dir unless(Dependencies.load_paths.include?(TLoad.start_dir))

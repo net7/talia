@@ -51,19 +51,6 @@ module TaliaCore
       assert(src.new_record?)
     end
     
-    def test_objects
-      assert_equal(1, active_sources(:testy).objects.size)
-      assert_equal(4, active_sources(:multirel).objects.size)
-    end
-    
-    def test_content
-      assert_kind_of(TaliaCore::SemanticProperty, active_sources(:testy).objects[0])
-    end
-    
-    def test_objects_finder
-      assert_equal(1, active_sources(:testy).objects.find(:all).size)
-    end
-    
     def test_accessor
       assert_equal(3, active_sources(:multirel)['http://testvalue.org/multirel'].size)
       assert_equal(1, active_sources(:multirel)['http://testvalue.org/multi_b'].size)
@@ -254,12 +241,6 @@ module TaliaCore
       assert_kind_of(TaliaCore::OrderedSource, active_sources(:sti_source))
     end
     
-    def test_sti_relations
-      assert_equal(1, active_sources(:sti_source).objects.size)
-      assert_kind_of(TaliaCore::ActiveSource, active_sources(:sti_source).objects[0])
-      assert_equal(active_sources(:sti_source_b).uri, active_sources(:sti_source).objects[0].uri)
-    end
-    
     def test_sti_relation_create
       src = active_sources(:sti_source_reltest)
       src['http://reltest_test'] << active_sources(:sti_source_reltest_b)
@@ -294,10 +275,10 @@ module TaliaCore
     
     def test_destroy_from_predicate
       src = active_sources(:pred_destroy_test)
-      assert_equal(3, src.objects.size)
+      assert_equal(2, src.direct_predicates.size)
       src['http://testvalue.org/pred_destroy_a'].remove
       src.save!
-      assert_equal(1, active_sources(:pred_destroy_test).objects.size)
+      assert_equal(1, active_sources(:pred_destroy_test).direct_predicates.size)
     end
     
     def test_create_local

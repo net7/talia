@@ -16,9 +16,6 @@
 [submodule "vendor/plugins/restful_authentication"]
 	path = vendor/plugins/restful_authentication
 	url = git://github.com/technoweenie/restful-authentication.git
-[submodule "vendor/plugins/has_many_polymorphs"]
-	path = vendor/plugins/has_many_polymorphs
-	url = git://github.com/fauna/has_many_polymorphs.git
 [submodule "vendor/plugins/upload_progress"]
 	path = vendor/plugins/upload_progress
 	url = git://github.com/rails/upload_progress.git

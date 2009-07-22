@@ -33,9 +33,6 @@ module TaliaCore
 
     
     # Relations where this source is the subject of the triple
-    has_many_polymorphs :objects, :from => [:active_sources, :semantic_properties],
-      :as => :subject, :through => :semantic_relations, :namespace => :talia_core,
-      :skip_duplicates => false
     has_many :semantic_relations, :foreign_key => 'subject_id', :class_name => 'TaliaCore::SemanticRelation', :dependent => :destroy
            
     # Relations where this source is the object of the relation
