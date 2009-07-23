@@ -57,8 +57,7 @@ module TaliaCore
     # validates_format_of :uri,
     #   :with => /^(http|https):\/\/[a-z0-9\_\-\.]*[a-z0-9_-]{1,}\.[a-z]{2,4}[\/\w\d\_\-\.\?\&\#]*$/i
     
-    validate :check_uri
-    
+    validate :check_uri    
 
     # Helper
     def value_for(thing)
@@ -77,7 +76,7 @@ module TaliaCore
     #
     # The assignment operator remains as it is for the ActiveRecord.
     def [](attribute)
-      if(attribute_names.include?(attribute.to_s))
+      if(db_attr?(attribute))
         super(attribute)
       else
         get_objects_on(attribute)
@@ -87,12 +86,58 @@ module TaliaCore
 
     # Assignment to an attribute. This will overwrite all current triples.
     def []=(attribute, value)
-      if(attribute_names.include?(attribute.to_s))
+      if(db_attr?(attribute))
         super(attribute, value)
       else
         pred = get_attribute(attribute)
         pred.remove
         pred << value
+      end
+    end
+
+    # Make aliases for the original updating methods
+    alias :update_attributes_orig :update_attributes
+    alias :update_attributes_orig! :update_attributes!
+
+    # Updates *all* attributes of this source. For the database attributes, this works
+    # exactly like ActiveRecord::Base#update_attributes
+    #
+    # If semantic attributes are present, they will be updated on the semantic store.
+    #
+    # After the update, the source will be saved.
+    def update_attributes(attributes)
+      process_attributes(false, attributes) { |db_attrs| super(db_attrs) }
+    end
+
+    # As update_attributes, but uses save! to save the source
+    def update_attributes!(attributes)
+      process_attributes(false, attributes) { |db_attrs| super(db_attrs) }
+    end
+    
+    # Works like update_attributes, but will replace the semantic attributes
+    # rather than adding to them.
+    def rewrite_attributes(attributes)
+      process_attributes(true, attributes) { |db_attrs| update_attributes_orig(db_attrs) }
+    end
+    
+    # Like rewrite_attributes, but calling save!
+    def rewrite_attributes!(attributes)
+      process_attributes(true, attributes) { |db_attrs| update_attributes_orig!(db_attrs) }
+    end
+    
+    # Helper to update semantic attributes from the given hash. If there is a
+    # "<value>" string, it will be treated as a reference to an URI. Hash
+    # values may be arrays.
+    #
+    # If overwrite is set to yes, the given attributes (and only those)
+    # are replaced with the values from the hash. Otherwise
+    # the attribute values will be added to the existing ones
+    def add_semantic_attributes(overwrite, attributes)
+      attributes.each do |attr, value|
+        value = [ value ] unless(value.is_a?(Array))
+        attr_wrap = self[attr]
+        attr_wrap.remove if(overwrite)
+        value.each { |val |self[attr] << target_for(val) }
       end
     end
 
@@ -163,6 +208,11 @@ module TaliaCore
     def has_type?(type)
       (self.types.include?(type))
     end
+    
+    # True if the given attribute is a database attribute
+    def db_attr?(attribute)
+      ActiveSource.db_attr?(attribute)
+    end
 
     # Writes the predicate directly to the database and the rdf store. The
     # Source does not need to be saved and no data is loaded from the database.
@@ -187,6 +237,35 @@ module TaliaCore
     end
 
     private
+    
+    # Extracts the semantic attributes from the attribute hash and passes them
+    # to add_semantic_attributes with the given overwrite flag. The database
+    # flags are then passed to the block.
+    def process_attributes(overwrite, attributes)
+      attributes = ActiveSource.split_attribute_hash(attributes)
+      add_semantic_attributes(overwrite, attributes[:semantic_attributes])
+      yield attributes[:db_attributes]
+    end
+    
+    # Creates the target for the given attribute. If the value
+    # has the format <...>, it will be returned as an URI object, if it's a normal
+    # string it will be returned as a string.
+    def target_for(value)
+      return value if(value.kind_of?(N::URI) || value.kind_of?(ActiveSource))
+      assit_kind_of(String, value)
+      value.strip!
+      if((value[0..0] == '<') && (value[-1..-1] == '>'))
+        value = ActiveSource.expand_uri(value [1..-2])
+        val_src = ActiveSource.find(:first, :conditions => { :uri => value })
+        if(!val_src)
+          value = DummySource.new(value)
+          value.save!
+        else
+          value = val_src
+        end
+      end
+      value
+    end
 
     # Get the namespace URI object for the given namespace
     def get_namespace(namespace, name = '')

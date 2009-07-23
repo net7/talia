@@ -71,7 +71,7 @@ module TaliaCore
       assert_property(res[N::RDF.rew], 'foo', 'bar')
       assert_equal(['foo', 'bar'], res.my_rdf[N::RDF.rew])
     end
-   
+  
     protected
     
     def print_rels(relations)

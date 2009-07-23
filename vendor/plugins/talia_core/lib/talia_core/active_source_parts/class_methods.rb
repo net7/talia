@@ -8,22 +8,25 @@ module TaliaCore
         @additional_rdf_types ||= []
       end
 
-      # This helps the "new" method to either return an existing element or
-      # instead create a new object with the given uri.
-      # 
-      # We know that this is a hack. TODO: No real reason for this, should probably
-      # be removed.
+      # New method for ActiveSources. If a URL of an existing Source is given as the only parameter, 
+      # that source will be returned. This makes the class work smoothly with our ActiveRDF version
+      # query interface.
+      #
+      # Note that any semantic properties that were passed in to the constructor will be assigned
+      # *after* the ActiveRecord "create" callbacks have been called.
       def new(*args)
-        the_source = nil
-        if(args.size == 1 && ( uri_s = uri_string_for(args[0]))) # One string argument should be the uri
-          # if we don't find the something, let's create a new source
-          unless(the_source = find(:first, :conditions => { :uri => uri_s } ))
-            the_source = super() # brackets avoid passing any parameters
-            the_source.uri = uri_s
-          end
+        the_source = if(args.size == 1 && ( uri_s = uri_string_for(args[0]))) # One string argument should be the uri
+          # Either the current object from the db, or a new one if it doesn't exist in the db
+          find(:first, :conditions => { :uri => uri_s } ) || super(:uri => uri_s)
+        elsif((args.size == 1) && (args.first.is_a?(Hash)))
+          # We have an option hash to init the source
+          attributes = split_attribute_hash(args.first)
+          the_source = super(attributes[:db_attributes])
+          the_source.add_semantic_attributes(false, attributes[:semantic_attributes])
+          the_source
         else
           # In this case, it's a generic "new" call
-          the_source = super
+          super
         end
         the_source.types << the_source.class.additional_rdf_types if(the_source.new_record?)
         the_source
@@ -73,6 +76,23 @@ module TaliaCore
 
         result
       end
+      
+      # Semantic version of ActiveRecord::Base#update - the id may be a record id or an URL,
+      # and the attributes may contain semantic attributes. See the update_attributes method
+      # for details on how the semantic attributes behave.
+      def update(id, attributes)
+        record = find(id)
+        raise(ActiveRecord::RecordNotFound) unless(record)
+        record.update_attributes(attributes)
+      end
+      
+      # Like update, only that it will overwrite the given attributes instead
+      # of adding to them
+      def rewrite(id, attributes)
+        record = find(id)
+        raise(ActiveRecord::RecordNotFound) unless(record)
+        record.rewrite_attributes(attributes)
+      end
 
       # The pagination will also use the prepare_options! to have access to the
       # advanced finder options
@@ -87,7 +107,50 @@ module TaliaCore
         thing.is_a?(SemanticProperty) ? thing.value : thing
       end
       
+      # Returns true if the given attribute is one that is stored in the database
+      def db_attr?(attribute)
+        db_attributes.include?(attribute.to_s)
+      end
+      
+      # Tries to expand a generic URI value that is either given as a full URL
+      # or a namespace:name value.
+      #
+      # This will assume a full URL if it finds a ":/" string inside the URI. 
+      # Otherwise it will construct a namespace - name URI
+      def expand_uri(uri) # TODO: Merge with uri_for ?
+        return uri if(uri.include?(':/'))
+        N::URI.make_uri(uri).to_s
+      end
+      
+      # Splits the attribute hash that is given for new, update and the like. This
+      # will return another hash, where result[:db_attributes] will contain the
+      # hash of the database attributes while result[:semantic_attributes] will
+      # contain the other attributes. 
+      #
+      # The semantic attributes will be expanded to full URIs whereever possible.
+      #
+      # This method will *not* check for attributes that correspond to singular
+      # property names.
+      def split_attribute_hash(attributes)
+        assit_kind_of(Hash, attributes)
+        db_attributes = {}
+        semantic_attributes = {}
+        attributes.each do |field, value|
+          if(db_attr?(field))
+            db_attributes[field] = value
+          else
+            semantic_attributes[expand_uri(field)] = value
+          end
+        end
+        { :semantic_attributes => semantic_attributes, :db_attributes => db_attributes }
+      end
+      
       private
+      
+      # The attributes stored in the database
+      def db_attributes
+        @db_attributes ||= ActiveSource.new.attribute_names
+      end
       
       # Helper to define a "additional type" in subclasses which will 
       # automatically be added on Object creation

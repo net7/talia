@@ -190,7 +190,7 @@ module TaliaCore
     def test_predicate_set_uniq
       src = active_sources(:assoc_predicate_test)
       src.predicate_set_uniq(:as_test_preds, :test_uniq, "foo")
-       assert_property(src.predicate(:as_test_preds, :test_uniq), "foo")
+      assert_property(src.predicate(:as_test_preds, :test_uniq), "foo")
       src.predicate_set_uniq(:as_test_preds, :test_uniq, "bar")
       src.predicate_set_uniq(:as_test_preds, :test_uniq, "foo")
       src.save!
@@ -434,6 +434,77 @@ module TaliaCore
       src.reset!
       assert_property(src[N::HYPER.bar], 'foo', 'bar')
     end
+    
+    def test_db_attributes
+      assert(ActiveSource.db_attr?(:type))
+      assert(ActiveSource.db_attr?('type'))
+      assert(!ActiveSource.db_attr?('footype'))
+      assert(!ActiveSource.db_attr?('http://www.foobar.org/'))
+    end
+    
+    def test_expand_uri
+      assert_equal(N::LOCAL.foo.to_s, ActiveSource.expand_uri(':foo'))
+      assert_equal(N::LOCAL.foo.to_s, ActiveSource.expand_uri('foo'))
+      assert_equal(N::LOCAL.foo.to_s, ActiveSource.expand_uri('local:foo'))
+      assert_equal(N::RDF.foo.to_s, ActiveSource.expand_uri('rdf:foo'))
+      assert_equal('http://barf.org/foo', ActiveSource.expand_uri('http://barf.org/foo'))
+    end
+    
+    def test_update_attributes_on_saved
+      src = ActiveSource.new('http://as_test/test_update_attributes_on_saved')
+      src.save!
+      src.update_attributes(:uri => 'http://as_test/test_update_attributes_on_2', 'rdf:foo' => 'value', N::LOCAL.relatit.to_s => "<#{N::LOCAL + 'attr_on_save_test_dummy'}>" )
+      src = ActiveSource.find('http://as_test/test_update_attributes_on_2')
+      assert_kind_of(DummySource, src[N::LOCAL.relatit].first)
+      assert_equal(N::LOCAL + 'attr_on_save_test_dummy', src[N::LOCAL.relatit].first.uri)
+      assert_equal('value', src[N::RDF.foo].first)
+    end
+    
+    def test_update_attributes_lists
+      src = ActiveSource.new('http://as_test/test_update_attributes_on_saved_lists')
+      src.update_attributes(N::LOCAL.relatit.to_s => ["<#{N::LOCAL + 'attr_update_test_dummy'}>" , "<:another_attribute_save_dummy>"])
+      assert_property(src[N::LOCAL.relatit], N::LOCAL.attr_update_test_dummy, N::LOCAL.another_attribute_save_dummy)
+    end
+    
+    def test_update_adding
+      src = ActiveSource.new('http://as_test/test_update_adding')
+      src[N::RDF.something] << 'value1'
+      src.update_attributes!('rdf:something' => ['value2', 'value3'])
+      assert_property(src[N::RDF.something], 'value1', 'value2', 'value3')
+    end
+    
+    def test_update_rewrite
+      src = ActiveSource.new('http://as_test/test_update_rewrite')
+      src[N::RDF.something] << 'value1'
+      src.rewrite_attributes!('rdf:something' => ['value2', 'value3'])
+      assert_property(src[N::RDF.something], 'value2', 'value3')
+    end
+    
+    def test_update_static
+      src = ActiveSource.new('http://as_test/test_update_static')
+      src[N::RDF.something] << 'value1'
+      src.save!
+      ActiveSource.update(src.uri, 'rdf:something' => ['value2', 'value3'])
+      src = ActiveSource.find(src.uri)
+      assert_property(src[N::RDF.something], 'value1', 'value2', 'value3')
+    end
+    
+    def test_rewrite_static
+      src = ActiveSource.new('http://as_test/test_update_rewrite')
+      src[N::RDF.something] << 'value1'
+      src.save!
+      ActiveSource.rewrite(src.id, 'rdf:something' => ['value2', 'value3'])
+      src = ActiveSource.find(src.id)
+      assert_property(src[N::RDF.something], 'value2', 'value3')
+    end
+    
+    def test_create_with_attributes
+      src = ActiveSource.new(:uri => 'http://as_test/create_with_attributes', ':localthi' => 'value', 'rdf:relatit' => ["<:as_create_attr_dummy_1>", "<:as_create_attr_dummy_1>"])
+      assert_equal('http://as_test/create_with_attributes', src.uri)
+      assert_equal('value', src[N::LOCAL.localthi].first)
+      assert_property(src[N::RDF.relatit], N::LOCAL.as_create_attr_dummy_1, N::LOCAL.as_create_attr_dummy_1)
+    end
+    
   end
   
 end
