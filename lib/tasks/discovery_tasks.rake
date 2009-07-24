@@ -503,6 +503,7 @@ namespace :discovery do
       puts "See the documentation of the FileStore class for more information."
     end
   end
+
 end
 
 namespace :sophiavision do
