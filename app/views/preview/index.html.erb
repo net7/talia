@@ -1,10 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <%= stylesheet_link_tag("editions/critical") %>
-    <%= stylesheet_link_tag("main") %>
-    <%= stylesheet_link_tag("TEI/p4/tei_style") %>
-    <%= stylesheet_link_tag("tooltip") %>
+    <%= stylesheet_link_tag "editions/critical", :media => "all" %>
+    <%= stylesheet_link_tag "main", :media => "screen" %>
+    <%= stylesheet_link_tag "TEI/p4/tei_style", :media => "screen" %>
+    <%= stylesheet_link_tag "TEI/p4/tei_style_print", :media => "print" %>
+    <%= stylesheet_link_tag "editions/critical_print", :media => "print" %>
+    <%= stylesheet_link_tag "tooltip", :media => "all" %>
     <%= javascript_include_tag("wit-js") %>
     <%= javascript_include_tag("prototype") %>
     <%= javascript_include_tag("scriptaculous") %>
