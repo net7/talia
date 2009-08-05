@@ -9,3 +9,8 @@ body {
     
 }
 
+.header_link_to_home {
+    display: block;
+    width: 345px;
+    height: 93px;
+}

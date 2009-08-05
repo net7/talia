@@ -19,6 +19,7 @@
     <div id="page_ext">
       <div id="page_int">
         <div id="header">
+          <%= link_to('', {:controller => 'home', :action => 'start'}, :class => 'header_link_to_home') %>
           <h1><%= edition_page_title %></h1>
           <h2><%= t(:'talia.global.simple_mode') %></h2>
           <h3><%= translate_edition_name(@edition)  %></h3>
