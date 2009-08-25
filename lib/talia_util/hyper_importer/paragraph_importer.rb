@@ -37,20 +37,18 @@ module TaliaUtil
         position = select_position(page, position)
         n_name = note_name(page, position)
         # Check if the note already exists - this should never happen!
-        if(!TaliaCore::Source.exists?(n_name))
+        if(!SourceHash.hash.include?(n_name))
           note = get_source_with_class(n_name.local_name, TaliaCore::Note)
           # positions are dealt with as if they were strings, we add some leading zeros to be able
           # to order on them even if they are strings
-          note.position = "%06d" % position.to_i
-          note.siglum = n_name.local_name
+          note[N::HYPER.position].replace("%06d" % position.to_i)
+          note[N::HYPER.siglum].replace(n_name.local_name)
           # Add a relation to the page
           add_source_rel(N::HYPER::page, page, note)
           # Add the coordinates, if any
-          note.coordinates = coordinates if(coordinates && coordinates != '')
+          note[N::HYPER.coordinates].replace(coordinates) if(coordinates && coordinates != '')
           
           quick_add_predicate(@source, N::HYPER.note, note)
-          note.autosave_rdf = true
-          note.save!
         else
           assit_fail("Duplicate note #{n_name}")
         end
@@ -59,35 +57,35 @@ module TaliaUtil
       private
       
       # Creates a clone of the imported paragraph and add it to the catalog specified in the xml (if any)
-      def clone_to_catalog
-        catalog = get_catalog()
-        if(catalog)
-          #          clone_uri = catalog.uri.to_s + '/' + @source.uri.local_name.to_s
-          clone_uri = catalog.concordant_uri_for(@source)
-          @source.autosave_rdf = true
-          @source.save!
-          original = @source
-          @source = clone_to(clone_uri)
-          original.notes.each do |note|
-            clone_page_uri = catalog.uri.local_name.to_s + '/' + note.page.uri.local_name.to_s
-            clone_page = SourceCache.cache[clone_page_uri]
-            clone_page ||= get_source_with_class(clone_page_uri, TaliaCore::Page)
-            clone_note_uri = catalog.concordant_uri_for(note)
-            clone_to(clone_note_uri, note) do |clone_note|
-              quick_add_predicate(clone_note, N::HYPER.page, clone_page)
-              clone_note.save!
-              quick_add_predicate(@source, N::HYPER.note, clone_note)
-            end
-          end
-        end
-      end        
+      # def clone_to_catalog
+      #   catalog = get_catalog()
+      #   if(catalog)
+      #     #          clone_uri = catalog.uri.to_s + '/' + @source.uri.local_name.to_s
+      #     clone_uri = catalog.concordant_uri_for(@source)
+      #     @source.autosave_rdf = true
+      #     @source.save!
+      #     original = @source
+      #     @source = clone_to(clone_uri)
+      #     original.notes.each do |note|
+      #       clone_page_uri = catalog.uri.local_name.to_s + '/' + note.page.uri.local_name.to_s
+      #       clone_page = SourceCache.cache[clone_page_uri]
+      #       clone_page ||= get_source_with_class(clone_page_uri, TaliaCore::Page)
+      #       clone_note_uri = catalog.concordant_uri_for(note)
+      #       clone_to(clone_note_uri, note) do |clone_note|
+      #         quick_add_predicate(clone_note, N::HYPER.page, clone_page)
+      #         clone_note.save!
+      #         quick_add_predicate(@source, N::HYPER.note, clone_note)
+      #       end
+      #     end
+      #   end
+      # end        
       
       # Selects a name for the given note, updating the position until a 
       # "free" position is found. (The original Hyper may include duplicate
       # positions due to incorrect assignments). This returns the new position
       def select_position(page, initial_position)
         position = initial_position
-        while(TaliaCore::Source.exists?(note_name(page, position))) do position += 1 end
+        while(SourceHash.hash.include?(note_name(page, position))) do position += 1 end
         logger.warn("\033[4m\033[33m\033[1mParagraphImporter\033[0m Had to adapt note #{initial_position} for #{source.uri.to_name_s} on page #{page} to #{position}") if(position != initial_position)
         position
       end

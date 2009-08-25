@@ -20,6 +20,9 @@ module TaliaCore
   #   the property will be left empty (and not revert to the original value!)
   class ActiveSource < ActiveRecord::Base
     
+    # Act like an ActiveRdfResource
+    include RDFS::ResourceLike
+    
     extend ActiveSourceParts::ClassMethods
     extend ActiveSourceParts::SqlHelper
     include ActiveSourceParts::PredicateHandler
@@ -106,23 +109,27 @@ module TaliaCore
     #
     # After the update, the source will be saved.
     def update_attributes(attributes)
-      process_attributes(false, attributes) { |db_attrs| super(db_attrs) }
+      yield self if(block_given?)
+      super(process_attributes(false, attributes))
     end
 
     # As update_attributes, but uses save! to save the source
     def update_attributes!(attributes)
-      process_attributes(false, attributes) { |db_attrs| super(db_attrs) }
+      yield self if(block_given?)
+      super(process_attributes(false, attributes))
     end
     
     # Works like update_attributes, but will replace the semantic attributes
     # rather than adding to them.
     def rewrite_attributes(attributes)
-      process_attributes(true, attributes) { |db_attrs| update_attributes_orig(db_attrs) }
+      yield self if(block_given?)
+      update_attributes_orig(process_attributes(true, attributes)) 
     end
     
     # Like rewrite_attributes, but calling save!
     def rewrite_attributes!(attributes)
-      process_attributes(true, attributes) { |db_attrs| update_attributes_orig!(db_attrs) }
+      yield self if(block_given?)
+      update_attributes_orig!(process_attributes(true, attributes))
     end
     
     # Helper to update semantic attributes from the given hash. If there is a
@@ -194,12 +201,14 @@ module TaliaCore
     
     # Gets the direct predicates (using the database)
     def direct_predicates
+      raise(ActiveRecord::RecordNotFound, "Cannot do this on unsaved record.") if(new_record?)
       rels = SemanticRelation.find_by_sql("SELECT DISTINCT predicate_uri FROM semantic_relations WHERE subject_id = #{self.id}")
       rels.collect { |rel| N::Predicate.new(rel.predicate_uri) }
     end
     
     # Gets the inverse predicates
     def inverse_predicates
+      raise(ActiveRecord::RecordNotFound, "Cannot do this on unsaved record.") if(new_record?)
       rels = SemanticRelation.find_by_sql("SELECT DISTINCT predicate_uri FROM semantic_relations WHERE object_id = #{self.id}")
       rels.collect { |rel| N::Predicate.new(rel.predicate_uri) }
     end
@@ -236,15 +245,43 @@ module TaliaCore
       self.autosave_rdf = autosave
     end
 
+
+    # XML Representation of the source. The object is saved if this is a new
+    # record.
+    def to_xml
+      save! if(new_record?)
+      ActiveSourceParts::Xml::SourceBuilder.build_source(self)
+    end
+
+    # Creates an RDF/XML resprentation of the source. The object is saved if
+    # this is a new record.
+    def to_rdf
+      save! if(new_record?)
+      ActiveSourceParts::Xml::RdfBuilder.build_source(self) 
+    end
+
+    # Add the additional types to the source that were configured in the class.
+    # Usually this will not need to be called directly, but will be automatically
+    # called during construction.
+    #
+    # This will check the existing types to avoid duplication
+    def add_additional_rdf_types
+      type_hash = {}
+      self.types.each { |type| type_hash[type.respond_to?(:uri) ? type.uri.to_s : type.to_s] = true }
+      self.class.additional_rdf_types.each do |type|
+        self.types << type unless(type_hash[type.respond_to?(:uri) ? type.uri.to_s : type.to_s])
+      end
+    end
+
     private
     
     # Extracts the semantic attributes from the attribute hash and passes them
-    # to add_semantic_attributes with the given overwrite flag. The database
-    # flags are then passed to the block.
+    # to add_semantic_attributes with the given overwrite flag.  
+    # The database attributes are returned by the method
     def process_attributes(overwrite, attributes)
       attributes = ActiveSource.split_attribute_hash(attributes)
       add_semantic_attributes(overwrite, attributes[:semantic_attributes])
-      yield attributes[:db_attributes]
+      attributes[:db_attributes]
     end
     
     # Creates the target for the given attribute. If the value
@@ -273,7 +310,6 @@ module TaliaCore
       raise(ArgumentError, "Illegal namespace given #{namespace}") unless(namesp_uri)
       namesp_uri + name.to_s
     end
-
 
     # Takes over the validation for ActiveSources
     def validate

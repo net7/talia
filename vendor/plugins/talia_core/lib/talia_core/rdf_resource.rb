@@ -6,6 +6,8 @@ module TaliaCore
   # However, it's specifically tailored for the use with Talia, and avoids some
   # of the pitfalls of the original class.
   class RdfResource
+
+    include RDFS::ResourceLike
     
     class << self
       

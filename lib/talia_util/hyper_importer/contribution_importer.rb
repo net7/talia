@@ -20,26 +20,26 @@ module TaliaUtil
         add_property_from(@element_xml, 'curator_notes')
         import_file!
         import_authors!
-        add_manifestation_of_clones
+        # add_manifestation_of_clones
       end
       
       # If the source of which this is a manifestation has some previously created
       # clones, add this as a manifestation of them too.
-      def add_manifestation_of_clones
-        related_sources = TaliaCore::Source.find(@source::hyper.manifestation_of.values)
-        related_sources.each do |related_source|
-          qry = Query.new(TaliaCore::Source).select(:clone).distinct
-          qry.where(:concordance, N::HYPER.concordant_to, related_source)
-          qry.where(:concordance, N::HYPER.concordant_to, :clone)
-          # now it finds *every* concordant source, even the related_source one
-          # TODO: filter it out, it already has the manifestation_of relation
-          #         qry.filter("(?clone != '<#{related_source}>')")
-          clones = qry.execute
-          clones.each do |clone|
-            quick_add_predicate(source, N::HYPER.manifestation_of, clone)
-          end
-        end
-      end
+      # def add_manifestation_of_clones
+      #   related_sources = TaliaCore::Source.find(@source::hyper.manifestation_of.values)
+      #   related_sources.each do |related_source|
+      #     qry = Query.new(TaliaCore::Source).select(:clone).distinct
+      #     qry.where(:concordance, N::HYPER.concordant_to, related_source)
+      #     qry.where(:concordance, N::HYPER.concordant_to, :clone)
+      #     # now it finds *every* concordant source, even the related_source one
+      #     # TODO: filter it out, it already has the manifestation_of relation
+      #     #         qry.filter("(?clone != '<#{related_source}>')")
+      #     clones = qry.execute
+      #     clones.each do |clone|
+      #       quick_add_predicate(source, N::HYPER.manifestation_of, clone)
+      #     end
+      #   end
+      # end
       
       # Import a list of curators and the curator's note for the contribution
       def import_authors!

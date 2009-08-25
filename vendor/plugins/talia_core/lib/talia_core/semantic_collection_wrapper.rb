@@ -55,6 +55,11 @@ module TaliaCore
       items.each { |item| yield(item.value) }
     end
 
+    # Collect method for the semantic wrapper
+    def collect
+      items.collect { |item| yield(item.value) }
+    end
+
     # Iterates of each '''target''' of the items in the relation. (This
     # will pass in SemanticProperty objects instead of the value
     def each_item
@@ -78,6 +83,12 @@ module TaliaCore
             'subject_id' => @assoc_source.id,
             'predicate_uri' => @assoc_predicate })
       end
+    end
+
+    # Joins the elments into a string
+    def join(join_str = ', ')
+      strs = items.collect { |item| item.value.to_s }
+      strs.join(join_str)
     end
 
     # Index of the given value
@@ -247,7 +258,6 @@ module TaliaCore
 
       value = check_for_source(value) if(value.is_a?(ActiveSource))
 
-      # self.class.benchmark('Adding value to semantic property') do
       rel = create_predicate(value)
       rel.rel_order = order if(order)
       item = SemanticCollectionItem.new(rel, :plain)

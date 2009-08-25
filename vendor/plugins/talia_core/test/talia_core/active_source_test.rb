@@ -5,6 +5,7 @@ module TaliaCore
   
   class SingularAccessorTest < ActiveSource
     singular_property :siglum, N::RDFS.siglum
+    has_rdf_type N::TALIA.foo
   end
   
   # Test the ActiveSource
@@ -473,11 +474,23 @@ module TaliaCore
       assert_property(src[N::RDF.something], 'value1', 'value2', 'value3')
     end
     
-    def test_update_rewrite
+    def test_rewrite
       src = ActiveSource.new('http://as_test/test_update_rewrite')
       src[N::RDF.something] << 'value1'
       src.rewrite_attributes!('rdf:something' => ['value2', 'value3'])
       assert_property(src[N::RDF.something], 'value2', 'value3')
+    end
+    
+    def test_rewrite_type
+      src = ActiveSource.new('http://as_test/test_update_rewrite_type')
+      src.rewrite_attributes!({}) { |src| src.type = 'SingularAccessorTest' }
+      assert_kind_of(SingularAccessorTest, ActiveSource.find(src.uri))
+    end
+    
+    def test_rewrite_type
+      src = ActiveSource.new('http://as_test/test_update_type')
+      src.update_attributes!({}) { |src| src.type = 'SingularAccessorTest' }
+      assert_kind_of(SingularAccessorTest, ActiveSource.find(src.uri))
     end
     
     def test_update_static
@@ -503,6 +516,27 @@ module TaliaCore
       assert_equal('http://as_test/create_with_attributes', src.uri)
       assert_equal('value', src[N::LOCAL.localthi].first)
       assert_property(src[N::RDF.relatit], N::LOCAL.as_create_attr_dummy_1, N::LOCAL.as_create_attr_dummy_1)
+    end
+    
+    def test_create_source
+      src = ActiveSource.create_source(:uri => 'http://as_test/create_with_type', ':localthi' => 'value', 'rdf:relatit' => ["<:as_create_attr_dummy_1>", "<:as_create_attr_dummy_1>"], 'type' => 'SingularAccessorTest')
+      assert_kind_of(SingularAccessorTest, src)
+      assert_equal('value', src[N::LOCAL.localthi].first)
+      assert_property(src[N::RDF.relatit], N::LOCAL.as_create_attr_dummy_1, N::LOCAL.as_create_attr_dummy_1)
+      assert_property(src.types, N::TALIA.foo)
+    end
+    
+    def test_xml_forth_and_back
+      src = ActiveSource.create_source(:uri => 'http://as_test/create_forth_and_back', ':localthi' => 'value', 'rdf:relatit' => ["<:as_create_attr_dummy_1>", "<:as_create_attr_dummy_1>"], 'type' => 'SingularAccessorTest')
+      xml = src.to_xml
+      # Quickly change the URI for the new thing
+      xml.gsub!(src.uri.to_s, 'http://as_test/create_forth_and_forth')
+      new_src = ActiveSource.create_from_xml(xml)
+      # Now test as above
+      assert_equal('http://as_test/create_forth_and_forth', new_src.uri.to_s)
+      assert_equal('value', new_src[N::LOCAL.localthi].first)
+      assert_property(new_src[N::RDF.relatit], N::LOCAL.as_create_attr_dummy_1, N::LOCAL.as_create_attr_dummy_1)
+      assert_property(new_src.types, N::TALIA.foo)
     end
     
   end

@@ -15,21 +15,41 @@ module TaliaCore
       # Note that any semantic properties that were passed in to the constructor will be assigned
       # *after* the ActiveRecord "create" callbacks have been called.
       def new(*args)
-        the_source = if(args.size == 1 && ( uri_s = uri_string_for(args[0]))) # One string argument should be the uri
-          # Either the current object from the db, or a new one if it doesn't exist in the db
-          find(:first, :conditions => { :uri => uri_s } ) || super(:uri => uri_s)
-        elsif((args.size == 1) && (args.first.is_a?(Hash)))
+        the_source = if((args.size == 1) && (args.first.is_a?(Hash)))
           # We have an option hash to init the source
           attributes = split_attribute_hash(args.first)
           the_source = super(attributes[:db_attributes])
           the_source.add_semantic_attributes(false, attributes[:semantic_attributes])
           the_source
+        elsif(args.size == 1 && ( uri_s = uri_string_for(args[0]))) # One string argument should be the uri
+          # Either the current object from the db, or a new one if it doesn't exist in the db
+          find(:first, :conditions => { :uri => uri_s } ) || super(:uri => uri_s)
         else
           # In this case, it's a generic "new" call
           super
         end
-        the_source.types << the_source.class.additional_rdf_types if(the_source.new_record?)
+        the_source.add_additional_rdf_types if(the_source.new_record?)
         the_source
+      end
+
+      # Retrieves a new source with the given type. This gets a propety hash
+      # like #new, but it will correctly initialize a source of the type given
+      # in the hash.
+      def create_source(args)
+        type = args.delete(:type) || args.delete('type')
+        raise(ArgumentError, "Not type given") unless(type)
+        klass = "TaliaCore::#{type}".constantize
+        klass.new(args)
+      end
+
+      # Create sources from XML. The result is either a single source or an Array
+      # of sources, depending on wether the XML contains multiple sources.
+      #
+      # The resulting source objects will be plain from #new, unsaved.
+      def create_from_xml(xml)
+        source_properties = ActiveSourceParts::Xml::SourceReader.sources_from(xml)
+        sources = source_properties.collect { |props| ActiveSource.create_source(props) }
+        (sources.size == 1) ? sources.first : sources
       end
 
       # This method is slightly expanded to allow passing uris and uri objects
@@ -118,6 +138,13 @@ module TaliaCore
       # This will assume a full URL if it finds a ":/" string inside the URI. 
       # Otherwise it will construct a namespace - name URI
       def expand_uri(uri) # TODO: Merge with uri_for ?
+        assit_block do |errors| 
+          unless(uri.respond_to?(:uri) || uri.kind_of?(String)) || uri.kind_of?(Symbol)
+            errors << "Found strange object of type #{uri.class}"
+          end
+          true
+        end
+        uri = uri.respond_to?(:uri) ? uri.uri.to_s : uri.to_s
         return uri if(uri.include?(':/'))
         N::URI.make_uri(uri).to_s
       end

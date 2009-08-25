@@ -31,7 +31,11 @@ module TaliaUtil
     
     # Runs the hyper import inside the data dir (so that connected files are loaded correctly)
     def hyper_import(xml)
-      run_in_data_dir { HyperImporter::Importer.import(xml) }
+      run_in_data_dir do
+        uri = HyperImporter::Importer.import(xml)
+        HyperImporter::Importer.write_imported!
+        TaliaCore::ActiveSource.find(:first, :conditions => { :uri => uri })
+      end
     end
     
     def data_record_files
@@ -50,6 +54,7 @@ module TaliaUtil
       Util.flush_db
       HyperImporter::Importer.type_cache.clear
       HyperImporter::SourceCache.cache.clear
+      HyperImporter::SourceHash.hash.clear
     end
 
     # Clear the system for an import test

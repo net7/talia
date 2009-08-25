@@ -71,7 +71,14 @@ module TaliaCore
       assert_property(res[N::RDF.rew], 'foo', 'bar')
       assert_equal(['foo', 'bar'], res.my_rdf[N::RDF.rew])
     end
-  
+
+    def test_rdf_on_rewrite
+      src = ActiveSource.new('http://asrdf_test/test_update_rdf_rewrite')
+      src[N::RDF.something] << 'value1'
+      src.rewrite_attributes!('rdf:something' => ['value2', 'value3'])
+      assert_equal(src.my_rdf[N::RDF.something], [ 'value2', 'value3' ])
+    end
+
     protected
     
     def print_rels(relations)

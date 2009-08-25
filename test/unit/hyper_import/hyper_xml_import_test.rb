@@ -24,11 +24,11 @@ module TaliaUtil
         # Add a dummy element for N-IV-1,8 - this will check if the importer 
         # will correctly change the type and set the default catalog for
         # the element
-        TaliaCore::Source.new(N::LOCAL + 'N-IV-1,8').save!
+        TaliaCore::DummySource.new(N::LOCAL + 'N-IV-1,8').save!
         base_uri = ''
         list_path = "list.xml"
         sig_path = ""
-        
+
         run_in_data_dir { HyperXmlImport.import(base_uri, list_path, sig_path) }
         true
       end

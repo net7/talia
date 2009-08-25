@@ -1,32 +1,25 @@
 class SourcesController < ApplicationController
   include TaliaCore
+  
+  before_filter :setup_format
+  
   PER_PAGE = 10
   
   # GET /sources
   # GET /sources.xml
   def index
-    # For "normal" operations, we just create a pager
-    @source_options = { :page => 1, :per_page => PER_PAGE }
-    @sources = TaliaCore::Source.paginate(@source_options)
-    
-    @types = N::LUCCADOM.elements_with_type(N::RDFS.Class, N::SourceClass)
-    @group_increment = 2
-    
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @sources }
-    end
+
   end
 
   # GET /sources/1
   # GET /sources/1.xml
   def show
-    @source = TaliaCore::Source.find(params[:id])
-    @page_subtitle = @source.uri.to_s
+    raise(ActiveRecord::RecordNotFound) unless(ActiveSource.exists?(params[:id]))
+    @source = ActiveSource.find(params[:id])
     respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @source }
-      format.rdf { render :xml => @source.to_rdf }
+      format.xml { render :text => @source.to_xml }
+      format.rdf { render :text => @source.to_rdf }
+      format.html { render }
     end
   end
 
@@ -49,4 +42,21 @@ class SourcesController < ApplicationController
     end
     render :text => predicates, :status => status
   end
+  
+  private 
+  
+  
+  # Hack around routing limitation: We use the @ instead of the dot as a delimiter
+  def setup_format
+    split_id = params[:id].split('@')
+    assit(split_id.size <= 2)
+    params[:id] = split_id.first
+    params[:format] = (split_id.size > 1) ? split_id.last : 'html'
+  end
+  
+  
+  def get_uri
+    
+  end
+  
 end

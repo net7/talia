@@ -33,14 +33,13 @@ module TaliaUtil
         assit(source_name && source_name != "", "Source with no name!")
         if(source_name && source_name != "")
           @source = get_source_with_class(source_name, get_class_for(element_xml))
-          sigla = @source.hyper::siglum
-          sigla << source_name if(sigla.size == 0) # No use to fast-add if we need the size
+          @source['hyper:siglum'] << source_name unless(@source.include?('hyper:siglum'))
         end
       end
       
       # Sets the credentials that are use for HTTP downloading files. If this
       # isn't set, it will just be ignored
-      def set_credentials(login, password)password
+      def set_credentials(login, password)
         @credentials = { :http_basic_authentication => [login, password] }
       end
       
@@ -48,17 +47,11 @@ module TaliaUtil
       # will be called from self.import, and should not be called directly and
       # should not be overwritten.
       def do_import!
-        benchmark('Import of ' + @source.uri.local_name) do
-          benchmark('Import relations') { import_relations! }
-          benchmark('Import types') { import_types! }
-          benchmark('Top import') do
-            add_property_from(@element_xml, 'title', (self.class.needs_title ? :required : nil)) # The title should always exist
-            import! # Calls the import features of the subclass
-          end
-          @source.autosave_rdf = true # Reactivate rdf creation for final save
-          benchmark("Saving source", Logger::DEBUG) do
-            @source.save! # Save the source when the import is complete
-          end
+        benchmark('Import of ' + @source[:uri]) do
+          import_relations!
+          import_types!
+          add_property_from(@element_xml, 'title', (self.class.needs_title ? :required : nil)) # The title should always exist
+          import! # Calls the import features of the subclass
         end
       end
       
@@ -66,22 +59,81 @@ module TaliaUtil
       def import!
         assit_fail("Should never call base class version of import.")
       end
-      
-      # Get the source that was imported by this importer.
+
       def source
         @source
       end
       
       # This is called to do the actual import. It will take the XML Element
-      # of the element to be imported and return a new Source object
+      # of the element to be imported and return true if the object was
+      # correctly written to the internal cache.
+      #
+      # Note that the objects are not written on import, just added to an internal
+      # hash. Only calling the write_imported! method will write the data to the
+      # store.
+      #
+      # This method will return the uri of the main imported source.
       def self.import(element_xml, options = {})
         assit_real_string(element_xml.root.name, "XML root element must have a name")
         importer = importer_for_element(element_xml.root)
         importer.import_options = options if(options)
         importer.do_import!
-        importer.source
+        importer.source[:uri]
       end
-      
+
+      # Current count of imported sources. (Imported but not written to store)
+      def self.import_count
+        SourceHash.hash.size
+      end
+
+      # This writes all imported sources to the data store, thus finishing
+      # the import. If a block is given, it will be called each time a new
+      # Source is created.
+      def self.write_imported!
+        orig_count = import_count
+
+        SourceHash.hash.each do |key, props|
+          data_records = props.delete(:data_records) || []
+
+          # puts "Loading #{key}"
+          # props.each { |k,v| puts "\t#{k} - #{v}"}
+          assit_block do |errs|
+            good = props[:uri] && !props[:uri].to_s.blank?
+            errs << "Found blank URI on #{key}" unless(good)
+            good
+          end
+          src = if(TaliaCore::ActiveSource.exists?(props[:uri]))
+            benchmark('Writing Source ' << props[:uri]) do
+              # puts "UPDATE #{key}"
+              src = TaliaCore::ActiveSource.find(props[:uri])
+              src.rewrite_attributes!(props) do |src|
+                if(props[:type] && props[:type] != src[:type])
+                  assit_kind_of(TaliaCore::DummySource, src, 'Source should be a Dummy source ' << src.uri.to_s)
+                  src.type = props[:type]
+                  klass = "TaliaCore::#{props[:type]}".constantize
+                  src.types << klass.additional_rdf_types
+                end
+              end
+              src
+            end
+          else
+            # puts "CREATE #{key} - #{props}"
+            benchmark('Updating Source' << props[:uri]) do
+              yield if(block_given?)
+              props[:type] ||= 'DummySource'
+              TaliaCore::Source.create_source(props)
+            end
+          end
+          data_records.each { |dr| src.data_records << dr }
+          # puts "Up to save >>#{src.uri}<< - #{src.uri.class}"
+          benchmark('Saving Source' << props[:uri]) { src.save! }
+        end
+        SourceHash.hash.clear
+        assit_equal(0, SourceHash.hash.size)
+
+        return orig_count
+      end
+
       protected
       
       # Gets the importer for a given element name
@@ -233,22 +285,9 @@ module TaliaUtil
       # Gets or creates the Source with the given name. If the Source already
       # exists, it will add the given types to it
       def get_source(source_name, *types)
-        
         src = get_source_with_class(source_name, nil)
-        assit_kind_of(TaliaCore::Source, src)
-        
-        if(types.size > 0) # Bail out if there are no types
-          type_list = src.types
-          touched = false
-          types.each do |type|
-            unless(type_list.include?(type))
-              type_list << type
-              touched = true
-            end
-          end
-          # Only save if there were types modified
-          src.save! if(touched)
-        end
+        the_types = src['rdf:type']
+        types.each { |t| the_types << t unless(the_types.include?(t)) }
         
         src
       end
@@ -264,12 +303,11 @@ module TaliaUtil
       # return true if the catalog is reset
       def set_catalog(src)
         result = false
-        if(src.is_a?(TaliaCore::ExpressionCard))
+        if(src[:type] && ("TaliaCore::#{src[:type]}".constantize <= TaliaCore::ExpressionCard))
           catalog = get_catalog() || TaliaCore::Catalog.default_catalog
-          if(src.catalog != catalog)
-            src.catalog = catalog
-            result = true
-          end
+          src['hyper:in_catalog'].clear
+          src['hyper:in_catalog'] << catalog
+          result = true
         end
         result
       end
@@ -302,34 +340,24 @@ module TaliaUtil
         source_uri = uri_on_catalog(source_uri) if(klass <= TaliaCore::ExpressionCard)
 
         raise(ArgumentError, "This must have a klass as parameter: #{source_uri}") unless(klass.is_a?(Class))
-        src = SourceCache.cache[source_uri]
-        if(src)
+        
+        src = SourceHash.hash[source_uri]
+        
+        if(src.size != 0)
           # If the Source already exists, push the types in
-          src.autosave_rdf = false
           # If the class
           klass_name = klass.to_s.demodulize
           if((src[:type] != klass_name) && set_class)
             # In this case we will have to change the STI type on the Source
             # this happens if the Source had been created before the import
             # as a referenced object on another Source
-            assit(src[:type] == 'Source', "Source should not change from #{src[:type]} to #{klass_name}: #{src.uri} ")
+            assit(!src[:type] || (src[:type] == 'Source'), "Source should not change from #{src[:type]} to #{klass_name}: #{src.uri} ")
             src[:type] = klass_name
-            src.save!
-            src = klass.find(src.id)
-            src.save! if(set_catalog(src))
-            # Update the cache with the changed source!
-            SourceCache.cache[source_uri] = src
-            src.autosave_rdf = false
           end
         else
-          src = klass.new(source_uri)
-          src.primary_source = primary_source? if(src.is_a?(TaliaCore::Source))
-          set_catalog(src)
-          src.save! if(save_new)
-          src.autosave_rdf = false
-          # Add the new source to the cache
-          SourceCache.cache[source_uri] = src
-      end
+          src['talia:primary_source'] = primary_source? if(src[:type] == 'Source')
+        end
+        set_catalog(src)
       
         src
       end
@@ -375,24 +403,24 @@ module TaliaUtil
       
       # Makes an URI of the given value and retrieves a type source, using the
       # type cache
-      def cached_type_by_string(value)
-        Importer.type_cache_retrieve(N::URI.make_uri(value, ':', N::HYPER))
+      def type_by_string(value)
+        N::URI.make_uri(value, ':', N::HYPER)
       end
 
       # Add the types by using the type map and the type configured in the
       # importer.
       def import_types!
         if(self.class.get_source_type)
-          quick_add_predicate(@source, N::RDF.type, cached_type_by_string(self.class.get_source_type))
+          quick_add_predicate(@source, N::RDF.type, type_by_string(self.class.get_source_type))
         end
         
         hyper_type = get_text(@element_xml, 'type')
         hyper_subtype = get_text(@element_xml, 'subtype')
         
         if(hyper_subtype && TYPE_MAP[hyper_subtype])
-          quick_add_predicate(@source, N::RDF.type, cached_type_by_string(TYPE_MAP[hyper_subtype]))
+          quick_add_predicate(@source, N::RDF.type, type_by_string(TYPE_MAP[hyper_subtype]))
         elsif(hyper_type && TYPE_MAP[hyper_type])
-          quick_add_predicate(@source, N::RDF.type, cached_type_by_string(TYPE_MAP[hyper_type]))
+          quick_add_predicate(@source, N::RDF.type, type_by_string(TYPE_MAP[hyper_type]))
         else
           assit(!hyper_type, "There was no mapping for the type/subtype (#{hyper_type}/#{hyper_subtype})")
         end
@@ -431,14 +459,14 @@ module TaliaUtil
                 return
               end
             
-              data_records.each { |data| @source.data_records << data }
+              data_records.each { |data| @source[:data_records] << data }
               quick_add_predicate(@source, N::DCNS::format, mime_type)
             rescue Exception => e
               assit_fail("Exeption importing file #{file_name}: #{e}\n#{e.backtrace.join("\n")}\n")
             end
           end
         else
-          assit(!file_name && !file_url && !file_content_type, "Incomplete file definition on Source #{@source.uri.local_name}")
+          assit(!file_name && !file_url && !file_content_type, "Incomplete file definition on Source #{@source[:uri]}")
         end
       end
       
@@ -619,7 +647,6 @@ module TaliaUtil
         quick_add_predicate(origin, relation, object_source)
         # Make sure that 'external' sources are saved with RDF data. For
         # the member source this will automatically be called on import
-        origin.autosave_rdf = true if(origin != @source)
       end
 
       # This is a fast-add-hack for a predicate. It basically bypasses the
@@ -628,7 +655,7 @@ module TaliaUtil
       # that actually adds the elements.
       def quick_add_predicate(source, predicate, value)
         source[predicate] << value
-        end
+      end
 
       # Checks for the namespaces which must be defined for the
       # import to work

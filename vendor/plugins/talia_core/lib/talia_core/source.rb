@@ -220,33 +220,6 @@ module TaliaCore
       labels(type)[0]
     end
     
-    # Creates a simple XML representation of the Source
-    def to_xml
-      xml = String.new
-      builder = Builder::XmlMarkup.new(:target => xml, :indent => 2)
-      
-      # Xml instructions (version and charset)
-      builder.instruct!
-      
-      builder.source(:primary => primary_source) do
-        builder.id(id, :type => "integer")
-        builder.uri(uri.to_s)
-      end
-      
-      xml
-    end
-    
-    # Creates an RDF/XML resprentation of the source
-    def to_rdf
-      rdf = String.new
-      
-      XmlRdfBuilder.open(:target => rdf, :indent => 2) do |builder|
-        builder.write_source(self)
-      end
-      
-      rdf
-    end
-    
     # Return the titleized uri local name.
     #
     #   http://localnode.org/source # => Source

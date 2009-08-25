@@ -224,7 +224,7 @@ module TaliaCore
       klass.props_to_clone.each do |prop|
         assert_property(clone[prop], *orig[prop])
         expected = prop_for_clone(prop)
-        assert(clone[prop].include?(expected))
+        assert(clone[prop].include?(expected), "Did not found expected property value >>#{expected}<< for property >>#{prop}<<. <#{clone[prop].join}>.")
       end
     end
 

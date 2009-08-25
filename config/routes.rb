@@ -50,9 +50,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :ontologies
 
   # Routes for the sources
-  map.resources :sources do |sources|
-    sources.connect ':attribute', :controller => 'sources', :action => 'show_attribute'
-  end
+  map.resources :sources, :requirements => { :id => /.+/  }
   
   # Routes for types
   map.resources :types

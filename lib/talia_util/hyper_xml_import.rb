@@ -42,10 +42,7 @@ module TaliaUtil
         import_doc = REXML::Document.new(read_from(base_uri + list_location))
         size = import_doc.root.elements.size
         puts "Fetched list, importing #{size} elements"
-        progress = ProgressBar.new("Importing", size)
-        
-        # Toggle the progressbar to force it active
-        progress.set(size/100)
+        progress = ProgressBar.new("Loading", size)
 
         import_doc.root.elements.each("siglum") do |siglum|
           progress.inc
@@ -56,7 +53,11 @@ module TaliaUtil
             $stderr.puts("Error when importing #{sig_uri}: #{e}\nBacktrace: #{e.backtrace.join("\n")}")
           end
         end
-        
+
+        progress.finish
+
+        progress = ProgressBar.new("Writing", TaliaUtil::HyperImporter::Importer.import_count)
+        TaliaUtil::HyperImporter::Importer.write_imported! { progress.inc }
         progress.finish
         puts "Import complete."
         

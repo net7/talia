@@ -26,7 +26,7 @@ module TaliaUtil
 
       # Add a default thumb image if the page is empty
       def check_for_empty_file!
-        @source.blank = 'true' unless(has_file?)
+        @source[N::HYPER.blank_facsimile] << 'true' unless(has_file?)
       end
 
       def has_file?

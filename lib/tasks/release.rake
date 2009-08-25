@@ -24,17 +24,16 @@ namespace :talia do
     spec.add_dependency('paginator', '>= 1.1.0')
 
     # Files
-    files = FileList["**/*"]
-    files.exclude('**/nbproject')
-    files.exclude('data/')
-    files.exclude('**/tmp')
-    files.exclude('vendor/')
+    files = FileList['app/**/*', 'db/migrate/*', 'lib/**/*', 'ontologies/**/*', 'public/**/*',
+      'config/**/*', 'script/**/*', 'test/**/*', 'xslt/**/*']
+    # Removed excludes, excruciatingly slow in JRuby 1.3.1 for some reason
+    #files.exclude('**/nbproject')
+    #files.exclude('**/tmp')
     files.exclude('config/database.yml')
     files.exclude('config/rdfstore.yml')
     files.exclude('config/talia_core.yml')
-    files.exclude('log/*')
-    files.exclude('**/pkg')
-    files.exclude('**/*.tmp')
+    #files.exclude('**/pkg')
+    #files.exclude('**/*.tmp')
     spec.files = files.to_a
 
     spec.require_path = "lib"

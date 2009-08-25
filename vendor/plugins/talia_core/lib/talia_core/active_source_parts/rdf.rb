@@ -52,6 +52,17 @@ module TaliaCore
           my_rdf.save
         end
       end
+      
+      # Creates an RDF/XML resprentation of the source
+      def to_rdf
+        rdf = String.new
+
+        ActiveSourceParts::Xml::RdfBuilder.open(:target => rdf, :indent => 2) do |builder|
+          builder.write_source(self)
+        end
+
+        rdf
+      end
 
       private
 

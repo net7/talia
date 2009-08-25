@@ -1,7 +1,19 @@
-<div>
- <%= widget(:source_snippet, :source => @source) %>
-  <!-- %= @source.primary_source ? "This is a primary source" : "This is a contribution" % -->
-<%= render_source_data %>
-</div>
-<!-- %= link_to "back", :action => "index" %--> 
-<!-- %= link_to "edit", edit_source_path(@source) %-->
+<h2><%= @source.uri.to_name_s %></h2>
+<table>
+	<% for attribute, value in @source.attributes %>
+	<tr>
+		<td><%= attribute %></td>
+		<td><%= value %></td>
+	</tr>
+	<% end %>
+	<% for predicate in @source.direct_predicates %>
+	<tr>
+		<td><%= predicate %></td>
+		<td>
+			<% @source[predicate].each do |val| %>
+				<%= val %><br/>
+			<% end %>
+		</td>
+	</tr>
+	<% end %>
+</table>

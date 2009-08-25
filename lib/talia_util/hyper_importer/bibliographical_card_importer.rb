@@ -15,6 +15,7 @@ module TaliaUtil
       end
       
       def source
+        {}
       end
       
     end

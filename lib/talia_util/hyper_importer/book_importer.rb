@@ -20,14 +20,14 @@ module TaliaUtil
       
       private
 
-
-      def clone_to_catalog()
-        catalog = get_catalog()
-        if(catalog)
-          clone_uri = catalog.concordant_uri_for(@source)
-          clone_to(clone_uri)
-        end
-      end
+      # 
+      # def clone_to_catalog()
+      #   catalog = get_catalog()
+      #   if(catalog)
+      #     clone_uri = catalog.concordant_uri_for(@source)
+      #     clone_to(clone_uri)
+      #   end
+      # end
       
     end
   end
