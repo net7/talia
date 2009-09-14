@@ -28,6 +28,13 @@ class SimpleEditionController < ApplicationController
     @edition_type = self.class.edition_type
   end
   
+  # Sets a stylesheet that will be modifiable by the user. 
+  def set_user_stylesheets(stylesheets)
+    @user_stylesheets = stylesheets
+  end
+  alias :set_user_stylesheet :set_user_stylesheets
+  
+  # Todo: Mechanism seems bloated, refactor it...
   def set_custom_stylesheet(custom_stylesheet = nil)
     if custom_stylesheet.nil?
       @custom_stylesheet = self.class.custom_stylesheet

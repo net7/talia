@@ -22,3 +22,6 @@
 [submodule "vendor/plugins/will_paginate"]
 	path = vendor/plugins/will_paginate
 	url = git://github.com/mislav/will_paginate.git
+[submodule "vendor/plugins/active_scaffold"]
+	path = vendor/plugins/active_scaffold
+	url = git://github.com/activescaffold/active_scaffold.git

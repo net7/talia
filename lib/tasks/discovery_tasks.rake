@@ -377,6 +377,51 @@ namespace :discovery do
   task :up_and_away => ['update_app', 'deploy_war']
 
 
+  # Everything that has to do with the custom templates
+  namespace :templates do
+    
+    desc "Load the xslt from the file system into the database as custom templates"
+    task :setup_xslt => :disco_init do
+      files = FileList.new("#{TALIA_ROOT}/xslt/**/*.xsl")
+      files.each do |xsl_file|
+        puts "Importing #{xsl_file}"
+        file_content = File.open(xsl_file) { |io| io.read }
+        file_content.gsub!(/(<xsl:include\s+href\s*=\s*['|"])(.*)\.xslt?(['|"]\s*\/>)/, "\\1#{N::LOCAL}custom_templates/xslt/\\2\\3")
+        template = CustomTemplate.new(:name => File.basename(xsl_file, '.xsl'), 
+        :content => file_content, :template_type => 'xslt')
+        template.save!
+      end
+    end
+    
+    desc "Load the customizable css into the database as custom templates."
+    task :setup_css => :disco_init do
+      files = FileList.new("#{TALIA_ROOT}/customization_files/customizable_css/*.css")
+      files.each do |css_file|
+        puts "Importing #{css_file}"
+        file_content = File.open(css_file) { |io| io.read }
+        file_content = '/* Template from empty file */' if(!file_content || file_content == '')
+        template = CustomTemplate.new(:name => File.basename(css_file, '.css'),
+          :content => file_content, :template_type => 'css')
+        template.save!
+      end
+    end
+    
+    desc "Delete all custom xslt files from the database"
+    task :clear_xslt => :disco_init do
+      CustomTemplate.delete_all(:template_type => 'xslt')
+    end
+    
+    desc "Delete all custom css files from the database"
+    task :clear_css => :disco_init do
+      CustomTemplate.delete_all(:template_type => 'css')
+    end
+    
+    desc "Delete all custom templates from the database"
+    task :clear => :disco_init do
+      CustomTemmplate.delete_all
+    end
+  end
+
   namespace :pdf do
     desc "Prepare the environment for PDF tasks"
     task :prepare => [ 'disco_init', 'talia_core:talia_init' ] do

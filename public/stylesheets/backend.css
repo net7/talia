@@ -145,7 +145,7 @@ a:hover{
 }
 
 	#contenutoInterno{
-		width: 740px;
+		width: 900px;
 		padding: 20px 25px;
 		text-align: left;
 	}
@@ -209,7 +209,7 @@ label#openid_label {
 /* Menu principale */
 div.main_menu_box a{
 	border: 10px solid #dcd4cf;
-	width: 165px;
+	width: 200px;
 	height: 5em;
 	line-height: 5em;
 	float: left;
@@ -232,6 +232,11 @@ div.main_menu_box a:hover{
 #sources_access a{
 	margin-right: 30px;
 }
+
+#custom_templates_access a{
+	margin-right: 30px;
+}
+
 #translations_access a{
 }
 
