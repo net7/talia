@@ -1,0 +1,64 @@
+# require 'config/environment'
+require 'hpricot'
+
+# You may pass a yaml dump of the environment for debugging runs
+ENV.merge!(YAML.load_file(ARGV.first)) if(ARGV.size == 1)
+puts "STARTING ON"
+
+TaliaUtil::Util.full_reset if(ENV['reset_store'])
+
+# Importing script for the old hyper import mechanism (multiple files)
+# The list file will be relative to the current dir, not the doc dir
+list_path = ENV['list_path']
+if((!ENV['base_url'] || ENV['base_url'] == '') && File.exist?(list_path))
+  list_path = File.expand_path(list_path)
+end
+puts "GOING DOWN"
+if(File.directory?(doc_dir = File.join(ENV['base_url'], ENV['doc_path'])))
+  puts("Setting directory to #{doc_dir}")
+  FileUtils.cd(doc_dir)
+end
+puts "GOING STRONG"
+TaliaUtil::HyperXmlImport::options[:prepared_images] = ENV['prepared_images'] if(ENV['prepared_images'])
+TaliaUtil::HyperXmlImport::set_auth(ENV['user'], ENV['password'])
+TaliaCore::BackgroundJobs::Job.run_progress_job do
+  # The base_uri is the uri where the import data is retrieved. The 
+  # list_location and sig_request are additional uri parts that are 
+  # appended to the URI to retrieve the list of all sigla and the
+  # documents themselves. 
+  #
+  # To retrieve a document, the siglum from the list xml will be appended
+  # to base_uri + sig_request.
+  base_uri = ENV['base_url'] || ''
+  list_location = list_path || '?getList=all'
+  sig_request = ENV['doc_path'] || '?get='
+  file_ext = ENV['extension'] || ''
+
+  puts "Importing from URI: #{base_uri}. Fetching list from #{base_uri + list_location}"
+  import_doc = Hpricot.XML(TaliaUtil::HyperXmlImport::read_from(base_uri + list_location))
+  size = (import_doc/:siglum).size
+  raise(RuntimeError, 'No sigla found in input') if(size == 0)
+
+  TaliaCore::BackgroundJobs::Job.with_progress('Loading', size) do |progress|
+    (import_doc/:siglum).each do |siglum|
+      progress.inc
+      begin
+        sig_uri = base_uri + sig_request + siglum.inner_html.strip + file_ext
+        TaliaUtil::HyperImporter::Importer.import(REXML::Document.new(TaliaUtil::HyperXmlImport::read_from(sig_uri)), TaliaUtil::HyperXmlImport::options)
+      rescue Exception => e
+        puts "Error when importing #{sig_uri}: #{e}\nBacktrace: #{e.backtrace.join("\n")}"
+      end
+    end
+  end
+
+  TaliaCore::BackgroundJobs::Job.with_progress('Writing', TaliaUtil::HyperImporter::Importer.import_count) do |progress|
+    TaliaUtil::HyperImporter::Importer.write_imported! { progress.inc }
+  end
+
+  TaliaCore::BackgroundJobs::Job.with_progress('Ordering', TaliaUtil::OrderUtil.to_order_count) do |progress|
+    TaliaUtil::OrderUtil.order_all { progress.inc }
+  end
+
+end
+
+puts "Import complete"

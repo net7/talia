@@ -1,0 +1,48 @@
+# Imports an XML file as used by Fabrica2. The XML is expected on STDIN
+
+def options
+  @options ||= {}
+end
+
+def setup_options
+  options[:prepared_images] = ENV['prepared_images'] if(ENV['prepared_images'])
+end
+
+# Start by setting up the options hash from the environment
+setup_options
+
+# Read the file containing the XML of the sources to import.
+# XML File must have a <sources> root element and each element to 
+# import must be inside a <source> element.
+# The file's contents are expected on STDIN
+xml = STDIN.read()
+
+elapsed = Benchmark.realtime do
+  puts "Importing from file: #{xml_file}."
+  import_doc = Hpricot.XML(STDIN)
+
+  size = (import_doc/:source).size
+  abort("No <source> element in #{xml_file} file found. Exiting") if(size == 0)
+  puts "Fetched list, importing #{size} elements"
+
+  TaliaCore::BackgroundJobs::Job.run_with_progress('Importing', size) do |progress|
+    (import_doc/:source).each do |source|
+      progress.inc
+      begin
+        TaliaUtil::HyperImporter::Importer.import(REXML::Document.new(source.inner_html), options)
+      rescue Exception => e
+        STDERR.puts("Error when importing from #{xml_file}: #{e}\nBacktrace: #{e.backtrace.join("\n")}")
+      end
+    end
+  end
+
+  TaliaCore::BackgroundJobs::Job.run_with_progress('Importing', size) do |progress|
+    TaliaUtil::HyperImporter::Importer.write_imported! { progress.inc }
+  end
+  
+  TaliaCore::BackgroundJobs::Job.run_with_progress('Ordering', TaliaUtil::OrderUtil.to_order_count) do |progress|
+    TaliaUtil::OrderUtil.order_all { progress.inc }
+  end
+  
+end
+puts "Import completed in sec %.2f" %elapsed
