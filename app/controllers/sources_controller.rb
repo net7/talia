@@ -8,7 +8,7 @@ class SourcesController < ApplicationController
   # GET /sources
   # GET /sources.xml
   def index
-
+    
   end
 
   # GET /sources/1

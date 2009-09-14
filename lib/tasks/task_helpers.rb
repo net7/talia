@@ -5,6 +5,18 @@ require 'iconv'
 class TaskHelper
 
   class << self
+    
+    # Queue the long-running task in the background processing queue.
+    # This will simply queue the job, and doesn't start the runner
+    # by itself
+    def background_job(job, options)
+      # Use the current environment for the job
+      options[:env] = ENV.merge(options[:env] || {})
+      # Avoid "tickling" to start the background job from here
+      options[:no_tickle] = true
+      TaliaCore::BackgroundJobs::Job.submit_with_progress(job, options)
+    end
+    
     # Returns a preset RDF query that will select all books that have pages
     # in the default catalog. The books are referred to by :book and the
     # pages by :page.

@@ -30,10 +30,7 @@ namespace :discovery do
   
   desc "Clear all the data (files and data store) if this instance."
   task :clear_all => 'talia_core:clear_store' do
-    data_dir = TaliaCore::CONFIG['data_directory_location']
-    iip_dir = TaliaCore::CONFIG['iip_root_directory_location']
-    FileUtils.rm_rf(data_dir) if(File.exist?(data_dir))
-    FileUtils.rm_rf(iip_dir) if(File.exist?(iip_dir))
+    Util::clear_data
     puts "Attention! Data and iip director were removed! Remember to change the permissions for production."
     Util::setup_ontologies
   end
@@ -100,12 +97,9 @@ namespace :discovery do
   end
   
   desc "Import data from a local XML file. Options: xml=<file_path> [prepared_images=<directory>]"
-  task :import_from_file => :disco_init do
-    xml_file = ENV['xml']
-    assit(File.exist?(xml_file))
-    TaliaUtil::XmlImport::options[:prepared_images] = ENV['prepared_images'] if(ENV['prepared_images'])
-    TaliaUtil::XmlImport::import(xml_file)
-    TaskHelper::order_all
+  task :import_from_file do
+    TaskHelper::background_job('hyper_import_xml', :tag => 'import', :stdin => File.open(ENV['xml']).read())
+    puts "File import of #{ENV['xml']} queued. Will run as a background task."
   end
   
   desc "Import data and prepare the test server. Downloads data directly from the net."
@@ -114,19 +108,9 @@ namespace :discovery do
   # Import from Hyper
   desc "Import data from Hyper. Options: base_url=<base_url> [list_path=?get_list=all] [doc_path=?get=] [extension=] [user=<username> password=<pass>] [prepared_images=<directory>]"
   task :hyper_import => :disco_init do
-    # The list file will be relative to the current dir, not the doc dir
-    list_path = ENV['list_path']
-    if((!ENV['base_url'] || ENV['base_url'] == '') && File.exist?(list_path))
-      list_path = File.expand_path(list_path)
-    end
-    if(File.directory?(doc_dir = File.join(ENV['base_url'], ENV['doc_path'])))
-      puts "Setting directory to #{doc_dir}"
-      FileUtils.cd(doc_dir)
-    end
-    TaliaUtil::HyperXmlImport::options[:prepared_images] = ENV['prepared_images'] if(ENV['prepared_images'])
-    TaliaUtil::HyperXmlImport::set_auth(ENV['user'], ENV['password'])
-    TaliaUtil::HyperXmlImport::import(ENV['base_url'], list_path, ENV['doc_path'], ENV['extension'])
-    TaskHelper::order_all
+    ENV['reset_store'] = 'yes'
+    TaskHelper::background_job('hyper_import_xml_old', :tag => 'import')
+    puts "Old-style hyper XML import queued. Will run as a background task."
   end
   
   # creates a facsimile edition and adds to it all the color facsimiles found in the DB

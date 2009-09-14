@@ -46,6 +46,7 @@ module TaliaCore
           adapter.load(*params)
         rescue Exception => e
           puts "\tProblem loading #{file.to_s}: (#{e.message}) File not loaded!"
+          puts e.backtrace
         end
       end
 

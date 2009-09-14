@@ -19,52 +19,6 @@ module TaliaUtil
         @password = password
       end
       
-      # Import a single source from XML. The xml_source is the source of the
-      # element to import. If this is an URL, it will be used to fetch the
-      # information from the web. 
-      #
-      # The base_uri is the uri where the import data is retrieved. The 
-      # list_location and sig_request are additional uri parts that are 
-      # appended to the URI to retrieve the list of all sigla and the
-      # documents themselves. 
-      #
-      # To retrieve a document, the siglum from the list xml will be appended
-      # to base_uri + sig_request.
-      def import(base_uri, list_location = "?getList=all", sig_request = "?get=", file_ext='')
-        base_uri ||= ''
-        # Reset to defauls if we get nil values
-        list_location ||= "?getList=all"
-        sig_request ||= "?get="
-        file_ext ||= ''
-        
-        puts "Importing from URI: #{base_uri}. Fetching list from #{base_uri + list_location}"
-        # open the document with the sigla to import
-        import_doc = REXML::Document.new(read_from(base_uri + list_location))
-        size = import_doc.root.elements.size
-        puts "Fetched list, importing #{size} elements"
-        progress = ProgressBar.new("Loading", size)
-
-        import_doc.root.elements.each("siglum") do |siglum|
-          progress.inc
-          begin
-            sig_uri = base_uri + sig_request + siglum.text.strip + file_ext
-            TaliaUtil::HyperImporter::Importer.import(REXML::Document.new(read_from(sig_uri)), options)
-          rescue Exception => e
-            $stderr.puts("Error when importing #{sig_uri}: #{e}\nBacktrace: #{e.backtrace.join("\n")}")
-          end
-        end
-
-        progress.finish
-
-        progress = ProgressBar.new("Writing", TaliaUtil::HyperImporter::Importer.import_count)
-        TaliaUtil::HyperImporter::Importer.write_imported! { progress.inc }
-        progress.finish
-        puts "Import complete."
-        
-      end
-      
-      protected
-      
       # Opens the given uri, and returns the content as a string. The 
       # uri may be a http uri, a file:/// uri or a simple filename
       def read_from(uri)

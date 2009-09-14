@@ -1,4 +1,4 @@
-require 'rexml/document'
+require 'hpricot'
 require 'yaml'
 require 'open-uri'
 require 'cgi'

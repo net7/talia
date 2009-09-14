@@ -20,8 +20,48 @@ body {
 	display:none;
 }
 
-.floatClear{
+.floatClear {
 	clear: both;
+}
+
+.backlink {
+	padding-bottom: 3ex;
+}
+
+.background_item {
+	padding-bottom: 0.5ex;
+}
+
+.background_box {
+	padding-left: 3ex;
+	padding-bottom: 2ex;
+	padding-top: 1ex;
+}
+
+.background_progress {
+	margin-bottom: 2ex;
+	width: 600px; 
+	background: #dcd4cf; 
+	border: 2px solid #55453c; 
+	height: 30px;
+}
+
+.background_progress_bar {
+	text-align: right; 
+	float: left; 
+	background: #a19792;
+	height: 24px;
+	padding-top: 6px;
+}
+
+.background_progress_caption {
+	margin-right: 6px; 
+	color: #55453c; 
+	font-weight: bold;
+}
+
+.output {
+	margin: 3ex;
 }
 
 /* ***************** ************** ************** */

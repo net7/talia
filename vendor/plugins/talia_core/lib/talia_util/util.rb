@@ -103,6 +103,23 @@ module TaliaUtil
       def flush_rdf
         ConnectionPool.write_adapter.clear
       end
+      
+      # Remove the data directories
+      def clear_data
+        data_dir = TaliaCore::CONFIG['data_directory_location']
+        iip_dir = TaliaCore::CONFIG['iip_root_directory_location']
+        FileUtils.rm_rf(data_dir) if(File.exist?(data_dir))
+        FileUtils.rm_rf(iip_dir) if(File.exist?(iip_dir))
+      end
+      
+      
+      # Do a full reset of the data store
+      def full_reset
+        flush_db
+        flush_rdf
+        clear_data
+        setup_ontologies
+      end
 
       # Rewrite the RDF for the whole database. Will yield without parameters
       # for progress-reporting blocks.

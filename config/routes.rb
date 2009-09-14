@@ -35,6 +35,8 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :users
     admin.resources :sources
     admin.resources :locales
+    admin.resources :background, :active_scaffold => true
+    admin.resources :custom_templates, :active_scaffold => true
   end
 
   # Routes for login and users handling
@@ -48,7 +50,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # Routes for the ontologies
   map.resources :ontologies
-
+  
   # Routes for the sources
   map.resources :sources, :requirements => { :id => /.+/  }
   

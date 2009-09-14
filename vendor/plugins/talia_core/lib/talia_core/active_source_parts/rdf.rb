@@ -36,7 +36,7 @@ module TaliaCore
       # will not changed, but if database objects were not added through the
       # standard API they'll be missed
       def create_rdf(force = false)
-        self.class.benchmark('Creating RDF for source') do
+        self.class.benchmark("\033[32m\033[4m\033[1mActiveSource::RD\033[0m Creating RDF for source", Logger::DEBUG, false) do
           assit(!new_record?, "Record must exist here: #{self.uri}")
           # Get the stuff to write. This will also erase the old data
           s_rels = force ? prepare_all_predicates_to_write : prepare_predicates_to_write
