@@ -25,3 +25,6 @@
 [submodule "vendor/plugins/active_scaffold"]
 	path = vendor/plugins/active_scaffold
 	url = git://github.com/activescaffold/active_scaffold.git
+[submodule "vendor/plugins/talia_core"]
+	path = vendor/plugins/talia_core
+	url = git@github.com:net7/talia_core.git

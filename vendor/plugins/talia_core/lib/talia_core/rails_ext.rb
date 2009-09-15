@@ -1,1 +1,0 @@
-Dir[File.dirname(__FILE__) + "/rails_ext/*.rb"].sort.each { |file| require(file) }
