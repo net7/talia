@@ -1,9 +1,10 @@
 # require 'config/environment'
 require 'hpricot'
 
+puts "ATTENTION - some input parameters may be missing for hyper import" unless(ENV['base_url'] && ENV['doc_path'] && ENV['list_path'])
+
 # You may pass a yaml dump of the environment for debugging runs
 ENV.merge!(YAML.load_file(ARGV.first)) if(ARGV.size == 1)
-puts "STARTING ON"
 
 TaliaUtil::Util.full_reset if(ENV['reset_store'])
 
@@ -13,12 +14,12 @@ list_path = ENV['list_path']
 if((!ENV['base_url'] || ENV['base_url'] == '') && File.exist?(list_path))
   list_path = File.expand_path(list_path)
 end
-puts "GOING DOWN"
+
 if(File.directory?(doc_dir = File.join(ENV['base_url'], ENV['doc_path'])))
   puts("Setting directory to #{doc_dir}")
   FileUtils.cd(doc_dir)
 end
-puts "GOING STRONG"
+
 TaliaUtil::HyperXmlImport::options[:prepared_images] = ENV['prepared_images'] if(ENV['prepared_images'])
 TaliaUtil::HyperXmlImport::set_auth(ENV['user'], ENV['password'])
 TaliaCore::BackgroundJobs::Job.run_progress_job do

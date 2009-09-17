@@ -1,9 +1,0 @@
-<div class="background_box">
-<div class="background_item"><b>Started at:</b> <%= @job.started_at.strftime("%m/%d/%Y %H:%M:%S") %></div>
-<div class="background_item"><b>Finished at:</b> <%= @job.finished_at.strftime("%m/%d/%Y %H:%M:%S") %></div>
-<div class="background_item"><b>Ran for:</b> <%= job_duration %></div>
-<div class="background_item"><b>Exit Status:</b> <%= @job.exit_status %></div>
-</div>
-
-<div class="background_item"><%= stdout_link %></div>
-<div class="background_item"><%= stderr_link %></div>

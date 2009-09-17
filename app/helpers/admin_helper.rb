@@ -1,11 +1,1 @@
-module AdminHelper
-  def admin_toolbar
-    widget(:toolbar, :buttons => [ 
-        ["Home", {:controller => 'source', :action => 'show', :id => 'Lucca'}], 
-        ["Admin", {:action => 'index'} ],
-        ["Sources", {:controller => 'admin/sources' }],
-        ["Users", { :controller => 'admin/users'} ],
-        ["Print Page", "javascript:print();"]
-      ] )
-  end
-end
+../../vendor/plugins/talia_core/generators/talia_admin/templates/helpers/admin_helper.rb

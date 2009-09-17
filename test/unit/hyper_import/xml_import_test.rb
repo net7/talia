@@ -158,7 +158,7 @@ module TaliaUtil
     private
       
     def get_path(filename)
-      fullpath = File.expand_path(File.dirname(__FILE__)) + '/../../fixtures/xml_import_samples/' + filename
+      fullpath = RAILS_ROOT + '/test/fixtures/xml_import_samples/' + filename
       fullpath
     end
       

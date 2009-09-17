@@ -17,13 +17,26 @@ module TaliaUtil
       demo_docs[name]
     end
     
+    def run_job(job, options)
+      options[:no_tickle] = true
+      options[:env]['JOB_ID'] = '0'
+      TaliaCore::BackgroundJobs::Job.submit_with_progress(job, options)
+      print ">job>"
+      Bj.run(:wait => 2, :forever => false)
+      print "<done<"
+    end
+    
+    def get_data_dir
+      File.join(UTIL_PATH, 'import_samples')
+    end
+    
     # This is used to run the given block inside an environment inside the "data"
     # directory, but do not disturb the setting for the whole test application.
     # (The problem being that File.expand_path works on the current Dir, and changes
     # behaviour)
     def run_in_data_dir
       dir = File.expand_path(FileUtils.pwd)
-      FileUtils.cd(File.join(UTIL_PATH, 'import_samples'))
+      FileUtils.cd(get_data_dir)
       result = yield
       FileUtils.cd(dir) # restore the dir
       result

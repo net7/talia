@@ -1,6 +1,0 @@
-<%= error_messages_for 'source' %>
-<% form_tag(admin_source_path(@source), {:method => :put, :html => {:id => 'source_edit'}}) do %>
-  <%= render :partial => 'form' %>
-  <p><%= submit_tag "submit" %> or <%= link_to "Back", :action => 'index' %></p>
-<% end %>
-<%= render :partial => 'data_form' %>

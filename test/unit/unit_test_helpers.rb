@@ -173,19 +173,20 @@ module TaliaCore
       book
     end
     
-   # Quick hack to "quickly" add a new property to the given Source. This
-  # will bypass the usual rdf creation routines and simply add the new
-  # property both to the db and rdf "manually" (which is quicker than recreating
-  # the rdf fully.
-  def quick_add_property(subject, predicate, object)
-    autosave = subject.autosave_rdf?
-    subject.autosave_rdf = false if(autosave)
-    subject[predicate] << object
-    subject.save!
-    subject.my_rdf[predicate] << object
-    subject.my_rdf.save
-    subject.autosave_rdf = autosave
-  end
+    # Quick hack to "quickly" add a new property to the given Source. This
+    # will bypass the usual rdf creation routines and simply add the new
+    # property both to the db and rdf "manually" (which is quicker than recreating
+    # the rdf fully.
+    def quick_add_property(subject, predicate, object)
+      autosave = subject.autosave_rdf?
+      subject.autosave_rdf = false if(autosave)
+      subject[predicate] << object
+      subject.save!
+      subject.my_rdf[predicate] << object
+      subject.my_rdf.save
+      subject.autosave_rdf = autosave
+    end
+    
     # Get the class that is tested here
     def tested_klass
       return @tested_klass if(@tested_klass)

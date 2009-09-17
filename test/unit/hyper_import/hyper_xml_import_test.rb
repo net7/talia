@@ -25,11 +25,10 @@ module TaliaUtil
         # will correctly change the type and set the default catalog for
         # the element
         TaliaCore::DummySource.new(N::LOCAL + 'N-IV-1,8').save!
-        base_uri = ''
-        list_path = "list.xml"
-        sig_path = ""
-
-        run_in_data_dir { HyperXmlImport.import(base_uri, list_path, sig_path) }
+        
+        env = { 'base_url' => "#{get_data_dir}/", 'list_path' => 'list.xml', 'doc_path' => ''}
+      
+        run_job('hyper_import_xml_old', :env => env, :tag => 'import')
         true
       end
     end

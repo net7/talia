@@ -1,8 +1,1 @@
-require File.dirname(__FILE__) + '/../../test_helper'
-
-class Admin::CustomTemplatesControllerTest < ActionController::TestCase
-  # Replace this with your real tests.
-  def test_truth
-    assert true
-  end
-end
+../../../vendor/plugins/talia_core/generators/talia_admin/templates/test/functional/admin/custom_templates_controller_test.rb
