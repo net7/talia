@@ -37,7 +37,9 @@ div#content div#visore div.txt_block p.Gruppe { text-align: center;
 }
 
 a.no_print{
-    visibility: hidden;
+    position: absolute; 
+    height: 0; 
+    overflow: hidden;
 }
 
 /* @end */

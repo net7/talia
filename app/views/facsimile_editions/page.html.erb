@@ -1,10 +1,9 @@
 <%= render(:partial => 'page_script') %>
-
 <div id="description">
 </div>
 <!--[if !IE]>description<![endif]-->
 <div id="scroll">
-  <%= widget(:simple_mode_panorama, :elements => @pages, :panorama_type => 'vertical') %>
+    <%= widget(:simple_mode_panorama, :elements => @pages, :panorama_type => 'vertical') %>
 </div>
 <!--[if !IE]>scroll<![endif]-->
 
@@ -35,7 +34,7 @@
     <%= facsimile_edition_next_page %>
 
     <p class="facsimile_copyright">
-    <%= copyright_note(@page) %>
+      <%= copyright_note(@page) %>
     </p>
   </div> <!-- chiude visore -->
   <!--[if !IE]>visore<![endif]-->

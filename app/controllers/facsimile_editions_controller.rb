@@ -104,17 +104,20 @@ class FacsimileEditionsController < SimpleEditionController
       format.html do
         @page = TaliaCore::Page.find(URI::decode(request.url))
         download_tool(@page)
-        # Cache the facsimile
 
         setup_vars_for_pages!
         
         @page_title_suff = ", #{params[:page]}"
       end
       format.jpeg do
-        page_uri = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]
         page = TaliaCore::Page.find("#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page])
-        facsimile = page.manifestations(TaliaCore::Facsimile)[0]
-        send_file facsimile.original_image.file_path, :type => 'image/jpeg', :filename => page.uri.local_name.to_s + '.jpeg', :disposition => 'attachment'
+        if (request.parameters['size'] == 'thumb')
+          redirect_to page.facsimile_iip_data_file_path(self)
+        else
+          page_uri = "#{N::LOCAL}#{edition_prefix}" + '/' + params[:id] + '/' + params[:page]
+          facsimile = page.manifestations(TaliaCore::Facsimile)[0]
+          send_file facsimile.original_image.file_path, :type => 'image/jpeg', :filename => page.uri.local_name.to_s + '.jpeg', :disposition => 'attachment'
+        end
       end
     end
   end

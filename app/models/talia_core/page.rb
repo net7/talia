@@ -1,5 +1,5 @@
 module TaliaCore
-  
+
   # A page in a book. Note that cloning a page will not automatically clone 
   # paragraphs and notes belonging to this page.
   class Page < ExpressionCard
@@ -11,7 +11,7 @@ module TaliaCore
     
     # NOT cloned: part-of relationship
     clone_properties N::DCT.extent
-   
+
     # returns the following page
     def next_page
       ordered_pages.next(self)
@@ -83,6 +83,32 @@ module TaliaCore
       facs = facs_qry.execute
       assit(facs.size <= 1)
       (facs.size > 0) ? facs.first : nil
+    end
+
+    # Returns the IipData of the first facsimile of the specified type, if present
+    # (as for the above facsimile(type) method, the type must be like 'Color', which
+    # corresponds to hyper:Color
+    #
+    # This does almost the same as get_iip_data_for_card helper does
+    def facsimile_iip_data
+      facsimile = self.manifestations(TaliaCore::Facsimile).first
+      return nil unless(facsimile)
+      TaliaCore::DataTypes::IipData.find(:first, :conditions => { :source_id => facsimile.id })
+    end
+
+    # Returns the URL for the iip_data of the facsimile
+    #
+    # This does something similar to the talia_image_tag helper
+    def facsimile_iip_data_file_path(controller)
+      image = facsimile_iip_data
+      return '/images/empty_thumb.gif' if image.nil?
+      static_prefix = TaliaCore::CONFIG['static_data_prefix']
+      if(!static_prefix || static_prefix == '' || static_prefix == 'disabled')
+        options = {:controller => 'source_data', :action => 'show', :id => image.id}
+        controller.send(:url_for, options)
+      else
+        image.static_path
+      end
     end
 
     private
