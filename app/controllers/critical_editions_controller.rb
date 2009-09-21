@@ -2,7 +2,7 @@ class CriticalEditionsController < SimpleEditionController
   set_edition_type :critical
   add_javascripts 'tooltip', 'wit-js'
 
-  layout 'simple_edition', :except => [:advanced_search_popup]
+  layout 'simple_edition', :except => [:advanced_search_popup, :auto_complete_for_words]
   caches_action :show, :dispatcher, :locale => :current_locale
 
   ADVANCED_SEARCH_RESULTS_PER_PAGE = 20
@@ -134,6 +134,17 @@ class CriticalEditionsController < SimpleEditionController
     @header = :"talia.search.print.#{@edition.uri.local_name}.advanced_search_header"
     set_custom_stylesheet [['editions/advanced_search_print_video', 'screen'], ['editions/advanced_search_print_print', 'print']]
     render :layout => 'critical_print'
+  end
+
+  def auto_complete_for_words
+    if (!params[:words].nil? && params[:words] != "")
+
+      word = params[:words].split.last
+      @result = Word.find(:all, {:conditions => "word LIKE '#{word}%'", :order => "counter DESC, word ASC", :limit => 10})
+      
+    else
+      @result = []
+    end
   end
 
   private

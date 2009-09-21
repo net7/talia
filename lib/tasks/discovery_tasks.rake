@@ -306,7 +306,7 @@ namespace :discovery do
   
   
   
-  desc "Upload data into eXist database. Option: [contribution_uri=<contribution_uri>] (if not given, upload all contributions)" 
+  desc "Upload data into eXist database. Option: [contribution_uri=<contribution_uri> feeder=<boolean> autocomplete=<boolean>] (if no contribution is specified, upload all contributions. feeder and/or autocomplete set feeder/autocomplete upload (default is true))"
   task :feeder_upload => :disco_init do
     
     feeder = Feeder.new
@@ -320,7 +320,8 @@ namespace :discovery do
       progress = ProgressBar.new('Contributions', progress_size)
       contributions.each do |contribution|
         TaskHelper::handle_exception("Error feeding contribution #{contribution.uri}") do
-          feeder.feed_contribution(contribution.uri)
+          feeder.feed_contribution(contribution.uri) unless ENV['feeder'] == "false"
+          Word.add_contribution(contribution.uri) unless ENV['autocomplete'] == "false"
         end
         progress.inc
       end
