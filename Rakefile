@@ -10,6 +10,9 @@ begin
   require 'tasks/rails'
 rescue Exception => e
   puts "Talia Core not installed (Exception: #{e.message}), loading developer tasks manually"
+  if(Rake.application.options.trace)
+    puts caller
+  end
   load File.dirname(__FILE__) + '/lib/tasks/talia_dev.rake'
 end
 
