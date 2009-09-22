@@ -3,12 +3,48 @@
     <%= hidden_field_tag 'search_type', 'mc' %>
     <%= hidden_field_tag 'operator', 'or' %>
     <p class="head_search">
-      <label><%= t(:'talia.global.search') %></label> 
-      <input type="text" name="words"/>
+      <label><%= t(:'talia.global.search') %></label>
+      <input type="text" name="words" id="words"/>
       <label class="invia"><%= t(:'talia.global.search') %></label>
       <input type="submit" class="invia" value="" name="advanced_search_submission"/>
+
+      <div id="words_auto_complete" class="auto_complete"></div>
+      <script type="text/javascript">
+        new Ajax.Autocompleter('words', 'words_auto_complete', '/texts/eKGWB/auto_complete_for_words', {
+        
+          updateElement: function(selected_item) {
+
+            // get previous words field value
+            var previous_phrase = document.getElementById('words').value;
+            // get selected item value
+            var new_word = selected_item.childNodes[0].nodeValue;
+            // new word field value
+            var new_phrase = "";
+
+            if (previous_phrase != "") {
+              // split previous word field value and remove the last item
+              var phrase_items = previous_phrase.split(" ");
+              phrase_items.pop();
+              
+              // add selected item value to new word field
+              phrase_items.push(new_word);
+
+              // create new word field value
+              new_phrase = phrase_items.join(" ");
+            } else {
+              // set new phrase as selected item value
+              new_phrase = new_word;
+            }
+
+            // set words field value
+            document.getElementById('words').value = new_phrase;
+          }
+          
+        })
+      </script>
+
     </p>
     <a href="#" onclick="Element.toggle('search_adv'); return false;" class="advsrch"><%=  t(:'talia.global.search_advanced') %></a>
-  
+
   <% end -%>
 </div>

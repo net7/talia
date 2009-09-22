@@ -84,6 +84,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect "texts/:id/advanced_search",
     :controller => 'critical_editions',
     :action => 'advanced_search'
+
+    map.connect "texts/:id/auto_complete_for_words",
+    :controller => 'critical_editions',
+    :action => 'auto_complete_for_words'
   
   map.connect "texts/:id/advanced_search_popup",
     :controller => 'critical_editions',

@@ -94,7 +94,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml">
 	<!-- cut here -->
 
 	<xsl:template match="tei:ref">
-	   <a href="{@target}"><xsl:apply-templates/></a>
+	   <a href="{@target}" class="no_print"><xsl:apply-templates/></a>
 	</xsl:template>
 
 	<xsl:template match="tei:div">
@@ -173,6 +173,12 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml">
 	</xsl:template>
 
 	<xsl:template match="tei:choice"><span style="position:relative"><span class="tooltip_corrige"><xsl:apply-templates select="tei:corr"/></span><span class="popup"><xsl:attribute name="id">hidden<xsl:value-of select="ancestor::tei:div/@xml:id"/><xsl:value-of select="generate-id()"/></xsl:attribute><em>Erratum:</em>  <xsl:apply-templates select="tei:sic"/><xsl:if test="string-length(tei:sic)=0">[editorial addition]</xsl:if><br/><em>lies:</em>         <xsl:apply-templates select="tei:corr"/><br/><xsl:choose><xsl:when test="tei:editor"><xsl:apply-templates select="tei:editor"/></xsl:when><xsl:otherwise><a href="http://www.nietzschesource.org/documentation/de/corrections.html" style="font-style: italic" class="no_print">Nach KGW Nachberichte</a></xsl:otherwise></xsl:choose></span></span></xsl:template>
+
+    <xsl:template match="tei:hi[@rend='sup']">
+        <span class="sup">
+			<xsl:apply-templates/>
+		</span>
+    </xsl:template>
 
 	<xsl:template match="tei:hi[@rend='bold']">
 		<xsl:choose>

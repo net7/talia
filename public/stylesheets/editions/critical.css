@@ -355,3 +355,39 @@ div#visore p.advanced_search_result_description {
 div#visore p.advanced_search_result_description span.red {
     color: #900;
 }
+
+/* ************ */
+/* Autocomplete */
+/* ************ */
+div.auto_complete {
+    background: #fff;
+    z-index: 1;
+}
+
+div.auto_complete ul {
+    border:1px solid #888;
+    margin:0;
+    padding:0;
+    width:100%;
+    list-style-type:none;
+}
+
+div.auto_complete ul li {
+    display: block;
+    width: 91%;
+    margin:0;
+    padding:3px;
+    text-align: left;
+}
+
+div.auto_complete ul li.selected {
+    background-color: #eee;
+    color: #800;
+}
+
+div.auto_complete ul li span.informal {
+    position: relative;
+    display: block;
+    width: 100%;
+    color: #666;
+}

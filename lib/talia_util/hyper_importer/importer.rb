@@ -695,7 +695,7 @@ module TaliaUtil
       
       # Gain access to the logger
       def logger
-        TaliaCore::Initializer.talia_logger
+        TaliaCore.logger
       end
       
       # Removes all characters that are illegal in IRIs, so that the

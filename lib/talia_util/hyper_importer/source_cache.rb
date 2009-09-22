@@ -67,7 +67,7 @@ module TaliaUtil
 
       # Gain access to the logger
       def logger
-        TaliaCore::Initializer.talia_logger
+        TaliaCore.logger
       end
       
 

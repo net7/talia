@@ -10,10 +10,10 @@ module ApplicationHelper
   def iip_flash_viewer(facsimile, height = 400, width = 400, klass='iipviewer', on_page = nil)
     case(facsimile)
     when :single, :left:
-      on_page = @page
+        on_page = @page
       facsimile = @page_facsimile
     when :right:
-      on_page = @page2
+        on_page = @page2
       facsimile = @page2_facsimile
     end
     
@@ -60,13 +60,13 @@ module ApplicationHelper
         @edition.uri.local_name
     when 'per_work':
         if(@book)
-          text = t(:"talia.global_introduction_on_#{@book.uri.local_name.downcase}")
-          @book.uri.local_name
-        else
-          @edition.uri.local_name
-        end
+        text = t(:"talia.global_introduction_on_#{@book.uri.local_name.downcase}")
+        @book.uri.local_name
+      else
+        @edition.uri.local_name
+      end
     else
-        force_mode
+      force_mode
     end
     titled_link(locale_uri("/documentation/LANG/#{local_name}.html"), text)
   end
@@ -175,28 +175,44 @@ module ApplicationHelper
     %(<div id="login_box">#{link_to("Logout", logout_path)}</div>) if logged_in?
   end
   
-  # Get a link that contains the (thumbnail) image for the iip data record
-  # of the first manifestation of the given expression card. The img_options
-  # are added to the image tag.
+#  # Get a link that contains the (thumbnail) image for the iip data record
+#  # of the first manifestation of the given expression card. The img_options
+#  # are added to the image tag.
+#  def thumb_link(element, img_options = {})
+#    url = element.uri.to_s
+#    title = element.uri.local_name
+#
+#    # If this is a book we need to use the first page as a thumbnail
+#    data_element = if(element.is_a?(TaliaCore::Book))
+#      element.ordered_pages.first
+#    else
+#      element
+#    end
+#
+#    # Try to get the iip data record for the manifestation of the element
+#    iip_data = get_iip_data_for_card(data_element)
+#    return titled_link(url, empty_thumb(:alt => title)) unless(iip_data)
+#
+#    img_options = { :alt => title }.merge(img_options)
+#    img_tag = talia_image_tag(iip_data, img_options)
+#
+#    titled_link(url, img_tag)
+#  end
+
+  # New version which will only write the src of the image, the actual image will be
+  # retrieved later on, when the browser send the request, by the right controller 
   def thumb_link(element, img_options = {})
     url = element.uri.to_s
     title = element.uri.local_name
-    
+
     # If this is a book we need to use the first page as a thumbnail
     data_element = if(element.is_a?(TaliaCore::Book))
-      element.ordered_pages.elements.detect { |page| (page && !page_blank?(page)) }
+      element.ordered_pages.first
     else
       element
     end
-    
-    # Try to get the iip data record for the manifestation of the element
-    iip_data = get_iip_data_for_card(data_element)
-    return titled_link(url, empty_thumb(:alt => title)) unless(iip_data)
 
-    img_options = { :alt => title }.merge(img_options)
-    img_tag = talia_image_tag(iip_data, img_options)
-
-    titled_link(url, img_tag)
+    return titled_link(url, image_tag(url + '.jpeg?size=thumb', img_options))
   end
   
   def talia_image_tag(image, options = {})
@@ -208,7 +224,7 @@ module ApplicationHelper
       image_tag(static_url, options)
     end
   end
-
+  
   def empty_thumb(options)
     image_tag('/images/empty_thumb.gif', options)
   end

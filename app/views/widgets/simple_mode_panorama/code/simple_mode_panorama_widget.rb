@@ -31,7 +31,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
         if (position == 'odd') 
           result << '<div class="block">' 
         end 
-        result << "<p>#{thumb_link(element)}<span>#{element.uri.local_name}</span></p>"    
+        result << "<p>#{thumb_link(element)}<span>#{element.uri.local_name}</span></p>"
         if position == 'even' || elements.last == element 
           result << '</div>
           ' 
@@ -54,7 +54,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
       if elements.first == element 
         result << "<div class='view_block'>
         <p class='lonely' id='page_#{element}'>
-        "
+"
         result << thumb_link(element)
         result << '<span>'
         result << element.uri.local_name + '
@@ -65,7 +65,7 @@ class SimpleModePanoramaWidget < Widgeon::Widget
           result << "<div class='view_block'>"
         end 
         result << "<p id='page_#{element}'>
-        "
+"
         result << thumb_link(element)
         result << '<span>'
         result << element.uri.local_name + '
@@ -86,5 +86,5 @@ class SimpleModePanoramaWidget < Widgeon::Widget
     end 
     result
   end  
-        
+
 end
