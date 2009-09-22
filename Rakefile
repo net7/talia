@@ -5,11 +5,11 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
 
-if(File.exist?(File.join(File.dirname(__FILE__), 'vendor', 'plugins', 'talia_core')))
+begin
   require(File.join(File.dirname(__FILE__), 'config', 'boot'))
   require 'tasks/rails'
-else
-  puts "Talia Core not installed, loading developer tasks manually"
+rescue Exception => e
+  puts "Talia Core not installed (Exception: #{e.message}), loading developer tasks manually"
   load File.dirname(__FILE__) + '/lib/tasks/talia_dev.rake'
 end
 
