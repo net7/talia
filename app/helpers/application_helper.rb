@@ -207,7 +207,7 @@ module ApplicationHelper
       element
     end
 
-    return titled_link(url, image_tag(url + '.jpeg?size=thumb', img_options))
+    return titled_link(url, image_tag(data_element.uri.to_s + '.jpeg?size=thumb', img_options), title)
   end
   
   def talia_image_tag(image, options = {})
