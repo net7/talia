@@ -110,3 +110,13 @@ namespaces:
     sophiavision: http://discovery-project.eu/ontologies/sophiavision/
     philospace: http://discovery-project.eu/ontologies/philoSpace/
     dbin: http://dbin.org/dbinont.owl#
+
+# Configure the public ontologies
+public_ontologies:
+  - "daphnet_modern"
+  - "sophiavision"
+  - "scholar_0_1"
+  - "daphnet_ancient"
+  - "wittgenstein"
+  - "nietzsche"
+  - "hyper_ontology"
