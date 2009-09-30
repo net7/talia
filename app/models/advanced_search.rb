@@ -1,6 +1,6 @@
 class AdvancedSearch
 
-  attr_accessor :size, :xml_doc
+  attr_accessor :size, :match_count, :xml_doc
   
 
   # advanced search for simple edition.
@@ -13,8 +13,9 @@ class AdvancedSearch
     # execute query
     doc = execute_query(data)
 
-    # total item
+    # total item and unit
     self.size = doc.root.attribute('total').value
+    self.match_count = doc.root.attribute('totalMatch').value
 
     # get level 2 group
     groups = doc.get_elements('/talia:result//talia:group/talia:entry')

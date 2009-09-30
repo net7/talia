@@ -69,6 +69,7 @@ class CriticalEditionsController < SimpleEditionController
       @result = adv_src.search(edition_prefix, @edition.uri.to_s, params[:id], params[:words], params[:operator], params[:mc], params[:mc_from], params[:mc_to], params[:mc_single], true, page, @limit)
 
       @result_count = adv_src.size
+      @result_match_count = adv_src.match_count
 
       # the number of pages we have to display
       if @limit == 0

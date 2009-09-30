@@ -22,24 +22,19 @@ module CriticalEditionsHelper
   def advanced_search_result_description
     result = "<p class='advanced_search_result_description'>"
     # add count and work
+    result += "<span class='red'>#{@result_match_count}</span> #{t(:'talia.search.result phrase 0')} " unless @result_match_count == "-1"
     result += "<span class='red'>#{@result_count}</span> #{t(:'talia.search.result phrase 1')} <span class='red'> #{@words}</span>"
     # add subpart
-    @searched_works.each_with_index do |item, index|
+    @searched_works.each do |item|
       unless item[:work].nil?
         result += "<br /> #{t(:'talia.search.result.optional.in the work')} <i>#{item[:work]}</i>, #{t(:'talia.search.result.optional.in aphorisms')} <i>#{item[:from]}</i> #{t(:'talia.search.result.optional.through')} <i>#{item[:to]}</i>"
       end
       unless item[:single_work].nil?
         result += "<br /> #{t('talia.search.result.optional.in the ' + item[:type])} <i>#{item[:single_work]}</i>"
       end
-#      if index == (@searched_works.size - 1)
-#        result += "."
-#      else
-#        result += ", "
-#      end
+
     end unless @searched_works.nil?
 
-    # add edition title
-    # result += "#{t(:'talia.search.result phrase 2')} #{@edition.hyper::title}</h2>"
 
     result += "</p>"
 
