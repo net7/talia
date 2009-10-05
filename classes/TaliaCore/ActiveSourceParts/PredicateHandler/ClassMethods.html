@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: TaliaCore::ActiveSourceParts::PredicateHandler::ClassMethods</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">TaliaCore::ActiveSourceParts::PredicateHandler::ClassMethods</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../../files/vendor/plugins/talia_core/lib/talia_core/active_source_parts/predicate_handler_rb.html">
+                vendor/plugins/talia_core/lib/talia_core/active_source_parts/predicate_handler.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+This file contains the handling of the &quot;predicate wrapper&quot; lists
+that represent the properties/objects a class has for a given predicate
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000209">prefetch_relations_for</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000209" class="method-detail">
+        <a name="M000209"></a>
+
+        <div class="method-heading">
+          <a href="#M000209" class="method-signature">
+          <span class="method-name">prefetch_relations_for</span><span class="method-args">(sources, limit = 1024)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Attempts to fetch all relations on the given sources at once, so that there
+is potentially only one.
+</p>
+<p>
+For safety reasons, there is a limit on the number of sources that is
+accepted. (For a web application, if you go over the default, you&#8216;re
+probably doing it wrong).
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000209-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000209-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/predicate_handler.rb, line 15</span>
+15:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">prefetch_relations_for</span>(<span class="ruby-identifier">sources</span>, <span class="ruby-identifier">limit</span> = <span class="ruby-value">1024</span>)
+16:           <span class="ruby-identifier">sources</span> = [ <span class="ruby-identifier">sources</span> ] <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">sources</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">ActiveSource</span>))
+17:           <span class="ruby-identifier">raise</span>(<span class="ruby-constant">RangeError</span>, <span class="ruby-value str">&quot;Too many sources for prefetching.&quot;</span>) <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">sources</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">limit</span>)
+18:           <span class="ruby-identifier">src_hash</span> = {}
+19:           <span class="ruby-identifier">sources</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">src</span><span class="ruby-operator">|</span> <span class="ruby-identifier">src_hash</span>[<span class="ruby-identifier">src</span>.<span class="ruby-identifier">id</span>] = <span class="ruby-identifier">src</span> }
+20:           <span class="ruby-identifier">conditions</span> = [<span class="ruby-value str">'subject_id in (?)'</span>, <span class="ruby-identifier">src_hash</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">', '</span>)]
+21:           <span class="ruby-identifier">joins</span> = <span class="ruby-constant">ActiveSource</span>.<span class="ruby-identifier">sources_join</span>
+22:           <span class="ruby-identifier">joins</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">ActiveSource</span>.<span class="ruby-identifier">props_join</span>
+23:           <span class="ruby-identifier">relations</span> = <span class="ruby-constant">SemanticRelation</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">:all</span>, <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">conditions</span>,
+24:           <span class="ruby-identifier">:joins</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">joins</span>,
+25:           <span class="ruby-identifier">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">SemanticRelation</span>.<span class="ruby-identifier">fat_record_select</span>
+26:           )
+27:           <span class="ruby-identifier">relations</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">rel</span><span class="ruby-operator">|</span>
+28:             <span class="ruby-identifier">src_hash</span>[<span class="ruby-identifier">rel</span>.<span class="ruby-identifier">subject_id</span>].<span class="ruby-identifier">inject_predicate</span>(<span class="ruby-identifier">rel</span>)
+29:           <span class="ruby-keyword kw">end</span>
+30: 
+31:           <span class="ruby-comment cmt"># Set all as loaded</span>
+32:           <span class="ruby-identifier">sources</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">src</span><span class="ruby-operator">|</span>
+33:             <span class="ruby-identifier">src</span>.<span class="ruby-identifier">each_cached_wrapper</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">wrap</span><span class="ruby-operator">|</span> <span class="ruby-identifier">wrap</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value str">'@loaded'</span><span class="ruby-value str">'@loaded'</span>, <span class="ruby-keyword kw">true</span>) }
+34:           <span class="ruby-keyword kw">end</span>
+35:         <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

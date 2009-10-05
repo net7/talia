@@ -92,10 +92,9 @@ Imports the XML files which are produced by the old Hyper software
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000183">import</a>&nbsp;&nbsp;
-      <a href="#M000181">options</a>&nbsp;&nbsp;
-      <a href="#M000184">read_from</a>&nbsp;&nbsp;
-      <a href="#M000182">set_auth</a>&nbsp;&nbsp;
+      <a href="#M000536">options</a>&nbsp;&nbsp;
+      <a href="#M000538">read_from</a>&nbsp;&nbsp;
+      <a href="#M000537">set_auth</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -117,85 +116,19 @@ Imports the XML files which are produced by the old Hyper software
     <div id="methods">
       <h3 class="section-bar">Public Class methods</h3>
 
-      <div id="method-M000183" class="method-detail">
-        <a name="M000183"></a>
+      <div id="method-M000536" class="method-detail">
+        <a name="M000536"></a>
 
         <div class="method-heading">
-          <a href="#M000183" class="method-signature">
-          <span class="method-name">import</span><span class="method-args">(base_uri, list_location = &quot;?getList=all&quot;, sig_request = &quot;?get=&quot;, file_ext='')</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-          <p>
-Import a single source from XML. The xml_source is the source of the
-element to <a href="HyperXmlImport.html#M000183">import</a>. If this is an
-URL, it will be used to fetch the information from the web.
-</p>
-<p>
-The base_uri is the uri where the <a
-href="HyperXmlImport.html#M000183">import</a> data is retrieved. The
-list_location and sig_request are additional uri parts that are appended to
-the URI to retrieve the list of all sigla and the documents themselves.
-</p>
-<p>
-To retrieve a document, the siglum from the list xml will be appended to
-base_uri + sig_request.
-</p>
-          <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000183-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000183-source">
-<pre>
-    <span class="ruby-comment cmt"># File lib/talia_util/hyper_xml_import.rb, line 33</span>
-33:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">import</span>(<span class="ruby-identifier">base_uri</span>, <span class="ruby-identifier">list_location</span> = <span class="ruby-value str">&quot;?getList=all&quot;</span>, <span class="ruby-identifier">sig_request</span> = <span class="ruby-value str">&quot;?get=&quot;</span>, <span class="ruby-identifier">file_ext</span>=<span class="ruby-value str">''</span>)
-34:         <span class="ruby-identifier">base_uri</span> <span class="ruby-operator">||=</span> <span class="ruby-value str">''</span>
-35:         <span class="ruby-comment cmt"># Reset to defauls if we get nil values</span>
-36:         <span class="ruby-identifier">list_location</span> <span class="ruby-operator">||=</span> <span class="ruby-value str">&quot;?getList=all&quot;</span>
-37:         <span class="ruby-identifier">sig_request</span> <span class="ruby-operator">||=</span> <span class="ruby-value str">&quot;?get=&quot;</span>
-38:         <span class="ruby-identifier">file_ext</span> <span class="ruby-operator">||=</span> <span class="ruby-value str">''</span>
-39:         
-40:         <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Importing from URI: #{base_uri}. Fetching list from #{base_uri + list_location}&quot;</span>
-41:         <span class="ruby-comment cmt"># open the document with the sigla to import</span>
-42:         <span class="ruby-identifier">import_doc</span> = <span class="ruby-constant">REXML</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">read_from</span>(<span class="ruby-identifier">base_uri</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">list_location</span>))
-43:         <span class="ruby-identifier">size</span> = <span class="ruby-identifier">import_doc</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">elements</span>.<span class="ruby-identifier">size</span>
-44:         <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Fetched list, importing #{size} elements&quot;</span>
-45:         <span class="ruby-identifier">progress</span> = <span class="ruby-constant">ProgressBar</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;Importing&quot;</span>, <span class="ruby-identifier">size</span>)
-46:         
-47:         <span class="ruby-comment cmt"># Toggle the progressbar to force it active</span>
-48:         <span class="ruby-identifier">progress</span>.<span class="ruby-identifier">set</span>(<span class="ruby-identifier">size</span><span class="ruby-operator">/</span><span class="ruby-value">100</span>)
-49: 
-50:         <span class="ruby-identifier">import_doc</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">elements</span>.<span class="ruby-identifier">each</span>(<span class="ruby-value str">&quot;siglum&quot;</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">siglum</span><span class="ruby-operator">|</span>
-51:           <span class="ruby-identifier">progress</span>.<span class="ruby-identifier">inc</span>
-52:           <span class="ruby-keyword kw">begin</span>
-53:             <span class="ruby-identifier">sig_uri</span> = <span class="ruby-identifier">base_uri</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">sig_request</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">siglum</span>.<span class="ruby-identifier">text</span>.<span class="ruby-identifier">strip</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">file_ext</span>
-54:             <span class="ruby-constant">TaliaUtil</span><span class="ruby-operator">::</span><span class="ruby-constant">HyperImporter</span><span class="ruby-operator">::</span><span class="ruby-constant">Importer</span>.<span class="ruby-identifier">import</span>(<span class="ruby-constant">REXML</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">read_from</span>(<span class="ruby-identifier">sig_uri</span>)), <span class="ruby-identifier">options</span>)
-55:           <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
-56:             <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">puts</span>(<span class="ruby-node">&quot;Error when importing #{sig_uri}: #{e}\nBacktrace: #{e.backtrace.join(&quot;\n&quot;)}&quot;</span>)
-57:           <span class="ruby-keyword kw">end</span>
-58:         <span class="ruby-keyword kw">end</span>
-59:         
-60:         <span class="ruby-identifier">progress</span>.<span class="ruby-identifier">finish</span>
-61:         <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Import complete.&quot;</span>
-62:         
-63:       <span class="ruby-keyword kw">end</span>
-</pre>
-          </div>
-        </div>
-      </div>
-
-      <div id="method-M000181" class="method-detail">
-        <a name="M000181"></a>
-
-        <div class="method-heading">
-          <a href="#M000181" class="method-signature">
+          <a href="#M000536" class="method-signature">
           <span class="method-name">options</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000181-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000181-source">
+            onclick="toggleCode('M000536-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000536-source">
 <pre>
     <span class="ruby-comment cmt"># File lib/talia_util/hyper_xml_import.rb, line 12</span>
 12:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">options</span>
@@ -206,40 +139,11 @@ base_uri + sig_request.
         </div>
       </div>
 
-      <div id="method-M000182" class="method-detail">
-        <a name="M000182"></a>
+      <div id="method-M000538" class="method-detail">
+        <a name="M000538"></a>
 
         <div class="method-heading">
-          <a href="#M000182" class="method-signature">
-          <span class="method-name">set_auth</span><span class="method-args">(user, password)</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-          <p>
-Set the authentication credentials for http (if needed)
-</p>
-          <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000182-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000182-source">
-<pre>
-    <span class="ruby-comment cmt"># File lib/talia_util/hyper_xml_import.rb, line 17</span>
-17:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_auth</span>(<span class="ruby-identifier">user</span>, <span class="ruby-identifier">password</span>)
-18:         <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
-19:         <span class="ruby-ivar">@password</span> = <span class="ruby-identifier">password</span>
-20:       <span class="ruby-keyword kw">end</span>
-</pre>
-          </div>
-        </div>
-      </div>
-
-      <h3 class="section-bar">Protected Class methods</h3>
-
-      <div id="method-M000184" class="method-detail">
-        <a name="M000184"></a>
-
-        <div class="method-heading">
-          <a href="#M000184" class="method-signature">
+          <a href="#M000538" class="method-signature">
           <span class="method-name">read_from</span><span class="method-args">(uri)</span>
           </a>
         </div>
@@ -250,24 +154,51 @@ Opens the given uri, and returns the content as a string. The uri may be a
 http uri, a file:/// uri or a simple filename
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000184-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000184-source">
+            onclick="toggleCode('M000538-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000538-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/talia_util/hyper_xml_import.rb, line 69</span>
-69:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">read_from</span>(<span class="ruby-identifier">uri</span>)
-70:         
-71:         <span class="ruby-comment cmt"># The &quot;file://&quot; type is not natively recognized. If it's there, we</span>
-72:         <span class="ruby-comment cmt"># strip it to get the real file name</span>
-73:         <span class="ruby-identifier">uri</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/^\s*file:\/\//</span>, <span class="ruby-value str">''</span>) <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">uri</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">String</span>))
-74: 
-75:         <span class="ruby-identifier">uri_plus_opts</span> = [ <span class="ruby-identifier">uri</span> ] <span class="ruby-comment cmt"># parameters for the open method</span>
-76:         <span class="ruby-keyword kw">if</span>(<span class="ruby-ivar">@user</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@password</span>)
-77:           <span class="ruby-identifier">uri_plus_opts</span> <span class="ruby-operator">&lt;&lt;</span> { <span class="ruby-identifier">:http_basic_authentication</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-ivar">@user</span>, <span class="ruby-ivar">@password</span>] } <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">uri</span>.<span class="ruby-identifier">match</span>(<span class="ruby-value str">'http://'</span>)
-78:         <span class="ruby-keyword kw">end</span>
-79:         
-80:         <span class="ruby-comment cmt"># Now we can just try to read from the URI</span>
-81:         <span class="ruby-identifier">open</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">uri_plus_opts</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">stream</span><span class="ruby-operator">|</span> <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">read</span> }
-82:       <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt"># File lib/talia_util/hyper_xml_import.rb, line 24</span>
+24:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">read_from</span>(<span class="ruby-identifier">uri</span>)
+25:         
+26:         <span class="ruby-comment cmt"># The &quot;file://&quot; type is not natively recognized. If it's there, we</span>
+27:         <span class="ruby-comment cmt"># strip it to get the real file name</span>
+28:         <span class="ruby-identifier">uri</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/^\s*file:\/\//</span>, <span class="ruby-value str">''</span>) <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">uri</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">String</span>))
+29: 
+30:         <span class="ruby-identifier">uri_plus_opts</span> = [ <span class="ruby-identifier">uri</span> ] <span class="ruby-comment cmt"># parameters for the open method</span>
+31:         <span class="ruby-keyword kw">if</span>(<span class="ruby-ivar">@user</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@password</span>)
+32:           <span class="ruby-identifier">uri_plus_opts</span> <span class="ruby-operator">&lt;&lt;</span> { <span class="ruby-identifier">:http_basic_authentication</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-ivar">@user</span>, <span class="ruby-ivar">@password</span>] } <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">uri</span>.<span class="ruby-identifier">match</span>(<span class="ruby-value str">'http://'</span>)
+33:         <span class="ruby-keyword kw">end</span>
+34:         
+35:         <span class="ruby-comment cmt"># Now we can just try to read from the URI</span>
+36:         <span class="ruby-identifier">open</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">uri_plus_opts</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">stream</span><span class="ruby-operator">|</span> <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">read</span> }
+37:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000537" class="method-detail">
+        <a name="M000537"></a>
+
+        <div class="method-heading">
+          <a href="#M000537" class="method-signature">
+          <span class="method-name">set_auth</span><span class="method-args">(user, password)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Set the authentication credentials for http (if needed)
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000537-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000537-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/talia_util/hyper_xml_import.rb, line 17</span>
+17:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_auth</span>(<span class="ruby-identifier">user</span>, <span class="ruby-identifier">password</span>)
+18:         <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">user</span>
+19:         <span class="ruby-ivar">@password</span> = <span class="ruby-identifier">password</span>
+20:       <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>

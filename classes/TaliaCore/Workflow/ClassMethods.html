@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: TaliaCore::Workflow::ClassMethods</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">TaliaCore::Workflow::ClassMethods</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/vendor/plugins/talia_core/lib/talia_core/workflow_rb.html">
+                vendor/plugins/talia_core/lib/talia_core/workflow.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000187">calculate_in_state</a>&nbsp;&nbsp;
+      <a href="#M000186">count_in_state</a>&nbsp;&nbsp;
+      <a href="#M000183">event</a>&nbsp;&nbsp;
+      <a href="#M000185">find_in_state</a>&nbsp;&nbsp;
+      <a href="#M000184">state</a>&nbsp;&nbsp;
+      <a href="#M000182">states</a>&nbsp;&nbsp;
+      <a href="#M000188">with_state_scope</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000187" class="method-detail">
+        <a name="M000187"></a>
+
+        <div class="method-heading">
+          <a href="#M000187" class="method-signature">
+          <span class="method-name">calculate_in_state</span><span class="method-args">(state, *args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Wraps ActiveRecord::Base.calculate to conveniently calculate all records in
+a given <a href="ClassMethods.html#M000184">state</a>. Options:
+</p>
+<ul>
+<li><tt><a href="ClassMethods.html#M000184">state</a></tt> - The <a
+href="ClassMethods.html#M000184">state</a> to find
+
+</li>
+<li><tt>args</tt> - The rest of the args are passed down to ActiveRecord
+<tt>calculate</tt>
+
+</li>
+</ul>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000187-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000187-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/workflow.rb, line 284</span>
+284:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">calculate_in_state</span>(<span class="ruby-identifier">state</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+285:         <span class="ruby-identifier">with_state_scope</span> <span class="ruby-identifier">state</span> <span class="ruby-keyword kw">do</span>
+286:           <span class="ruby-identifier">calculate</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+287:         <span class="ruby-keyword kw">end</span>
+288:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000186" class="method-detail">
+        <a name="M000186"></a>
+
+        <div class="method-heading">
+          <a href="#M000186" class="method-signature">
+          <span class="method-name">count_in_state</span><span class="method-args">(state, *args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Wraps ActiveRecord::Base.count to conveniently count all records in a given
+<a href="ClassMethods.html#M000184">state</a>. Options:
+</p>
+<ul>
+<li><tt><a href="ClassMethods.html#M000184">state</a></tt> - The <a
+href="ClassMethods.html#M000184">state</a> to find
+
+</li>
+<li><tt>args</tt> - The rest of the args are passed down to ActiveRecord
+<tt>find</tt>
+
+</li>
+</ul>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000186-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000186-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/workflow.rb, line 273</span>
+273:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">count_in_state</span>(<span class="ruby-identifier">state</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+274:         <span class="ruby-identifier">with_state_scope</span> <span class="ruby-identifier">state</span> <span class="ruby-keyword kw">do</span>
+275:           <span class="ruby-identifier">count</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+276:         <span class="ruby-keyword kw">end</span>
+277:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000183" class="method-detail">
+        <a name="M000183"></a>
+
+        <div class="method-heading">
+          <a href="#M000183" class="method-signature">
+          <span class="method-name">event</span><span class="method-args">(event, opts={}, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Define an <a href="ClassMethods.html#M000183">event</a>. This takes a block
+which describes all valid transitions for this <a
+href="ClassMethods.html#M000183">event</a>.
+</p>
+<p>
+Example:
+</p>
+<p>
+class Order &lt; ActiveRecord::Base
+</p>
+<pre>
+  acts_as_state_machine :initial =&gt; :open
+
+  state :open
+  state :closed
+
+  event :close_order do
+    transitions :to =&gt; :closed, :from =&gt; :open
+  end
+</pre>
+<p>
+end
+</p>
+<p>
+<tt>transitions</tt> takes a hash where <tt>:to</tt> is the <a
+href="ClassMethods.html#M000184">state</a> to transition to and
+<tt>:from</tt> is a <a href="ClassMethods.html#M000184">state</a> (or Array
+of <a href="ClassMethods.html#M000182">states</a>) from which this <a
+href="ClassMethods.html#M000183">event</a> can be fired.
+</p>
+<p>
+This creates an instance method used for firing the <a
+href="ClassMethods.html#M000183">event</a>. The method created is the name
+of the <a href="ClassMethods.html#M000183">event</a> followed by an
+exclamation point (!). Example: <tt>order.close_order!</tt>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000183-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000183-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/workflow.rb, line 229</span>
+229:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">event</span>(<span class="ruby-identifier">event</span>, <span class="ruby-identifier">opts</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+230:         <span class="ruby-identifier">tt</span> = <span class="ruby-identifier">read_inheritable_attribute</span>(<span class="ruby-identifier">:transition_table</span>)
+231:           
+232:         <span class="ruby-identifier">et</span> = <span class="ruby-identifier">read_inheritable_attribute</span>(<span class="ruby-identifier">:event_table</span>)
+233:         <span class="ruby-identifier">e</span> = <span class="ruby-identifier">et</span>[<span class="ruby-identifier">event</span>.<span class="ruby-identifier">to_sym</span>] = <span class="ruby-constant">SupportingClasses</span><span class="ruby-operator">::</span><span class="ruby-constant">Event</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">event</span>, <span class="ruby-identifier">opts</span>, <span class="ruby-identifier">tt</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+234:         <span class="ruby-identifier">define_method</span>(<span class="ruby-node">&quot;#{event.to_s}!&quot;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">user</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span><span class="ruby-operator">|</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">fire</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">user</span>, <span class="ruby-identifier">args</span>) }
+235:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000185" class="method-detail">
+        <a name="M000185"></a>
+
+        <div class="method-heading">
+          <a href="#M000185" class="method-signature">
+          <span class="method-name">find_in_state</span><span class="method-args">(number, state, *args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Wraps ActiveRecord::Base.find to conveniently find all records in a given
+<a href="ClassMethods.html#M000184">state</a>. Options:
+</p>
+<ul>
+<li><tt>number</tt> - This is just :first or :all from ActiveRecord
+<tt>find</tt>
+
+</li>
+<li><tt><a href="ClassMethods.html#M000184">state</a></tt> - The <a
+href="ClassMethods.html#M000184">state</a> to find
+
+</li>
+<li><tt>args</tt> - The rest of the args are passed down to ActiveRecord
+<tt>find</tt>
+
+</li>
+</ul>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000185-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000185-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/workflow.rb, line 262</span>
+262:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">find_in_state</span>(<span class="ruby-identifier">number</span>, <span class="ruby-identifier">state</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+263:         <span class="ruby-identifier">with_state_scope</span> <span class="ruby-identifier">state</span> <span class="ruby-keyword kw">do</span>
+264:           <span class="ruby-identifier">find</span>(<span class="ruby-identifier">number</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+265:         <span class="ruby-keyword kw">end</span>
+266:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000184" class="method-detail">
+        <a name="M000184"></a>
+
+        <div class="method-heading">
+          <a href="#M000184" class="method-signature">
+          <span class="method-name">state</span><span class="method-args">(name, opts={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Define a <a href="ClassMethods.html#M000184">state</a> of the system.
+<tt><a href="ClassMethods.html#M000184">state</a></tt> can take an optional
+Proc object which will be executed every time the system transitions into
+that <a href="ClassMethods.html#M000184">state</a>. The proc will be passed
+the current object.
+</p>
+<p>
+Example:
+</p>
+<p>
+class Order &lt; ActiveRecord::Base
+</p>
+<pre>
+  acts_as_state_machine :initial =&gt; :open
+
+  state :open
+  state :closed, Proc.new { |o| Mailer.send_notice(o) }
+</pre>
+<p>
+end
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000184-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000184-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/workflow.rb, line 249</span>
+249:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">state</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">opts</span>={})
+250:         <span class="ruby-identifier">state</span> = <span class="ruby-constant">SupportingClasses</span><span class="ruby-operator">::</span><span class="ruby-constant">State</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>, <span class="ruby-identifier">opts</span>)
+251:         <span class="ruby-identifier">read_inheritable_attribute</span>(<span class="ruby-identifier">:states</span>)[<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>] = <span class="ruby-identifier">state</span>
+252:         
+253:         <span class="ruby-identifier">define_method</span>(<span class="ruby-node">&quot;#{state.name}?&quot;</span>) { <span class="ruby-identifier">current_state</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">state</span>.<span class="ruby-identifier">name</span> }
+254:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000182" class="method-detail">
+        <a name="M000182"></a>
+
+        <div class="method-heading">
+          <a href="#M000182" class="method-signature">
+          <span class="method-name">states</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns an array of all known <a
+href="ClassMethods.html#M000182">states</a>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000182-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000182-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/workflow.rb, line 202</span>
+202:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">states</span>
+203:         <span class="ruby-identifier">read_inheritable_attribute</span>(<span class="ruby-identifier">:states</span>).<span class="ruby-identifier">keys</span>
+204:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Instance methods</h3>
+
+      <div id="method-M000188" class="method-detail">
+        <a name="M000188"></a>
+
+        <div class="method-heading">
+          <a href="#M000188" class="method-signature">
+          <span class="method-name">with_state_scope</span><span class="method-args">(state) {|if block_given?| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000188-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000188-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/workflow.rb, line 291</span>
+291:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">with_state_scope</span>(<span class="ruby-identifier">state</span>)
+292:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidState</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">states</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">state</span>)
+293:           
+294:         <span class="ruby-identifier">with_scope</span> <span class="ruby-identifier">:find</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-node">&quot;#{table_name}.#{state_column} = ?&quot;</span>, <span class="ruby-identifier">state</span>.<span class="ruby-identifier">to_s</span>]} <span class="ruby-keyword kw">do</span>
+295:           <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+296:         <span class="ruby-keyword kw">end</span>
+297:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

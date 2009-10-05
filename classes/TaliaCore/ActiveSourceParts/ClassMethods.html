@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: TaliaCore::ActiveSourceParts::ClassMethods</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">TaliaCore::ActiveSourceParts::ClassMethods</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods_rb.html">
+                vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000189">additional_rdf_types</a>&nbsp;&nbsp;
+      <a href="#M000192">create_from_xml</a>&nbsp;&nbsp;
+      <a href="#M000193">create_multi_from</a>&nbsp;&nbsp;
+      <a href="#M000191">create_source</a>&nbsp;&nbsp;
+      <a href="#M000200">db_attr?</a>&nbsp;&nbsp;
+      <a href="#M000194">exists?</a>&nbsp;&nbsp;
+      <a href="#M000201">expand_uri</a>&nbsp;&nbsp;
+      <a href="#M000195">find</a>&nbsp;&nbsp;
+      <a href="#M000190">new</a>&nbsp;&nbsp;
+      <a href="#M000198">paginate</a>&nbsp;&nbsp;
+      <a href="#M000197">rewrite</a>&nbsp;&nbsp;
+      <a href="#M000202">split_attribute_hash</a>&nbsp;&nbsp;
+      <a href="#M000196">update</a>&nbsp;&nbsp;
+      <a href="#M000199">value_for</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000189" class="method-detail">
+        <a name="M000189"></a>
+
+        <div class="method-heading">
+          <a href="#M000189" class="method-signature">
+          <span class="method-name">additional_rdf_types</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Accessor for addtional rdf types that will automatically be added to each
+object of that <a href="../Source.html">Source</a> class
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000189-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000189-source">
+<pre>
+   <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods.rb, line 7</span>
+7:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">additional_rdf_types</span> 
+8:         <span class="ruby-ivar">@additional_rdf_types</span> <span class="ruby-operator">||=</span> []
+9:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000192" class="method-detail">
+        <a name="M000192"></a>
+
+        <div class="method-heading">
+          <a href="#M000192" class="method-signature">
+          <span class="method-name">create_from_xml</span><span class="method-args">(xml, options = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Create sources from XML. The result is either a single source or an Array
+of sources, depending on wether the XML contains multiple sources.
+</p>
+<p>
+The imported sources will be saved during import, to ensure that relations
+between them are resolved correctly. If one of the imported elements does
+already exist, the existing source will be rewritten using <a
+href="../ActiveSource.html#M000343">ActiveSource#rewrite_attributes</a>
+</p>
+<p>
+The options may contain:
+</p>
+<pre>
+ [*reader*] - The reader class that the import should use
+ [*progressor*] - The progress reporting object, which must respond to run_with_progress(message, size, &amp;block)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000192-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000192-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods.rb, line 60</span>
+60:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_from_xml</span>(<span class="ruby-identifier">xml</span>, <span class="ruby-identifier">options</span> = {})
+61:         <span class="ruby-identifier">reader</span> = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:reader</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:reader</span>].<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">classify</span>.<span class="ruby-identifier">constantize</span> <span class="ruby-operator">:</span> <span class="ruby-constant">TaliaCore</span><span class="ruby-operator">::</span><span class="ruby-constant">ActiveSourceParts</span><span class="ruby-operator">::</span><span class="ruby-constant">Xml</span><span class="ruby-operator">::</span><span class="ruby-constant">SourceReader</span>
+62:         <span class="ruby-identifier">source_properties</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">sources_from</span>(<span class="ruby-identifier">xml</span>, <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:progressor</span>])
+63:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">progressor</span> = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:progressor</span>]
+64:         <span class="ruby-identifier">sources</span> = <span class="ruby-identifier">create_multi_from</span>(<span class="ruby-identifier">source_properties</span>)
+65:         (<span class="ruby-identifier">sources</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">sources</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">sources</span>.<span class="ruby-identifier">first</span>
+66:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000193" class="method-detail">
+        <a name="M000193"></a>
+
+        <div class="method-heading">
+          <a href="#M000193" class="method-signature">
+          <span class="method-name">create_multi_from</span><span class="method-args">(sources)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates multiple sources from the given array of attribute hashes. The
+sources are saved during import, ensuring that the relations are resolved
+correctly
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000193-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000193-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods.rb, line 71</span>
+71:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_multi_from</span>(<span class="ruby-identifier">sources</span>)
+72:         <span class="ruby-identifier">source_objects</span> = []
+73:         <span class="ruby-identifier">run_with_progress</span>(<span class="ruby-value str">'Writing imported'</span>, <span class="ruby-identifier">sources</span>.<span class="ruby-identifier">size</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">progress</span><span class="ruby-operator">|</span>
+74:           <span class="ruby-identifier">source_objects</span> = <span class="ruby-identifier">sources</span>.<span class="ruby-identifier">collect</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">props</span><span class="ruby-operator">|</span> 
+75:             <span class="ruby-identifier">src</span> = <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">src</span> = <span class="ruby-constant">ActiveSource</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">:first</span>, <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-identifier">:uri</span> =<span class="ruby-operator">&gt;</span> (<span class="ruby-identifier">props</span>[<span class="ruby-identifier">:uri</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">props</span>[<span class="ruby-value str">'uri'</span>]) }))
+76:               <span class="ruby-comment cmt"># Deal with already existing sources</span>
+77:               <span class="ruby-identifier">src</span>.<span class="ruby-identifier">rewrite_attributes</span>(<span class="ruby-identifier">props</span>)
+78:               <span class="ruby-comment cmt"># Rewrite the type, if neccessary</span>
+79:               <span class="ruby-identifier">type</span> = <span class="ruby-identifier">props</span>[<span class="ruby-identifier">:type</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">props</span>[<span class="ruby-value str">'type'</span>]
+80:               <span class="ruby-identifier">switch_type</span> = <span class="ruby-identifier">type</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">src</span>.<span class="ruby-identifier">type</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">type</span>)
+81:               <span class="ruby-comment cmt"># Warn to the log if we have a problematic type change</span>
+82:               <span class="ruby-constant">TaliaCore</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;WARNING: Type change from #{src.type} to #{type}&quot;</span>) <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">switch_type</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">src</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">DummySource</span>))
+83:               <span class="ruby-identifier">src</span>.<span class="ruby-identifier">type</span> = <span class="ruby-identifier">type</span> <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">switch_type</span>)
+84:               <span class="ruby-identifier">src</span>
+85:             <span class="ruby-keyword kw">else</span>
+86:               <span class="ruby-constant">ActiveSource</span>.<span class="ruby-identifier">create_source</span>(<span class="ruby-identifier">props</span>)
+87:             <span class="ruby-keyword kw">end</span>
+88:             <span class="ruby-identifier">progress</span>.<span class="ruby-identifier">inc</span>
+89:             <span class="ruby-identifier">src</span>.<span class="ruby-identifier">save!</span>
+90:             <span class="ruby-identifier">src</span>
+91:           <span class="ruby-keyword kw">end</span>
+92:         <span class="ruby-keyword kw">end</span>
+93:         <span class="ruby-identifier">source_objects</span>
+94:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000191" class="method-detail">
+        <a name="M000191"></a>
+
+        <div class="method-heading">
+          <a href="#M000191" class="method-signature">
+          <span class="method-name">create_source</span><span class="method-args">(args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Retrieves a <a href="ClassMethods.html#M000190">new</a> source with the
+given type. This gets a propety hash like <a
+href="ClassMethods.html#M000190">new</a>, but it will correctly initialize
+a source of the type given in the hash. If no type is given, this will
+create a plain <a href="../ActiveSource.html">ActiveSource</a>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000191-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000191-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods.rb, line 43</span>
+43:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_source</span>(<span class="ruby-identifier">args</span>)
+44:         <span class="ruby-identifier">type</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">:type</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value str">'type'</span>) <span class="ruby-operator">||</span> <span class="ruby-value str">'ActiveSource'</span>
+45:         <span class="ruby-identifier">klass</span> = <span class="ruby-node">&quot;TaliaCore::#{type}&quot;</span>.<span class="ruby-identifier">constantize</span>
+46:         <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">args</span>)
+47:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000200" class="method-detail">
+        <a name="M000200"></a>
+
+        <div class="method-heading">
+          <a href="#M000200" class="method-signature">
+          <span class="method-name">db_attr?</span><span class="method-args">(attribute)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns true if the given attribute is one that is stored in the database
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000200-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000200-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods.rb, line 172</span>
+172:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">db_attr?</span>(<span class="ruby-identifier">attribute</span>)
+173:         <span class="ruby-identifier">db_attributes</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">to_s</span>)
+174:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000194" class="method-detail">
+        <a name="M000194"></a>
+
+        <div class="method-heading">
+          <a href="#M000194" class="method-signature">
+          <span class="method-name">exists?</span><span class="method-args">(value)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This method is slightly expanded to allow passing uris and uri objects as
+an &quot;id&quot;
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000194-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000194-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods.rb, line 98</span>
+ 98:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">value</span>)
+ 99:         <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">uri_s</span> = <span class="ruby-identifier">uri_string_for</span>(<span class="ruby-identifier">value</span>))
+100:           <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">:uri</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">uri_s</span>)
+101:         <span class="ruby-keyword kw">else</span>
+102:           <span class="ruby-keyword kw">super</span>
+103:         <span class="ruby-keyword kw">end</span>
+104:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000201" class="method-detail">
+        <a name="M000201"></a>
+
+        <div class="method-heading">
+          <a href="#M000201" class="method-signature">
+          <span class="method-name">expand_uri</span><span class="method-args">(uri)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Tries to expand a generic URI value that is either given as a full URL or a
+namespace:name value.
+</p>
+<p>
+This will assume a full URL if it finds a &quot;:/&quot; string inside the
+URI. Otherwise it will construct a namespace - name URI
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000201-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000201-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods.rb, line 181</span>
+181:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">expand_uri</span>(<span class="ruby-identifier">uri</span>) <span class="ruby-comment cmt"># TODO: Merge with uri_for ?</span>
+182:         <span class="ruby-identifier">assit_block</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">errors</span><span class="ruby-operator">|</span> 
+183:           <span class="ruby-keyword kw">unless</span>(<span class="ruby-identifier">uri</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:uri</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">uri</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">String</span>)) <span class="ruby-operator">||</span> <span class="ruby-identifier">uri</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Symbol</span>)
+184:             <span class="ruby-identifier">errors</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;Found strange object of type #{uri.class}&quot;</span>
+185:           <span class="ruby-keyword kw">end</span>
+186:           <span class="ruby-keyword kw">true</span>
+187:         <span class="ruby-keyword kw">end</span>
+188:         <span class="ruby-identifier">uri</span> = <span class="ruby-identifier">uri</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:uri</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">uri</span>.<span class="ruby-identifier">uri</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">uri</span>.<span class="ruby-identifier">to_s</span>
+189:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">uri</span> <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">uri</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value str">':/'</span>))
+190:         <span class="ruby-constant">N</span><span class="ruby-operator">::</span><span class="ruby-constant">URI</span>.<span class="ruby-identifier">make_uri</span>(<span class="ruby-identifier">uri</span>).<span class="ruby-identifier">to_s</span>
+191:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000195" class="method-detail">
+        <a name="M000195"></a>
+
+        <div class="method-heading">
+          <a href="#M000195" class="method-signature">
+          <span class="method-name">find</span><span class="method-args">(*args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Finder also accepts uris as &quot;ids&quot;. There are also some additional
+options that are accepted:
+</p>
+<dl>
+<dt>*:find_through*</dt><dd>accepts and array with an predicate name and an object value/uri, to search
+for predicates that match the given predicate/value combination
+
+</dd>
+<dt>*:type</dt><dd>specifically looks for sources with the given type.
+
+</dd>
+<dt>*:find_through_inv*</dt><dd>like :find_through, but for the &quot;inverse&quot; lookup
+
+</dd>
+<dt>*:prefetch_relations*</dt><dd>if set to &quot;true&quot;, this will pre-load all semantic relations for
+the sources (experimental, not fully implemented yet)
+
+</dd>
+</dl>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000195-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000195-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods.rb, line 117</span>
+117:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">find</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+118:         <span class="ruby-identifier">prefetching</span> = <span class="ruby-keyword kw">false</span>
+119:         <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">args</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>))
+120:           <span class="ruby-identifier">options</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">last</span>
+121:           <span class="ruby-identifier">prefetching</span> =  <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">:prefetch_relations</span>)
+122:           <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">options</span>.<span class="ruby-identifier">empty?</span>) <span class="ruby-comment cmt"># If empty we remove the args hash, so that the 1-param uri search works</span>
+123:             <span class="ruby-identifier">args</span>.<span class="ruby-identifier">pop</span>
+124:           <span class="ruby-keyword kw">else</span>
+125:             <span class="ruby-identifier">prepare_options!</span>(<span class="ruby-identifier">args</span>.<span class="ruby-identifier">last</span>)
+126:           <span class="ruby-keyword kw">end</span>
+127:         <span class="ruby-keyword kw">end</span>
+128:         <span class="ruby-identifier">result</span> = <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">args</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">uri_s</span> = <span class="ruby-identifier">uri_string_for</span>(<span class="ruby-identifier">args</span>[<span class="ruby-value">0</span>])))
+129:           <span class="ruby-identifier">src</span> = <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">:first</span>, <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-identifier">:uri</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">uri_s</span> })
+130:           <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">RecordNotFound</span>, <span class="ruby-node">&quot;Not found: #{uri_s}&quot;</span>) <span class="ruby-keyword kw">unless</span>(<span class="ruby-identifier">src</span>)
+131:           <span class="ruby-identifier">src</span>
+132:         <span class="ruby-keyword kw">else</span>
+133:           <span class="ruby-keyword kw">super</span>
+134:         <span class="ruby-keyword kw">end</span>
+135: 
+136:         <span class="ruby-identifier">prefetch_relations_for</span>(<span class="ruby-identifier">result</span>) <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">prefetching</span>)
+137: 
+138:         <span class="ruby-identifier">result</span>
+139:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000190" class="method-detail">
+        <a name="M000190"></a>
+
+        <div class="method-heading">
+          <a href="#M000190" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">(*args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+New method for ActiveSources. If a URL of an existing <a
+href="../Source.html">Source</a> is given as the only parameter, that
+source will be returned. This makes the class work smoothly with our
+ActiveRDF version query interface.
+</p>
+<p>
+Note that any semantic properties that were passed in to the constructor
+will be assigned <b>after</b> the ActiveRecord &quot;create&quot; callbacks
+have been called.
+</p>
+<p>
+The option hash may contain a &quot;files&quot; option, which can be used
+to add data files directly on creation. This will call the attach_files
+method on the object.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000190-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000190-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods.rb, line 20</span>
+20:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">new</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+21:         <span class="ruby-identifier">the_source</span> = <span class="ruby-keyword kw">if</span>((<span class="ruby-identifier">args</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">args</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)))
+22:           <span class="ruby-comment cmt"># We have an option hash to init the source</span>
+23:           <span class="ruby-identifier">files</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">:files</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value str">'files'</span>)
+24:           <span class="ruby-identifier">attributes</span> = <span class="ruby-identifier">split_attribute_hash</span>(<span class="ruby-identifier">args</span>.<span class="ruby-identifier">first</span>)
+25:           <span class="ruby-identifier">the_source</span> = <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">attributes</span>[<span class="ruby-identifier">:db_attributes</span>])
+26:           <span class="ruby-identifier">the_source</span>.<span class="ruby-identifier">add_semantic_attributes</span>(<span class="ruby-keyword kw">false</span>, <span class="ruby-identifier">attributes</span>[<span class="ruby-identifier">:semantic_attributes</span>])
+27:           <span class="ruby-identifier">the_source</span>.<span class="ruby-identifier">attach_files</span>(<span class="ruby-identifier">files</span>) <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">files</span>)
+28:           <span class="ruby-identifier">the_source</span>
+29:         <span class="ruby-keyword kw">elsif</span>(<span class="ruby-identifier">args</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-operator">&amp;&amp;</span> ( <span class="ruby-identifier">uri_s</span> = <span class="ruby-identifier">uri_string_for</span>(<span class="ruby-identifier">args</span>[<span class="ruby-value">0</span>]))) <span class="ruby-comment cmt"># One string argument should be the uri</span>
+30:           <span class="ruby-comment cmt"># Either the current object from the db, or a new one if it doesn't exist in the db</span>
+31:           <span class="ruby-identifier">find</span>(<span class="ruby-identifier">:first</span>, <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-identifier">:uri</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">uri_s</span> } ) <span class="ruby-operator">||</span> <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">:uri</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">uri_s</span>)
+32:         <span class="ruby-keyword kw">else</span>
+33:           <span class="ruby-comment cmt"># In this case, it's a generic &quot;new&quot; call</span>
+34:           <span class="ruby-keyword kw">super</span>
+35:         <span class="ruby-keyword kw">end</span>
+36:         <span class="ruby-identifier">the_source</span>.<span class="ruby-identifier">add_additional_rdf_types</span> <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">the_source</span>.<span class="ruby-identifier">new_record?</span>)
+37:         <span class="ruby-identifier">the_source</span>
+38:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000198" class="method-detail">
+        <a name="M000198"></a>
+
+        <div class="method-heading">
+          <a href="#M000198" class="method-signature">
+          <span class="method-name">paginate</span><span class="method-args">(*args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The pagination will also use the prepare_options! to have access to the
+advanced finder options
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000198-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000198-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods.rb, line 160</span>
+160:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">paginate</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+161:         <span class="ruby-identifier">prepare_options!</span>(<span class="ruby-identifier">args</span>.<span class="ruby-identifier">last</span>) <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">args</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>))
+162:         <span class="ruby-keyword kw">super</span>
+163:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000197" class="method-detail">
+        <a name="M000197"></a>
+
+        <div class="method-heading">
+          <a href="#M000197" class="method-signature">
+          <span class="method-name">rewrite</span><span class="method-args">(id, attributes)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Like <a href="ClassMethods.html#M000196">update</a>, only that it will
+overwrite the given attributes instead of adding to them
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000197-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000197-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods.rb, line 152</span>
+152:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rewrite</span>(<span class="ruby-identifier">id</span>, <span class="ruby-identifier">attributes</span>)
+153:         <span class="ruby-identifier">record</span> = <span class="ruby-identifier">find</span>(<span class="ruby-identifier">id</span>)
+154:         <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">RecordNotFound</span>) <span class="ruby-keyword kw">unless</span>(<span class="ruby-identifier">record</span>)
+155:         <span class="ruby-identifier">record</span>.<span class="ruby-identifier">rewrite_attributes</span>(<span class="ruby-identifier">attributes</span>)
+156:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000202" class="method-detail">
+        <a name="M000202"></a>
+
+        <div class="method-heading">
+          <a href="#M000202" class="method-signature">
+          <span class="method-name">split_attribute_hash</span><span class="method-args">(attributes)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Splits the attribute hash that is given for <a
+href="ClassMethods.html#M000190">new</a>, <a
+href="ClassMethods.html#M000196">update</a> and the like. This will return
+another hash, where result[:db_attributes] will contain the hash of the
+database attributes while result[:semantic_attributes] will contain the
+other attributes.
+</p>
+<p>
+The semantic attributes will be expanded to full URIs whereever possible.
+</p>
+<p>
+This method will <b>not</b> check for attributes that correspond to
+singular property names.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000202-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000202-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods.rb, line 202</span>
+202:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">split_attribute_hash</span>(<span class="ruby-identifier">attributes</span>)
+203:         <span class="ruby-identifier">assit_kind_of</span>(<span class="ruby-constant">Hash</span>, <span class="ruby-identifier">attributes</span>)
+204:         <span class="ruby-identifier">db_attributes</span> = {}
+205:         <span class="ruby-identifier">semantic_attributes</span> = {}
+206:         <span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">field</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+207:           <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">db_attr?</span>(<span class="ruby-identifier">field</span>))
+208:             <span class="ruby-identifier">db_attributes</span>[<span class="ruby-identifier">field</span>] = <span class="ruby-identifier">value</span>
+209:           <span class="ruby-keyword kw">else</span>
+210:             <span class="ruby-identifier">semantic_attributes</span>[<span class="ruby-identifier">expand_uri</span>(<span class="ruby-identifier">field</span>)] = <span class="ruby-identifier">value</span>
+211:           <span class="ruby-keyword kw">end</span>
+212:         <span class="ruby-keyword kw">end</span>
+213:         { <span class="ruby-identifier">:semantic_attributes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">semantic_attributes</span>, <span class="ruby-identifier">:db_attributes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">db_attributes</span> }
+214:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000196" class="method-detail">
+        <a name="M000196"></a>
+
+        <div class="method-heading">
+          <a href="#M000196" class="method-signature">
+          <span class="method-name">update</span><span class="method-args">(id, attributes)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Semantic version of ActiveRecord::Base#update - the id may be a record id
+or an URL, and the attributes may contain semantic attributes. See the
+update_attributes method for details on how the semantic attributes behave.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000196-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000196-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods.rb, line 144</span>
+144:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">update</span>(<span class="ruby-identifier">id</span>, <span class="ruby-identifier">attributes</span>)
+145:         <span class="ruby-identifier">record</span> = <span class="ruby-identifier">find</span>(<span class="ruby-identifier">id</span>)
+146:         <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">RecordNotFound</span>) <span class="ruby-keyword kw">unless</span>(<span class="ruby-identifier">record</span>)
+147:         <span class="ruby-identifier">record</span>.<span class="ruby-identifier">update_attributes</span>(<span class="ruby-identifier">attributes</span>)
+148:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000199" class="method-detail">
+        <a name="M000199"></a>
+
+        <div class="method-heading">
+          <a href="#M000199" class="method-signature">
+          <span class="method-name">value_for</span><span class="method-args">(thing)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+If will return itself unless the value is a <a
+href="../SemanticProperty.html">SemanticProperty</a>, in which case it will
+return the property&#8216;s value.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000199-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000199-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/class_methods.rb, line 167</span>
+167:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">value_for</span>(<span class="ruby-identifier">thing</span>)
+168:         <span class="ruby-identifier">thing</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">SemanticProperty</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">thing</span>.<span class="ruby-identifier">value</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">thing</span>
+169:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

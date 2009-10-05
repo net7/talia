@@ -92,13 +92,13 @@ A generator for the database tables that the Talia core uses
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000070">file_root</a>&nbsp;&nbsp;
-      <a href="#M000065">manifest</a>&nbsp;&nbsp;
-      <a href="#M000064">new</a>&nbsp;&nbsp;
-      <a href="#M000066">process_dir</a>&nbsp;&nbsp;
-      <a href="#M000067">process_files</a>&nbsp;&nbsp;
-      <a href="#M000068">relative_dir_files</a>&nbsp;&nbsp;
-      <a href="#M000069">talia_root</a>&nbsp;&nbsp;
+      <a href="#M000038">file_root</a>&nbsp;&nbsp;
+      <a href="#M000033">manifest</a>&nbsp;&nbsp;
+      <a href="#M000032">new</a>&nbsp;&nbsp;
+      <a href="#M000034">process_dir</a>&nbsp;&nbsp;
+      <a href="#M000035">process_files</a>&nbsp;&nbsp;
+      <a href="#M000036">relative_dir_files</a>&nbsp;&nbsp;
+      <a href="#M000037">talia_root</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -120,11 +120,11 @@ A generator for the database tables that the Talia core uses
     <div id="methods">
       <h3 class="section-bar">Public Class methods</h3>
 
-      <div id="method-M000064" class="method-detail">
-        <a name="M000064"></a>
+      <div id="method-M000032" class="method-detail">
+        <a name="M000032"></a>
 
         <div class="method-heading">
-          <a href="#M000064" class="method-signature">
+          <a href="#M000032" class="method-signature">
           <span class="method-name">new</span><span class="method-args">(runtime_args, runtime_options = {})</span>
           </a>
         </div>
@@ -134,8 +134,8 @@ A generator for the database tables that the Talia core uses
 Initialize the generator
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000064-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000064-source">
+            onclick="toggleCode('M000032-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000032-source">
 <pre>
     <span class="ruby-comment cmt"># File lib/generators/talia/talia_generator.rb, line 5</span>
  5:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">runtime_args</span>, <span class="ruby-identifier">runtime_options</span> = {})
@@ -151,19 +151,19 @@ Initialize the generator
 
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000065" class="method-detail">
-        <a name="M000065"></a>
+      <div id="method-M000033" class="method-detail">
+        <a name="M000033"></a>
 
         <div class="method-heading">
-          <a href="#M000065" class="method-signature">
+          <a href="#M000033" class="method-signature">
           <span class="method-name">manifest</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000065-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000065-source">
+            onclick="toggleCode('M000033-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000033-source">
 <pre>
     <span class="ruby-comment cmt"># File lib/generators/talia/talia_generator.rb, line 12</span>
 12:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">manifest</span>
@@ -205,11 +205,11 @@ Initialize the generator
 
       <h3 class="section-bar">Protected Instance methods</h3>
 
-      <div id="method-M000070" class="method-detail">
-        <a name="M000070"></a>
+      <div id="method-M000038" class="method-detail">
+        <a name="M000038"></a>
 
         <div class="method-heading">
-          <a href="#M000070" class="method-signature">
+          <a href="#M000038" class="method-signature">
           <span class="method-name">file_root</span><span class="method-args">(path = '')</span>
           </a>
         </div>
@@ -220,8 +220,8 @@ Get the absolute file path to the root of the &quot;template&quot;
 installation
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000070-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000070-source">
+            onclick="toggleCode('M000038-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000038-source">
 <pre>
     <span class="ruby-comment cmt"># File lib/generators/talia/talia_generator.rb, line 83</span>
 83:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">file_root</span>(<span class="ruby-identifier">path</span> = <span class="ruby-value str">''</span>)
@@ -232,11 +232,11 @@ installation
         </div>
       </div>
 
-      <div id="method-M000066" class="method-detail">
-        <a name="M000066"></a>
+      <div id="method-M000034" class="method-detail">
+        <a name="M000034"></a>
 
         <div class="method-heading">
-          <a href="#M000066" class="method-signature">
+          <a href="#M000034" class="method-signature">
           <span class="method-name">process_dir</span><span class="method-args">(manifest, directory, options = {})</span>
           </a>
         </div>
@@ -244,11 +244,11 @@ installation
         <div class="method-description">
           <p>
 Use to copy a whole directory from the &quot;template&quot; to the <a
-href="TaliaGenerator.html#M000064">new</a> talia instance
+href="TaliaGenerator.html#M000032">new</a> talia instance
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000066-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000066-source">
+            onclick="toggleCode('M000034-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000034-source">
 <pre>
     <span class="ruby-comment cmt"># File lib/generators/talia/talia_generator.rb, line 49</span>
 49:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">process_dir</span>(<span class="ruby-identifier">manifest</span>, <span class="ruby-identifier">directory</span>, <span class="ruby-identifier">options</span> = {})
@@ -263,11 +263,11 @@ href="TaliaGenerator.html#M000064">new</a> talia instance
         </div>
       </div>
 
-      <div id="method-M000067" class="method-detail">
-        <a name="M000067"></a>
+      <div id="method-M000035" class="method-detail">
+        <a name="M000035"></a>
 
         <div class="method-heading">
-          <a href="#M000067" class="method-signature">
+          <a href="#M000035" class="method-signature">
           <span class="method-name">process_files</span><span class="method-args">(manifest, file_list, options = {})</span>
           </a>
         </div>
@@ -278,8 +278,8 @@ Record a list of given file copies. The file_list should contain relative
 pathnames from the talia root directory.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000067-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000067-source">
+            onclick="toggleCode('M000035-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000035-source">
 <pre>
     <span class="ruby-comment cmt"># File lib/generators/talia/talia_generator.rb, line 59</span>
 59:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">process_files</span>(<span class="ruby-identifier">manifest</span>, <span class="ruby-identifier">file_list</span>, <span class="ruby-identifier">options</span> = {})
@@ -296,11 +296,11 @@ pathnames from the talia root directory.
         </div>
       </div>
 
-      <div id="method-M000068" class="method-detail">
-        <a name="M000068"></a>
+      <div id="method-M000036" class="method-detail">
+        <a name="M000036"></a>
 
         <div class="method-heading">
-          <a href="#M000068" class="method-signature">
+          <a href="#M000036" class="method-signature">
           <span class="method-name">relative_dir_files</span><span class="method-args">(directory)</span>
           </a>
         </div>
@@ -311,8 +311,8 @@ Get the contents of a a directory as relative pathnames (without the root
 dir prepended)
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000068-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000068-source">
+            onclick="toggleCode('M000036-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000036-source">
 <pre>
     <span class="ruby-comment cmt"># File lib/generators/talia/talia_generator.rb, line 71</span>
 71:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">relative_dir_files</span>(<span class="ruby-identifier">directory</span>)
@@ -324,11 +324,11 @@ dir prepended)
         </div>
       </div>
 
-      <div id="method-M000069" class="method-detail">
-        <a name="M000069"></a>
+      <div id="method-M000037" class="method-detail">
+        <a name="M000037"></a>
 
         <div class="method-heading">
-          <a href="#M000069" class="method-signature">
+          <a href="#M000037" class="method-signature">
           <span class="method-name">talia_root</span><span class="method-args">(path = '')</span>
           </a>
         </div>
@@ -339,8 +339,8 @@ Change the given path so that it will point to the root of the
 &quot;template&quot; installation
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000069-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000069-source">
+            onclick="toggleCode('M000037-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000037-source">
 <pre>
     <span class="ruby-comment cmt"># File lib/generators/talia/talia_generator.rb, line 78</span>
 78:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">talia_root</span>(<span class="ruby-identifier">path</span> = <span class="ruby-value str">''</span>)

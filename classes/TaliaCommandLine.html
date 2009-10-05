@@ -59,6 +59,30 @@
                 lib/cl_commands/application.rb
                 </a>
         <br />
+                <a href="../files/vendor/plugins/talia_core/lib/talia_cl/command_line_rb.html">
+                vendor/plugins/talia_core/lib/talia_cl/command_line.rb
+                </a>
+        <br />
+                <a href="../files/vendor/plugins/talia_core/lib/talia_cl/commands/standalone_rb.html">
+                vendor/plugins/talia_core/lib/talia_cl/commands/standalone.rb
+                </a>
+        <br />
+                <a href="../files/vendor/plugins/talia_core/lib/talia_cl/commands/talia_console_rb.html">
+                vendor/plugins/talia_core/lib/talia_cl/commands/talia_console.rb
+                </a>
+        <br />
+                <a href="../files/vendor/plugins/talia_core/lib/talia_cl/commands/standalone/standalone_generate_rb.html">
+                vendor/plugins/talia_core/lib/talia_cl/commands/standalone/standalone_generate.rb
+                </a>
+        <br />
+                <a href="../files/vendor/plugins/talia_core/lib/talia_cl/commands/talia_console/console_commands_rb.html">
+                vendor/plugins/talia_core/lib/talia_cl/commands/talia_console/console_commands.rb
+                </a>
+        <br />
+                <a href="../files/vendor/plugins/talia_core/lib/talia_cl/commands/talia_console/talia_commands_rb.html">
+                vendor/plugins/talia_core/lib/talia_cl/commands/talia_console/talia_commands.rb
+                </a>
+        <br />
             </td>
         </tr>
 
@@ -74,9 +98,8 @@
 
     <div id="description">
       <p>
-This will use the &#8216;talia&#8217; generator that is defined in the <a
-href="TaliaCommandLine/Rails.html">Rails</a> application. Define the
-command for the Talia console
+This adds the <a href="TaliaCommandLine.html#M000136">console</a> commands
+for the talia <a href="TaliaCommandLine.html#M000136">console</a>
 </p>
 
     </div>
@@ -84,6 +107,24 @@ command for the Talia console
 
    </div>
 
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000128">command</a>&nbsp;&nbsp;
+      <a href="#M000130">command?</a>&nbsp;&nbsp;
+      <a href="#M000136">console</a>&nbsp;&nbsp;
+      <a href="#M000138">console_commands</a>&nbsp;&nbsp;
+      <a href="#M000134">copy_dir</a>&nbsp;&nbsp;
+      <a href="#M000135">copy_file</a>&nbsp;&nbsp;
+      <a href="#M000133">core_root</a>&nbsp;&nbsp;
+      <a href="#M000132">create_standalone</a>&nbsp;&nbsp;
+      <a href="#M000127">desc</a>&nbsp;&nbsp;
+      <a href="#M000129">each</a>&nbsp;&nbsp;
+      <a href="#M000131">run_command</a>&nbsp;&nbsp;
+      <a href="#M000137">to_var</a>&nbsp;&nbsp;
+      </div>
+    </div>
 
   </div>
 
@@ -106,6 +147,388 @@ command for the Talia console
 
 
     <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000128" class="method-detail">
+        <a name="M000128"></a>
+
+        <div class="method-heading">
+          <a href="#M000128" class="method-signature">
+          <span class="method-name">command</span><span class="method-args">(name, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Create a new <a href="TaliaCommandLine.html#M000128">command</a> for the <a
+href="TaliaCommandLine.html#M000128">command</a> line
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000128-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000128-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_cl/command_line.rb, line 15</span>
+15:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">command</span>(<span class="ruby-identifier">name</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+16:     <span class="ruby-identifier">description</span> = <span class="ruby-ivar">@description</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@description</span> <span class="ruby-operator">:</span> <span class="ruby-value str">&quot;&quot;</span>
+17:     <span class="ruby-ivar">@commands</span>[<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>] = [ <span class="ruby-identifier">description</span>, <span class="ruby-identifier">block</span> ]
+18:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000130" class="method-detail">
+        <a name="M000130"></a>
+
+        <div class="method-heading">
+          <a href="#M000130" class="method-signature">
+          <span class="method-name">command?</span><span class="method-args">(command)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns true if the <a href="TaliaCommandLine.html#M000128">command</a>
+exists
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000130-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000130-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_cl/command_line.rb, line 29</span>
+29:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">command?</span>(<span class="ruby-identifier">command</span>)
+30:     <span class="ruby-identifier">command</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@commands</span>[<span class="ruby-identifier">command</span>.<span class="ruby-identifier">to_sym</span>] <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span> 
+31:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000136" class="method-detail">
+        <a name="M000136"></a>
+
+        <div class="method-heading">
+          <a href="#M000136" class="method-signature">
+          <span class="method-name">console</span><span class="method-args">(command, &amp;command_block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Add a new <a href="TaliaCommandLine.html#M000136">console</a> <a
+href="TaliaCommandLine.html#M000128">command</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000136-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000136-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_cl/commands/talia_console/console_commands.rb, line 9</span>
+ 9:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">console</span>(<span class="ruby-identifier">command</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">command_block</span>)
+10:     <span class="ruby-comment cmt"># Add the description</span>
+11:     <span class="ruby-identifier">description</span> = <span class="ruby-ivar">@desc</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@desc</span> <span class="ruby-operator">:</span> <span class="ruby-node">&quot;Generic command: #{command}&quot;</span>
+12:     <span class="ruby-ivar">@desc</span> = <span class="ruby-keyword kw">nil</span>
+13:     <span class="ruby-ivar">@console_commands</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">command</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-identifier">description</span>]
+14: 
+15:     <span class="ruby-identifier">command</span> = <span class="ruby-identifier">command</span>.<span class="ruby-identifier">to_sym</span>
+16: 
+17:     (<span class="ruby-keyword kw">class</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">MAIN_OBJECT</span>; <span class="ruby-keyword kw">self</span>; <span class="ruby-keyword kw">end</span>).<span class="ruby-identifier">class_eval</span> <span class="ruby-keyword kw">do</span>
+18:       <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">command</span>, <span class="ruby-identifier">command_block</span>)
+19:     <span class="ruby-keyword kw">end</span>
+20:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000138" class="method-detail">
+        <a name="M000138"></a>
+
+        <div class="method-heading">
+          <a href="#M000138" class="method-signature">
+          <span class="method-name">console_commands</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the defined <a href="TaliaCommandLine.html#M000136">console</a>
+commands
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000138-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000138-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_cl/commands/talia_console/console_commands.rb, line 32</span>
+32:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">console_commands</span>
+33:     <span class="ruby-ivar">@console_commands</span>
+34:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000132" class="method-detail">
+        <a name="M000132"></a>
+
+        <div class="method-heading">
+          <a href="#M000132" class="method-signature">
+          <span class="method-name">create_standalone</span><span class="method-args">(directory)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Create a standalone installation directory for Talia
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000132-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000132-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_cl/commands/standalone/standalone_generate.rb, line 11</span>
+11:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_standalone</span>(<span class="ruby-identifier">directory</span>)
+12:       <span class="ruby-keyword kw">if</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">directory</span>))
+13:         <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;The target directory already exists: #{directory}&quot;</span>
+14:         <span class="ruby-keyword kw">return</span> <span class="ruby-value">-1</span>
+15:       <span class="ruby-keyword kw">end</span>
+16: 
+17:       <span class="ruby-keyword kw">begin</span>
+18:         <span class="ruby-identifier">puts</span>(<span class="ruby-node">&quot;Creating Talia standalone in #{directory}&quot;</span>)
+19:         <span class="ruby-constant">File</span>.<span class="ruby-identifier">makedirs</span>(<span class="ruby-identifier">directory</span>)
+20: 
+21:         <span class="ruby-comment cmt"># Copy the rake task extensions</span>
+22:         <span class="ruby-identifier">copy_dir</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-value str">&quot;tasks&quot;</span>)
+23:         
+24:         <span class="ruby-comment cmt"># Copy the rakefile</span>
+25:         <span class="ruby-identifier">copy_file</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-value str">&quot;&quot;</span>, <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">'standalone_templates'</span>, <span class="ruby-value str">'Rakefile'</span>), <span class="ruby-value str">'Rakefile'</span>)
+26:         
+27:         <span class="ruby-comment cmt"># copy the config directory</span>
+28:         <span class="ruby-constant">File</span>.<span class="ruby-identifier">makedirs</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-value str">&quot;config&quot;</span>))
+29:         <span class="ruby-identifier">copy_file</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-value str">&quot;config&quot;</span>, <span class="ruby-value str">&quot;database.yml.example&quot;</span>, <span class="ruby-value str">&quot;database.yml&quot;</span>)
+30:         <span class="ruby-identifier">copy_file</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-value str">&quot;config&quot;</span>, <span class="ruby-value str">&quot;r„dfstore.yml.redland_example&quot;</span>, <span class="ruby-value str">&quot;rdfstore.yml&quot;</span>)
+31:         <span class="ruby-identifier">copy_file</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-value str">&quot;config&quot;</span>, <span class="ruby-value str">&quot;talia_core.yml.example&quot;</span>, <span class="ruby-value str">&quot;talia_core.yml&quot;</span>)
+32:       <span class="ruby-keyword kw">rescue</span>
+33:         <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Error creating. Removing files.&quot;</span>
+34:         <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">rm_rf</span>(<span class="ruby-identifier">directory</span>)
+35:         <span class="ruby-identifier">raise</span>
+36:       <span class="ruby-keyword kw">end</span>
+37:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000127" class="method-detail">
+        <a name="M000127"></a>
+
+        <div class="method-heading">
+          <a href="#M000127" class="method-signature">
+          <span class="method-name">desc</span><span class="method-args">(description)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Set <a href="TaliaCommandLine.html#M000128">command</a> description
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000127-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000127-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_cl/command_line.rb, line 10</span>
+10:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">desc</span>(<span class="ruby-identifier">description</span>)
+11:     <span class="ruby-ivar">@description</span> = <span class="ruby-identifier">description</span>
+12:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000129" class="method-detail">
+        <a name="M000129"></a>
+
+        <div class="method-heading">
+          <a href="#M000129" class="method-signature">
+          <span class="method-name">each</span><span class="method-args">(&amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Run this to iterate through all the commands. This will pass the following
+parameters to the block: <a
+href="TaliaCommandLine.html#M000128">command</a> name, description
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000129-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000129-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_cl/command_line.rb, line 22</span>
+22:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">each</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+23:     <span class="ruby-ivar">@commands</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+24:       <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">value</span>[<span class="ruby-value">1</span>])
+25:     <span class="ruby-keyword kw">end</span>
+26:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000131" class="method-detail">
+        <a name="M000131"></a>
+
+        <div class="method-heading">
+          <a href="#M000131" class="method-signature">
+          <span class="method-name">run_command</span><span class="method-args">(command, *options)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Run the given <a href="TaliaCommandLine.html#M000128">command</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000131-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000131-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_cl/command_line.rb, line 34</span>
+34:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">run_command</span>(<span class="ruby-identifier">command</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">options</span>)
+35:     <span class="ruby-identifier">raise</span>(<span class="ruby-constant">RuntimeError</span>, <span class="ruby-node">&quot;Command does not exist: #{command}&quot;</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@commands</span>[<span class="ruby-identifier">command</span>.<span class="ruby-identifier">to_sym</span>]
+36:     <span class="ruby-ivar">@commands</span>[<span class="ruby-identifier">command</span>.<span class="ruby-identifier">to_sym</span>][<span class="ruby-value">1</span>].<span class="ruby-identifier">call</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">options</span>)
+37:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000137" class="method-detail">
+        <a name="M000137"></a>
+
+        <div class="method-heading">
+          <a href="#M000137" class="method-signature">
+          <span class="method-name">to_var</span><span class="method-args">(name, value)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Add an instance variable
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000137-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000137-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_cl/commands/talia_console/console_commands.rb, line 23</span>
+23:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">to_var</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span>)
+24:     (<span class="ruby-keyword kw">class</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">MAIN_OBJECT</span>; <span class="ruby-keyword kw">self</span>; <span class="ruby-keyword kw">end</span>).<span class="ruby-identifier">class_eval</span> <span class="ruby-keyword kw">do</span>
+25:       <span class="ruby-identifier">raise</span>(<span class="ruby-constant">RuntimeError</span>, <span class="ruby-node">&quot;Method already defined: #{name}&quot;</span>) <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">method_defined?</span>(<span class="ruby-identifier">name</span>)) 
+26:       <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">name</span>) { <span class="ruby-identifier">value</span> }
+27:     <span class="ruby-keyword kw">end</span>
+28:     <span class="ruby-identifier">value</span>
+29:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Class methods</h3>
+
+      <div id="method-M000134" class="method-detail">
+        <a name="M000134"></a>
+
+        <div class="method-heading">
+          <a href="#M000134" class="method-signature">
+          <span class="method-name">copy_dir</span><span class="method-args">(targetdir, dirname)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Recursively copies a directory of template files.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000134-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000134-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_cl/commands/standalone/standalone_generate.rb, line 50</span>
+50:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">copy_dir</span>(<span class="ruby-identifier">targetdir</span>, <span class="ruby-identifier">dirname</span>)
+51:       <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Processing directory #{dirname}&quot;</span>
+52:       <span class="ruby-identifier">targetdir</span> = <span class="ruby-identifier">dirname</span> <span class="ruby-keyword kw">unless</span>(<span class="ruby-identifier">targetdir</span>)
+53:       <span class="ruby-constant">File</span>.<span class="ruby-identifier">makedirs</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">targetdir</span>, <span class="ruby-identifier">dirname</span>))
+54:       <span class="ruby-constant">Dir</span>[<span class="ruby-node">&quot;#{File.join(core_root, dirname)}/**&quot;</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+55:         <span class="ruby-keyword kw">unless</span>(<span class="ruby-identifier">file</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^\..*/</span>) <span class="ruby-comment cmt"># exclude hidden/directory files</span>
+56:           <span class="ruby-keyword kw">if</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">file</span>))
+57:             <span class="ruby-identifier">copy_dir</span>(<span class="ruby-identifier">targetdir</span>, <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dirname</span>, <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">file</span>)))
+58:           <span class="ruby-keyword kw">else</span>
+59:             <span class="ruby-identifier">copy_file</span>(<span class="ruby-identifier">targetdir</span>, <span class="ruby-identifier">dirname</span>, <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">file</span>))
+60:           <span class="ruby-keyword kw">end</span>
+61:         <span class="ruby-keyword kw">end</span>
+62:       <span class="ruby-keyword kw">end</span>
+63:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000135" class="method-detail">
+        <a name="M000135"></a>
+
+        <div class="method-heading">
+          <a href="#M000135" class="method-signature">
+          <span class="method-name">copy_file</span><span class="method-args">(targetdir, relative_path, name, target_name = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Copies a file to the new target directory in the given path
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000135-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000135-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_cl/commands/standalone/standalone_generate.rb, line 66</span>
+66:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">copy_file</span>(<span class="ruby-identifier">targetdir</span>, <span class="ruby-identifier">relative_path</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">target_name</span> = <span class="ruby-keyword kw">nil</span>)
+67:       <span class="ruby-identifier">source</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">core_root</span>, <span class="ruby-identifier">relative_path</span>, <span class="ruby-identifier">name</span>)
+68:       <span class="ruby-identifier">target_name</span> = <span class="ruby-identifier">name</span> <span class="ruby-keyword kw">unless</span>(<span class="ruby-identifier">target_name</span>)
+69:       <span class="ruby-identifier">target</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">targetdir</span>, <span class="ruby-identifier">relative_path</span>, <span class="ruby-identifier">target_name</span>)
+70:       <span class="ruby-constant">File</span>.<span class="ruby-identifier">cp</span>(<span class="ruby-identifier">source</span>, <span class="ruby-identifier">target</span>)
+71:       <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Copied #{File.join(relative_path, name)} to #{target_name}&quot;</span>
+72:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000133" class="method-detail">
+        <a name="M000133"></a>
+
+        <div class="method-heading">
+          <a href="#M000133" class="method-signature">
+          <span class="method-name">core_root</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This goes to the root directory for the &quot;shared&quot; templates. (The
+ones contained in the talia generators.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000133-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000133-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_cl/commands/standalone/standalone_generate.rb, line 44</span>
+44:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">core_root</span>
+45:       <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword kw">__FILE__</span>)), <span class="ruby-value str">&quot;..&quot;</span>, <span class="ruby-value str">&quot;..&quot;</span>, <span class="ruby-value str">&quot;..&quot;</span>, <span class="ruby-value str">&quot;..&quot;</span>)
+46:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
 
 
   </div>

@@ -98,10 +98,10 @@ implement inside of your action will be ignored.
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000087">assert_user_can_access</a>&nbsp;&nbsp;
-      <a href="#M000090">assert_user_cannot_access</a>&nbsp;&nbsp;
-      <a href="#M000088">assert_user_cant_access</a>&nbsp;&nbsp;
-      <a href="#M000089">assert_users_access</a>&nbsp;&nbsp;
+      <a href="#M000119">assert_user_can_access</a>&nbsp;&nbsp;
+      <a href="#M000122">assert_user_cannot_access</a>&nbsp;&nbsp;
+      <a href="#M000120">assert_user_cant_access</a>&nbsp;&nbsp;
+      <a href="#M000121">assert_users_access</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -123,11 +123,11 @@ implement inside of your action will be ignored.
     <div id="methods">
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000087" class="method-detail">
-        <a name="M000087"></a>
+      <div id="method-M000119" class="method-detail">
+        <a name="M000119"></a>
 
         <div class="method-heading">
-          <a href="#M000087" class="method-signature">
+          <a href="#M000119" class="method-signature">
           <span class="method-name">assert_user_can_access</span><span class="method-args">(user, actions, params = {})</span>
           </a>
         </div>
@@ -143,8 +143,8 @@ Example:
   assert_user_can_access(:quentin, &quot;index&quot;)
 </pre>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000087-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000087-source">
+            onclick="toggleCode('M000119-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000119-source">
 <pre>
     <span class="ruby-comment cmt"># File lib/role_requirement_test_helper.rb, line 16</span>
 16:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">assert_user_can_access</span>(<span class="ruby-identifier">user</span>, <span class="ruby-identifier">actions</span>, <span class="ruby-identifier">params</span> = {})
@@ -155,8 +155,8 @@ Example:
         </div>
       </div>
 
-      <div id="method-M000090" class="method-detail">
-        <a name="M000090"></a>
+      <div id="method-M000122" class="method-detail">
+        <a name="M000122"></a>
 
         <div class="method-heading">
           <span class="method-name">assert_user_cannot_access</span><span class="method-args">(user, actions, params = {})</span>
@@ -165,16 +165,16 @@ Example:
         <div class="method-description">
           <p>
 Alias for <a
-href="RoleRequirementTestHelper.html#M000088">assert_user_cant_access</a>
+href="RoleRequirementTestHelper.html#M000120">assert_user_cant_access</a>
 </p>
         </div>
       </div>
 
-      <div id="method-M000088" class="method-detail">
-        <a name="M000088"></a>
+      <div id="method-M000120" class="method-detail">
+        <a name="M000120"></a>
 
         <div class="method-heading">
-          <a href="#M000088" class="method-signature">
+          <a href="#M000120" class="method-signature">
           <span class="method-name">assert_user_cant_access</span><span class="method-args">(user, actions, params = {})</span>
           </a>
         </div>
@@ -190,8 +190,8 @@ Example:
   assert_user_cant_access(:quentin, &quot;destroy&quot;, :listing_id =&gt; 1)
 </pre>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000088-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000088-source">
+            onclick="toggleCode('M000120-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000120-source">
 <pre>
     <span class="ruby-comment cmt"># File lib/role_requirement_test_helper.rb, line 26</span>
 26:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">assert_user_cant_access</span>(<span class="ruby-identifier">user</span>, <span class="ruby-identifier">actions</span>, <span class="ruby-identifier">params</span> = {})
@@ -202,11 +202,11 @@ Example:
         </div>
       </div>
 
-      <div id="method-M000089" class="method-detail">
-        <a name="M000089"></a>
+      <div id="method-M000121" class="method-detail">
+        <a name="M000121"></a>
 
         <div class="method-heading">
-          <a href="#M000089" class="method-signature">
+          <a href="#M000121" class="method-signature">
           <span class="method-name">assert_users_access</span><span class="method-args">(users_access_list, actions, params = {})</span>
           </a>
         </div>
@@ -233,8 +233,8 @@ Example:
     {:listing_id =&gt; 1})
 </pre>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000089-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000089-source">
+            onclick="toggleCode('M000121-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000121-source">
 <pre>
     <span class="ruby-comment cmt"># File lib/role_requirement_test_helper.rb, line 42</span>
 42:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">assert_users_access</span>(<span class="ruby-identifier">users_access_list</span>, <span class="ruby-identifier">actions</span>, <span class="ruby-identifier">params</span> = {})
