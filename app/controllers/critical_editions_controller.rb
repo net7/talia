@@ -44,7 +44,7 @@ class CriticalEditionsController < SimpleEditionController
   
   def advanced_search
     set_custom_stylesheet ['tooltip']
-	set_user_styelesheet[''tei_style.css']
+	  set_user_styelesheet['tei_style.css']
     
     # set advanced search widget visible
     set_advanced_search_visible true

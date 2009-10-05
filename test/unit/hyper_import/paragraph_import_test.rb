@@ -21,7 +21,6 @@ module TaliaUtil
       setup_once(:coord_para) { hyper_import(load_doc('D-12,10r[1]')) }
       setup_once(:multinotes) { hyper_import(load_doc('Mp-XIV-2,55v[2]et56r[1]')) }
       setup_once(:work_para) { hyper_import(load_doc('WS-194')) }
-    
     end
     
     # Special test - this one caused trouble during import

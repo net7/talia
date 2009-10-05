@@ -4,6 +4,7 @@
 require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
+require 'gokdok'
 
 begin
   require(File.join(File.dirname(__FILE__), 'config', 'boot'))
@@ -22,6 +23,11 @@ rescue Exception => e
     puts caller
   end
   load File.dirname(__FILE__) + '/lib/tasks/talia_dev.rake'
+end
+
+Gokdok::Dokker.new do |gd|
+  gd.remote_path = ''
+  gd.rdoc_task = :rdoc_talia
 end
 
 task :cruise => ['doc:app', 'test']

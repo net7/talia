@@ -17,6 +17,12 @@ class TaskHelper
       TaliaCore::BackgroundJobs::Job.submit_with_progress(job, options)
     end
     
+    # Prepares the environment for an import
+    def prepare_import
+      ENV['importer'] = 'TaliaUtil::HyperImporter::Importer'
+      ENV['callback'] = 'TaliaUtil::HyperImporter::ImportCallback'
+    end
+    
     # Returns a preset RDF query that will select all books that have pages
     # in the default catalog. The books are referred to by :book and the
     # pages by :page.

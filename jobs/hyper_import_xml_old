@@ -1,4 +1,17 @@
-# require 'config/environment'
+# Import job script for XML data. The script may use the following environment parameters:
+#
+#  [*base_url*] - The base URL or directory. This will be prefixed to all urls, or if it is 
+#                 a local directory, it will be made the current directory during the import
+#  [*index*] - If given, the importer will try to read this document. While this will still
+#              support the old-style "hyper" format with sigla, it should usually contain a
+#              main element called "index" followed by "url" entries.
+#  [*xml*] - URL of an XML file to import. This is incompatible with the "index" option
+#  [*importer*] - Name of the importer class to be used for the data. Uses the default class if not given
+# [*reset_store*] - If this is set, the data store will be cleared before the import
+# [*user*] - Username for HTTP authentication, if required
+# [*pass*] - Password for HTTP authentication, if required
+
+
 require 'hpricot'
 
 puts "ATTENTION - some input parameters may be missing for hyper import" unless(ENV['base_url'] && ENV['doc_path'] && ENV['list_path'])

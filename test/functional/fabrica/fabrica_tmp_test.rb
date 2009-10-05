@@ -3,7 +3,6 @@ require File.dirname(__FILE__) + '/../fabrica_test_helper'
 class FabricaTmpTest < Test::Unit::TestCase
 
   def setup
-    clean_import_cache
     TaliaUtil::Util.flush_rdf
     TaliaUtil::Util.flush_db
 

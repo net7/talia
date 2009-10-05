@@ -66,7 +66,7 @@ module TaliaCore
 
       # TODO: Maybe add a dirty check after passing to Rails 2.3?
       save! if(new_record?) # Cloning only works on properly saved things...
-
+      
       new_el = concordant_element.clone_concordant(concordant_uri_for(concordant_element, new_siglum), :catalog => self)
       
       yield(new_el) if(block_given?)

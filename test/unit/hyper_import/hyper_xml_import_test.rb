@@ -20,15 +20,28 @@ module TaliaUtil
     # Flush RDF before each test
     def setup
       flush_once_for_import_test
+      
+      setup_once(:job) do
+        Bj::Table::Job.delete_all
+        Bj::Table::Job.new.save
+        job = Bj::Table::Job.find(:first)
+        ENV['JOB_ID'] = job.id.to_s
+        job
+      end
+      
       setup_once(:dummy_element) do
         # Add a dummy element for N-IV-1,8 - this will check if the importer 
         # will correctly change the type and set the default catalog for
         # the element
         TaliaCore::DummySource.new(N::LOCAL + 'N-IV-1,8').save!
         
-        env = { 'base_url' => "#{get_data_dir}/", 'list_path' => 'list.xml', 'doc_path' => ''}
+        ENV['base_url'] = "#{get_data_dir}/"
+        ENV['index'] = 'list.xml'
+        ENV['importer'] = 'TaliaUtil::HyperImporter::Importer'
+        
+        importer = TaliaUtil::ImportJobHelper.new(STDERR, TaliaUtil::BarProgressor)
+        importer.do_import
       
-        run_job('hyper_import_xml_old', :env => env, :tag => 'import')
         true
       end
     end

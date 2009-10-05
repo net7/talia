@@ -21,7 +21,6 @@ namespace :discovery do
   desc "Init for this tasks"
   task :disco_init do # => 'talia_core:talia_init' do
     unless(@talia_is_init)
-      # Dependencies.load_paths << File.join(File.dirname(__FILE__), '..', '..', 'app', 'models')
       require File.expand_path(File.dirname(__FILE__) + "/../../config/environment")
       TaskHelper::load_consts
       @talia_is_init = true
@@ -96,14 +95,21 @@ namespace :discovery do
     Util.flush_rdf
   end
   
-  desc "Import data from a local XML file. Options: xml=<file_path> [prepared_images=<directory>]"
-  task :import_from_file do
-    TaskHelper::background_job('hyper_import_xml', :tag => 'import', :stdin => File.open(ENV['xml']).read())
-    puts "File import of #{ENV['xml']} queued. Will run as a background task."
-  end
-  
   desc "Import data and prepare the test server. Downloads data directly from the net."
   task :setup_testserver => [:prep_testserver, :hyper_import, :create_color_facsimile_edition]
+  
+  desc "Import XML data as a background task. This adds some discovery-specific flavours to the base import"
+  task :xml_background_import do
+    TaskHelper::prepare_import
+    TaskHelper::background_job('xml_import', :tag => 'import')
+  end
+  
+  desc "Command line import. See disco_import_background."
+  task :xml_import => :disco_init do
+     TaskHelper::prepare_import
+     importer = TaliaUtil::ImportJobHelper.new(STDOUT, TaliaUtil::BarProgressor)
+     importer.do_import
+  end
   
   # Import from Hyper
   desc "Import data from Hyper. Options: base_url=<base_url> [list_path=?get_list=all] [doc_path=?get=] [extension=] [user=<username> password=<pass>] [prepared_images=<directory>]"

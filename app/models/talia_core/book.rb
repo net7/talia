@@ -251,7 +251,7 @@ module TaliaCore
       my_clone = catalog.add_from_concordant(self)
       pages = ordered_pages.ordered_objects
       cloned_order = my_clone.ordered_pages
-
+      
       pages.each_index do |index|
         page = ordered_pages.at(index)
         next unless(page) # Skip empty elements

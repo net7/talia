@@ -22,3 +22,6 @@ public/custom_templates
 public/javascripts/active_scaffold/
 *.db
 data/*
+vendor/jruby*
+.gh_pages
+html

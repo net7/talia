@@ -1,6 +1,6 @@
-require 'rexml/document'
 require 'fileutils'
 require File.join(File.dirname(__FILE__), '..', '..', 'test_helper')
+require 'hpricot'
 
 module TaliaUtil
   module UtilTestMethods
@@ -12,7 +12,7 @@ module TaliaUtil
       name = URI.escape(name)
       demo_docs ||= {}
       demo_docs[name] ||= begin
-        REXML::Document.new(File.open(File.join(UTIL_PATH, 'import_samples', "#{name}.xml")))
+        File.open(File.join(UTIL_PATH, 'import_samples', "#{name}.xml")) { |io| Hpricot.XML(io) }
       end
       demo_docs[name]
     end
@@ -43,12 +43,16 @@ module TaliaUtil
     end
     
     # Runs the hyper import inside the data dir (so that connected files are loaded correctly)
-    def hyper_import(xml)
+    def hyper_import(xml, siglum = nil)
+      siglum  ||= (xml/:siglum).inner_html
       run_in_data_dir do
-        uri = HyperImporter::Importer.import(xml)
-        HyperImporter::Importer.write_imported!
-        TaliaCore::ActiveSource.find(:first, :conditions => { :uri => uri })
+        TaliaCore::ActiveSource.create_from_xml(xml.to_s, :reader => TaliaUtil::HyperImporter::Importer)
+        TaliaCore::ActiveSource.find(:first, :conditions => { :uri => N::LOCAL + irify(siglum) })
       end
+    end
+    
+    def irify(uri)
+      N::URI.new(uri.to_s.gsub( /[{}|\\^`\s]/, '+'))
     end
     
     def data_record_files
@@ -65,9 +69,6 @@ module TaliaUtil
     def clean_all_with_caches
       Util.flush_rdf
       Util.flush_db
-      HyperImporter::Importer.type_cache.clear
-      HyperImporter::SourceCache.cache.clear
-      HyperImporter::SourceHash.hash.clear
     end
 
     # Clear the system for an import test
