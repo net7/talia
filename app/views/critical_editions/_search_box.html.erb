@@ -10,7 +10,7 @@
 
       <div id="words_auto_complete" class="auto_complete"></div>
       <script type="text/javascript">
-        new Ajax.Autocompleter('words', 'words_auto_complete', '/texts/eKGWB/auto_complete_for_words', {
+        new Ajax.Autocompleter('words', 'words_auto_complete', '<%= "#{@edition.uri}/auto_complete_for_words" %>', {
         
           updateElement: function(selected_item) {
 

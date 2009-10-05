@@ -1,4 +1,6 @@
 require 'rexml/document'
+require 'html_cleaner_wrapper'
+
 
 class Word < ActiveRecord::Base
   
@@ -16,7 +18,9 @@ class Word < ActiveRecord::Base
 
     # get HTML version of contribution
     content_version = contribution.available_versions[0]
-    content = contribution.to_html(content_version )
+    content = contribution.to_html(content_version)
+
+    content = HtmlCleanerWrapper.clean(content)
 
     # get contribution content
     doc = REXML::Document.new content
