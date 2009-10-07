@@ -121,15 +121,15 @@ module TaliaUtil
       # Gets the class of Source that the importer produces
       def add_default_class
         # Try to select a class by type
-        type_class = nil
+        type = nil
         begin
           type = @current.element.name.camelize
           type_class = TaliaCore.const_get(type)
         rescue NameError
-          type_class = TaliaCore::Source # if nothing was found, use the Source class
+          type = 'Source' # if nothing was found, use the Source class
         end
 
-        add :type, type_class
+        add :type, type
       end
 
       # Sets the default catalog on the source, if applicable. 
@@ -141,7 +141,7 @@ module TaliaUtil
             # Add a new source for the catalog
             add_source do
               add :uri, catalog_name
-              add :type, TaliaCore::Catalog
+              add :type, 'Catalog'
             end unless(source_exists?(catalog_name))
           else
             # Do not reset an existing catalog if one exists

@@ -10,7 +10,7 @@ module TaliaUtil
       
       can_use_root
       
-      element :source do
+      plain_element :source do
         add_source :from_all_sources
       end
       
@@ -119,7 +119,7 @@ module TaliaUtil
         width = from_element :width
         height = from_element :height
         add N::DCT.extent, "#{width}x#{height} pixel" if(width && height)
-        add_defaults
+        add_defaults false
       end
       
       element :paragraph do
