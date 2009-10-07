@@ -19,7 +19,7 @@ module TaliaUtil
 
       def default_properties(needs_title = true)
         add N::HYPER.siglum, from_element(:siglum), true
-        add :uri, source_name(from_element(:siglum)), true
+        add :uri, source_name(from_element(:siglum), from_element(:catalog)), true
         add N::DCNS.title, from_element(:title), needs_title
         add_hyper_types
         nested :relations do
@@ -158,8 +158,9 @@ module TaliaUtil
       end
 
       # Get a source name
-      def source_name(name)
-        name.blank? ? name : N::LOCAL + name
+      def source_name(name, catalog = nil)
+        return name if(name.blank?)
+        catalog.blank? ? N::LOCAL + name : N::LOCAL + catalog + '/' + name
       end
 
       def from_current_name
