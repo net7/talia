@@ -81,7 +81,18 @@ class AdvancedSearchWidget < Widgeon::Widget
     if is_avmedia_search
       raise("Tag not supported in avmedia search")
     else
-      return "<label>#{t(:'talia.search.search_phrase_prompt')}</label> <input type='text' name='words' value='#{params[:words]}' />"
+      # add field
+      result = "<label>#{t(:'talia.search.search_phrase_prompt')}</label> <input type='text' name='words' id='words_advanced_search' value='#{params[:words]}' />"
+
+      # add autocomplete field
+      result += '<div id="words_advanced_search_auto_complete" class="auto_complete"></div>'
+
+      # add Ajax Autocompleter support
+      result += "<script type='text/javascript'>"
+      result += "setAutocompleter('words_advanced_search', 'words_advanced_search_auto_complete', '#{@options[:edition]}/auto_complete_for_words')"
+      result += "</script>"
+
+      return result
     end
   end
 

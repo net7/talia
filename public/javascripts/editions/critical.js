@@ -83,3 +83,36 @@ function handleListCollapsing() {
 }
 
 
+function setAutocompleter(text_field_id, auto_complete_field_id, auto_complete_url) {
+    new Ajax.Autocompleter(text_field_id, auto_complete_field_id, auto_complete_url, {
+
+          updateElement: function(selected_item) {
+
+            // get previous words field value
+            var previous_phrase = document.getElementById(text_field_id).value;
+            // get selected item value
+            var new_word = selected_item.childNodes[0].nodeValue;
+            // new word field value
+            var new_phrase = "";
+
+            if (previous_phrase != "") {
+              // split previous word field value and remove the last item
+              var phrase_items = previous_phrase.split(" ");
+              phrase_items.pop();
+
+              // add selected item value to new word field
+              phrase_items.push(new_word);
+
+              // create new word field value
+              new_phrase = phrase_items.join(" ");
+            } else {
+              // set new phrase as selected item value
+              new_phrase = new_word;
+            }
+
+            // set words field value
+            document.getElementById(text_field_id).value = new_phrase;
+          }
+
+        })
+}

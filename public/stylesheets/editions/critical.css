@@ -87,6 +87,7 @@ div.adder a.minus {
 /*  ******************************************/
 #scroll.menuList{
     padding: 0px;
+    z-index: 1;
 }
 #scroll.menuList h1 {
     font-family: georgia, serif;
@@ -361,7 +362,7 @@ div#visore p.advanced_search_result_description span.red {
 /* ************ */
 div.auto_complete {
     background: #fff;
-    z-index: 1;
+    z-index: 2;
 }
 
 div.auto_complete ul {
