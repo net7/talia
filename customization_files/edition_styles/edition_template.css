@@ -10,6 +10,7 @@ body {
 }
 
 .header_link_to_home {
+    position: absolute;
     display: block;
     width: 345px;
     height: 93px;
