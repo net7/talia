@@ -23,7 +23,7 @@ module CriticalEditionsHelper
     result = "<p class='advanced_search_result_description'>"
     # add count and work
     result += "<span class='red'>#{@result_match_count}</span> #{t(:'talia.search.result phrase 0')} " unless @result_match_count == "-1"
-    result += "<span class='red'>#{@result_count}</span> #{t(:'talia.search.result phrase 1')} <span class='red'> #{@words}</span>"
+    result += "<span class='red'> #{@words}</span> #{t(:'talia.search.result phrase 1')} <span class='red'>#{@result_count}</span> #{t(:'talia.search.result phrase 2')}"
     # add subpart
     @searched_works.each do |item|
       unless item[:work].nil?
