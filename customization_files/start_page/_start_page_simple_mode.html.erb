@@ -1,0 +1,33 @@
+<% 
+# The actual HTML code for the page resides in the _home_template.html.erb file 
+# This page serves as a customization point for the homepage to adapt
+# it to the needs of different users
+%>
+
+<%
+# Defines the links on top of the homepage
+@title_links = [
+  [t(:"talia.start_page.about_link"), locale_uri("/documentation/LANG/home.html")],
+]
+# Defines the languages that can be selected
+@languages = [
+  ['Deutsch', 'de-DE'],
+  ['English', 'en-US'],
+  ['Fran&ccedil;ais', 'fr-FR'],
+  ['Italiano', 'it-IT']
+]
+# The link that goes on the footer of the page
+@footer_link = [t(:'talia.start_page.contacts_link'), 'http://www.discovery-project.eu']
+
+%>
+
+<% content_for :left_box do %>
+  <!-- Left content box -->
+  <h2><%= t(:'talia.start_page.simple_mode') %> </h2>
+  <ul>
+    <%= edition_links :critical %>
+    <%= edition_links :facsimile %>
+  </ul>
+  <!-- End left content box -->
+<% end  %>
+
