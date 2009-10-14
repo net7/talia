@@ -113,10 +113,10 @@ namespaces:
 
 # Configure the public ontologies
 public_ontologies:
-  - "daphnet_modern"
-  - "sophiavision"
+  - "daphnet_ancient_philosophy_ontology"
+  - "daphnet_modern_philosophy_ontology"
+  - "sophiavision_ontology"
   - "scholar_0_1"
-  - "daphnet_ancient"
   - "wittgenstein"
   - "nietzsche"
   - "hyper_ontology"

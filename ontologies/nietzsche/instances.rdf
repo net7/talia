@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Rafael">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Rafael</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Trosten">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Trösten</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Causalitat">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Causalität</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gott">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+	<rdfs:label xml:lang="de">Gott</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Mitgefuhl">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Mitgefühl</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Wissenschaft">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Wissenschaft</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Abneigung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Abneigung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Nutzen">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Nutzen</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Verzweifelung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Verzweifelung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Besserwerden">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Besserwerden</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Freigeist">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+	<rdfs:label xml:lang="de">Freigeist</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Historie">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Historie</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Kant">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Kant</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Plato">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Plato</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Vereherung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Vereherung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Unreinheit">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Unreinheit</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Denken">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Denken</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ressentiment">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Ressentiment</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gerechtigkeit">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Gerechtigkeit</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Voltaire">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Voltaire</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Wiedererkennen">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Wiedererkennen</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gedachtniss">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Gedächtniss</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Temperament">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Temperament</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Sprache">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Sprache</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Volk">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+	<rdfs:label xml:lang="de">Volk</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Deutschen">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+	<rdfs:label xml:lang="de">Deutschen</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Erkenntniss">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Erkenntniss</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Theologie">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Theologie</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Wille">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Wille</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Widerspruch">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Widersprüch</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Furcht">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Furcht</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Logiker">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+	<rdfs:label xml:lang="de">Logiker</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Niedrigkeit">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Niedrigkeit</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Traum">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Traum</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Petrarca">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Petrarca</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gefuhl">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Gefühl</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Kunst">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Kunst</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Moral">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Moral</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Erklarung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Erklärung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Luter">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Luter</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Kunstler">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+	<rdfs:label xml:lang="de">Künstler</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ding-an-sich">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Ding-an-sich</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Logik">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Logik</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Werth">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Werth</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Atomenlehre">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Atomenlehre</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Schiller">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Schiller</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Cartesius">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Cartesius</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Unglaube">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Unglaube</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Tauschung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Täuschung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Erscheinung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Erscheinung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Entwickelung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Entwickelung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Stolz">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Stolz</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Genie">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+	<rdfs:label xml:lang="de">Genie</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Vernichtung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Vernichtung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Dasein">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Dasein</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Naturwissenschaft">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Naturwissenschaft</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Sittlichkeit">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Sittlichkeit</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Egoismus">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Egoismus</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ahnlichkeit">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Ähnlichkeit</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Vergangenheit">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Vergangenheit</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gluck">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Glück</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Mathematik">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Mathematik</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Verachtung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Verachtung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Geist">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Geist</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Spir">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Spir</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gesetz">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Gesetz</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Selbstlosigkeit">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Selbstlösigkeit</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Missverstandniss">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Missverstandniss</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gleichsetzen">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Gleichsetzen</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Berechtigung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Berechtigung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Trieb">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Trieb</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Instinct">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Instinct</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Vielheit">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Vielheit</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Unwahreit">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Unwahreit</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Misstrauen">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Misstrauen</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Wagner">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Wagner  </rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Inspiration">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Inspiration</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Umkehrung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Umkehrung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gesellschaft">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Gesellschaft</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Lust">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Lust</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ursache">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Ursache</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Begabung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Begabung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Bose">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Böse</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Shakespeare">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Shakespeare</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Cultur">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Cultur</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Herkunft">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Herkunft</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Glaube">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Glaube</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Phantasie">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Phantasie</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Welt">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Welt </rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Originalitat">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Originalität</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/HistorischeSinn">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Historische Sinn</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Urtheil">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Urtheil</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Erziehung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Erziehung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Entbehrung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Entbehrung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Erasmus">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Erasmus</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Natur">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Natur</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Schluss">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Schluss</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Bach">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Bach</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Philolog">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+	<rdfs:label xml:lang="de">Philolog</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ziellosigkeit">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Ziellosigkeit</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Bejahung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Bejahung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Christenthum">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Christenthum</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Metaphysik">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Metaphysik</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Verneinung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Verneinung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Aufgabe">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Aufgabe</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Zukunft">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Zukunft</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Geschichte">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Geschichte</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Aufklarung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Aufklärung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ziel">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Ziel</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Empfindung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Empfindung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Philosophie">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Philosophie</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Mensch">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+	<rdfs:label xml:lang="de">Mensch</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Michelangelo">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Michelangelo</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Bewusstsein">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Bewusstsein</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Vernunft">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Vernunft</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Angst">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Angst</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Dichter">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+	<rdfs:label xml:lang="de">Dichter</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Teleologie">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Teleologie</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Einsamkeit">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Einsamkeit</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Aberglauben">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Aberglauben</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Neigung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Neigung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Menschheit">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Menschheit</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Wahrheit">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Wahrheit </rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Enttauschung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Enttäuschung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Pessimismus">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Pessimismus</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Byron">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Byron</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Beruhigung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Beruhigung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Zwang">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Zwang</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Socrates">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Socrates</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Leiden">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Leiden</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Skepsis">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Skepsis</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Leidenschaft">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Leidenschaft</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Seele">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Seele</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Grund">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Grund</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Unlust">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Unlust</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Perikle">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Perikle</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Vergleichung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Vergleichung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Wesen">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Wesen</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Zweifel">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Zweifel</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Substrat">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Substrat</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Freiheit">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Freiheit</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Goethe">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Goethe</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Franzosen">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+	<rdfs:label xml:lang="de">Französen</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Optimismus">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Optimismus</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ehrfarung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Ehrfarung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Entstehung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Entstehung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Reformation">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Reformation</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Schopenhauer">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+	<rdfs:label xml:lang="de">Schopenhauer</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Vorstellung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Vorstellung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Philosoph">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+	<rdfs:label xml:lang="de">Philosoph</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ding">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Ding</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Mythologie">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Mythologie</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Selbstbetrug">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Selbstbetrug</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Leben">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Leben</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Renaissance">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Renaissance</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gut">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Gut</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Substanz">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Substanz</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Romantik">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Romantik</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Reaktion">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Reaktion</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Gehlerter">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+	<rdfs:label xml:lang="de">Gehlerter</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Ungerechtigkeit">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Ungerechtigkeit</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Irrthum">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Irrthum</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Fortschritt">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Fortschritt</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Sitten">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Sitten</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Tragodie">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Tragödie</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Bedurfniss">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Bedürfniss</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Bildung">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Bildung</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Religion">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Religion</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Freude">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Freude</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Physiologie">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+	<rdfs:label xml:lang="de">Physiologie</rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://discovery-project.eu/ontologies/nietzschesource/Theolog">
+	<rdf:type rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/FictionalEntity"/>
+	<rdfs:label xml:lang="de">Theolog</rdfs:label>
+</rdf:Description>
+
+</rdf:RDF>

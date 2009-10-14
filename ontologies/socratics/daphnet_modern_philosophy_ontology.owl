@@ -1,0 +1,443 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns="http://discovery-project.eu/ontologies/daphnet/"
+    xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:scho="http://discovery-project.eu/ontologies/scholar/0.1/"
+  xml:base="http://discovery-project.eu/ontologies/daphnet/">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/"/>
+  </owl:Ontology>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Monograph">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Contribution"/>
+    </rdfs:subClassOf>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A scholarly piece of writing of essay or book, or a  detailed and documented treatise, length on a specific, often limited subject.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/PhilosophicalTheme">
+    <rdfs:comment xml:lang="en">Concepts or thesis or theories employed or claimed or developed in a text, in so far they are considered philosophically relevant.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:label xml:lang="en">Philosophical Topic</rdfs:label>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Manuscript">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A typewritten or handwritten version of a unpublished book, article, document, or other work, especially the author's own copy, also prepared and submitted for publication in print.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/DaphnetModernPhilosophyMaterial"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/CriticalEdition">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/PrintedWork"/>
+    </rdfs:subClassOf>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A revised text of a work included in the primary source.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Title">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Any sort of works as quoted or mentioned in the text.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Marginalia">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Generally a marginal note. More specifically an autograph annotation on a book belonging to the author's personal library.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/DaphnetModernPhilosophyMaterial"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Letter">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/DaphnetModernPhilosophyMaterial"/>
+    </rdfs:subClassOf>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Letter sent to only one reader or to a small circle of correspondents.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/PhilosphicalSchool">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Collective nouns designating the followers of a philosopher or of a philosophical teaching.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/CriticalEssay">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Contribution"/>
+    </rdfs:subClassOf>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A text reviewing an idea, a concept, a theory or another text, or an analysis or exposition of the reading, article-by-article, book by book.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Person">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Person"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/PrintedWork">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/DaphnetModernPhilosophyMaterial"/>
+    </rdfs:subClassOf>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Printed texts, books, eassays, contributions to learned journals, which have been published either by the author himself or by an editor, and intended for a public readership.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/CriticalApparatus">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The critical apparatus is a critical  source material that accompanies an edition of a text.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Contribution"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Bibliography">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A systematic list of books and other works relating to a given subject and concerning  the same class of primary sources. Bibliography includes description and identification of the editions, dates of issue, authorship, and typography of books or other written material.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Contribution"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Translation">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Historical, recognized and attested translations considered as primary source of investigation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/daphnet/PrintedWork"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/PersonalLibrary">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/DaphnetModernPhilosophyMaterial"/>
+    </rdfs:subClassOf>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Books belonging to the personal library of an author, complete with autograph annotations (marginalia).</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/ExplanatoryNote">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Contribution"/>
+    </rdfs:subClassOf>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A short contribution, an explanation of terms, names, quotations, concepts,  concerning a document or a part of document.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/TrascriptionOfManuscript">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The conversion of a handwriting into pure text.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Contribution"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Quotation">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Explicit reference or allusion in a work to a passage or element from another.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/Concept"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/PosthumousEdition">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/daphnet/PrintedWork"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Work edited by  one or more editors after the author's death.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/DaphnetModernPhilosophyMaterial">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/PrimarySource"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Image or text format version of primary sources for the study of modern philosophy.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/OriginalEdition">
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/daphnet/PrintedWork"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Original edition (first edition) of a text, or a text  edited, authorised and effectively published as well as disseminated by the author, or a subsequent author's edition.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/ScholarlyTranslation">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >An attested and recognized traslation of a primary sources.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Contribution"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/PersonalDocument">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Data, information, notes, images belonging to an author.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/daphnet/DaphnetModernPhilosophyMaterial"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://discovery-project.eu/ontologies/daphnet/Contribution">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Secondary sources in image or text format (i.e. of scholarly contributions concerning the primary sources) for the study of modern philosophy.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://discovery-project.eu/ontologies/scholar/0.1/SecondarySource"/>
+  </rdfs:Class>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/hasPatronimic">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/daphnet/Person"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/hasFirstName">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/daphnet/Person"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/hasSurname">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/daphnet/Person"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/isTranslationOf"/>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/isPartOf"/>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/isWrittenAfterVId.C.">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/hasFirstEditionDate">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/isEditedIn">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/daphnet/PrintedWork"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/hasPlaceOfDeath">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/daphnet/Person"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/isTextTranscription">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/isAuthorOf">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/daphnet/Person"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/isWrittenIn">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/isPublishedBy">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/isTranslatorOf">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/daphnet/Person"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/isEditorOf">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/daphnet/Person"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/hasTitle">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/isOriginalDaphnetText">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/daphnet/Contribution"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/hasSiglum">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/hasDeathDate">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/daphnet/Person"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/hasPlaceOfBirth">
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/daphnet/Person"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/hasBirthDate">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/daphnet/Person"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/hasTranslator">
+    <rdfs:range rdf:resource="http://discovery-project.eu/ontologies/daphnet/Person"/>
+    <rdfs:domain rdf:resource="http://discovery-project.eu/ontologies/daphnet/Translation"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/isFacSimile">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://discovery-project.eu/ontologies/daphnet/hasBeenPublishedIn">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+  </rdf:Property>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Materia">
+    <rdfs:label xml:lang="la">Materia</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Spiritus">
+    <rdfs:label xml:lang="la">Spiritus</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Corpus">
+    <rdfs:label xml:lang="la">Corpus</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Modus">
+    <rdfs:label xml:lang="la">Modus</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Realitas">
+    <rdfs:label xml:lang="la">Realitas</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/CausaParticularis">
+    <rdfs:label xml:lang="la">Causa Particularis</rdfs:label>
+  </scho:Concept>
+  <Person rdf:about="http://discovery-project.eu/ontologies/daphnet/Giovanni_Pico_della_Mirandola"/>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Forma">
+    <rdfs:label xml:lang="la">Forma</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/AnimaHumana">
+    <rdfs:label xml:lang="la">Anima Humana</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Libertas">
+    <rdfs:label xml:lang="la">Libertas</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Conceptus">
+    <rdfs:label xml:lang="la">Conceptus</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Actus">
+    <rdfs:label xml:lang="la">Actus</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Facultas">
+    <rdfs:label xml:lang="la">Facultas</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Deus">
+    <rdfs:label xml:lang="la">Deus</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Facultas_Ratiocinandi">
+    <rdfs:label xml:lang="la">Facultas_Ratiocinandi</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/CausaSeconda">
+    <rdfs:label xml:lang="la">Causa Seconda</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Cogitatio">
+    <rdfs:label xml:lang="la">Cogitatio</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Perfectio">
+    <rdfs:label xml:lang="la">Perfectio</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Probabilitas">
+    <rdfs:label xml:lang="la">Probabilitas</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Repraesentatio">
+    <rdfs:label xml:lang="la">Repraesentatio</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Affectus">
+    <rdfs:label xml:lang="la">Affectus</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/ActioHumana">
+    <rdfs:label xml:lang="la">Actio Humana</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Actio">
+    <rdfs:label xml:lang="la">Actio</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Ens">
+    <rdfs:label xml:lang="la">Ens</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Facultas_Imaginandi">
+    <rdfs:label xml:lang="la">Facultas_Imaginandi</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Necessitas">
+    <rdfs:label xml:lang="la">Necessitas</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Potentia">
+    <rdfs:label xml:lang="la">Potentia</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Facultas_Cognoscendi">
+    <rdfs:label xml:lang="la">Facultas_Cognoscendi</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Fideis">
+    <rdfs:label xml:lang="la">Fideis</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Experientia">
+    <rdfs:label xml:lang="la">Experientia</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Existentia">
+    <rdfs:label xml:lang="la">Existentia</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Idea">
+    <rdfs:label xml:lang="la">Idea</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Mundus">
+    <rdfs:label xml:lang="la">Mundus</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/AnimaMundi">
+    <rdfs:label xml:lang="la">Anima Mundi</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/AnimaBrutorum">
+    <rdfs:label xml:lang="la">Anima Brutorum</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Infinitum">
+    <rdfs:label xml:lang="la">Infinitum</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Lex">
+    <rdfs:label xml:lang="la">Lex</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Creatio">
+    <rdfs:label xml:lang="la">Creatio</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Harmonia">
+    <rdfs:label xml:lang="la">Harmonia</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Mens">
+    <rdfs:label xml:lang="la">Mens</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Monas">
+    <rdfs:label xml:lang="la">Monas</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Perceptio">
+    <rdfs:label xml:lang="la">Perceptio</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Virtus">
+    <rdfs:label xml:lang="la">Virtus</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/CausaPrima">
+    <rdfs:label xml:lang="la">Causa Prima</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Methodus">
+    <rdfs:label xml:lang="la">Methodus</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Intellectus">
+    <rdfs:label xml:lang="la">Intellectus</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Cognitio">
+    <rdfs:label xml:lang="la">Cognitio</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Substantia">
+    <rdfs:label xml:lang="la">Substantia</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Facultas_Recordandi">
+    <rdfs:label xml:lang="la">Facultas_Recordandi</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Intuitus">
+    <rdfs:label xml:lang="la">Intuitus</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Ratio">
+    <rdfs:label xml:lang="la">Ratio</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Vis">
+    <rdfs:label xml:lang="la">Vis</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Causa">
+    <rdfs:label xml:lang="la">Causa</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Ordo">
+    <rdfs:label xml:lang="la">Ordo</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Sensus">
+    <rdfs:label xml:lang="la">Sensus</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Voluntas">
+    <rdfs:label xml:lang="la">Voluntas</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Natura">
+    <rdfs:label xml:lang="la">Natura</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Bonum">
+    <rdfs:label xml:lang="la">Bonum</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Facultas_Sentiendi">
+    <rdfs:label xml:lang="la">Facultas_Sentiendi</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Motus">
+    <rdfs:label xml:lang="la">Motus</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Spatium">
+    <rdfs:label xml:lang="la">Spatium</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Malum">
+    <rdfs:label xml:lang="la">Malum</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Tempus">
+    <rdfs:label xml:lang="la">Tempus</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/ActioDivina">
+    <rdfs:label xml:lang="la">Actio Divina</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Anima">
+    <rdfs:label xml:lang="la">Anima</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Amor">
+    <rdfs:label xml:lang="la">Amor</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Elementum">
+    <rdfs:label xml:lang="la">Elementum</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Principium">
+    <rdfs:label xml:lang="la">Principium</rdfs:label>
+  </scho:Concept>
+  <scho:Concept rdf:about="http://discovery-project.eu/ontologies/daphnet/Veritas">
+    <rdfs:label xml:lang="la">Veritas</rdfs:label>
+  </scho:Concept>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 3.4, Build 125)  http://protege.stanford.edu -->

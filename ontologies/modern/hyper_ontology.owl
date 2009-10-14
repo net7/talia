@@ -1,0 +1,1462 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY protege "http://protege.stanford.edu/plugins/owl/protege#" >
+    <!ENTITY HyperOntology "http://trac.talia.discovery-project.eu/wiki/HyperOntology#" >
+]>
+
+
+<rdf:RDF xmlns="http://trac.talia.discovery-project.eu/wiki/HyperOntology#"
+     xml:base="http://trac.talia.discovery-project.eu/wiki/HyperOntology"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:HyperOntology="http://trac.talia.discovery-project.eu/wiki/HyperOntology#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#">
+    <owl:Ontology rdf:about="">
+        <owl:imports rdf:resource="http://purl.org/dc/elements/1.1/"/>
+        <owl:imports rdf:resource="http://purl.org/dc/terms/"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="#keyword"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/relation -->
+
+    <owl:ObjectProperty rdf:about="&dc;relation"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/subject -->
+
+    <owl:ObjectProperty rdf:about="&dc;subject"/>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#author -->
+
+    <owl:ObjectProperty rdf:about="#author">
+        <rdfs:comment xml:lang="en"
+            >The author of a contribution</rdfs:comment>
+        <rdfs:range rdf:resource="#Author"/>
+        <rdfs:domain rdf:resource="#Contribution"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#author_position -->
+
+    <owl:ObjectProperty rdf:about="#author_position">
+        <rdfs:comment xml:lang="en"
+            >Position of the author</rdfs:comment>
+        <rdfs:domain rdf:resource="#Author"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#category -->
+
+    <owl:ObjectProperty rdf:about="#category">
+        <rdfs:comment xml:lang="en"
+            >Assigns a category to a source.</rdfs:comment>
+        <rdfs:range rdf:resource="#Category"/>
+        <rdfs:domain rdf:resource="#Source"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#cites -->
+
+    <owl:ObjectProperty rdf:about="#cites">
+        <rdfs:subPropertyOf rdf:resource="&dc;relation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#content_type -->
+
+    <owl:ObjectProperty rdf:about="#content_type">
+        <rdfs:comment xml:lang="en"
+            >Describes the content of the contribution</rdfs:comment>
+        <rdfs:domain rdf:resource="#Contribution"/>
+        <rdfs:range rdf:resource="#ContributionContentType"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#downloadable -->
+
+    <owl:ObjectProperty rdf:about="#downloadable">
+        <rdfs:comment xml:lang="en"
+            >Indicates if the media file may be downloaded</rdfs:comment>
+        <rdfs:domain rdf:resource="#AvMedia"/>
+        <rdfs:range rdf:resource="&xsd;boolean"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#first_page -->
+
+    <owl:ObjectProperty rdf:about="#first_page">
+        <rdfs:comment xml:lang="en"
+            >The first page of a chapter or other element</rdfs:comment>
+        <rdfs:domain rdf:resource="#Chapter"/>
+        <rdfs:range rdf:resource="#Page"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#is_in_archive -->
+
+    <owl:ObjectProperty rdf:about="#is_in_archive">
+        <rdfs:comment xml:lang="en"
+            >the book is in this archive</rdfs:comment>
+        <rdfs:range rdf:resource="#Archive"/>
+        <rdfs:domain rdf:resource="#Book"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#keyword -->
+
+    <owl:ObjectProperty rdf:about="#keyword">
+        <rdfs:comment xml:lang="en"
+            >Keyword for grouping purposes.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&dc;subject"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#language -->
+
+    <owl:ObjectProperty rdf:about="#language">
+        <rdfs:comment xml:lang="en"
+            >Language of the contribuation</rdfs:comment>
+        <owl:versionInfo xml:lang="en"
+            >TODO: Should use controlled vocabulary</owl:versionInfo>
+        <rdfs:domain rdf:resource="#Contribution"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#material -->
+
+    <owl:ObjectProperty rdf:about="#material">
+        <rdfs:comment xml:lang="en"
+            >Reference to a related material</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&dc;relation"/>
+        <rdfs:domain rdf:resource="#Contribution"/>
+        <rdfs:range rdf:resource="#Material"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#material_type -->
+
+    <owl:ObjectProperty rdf:about="#material_type">
+        <rdfs:comment xml:lang="en"
+            >Indicates the material type of the Material</rdfs:comment>
+        <rdfs:domain rdf:resource="#Material"/>
+        <rdfs:range rdf:resource="#StructureElement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#note -->
+
+    <owl:ObjectProperty rdf:about="#note">
+        <rdfs:comment xml:lang="en"
+            >A note for this paragraph</rdfs:comment>
+        <rdfs:range rdf:resource="#Note"/>
+        <rdfs:domain rdf:resource="#Paragraph"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#page -->
+
+    <owl:ObjectProperty rdf:about="#page">
+        <rdfs:comment xml:lang="en"
+            >Page to which the Zone belongs</rdfs:comment>
+        <rdfs:domain rdf:resource="#Note"/>
+        <rdfs:range rdf:resource="#Page"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#part_of -->
+
+    <owl:ObjectProperty rdf:about="#part_of">
+        <rdfs:comment xml:lang="en"
+            >Indicates that one element is part of another</rdfs:comment>
+        <rdfs:domain rdf:resource="#Source"/>
+        <rdfs:range rdf:resource="#Source"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#path -->
+
+    <owl:ObjectProperty rdf:about="#path">
+        <rdfs:comment xml:lang="en"
+            >The path to which the step belongs</rdfs:comment>
+        <rdfs:range rdf:resource="#Path"/>
+        <rdfs:domain rdf:resource="#PathStep"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#path_source -->
+
+    <owl:ObjectProperty rdf:about="#path_source">
+        <rdfs:comment xml:lang="en"
+            >The Source related to this path step</rdfs:comment>
+        <rdfs:domain rdf:resource="#PathStep"/>
+        <rdfs:range rdf:resource="#Source"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#play_length -->
+
+    <owl:ObjectProperty rdf:about="#play_length">
+        <rdfs:comment xml:lang="en"
+            >The play length of this media file.</rdfs:comment>
+        <rdfs:domain rdf:resource="#AvMedia"/>
+        <rdfs:range rdf:resource="&xsd;time"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#refers -->
+
+    <owl:ObjectProperty rdf:about="#refers">
+        <rdfs:comment xml:lang="en"
+            >A reference to another source</rdfs:comment>
+        <rdfs:range rdf:resource="#Source"/>
+        <rdfs:domain rdf:resource="#Source"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#related_contribution -->
+
+    <owl:ObjectProperty rdf:about="#related_contribution">
+        <rdfs:comment xml:lang="en"
+            >Indicates that a source is closely related to a contribution</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="#refers"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#series -->
+
+    <owl:ObjectProperty rdf:about="#series">
+        <rdfs:comment xml:lang="en"
+            >Relates a Source with the series in which it was published</rdfs:comment>
+        <rdfs:range rdf:resource="#Series"/>
+        <rdfs:domain rdf:resource="#Source"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#transcription_of -->
+
+    <owl:ObjectProperty rdf:about="#transcription_of">
+        <rdfs:subPropertyOf rdf:resource="&dc;relation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#translation_of -->
+
+    <owl:ObjectProperty rdf:about="#translation_of">
+        <rdfs:subPropertyOf rdf:resource="&dc;relation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#address -->
+
+    <owl:DatatypeProperty rdf:about="#address">
+        <rdfs:comment xml:lang="en">Street Address</rdfs:comment>
+        <rdfs:domain rdf:resource="#Agent"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#already_published -->
+
+    <owl:DatatypeProperty rdf:about="#already_published">
+        <rdfs:comment xml:lang="en"
+            >Indicates if the contribution had already been published before being published in the Hyper</rdfs:comment>
+        <rdfs:domain rdf:resource="#Contribution"/>
+        <rdfs:range rdf:resource="&xsd;boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#author_institution -->
+
+    <owl:DatatypeProperty rdf:about="#author_institution">
+        <rdfs:comment xml:lang="en"
+            >Institution the author belongs to</rdfs:comment>
+        <rdfs:domain rdf:resource="#Author"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#author_name -->
+
+    <owl:DatatypeProperty rdf:about="#author_name">
+        <rdfs:comment xml:lang="en"
+            >First name of the Author</rdfs:comment>
+        <rdfs:domain rdf:resource="#Author"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#author_status -->
+
+    <owl:DatatypeProperty rdf:about="#author_status">
+        <rdfs:comment rdf:datatype="&xsd;string">Author Status</rdfs:comment>
+        <rdfs:domain rdf:resource="#Author"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#author_surname -->
+
+    <owl:DatatypeProperty rdf:about="#author_surname">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Surname of the author</rdfs:comment>
+        <rdfs:domain rdf:resource="#Author"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#chapter_name -->
+
+    <owl:DatatypeProperty rdf:about="#chapter_name">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The &quot;name&quot; of a chapter (eg. II or 2)</rdfs:comment>
+        <rdfs:domain rdf:resource="#Chapter"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#city -->
+
+    <owl:DatatypeProperty rdf:about="#city">
+        <rdfs:comment xml:lang="en">City</rdfs:comment>
+        <rdfs:domain rdf:resource="#Agent"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#collection_information -->
+
+    <owl:DatatypeProperty rdf:about="#collection_information">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Contains plaintext information about the collection of which the element is a part.</rdfs:comment>
+        <rdfs:domain rdf:resource="#ExternalObject"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#collocation -->
+
+    <owl:DatatypeProperty rdf:about="#collocation">
+        <rdfs:comment xml:lang="en"
+            >Indicates where the (physical) object is found in the archive (e.g. CV-12, ...)</rdfs:comment>
+        <rdfs:domain rdf:resource="#Book"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#coordinates -->
+
+    <owl:DatatypeProperty rdf:about="#coordinates">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The coordinates of the vertex of the polygon which identifies this note in the page.</rdfs:comment>
+        <rdfs:domain rdf:resource="#Note"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#country -->
+
+    <owl:DatatypeProperty rdf:about="#country">
+        <owl:versionInfo rdf:datatype="&xsd;string"
+            >TODO: Should use controlled vocabulary</owl:versionInfo>
+        <rdfs:comment xml:lang="en">Country</rdfs:comment>
+        <rdfs:domain rdf:resource="#Agent"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#curator -->
+
+    <owl:DatatypeProperty rdf:about="#curator">
+        <owl:versionInfo rdf:datatype="&xsd;string"
+            >TODO: Should use controlled vocabulary</owl:versionInfo>
+        <rdfs:comment xml:lang="en"
+            >Person who published the Essay in the Hyper</rdfs:comment>
+        <rdfs:domain rdf:resource="#Essay"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#curator_note -->
+
+    <owl:DatatypeProperty rdf:about="#curator_note">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Note by the curator</rdfs:comment>
+        <rdfs:domain rdf:resource="#Essay"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#date -->
+
+    <owl:DatatypeProperty rdf:about="#date">
+        <rdfs:comment xml:lang="en"
+            >Either the publishing date or a date where the material was created. Can be a date or range (e.g. 1984-11-23 or June 1976 - March 1977)</rdfs:comment>
+        <owl:versionInfo xml:lang="en"
+            >TODO: Should use controlled vocabulary</owl:versionInfo>
+        <rdfs:domain rdf:resource="#Book"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#email -->
+
+    <owl:DatatypeProperty rdf:about="#email">
+        <rdfs:comment xml:lang="en">Email Address</rdfs:comment>
+        <rdfs:domain rdf:resource="#Agent"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#fax -->
+
+    <owl:DatatypeProperty rdf:about="#fax">
+        <rdfs:comment xml:lang="en">Fax number</rdfs:comment>
+        <rdfs:domain rdf:resource="#Agent"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#file_content_type -->
+
+    <owl:DatatypeProperty rdf:about="#file_content_type">
+        <rdfs:comment xml:lang="en"
+            >MIME type of the file&#39;s content</rdfs:comment>
+        <rdfs:domain rdf:resource="#Contribution"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#file_dimension -->
+
+    <owl:DatatypeProperty rdf:about="#file_dimension">
+        <rdfs:comment xml:lang="en"
+            >Size of the Data file</rdfs:comment>
+        <rdfs:domain rdf:resource="#Contribution"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#filename -->
+
+    <owl:DatatypeProperty rdf:about="#filename">
+        <rdfs:comment xml:lang="en"
+            >File containing the contribution</rdfs:comment>
+        <rdfs:domain rdf:resource="#Contribution"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#from_date -->
+
+    <owl:DatatypeProperty rdf:about="#from_date">
+        <rdfs:comment xml:lang="en"
+            >Registration date</rdfs:comment>
+        <rdfs:domain rdf:resource="#Author"/>
+        <rdfs:range rdf:resource="&xsd;dateTime"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#height -->
+
+    <owl:DatatypeProperty rdf:about="#height">
+        <rdfs:comment xml:lang="en"
+            >Height of the page in pixel or cm</rdfs:comment>
+        <rdfs:domain rdf:resource="#Page"/>
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#journal_information -->
+
+    <owl:DatatypeProperty rdf:about="#journal_information">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Information about the journal of which the element is a part.</rdfs:comment>
+        <rdfs:domain rdf:resource="#ExternalObject"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#name -->
+
+    <owl:DatatypeProperty rdf:about="#name">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The name of the element</rdfs:comment>
+        <rdfs:domain rdf:resource="#Source"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#pages_information -->
+
+    <owl:DatatypeProperty rdf:about="#pages_information">
+        <rdfs:comment xml:lang="en"
+            >Plaintext information about the pages in an object. (Usually the number of pages, or similiar information).</rdfs:comment>
+        <rdfs:domain rdf:resource="#ExternalObject"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#phone -->
+
+    <owl:DatatypeProperty rdf:about="#phone">
+        <rdfs:comment xml:lang="en">Phone number</rdfs:comment>
+        <rdfs:domain rdf:resource="#Agent"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#position -->
+
+    <owl:DatatypeProperty rdf:about="#position">
+        <rdfs:comment xml:lang="en"
+            >Position in a collection of elements</rdfs:comment>
+        <rdfs:domain rdf:resource="#Source"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#position_name -->
+
+    <owl:DatatypeProperty rdf:about="#position_name">
+        <rdfs:comment xml:lang="en"
+            >A string describing the &quot;name&quot; of the current position.
+
+For Essay Pages:
+
+The page name in the original essay.
+
+For material pages:
+
+Subpart of this page siglum, which identified this page (eg: if this page has &#39;MA,1r&#39; as siglum - being the page 1r of the MA work - this field will contain &#39;1r&#39;) To be used when asking for a single page from within the book. (you may want to ask for the page 1r, this is where we know its &quot;name&quot;).</rdfs:comment>
+        <rdfs:domain rdf:resource="#Source"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#publication_place -->
+
+    <owl:DatatypeProperty rdf:about="#publication_place">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Place where the book was published</rdfs:comment>
+        <rdfs:domain rdf:resource="#Book"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#publisher -->
+
+    <owl:DatatypeProperty rdf:about="#publisher">
+        <rdfs:comment xml:lang="en">Publisher</rdfs:comment>
+        <rdfs:domain rdf:resource="#Source"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#publishing_date -->
+
+    <owl:DatatypeProperty rdf:about="#publishing_date">
+        <rdfs:comment xml:lang="en"
+            >The date on which the contribution was published in the Hyper</rdfs:comment>
+        <rdfs:domain rdf:resource="#Contribution"/>
+        <rdfs:range rdf:resource="&xsd;dateTime"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#resolution -->
+
+    <owl:DatatypeProperty rdf:about="#resolution">
+        <rdfs:comment xml:lang="en"
+            >Resolution of the Facsimile</rdfs:comment>
+        <rdfs:domain rdf:resource="#Facsimile"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#siglum -->
+
+    <owl:DatatypeProperty rdf:about="#siglum">
+        <rdfs:comment xml:lang="en"
+            >The Siglum of the Source</rdfs:comment>
+        <rdfs:domain rdf:resource="#Source"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#state -->
+
+    <owl:DatatypeProperty rdf:about="#state">
+        <rdfs:comment rdf:datatype="&xsd;string">State</rdfs:comment>
+        <rdfs:domain rdf:resource="#Agent"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#to_date -->
+
+    <owl:DatatypeProperty rdf:about="#to_date">
+        <rdfs:domain rdf:resource="#Author"/>
+        <rdfs:range rdf:resource="&xsd;dateTime"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#webpage -->
+
+    <owl:DatatypeProperty rdf:about="#webpage">
+        <rdfs:comment xml:lang="en">Web address</rdfs:comment>
+        <rdfs:domain rdf:resource="#Agent"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#width -->
+
+    <owl:DatatypeProperty rdf:about="#width">
+        <rdfs:comment xml:lang="en"
+            >Width of the page in pixel or cm</rdfs:comment>
+        <rdfs:domain rdf:resource="#Page"/>
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#zip -->
+
+    <owl:DatatypeProperty rdf:about="#zip">
+        <rdfs:comment xml:lang="en">Zip code</rdfs:comment>
+        <rdfs:domain rdf:resource="#Agent"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Agent -->
+
+    <owl:Class rdf:about="#Agent">
+        <rdfs:subClassOf rdf:resource="#Source"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Archive -->
+
+    <owl:Class rdf:about="#Archive">
+        <rdfs:subClassOf rdf:resource="#Agent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Author -->
+
+    <owl:Class rdf:about="#Author">
+        <rdfs:subClassOf rdf:resource="#Agent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#AuthorizedManuscript -->
+
+    <owl:Class rdf:about="#AuthorizedManuscript">
+        <rdfs:subClassOf rdf:resource="#Manuscript"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#AvMedia -->
+
+    <owl:Class rdf:about="#AvMedia">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+        <rdfs:comment xml:lang="en"
+            >An audiovisual media file.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#BibliographicalCard -->
+
+    <owl:Class rdf:about="#BibliographicalCard">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#BlackAndWhite -->
+
+    <owl:Class rdf:about="#BlackAndWhite">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Book -->
+
+    <owl:Class rdf:about="#Book">
+        <rdfs:subClassOf rdf:resource="#StructureElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Category -->
+
+    <owl:Class rdf:about="#Category">
+        <rdfs:subClassOf rdf:resource="#StructureElement"/>
+        <rdfs:comment xml:lang="en"
+            >A Category groups different Sources togehter by a user-defined criterium. Unlike keywords a Source should only have one category at a time.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Chapter -->
+
+    <owl:Class rdf:about="#Chapter">
+        <rdfs:subClassOf rdf:resource="#StructureElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Chronologic -->
+
+    <owl:Class rdf:about="#Chronologic">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Color -->
+
+    <owl:Class rdf:about="#Color">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Comments -->
+
+    <owl:Class rdf:about="#Comments">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#ConferencePaper -->
+
+    <owl:Class rdf:about="#ConferencePaper">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Contribution -->
+
+    <owl:Class rdf:about="#Contribution">
+        <rdfs:subClassOf rdf:resource="#Source"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#ContributionContentType -->
+
+    <owl:Class rdf:about="#ContributionContentType"/>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Copybook -->
+
+    <owl:Class rdf:about="#Copybook">
+        <rdfs:subClassOf rdf:resource="#Manuscript"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Correspondence -->
+
+    <owl:Class rdf:about="#Correspondence">
+        <rdfs:subClassOf rdf:resource="#Manuscript"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#CriticalEdition -->
+
+    <owl:Class rdf:about="#CriticalEdition">
+        <rdfs:subClassOf rdf:resource="#MacroContribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Diplomatic -->
+
+    <owl:Class rdf:about="#Diplomatic">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#DocumentTransmission -->
+
+    <owl:Class rdf:about="#DocumentTransmission">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Dossier -->
+
+    <owl:Class rdf:about="#Dossier">
+        <rdfs:subClassOf rdf:resource="#Manuscript"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Draft -->
+
+    <owl:Class rdf:about="#Draft">
+        <rdfs:subClassOf rdf:resource="#Manuscript"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Dynamic -->
+
+    <owl:Class rdf:about="#Dynamic">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Editing -->
+
+    <owl:Class rdf:about="#Editing">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Essay -->
+
+    <owl:Class rdf:about="#Essay">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#EssayPage -->
+
+    <owl:Class rdf:about="#EssayPage">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#ExternalObject -->
+
+    <owl:Class rdf:about="#ExternalObject">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Facsim -->
+
+    <owl:Class rdf:about="#Facsim">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Facsimile -->
+
+    <owl:Class rdf:about="#Facsimile">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#FacsimileEdition -->
+
+    <owl:Class rdf:about="#FacsimileEdition">
+        <rdfs:subClassOf rdf:resource="#MacroContribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#GenericXML -->
+
+    <owl:Class rdf:about="#GenericXML">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Genetic -->
+
+    <owl:Class rdf:about="#Genetic">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#GreyScale -->
+
+    <owl:Class rdf:about="#GreyScale">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#HNML -->
+
+    <owl:Class rdf:about="#HNML">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#HTML -->
+
+    <owl:Class rdf:about="#HTML">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#HyperEdition -->
+
+    <owl:Class rdf:about="#HyperEdition">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#ICN -->
+
+    <owl:Class rdf:about="#ICN">
+        <rdfs:subClassOf rdf:resource="#Manuscript"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Iconography -->
+
+    <owl:Class rdf:about="#Iconography">
+        <rdfs:subClassOf rdf:resource="#Material"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Interview -->
+
+    <owl:Class rdf:about="#Interview">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Keyword -->
+
+    <owl:Class rdf:about="#Keyword">
+        <rdfs:comment xml:lang="en"
+            >A Keyword by which results are grouped. Any number of Keywords can be assigned to a single Source.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Lecture -->
+
+    <owl:Class rdf:about="#Lecture">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#LectureManuscript -->
+
+    <owl:Class rdf:about="#LectureManuscript">
+        <rdfs:subClassOf rdf:resource="#Manuscript"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Linear -->
+
+    <owl:Class rdf:about="#Linear">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#MacroContribution -->
+
+    <owl:Class rdf:about="#MacroContribution">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Manuscript -->
+
+    <owl:Class rdf:about="#Manuscript">
+        <rdfs:subClassOf rdf:resource="#Material"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#ManuscriptForPrinting -->
+
+    <owl:Class rdf:about="#ManuscriptForPrinting">
+        <rdfs:subClassOf rdf:resource="#Manuscript"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Material -->
+
+    <owl:Class rdf:about="#Material">
+        <rdfs:subClassOf rdf:resource="#Source"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#MaterialDescription -->
+
+    <owl:Class rdf:about="#MaterialDescription">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Media -->
+
+    <owl:Class rdf:about="#Media">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Mpeg4 -->
+
+    <owl:Class rdf:about="#Mpeg4">
+        <rdfs:subClassOf rdf:resource="#Media"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#NotDistributed -->
+
+    <owl:Class rdf:about="#NotDistributed">
+        <rdfs:subClassOf rdf:resource="#Work"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Note -->
+
+    <owl:Class rdf:about="#Note">
+        <rdfs:subClassOf rdf:resource="#StructureElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Notebook -->
+
+    <owl:Class rdf:about="#Notebook">
+        <rdfs:subClassOf rdf:resource="#Manuscript"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#PDF -->
+
+    <owl:Class rdf:about="#PDF">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Page -->
+
+    <owl:Class rdf:about="#Page">
+        <rdfs:subClassOf rdf:resource="#StructureElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Paragraph -->
+
+    <owl:Class rdf:about="#Paragraph">
+        <rdfs:subClassOf rdf:resource="#StructureElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#ParagraphInteractive -->
+
+    <owl:Class rdf:about="#ParagraphInteractive">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Path -->
+
+    <owl:Class rdf:about="#Path">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#PathStep -->
+
+    <owl:Class rdf:about="#PathStep">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#PlainText -->
+
+    <owl:Class rdf:about="#PlainText">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#PosthumousFragment -->
+
+    <owl:Class rdf:about="#PosthumousFragment">
+        <rdfs:subClassOf rdf:resource="#Manuscript"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#PosthumousWriting -->
+
+    <owl:Class rdf:about="#PosthumousWriting">
+        <rdfs:subClassOf rdf:resource="#Manuscript"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#PrintedAndDistributed -->
+
+    <owl:Class rdf:about="#PrintedAndDistributed">
+        <rdfs:subClassOf rdf:resource="#Work"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#PrivatePublication -->
+
+    <owl:Class rdf:about="#PrivatePublication">
+        <rdfs:subClassOf rdf:resource="#Work"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Review -->
+
+    <owl:Class rdf:about="#Review">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#RowInteractive -->
+
+    <owl:Class rdf:about="#RowInteractive">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Series -->
+
+    <owl:Class rdf:about="#Series">
+        <rdfs:subClassOf rdf:resource="#StructureElement"/>
+        <rdfs:comment xml:lang="en"
+            >Series a in which a Source was published.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Source -->
+
+    <owl:Class rdf:about="#Source"/>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#StructureElement -->
+
+    <owl:Class rdf:about="#StructureElement"/>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#TEI -->
+
+    <owl:Class rdf:about="#TEI">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#TextReconstruction -->
+
+    <owl:Class rdf:about="#TextReconstruction">
+        <rdfs:subClassOf rdf:resource="#HyperEdition"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Thematic -->
+
+    <owl:Class rdf:about="#Thematic">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Transcription -->
+
+    <owl:Class rdf:about="#Transcription">
+        <rdfs:subClassOf rdf:resource="#HyperEdition"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Translation -->
+
+    <owl:Class rdf:about="#Translation">
+        <rdfs:subClassOf rdf:resource="#Contribution"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Ultradiplomatic -->
+
+    <owl:Class rdf:about="#Ultradiplomatic">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Unprinted -->
+
+    <owl:Class rdf:about="#Unprinted">
+        <rdfs:subClassOf rdf:resource="#Work"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#WindowsMediaFile -->
+
+    <owl:Class rdf:about="#WindowsMediaFile">
+        <rdfs:subClassOf rdf:resource="#Media"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#WitTEI -->
+
+    <owl:Class rdf:about="#WitTEI">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#WordInteractive -->
+
+    <owl:Class rdf:about="#WordInteractive">
+        <rdfs:subClassOf rdf:resource="#ContributionContentType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#Work -->
+
+    <owl:Class rdf:about="#Work">
+        <rdfs:subClassOf rdf:resource="#Material"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2001/XMLSchema#boolean -->
+
+    <owl:Class rdf:about="&xsd;boolean"/>
+    
+
+
+    <!-- http://www.w3.org/2001/XMLSchema#time -->
+
+    <owl:Class rdf:about="&xsd;time"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#description -->
+
+    <rdf:Description rdf:about="#description">
+        <rdfs:comment xml:lang="en"
+            >A descriptive placeholder for the UI, to be translated</rdfs:comment>
+    </rdf:Description>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#dimension_units -->
+
+    <rdf:Description rdf:about="#dimension_units">
+        <rdfs:comment xml:lang="en"
+            >Identifies the unit type used for the elements physical dimensions.</rdfs:comment>
+    </rdf:Description>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#last_page -->
+
+    <rdf:Description rdf:about="#last_page">
+        <rdfs:comment xml:lang="en"
+            >The last page of a logical element in a publication. May not always be used, even if first_page is present.</rdfs:comment>
+    </rdf:Description>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#local_id -->
+
+    <rdf:Description rdf:about="#local_id">
+        <rdfs:comment xml:lang="en"
+            >An unique identifier that is only valid in the local system</rdfs:comment>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.974) http://owlapi.sourceforge.net -->
+
