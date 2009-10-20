@@ -357,6 +357,13 @@ div#visore p.advanced_search_result_description span.red {
     color: #900;
 }
 
+a.header_link_to_home {
+    position: absolute;
+    display: block;
+    width: 345px;
+    height: 93px;
+}
+
 /* ************ */
 /* Autocomplete */
 /* ************ */

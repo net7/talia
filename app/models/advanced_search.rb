@@ -179,7 +179,7 @@ class AdvancedSearch
 
   def av_query_params(title_words, abstract_words = nil, keyword = nil)
     # collect data to post
-    data = {'search_type[]' => 'media'}
+    data = {'search_type' => 'media'}
 
     # check if words field is empty
     if title_words
@@ -209,7 +209,7 @@ class AdvancedSearch
 
     # execute post to servlet
     uri = URI.parse(URI.join(exist_options['server_url'],"/#{exist_options['community']}/Search").to_s)
-    if !exist_options['server_login'].nil? && !exist_options['server_password'].nil?
+    if !exist_options['exist_login'].nil? && !exist_options['exist_login'].nil?
       uri.user = exist_options['exist_login']
       uri.password = exist_options['exist_password']
     end
