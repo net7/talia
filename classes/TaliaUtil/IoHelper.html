@@ -87,9 +87,9 @@ simple installations
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000503">file_url</a>&nbsp;&nbsp;
-      <a href="#M000502">open_from_url</a>&nbsp;&nbsp;
-      <a href="#M000501">open_generic</a>&nbsp;&nbsp;
+      <a href="#M000504">file_url</a>&nbsp;&nbsp;
+      <a href="#M000503">open_from_url</a>&nbsp;&nbsp;
+      <a href="#M000502">open_generic</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -111,11 +111,11 @@ simple installations
     <div id="methods">
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000503" class="method-detail">
-        <a name="M000503"></a>
+      <div id="method-M000504" class="method-detail">
+        <a name="M000504"></a>
 
         <div class="method-heading">
-          <a href="#M000503" class="method-signature">
+          <a href="#M000504" class="method-signature">
           <span class="method-name">file_url</span><span class="method-args">(uri)</span>
           </a>
         </div>
@@ -126,8 +126,8 @@ Get the &quot;file url&quot; for the given url, stripping a possible
 file:// from the front
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000503-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000503-source">
+            onclick="toggleCode('M000504-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000504-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_util/io_helper.rb, line 49</span>
 49:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">file_url</span>(<span class="ruby-identifier">uri</span>)
@@ -138,11 +138,11 @@ file:// from the front
         </div>
       </div>
 
-      <div id="method-M000502" class="method-detail">
-        <a name="M000502"></a>
+      <div id="method-M000503" class="method-detail">
+        <a name="M000503"></a>
 
         <div class="method-heading">
-          <a href="#M000502" class="method-signature">
+          <a href="#M000503" class="method-signature">
           <span class="method-name">open_from_url</span><span class="method-args">(url, options = {}) {|io| ...}</span>
           </a>
         </div>
@@ -160,8 +160,8 @@ the documentation for open-uri for more information. Example for options:
   :http_basic_authentication =&gt; [login, password]
 </pre>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000502-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000502-source">
+            onclick="toggleCode('M000503-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000503-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_util/io_helper.rb, line 32</span>
 32:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">open_from_url</span>(<span class="ruby-identifier">url</span>, <span class="ruby-identifier">options</span> = {})
@@ -184,11 +184,11 @@ the documentation for open-uri for more information. Example for options:
         </div>
       </div>
 
-      <div id="method-M000501" class="method-detail">
-        <a name="M000501"></a>
+      <div id="method-M000502" class="method-detail">
+        <a name="M000502"></a>
 
         <div class="method-heading">
-          <a href="#M000501" class="method-signature">
+          <a href="#M000502" class="method-signature">
           <span class="method-name">open_generic</span><span class="method-args">(url, options = {}) {|io| ...}</span>
           </a>
         </div>
@@ -199,12 +199,12 @@ Generic &quot;open&quot; method for files and urls. This won&#8216;t choke
 on file:// URLs and will do some extra escaping on the URL.
 </p>
 <p>
-See <a href="IoHelper.html#M000502">open_from_url</a> for an explanation of
+See <a href="IoHelper.html#M000503">open_from_url</a> for an explanation of
 the options
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000501-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000501-source">
+            onclick="toggleCode('M000502-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000502-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_util/io_helper.rb, line 13</span>
 13:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">open_generic</span>(<span class="ruby-identifier">url</span>, <span class="ruby-identifier">options</span> = {})

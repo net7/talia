@@ -83,17 +83,17 @@
     <div id="description">
       <p>
 This class provides an ordering on the related sources. It will load the
-related <a href="OrderedSource.html#M000383">elements</a> into an array.
+related <a href="OrderedSource.html#M000384">elements</a> into an array.
 All changes made to the <a href="OrderedSource.html">OrderedSource</a> will
 reflect on the Array, and will only be persisted to the store on save.
 </p>
 <p>
 The collection is contained in the <a
-href="OrderedSource.html#M000397">ordered_objects</a> - if you ever use
+href="OrderedSource.html#M000398">ordered_objects</a> - if you ever use
 that accessor all &quot;ordering&quot; relations for the object will be
 completely overwritten on saving. (You can still assign the predicates
 manually as long as the <a
-href="OrderedSource.html#M000397">ordered_objects</a> accesssor is not
+href="OrderedSource.html#M000398">ordered_objects</a> accesssor is not
 called before saving.)
 </p>
 
@@ -106,24 +106,24 @@ called before saving.)
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000390">add</a>&nbsp;&nbsp;
-      <a href="#M000385">at</a>&nbsp;&nbsp;
-      <a href="#M000391">delete</a>&nbsp;&nbsp;
-      <a href="#M000392">delete_all</a>&nbsp;&nbsp;
-      <a href="#M000383">elements</a>&nbsp;&nbsp;
-      <a href="#M000394">find_position_by_object</a>&nbsp;&nbsp;
-      <a href="#M000384">first</a>&nbsp;&nbsp;
-      <a href="#M000398">index_to_predicate</a>&nbsp;&nbsp;
-      <a href="#M000395">index_to_predicate</a>&nbsp;&nbsp;
-      <a href="#M000389">insert_at</a>&nbsp;&nbsp;
-      <a href="#M000382">new</a>&nbsp;&nbsp;
-      <a href="#M000386">next</a>&nbsp;&nbsp;
-      <a href="#M000397">ordered_objects</a>&nbsp;&nbsp;
-      <a href="#M000396">predicate_to_index</a>&nbsp;&nbsp;
-      <a href="#M000399">predicate_to_index</a>&nbsp;&nbsp;
-      <a href="#M000387">previous</a>&nbsp;&nbsp;
-      <a href="#M000393">replace</a>&nbsp;&nbsp;
-      <a href="#M000388">size</a>&nbsp;&nbsp;
+      <a href="#M000391">add</a>&nbsp;&nbsp;
+      <a href="#M000386">at</a>&nbsp;&nbsp;
+      <a href="#M000392">delete</a>&nbsp;&nbsp;
+      <a href="#M000393">delete_all</a>&nbsp;&nbsp;
+      <a href="#M000384">elements</a>&nbsp;&nbsp;
+      <a href="#M000395">find_position_by_object</a>&nbsp;&nbsp;
+      <a href="#M000385">first</a>&nbsp;&nbsp;
+      <a href="#M000399">index_to_predicate</a>&nbsp;&nbsp;
+      <a href="#M000396">index_to_predicate</a>&nbsp;&nbsp;
+      <a href="#M000390">insert_at</a>&nbsp;&nbsp;
+      <a href="#M000383">new</a>&nbsp;&nbsp;
+      <a href="#M000387">next</a>&nbsp;&nbsp;
+      <a href="#M000398">ordered_objects</a>&nbsp;&nbsp;
+      <a href="#M000397">predicate_to_index</a>&nbsp;&nbsp;
+      <a href="#M000400">predicate_to_index</a>&nbsp;&nbsp;
+      <a href="#M000388">previous</a>&nbsp;&nbsp;
+      <a href="#M000394">replace</a>&nbsp;&nbsp;
+      <a href="#M000389">size</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -158,11 +158,11 @@ called before saving.)
     <div id="methods">
       <h3 class="section-bar">Public Class methods</h3>
 
-      <div id="method-M000398" class="method-detail">
-        <a name="M000398"></a>
+      <div id="method-M000399" class="method-detail">
+        <a name="M000399"></a>
 
         <div class="method-heading">
-          <a href="#M000398" class="method-signature">
+          <a href="#M000399" class="method-signature">
           <span class="method-name">index_to_predicate</span><span class="method-args">(index)</span>
           </a>
         </div>
@@ -172,8 +172,8 @@ called before saving.)
 return string for index
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000398-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000398-source">
+            onclick="toggleCode('M000399-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000399-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 162</span>
 162:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">index_to_predicate</span>(<span class="ruby-identifier">index</span>)
@@ -184,11 +184,11 @@ return string for index
         </div>
       </div>
 
-      <div id="method-M000382" class="method-detail">
-        <a name="M000382"></a>
+      <div id="method-M000383" class="method-detail">
+        <a name="M000383"></a>
 
         <div class="method-heading">
-          <a href="#M000382" class="method-signature">
+          <a href="#M000383" class="method-signature">
           <span class="method-name">new</span><span class="method-args">(uri)</span>
           </a>
         </div>
@@ -198,8 +198,8 @@ return string for index
 Initialize SeqContainer
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000382-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000382-source">
+            onclick="toggleCode('M000383-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000383-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 18</span>
 18:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">uri</span>)
@@ -213,11 +213,11 @@ Initialize SeqContainer
         </div>
       </div>
 
-      <div id="method-M000399" class="method-detail">
-        <a name="M000399"></a>
+      <div id="method-M000400" class="method-detail">
+        <a name="M000400"></a>
 
         <div class="method-heading">
-          <a href="#M000399" class="method-signature">
+          <a href="#M000400" class="method-signature">
           <span class="method-name">predicate_to_index</span><span class="method-args">(predicate)</span>
           </a>
         </div>
@@ -227,8 +227,8 @@ Initialize SeqContainer
 return index of predicate
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000399-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000399-source">
+            onclick="toggleCode('M000400-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000400-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 167</span>
 167:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">predicate_to_index</span>(<span class="ruby-identifier">predicate</span>)
@@ -241,27 +241,27 @@ return index of predicate
 
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000390" class="method-detail">
-        <a name="M000390"></a>
+      <div id="method-M000391" class="method-detail">
+        <a name="M000391"></a>
 
         <div class="method-heading">
-          <a href="#M000390" class="method-signature">
+          <a href="#M000391" class="method-signature">
           <span class="method-name">add</span><span class="method-args">(object)</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Add <a href="OrderedSource.html#M000382">new</a> item to ordered source.
-This will <a href="OrderedSource.html#M000390">add</a> the object after the
+Add <a href="OrderedSource.html#M000383">new</a> item to ordered source.
+This will <a href="OrderedSource.html#M000391">add</a> the object after the
 last element. ATTENTION: If you <a
-href="OrderedSource.html#M000390">add</a> on an empty collection, it will
-start <a href="OrderedSource.html#M000385">at</a> index 1 (One), for
+href="OrderedSource.html#M000391">add</a> on an empty collection, it will
+start <a href="OrderedSource.html#M000386">at</a> index 1 (One), for
 backwards compatability
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000390-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000390-source">
+            onclick="toggleCode('M000391-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000391-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 99</span>
  99:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add</span>(<span class="ruby-identifier">object</span>)
@@ -273,26 +273,26 @@ backwards compatability
         </div>
       </div>
 
-      <div id="method-M000385" class="method-detail">
-        <a name="M000385"></a>
+      <div id="method-M000386" class="method-detail">
+        <a name="M000386"></a>
 
         <div class="method-heading">
-          <a href="#M000385" class="method-signature">
+          <a href="#M000386" class="method-signature">
           <span class="method-name">at</span><span class="method-args">(index)</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-return the item <a href="OrderedSource.html#M000385">at</a> position index.
+return the item <a href="OrderedSource.html#M000386">at</a> position index.
 </p>
 <pre>
  * index: int
  * return value: TaliaCore::ActiveSource
 </pre>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000385-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000385-source">
+            onclick="toggleCode('M000386-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000386-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 44</span>
 44:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">at</span>(<span class="ruby-identifier">index</span>)
@@ -304,11 +304,11 @@ return the item <a href="OrderedSource.html#M000385">at</a> position index.
         </div>
       </div>
 
-      <div id="method-M000391" class="method-detail">
-        <a name="M000391"></a>
+      <div id="method-M000392" class="method-detail">
+        <a name="M000392"></a>
 
         <div class="method-heading">
-          <a href="#M000391" class="method-signature">
+          <a href="#M000392" class="method-signature">
           <span class="method-name">delete</span><span class="method-args">(index)</span>
           </a>
         </div>
@@ -317,11 +317,11 @@ return the item <a href="OrderedSource.html#M000385">at</a> position index.
           <p>
 remove an existing object to ordered source. This will reorder the existing
 positions if deleting from the middle! If you don&#8216;t want that use <a
-href="OrderedSource.html#M000389">insert_at</a>(index, nil)
+href="OrderedSource.html#M000390">insert_at</a>(index, nil)
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000391-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000391-source">
+            onclick="toggleCode('M000392-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000392-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 107</span>
 107:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">delete</span>(<span class="ruby-identifier">index</span>)
@@ -332,11 +332,11 @@ href="OrderedSource.html#M000389">insert_at</a>(index, nil)
         </div>
       </div>
 
-      <div id="method-M000392" class="method-detail">
-        <a name="M000392"></a>
+      <div id="method-M000393" class="method-detail">
+        <a name="M000393"></a>
 
         <div class="method-heading">
-          <a href="#M000392" class="method-signature">
+          <a href="#M000393" class="method-signature">
           <span class="method-name">delete_all</span><span class="method-args">()</span>
           </a>
         </div>
@@ -344,16 +344,16 @@ href="OrderedSource.html#M000389">insert_at</a>(index, nil)
         <div class="method-description">
           <p>
 remove all existing object to ordered source TODO: This will not reliably
-<a href="OrderedSource.html#M000391">delete</a> all <a
-href="OrderedSource.html#M000383">elements</a>, since the <a
-href="OrderedSource.html#M000388">size</a>
+<a href="OrderedSource.html#M000392">delete</a> all <a
+href="OrderedSource.html#M000384">elements</a>, since the <a
+href="OrderedSource.html#M000389">size</a>
 </p>
 <pre>
       value is not reliable
 </pre>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000392-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000392-source">
+            onclick="toggleCode('M000393-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000393-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 114</span>
 114:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">delete_all</span>
@@ -364,30 +364,30 @@ href="OrderedSource.html#M000388">size</a>
         </div>
       </div>
 
-      <div id="method-M000383" class="method-detail">
-        <a name="M000383"></a>
+      <div id="method-M000384" class="method-detail">
+        <a name="M000384"></a>
 
         <div class="method-heading">
-          <a href="#M000383" class="method-signature">
+          <a href="#M000384" class="method-signature">
           <span class="method-name">elements</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Returns all <a href="OrderedSource.html#M000383">elements</a> (not the
+Returns all <a href="OrderedSource.html#M000384">elements</a> (not the
 relations) in an ordered array. Unlike the <a
-href="OrderedSource.html#M000397">ordered_objects</a> accessor this will
-not include nil <a href="OrderedSource.html#M000383">elements</a> and the
+href="OrderedSource.html#M000398">ordered_objects</a> accessor this will
+not include nil <a href="OrderedSource.html#M000384">elements</a> and the
 index will not have a 1:1 relation to the position of the elment.
 </p>
 <p>
-The ordering of the <a href="OrderedSource.html#M000383">elements</a> will
+The ordering of the <a href="OrderedSource.html#M000384">elements</a> will
 be preserved, though.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000383-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000383-source">
+            onclick="toggleCode('M000384-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000384-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 30</span>
 30:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">elements</span>
@@ -399,11 +399,11 @@ be preserved, though.
         </div>
       </div>
 
-      <div id="method-M000394" class="method-detail">
-        <a name="M000394"></a>
+      <div id="method-M000395" class="method-detail">
+        <a name="M000395"></a>
 
         <div class="method-heading">
-          <a href="#M000394" class="method-signature">
+          <a href="#M000395" class="method-signature">
           <span class="method-name">find_position_by_object</span><span class="method-args">(object)</span>
           </a>
         </div>
@@ -411,11 +411,11 @@ be preserved, though.
         <div class="method-description">
           <p>
 Find the position index of the given object. This will always find the <a
-href="OrderedSource.html#M000384">first</a> occurence
+href="OrderedSource.html#M000385">first</a> occurence
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000394-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000394-source">
+            onclick="toggleCode('M000395-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000395-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 127</span>
 127:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">find_position_by_object</span>(<span class="ruby-identifier">object</span>)
@@ -426,23 +426,23 @@ href="OrderedSource.html#M000384">first</a> occurence
         </div>
       </div>
 
-      <div id="method-M000384" class="method-detail">
-        <a name="M000384"></a>
+      <div id="method-M000385" class="method-detail">
+        <a name="M000385"></a>
 
         <div class="method-heading">
-          <a href="#M000384" class="method-signature">
+          <a href="#M000385" class="method-signature">
           <span class="method-name">first</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Returns the <a href="OrderedSource.html#M000384">first</a> element of the
+Returns the <a href="OrderedSource.html#M000385">first</a> element of the
 collection
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000384-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000384-source">
+            onclick="toggleCode('M000385-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000385-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 36</span>
 36:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">first</span>
@@ -453,11 +453,11 @@ collection
         </div>
       </div>
 
-      <div id="method-M000395" class="method-detail">
-        <a name="M000395"></a>
+      <div id="method-M000396" class="method-detail">
+        <a name="M000396"></a>
 
         <div class="method-heading">
-          <a href="#M000395" class="method-signature">
+          <a href="#M000396" class="method-signature">
           <span class="method-name">index_to_predicate</span><span class="method-args">(index)</span>
           </a>
         </div>
@@ -467,8 +467,8 @@ collection
 return string for index
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000395-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000395-source">
+            onclick="toggleCode('M000396-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000396-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 132</span>
 132:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">index_to_predicate</span>(<span class="ruby-identifier">index</span>)
@@ -479,23 +479,23 @@ return string for index
         </div>
       </div>
 
-      <div id="method-M000389" class="method-detail">
-        <a name="M000389"></a>
+      <div id="method-M000390" class="method-detail">
+        <a name="M000390"></a>
 
         <div class="method-heading">
-          <a href="#M000389" class="method-signature">
+          <a href="#M000390" class="method-signature">
           <span class="method-name">insert_at</span><span class="method-args">(index, object)</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Inserts an element <a href="OrderedSource.html#M000385">at</a> the given
+Inserts an element <a href="OrderedSource.html#M000386">at</a> the given
 index.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000389-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000389-source">
+            onclick="toggleCode('M000390-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000390-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 92</span>
 92:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">insert_at</span>(<span class="ruby-identifier">index</span>, <span class="ruby-identifier">object</span>)
@@ -506,28 +506,28 @@ index.
         </div>
       </div>
 
-      <div id="method-M000386" class="method-detail">
-        <a name="M000386"></a>
+      <div id="method-M000387" class="method-detail">
+        <a name="M000387"></a>
 
         <div class="method-heading">
-          <a href="#M000386" class="method-signature">
+          <a href="#M000387" class="method-signature">
           <span class="method-name">next</span><span class="method-args">(current_element = nil)</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-return <a href="OrderedSource.html#M000386">next</a> item
+return <a href="OrderedSource.html#M000387">next</a> item
 </p>
 <ul>
 <li>current_element: int or string. Current element. If nil, the index is the
-last integer used with <a href="OrderedSource.html#M000385">at</a> method
+last integer used with <a href="OrderedSource.html#M000386">at</a> method
 
 </li>
 </ul>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000386-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000386-source">
+            onclick="toggleCode('M000387-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000387-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 51</span>
 51:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">next</span>(<span class="ruby-identifier">current_element</span> = <span class="ruby-keyword kw">nil</span>)
@@ -547,11 +547,11 @@ last integer used with <a href="OrderedSource.html#M000385">at</a> method
         </div>
       </div>
 
-      <div id="method-M000397" class="method-detail">
-        <a name="M000397"></a>
+      <div id="method-M000398" class="method-detail">
+        <a name="M000398"></a>
 
         <div class="method-heading">
-          <a href="#M000397" class="method-signature">
+          <a href="#M000398" class="method-signature">
           <span class="method-name">ordered_objects</span><span class="method-args">()</span>
           </a>
         </div>
@@ -564,8 +564,8 @@ zero-based, position that don&#8216;t have an object attached will be set
 to nil.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000397-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000397-source">
+            onclick="toggleCode('M000398-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000398-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 145</span>
 145:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">ordered_objects</span>
@@ -588,11 +588,11 @@ to nil.
         </div>
       </div>
 
-      <div id="method-M000396" class="method-detail">
-        <a name="M000396"></a>
+      <div id="method-M000397" class="method-detail">
+        <a name="M000397"></a>
 
         <div class="method-heading">
-          <a href="#M000396" class="method-signature">
+          <a href="#M000397" class="method-signature">
           <span class="method-name">predicate_to_index</span><span class="method-args">(predicate)</span>
           </a>
         </div>
@@ -602,8 +602,8 @@ to nil.
 return index of predicate
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000396-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000396-source">
+            onclick="toggleCode('M000397-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000397-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 137</span>
 137:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">predicate_to_index</span>(<span class="ruby-identifier">predicate</span>)
@@ -614,28 +614,28 @@ return index of predicate
         </div>
       </div>
 
-      <div id="method-M000387" class="method-detail">
-        <a name="M000387"></a>
+      <div id="method-M000388" class="method-detail">
+        <a name="M000388"></a>
 
         <div class="method-heading">
-          <a href="#M000387" class="method-signature">
+          <a href="#M000388" class="method-signature">
           <span class="method-name">previous</span><span class="method-args">(current_element = nil)</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-return <a href="OrderedSource.html#M000387">previous</a> item
+return <a href="OrderedSource.html#M000388">previous</a> item
 </p>
 <ul>
 <li>current_element: int or string. Current element. If nil, the index is the
-last integer used with <a href="OrderedSource.html#M000385">at</a> method
+last integer used with <a href="OrderedSource.html#M000386">at</a> method
 
 </li>
 </ul>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000387-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000387-source">
+            onclick="toggleCode('M000388-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000388-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 66</span>
 66:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">previous</span>(<span class="ruby-identifier">current_element</span> = <span class="ruby-keyword kw">nil</span>)
@@ -655,18 +655,18 @@ last integer used with <a href="OrderedSource.html#M000385">at</a> method
         </div>
       </div>
 
-      <div id="method-M000393" class="method-detail">
-        <a name="M000393"></a>
+      <div id="method-M000394" class="method-detail">
+        <a name="M000394"></a>
 
         <div class="method-heading">
-          <a href="#M000393" class="method-signature">
+          <a href="#M000394" class="method-signature">
           <span class="method-name">replace</span><span class="method-args">(index, object)</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-<a href="OrderedSource.html#M000393">replace</a> item as position index
+<a href="OrderedSource.html#M000394">replace</a> item as position index
 with object
 </p>
 <ul>
@@ -678,8 +678,8 @@ with object
 </li>
 </ul>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000393-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000393-source">
+            onclick="toggleCode('M000394-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000394-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 121</span>
 121:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">replace</span>(<span class="ruby-identifier">index</span>, <span class="ruby-identifier">object</span>)
@@ -690,35 +690,35 @@ with object
         </div>
       </div>
 
-      <div id="method-M000388" class="method-detail">
-        <a name="M000388"></a>
+      <div id="method-M000389" class="method-detail">
+        <a name="M000389"></a>
 
         <div class="method-heading">
-          <a href="#M000388" class="method-signature">
+          <a href="#M000389" class="method-signature">
           <span class="method-name">size</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Return the &quot;<a href="OrderedSource.html#M000388">size</a>&quot; of the
+Return the &quot;<a href="OrderedSource.html#M000389">size</a>&quot; of the
 collection. This is actually the maximum position index that is used. The
 value is cached internally and will be increased on <a
-href="OrderedSource.html#M000389">insert_at</a> (only if inserting <a
-href="OrderedSource.html#M000385">at</a> a value larger <a
-href="OrderedSource.html#M000385">at</a> the current <a
-href="OrderedSource.html#M000388">size</a>) and on the <a
-href="OrderedSource.html#M000390">add</a> operation. If <a
-href="OrderedSource.html#M000383">elements</a> are added in another way,
+href="OrderedSource.html#M000390">insert_at</a> (only if inserting <a
+href="OrderedSource.html#M000386">at</a> a value larger <a
+href="OrderedSource.html#M000386">at</a> the current <a
+href="OrderedSource.html#M000389">size</a>) and on the <a
+href="OrderedSource.html#M000391">add</a> operation. If <a
+href="OrderedSource.html#M000384">elements</a> are added in another way,
 the count may be off, but in that case it would be off anyway. Delete will
-decrease the <a href="OrderedSource.html#M000388">size</a> by 1, if the
-index removed equals the <a href="OrderedSource.html#M000388">size</a>
+decrease the <a href="OrderedSource.html#M000389">size</a> by 1, if the
+index removed equals the <a href="OrderedSource.html#M000389">size</a>
 (this is a rough guess which may be off!) The cached counter will be reset
 on saving.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000388-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000388-source">
+            onclick="toggleCode('M000389-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000389-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/ordered_source.rb, line 87</span>
 87:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">size</span>

@@ -97,12 +97,12 @@ they should <em>usually</em> be in sync:
 </p>
 <ul>
 <li>Write operations are usually lazy, the <a
-href="ActiveSource.html#M000360">data</a> should only be saved once save!
+href="ActiveSource.html#M000361">data</a> should only be saved once save!
 is called. However, ActiveRecord may still decide that the objects need to
 be saved if they are involved in other operations.
 
 </li>
-<li>Operations that clear a <a href="ActiveSource.html#M000347">predicate</a>
+<li>Operations that clear a <a href="ActiveSource.html#M000348">predicate</a>
 are <b>immediate</b>. That also means that using singular property setter,
 if used will immediately erase the old value. If the record is not saved,
 the property will be left empty (and not revert to the original value!)
@@ -119,31 +119,31 @@ the property will be left empty (and not revert to the original value!)
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000338">[]</a>&nbsp;&nbsp;
-      <a href="#M000340">[]=</a>&nbsp;&nbsp;
-      <a href="#M000358">add_additional_rdf_types</a>&nbsp;&nbsp;
-      <a href="#M000345">add_semantic_attributes</a>&nbsp;&nbsp;
-      <a href="#M000359">attach_files</a>&nbsp;&nbsp;
-      <a href="#M000360">data</a>&nbsp;&nbsp;
-      <a href="#M000354">db_attr?</a>&nbsp;&nbsp;
-      <a href="#M000351">direct_predicates</a>&nbsp;&nbsp;
-      <a href="#M000339">get_attribute</a>&nbsp;&nbsp;
-      <a href="#M000353">has_type?</a>&nbsp;&nbsp;
-      <a href="#M000346">inverse</a>&nbsp;&nbsp;
-      <a href="#M000352">inverse_predicates</a>&nbsp;&nbsp;
-      <a href="#M000347">predicate</a>&nbsp;&nbsp;
-      <a href="#M000350">predicate_replace</a>&nbsp;&nbsp;
-      <a href="#M000348">predicate_set</a>&nbsp;&nbsp;
-      <a href="#M000349">predicate_set_uniq</a>&nbsp;&nbsp;
-      <a href="#M000343">rewrite_attributes</a>&nbsp;&nbsp;
-      <a href="#M000344">rewrite_attributes!</a>&nbsp;&nbsp;
-      <a href="#M000357">to_rdf</a>&nbsp;&nbsp;
-      <a href="#M000337">to_s</a>&nbsp;&nbsp;
-      <a href="#M000356">to_xml</a>&nbsp;&nbsp;
-      <a href="#M000341">update_attributes</a>&nbsp;&nbsp;
-      <a href="#M000342">update_attributes!</a>&nbsp;&nbsp;
-      <a href="#M000336">value_for</a>&nbsp;&nbsp;
-      <a href="#M000355">write_predicate_direct</a>&nbsp;&nbsp;
+      <a href="#M000339">[]</a>&nbsp;&nbsp;
+      <a href="#M000341">[]=</a>&nbsp;&nbsp;
+      <a href="#M000359">add_additional_rdf_types</a>&nbsp;&nbsp;
+      <a href="#M000346">add_semantic_attributes</a>&nbsp;&nbsp;
+      <a href="#M000360">attach_files</a>&nbsp;&nbsp;
+      <a href="#M000361">data</a>&nbsp;&nbsp;
+      <a href="#M000355">db_attr?</a>&nbsp;&nbsp;
+      <a href="#M000352">direct_predicates</a>&nbsp;&nbsp;
+      <a href="#M000340">get_attribute</a>&nbsp;&nbsp;
+      <a href="#M000354">has_type?</a>&nbsp;&nbsp;
+      <a href="#M000347">inverse</a>&nbsp;&nbsp;
+      <a href="#M000353">inverse_predicates</a>&nbsp;&nbsp;
+      <a href="#M000348">predicate</a>&nbsp;&nbsp;
+      <a href="#M000351">predicate_replace</a>&nbsp;&nbsp;
+      <a href="#M000349">predicate_set</a>&nbsp;&nbsp;
+      <a href="#M000350">predicate_set_uniq</a>&nbsp;&nbsp;
+      <a href="#M000344">rewrite_attributes</a>&nbsp;&nbsp;
+      <a href="#M000345">rewrite_attributes!</a>&nbsp;&nbsp;
+      <a href="#M000358">to_rdf</a>&nbsp;&nbsp;
+      <a href="#M000338">to_s</a>&nbsp;&nbsp;
+      <a href="#M000357">to_xml</a>&nbsp;&nbsp;
+      <a href="#M000342">update_attributes</a>&nbsp;&nbsp;
+      <a href="#M000343">update_attributes!</a>&nbsp;&nbsp;
+      <a href="#M000337">value_for</a>&nbsp;&nbsp;
+      <a href="#M000356">write_predicate_direct</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -199,11 +199,11 @@ Make aliases for the original updating methods
     <div id="methods">
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000338" class="method-detail">
-        <a name="M000338"></a>
+      <div id="method-M000339" class="method-detail">
+        <a name="M000339"></a>
 
         <div class="method-heading">
-          <a href="#M000338" class="method-signature">
+          <a href="#M000339" class="method-signature">
           <span class="method-name">[]</span><span class="method-args">(attribute)</span>
           </a>
         </div>
@@ -212,15 +212,15 @@ Make aliases for the original updating methods
           <p>
 Works in the normal way for database attributes. If the value is not an
 attribute, it tries to find objects related to this source with the value
-as a <a href="ActiveSource.html#M000347">predicate</a> URL and returns a
+as a <a href="ActiveSource.html#M000348">predicate</a> URL and returns a
 collection of those.
 </p>
 <p>
 The assignment operator remains as it is for the ActiveRecord.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000338-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000338-source">
+            onclick="toggleCode('M000339-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000339-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 86</span>
 86:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">attribute</span>)
@@ -235,11 +235,11 @@ The assignment operator remains as it is for the ActiveRecord.
         </div>
       </div>
 
-      <div id="method-M000340" class="method-detail">
-        <a name="M000340"></a>
+      <div id="method-M000341" class="method-detail">
+        <a name="M000341"></a>
 
         <div class="method-heading">
-          <a href="#M000340" class="method-signature">
+          <a href="#M000341" class="method-signature">
           <span class="method-name">[]=</span><span class="method-args">(attribute, value)</span>
           </a>
         </div>
@@ -249,8 +249,8 @@ The assignment operator remains as it is for the ActiveRecord.
 Assignment to an attribute. This will overwrite all current triples.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000340-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000340-source">
+            onclick="toggleCode('M000341-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000341-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 96</span>
  96:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">[]=</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">value</span>)
@@ -267,11 +267,11 @@ Assignment to an attribute. This will overwrite all current triples.
         </div>
       </div>
 
-      <div id="method-M000358" class="method-detail">
-        <a name="M000358"></a>
+      <div id="method-M000359" class="method-detail">
+        <a name="M000359"></a>
 
         <div class="method-heading">
-          <a href="#M000358" class="method-signature">
+          <a href="#M000359" class="method-signature">
           <span class="method-name">add_additional_rdf_types</span><span class="method-args">()</span>
           </a>
         </div>
@@ -286,8 +286,8 @@ called during construction.
 This will check the existing types to avoid duplication
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000358-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000358-source">
+            onclick="toggleCode('M000359-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000359-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 273</span>
 273:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_additional_rdf_types</span>
@@ -303,11 +303,11 @@ This will check the existing types to avoid duplication
         </div>
       </div>
 
-      <div id="method-M000345" class="method-detail">
-        <a name="M000345"></a>
+      <div id="method-M000346" class="method-detail">
+        <a name="M000346"></a>
 
         <div class="method-heading">
-          <a href="#M000345" class="method-signature">
+          <a href="#M000346" class="method-signature">
           <span class="method-name">add_semantic_attributes</span><span class="method-args">(overwrite, attributes)</span>
           </a>
         </div>
@@ -324,8 +324,8 @@ replaced with the values from the hash. Otherwise the attribute values will
 be added to the existing ones
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000345-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000345-source">
+            onclick="toggleCode('M000346-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000346-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 147</span>
 147:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_semantic_attributes</span>(<span class="ruby-identifier">overwrite</span>, <span class="ruby-identifier">attributes</span>)
@@ -341,11 +341,11 @@ be added to the existing ones
         </div>
       </div>
 
-      <div id="method-M000359" class="method-detail">
-        <a name="M000359"></a>
+      <div id="method-M000360" class="method-detail">
+        <a name="M000360"></a>
 
         <div class="method-heading">
-          <a href="#M000359" class="method-signature">
+          <a href="#M000360" class="method-signature">
           <span class="method-name">attach_files</span><span class="method-args">(files)</span>
           </a>
         </div>
@@ -367,8 +367,8 @@ also provide a single hash for :files (instead of an array) if you have
 just one file. Files will be saved immediately.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000359-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000359-source">
+            onclick="toggleCode('M000360-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000360-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 292</span>
 292:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">attach_files</span>(<span class="ruby-identifier">files</span>)
@@ -386,11 +386,11 @@ just one file. Files will be saved immediately.
         </div>
       </div>
 
-      <div id="method-M000360" class="method-detail">
-        <a name="M000360"></a>
+      <div id="method-M000361" class="method-detail">
+        <a name="M000361"></a>
 
         <div class="method-heading">
-          <a href="#M000360" class="method-signature">
+          <a href="#M000361" class="method-signature">
           <span class="method-name">data</span><span class="method-args">(type = nil, location= nil)</span>
           </a>
         </div>
@@ -398,14 +398,14 @@ just one file. Files will be saved immediately.
         <div class="method-description">
           <p>
 This will return a list of DataRecord objects. Without parameters, this
-returns all <a href="ActiveSource.html#M000360">data</a> elements on the
+returns all <a href="ActiveSource.html#M000361">data</a> elements on the
 source. If a type is given, it will return only the elements of the given
 type. If both type and location are given, it will retrieve only the
-specified <a href="ActiveSource.html#M000360">data</a> element
+specified <a href="ActiveSource.html#M000361">data</a> element
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000360-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000360-source">
+            onclick="toggleCode('M000361-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000361-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 307</span>
 307:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">data</span>(<span class="ruby-identifier">type</span> = <span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">location</span>= <span class="ruby-keyword kw">nil</span>)
@@ -420,11 +420,11 @@ specified <a href="ActiveSource.html#M000360">data</a> element
         </div>
       </div>
 
-      <div id="method-M000354" class="method-detail">
-        <a name="M000354"></a>
+      <div id="method-M000355" class="method-detail">
+        <a name="M000355"></a>
 
         <div class="method-heading">
-          <a href="#M000354" class="method-signature">
+          <a href="#M000355" class="method-signature">
           <span class="method-name">db_attr?</span><span class="method-args">(attribute)</span>
           </a>
         </div>
@@ -434,8 +434,8 @@ specified <a href="ActiveSource.html#M000360">data</a> element
 True if the given attribute is a database attribute
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000354-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000354-source">
+            onclick="toggleCode('M000355-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000355-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 227</span>
 227:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">db_attr?</span>(<span class="ruby-identifier">attribute</span>)
@@ -446,11 +446,11 @@ True if the given attribute is a database attribute
         </div>
       </div>
 
-      <div id="method-M000351" class="method-detail">
-        <a name="M000351"></a>
+      <div id="method-M000352" class="method-detail">
+        <a name="M000352"></a>
 
         <div class="method-heading">
-          <a href="#M000351" class="method-signature">
+          <a href="#M000352" class="method-signature">
           <span class="method-name">direct_predicates</span><span class="method-args">()</span>
           </a>
         </div>
@@ -460,8 +460,8 @@ True if the given attribute is a database attribute
 Gets the direct predicates (using the database)
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000351-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000351-source">
+            onclick="toggleCode('M000352-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000352-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 208</span>
 208:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">direct_predicates</span>
@@ -474,8 +474,8 @@ Gets the direct predicates (using the database)
         </div>
       </div>
 
-      <div id="method-M000339" class="method-detail">
-        <a name="M000339"></a>
+      <div id="method-M000340" class="method-detail">
+        <a name="M000340"></a>
 
         <div class="method-heading">
           <span class="method-name">get_attribute</span><span class="method-args">(attribute)</span>
@@ -488,11 +488,11 @@ Alias for #[]
         </div>
       </div>
 
-      <div id="method-M000353" class="method-detail">
-        <a name="M000353"></a>
+      <div id="method-M000354" class="method-detail">
+        <a name="M000354"></a>
 
         <div class="method-heading">
-          <a href="#M000353" class="method-signature">
+          <a href="#M000354" class="method-signature">
           <span class="method-name">has_type?</span><span class="method-args">(type)</span>
           </a>
         </div>
@@ -502,8 +502,8 @@ Alias for #[]
 Returns if the Facsimile is of the given type
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000353-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000353-source">
+            onclick="toggleCode('M000354-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000354-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 222</span>
 222:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_type?</span>(<span class="ruby-identifier">type</span>)
@@ -514,11 +514,11 @@ Returns if the Facsimile is of the given type
         </div>
       </div>
 
-      <div id="method-M000346" class="method-detail">
-        <a name="M000346"></a>
+      <div id="method-M000347" class="method-detail">
+        <a name="M000347"></a>
 
         <div class="method-heading">
-          <a href="#M000346" class="method-signature">
+          <a href="#M000347" class="method-signature">
           <span class="method-name">inverse</span><span class="method-args">()</span>
           </a>
         </div>
@@ -526,22 +526,22 @@ Returns if the Facsimile is of the given type
         <div class="method-description">
           <p>
 Returns a special object which collects the &quot;<a
-href="ActiveSource.html#M000346">inverse</a>&quot; properties of the <a
+href="ActiveSource.html#M000347">inverse</a>&quot; properties of the <a
 href="Source.html">Source</a> - these are all RDF properties which have the
 current <a href="Source.html">Source</a> as the object.
 </p>
 <p>
 The returned object supports the [] operator, which allows to fetch the
-&quot;<a href="ActiveSource.html#M000346">inverse</a>&quot; (the RDF
-subjects) for the given <a href="ActiveSource.html#M000347">predicate</a>.
+&quot;<a href="ActiveSource.html#M000347">inverse</a>&quot; (the RDF
+subjects) for the given <a href="ActiveSource.html#M000348">predicate</a>.
 </p>
 <p>
 Example: <tt>person.inverse[N::FOO::creator]</tt> would return a list of
 all the elements of which the current person is the creator.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000346-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000346-source">
+            onclick="toggleCode('M000347-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000347-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 165</span>
 165:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">inverse</span>
@@ -564,22 +564,22 @@ all the elements of which the current person is the creator.
         </div>
       </div>
 
-      <div id="method-M000352" class="method-detail">
-        <a name="M000352"></a>
+      <div id="method-M000353" class="method-detail">
+        <a name="M000353"></a>
 
         <div class="method-heading">
-          <a href="#M000352" class="method-signature">
+          <a href="#M000353" class="method-signature">
           <span class="method-name">inverse_predicates</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Gets the <a href="ActiveSource.html#M000346">inverse</a> predicates
+Gets the <a href="ActiveSource.html#M000347">inverse</a> predicates
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000352-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000352-source">
+            onclick="toggleCode('M000353-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000353-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 215</span>
 215:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">inverse_predicates</span>
@@ -592,11 +592,11 @@ Gets the <a href="ActiveSource.html#M000346">inverse</a> predicates
         </div>
       </div>
 
-      <div id="method-M000347" class="method-detail">
-        <a name="M000347"></a>
+      <div id="method-M000348" class="method-detail">
+        <a name="M000348"></a>
 
         <div class="method-heading">
-          <a href="#M000347" class="method-signature">
+          <a href="#M000348" class="method-signature">
           <span class="method-name">predicate</span><span class="method-args">(namespace, name)</span>
           </a>
         </div>
@@ -608,8 +608,8 @@ like the [] method: I will return an array-like object on predicates can be
 manipulated.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000347-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000347-source">
+            onclick="toggleCode('M000348-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000348-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 184</span>
 184:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">predicate</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">name</span>)
@@ -620,23 +620,23 @@ manipulated.
         </div>
       </div>
 
-      <div id="method-M000350" class="method-detail">
-        <a name="M000350"></a>
+      <div id="method-M000351" class="method-detail">
+        <a name="M000351"></a>
 
         <div class="method-heading">
-          <a href="#M000350" class="method-signature">
+          <a href="#M000351" class="method-signature">
           <span class="method-name">predicate_replace</span><span class="method-args">(namespace, name, value)</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Replaces the given <a href="ActiveSource.html#M000347">predicate</a> with
+Replaces the given <a href="ActiveSource.html#M000348">predicate</a> with
 the value. Good for one-value predicates
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000350-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000350-source">
+            onclick="toggleCode('M000351-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000351-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 201</span>
 201:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">predicate_replace</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span>)
@@ -649,11 +649,11 @@ the value. Good for one-value predicates
         </div>
       </div>
 
-      <div id="method-M000348" class="method-detail">
-        <a name="M000348"></a>
+      <div id="method-M000349" class="method-detail">
+        <a name="M000349"></a>
 
         <div class="method-heading">
-          <a href="#M000348" class="method-signature">
+          <a href="#M000349" class="method-signature">
           <span class="method-name">predicate_set</span><span class="method-args">(namespace, name, value)</span>
           </a>
         </div>
@@ -664,8 +664,8 @@ Setter method for predicates by namespace/name combination. This will *add
 a precdicate triple, not replace one!*
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000348-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000348-source">
+            onclick="toggleCode('M000349-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000349-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 190</span>
 190:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">predicate_set</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span>)
@@ -676,11 +676,11 @@ a precdicate triple, not replace one!*
         </div>
       </div>
 
-      <div id="method-M000349" class="method-detail">
-        <a name="M000349"></a>
+      <div id="method-M000350" class="method-detail">
+        <a name="M000350"></a>
 
         <div class="method-heading">
-          <a href="#M000349" class="method-signature">
+          <a href="#M000350" class="method-signature">
           <span class="method-name">predicate_set_uniq</span><span class="method-args">(namespace, name, value)</span>
           </a>
         </div>
@@ -691,8 +691,8 @@ Setter method that will only add the value if it doesn&#8216;t exist
 already
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000349-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000349-source">
+            onclick="toggleCode('M000350-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000350-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 195</span>
 195:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">predicate_set_uniq</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span>)
@@ -704,23 +704,23 @@ already
         </div>
       </div>
 
-      <div id="method-M000343" class="method-detail">
-        <a name="M000343"></a>
+      <div id="method-M000344" class="method-detail">
+        <a name="M000344"></a>
 
         <div class="method-heading">
-          <a href="#M000343" class="method-signature">
+          <a href="#M000344" class="method-signature">
           <span class="method-name">rewrite_attributes</span><span class="method-args">(attributes) {|self if(block_given?)| ...}</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Works like <a href="ActiveSource.html#M000341">update_attributes</a>, but
+Works like <a href="ActiveSource.html#M000342">update_attributes</a>, but
 will replace the semantic attributes rather than adding to them.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000343-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000343-source">
+            onclick="toggleCode('M000344-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000344-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 129</span>
 129:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rewrite_attributes</span>(<span class="ruby-identifier">attributes</span>)
@@ -732,23 +732,23 @@ will replace the semantic attributes rather than adding to them.
         </div>
       </div>
 
-      <div id="method-M000344" class="method-detail">
-        <a name="M000344"></a>
+      <div id="method-M000345" class="method-detail">
+        <a name="M000345"></a>
 
         <div class="method-heading">
-          <a href="#M000344" class="method-signature">
+          <a href="#M000345" class="method-signature">
           <span class="method-name">rewrite_attributes!</span><span class="method-args">(attributes) {|self if(block_given?)| ...}</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Like <a href="ActiveSource.html#M000343">rewrite_attributes</a>, but
+Like <a href="ActiveSource.html#M000344">rewrite_attributes</a>, but
 calling save!
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000344-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000344-source">
+            onclick="toggleCode('M000345-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000345-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 135</span>
 135:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rewrite_attributes!</span>(<span class="ruby-identifier">attributes</span>)
@@ -760,11 +760,11 @@ calling save!
         </div>
       </div>
 
-      <div id="method-M000357" class="method-detail">
-        <a name="M000357"></a>
+      <div id="method-M000358" class="method-detail">
+        <a name="M000358"></a>
 
         <div class="method-heading">
-          <a href="#M000357" class="method-signature">
+          <a href="#M000358" class="method-signature">
           <span class="method-name">to_rdf</span><span class="method-args">()</span>
           </a>
         </div>
@@ -775,8 +775,8 @@ Creates an RDF/XML resprentation of the source. The object is saved if this
 is a new record.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000357-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000357-source">
+            onclick="toggleCode('M000358-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000358-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 263</span>
 263:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_rdf</span>
@@ -788,11 +788,11 @@ is a new record.
         </div>
       </div>
 
-      <div id="method-M000337" class="method-detail">
-        <a name="M000337"></a>
+      <div id="method-M000338" class="method-detail">
+        <a name="M000338"></a>
 
         <div class="method-heading">
-          <a href="#M000337" class="method-signature">
+          <a href="#M000338" class="method-signature">
           <span class="method-name">to_s</span><span class="method-args">()</span>
           </a>
         </div>
@@ -800,12 +800,12 @@ is a new record.
         <div class="method-description">
           <p>
 To string: Just return the URI. Use <a
-href="ActiveSource.html#M000356">to_xml</a> if you need something more
+href="ActiveSource.html#M000357">to_xml</a> if you need something more
 involved.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000337-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000337-source">
+            onclick="toggleCode('M000338-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000338-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 77</span>
 77:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>
@@ -816,11 +816,11 @@ involved.
         </div>
       </div>
 
-      <div id="method-M000356" class="method-detail">
-        <a name="M000356"></a>
+      <div id="method-M000357" class="method-detail">
+        <a name="M000357"></a>
 
         <div class="method-heading">
-          <a href="#M000356" class="method-signature">
+          <a href="#M000357" class="method-signature">
           <span class="method-name">to_xml</span><span class="method-args">()</span>
           </a>
         </div>
@@ -831,8 +831,8 @@ XML Representation of the source. The object is saved if this is a new
 record.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000356-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000356-source">
+            onclick="toggleCode('M000357-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000357-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 256</span>
 256:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_xml</span>
@@ -844,11 +844,11 @@ record.
         </div>
       </div>
 
-      <div id="method-M000341" class="method-detail">
-        <a name="M000341"></a>
+      <div id="method-M000342" class="method-detail">
+        <a name="M000342"></a>
 
         <div class="method-heading">
-          <a href="#M000341" class="method-signature">
+          <a href="#M000342" class="method-signature">
           <span class="method-name">update_attributes</span><span class="method-args">(attributes) {|self if(block_given?)| ...}</span>
           </a>
         </div>
@@ -866,8 +866,8 @@ store.
 After the update, the source will be saved.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000341-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000341-source">
+            onclick="toggleCode('M000342-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000342-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 116</span>
 116:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">update_attributes</span>(<span class="ruby-identifier">attributes</span>)
@@ -879,23 +879,23 @@ After the update, the source will be saved.
         </div>
       </div>
 
-      <div id="method-M000342" class="method-detail">
-        <a name="M000342"></a>
+      <div id="method-M000343" class="method-detail">
+        <a name="M000343"></a>
 
         <div class="method-heading">
-          <a href="#M000342" class="method-signature">
+          <a href="#M000343" class="method-signature">
           <span class="method-name">update_attributes!</span><span class="method-args">(attributes) {|self if(block_given?)| ...}</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-As <a href="ActiveSource.html#M000341">update_attributes</a>, but uses
+As <a href="ActiveSource.html#M000342">update_attributes</a>, but uses
 save! to save the source
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000342-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000342-source">
+            onclick="toggleCode('M000343-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000343-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 122</span>
 122:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">update_attributes!</span>(<span class="ruby-identifier">attributes</span>)
@@ -907,11 +907,11 @@ save! to save the source
         </div>
       </div>
 
-      <div id="method-M000336" class="method-detail">
-        <a name="M000336"></a>
+      <div id="method-M000337" class="method-detail">
+        <a name="M000337"></a>
 
         <div class="method-heading">
-          <a href="#M000336" class="method-signature">
+          <a href="#M000337" class="method-signature">
           <span class="method-name">value_for</span><span class="method-args">(thing)</span>
           </a>
         </div>
@@ -921,8 +921,8 @@ save! to save the source
 Helper
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000336-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000336-source">
+            onclick="toggleCode('M000337-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000337-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 71</span>
 71:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">value_for</span>(<span class="ruby-identifier">thing</span>)
@@ -933,27 +933,27 @@ Helper
         </div>
       </div>
 
-      <div id="method-M000355" class="method-detail">
-        <a name="M000355"></a>
+      <div id="method-M000356" class="method-detail">
+        <a name="M000356"></a>
 
         <div class="method-heading">
-          <a href="#M000355" class="method-signature">
+          <a href="#M000356" class="method-signature">
           <span class="method-name">write_predicate_direct</span><span class="method-args">(predicate, value)</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Writes the <a href="ActiveSource.html#M000347">predicate</a> directly to
+Writes the <a href="ActiveSource.html#M000348">predicate</a> directly to
 the database and the rdf store. The <a href="Source.html">Source</a> does
-not need to be saved and no <a href="ActiveSource.html#M000360">data</a> is
+not need to be saved and no <a href="ActiveSource.html#M000361">data</a> is
 loaded from the database. This is faster than adding the <a
-href="ActiveSource.html#M000360">data</a> normally and doing a full save,
+href="ActiveSource.html#M000361">data</a> normally and doing a full save,
 at least if only one or two predicates are written.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000355-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000355-source">
+            onclick="toggleCode('M000356-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000356-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source.rb, line 235</span>
 235:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">write_predicate_direct</span>(<span class="ruby-identifier">predicate</span>, <span class="ruby-identifier">value</span>)

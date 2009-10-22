@@ -94,12 +94,12 @@ Class to manage XML and HTML data type
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000335">create_from_data</a>&nbsp;&nbsp;
-      <a href="#M000330">extract_mime_type</a>&nbsp;&nbsp;
-      <a href="#M000332">get_content</a>&nbsp;&nbsp;
-      <a href="#M000333">get_content_string</a>&nbsp;&nbsp;
-      <a href="#M000334">get_escaped_content_string</a>&nbsp;&nbsp;
-      <a href="#M000331">mime_subtype</a>&nbsp;&nbsp;
+      <a href="#M000336">create_from_data</a>&nbsp;&nbsp;
+      <a href="#M000331">extract_mime_type</a>&nbsp;&nbsp;
+      <a href="#M000333">get_content</a>&nbsp;&nbsp;
+      <a href="#M000334">get_content_string</a>&nbsp;&nbsp;
+      <a href="#M000335">get_escaped_content_string</a>&nbsp;&nbsp;
+      <a href="#M000332">mime_subtype</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -121,11 +121,11 @@ Class to manage XML and HTML data type
     <div id="methods">
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000335" class="method-detail">
-        <a name="M000335"></a>
+      <div id="method-M000336" class="method-detail">
+        <a name="M000336"></a>
 
         <div class="method-heading">
-          <a href="#M000335" class="method-signature">
+          <a href="#M000336" class="method-signature">
           <span class="method-name">create_from_data</span><span class="method-args">(location, data, options = {:tidy =&gt; true})</span>
           </a>
         </div>
@@ -150,8 +150,8 @@ value is true
 </li>
 </ul>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000335-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000335-source">
+            onclick="toggleCode('M000336-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000336-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/xml_data.rb, line 100</span>
 100:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_from_data</span>(<span class="ruby-identifier">location</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">options</span> = {<span class="ruby-identifier">:tidy</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span>})
@@ -178,11 +178,11 @@ value is true
         </div>
       </div>
 
-      <div id="method-M000330" class="method-detail">
-        <a name="M000330"></a>
+      <div id="method-M000331" class="method-detail">
+        <a name="M000331"></a>
 
         <div class="method-heading">
-          <a href="#M000330" class="method-signature">
+          <a href="#M000331" class="method-signature">
           <span class="method-name">extract_mime_type</span><span class="method-args">(location)</span>
           </a>
         </div>
@@ -192,8 +192,8 @@ value is true
 return the mime_type for a file
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000330-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000330-source">
+            onclick="toggleCode('M000331-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000331-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/xml_data.rb, line 34</span>
 34:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">extract_mime_type</span>(<span class="ruby-identifier">location</span>)
@@ -211,11 +211,11 @@ return the mime_type for a file
         </div>
       </div>
 
-      <div id="method-M000332" class="method-detail">
-        <a name="M000332"></a>
+      <div id="method-M000333" class="method-detail">
+        <a name="M000333"></a>
 
         <div class="method-heading">
-          <a href="#M000332" class="method-signature">
+          <a href="#M000333" class="method-signature">
           <span class="method-name">get_content</span><span class="method-args">(options = nil)</span>
           </a>
         </div>
@@ -233,8 +233,8 @@ return contect of the object as REXML::Elements
 </li>
 </ul>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000332-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000332-source">
+            onclick="toggleCode('M000333-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000333-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/xml_data.rb, line 53</span>
 53:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_content</span>(<span class="ruby-identifier">options</span> = <span class="ruby-keyword kw">nil</span>)
@@ -269,11 +269,11 @@ return contect of the object as REXML::Elements
         </div>
       </div>
 
-      <div id="method-M000333" class="method-detail">
-        <a name="M000333"></a>
+      <div id="method-M000334" class="method-detail">
+        <a name="M000334"></a>
 
         <div class="method-heading">
-          <a href="#M000333" class="method-signature">
+          <a href="#M000334" class="method-signature">
           <span class="method-name">get_content_string</span><span class="method-args">(options = nil)</span>
           </a>
         </div>
@@ -281,11 +281,11 @@ return contect of the object as REXML::Elements
         <div class="method-description">
           <p>
 Returns an xml string of the elements returned by <a
-href="XmlData.html#M000332">get_content</a>
+href="XmlData.html#M000333">get_content</a>
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000333-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000333-source">
+            onclick="toggleCode('M000334-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000334-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/xml_data.rb, line 82</span>
 82:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_content_string</span>(<span class="ruby-identifier">options</span> = <span class="ruby-keyword kw">nil</span>)
@@ -300,11 +300,11 @@ href="XmlData.html#M000332">get_content</a>
         </div>
       </div>
 
-      <div id="method-M000334" class="method-detail">
-        <a name="M000334"></a>
+      <div id="method-M000335" class="method-detail">
+        <a name="M000335"></a>
 
         <div class="method-heading">
-          <a href="#M000334" class="method-signature">
+          <a href="#M000335" class="method-signature">
           <span class="method-name">get_escaped_content_string</span><span class="method-args">(options = nil)</span>
           </a>
         </div>
@@ -314,8 +314,8 @@ href="XmlData.html#M000332">get_content</a>
 Returns an xml string that is escaped for HTML inclusing
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000334-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000334-source">
+            onclick="toggleCode('M000335-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000335-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/xml_data.rb, line 91</span>
 91:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_escaped_content_string</span>(<span class="ruby-identifier">options</span> = <span class="ruby-keyword kw">nil</span>)
@@ -326,11 +326,11 @@ Returns an xml string that is escaped for HTML inclusing
         </div>
       </div>
 
-      <div id="method-M000331" class="method-detail">
-        <a name="M000331"></a>
+      <div id="method-M000332" class="method-detail">
+        <a name="M000332"></a>
 
         <div class="method-heading">
-          <a href="#M000331" class="method-signature">
+          <a href="#M000332" class="method-signature">
           <span class="method-name">mime_subtype</span><span class="method-args">()</span>
           </a>
         </div>
@@ -340,8 +340,8 @@ Returns an xml string that is escaped for HTML inclusing
 return the mime subtype for this specified class
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000331-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000331-source">
+            onclick="toggleCode('M000332-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000332-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/xml_data.rb, line 46</span>
 46:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">mime_subtype</span>

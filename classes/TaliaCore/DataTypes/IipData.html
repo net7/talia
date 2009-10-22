@@ -94,17 +94,17 @@ Class to manage IIP Image data type
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000314">create_from_existing</a>&nbsp;&nbsp;
-      <a href="#M000320">create_pyramid</a>&nbsp;&nbsp;
-      <a href="#M000317">direct_write!</a>&nbsp;&nbsp;
-      <a href="#M000322">get_iip_root_file_path</a>&nbsp;&nbsp;
-      <a href="#M000321">iip_root_directory</a>&nbsp;&nbsp;
-      <a href="#M000315">iip_server_path</a>&nbsp;&nbsp;
-      <a href="#M000312">iip_server_uri</a>&nbsp;&nbsp;
-      <a href="#M000319">prepare_for_pyramid</a>&nbsp;&nbsp;
-      <a href="#M000318">prepare_original_file</a>&nbsp;&nbsp;
-      <a href="#M000313">set_mime_type</a>&nbsp;&nbsp;
-      <a href="#M000316">write_file_after_save</a>&nbsp;&nbsp;
+      <a href="#M000315">create_from_existing</a>&nbsp;&nbsp;
+      <a href="#M000321">create_pyramid</a>&nbsp;&nbsp;
+      <a href="#M000318">direct_write!</a>&nbsp;&nbsp;
+      <a href="#M000323">get_iip_root_file_path</a>&nbsp;&nbsp;
+      <a href="#M000322">iip_root_directory</a>&nbsp;&nbsp;
+      <a href="#M000316">iip_server_path</a>&nbsp;&nbsp;
+      <a href="#M000313">iip_server_uri</a>&nbsp;&nbsp;
+      <a href="#M000320">prepare_for_pyramid</a>&nbsp;&nbsp;
+      <a href="#M000319">prepare_original_file</a>&nbsp;&nbsp;
+      <a href="#M000314">set_mime_type</a>&nbsp;&nbsp;
+      <a href="#M000317">write_file_after_save</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -139,11 +139,11 @@ Class to manage IIP Image data type
     <div id="methods">
       <h3 class="section-bar">Public Class methods</h3>
 
-      <div id="method-M000312" class="method-detail">
-        <a name="M000312"></a>
+      <div id="method-M000313" class="method-detail">
+        <a name="M000313"></a>
 
         <div class="method-heading">
-          <a href="#M000312" class="method-signature">
+          <a href="#M000313" class="method-signature">
           <span class="method-name">iip_server_uri</span><span class="method-args">()</span>
           </a>
         </div>
@@ -153,8 +153,8 @@ Class to manage IIP Image data type
 Returns the IIP server configured for the application
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000312-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000312-source">
+            onclick="toggleCode('M000313-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000313-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_data.rb, line 8</span>
  8:       <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">iip_server_uri</span>
@@ -167,11 +167,11 @@ Returns the IIP server configured for the application
 
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000314" class="method-detail">
-        <a name="M000314"></a>
+      <div id="method-M000315" class="method-detail">
+        <a name="M000315"></a>
 
         <div class="method-heading">
-          <a href="#M000314" class="method-signature">
+          <a href="#M000315" class="method-signature">
           <span class="method-name">create_from_existing</span><span class="method-args">(thumb, pyramid, delete_originals = false)</span>
           </a>
         </div>
@@ -181,8 +181,8 @@ Returns the IIP server configured for the application
 Create from existing thumb and pyramid images
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000314-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000314-source">
+            onclick="toggleCode('M000315-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000315-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_data.rb, line 20</span>
 20:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_from_existing</span>(<span class="ruby-identifier">thumb</span>, <span class="ruby-identifier">pyramid</span>, <span class="ruby-identifier">delete_originals</span> = <span class="ruby-keyword kw">false</span>)
@@ -195,11 +195,11 @@ Create from existing thumb and pyramid images
         </div>
       </div>
 
-      <div id="method-M000320" class="method-detail">
-        <a name="M000320"></a>
+      <div id="method-M000321" class="method-detail">
+        <a name="M000321"></a>
 
         <div class="method-heading">
-          <a href="#M000320" class="method-signature">
+          <a href="#M000321" class="method-signature">
           <span class="method-name">create_pyramid</span><span class="method-args">(source)</span>
           </a>
         </div>
@@ -210,8 +210,8 @@ Creates the pyramid image for IIP by running the configured system command.
 This automatically creates the file in the correct location (IIP root)
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000320-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000320-source">
+            onclick="toggleCode('M000321-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000321-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_data.rb, line 120</span>
 120:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_pyramid</span>(<span class="ruby-identifier">source</span>)
@@ -227,11 +227,11 @@ This automatically creates the file in the correct location (IIP root)
         </div>
       </div>
 
-      <div id="method-M000317" class="method-detail">
-        <a name="M000317"></a>
+      <div id="method-M000318" class="method-detail">
+        <a name="M000318"></a>
 
         <div class="method-heading">
-          <a href="#M000317" class="method-signature">
+          <a href="#M000318" class="method-signature">
           <span class="method-name">direct_write!</span><span class="method-args">()</span>
           </a>
         </div>
@@ -242,8 +242,8 @@ Checks if we have file paths given to directly copy thum and image file.
 Will always return true if such paths were given.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000317-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000317-source">
+            onclick="toggleCode('M000318-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000318-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_data.rb, line 67</span>
 67:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">direct_write!</span>
@@ -266,11 +266,11 @@ Will always return true if such paths were given.
         </div>
       </div>
 
-      <div id="method-M000322" class="method-detail">
-        <a name="M000322"></a>
+      <div id="method-M000323" class="method-detail">
+        <a name="M000323"></a>
 
         <div class="method-heading">
-          <a href="#M000322" class="method-signature">
+          <a href="#M000323" class="method-signature">
           <span class="method-name">get_iip_root_file_path</span><span class="method-args">(relative = false)</span>
           </a>
         </div>
@@ -280,8 +280,8 @@ Will always return true if such paths were given.
 Return the full file path related to the data directory
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000322-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000322-source">
+            onclick="toggleCode('M000323-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000323-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_data.rb, line 139</span>
 139:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_iip_root_file_path</span>(<span class="ruby-identifier">relative</span> = <span class="ruby-keyword kw">false</span>)
@@ -292,11 +292,11 @@ Return the full file path related to the data directory
         </div>
       </div>
 
-      <div id="method-M000321" class="method-detail">
-        <a name="M000321"></a>
+      <div id="method-M000322" class="method-detail">
+        <a name="M000322"></a>
 
         <div class="method-heading">
-          <a href="#M000321" class="method-signature">
+          <a href="#M000322" class="method-signature">
           <span class="method-name">iip_root_directory</span><span class="method-args">(relative = false)</span>
           </a>
         </div>
@@ -306,8 +306,8 @@ Return the full file path related to the data directory
 Return the iip root directory for a specific iip image file
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000321-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000321-source">
+            onclick="toggleCode('M000322-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000322-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_data.rb, line 130</span>
 130:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">iip_root_directory</span>(<span class="ruby-identifier">relative</span> = <span class="ruby-keyword kw">false</span>)
@@ -322,11 +322,11 @@ Return the iip root directory for a specific iip image file
         </div>
       </div>
 
-      <div id="method-M000315" class="method-detail">
-        <a name="M000315"></a>
+      <div id="method-M000316" class="method-detail">
+        <a name="M000316"></a>
 
         <div class="method-heading">
-          <a href="#M000315" class="method-signature">
+          <a href="#M000316" class="method-signature">
           <span class="method-name">iip_server_path</span><span class="method-args">()</span>
           </a>
         </div>
@@ -336,8 +336,8 @@ Return the iip root directory for a specific iip image file
 return IIP Server Path
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000315-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000315-source">
+            onclick="toggleCode('M000316-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000316-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_data.rb, line 27</span>
 27:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">iip_server_path</span>
@@ -348,11 +348,11 @@ return IIP Server Path
         </div>
       </div>
 
-      <div id="method-M000319" class="method-detail">
-        <a name="M000319"></a>
+      <div id="method-M000320" class="method-detail">
+        <a name="M000320"></a>
 
         <div class="method-heading">
-          <a href="#M000319" class="method-signature">
+          <a href="#M000320" class="method-signature">
           <span class="method-name">prepare_for_pyramid</span><span class="method-args">()</span>
           </a>
         </div>
@@ -362,8 +362,8 @@ return IIP Server Path
 Prepare for copying or creating the pyramid image
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000319-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000319-source">
+            onclick="toggleCode('M000320-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000320-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_data.rb, line 109</span>
 109:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">prepare_for_pyramid</span>
@@ -378,11 +378,11 @@ Prepare for copying or creating the pyramid image
         </div>
       </div>
 
-      <div id="method-M000318" class="method-detail">
-        <a name="M000318"></a>
+      <div id="method-M000319" class="method-detail">
+        <a name="M000319"></a>
 
         <div class="method-heading">
-          <a href="#M000318" class="method-signature">
+          <a href="#M000319" class="method-signature">
           <span class="method-name">prepare_original_file</span><span class="method-args">()</span>
           </a>
         </div>
@@ -399,8 +399,8 @@ file system path) and a flag indicating if the file is a temporary file or
 not.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000318-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000318-source">
+            onclick="toggleCode('M000319-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000319-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_data.rb, line 90</span>
  90:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">prepare_original_file</span>
@@ -425,11 +425,11 @@ not.
         </div>
       </div>
 
-      <div id="method-M000313" class="method-detail">
-        <a name="M000313"></a>
+      <div id="method-M000314" class="method-detail">
+        <a name="M000314"></a>
 
         <div class="method-heading">
-          <a href="#M000313" class="method-signature">
+          <a href="#M000314" class="method-signature">
           <span class="method-name">set_mime_type</span><span class="method-args">()</span>
           </a>
         </div>
@@ -439,8 +439,8 @@ not.
 This is the mime type for the thumbnail - always tiff
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000313-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000313-source">
+            onclick="toggleCode('M000314-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000314-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_data.rb, line 13</span>
 13:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_mime_type</span>
@@ -451,19 +451,19 @@ This is the mime type for the thumbnail - always tiff
         </div>
       </div>
 
-      <div id="method-M000316" class="method-detail">
-        <a name="M000316"></a>
+      <div id="method-M000317" class="method-detail">
+        <a name="M000317"></a>
 
         <div class="method-heading">
-          <a href="#M000316" class="method-signature">
+          <a href="#M000317" class="method-signature">
           <span class="method-name">write_file_after_save</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000316-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000316-source">
+            onclick="toggleCode('M000317-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000317-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_data.rb, line 31</span>
 31:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">write_file_after_save</span>

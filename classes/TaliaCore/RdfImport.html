@@ -81,7 +81,7 @@
     <div id="description">
       <p>
 Import RDF data directly into the triple store. This is called to <a
-href="RdfImport.html#M000400">import</a> onotologies and other RDF data.
+href="RdfImport.html#M000401">import</a> onotologies and other RDF data.
 </p>
 
     </div>
@@ -93,9 +93,9 @@ href="RdfImport.html#M000400">import</a> onotologies and other RDF data.
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000402">clear_file_contexts</a>&nbsp;&nbsp;
-      <a href="#M000400">import</a>&nbsp;&nbsp;
-      <a href="#M000401">import_file</a>&nbsp;&nbsp;
+      <a href="#M000403">clear_file_contexts</a>&nbsp;&nbsp;
+      <a href="#M000401">import</a>&nbsp;&nbsp;
+      <a href="#M000402">import_file</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -117,11 +117,11 @@ href="RdfImport.html#M000400">import</a> onotologies and other RDF data.
     <div id="methods">
       <h3 class="section-bar">Public Class methods</h3>
 
-      <div id="method-M000402" class="method-detail">
-        <a name="M000402"></a>
+      <div id="method-M000403" class="method-detail">
+        <a name="M000403"></a>
 
         <div class="method-heading">
-          <a href="#M000402" class="method-signature">
+          <a href="#M000403" class="method-signature">
           <span class="method-name">clear_file_contexts</span><span class="method-args">()</span>
           </a>
         </div>
@@ -131,8 +131,8 @@ href="RdfImport.html#M000400">import</a> onotologies and other RDF data.
 Clear the currently registered ontologies
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000402-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000402-source">
+            onclick="toggleCode('M000403-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000403-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/rdf_import.rb, line 54</span>
 54:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">clear_file_contexts</span>
@@ -148,11 +148,11 @@ Clear the currently registered ontologies
         </div>
       </div>
 
-      <div id="method-M000400" class="method-detail">
-        <a name="M000400"></a>
+      <div id="method-M000401" class="method-detail">
+        <a name="M000401"></a>
 
         <div class="method-heading">
-          <a href="#M000400" class="method-signature">
+          <a href="#M000401" class="method-signature">
           <span class="method-name">import</span><span class="method-args">(rdf_syntax, files, context=nil)</span>
           </a>
         </div>
@@ -163,8 +163,8 @@ Import the given files. The rdf_syntax may be nil. If &quot;auto&quot; is
 given, it will use a default value for each imported file
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000400-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000400-source">
+            onclick="toggleCode('M000401-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000401-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/rdf_import.rb, line 14</span>
 14:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">import</span>(<span class="ruby-identifier">rdf_syntax</span>, <span class="ruby-identifier">files</span>, <span class="ruby-identifier">context</span>=<span class="ruby-keyword kw">nil</span>)
@@ -192,19 +192,19 @@ given, it will use a default value for each imported file
         </div>
       </div>
 
-      <div id="method-M000401" class="method-detail">
-        <a name="M000401"></a>
+      <div id="method-M000402" class="method-detail">
+        <a name="M000402"></a>
 
         <div class="method-heading">
-          <a href="#M000401" class="method-signature">
+          <a href="#M000402" class="method-signature">
           <span class="method-name">import_file</span><span class="method-args">(file, syntax, context)</span>
           </a>
         </div>
       
         <div class="method-description">
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000401-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000401-source">
+            onclick="toggleCode('M000402-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000402-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/rdf_import.rb, line 35</span>
 35:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">import_file</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">syntax</span>, <span class="ruby-identifier">context</span>)

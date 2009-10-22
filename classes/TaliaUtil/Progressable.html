@@ -86,9 +86,9 @@ Mix-in for a class that wishes to use decoupled progress meters.
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000504">progressor</a>&nbsp;&nbsp;
-      <a href="#M000505">progressor=</a>&nbsp;&nbsp;
-      <a href="#M000506">run_with_progress</a>&nbsp;&nbsp;
+      <a href="#M000505">progressor</a>&nbsp;&nbsp;
+      <a href="#M000506">progressor=</a>&nbsp;&nbsp;
+      <a href="#M000507">run_with_progress</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -110,11 +110,11 @@ Mix-in for a class that wishes to use decoupled progress meters.
     <div id="methods">
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000504" class="method-detail">
-        <a name="M000504"></a>
+      <div id="method-M000505" class="method-detail">
+        <a name="M000505"></a>
 
         <div class="method-heading">
-          <a href="#M000504" class="method-signature">
+          <a href="#M000505" class="method-signature">
           <span class="method-name">progressor</span><span class="method-args">()</span>
           </a>
         </div>
@@ -124,8 +124,8 @@ Mix-in for a class that wishes to use decoupled progress meters.
 This is the object that will receive the progress messages
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000504-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000504-source">
+            onclick="toggleCode('M000505-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000505-source">
 <pre>
    <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_util/progressable.rb, line 7</span>
 7:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">progressor</span>
@@ -136,25 +136,25 @@ This is the object that will receive the progress messages
         </div>
       </div>
 
-      <div id="method-M000505" class="method-detail">
-        <a name="M000505"></a>
+      <div id="method-M000506" class="method-detail">
+        <a name="M000506"></a>
 
         <div class="method-heading">
-          <a href="#M000505" class="method-signature">
+          <a href="#M000506" class="method-signature">
           <span class="method-name">progressor=</span><span class="method-args">(progr)</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Set the <a href="Progressable.html#M000504">progressor</a> class. The
+Set the <a href="Progressable.html#M000505">progressor</a> class. The
 progress class should simply respond to a <a
-href="Progressable.html#M000506">run_with_progress</a>(message, size,
+href="Progressable.html#M000507">run_with_progress</a>(message, size,
 &amp;block) class
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000505-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000505-source">
+            onclick="toggleCode('M000506-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000506-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_util/progressable.rb, line 13</span>
 13:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">progressor=</span>(<span class="ruby-identifier">progr</span>)
@@ -166,11 +166,11 @@ href="Progressable.html#M000506">run_with_progress</a>(message, size,
         </div>
       </div>
 
-      <div id="method-M000506" class="method-detail">
-        <a name="M000506"></a>
+      <div id="method-M000507" class="method-detail">
+        <a name="M000507"></a>
 
         <div class="method-heading">
-          <a href="#M000506" class="method-signature">
+          <a href="#M000507" class="method-signature">
           <span class="method-name">run_with_progress</span><span class="method-args">(message, size, progr = nil, &amp;block)</span>
           </a>
         </div>
@@ -181,12 +181,12 @@ Runs some block with a progress meter. The containing block will be passed
 an object on which inc can be called to increase the meter.
 </p>
 <p>
-If no <a href="Progressable.html#M000504">progressor</a> object is passed
+If no <a href="Progressable.html#M000505">progressor</a> object is passed
 in manually, the one configured in the class is used
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000506-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000506-source">
+            onclick="toggleCode('M000507-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000507-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_util/progressable.rb, line 23</span>
 23:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">run_with_progress</span>(<span class="ruby-identifier">message</span>, <span class="ruby-identifier">size</span>, <span class="ruby-identifier">progr</span> = <span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)

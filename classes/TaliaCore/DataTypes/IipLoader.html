@@ -87,15 +87,15 @@ methods to create IIP image data
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000260">convert_original?</a>&nbsp;&nbsp;
-      <a href="#M000261">create_from_files</a>&nbsp;&nbsp;
-      <a href="#M000262">create_from_stream</a>&nbsp;&nbsp;
-      <a href="#M000258">create_iip</a>&nbsp;&nbsp;
-      <a href="#M000264">open_original_image</a>&nbsp;&nbsp;
-      <a href="#M000266">open_original_image_file</a>&nbsp;&nbsp;
-      <a href="#M000265">open_original_image_stream</a>&nbsp;&nbsp;
-      <a href="#M000259">orig_location</a>&nbsp;&nbsp;
-      <a href="#M000263">prepare_image_from_existing!</a>&nbsp;&nbsp;
+      <a href="#M000261">convert_original?</a>&nbsp;&nbsp;
+      <a href="#M000262">create_from_files</a>&nbsp;&nbsp;
+      <a href="#M000263">create_from_stream</a>&nbsp;&nbsp;
+      <a href="#M000259">create_iip</a>&nbsp;&nbsp;
+      <a href="#M000265">open_original_image</a>&nbsp;&nbsp;
+      <a href="#M000267">open_original_image_file</a>&nbsp;&nbsp;
+      <a href="#M000266">open_original_image_stream</a>&nbsp;&nbsp;
+      <a href="#M000260">orig_location</a>&nbsp;&nbsp;
+      <a href="#M000264">prepare_image_from_existing!</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -117,11 +117,11 @@ methods to create IIP image data
     <div id="methods">
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000260" class="method-detail">
-        <a name="M000260"></a>
+      <div id="method-M000261" class="method-detail">
+        <a name="M000261"></a>
 
         <div class="method-heading">
-          <a href="#M000260" class="method-signature">
+          <a href="#M000261" class="method-signature">
           <span class="method-name">convert_original?</span><span class="method-args">(mime_type)</span>
           </a>
         </div>
@@ -132,8 +132,8 @@ Indicates if the given mime type requires a conversion for the original
 image
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000260-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000260-source">
+            onclick="toggleCode('M000261-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000261-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_loader.rb, line 43</span>
 43:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">convert_original?</span>(<span class="ruby-identifier">mime_type</span>)
@@ -144,11 +144,11 @@ image
         </div>
       </div>
 
-      <div id="method-M000261" class="method-detail">
-        <a name="M000261"></a>
+      <div id="method-M000262" class="method-detail">
+        <a name="M000262"></a>
 
         <div class="method-heading">
-          <a href="#M000261" class="method-signature">
+          <a href="#M000262" class="method-signature">
           <span class="method-name">create_from_files</span><span class="method-args">(location, file, records)</span>
           </a>
         </div>
@@ -158,8 +158,8 @@ image
 Create the elements from a file
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000261-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000261-source">
+            onclick="toggleCode('M000262-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000262-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_loader.rb, line 48</span>
 48:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_from_files</span>(<span class="ruby-identifier">location</span>, <span class="ruby-identifier">file</span>, <span class="ruby-identifier">records</span>)
@@ -170,11 +170,11 @@ Create the elements from a file
         </div>
       </div>
 
-      <div id="method-M000262" class="method-detail">
-        <a name="M000262"></a>
+      <div id="method-M000263" class="method-detail">
+        <a name="M000263"></a>
 
         <div class="method-heading">
-          <a href="#M000262" class="method-signature">
+          <a href="#M000263" class="method-signature">
           <span class="method-name">create_from_stream</span><span class="method-args">(location, io, records)</span>
           </a>
         </div>
@@ -184,8 +184,8 @@ Create the elements from a file
 Create the elements from a stream
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000262-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000262-source">
+            onclick="toggleCode('M000263-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000263-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_loader.rb, line 53</span>
 53:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_from_stream</span>(<span class="ruby-identifier">location</span>, <span class="ruby-identifier">io</span>, <span class="ruby-identifier">records</span>)
@@ -197,11 +197,11 @@ Create the elements from a stream
         </div>
       </div>
 
-      <div id="method-M000258" class="method-detail">
-        <a name="M000258"></a>
+      <div id="method-M000259" class="method-detail">
+        <a name="M000259"></a>
 
         <div class="method-heading">
-          <a href="#M000258" class="method-signature">
+          <a href="#M000259" class="method-signature">
           <span class="method-name">create_iip</span><span class="method-args">(mime_type, location, source, is_file)</span>
           </a>
         </div>
@@ -213,8 +213,8 @@ the data into a data record: It will create both an IIP data object and an
 Image data object.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000258-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000258-source">
+            onclick="toggleCode('M000259-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000259-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_loader.rb, line 11</span>
 11:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_iip</span>(<span class="ruby-identifier">mime_type</span>, <span class="ruby-identifier">location</span>, <span class="ruby-identifier">source</span>, <span class="ruby-identifier">is_file</span>)
@@ -246,11 +246,11 @@ Image data object.
         </div>
       </div>
 
-      <div id="method-M000264" class="method-detail">
-        <a name="M000264"></a>
+      <div id="method-M000265" class="method-detail">
+        <a name="M000265"></a>
 
         <div class="method-heading">
-          <a href="#M000264" class="method-signature">
+          <a href="#M000265" class="method-signature">
           <span class="method-name">open_original_image</span><span class="method-args">(thing, is_file, current_type, &amp;block)</span>
           </a>
         </div>
@@ -260,8 +260,8 @@ Image data object.
 Little helper to decide how to open the original image
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000264-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000264-source">
+            onclick="toggleCode('M000265-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000265-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_loader.rb, line 87</span>
 87:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">open_original_image</span>(<span class="ruby-identifier">thing</span>, <span class="ruby-identifier">is_file</span>, <span class="ruby-identifier">current_type</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
@@ -276,11 +276,11 @@ Little helper to decide how to open the original image
         </div>
       </div>
 
-      <div id="method-M000266" class="method-detail">
-        <a name="M000266"></a>
+      <div id="method-M000267" class="method-detail">
+        <a name="M000267"></a>
 
         <div class="method-heading">
-          <a href="#M000266" class="method-signature">
+          <a href="#M000267" class="method-signature">
           <span class="method-name">open_original_image_file</span><span class="method-args">(filename) {|io| ...}</span>
           </a>
         </div>
@@ -291,8 +291,8 @@ Opens the &quot;original&quot; image for the given file. This will convert
 the image to PNG image and the yield the io object for the PNG.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000266-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000266-source">
+            onclick="toggleCode('M000267-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000267-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_loader.rb, line 112</span>
 112:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">open_original_image_file</span>(<span class="ruby-identifier">filename</span>)
@@ -311,23 +311,23 @@ the image to PNG image and the yield the io object for the PNG.
         </div>
       </div>
 
-      <div id="method-M000265" class="method-detail">
-        <a name="M000265"></a>
+      <div id="method-M000266" class="method-detail">
+        <a name="M000266"></a>
 
         <div class="method-heading">
-          <a href="#M000265" class="method-signature">
+          <a href="#M000266" class="method-signature">
           <span class="method-name">open_original_image_stream</span><span class="method-args">(io, type, &amp;block)</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Same as <a href="IipLoader.html#M000266">open_original_image_file</a>, but
+Same as <a href="IipLoader.html#M000267">open_original_image_file</a>, but
 getting the data from a stream.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000265-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000265-source">
+            onclick="toggleCode('M000266-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000266-source">
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_loader.rb, line 96</span>
  96:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">open_original_image_stream</span>(<span class="ruby-identifier">io</span>, <span class="ruby-identifier">type</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
@@ -348,11 +348,11 @@ getting the data from a stream.
         </div>
       </div>
 
-      <div id="method-M000259" class="method-detail">
-        <a name="M000259"></a>
+      <div id="method-M000260" class="method-detail">
+        <a name="M000260"></a>
 
         <div class="method-heading">
-          <a href="#M000259" class="method-signature">
+          <a href="#M000260" class="method-signature">
           <span class="method-name">orig_location</span><span class="method-args">(location)</span>
           </a>
         </div>
@@ -362,8 +362,8 @@ getting the data from a stream.
 Rewrite the file location for original image files (to .png)
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000259-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000259-source">
+            onclick="toggleCode('M000260-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000260-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_loader.rb, line 37</span>
 37:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">orig_location</span>(<span class="ruby-identifier">location</span>)
@@ -374,11 +374,11 @@ Rewrite the file location for original image files (to .png)
         </div>
       </div>
 
-      <div id="method-M000263" class="method-detail">
-        <a name="M000263"></a>
+      <div id="method-M000264" class="method-detail">
+        <a name="M000264"></a>
 
         <div class="method-heading">
-          <a href="#M000263" class="method-signature">
+          <a href="#M000264" class="method-signature">
           <span class="method-name">prepare_image_from_existing!</span><span class="method-args">(iip_record, image_record, url, location)</span>
           </a>
         </div>
@@ -392,8 +392,8 @@ an <a href="IipData.html">IipData</a> object or the :prepared_images option
 is not set.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000263-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000263-source">
+            onclick="toggleCode('M000264-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000264-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/data_types/iip_loader.rb, line 62</span>
 62:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">prepare_image_from_existing!</span>(<span class="ruby-identifier">iip_record</span>, <span class="ruby-identifier">image_record</span>, <span class="ruby-identifier">url</span>, <span class="ruby-identifier">location</span>)

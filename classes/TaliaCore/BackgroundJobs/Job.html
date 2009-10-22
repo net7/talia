@@ -94,9 +94,9 @@ and Talia&#8216;s background job runner.
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000239">run_progress_job</a>&nbsp;&nbsp;
-      <a href="#M000240">run_with_progress</a>&nbsp;&nbsp;
-      <a href="#M000238">submit_with_progress</a>&nbsp;&nbsp;
+      <a href="#M000240">run_progress_job</a>&nbsp;&nbsp;
+      <a href="#M000241">run_with_progress</a>&nbsp;&nbsp;
+      <a href="#M000239">submit_with_progress</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -118,11 +118,11 @@ and Talia&#8216;s background job runner.
     <div id="methods">
       <h3 class="section-bar">Public Class methods</h3>
 
-      <div id="method-M000239" class="method-detail">
-        <a name="M000239"></a>
+      <div id="method-M000240" class="method-detail">
+        <a name="M000240"></a>
 
         <div class="method-heading">
-          <a href="#M000239" class="method-signature">
+          <a href="#M000240" class="method-signature">
           <span class="method-name">run_progress_job</span><span class="method-args">() {|| ...}</span>
           </a>
         </div>
@@ -134,8 +134,8 @@ before starting, and deleting it from the db after completion. This way the
 progress_jobs table should remain mostly clean.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000239-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000239-source">
+            onclick="toggleCode('M000240-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000240-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/background_jobs/job.rb, line 34</span>
 34:       <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">run_progress_job</span>
@@ -152,11 +152,11 @@ progress_jobs table should remain mostly clean.
         </div>
       </div>
 
-      <div id="method-M000240" class="method-detail">
-        <a name="M000240"></a>
+      <div id="method-M000241" class="method-detail">
+        <a name="M000241"></a>
 
         <div class="method-heading">
-          <a href="#M000240" class="method-signature">
+          <a href="#M000241" class="method-signature">
           <span class="method-name">run_with_progress</span><span class="method-args">(message, item_count) {|progress| ...}</span>
           </a>
         </div>
@@ -167,8 +167,8 @@ Runs the block with the progress meter for the current job. This may be
 used multiple times.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000240-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000240-source">
+            onclick="toggleCode('M000241-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000241-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/background_jobs/job.rb, line 45</span>
 45:       <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">run_with_progress</span>(<span class="ruby-identifier">message</span>, <span class="ruby-identifier">item_count</span>)
@@ -190,11 +190,11 @@ used multiple times.
         </div>
       </div>
 
-      <div id="method-M000238" class="method-detail">
-        <a name="M000238"></a>
+      <div id="method-M000239" class="method-detail">
+        <a name="M000239"></a>
 
         <div class="method-heading">
-          <a href="#M000238" class="method-signature">
+          <a href="#M000239" class="method-signature">
           <span class="method-name">submit_with_progress</span><span class="method-args">(jobs, options = {})</span>
           </a>
         </div>
@@ -206,8 +206,8 @@ attempt to block the creation of further jobs with the same tag. This will
 also use the runner script, called with the current ruby binary
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000238-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000238-source">
+            onclick="toggleCode('M000239-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000239-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/background_jobs/job.rb, line 15</span>
 15:       <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">submit_with_progress</span>(<span class="ruby-identifier">jobs</span>, <span class="ruby-identifier">options</span> = {})

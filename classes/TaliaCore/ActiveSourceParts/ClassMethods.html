@@ -160,7 +160,7 @@ of sources, depending on wether the XML contains multiple sources.
 The imported sources will be saved during import, to ensure that relations
 between them are resolved correctly. If one of the imported elements does
 already exist, the existing source will be rewritten using <a
-href="../ActiveSource.html#M000343">ActiveSource#rewrite_attributes</a>
+href="../ActiveSource.html#M000344">ActiveSource#rewrite_attributes</a>
 </p>
 <p>
 The options may contain:
@@ -209,7 +209,7 @@ correctly
 71:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_multi_from</span>(<span class="ruby-identifier">sources</span>)
 72:         <span class="ruby-identifier">source_objects</span> = []
 73:         <span class="ruby-identifier">run_with_progress</span>(<span class="ruby-value str">'Writing imported'</span>, <span class="ruby-identifier">sources</span>.<span class="ruby-identifier">size</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">progress</span><span class="ruby-operator">|</span>
-74:           <span class="ruby-identifier">source_objects</span> = <span class="ruby-identifier">sources</span>.<span class="ruby-identifier">collect</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">props</span><span class="ruby-operator">|</span> 
+74:           <span class="ruby-identifier">source_objects</span> = <span class="ruby-identifier">sources</span>.<span class="ruby-identifier">collect</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">props</span><span class="ruby-operator">|</span>
 75:             <span class="ruby-identifier">src</span> = <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">src</span> = <span class="ruby-constant">ActiveSource</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">:first</span>, <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-identifier">:uri</span> =<span class="ruby-operator">&gt;</span> (<span class="ruby-identifier">props</span>[<span class="ruby-identifier">:uri</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">props</span>[<span class="ruby-value str">'uri'</span>]) }))
 76:               <span class="ruby-comment cmt"># Deal with already existing sources</span>
 77:               <span class="ruby-identifier">src</span>.<span class="ruby-identifier">rewrite_attributes</span>(<span class="ruby-identifier">props</span>)

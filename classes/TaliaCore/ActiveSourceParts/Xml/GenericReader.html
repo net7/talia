@@ -112,13 +112,14 @@ ones.
       <a href="#M000224">element</a>&nbsp;&nbsp;
       <a href="#M000228">new</a>&nbsp;&nbsp;
       <a href="#M000225">plain_element</a>&nbsp;&nbsp;
-      <a href="#M000233">read_children_of</a>&nbsp;&nbsp;
+      <a href="#M000234">read_children_of</a>&nbsp;&nbsp;
+      <a href="#M000233">read_children_with_progress</a>&nbsp;&nbsp;
       <a href="#M000232">read_source</a>&nbsp;&nbsp;
       <a href="#M000229">sources</a>&nbsp;&nbsp;
       <a href="#M000223">sources_from</a>&nbsp;&nbsp;
       <a href="#M000222">sources_from_url</a>&nbsp;&nbsp;
       <a href="#M000227">use_root</a>&nbsp;&nbsp;
-      <a href="#M000234">use_root</a>&nbsp;&nbsp;
+      <a href="#M000235">use_root</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -370,29 +371,30 @@ children
 <pre>
      <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/xml/generic_reader.rb, line 95</span>
  95:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_source_with_check</span>(<span class="ruby-identifier">source_attribs</span>)
- 96:           <span class="ruby-keyword kw">if</span>((<span class="ruby-identifier">uri</span> = <span class="ruby-identifier">source_attribs</span>[<span class="ruby-value str">'uri'</span>]).<span class="ruby-identifier">blank?</span>)
- 97:             <span class="ruby-identifier">raise</span>(<span class="ruby-constant">RuntimeError</span>, <span class="ruby-node">&quot;Problem reading from XML: Source without URI (#{source_attribs.inspect})&quot;</span>)
- 98:           <span class="ruby-keyword kw">else</span>
- 99:             <span class="ruby-identifier">uri</span> = <span class="ruby-identifier">irify</span>(<span class="ruby-identifier">uri</span>)
-100:             <span class="ruby-identifier">source_attribs</span>[<span class="ruby-value str">'uri'</span>] = <span class="ruby-identifier">uri</span>
-101:             <span class="ruby-ivar">@sources</span>[<span class="ruby-identifier">uri</span>] <span class="ruby-operator">||=</span> {} 
-102:             <span class="ruby-ivar">@sources</span>[<span class="ruby-identifier">uri</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
-103:               <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">unless</span>(<span class="ruby-identifier">new_value</span> = <span class="ruby-identifier">source_attribs</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>))
-104: 
-105:               <span class="ruby-identifier">assit</span>(<span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_sym</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">:type</span>, <span class="ruby-value str">&quot;Type should not change during import, may be a format problem&quot;</span>)
-106:               <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">new_value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>))
-107:                 <span class="ruby-comment cmt"># If both are Array-types, the new elements will be appended</span>
-108:                 <span class="ruby-comment cmt"># and duplicates nwill be removed</span>
-109:                 <span class="ruby-ivar">@sources</span>[<span class="ruby-identifier">key</span>] = (<span class="ruby-identifier">value</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">new_value</span>).<span class="ruby-identifier">uniq</span>
-110:               <span class="ruby-keyword kw">else</span>
-111:                 <span class="ruby-comment cmt"># Otherwise just replace</span>
-112:                 <span class="ruby-ivar">@sources</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">new_value</span>
-113:               <span class="ruby-keyword kw">end</span>
-114:             <span class="ruby-keyword kw">end</span>
-115:             <span class="ruby-comment cmt"># Now merge in everything else</span>
-116:             <span class="ruby-ivar">@sources</span>[<span class="ruby-identifier">uri</span>].<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">source_attribs</span>)
-117:           <span class="ruby-keyword kw">end</span>
-118:         <span class="ruby-keyword kw">end</span>
+ 96:           <span class="ruby-identifier">assit_kind_of</span>(<span class="ruby-constant">Hash</span>, <span class="ruby-identifier">source_attribs</span>)
+ 97:           <span class="ruby-keyword kw">if</span>((<span class="ruby-identifier">uri</span> = <span class="ruby-identifier">source_attribs</span>[<span class="ruby-value str">'uri'</span>]).<span class="ruby-identifier">blank?</span>)
+ 98:             <span class="ruby-identifier">raise</span>(<span class="ruby-constant">RuntimeError</span>, <span class="ruby-node">&quot;Problem reading from XML: Source without URI (#{source_attribs.inspect})&quot;</span>)
+ 99:           <span class="ruby-keyword kw">else</span>
+100:             <span class="ruby-identifier">uri</span> = <span class="ruby-identifier">irify</span>(<span class="ruby-identifier">uri</span>)
+101:             <span class="ruby-identifier">source_attribs</span>[<span class="ruby-value str">'uri'</span>] = <span class="ruby-identifier">uri</span>
+102:             <span class="ruby-ivar">@sources</span>[<span class="ruby-identifier">uri</span>] <span class="ruby-operator">||=</span> {} 
+103:             <span class="ruby-ivar">@sources</span>[<span class="ruby-identifier">uri</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+104:               <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">unless</span>(<span class="ruby-identifier">new_value</span> = <span class="ruby-identifier">source_attribs</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>))
+105: 
+106:               <span class="ruby-identifier">assit</span>(<span class="ruby-operator">!</span>((<span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_sym</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:type</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">value</span> <span class="ruby-operator">!=</span> <span class="ruby-value str">'TaliaCore::DummySource'</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">value</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">new_value</span>)), <span class="ruby-node">&quot;Type should not change during import, may be a format problem. (From #{value} to #{new_value})&quot;</span>)
+107:               <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">new_value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>))
+108:                 <span class="ruby-comment cmt"># If both are Array-types, the new elements will be appended</span>
+109:                 <span class="ruby-comment cmt"># and duplicates nwill be removed</span>
+110:                 <span class="ruby-ivar">@sources</span>[<span class="ruby-identifier">uri</span>][<span class="ruby-identifier">key</span>] = (<span class="ruby-identifier">value</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">new_value</span>).<span class="ruby-identifier">uniq</span>
+111:               <span class="ruby-keyword kw">else</span>
+112:                 <span class="ruby-comment cmt"># Otherwise just replace</span>
+113:                 <span class="ruby-ivar">@sources</span>[<span class="ruby-identifier">uri</span>][<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">new_value</span>
+114:               <span class="ruby-keyword kw">end</span>
+115:             <span class="ruby-keyword kw">end</span>
+116:             <span class="ruby-comment cmt"># Now merge in everything else</span>
+117:             <span class="ruby-ivar">@sources</span>[<span class="ruby-identifier">uri</span>].<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">source_attribs</span>)
+118:           <span class="ruby-keyword kw">end</span>
+119:         <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -412,10 +414,37 @@ children
             onclick="toggleCode('M000231-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000231-source">
 <pre>
-     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/xml/generic_reader.rb, line 120</span>
-120:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_handlers</span>
-121:           <span class="ruby-ivar">@handlers</span> <span class="ruby-operator">||=</span> (<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">create_handlers</span> <span class="ruby-operator">||</span> {})
-122:         <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/xml/generic_reader.rb, line 121</span>
+121:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_handlers</span>
+122:           <span class="ruby-ivar">@handlers</span> <span class="ruby-operator">||=</span> (<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">create_handlers</span> <span class="ruby-operator">||</span> {})
+123:         <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000234" class="method-detail">
+        <a name="M000234"></a>
+
+        <div class="method-heading">
+          <a href="#M000234" class="method-signature">
+          <span class="method-name">read_children_of</span><span class="method-args">(element, progress = nil, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000234-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000234-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/xml/generic_reader.rb, line 136</span>
+136:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">read_children_of</span>(<span class="ruby-identifier">element</span>, <span class="ruby-identifier">progress</span> = <span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+137:           <span class="ruby-identifier">element</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">element</span><span class="ruby-operator">|</span>
+138:             <span class="ruby-identifier">progress</span>.<span class="ruby-identifier">inc</span> <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">progress</span>)
+139:             <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">unless</span>(<span class="ruby-identifier">element</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hpricot</span><span class="ruby-operator">::</span><span class="ruby-constant">Elem</span>))
+140:             <span class="ruby-identifier">read_source</span>(<span class="ruby-identifier">element</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+141:           <span class="ruby-keyword kw">end</span>
+142:         <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -426,7 +455,7 @@ children
 
         <div class="method-heading">
           <a href="#M000233" class="method-signature">
-          <span class="method-name">read_children_of</span><span class="method-args">(element, &amp;block)</span>
+          <span class="method-name">read_children_with_progress</span><span class="method-args">(element, &amp;block)</span>
           </a>
         </div>
       
@@ -435,16 +464,12 @@ children
             onclick="toggleCode('M000233-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000233-source">
 <pre>
-     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/xml/generic_reader.rb, line 129</span>
-129:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">read_children_of</span>(<span class="ruby-identifier">element</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-130:           <span class="ruby-identifier">run_with_progress</span>(<span class="ruby-value str">'Xml Read'</span>, <span class="ruby-identifier">element</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">size</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">prog</span><span class="ruby-operator">|</span>
-131:             <span class="ruby-identifier">element</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">element</span><span class="ruby-operator">|</span>
-132:               <span class="ruby-identifier">prog</span>.<span class="ruby-identifier">inc</span>
-133:               <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">unless</span>(<span class="ruby-identifier">element</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hpricot</span><span class="ruby-operator">::</span><span class="ruby-constant">Elem</span>))
-134:               <span class="ruby-identifier">read_source</span>(<span class="ruby-identifier">element</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-135:             <span class="ruby-keyword kw">end</span>
-136:           <span class="ruby-keyword kw">end</span>
-137:         <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/xml/generic_reader.rb, line 130</span>
+130:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">read_children_with_progress</span>(<span class="ruby-identifier">element</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+131:           <span class="ruby-identifier">run_with_progress</span>(<span class="ruby-value str">'Xml Read'</span>, <span class="ruby-identifier">element</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">size</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">prog</span><span class="ruby-operator">|</span>
+132:             <span class="ruby-identifier">read_children_of</span>(<span class="ruby-identifier">element</span>, <span class="ruby-identifier">prog</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+133:           <span class="ruby-keyword kw">end</span>
+134:         <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -464,11 +489,11 @@ children
             onclick="toggleCode('M000232-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000232-source">
 <pre>
-     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/xml/generic_reader.rb, line 124</span>
-124:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">read_source</span>(<span class="ruby-identifier">element</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-125:           <span class="ruby-identifier">attribs</span> = <span class="ruby-identifier">call_handler</span>(<span class="ruby-identifier">element</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-126:           <span class="ruby-identifier">add_source_with_check</span>(<span class="ruby-identifier">attribs</span>) <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">attribs</span>)
-127:         <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/xml/generic_reader.rb, line 125</span>
+125:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">read_source</span>(<span class="ruby-identifier">element</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+126:           <span class="ruby-identifier">attribs</span> = <span class="ruby-identifier">call_handler</span>(<span class="ruby-identifier">element</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+127:           <span class="ruby-identifier">add_source_with_check</span>(<span class="ruby-identifier">attribs</span>) <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">attribs</span>)
+128:         <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -495,7 +520,7 @@ children
 87:           <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">use_root</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-node">&quot;#{@doc.root.name}_handler&quot;</span>.<span class="ruby-identifier">to_sym</span>))
 88:             <span class="ruby-identifier">run_with_progress</span>(<span class="ruby-value str">'XmlRead'</span>, <span class="ruby-value">1</span>) { <span class="ruby-identifier">read_source</span>(<span class="ruby-ivar">@doc</span>.<span class="ruby-identifier">root</span>) }
 89:           <span class="ruby-keyword kw">else</span>
-90:             <span class="ruby-identifier">read_children_of</span>(<span class="ruby-ivar">@doc</span>.<span class="ruby-identifier">root</span>)
+90:             <span class="ruby-identifier">read_children_with_progress</span>(<span class="ruby-ivar">@doc</span>.<span class="ruby-identifier">root</span>)
 91:           <span class="ruby-keyword kw">end</span>
 92:           <span class="ruby-ivar">@sources</span>.<span class="ruby-identifier">values</span>
 93:         <span class="ruby-keyword kw">end</span>
@@ -504,24 +529,24 @@ children
         </div>
       </div>
 
-      <div id="method-M000234" class="method-detail">
-        <a name="M000234"></a>
+      <div id="method-M000235" class="method-detail">
+        <a name="M000235"></a>
 
         <div class="method-heading">
-          <a href="#M000234" class="method-signature">
+          <a href="#M000235" class="method-signature">
           <span class="method-name">use_root</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000234-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000234-source">
+            onclick="toggleCode('M000235-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000235-source">
 <pre>
-     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/xml/generic_reader.rb, line 139</span>
-139:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">use_root</span>
-140:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">use_root</span>
-141:         <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/active_source_parts/xml/generic_reader.rb, line 144</span>
+144:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">use_root</span>
+145:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">use_root</span>
+146:         <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>

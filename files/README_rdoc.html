@@ -56,7 +56,7 @@
     </tr>
     <tr class="top-aligned-row">
       <td><strong>Last Update:</strong></td>
-      <td>Mon Oct 05 17:40:18 +0200 2009</td>
+      <td>Thu Oct 22 16:27:50 +0200 2009</td>
     </tr>
     </table>
   </div>
@@ -69,60 +69,41 @@
   <div id="contextContent">
 
     <div id="description">
-      <h1>TaliaCore</h1>
+      <h1>Talia</h1>
 <p>
-This is the &quot;core&quot; of the Talia semantic digital web library
-system. Talia can be used with Ruby on Rails, or as a standalone package.
+This application is used for the current development version of Talia. If
+you want to get started, you may want to check out the documentation for
+the &quot;core&quot; classes instead:
+</p>
+<p>
+<a href="http://net7.github.com/talia_core">net7.github.com/talia_core</a>/
 </p>
 <p>
 More documentation can be found on the Talia website: <a
-href="http:///trac.talia.discovery-project.eu">trac.talia.discovery-project.eu</a>/
+href="http://net7sviluppo.com/trac/talia">net7sviluppo.com/trac/talia</a>/
 </p>
 <p>
 You may also want to consult the API documentation at <a
 href="http://net7.github.com/talia">net7.github.com/talia</a>/
 </p>
-<h1>Installation</h1>
+<h1>Installation and Configuration</h1>
 <p>
-If you have the Talia files on your sytem, you&#8216;re almost there. For
-now, please consult the web page for installation instructions.
-</p>
-<h1>Configuration</h1>
-<p>
-When you&#8216;re in Rails, you can start Talia in the environment.rb,
-using the <a
-href="../classes/TaliaCore/Initializer.html">TaliaCore::Initializer</a> -
-if you&#8216;re building a standalone application, it&#8216;s almost the
-same (although you&#8216;ll have to use standalone_db=yes to configure
-ActiveRecord manually)
+See the guide on the Wiki on how to create a new application with the Talia
+core classes (which is probably what you want to do)
 </p>
 <p>
-There are some sample configuration files in the distribution:
-</p>
-<ul>
-<li>talia_core.yml - This file contains the main configuration.
-
-</li>
-<li>database.yml - Standalon Db configuration. Same format as for Rails.
-
-</li>
-<li>rdfstore.yml - RDF storage configuration.
-
-</li>
-</ul>
-<p>
-The default configuration (talia_core.yml) will use the database.yml and
-rdfstore.yml to configure the data storage. See the example filme for an
-explanation of the options. The database configuration will only be used if
-you are running Talia standalone; otherwise you must use RAILS&#8217;
-existing database connection.
+<a
+href="http://net7sviluppo.com/trac/talia/wiki/TaliaInstallation">net7sviluppo.com/trac/talia/wiki/TaliaInstallation</a>
 </p>
 <p>
-The options for the RDF store vary depending on the store that you have
-selected, but some examples are provideed.
+You may also clone this sample application to play around with; and the
+user from the Discovery project can check their specialized installation
+guide:
 </p>
-<h1>DB Migrations</h1>
-<h1>Importing data</h1>
+<p>
+<a
+href="http://net7sviluppo.com/trac/talia/wiki/InstallTaliaForDiscoveryPartners">net7sviluppo.com/trac/talia/wiki/InstallTaliaForDiscoveryPartners</a>
+</p>
 
     </div>
 

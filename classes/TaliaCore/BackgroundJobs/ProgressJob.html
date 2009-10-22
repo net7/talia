@@ -92,13 +92,13 @@ Helper table to track the current status of a long-running task
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000242">clear</a>&nbsp;&nbsp;
-      <a href="#M000241">create_progress!</a>&nbsp;&nbsp;
-      <a href="#M000246">elapsed</a>&nbsp;&nbsp;
-      <a href="#M000247">eta</a>&nbsp;&nbsp;
-      <a href="#M000244">finish</a>&nbsp;&nbsp;
-      <a href="#M000243">inc</a>&nbsp;&nbsp;
-      <a href="#M000245">percentage</a>&nbsp;&nbsp;
+      <a href="#M000243">clear</a>&nbsp;&nbsp;
+      <a href="#M000242">create_progress!</a>&nbsp;&nbsp;
+      <a href="#M000247">elapsed</a>&nbsp;&nbsp;
+      <a href="#M000248">eta</a>&nbsp;&nbsp;
+      <a href="#M000245">finish</a>&nbsp;&nbsp;
+      <a href="#M000244">inc</a>&nbsp;&nbsp;
+      <a href="#M000246">percentage</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -138,11 +138,11 @@ Minimum interval for database updates.
     <div id="methods">
       <h3 class="section-bar">Public Class methods</h3>
 
-      <div id="method-M000242" class="method-detail">
-        <a name="M000242"></a>
+      <div id="method-M000243" class="method-detail">
+        <a name="M000243"></a>
 
         <div class="method-heading">
-          <a href="#M000242" class="method-signature">
+          <a href="#M000243" class="method-signature">
           <span class="method-name">clear</span><span class="method-args">()</span>
           </a>
         </div>
@@ -152,8 +152,8 @@ Minimum interval for database updates.
 Clears the progress for processes no longer active
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000242-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000242-source">
+            onclick="toggleCode('M000243-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000243-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/background_jobs/progress_job.rb, line 22</span>
 22:       <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">clear</span>
@@ -166,11 +166,11 @@ Clears the progress for processes no longer active
         </div>
       </div>
 
-      <div id="method-M000241" class="method-detail">
-        <a name="M000241"></a>
+      <div id="method-M000242" class="method-detail">
+        <a name="M000242"></a>
 
         <div class="method-heading">
-          <a href="#M000241" class="method-signature">
+          <a href="#M000242" class="method-signature">
           <span class="method-name">create_progress!</span><span class="method-args">(job_id, message = '', item_count = 1)</span>
           </a>
         </div>
@@ -180,8 +180,8 @@ Clears the progress for processes no longer active
 Create a new progress job
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000241-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000241-source">
+            onclick="toggleCode('M000242-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000242-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/background_jobs/progress_job.rb, line 15</span>
 15:       <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">create_progress!</span>(<span class="ruby-identifier">job_id</span>, <span class="ruby-identifier">message</span> = <span class="ruby-value str">''</span>, <span class="ruby-identifier">item_count</span> = <span class="ruby-value">1</span>)
@@ -196,11 +196,11 @@ Create a new progress job
 
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000246" class="method-detail">
-        <a name="M000246"></a>
+      <div id="method-M000247" class="method-detail">
+        <a name="M000247"></a>
 
         <div class="method-heading">
-          <a href="#M000246" class="method-signature">
+          <a href="#M000247" class="method-signature">
           <span class="method-name">elapsed</span><span class="method-args">()</span>
           </a>
         </div>
@@ -210,8 +210,8 @@ Create a new progress job
 Elapsed time in seconds
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000246-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000246-source">
+            onclick="toggleCode('M000247-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000247-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/background_jobs/progress_job.rb, line 54</span>
 54:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">elapsed</span>
@@ -223,11 +223,11 @@ Elapsed time in seconds
         </div>
       </div>
 
-      <div id="method-M000247" class="method-detail">
-        <a name="M000247"></a>
+      <div id="method-M000248" class="method-detail">
+        <a name="M000248"></a>
 
         <div class="method-heading">
-          <a href="#M000247" class="method-signature">
+          <a href="#M000248" class="method-signature">
           <span class="method-name">eta</span><span class="method-args">()</span>
           </a>
         </div>
@@ -237,8 +237,8 @@ Elapsed time in seconds
 Returns the estimated time remaining on the current job
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000247-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000247-source">
+            onclick="toggleCode('M000248-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000248-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/background_jobs/progress_job.rb, line 60</span>
 60:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">eta</span>
@@ -249,19 +249,19 @@ Returns the estimated time remaining on the current job
         </div>
       </div>
 
-      <div id="method-M000244" class="method-detail">
-        <a name="M000244"></a>
+      <div id="method-M000245" class="method-detail">
+        <a name="M000245"></a>
 
         <div class="method-heading">
-          <a href="#M000244" class="method-signature">
+          <a href="#M000245" class="method-signature">
           <span class="method-name">finish</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000244-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000244-source">
+            onclick="toggleCode('M000245-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000245-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/background_jobs/progress_job.rb, line 43</span>
 43:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">finish</span>
@@ -273,11 +273,11 @@ Returns the estimated time remaining on the current job
         </div>
       </div>
 
-      <div id="method-M000243" class="method-detail">
-        <a name="M000243"></a>
+      <div id="method-M000244" class="method-detail">
+        <a name="M000244"></a>
 
         <div class="method-heading">
-          <a href="#M000243" class="method-signature">
+          <a href="#M000244" class="method-signature">
           <span class="method-name">inc</span><span class="method-args">(inc_value = 1)</span>
           </a>
         </div>
@@ -289,8 +289,8 @@ same object will only save this value at most all DB_UPDATE_INTERVAL
 seconds. Will return true if the element was saved, false otherwise.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000243-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000243-source">
+            onclick="toggleCode('M000244-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000244-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/background_jobs/progress_job.rb, line 31</span>
 31:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">inc</span>(<span class="ruby-identifier">inc_value</span> = <span class="ruby-value">1</span>)
@@ -309,22 +309,22 @@ seconds. Will return true if the element was saved, false otherwise.
         </div>
       </div>
 
-      <div id="method-M000245" class="method-detail">
-        <a name="M000245"></a>
+      <div id="method-M000246" class="method-detail">
+        <a name="M000246"></a>
 
         <div class="method-heading">
-          <a href="#M000245" class="method-signature">
+          <a href="#M000246" class="method-signature">
           <span class="method-name">percentage</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-The <a href="ProgressJob.html#M000245">percentage</a> completed
+The <a href="ProgressJob.html#M000246">percentage</a> completed
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000245-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000245-source">
+            onclick="toggleCode('M000246-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000246-source">
 <pre>
     <span class="ruby-comment cmt"># File vendor/plugins/talia_core/lib/talia_core/background_jobs/progress_job.rb, line 49</span>
 49:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">percentage</span>
