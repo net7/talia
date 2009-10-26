@@ -1,10 +1,22 @@
 <object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" height="384" width="352">
 
-<param name="src" value="<%= @element.media(:mp4_media).first.location %>">
+<param name="src"  value="<%= @element.media(:mp4_media).first.location %>">
+<param name="href" value="<%= @element.media(:mp4_media).first.location %>">
 <param name="autoplay" value="true">
 <param name="loop" value="false">
 <param name="type" value="video/quicktime" height="352" width="384">
+<param name="target" value="myself">
 
-<embed src="<%= @element.media(:mp4_media).first.location %>" height="352" width="384" autoplay="true" loop="false" type="video/quicktime" controller="true" pluginspage="http://www.apple.com/quicktime/download/">
+<embed src="<%= @element.media(:mp4_media).first.location %>"
+	     href="<%= @element.media(:mp4_media).first.location %>"
+	     height="352"
+	     width="384"
+	     autoplay="true"
+	     loop="false"
+	     type="video/quicktime"
+	     controller="true"
+	     plugin="quicktimeplugin"
+	     target="myself"
+	     pluginspage="http://www.apple.com/quicktime/download/">
 
 </object>
