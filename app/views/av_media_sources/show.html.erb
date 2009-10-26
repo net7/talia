@@ -22,7 +22,7 @@
     <div class="float_clear"></div>
     <h2><%= t(:'talia.media.abstract') %></h2>
     <p class="text_long">
-      <%= @element.dct::abstract.first %>
+      <%= t(:"talia.abstracts.#{@element.uri.local_name}") %>
     </p>
 
     <div id="transcription">
