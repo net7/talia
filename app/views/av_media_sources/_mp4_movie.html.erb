@@ -4,14 +4,14 @@ WIDTH="384"
  HEIGHT="352"
 CODEBASE="http://www.apple.com/qtactivex/qtplugin.cab"
 >
-<param name="src" value="empty.mov"> 
+<param name="src" value="<%= @element.media(:mp4_media).first.location %>">
 <param name="qtsrc" value="<%=  @element.media(:mp4_media).first.location %>">
 <param name="autoplay" value="true">
 <param name="loop" value="false">
 <param name="controller" value="true">
 <embed
- src="empty.mov"
-qtsrc="<%= @element.media(:mp4_media).first.location  %>"
+ src="<%= @element.media(:mp4_media).first.location %>"
+qtsrc="<%= @element.media(:mp4_media).first.location %>"
 width="384"
 height="352"
 autoplay="true"
