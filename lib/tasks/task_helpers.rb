@@ -197,9 +197,9 @@ class TaskHelper
       semantic_flag = row[8]
       category = category_for(row[9])
       keywords = keywords_from(row[10])
-      bibliography = row[11]
-      abstract = row[12]
-      transcription = row[13]
+      bibliography  = row[11] 
+      abstracts     = { :italian => row[12], :english => row[13], :french => row[14], :german => row[15] }
+      transcription = row[16]
       
       element_uri = N::LOCAL + 'av_media_sources/' + UriEncoder.normalize_uri(title)
       element = TaliaCore::AvMedia.new(element_uri)
@@ -217,11 +217,19 @@ class TaskHelper
       element.category = category
       element.hyper::keyword << keywords
       element.hyper::bibliography << bibliography if(bibliography)
-      element.dct::abstract << abstract if(abstract)
+      element.dct::abstract << abstracts[:it] if(abstracts[:it])
       element.hyper::transcription << transcription if(transcription)
-    
+
+      abstracts.each do |language, value|
+        language = Globalize::Language.find_by_english_name("#{language.titleize}").id
+        key = "talia.abstracts.#{UriEncoder.normalize_uri(title)}"
+
+        translation = Globalize::ViewTranslation.find_or_create_by_language_id_and_tr_key_and_pluralization_index(language, key, 1)
+        translation.update_attribute("text", value)
+      end
+
       image = thumbnail_for(element, mp4_file, thumbnail_dir)
-    
+
       element.save!
       wmv_data.save!
       mp4_data.save!
