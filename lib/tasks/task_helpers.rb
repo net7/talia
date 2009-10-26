@@ -221,7 +221,7 @@ class TaskHelper
       element.hyper::transcription << transcription if(transcription)
 
       abstracts.each do |language, value|
-        language = Globalize::Language.find_by_english_name("#{language.titleize}").id
+        language = Globalize::Language.find_by_english_name("#{language.to_s.titleize}").id
         key = "talia.abstracts.#{UriEncoder.normalize_uri(title)}"
 
         translation = Globalize::ViewTranslation.find_or_create_by_language_id_and_tr_key_and_pluralization_index(language, key, 1)
