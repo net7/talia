@@ -22,6 +22,12 @@ class TaskHelper
       ENV['importer'] = 'TaliaUtil::HyperImporter::Importer'
       ENV['callback'] = 'TaliaUtil::HyperImporter::ImportCallback'
     end
+
+    # Prepares the environment for europeana import
+    def prepare_import_for_europeana
+      ENV['importer'] = 'TaliaUtil::EuropeanaImporter::Importer'
+      ENV['callback'] = 'TaliaUtil::EuropeanaImporter::ImportCallback'
+    end
     
     # Returns a preset RDF query that will select all books that have pages
     # in the default catalog. The books are referred to by :book and the

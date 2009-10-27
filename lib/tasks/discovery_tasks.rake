@@ -110,6 +110,13 @@ namespace :discovery do
      importer = TaliaUtil::ImportJobHelper.new(STDOUT, TaliaUtil::BarProgressor)
      importer.do_import
   end
+
+  desc "Europeana command line import."
+  task :europeana_import => :disco_init do
+    TaskHelper::prepare_import_for_europeana
+    importer = TaliaUtil::ImportJobHelper.new(STDOUT, TaliaUtil::BarProgressor)
+    importer.do_import
+  end
   
   # Import from Hyper
   desc "Import data from Hyper. Options: base_url=<base_url> [list_path=?get_list=all] [doc_path=?get=] [extension=] [user=<username> password=<pass>] [prepared_images=<directory>]"
