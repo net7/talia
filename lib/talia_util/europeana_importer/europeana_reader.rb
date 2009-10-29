@@ -1,3 +1,5 @@
+require 'digest/sha1'
+
 module TaliaUtil
   module EuropeanaImporter
     module EuropeanaReader
@@ -12,7 +14,7 @@ module TaliaUtil
       end
 
       def default_properties
-        add :uri, from_element(:europeana_uri), true
+        add :uri, source_name, true
       end
       
       # Add the default class and RDF type for the given type
@@ -35,14 +37,10 @@ module TaliaUtil
         N::URI.make_uri(property, ':', N::HYPER)
       end
 
-#      # Get a source name
-#      def source_name(name)
-#        if(name.blank?)
-#          return name
-#        else
-#          return N::LOCAL + from_element(:type) + "/" + name
-#        end
-#      end
+      # Get a source name
+      def source_name
+        return N::LOCAL + "bibliographical_card/" + Digest::SHA1.hexdigest("Time.now.to_s")
+      end
 
     end
   end
