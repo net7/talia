@@ -16,5 +16,12 @@ vendor/jruby-*
 delayed_copy*
 *~
 public/images/front_page_logo.gif
+public/images/active_scaffold/
+public/stylesheets/active_scaffold/
+public/custom_templates
+public/javascripts/active_scaffold/
 *.db
 data/*
+vendor/jruby*
+.gh_pages
+html

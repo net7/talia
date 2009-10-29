@@ -1,6 +1,7 @@
 class SourceDataController < ApplicationController
   include TaliaCore::DataTypes
-  upload_status_for :create
+  # TODO: Needs upload_progress plugin - not so important atm
+  # upload_status_for :create
   
   # GET /source_data/1
   def show

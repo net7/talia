@@ -1,10 +1,7 @@
 <%= render(:partial => 'page_script') %>
 <div id="description">
 </div>
-<!--[if !IE]>description<![endif]-->
-<div id="scroll">
-    <%= widget(:simple_mode_panorama, :elements => @pages, :panorama_type => 'vertical') %>
-</div>
+
 <!--[if !IE]>scroll<![endif]-->
 
 <div id="content" class="divided">
@@ -38,4 +35,9 @@
     </p>
   </div> <!-- chiude visore -->
   <!--[if !IE]>visore<![endif]-->
+</div>
+
+<!--[if !IE]>description<![endif]-->
+<div id="scroll">
+    <%= widget(:simple_mode_panorama, :elements => @pages, :panorama_type => 'vertical') %>
 </div>

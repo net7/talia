@@ -16,15 +16,15 @@
 [submodule "vendor/plugins/restful_authentication"]
 	path = vendor/plugins/restful_authentication
 	url = git://github.com/technoweenie/restful-authentication.git
-[submodule "vendor/plugins/has_many_polymorphs"]
-	path = vendor/plugins/has_many_polymorphs
-	url = git://github.com/fauna/has_many_polymorphs.git
 [submodule "vendor/plugins/upload_progress"]
 	path = vendor/plugins/upload_progress
 	url = git://github.com/rails/upload_progress.git
 [submodule "vendor/plugins/will_paginate"]
 	path = vendor/plugins/will_paginate
 	url = git://github.com/mislav/will_paginate.git
+[submodule "vendor/plugins/active_scaffold"]
+	path = vendor/plugins/active_scaffold
+	url = git://github.com/activescaffold/active_scaffold.git
 [submodule "vendor/plugins/talia_core"]
 	path = vendor/plugins/talia_core
 	url = git://github.com/net7/talia_core.git

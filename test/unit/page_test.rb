@@ -44,7 +44,7 @@ module TaliaCore
     def test_neighbour_pages
       book = make_big_book('test_neighbour_pages')
       book.order_pages!
-      page = book.pages[1]
+      page = book.ordered_pages.at(2)
       assert(Source.exists?(page.next_page))
       assert(Source.exists?(page.previous_page))
     end

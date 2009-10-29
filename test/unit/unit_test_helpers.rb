@@ -173,19 +173,20 @@ module TaliaCore
       book
     end
     
-   # Quick hack to "quickly" add a new property to the given Source. This
-  # will bypass the usual rdf creation routines and simply add the new
-  # property both to the db and rdf "manually" (which is quicker than recreating
-  # the rdf fully.
-  def quick_add_property(subject, predicate, object)
-    autosave = subject.autosave_rdf?
-    subject.autosave_rdf = false if(autosave)
-    subject[predicate] << object
-    subject.save!
-    subject.my_rdf[predicate] << object
-    subject.my_rdf.save
-    subject.autosave_rdf = autosave
-  end
+    # Quick hack to "quickly" add a new property to the given Source. This
+    # will bypass the usual rdf creation routines and simply add the new
+    # property both to the db and rdf "manually" (which is quicker than recreating
+    # the rdf fully.
+    def quick_add_property(subject, predicate, object)
+      autosave = subject.autosave_rdf?
+      subject.autosave_rdf = false if(autosave)
+      subject[predicate] << object
+      subject.save!
+      subject.my_rdf[predicate] << object
+      subject.my_rdf.save
+      subject.autosave_rdf = autosave
+    end
+    
     # Get the class that is tested here
     def tested_klass
       return @tested_klass if(@tested_klass)
@@ -216,17 +217,23 @@ module TaliaCore
       assert(klass.props_to_clone.size > 0)
       orig = klass.new("http://#{klass_name}/clone_tester")
       klass.props_to_clone.each do |prop|
-        orig[prop] << "#{prop} the value"
+        orig[prop] << prop_for_clone(prop)
       end
       orig.save!
       clone = orig.clone(orig.uri + 'clone')
       clone.save!
       klass.props_to_clone.each do |prop|
         assert_property(clone[prop], *orig[prop])
-        assert(clone[prop].include?("#{prop} the value"))
+        expected = prop_for_clone(prop)
+        assert(clone[prop].include?(expected), "Did not found expected property value >>#{expected}<< for property >>#{prop}<<. <#{clone[prop].join}>.")
       end
     end
-    
+
+    def prop_for_clone(prop)
+      value = "#{prop} the value"
+      (prop == N::RDF.type) ? N::SourceClass.new(value) : value
+    end
+
     # Asserts if the given properties are cloned on this class
     def assert_cloned(klass, *properties)
       properties.each do |prop|

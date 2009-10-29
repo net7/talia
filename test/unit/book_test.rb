@@ -41,7 +41,7 @@ module TaliaCore
     def test_has_ordered_pages
       book = make_big_book('test_has_ordered_pages')
       book.order_pages!
-      assert_equal(5, book.ordered_pages.size)
+      assert_equal(5, book.ordered_pages.elements.size)
     end
     
     def test_has_chapters

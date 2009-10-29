@@ -21,7 +21,6 @@ namespace :discovery do
   desc "Init for this tasks"
   task :disco_init do # => 'talia_core:talia_init' do
     unless(@talia_is_init)
-      # Dependencies.load_paths << File.join(File.dirname(__FILE__), '..', '..', 'app', 'models')
       require File.expand_path(File.dirname(__FILE__) + "/../../config/environment")
       TaskHelper::load_consts
       @talia_is_init = true
@@ -30,10 +29,7 @@ namespace :discovery do
   
   desc "Clear all the data (files and data store) if this instance."
   task :clear_all => 'talia_core:clear_store' do
-    data_dir = TaliaCore::CONFIG['data_directory_location']
-    iip_dir = TaliaCore::CONFIG['iip_root_directory_location']
-    FileUtils.rm_rf(data_dir) if(File.exist?(data_dir))
-    FileUtils.rm_rf(iip_dir) if(File.exist?(iip_dir))
+    Util::clear_data
     puts "Attention! Data and iip director were removed! Remember to change the permissions for production."
     Util::setup_ontologies
   end
@@ -99,32 +95,35 @@ namespace :discovery do
     Util.flush_rdf
   end
   
-  desc "Import data from a local XML file. Options: xml=<file_path> [prepared_images=<directory>]"
-  task :import_from_file => :disco_init do
-    xml_file = ENV['xml']
-    assit(File.exist?(xml_file))
-    TaliaUtil::XmlImport::options[:prepared_images] = ENV['prepared_images'] if(ENV['prepared_images'])
-    TaliaUtil::XmlImport::import(xml_file)
-  end
-  
   desc "Import data and prepare the test server. Downloads data directly from the net."
   task :setup_testserver => [:prep_testserver, :hyper_import, :create_color_facsimile_edition]
+  
+  desc "Import XML data as a background task. This adds some discovery-specific flavours to the base import"
+  task :xml_background_import do
+    TaskHelper::prepare_import
+    TaskHelper::background_job('xml_import', :tag => 'import')
+  end
+  
+  desc "Command line import. See disco_import_background."
+  task :xml_import => :disco_init do
+     TaskHelper::prepare_import
+     importer = TaliaUtil::ImportJobHelper.new(STDOUT, TaliaUtil::BarProgressor)
+     importer.do_import
+  end
+
+  desc "Europeana command line import."
+  task :europeana_import => :disco_init do
+    TaskHelper::prepare_import_for_europeana
+    importer = TaliaUtil::ImportJobHelper.new(STDOUT, TaliaUtil::BarProgressor)
+    importer.do_import
+  end
   
   # Import from Hyper
   desc "Import data from Hyper. Options: base_url=<base_url> [list_path=?get_list=all] [doc_path=?get=] [extension=] [user=<username> password=<pass>] [prepared_images=<directory>]"
   task :hyper_import => :disco_init do
-    # The list file will be relative to the current dir, not the doc dir
-    list_path = ENV['list_path']
-    if((!ENV['base_url'] || ENV['base_url'] == '') && File.exist?(list_path))
-      list_path = File.expand_path(list_path)
-    end
-    if(File.directory?(doc_dir = File.join(ENV['base_url'], ENV['doc_path'])))
-      puts "Setting directory to #{doc_dir}"
-      FileUtils.cd(doc_dir)
-    end
-    TaliaUtil::HyperXmlImport::options[:prepared_images] = ENV['prepared_images'] if(ENV['prepared_images'])
-    TaliaUtil::HyperXmlImport::set_auth(ENV['user'], ENV['password'])
-    TaliaUtil::HyperXmlImport::import(ENV['base_url'], list_path, ENV['doc_path'], ENV['extension'])
+    ENV['reset_store'] = 'yes'
+    TaskHelper::background_job('hyper_import_xml_old', :tag => 'import')
+    puts "Old-style hyper XML import queued. Will run as a background task."
   end
   
   # creates a facsimile edition and adds to it all the color facsimiles found in the DB
@@ -166,7 +165,7 @@ namespace :discovery do
           qry_man.execute.each do |facsimile|
             # We just have to add the manifestation element - this is done
             # "manually" to avoid uneccessary calls to re-create the RDF
-            TaskHelper::quick_add_property(facsimile, N::HYPER.manifestation_of, new_page)
+            facsimile.write_predicate_direct(N::HYPER.manifestation_of, new_page)
             facsimiles += 1
             progress.inc
           end
@@ -290,11 +289,8 @@ namespace :discovery do
     qry.where(:book, N::RDF.type, N::HYPER.Book)
     books = qry.execute
 
-    progress_size = books.size
+    progress = ProgressBar.new('Books', books.size)
 
-    puts "Processing #{progress_size} books..."
-    progress = ProgressBar.new('Books', progress_size)
-    
     books.each do |book|
       book.recreate_html_data!(version)
       progress.inc
@@ -378,6 +374,51 @@ namespace :discovery do
   desc "Update from svn and deploy the WAR file. Options = vhost_dir=<virtual host dir>"
   task :up_and_away => ['update_app', 'deploy_war']
 
+
+  # Everything that has to do with the custom templates
+  namespace :templates do
+    
+    desc "Load the xslt from the file system into the database as custom templates"
+    task :setup_xslt => :disco_init do
+      files = FileList.new("#{TALIA_ROOT}/xslt/**/*.xsl")
+      files.each do |xsl_file|
+        puts "Importing #{xsl_file}"
+        file_content = File.open(xsl_file) { |io| io.read }
+        file_content.gsub!(/(<xsl:include\s+href\s*=\s*['|"])(.*)\.xslt?(['|"]\s*\/>)/, "\\1#{N::LOCAL}custom_templates/xslt/\\2\\3")
+        template = CustomTemplate.new(:name => File.basename(xsl_file, '.xsl'), 
+        :content => file_content, :template_type => 'xslt')
+        template.save!
+      end
+    end
+    
+    desc "Load the customizable css into the database as custom templates."
+    task :setup_css => :disco_init do
+      files = FileList.new("#{TALIA_ROOT}/customization_files/customizable_css/*.css")
+      files.each do |css_file|
+        puts "Importing #{css_file}"
+        file_content = File.open(css_file) { |io| io.read }
+        file_content = '/* Template from empty file */' if(!file_content || file_content == '')
+        template = CustomTemplate.new(:name => File.basename(css_file, '.css'),
+          :content => file_content, :template_type => 'css')
+        template.save!
+      end
+    end
+    
+    desc "Delete all custom xslt files from the database"
+    task :clear_xslt => :disco_init do
+      CustomTemplate.delete_all(:template_type => 'xslt')
+    end
+    
+    desc "Delete all custom css files from the database"
+    task :clear_css => :disco_init do
+      CustomTemplate.delete_all(:template_type => 'css')
+    end
+    
+    desc "Delete all custom templates from the database"
+    task :clear => :disco_init do
+      CustomTemmplate.delete_all
+    end
+  end
 
   namespace :pdf do
     desc "Prepare the environment for PDF tasks"

@@ -1,5 +1,0 @@
-<%= error_messages_for :user %>
-<% form_for(@user, :url => {:controller => 'admin/users', :action => 'create'}) do |f| %>
-  <%= render :partial => "form" %>
-  <p><%= f.submit "submit" %> or <%= link_to "cancel", :action => 'index' %></p>
-<% end %>

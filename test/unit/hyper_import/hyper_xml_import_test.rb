@@ -20,16 +20,28 @@ module TaliaUtil
     # Flush RDF before each test
     def setup
       flush_once_for_import_test
+      
+      setup_once(:job) do
+        Bj::Table::Job.delete_all
+        Bj::Table::Job.new.save
+        job = Bj::Table::Job.find(:first)
+        ENV['JOB_ID'] = job.id.to_s
+        job
+      end
+      
       setup_once(:dummy_element) do
         # Add a dummy element for N-IV-1,8 - this will check if the importer 
         # will correctly change the type and set the default catalog for
         # the element
-        TaliaCore::Source.new(N::LOCAL + 'N-IV-1,8').save!
-        base_uri = ''
-        list_path = "list.xml"
-        sig_path = ""
+        TaliaCore::DummySource.new(N::LOCAL + 'N-IV-1,8').save!
         
-        run_in_data_dir { HyperXmlImport.import(base_uri, list_path, sig_path) }
+        ENV['base_url'] = "#{get_data_dir}/"
+        ENV['index'] = 'list.xml'
+        ENV['importer'] = 'TaliaUtil::HyperImporter::Importer'
+        
+        importer = TaliaUtil::ImportJobHelper.new(STDERR, TaliaUtil::BarProgressor)
+        importer.do_import
+      
         true
       end
     end
@@ -79,7 +91,9 @@ module TaliaUtil
     end
     
     def test_archive_exists
-      assert(TaliaCore::Archive.exists?(N::LOCAL + "Goethe-+und+Schiller-Archiv"))
+      archives = ''
+      TaliaCore::Archive.find(:all).each { |ar| archives << ">> #{ar.uri} <<\n"}
+      assert(TaliaCore::Archive.exists?(N::LOCAL + "Goethe-+und+Schiller-Archiv"), "Existing archives #{archives}")
     end
     
     def test_rdf_page_title

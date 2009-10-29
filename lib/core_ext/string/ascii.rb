@@ -1,6 +1,7 @@
 require 'iconv'
 
-module Ascii
+# Used to escape accented characters in strings.
+module Ascii 
   def escape_accented_entities
     escape_entities :accented
   end

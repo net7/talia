@@ -67,10 +67,14 @@ module TaliaCore
       src_rel.rdf::clone_me_inverted << src
       src.rdf::no_clone << 'none'
       src.save!
+      src_rel.reset!
+      
       clone = src.clone('http://expression_card_test/test_clone/the_clone')
       clone.save!
       assert_property(clone.rdf::clone_me, 'foo', 'bar')
+      assert_equal(clone.my_rdf[N::RDF.clone_me], ['foo', 'bar'])
       assert_property(clone.rdf::clone_me_too, src_rel)
+
       assert_property(src_rel.rdf::clone_me_inverted, src, clone)
       assert_property(clone.rdf::no_clone)
     end
@@ -112,7 +116,19 @@ module TaliaCore
       assert_equal(1, card.manifestations.size)
       assert_equal(man, card.manifestations[0])
     end
-    
+
+
+    def test_manifestation_with_type
+      card = make_card('test_manifestation_with_type')
+      man = TextReconstruction.new('typed_manifestation')
+      card.add_manifestation(man)
+      man.save!
+      card.save!
+      manifs = card.manifestations(TaliaCore::TextReconstruction)
+      assert_equal(1, manifs.size)
+      assert_equal(man, manifs.first)
+    end
+
     def test_default_catalog
       card = make_card('test_default_catalog')
       assert_equal(card.catalog, Catalog.default_catalog)
@@ -132,7 +148,7 @@ module TaliaCore
       card.keywords << keywords
       card.save!
       card_n = TaliaCore::ExpressionCard.find(card.id)
-      assert_equal(card_n.keywords, keywords)
+      assert_equal(card_n.keywords.values, keywords)
       assert_equal(card_n.keywords_as_strings, keyw_strs)
     end
     

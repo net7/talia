@@ -1,0 +1,1 @@
+../../vendor/plugins/talia_core/generators/talia_migrations/templates/bj_migration.rb

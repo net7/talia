@@ -63,6 +63,13 @@ module SimpleEditionHelper
       end
     end
 
+    # User-modifiable stylesheets
+    unless @user_stylesheets.nil?
+      @user_stylesheets.each do |user_style|
+        links << custom_style_link(user_style)
+      end
+    end
+
     # add print stylesheet if present
     unless @print_stylesheet.nil?
       @print_stylesheet.each do |print_style|

@@ -35,6 +35,10 @@ module TaliaUtil
             end
           end
           progress.finish
+
+          progress = ProgressBar.new("Writing", TaliaUtil::HyperImporter::Importer.import_count)
+          TaliaUtil::HyperImporter::Importer.write_imported! { progress.inc }
+          progress.finish
         end
         puts "Import completed in sec %.2f" %elapsed
       end

@@ -25,7 +25,7 @@ module TaliaCore
       data.create_from_data(file_location, book_text)
       if self.data_records.empty?
         self.data_records << data
-        self.dcns::format << 'text/html'
+        self.predicate_replace(:dcns, 'format', 'text/html')
       end
       self.save!
     end

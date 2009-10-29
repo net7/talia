@@ -17,24 +17,24 @@ module TaliaCore
       # object is a bit tricky
       ordered = ordered_pages
       ordered.delete_all unless ordered.first.nil?
+      
       book_chapters = book.chapters
+      book_order = book.ordered_pages
       chapter_index = book_chapters.index(self) 
       next_chapter = book_chapters[chapter_index + 1]
-      starting_page = self.hyper.first_page[0]
-      ending_page = next_chapter.hyper.first_page[0] unless next_chapter.nil?
-      starting_page_position = book.ordered_pages.find_position_by_object(starting_page)        
-      if ending_page.nil? 
-        # this is the last chapter of the book
-        ending_page_position = book.ordered_pages.size
+
+      first_position = book_order.find_position_by_object(self.first_page)
+      last_position = if(next_chapter)
+        book_order.find_position_by_object(next_chapter.first_page) - 1
       else
-        ending_page_position = book.ordered_pages.find_position_by_object(book.ordered_pages.previous(ending_page))
+        book_order.ordered_objects.size - 1
       end
-      temp_page = book.ordered_pages.at(starting_page_position)
-      ordered.insert_at(temp_page.position, temp_page)
-      while self.book.ordered_pages.find_position_by_object(temp_page) < ending_page_position
-        temp_page = book.ordered_pages.next(temp_page)
-        ordered.insert_at(temp_page.position, temp_page)
+
+      # Go through the pages
+      (first_position..last_position).each do |index|
+        ordered.add(book_order.ordered_objects[index])
       end
+      
       ordered.save!
     end
     
@@ -80,7 +80,7 @@ module TaliaCore
           end
         end
       end
-      subparts = pages + paragraphs
+      (pages + paragraphs)
     end    
 
     # return the position for search_key

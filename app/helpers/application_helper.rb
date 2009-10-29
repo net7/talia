@@ -115,6 +115,11 @@ module ApplicationHelper
     link_to(text, :controller => 'sources', :action => 'show', :id => source.uri.local_name)
   end
   
+  # Creates a link to a custom stylesheet
+  def custom_style_link(style)
+    "<link href=\"#{url_for(:controller => 'custom_templates', :action => 'stylesheets', :id => style)}\" media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />"
+  end
+  
   def stylesheet(*file_names)
     file_names.each {|fn| content_for :stylesheet, stylesheet_link_tag(fn.to_s)}
     nil

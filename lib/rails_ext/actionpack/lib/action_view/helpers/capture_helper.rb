@@ -1,4 +1,4 @@
-module ActionView
+module ActionView # :nodoc:
   module Helpers
     module CaptureHelper
 

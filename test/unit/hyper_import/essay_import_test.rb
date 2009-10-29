@@ -31,7 +31,7 @@ module TaliaUtil
     # This used to break the import
     def test_echavez_with_strange_abstract
       # Test if the import succeeds and the correct data is loaded into the db
-      assert_equal(load_doc('echaves-1').root.elements['abstract'].text, hyper_import(load_doc('echaves-1'))[N::DCT.abstract][0])    
+      assert_equal((load_doc('echaves-1').root/:abstract).inner_html, hyper_import(load_doc('echaves-1'))[N::DCT.abstract][0])    
     end
     
     # Test if the types were imported correctly

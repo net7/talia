@@ -41,11 +41,10 @@ module TaliaCore
       qry.sort(:pos)
       pages = qry.execute
       pages.each do |page|
-        ordered.insert_at(page.position, page)
+        ordered.add(page)
+      end
         ordered.save!
       end
-
-    end
 
     # Returns an array containing all the pages in this book, ordered
     def ordered_pages
@@ -250,15 +249,16 @@ module TaliaCore
     # receive the cloned page object.
     def clone_to(catalog)
       my_clone = catalog.add_from_concordant(self)
-      pages = ordered_pages.elements
+      pages = ordered_pages.ordered_objects
       cloned_order = my_clone.ordered_pages
-
-      pages.each do |page|
+      
+      pages.each_index do |index|
+        page = ordered_pages.at(index)
+        next unless(page) # Skip empty elements
         page_clone = catalog.add_from_concordant(page)
-        page_clone.dct::isPartOf << my_clone
-        # TODO: This must use #insert_at, since #add() will (at the moment)
-        # only work correctly if you'd save after each iteration
-        cloned_order.insert_at(page.position.to_i, page_clone)
+        page_clone[N::DCT.isPartOf] << my_clone
+        # We insert the page at the same index as the old page
+        cloned_order.insert_at(index, page_clone)
 
         yield(page, page_clone) if(block_given?)
 

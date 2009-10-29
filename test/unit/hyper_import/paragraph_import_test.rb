@@ -21,16 +21,15 @@ module TaliaUtil
       setup_once(:coord_para) { hyper_import(load_doc('D-12,10r[1]')) }
       setup_once(:multinotes) { hyper_import(load_doc('Mp-XIV-2,55v[2]et56r[1]')) }
       setup_once(:work_para) { hyper_import(load_doc('WS-194')) }
-    
     end
     
     # Special test - this one caused trouble during import
-    def test_messed_up_note
-      test_par = hyper_import(load_doc('D-12,3r[1]et4r[1]'))
-      test_par.hyper::note.each do |note|
-        puts note[N::HYPER.coordinates].join(', ')
-      end
-    end
+    # def test_messed_up_note
+    #   test_par = hyper_import(load_doc('D-12,3r[1]et4r[1]'))
+    #   test_par.hyper::note.each do |note|
+    #     puts note[N::HYPER.coordinates].values.join(', ')
+    #   end
+    # end
     
     # Test if the import succeeds
     def test_import
@@ -63,6 +62,13 @@ module TaliaUtil
       assert_kind_of(TaliaCore::Note, notes[0])
     end
     
+    # Test the notes rdf type
+    def test_paragph_notes_types
+      notes = @coord_para.hyper::note
+      assert_equal(1, notes.size)
+      assert_property(notes.first.types, N::HYPER.Note)
+    end
+    
     # Test if the properties of a paragraph were imported correctly
     def test_paragraph_notes_position
       note = @coord_para.hyper::note[0]
@@ -76,6 +82,17 @@ module TaliaUtil
       assert_property(note.hyper::page, N::LOCAL + "AC,[Text]")
     end
     
+    # Test if the properties of a paragraph were imported correctly
+    def test_paragraph_notes_page_rdf
+      note = @paragraph.hyper::note[0]
+      assert_equal(note.my_rdf[N::HYPER.page].collect { |p| p.uri }, [ N::LOCAL + "AC,[Text]" ])
+    end
+
+    # Test if the imported value arrives correctly at the "pages" accessor
+    def test_paragraph_pages
+      assert_equal(@paragraph.pages.collect { |p| p.uri }, [ N::LOCAL + "AC,[Text]" ])
+    end
+    
     # Test import of a paragraph with multiple notes
     def test_paragraph_multiple_notes
       notes = @multinotes.hyper::note
@@ -87,7 +104,7 @@ module TaliaUtil
     end
     
     # Test work paragraph
-    def test_work_paragrahph
+    def test_work_paragraph
       assert_types(@work_para, N::HYPER + "Paragraph", N::HYPER + "Work")
       assert_equal(2, @work_para.hyper::note.size)
     end

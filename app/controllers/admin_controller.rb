@@ -1,7 +1,1 @@
-class AdminController < ApplicationController
-  require_role 'admin'
-
-  def index
-    @links = %w(users translations) # sources removed as non-working
-  end
-end
+../../vendor/plugins/talia_core/generators/talia_admin/templates/controllers/admin_controller.rb

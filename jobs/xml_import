@@ -1,0 +1,2 @@
+importer = TaliaUtil.ImportJobHelper.new
+importer.do_import

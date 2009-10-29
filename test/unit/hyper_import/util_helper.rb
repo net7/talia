@@ -1,6 +1,6 @@
-require 'rexml/document'
 require 'fileutils'
 require File.join(File.dirname(__FILE__), '..', '..', 'test_helper')
+require 'hpricot'
 
 module TaliaUtil
   module UtilTestMethods
@@ -12,9 +12,22 @@ module TaliaUtil
       name = URI.escape(name)
       demo_docs ||= {}
       demo_docs[name] ||= begin
-        REXML::Document.new(File.open(File.join(UTIL_PATH, 'import_samples', "#{name}.xml")))
+        File.open(File.join(UTIL_PATH, 'import_samples', "#{name}.xml")) { |io| Hpricot.XML(io) }
       end
       demo_docs[name]
+    end
+    
+    def run_job(job, options)
+      options[:no_tickle] = true
+      options[:env]['JOB_ID'] = '0'
+      TaliaCore::BackgroundJobs::Job.submit_with_progress(job, options)
+      print ">job>"
+      Bj.run(:wait => 2, :forever => false)
+      print "<done<"
+    end
+    
+    def get_data_dir
+      File.join(UTIL_PATH, 'import_samples')
     end
     
     # This is used to run the given block inside an environment inside the "data"
@@ -23,15 +36,23 @@ module TaliaUtil
     # behaviour)
     def run_in_data_dir
       dir = File.expand_path(FileUtils.pwd)
-      FileUtils.cd(File.join(UTIL_PATH, 'import_samples'))
+      FileUtils.cd(get_data_dir)
       result = yield
       FileUtils.cd(dir) # restore the dir
       result
     end
     
     # Runs the hyper import inside the data dir (so that connected files are loaded correctly)
-    def hyper_import(xml)
-      run_in_data_dir { HyperImporter::Importer.import(xml) }
+    def hyper_import(xml, siglum = nil)
+      siglum  ||= (xml/:siglum).inner_html
+      run_in_data_dir do
+        TaliaCore::ActiveSource.create_from_xml(xml.to_s, :reader => TaliaUtil::HyperImporter::Importer)
+        TaliaCore::ActiveSource.find(:first, :conditions => { :uri => N::LOCAL + irify(siglum) })
+      end
+    end
+    
+    def irify(uri)
+      N::URI.new(uri.to_s.gsub( /[{}|\\^`\s]/, '+'))
     end
     
     def data_record_files
@@ -48,8 +69,6 @@ module TaliaUtil
     def clean_all_with_caches
       Util.flush_rdf
       Util.flush_db
-      HyperImporter::Importer.type_cache.clear
-      HyperImporter::SourceCache.cache.clear
     end
 
     # Clear the system for an import test

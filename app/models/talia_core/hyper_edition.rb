@@ -28,9 +28,7 @@ module TaliaCore
       
     # for HNML documents. It uses a special XSL to get the highest "layer" value
     def hnml_max_layer
-      saxon = JXslt::Saxon.new
-      xsl = "#{XSLT_ROOT}/hnml/get_max_layer.xsl"
-      saxon.transform(xsl, @in_xml, nil, options = {:in => "string", :out => "string"})
+      perform_transformation('get_max_layer', @in_xml)
     end
 
     protected
@@ -50,8 +48,10 @@ module TaliaCore
     end
 
     def perform_transformation(xsl, xml, transformer_parameters=nil)
+      xsl_object = CustomTemplate.find(:first, :conditions => { :template_type => 'xslt', :name => xsl })
+      raise(ArgumentError, "Template not found for xsl transformation: #{xsl}") unless(xsl_object)
       saxon = JXslt::Saxon.new
-      output = saxon.transform(xsl, xml, nil, options = {:in => "string", :out => "string", :transformer_parameters => transformer_parameters})
+      output = saxon.transform(xsl_object.content, xml, nil, options = {:in => "string", :out => "string", :xsl => "string", :transformer_parameters => transformer_parameters})
     end
 
   end

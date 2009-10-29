@@ -1,0 +1,4 @@
+# Maps Hyper types to RDF types. The key to each entry may be a type or a 
+# subtype from the Hyper system. A subtype will always take precedence! If
+# a subtype is matched, the system won't look at the type
+bibligraphical_card: ":bibligraphical_card"
