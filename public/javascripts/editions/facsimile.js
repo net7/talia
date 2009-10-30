@@ -12,7 +12,8 @@ Event.observe(window, 'load', function() {
     if ($('toolbar')) centerToolbar();
 
     // Set height of elements
-    set_height();
+    // ALREADY se in document.observe("dom:loaded"... 
+    //    set_height();
     
     // setThumbsSize($$('div.lonely p a img'));
     // setThumbsSize();

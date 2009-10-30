@@ -22,8 +22,17 @@ class CriticalEditionMenuWidget < Widgeon::Widget
         title = uri.split('/')[-1]
       end
     else
-      title = item.dcns::title.first.to_s
-      title = item.uri.local_name.to_s if (title.empty?)
+#      title = item.dcns::title.first.to_s
+#      title = item.uri.local_name.to_s if (title.empty?)
+       qry = Query.new.select(:title).distinct
+       qry.where(item, N::DCNS.title, :title)
+       res = qry.execute
+       if (res[0].nil?)
+         title = uri.local_name.to_s
+       else
+         title = res[0]
+       end
+
     end
     title
   end
