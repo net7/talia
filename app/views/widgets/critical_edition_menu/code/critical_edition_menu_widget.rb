@@ -28,7 +28,7 @@ class CriticalEditionMenuWidget < Widgeon::Widget
        qry.where(item, N::DCNS.title, :title)
        res = qry.execute
        if (res[0].nil?)
-         title = uri.local_name.to_s
+         title = item.uri.local_name.to_s
        else
          title = res[0]
        end
