@@ -58,7 +58,7 @@ module TaliaUtil
         add_mapped :publisher
         add_mapped :publishingPlace
         add_mapped :ordering
-        add_defaults
+        add_defaults false
       end
       
       element :catalog do
