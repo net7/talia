@@ -29,7 +29,7 @@ module TaliaUtil
         add_mapped :medium
         add_mapped :identifier
         add_mapped :source
-        add_mapped :language
+        add_mapped :dc_language
         add_mapped :dc_relation
         add_mapped :is_version_of
         add_mapped :has_version
@@ -54,7 +54,7 @@ module TaliaUtil
         add_mapped :user_tag
         add_mapped :unstored
         add_mapped :object
-        add_mapped :language
+        add_mapped :europeana_language
         add_mapped :provider
         add_mapped :europeana_type
         add_mapped :europeana_uri

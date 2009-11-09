@@ -16,14 +16,78 @@ module TaliaCore
       
       namespaced_field :dct, :isPartOf, :abstract
 
-      # namespaced field for Europeana
-      namespaced_field :userTag, :unstored, :object, :provider,
-                       :uri, :year, :hasObject, :country
+      namespaced_field :dcns, :alternative, :conforms_to
+
+      namespaced_field :dct, :created, :extent, :hasFormat, :hasPart,
+        :hasVersion, :isFormatOf, :isPartOf, :isReferencesBy,
+        :isReplacedBy, :isRequiredBy, :issued, :isVersionOf,
+        :medium, :provenance, :references, :replaces, :requires, :spatial,
+        :tableOfContents, :temporal
+
+#      namespaced_field :hyper, :is_shown_by, :is_shown_at, :user_tag, :unstored,
+#        :object, :provider, :uri, :year, :has_object, :country
+
+
+      def type(namespace = nil)
+        if namespace.nil?
+          ''
+        else
+          case namespace.to_sym
+          when :dc
+            @record.predicate('dcns', 'type').values
+          when :ese
+            @record.predicate('hyper', 'type').values.to_s.upcase
+          end
+        end
+      end
+
+      def language(namespace = nil)
+        case namespace
+        when :dc
+          @record.predicate('dcns', 'language').values
+        when :ese
+          @record.predicate('hyper', 'language').values
+        end
+      end
+
+      def isShownBy(namespace = nil)
+         @record.predicate('hyper', 'isShownBy').values
+      end
+
+      def isShownAt(namespace = nil)
+        @record.predicate('hyper', 'isShownAt').values
+      end
+
+      def userTag(namespace = nil)
+        @record.predicate('hyper', 'userTag').values
+      end
       
-      # Type information. Base class is not terribly useful, but needed to
-      # overwrite default #type method
-      def type
-        ''
+      def unstored(namespace = nil)
+        @record.predicate('hyper', 'unstored').values
+      end
+
+      def object(namespace = nil)
+        @record.predicate('hyper', 'object').values
+      end
+
+      def provider(namespace = nil)
+        result = @record.predicate('hyper', 'provider').values
+      end
+
+      def uri(namespace = nil)
+        @record.predicate('hyper', 'uri').values
+      end
+
+      def year(namespace = nil)
+        @record.predicate('hyper', 'year').values
+      end
+
+      def hasObject(namespace = nil)
+        @record.predicate('hyper', 'hasObject').values
+      end
+
+      def country(namespace = nil)
+        @record.predicate('hyper', 'country').values
       end
       
       def initialize(record)
@@ -31,7 +95,7 @@ module TaliaCore
       end
       
       # Get the author/creator
-      def creator
+      def creator(namespace = nil)
         @record.dcns::creator.collect do |creator|
           if(creator.is_a?(TaliaCore::ActiveSource))
             author = ''
@@ -48,7 +112,7 @@ module TaliaCore
       end
       
       # Identifier for the resource
-      def identifier
+      def identifier(namespace = nil)
         @record.uri.to_s
       end
       
