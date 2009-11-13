@@ -1,5 +1,7 @@
 <ul>
   <% @result.each do |item| %>
-    <%= "<li>#{item.word}<span class='informal'>#{item.counter.to_i} occurrences</span></li>" %>
+    <%= 
+      "<li>#{item.word}</li>" #"<span class='informal'>#{item.counter.to_i} occurrences</span></li>"
+    %>
   <% end %>
 </ul>
