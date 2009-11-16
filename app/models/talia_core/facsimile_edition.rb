@@ -4,10 +4,12 @@ module TaliaCore
     # URI prefix for editions
     EDITION_PREFIX = 'facsimiles'
 
+    ORDERED_BOOK_TYPES = ['Work', 'Manuscript']
+
     ORDERED_BOOK_SUBTYPES = {
       'Work' => ['PrintedAndDistributed', 'Unprinted', 'NotDistributed', 'PrivatePublication'],
-      'Manuscript' => ['Notebook', 'Copybook', 'Dossier', 'ManuscriptForPrinting',
-        'Draft', 'PosthumousFragment', 'PosthumousWriting', 'AuthorizedManuscript',
+      'Manuscript' => ['Draft', 'ManuscriptForPrinting', 'Dossier', 'Copybook', 'Notebook',
+         'PosthumousFragment', 'PosthumousWriting', 'AuthorizedManuscript',
         'Correspondence', 'ICN', 'LectureManuscript']
     }
 
@@ -22,6 +24,12 @@ module TaliaCore
         qry.where(:b, N::HYPER.in_catalog, self)
         qry.execute
       end
+
+      result_types = []
+      ORDERED_BOOK_TYPES.each do |t|
+        result_types << N::HYPER + t if @types.include?(N::HYPER + t)
+      end unless ORDERED_BOOK_TYPES.empty?
+      result_types || @types
     end
     
     # returns an array containing a list of available subtypes of the given type. Of course they must
