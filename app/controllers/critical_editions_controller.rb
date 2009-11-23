@@ -172,7 +172,8 @@ class CriticalEditionsController < SimpleEditionController
       {:text => params[:id], :link => @edition.uri.to_s}, 
       {:text => @book.dcns.title.first.to_s}        
     ]  
-    set_user_stylesheet ['tei_style', 'tooltip']
+      set_custom_stylesheet ['tooltip']
+      set_user_stylesheet ['tei_style']
   end
   
   def prepare_for_chapter
@@ -184,7 +185,8 @@ class CriticalEditionsController < SimpleEditionController
       {:text => @book.dcns.title.first.to_s, :link => @book.uri.to_s},
       {:text => @chapter.dcns.title.first.to_s}
     ]
-    set_user_stylesheet ['tei_style', 'tooltip']
+    set_custom_stylesheet ['tooltip']
+    set_user_stylesheet ['tei_style',]
   end
   
   def prepare_for_part
