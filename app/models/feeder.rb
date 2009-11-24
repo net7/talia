@@ -92,7 +92,7 @@ class Feeder
     end
     
     # add the title
-    title = contribution.dcns.title.to_s
+    title = contribution.dcns.title.first.to_s
     metadata.add_element(REXML::Element.new("talia:title").add_text(title))
       
     # AvMedia sources have the title also in the standard_title
@@ -108,7 +108,7 @@ class Feeder
     end  
     
     metadata.add_element(REXML::Element.new("talia:language").add_text(""))
-    date = contribution.dcns.date.to_s
+    date = contribution.dcns.date.first.to_s
     metadata.add_element(REXML::Element.new("talia:date").add_text(date))
 
     # AvMedia also have some extra data to be fed
@@ -161,7 +161,7 @@ class Feeder
           node = path.add_element(REXML::Element.new("talia:node"))
           node.add_element(REXML::Element.new("talia:granularity").add_text("Book"))
           node.add_element(REXML::Element.new("talia:uri").add_text(book.uri.to_s))
-          node.add_element(REXML::Element.new("talia:title").add_text(book.dcns.title.to_s))
+          node.add_element(REXML::Element.new("talia:title").add_text(book.dcns.title.first.to_s))
           position = book.position_for_search_key
           node.add_element(REXML::Element.new("talia:position").add_text(position))
         end     
@@ -170,7 +170,7 @@ class Feeder
           node = path.add_element(REXML::Element.new("talia:node"))
           node.add_element(REXML::Element.new("talia:granularity").add_text("Chapter"))
           node.add_element(REXML::Element.new("talia:uri").add_text(chapter.uri.to_s))
-          node.add_element(REXML::Element.new("talia:title").add_text(chapter.dcns.title.to_s))
+          node.add_element(REXML::Element.new("talia:title").add_text(chapter.dcns.title.first.to_s))
           position = chapter.position_for_search_key
           node.add_element(REXML::Element.new("talia:position").add_text(position))
         end
@@ -183,7 +183,7 @@ class Feeder
           
         node.add_element(REXML::Element.new("talia:granularity").add_text(material_type.uri.local_name))
         node.add_element(REXML::Element.new("talia:uri").add_text(material.uri.to_s))
-        node.add_element(REXML::Element.new("talia:title").add_text(material.dcns.title.to_s))
+        node.add_element(REXML::Element.new("talia:title").add_text(material.dcns.title.first.to_s))
         case material
         when TaliaCore::Page
           position =  material.position_for_search_key
@@ -208,7 +208,7 @@ class Feeder
           add_hyper_edition_versions(contribution, versions, content_version)
         end
       when 'default'
-        content_version = contribution.available_versions[0]
+        content_version = contribution.available_versions.first
         add_hyper_edition_versions(contribution, versions, content_version)
       else
         add_hyper_edition_versions(contribution, versions, mc_version)

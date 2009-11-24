@@ -63,7 +63,7 @@ module TaliaCore
 
     # return the position for search_key
     def position_for_search_key
-      self.hyper.position.to_s + '000000'
+      self.hyper.position[0].to_s + '000000'
     end
     
     # returns the Book this page is part of
