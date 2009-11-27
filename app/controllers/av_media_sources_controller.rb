@@ -1,6 +1,6 @@
 class AvMediaSourcesController < ApplicationController
   before_filter :normalize_uri, :only => :show
-  caches_action :show, :locale => :current_locale
+  # caches_action :show, :locale => :current_locale
   
   def show
     @element = TaliaCore::AvMedia.find(params[:id])
