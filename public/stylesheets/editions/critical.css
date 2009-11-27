@@ -369,7 +369,7 @@ a.header_link_to_home {
 /* ************ */
 div.auto_complete {
     background: #fff;
-    z-index: 2;
+    z-index: 101;
 }
 
 div.auto_complete ul {
