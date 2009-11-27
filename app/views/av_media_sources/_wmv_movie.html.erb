@@ -6,18 +6,30 @@
   codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112"
   standby="Loading Microsoft Windows Media Player components..."
   type="application/x-oleobject"
-  > 
+  >
   <param name="FileName" value="<%= @element.media(:wmv_media).first.location  %>">
+  <param name="animationatStart" value="true">
+  <param name="transparentatStart" value="true">
   <param name="autoStart" value="true">
   <param name="ShowControls" value="true">
+  <param name="controls" value="imagewindow">
+  <param name="ShowStatusBar" value="true">
+  <param name="ShowDisplay" value="true">
+  <param name="bgcolor" value="#B4BBCA"/>
   <!-- mostra la barra di stato -->
   <EMBED
     type="application/x-mplayer2"
     pluginspage="http://www.microsoft.com/windows/mediaPlayer/"
     src="<%= @element.media(:wmv_media).first.location  %>"
+    animationatStart="1"
+    transparentatStart="1"
     autoStart="1"
+    controls="imagewindow"
     ShowControls="1"
+    ShowStatusBar="1"
+    ShowDisplay="1"
     NAME="MediaPlayer"
+    bgcolor="#B4BBCA"
     WIDTH="384"
     HEIGHT="352"
     />
