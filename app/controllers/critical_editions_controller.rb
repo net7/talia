@@ -130,14 +130,14 @@ class CriticalEditionsController < SimpleEditionController
 
   def advanced_search_popup
     @header = :"talia.search.print.#{@edition.uri.local_name}.advanced_search_header"
-    set_custom_stylesheet ['editions/advanced_search_print_print', 'print']
+    set_custom_stylesheet [['editions/advanced_search_print_print', 'print']]
     set_user_stylesheet ['tei_style_print']
   end
   
   def advanced_search_print
     # set custom stylesheet for screen and print media
     set_custom_stylesheet ['tooltip']
-    set_user_stylesheet['tei_style_print']
+    set_user_stylesheet ['tei_style_print']
     set_custom_edition_stylesheet ['critical_print']
     set_print_stylesheet ['critical_printreal']
 
