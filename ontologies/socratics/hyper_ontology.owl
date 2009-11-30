@@ -161,13 +161,14 @@
 
     <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#language -->
 
-    <owl:ObjectProperty rdf:about="#language">
+    <owl:Class rdf:about="#language">
+        <rdf:type rdf:resource="&owl;ObjectProperty"/>
         <rdfs:comment xml:lang="en"
             >Language of the contribuation</rdfs:comment>
         <owl:versionInfo xml:lang="en"
             >TODO: Should use controlled vocabulary</owl:versionInfo>
-        <owl:objectPropertyDomain rdf:resource="#Contribution"/>
-    </owl:ObjectProperty>
+        <owl:objectPropertyDomain rdf:resource="#language"/>
+    </owl:Class>
     
 
 
@@ -485,6 +486,24 @@
         <rdfs:domain rdf:resource="#Book"/>
         <rdfs:range rdf:resource="&xsd;string"/>
     </owl:DatatypeProperty>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#digital_date -->
+
+    <owl:DatatypeProperty rdf:about="#digital_date"/>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#digital_publisher -->
+
+    <owl:DatatypeProperty rdf:about="#digital_publisher"/>
+    
+
+
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#editor -->
+
+    <owl:DatatypeProperty rdf:about="#editor"/>
     
 
 
@@ -1466,6 +1485,12 @@ Subpart of this page siglum, which identified this page (eg: if this page has &#
     
 
 
+    <!-- http://trac.talia.discovery-project.eu/wiki/HyperOntology#language -->
+
+    <owl:Class rdf:about="#language"/>
+    
+
+
     <!-- http://www.w3.org/2001/XMLSchema#boolean -->
 
     <owl:Class rdf:about="&xsd;boolean"/>
@@ -1475,6 +1500,12 @@ Subpart of this page siglum, which identified this page (eg: if this page has &#
     <!-- http://www.w3.org/2001/XMLSchema#time -->
 
     <owl:Class rdf:about="&xsd;time"/>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
     
 
 

@@ -8,8 +8,8 @@ module TaliaCore
       def initialize
         @timestamp_field = "timestamp"
         # These are the classes that are used
-        @active_classes = [ :book, :facsimile, :bibliographical_card ]
-        #@active_classes = [:bibliographical_card ]
+        #@active_classes = [ :book, :facsimile, :bibliographical_card ]
+        @active_classes = [:bibliographical_card ]
         @limit = 20
       end
       

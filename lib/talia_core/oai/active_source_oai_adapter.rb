@@ -10,7 +10,7 @@ module TaliaCore
       
       extend OaiAdapterClassMethods
       
-      namespaced_field :dcns, :title, :subject, :description, :publisher,
+      namespaced_field :dcns, :title, :description, 
         :contributor, :date, :format,
         :source, :language, :relation, :coverage, :rights
       
@@ -20,12 +20,12 @@ module TaliaCore
 
       namespaced_field :dct, :created, :extent, :hasFormat, :hasPart,
         :hasVersion, :isFormatOf, :isPartOf, :isReferencesBy,
-        :isReplacedBy, :isRequiredBy, :issued, :isVersionOf,
+        :isReplacedBy, :isRequiredBy, :isVersionOf,
         :medium, :provenance, :references, :replaces, :requires, :spatial,
         :tableOfContents, :temporal
 
-#      namespaced_field :hyper, :is_shown_by, :is_shown_at, :user_tag, :unstored,
-#        :object, :provider, :uri, :year, :has_object, :country
+      #      namespaced_field :hyper, :is_shown_by, :is_shown_at, :user_tag, :unstored,
+      #        :object, :provider, :uri, :year, :has_object, :country
 
 
       def type(namespace = nil)
@@ -50,8 +50,29 @@ module TaliaCore
         end
       end
 
+      def issued(namespace = nil)
+        result = []
+        result << @record.predicate('dct', 'issued').values
+        result << @record.predicate('hyper', 'digital_date').values
+        result.join(', ')
+      end
+
+      def publisher(namespace = nil)
+        result = []
+        result << @record.predicate('dcns', 'publisher').values
+        result << @record.predicate('hyper', 'digital_publisher').values
+        result.join(', ')
+      end
+
+      def subject(namespace = nil)
+        result = []
+        result << @record.predicate('dcns', 'subject').values
+        result.join(', ')
+      end
+
+
       def isShownBy(namespace = nil)
-         @record.predicate('hyper', 'isShownBy').values
+        @record.predicate('hyper', 'isShownBy').values
       end
 
       def isShownAt(namespace = nil)
@@ -96,19 +117,24 @@ module TaliaCore
       
       # Get the author/creator
       def creator(namespace = nil)
-        @record.dcns::creator.collect do |creator|
-          if(creator.is_a?(TaliaCore::ActiveSource))
-            author = ''
-            author_name = creator.hyper::author_name.first
-            author << author_name << ' ' if(author_name)
-            author_surname = creator.hyper::author_surname.first || ''
-            author << author_surname if(author_surname)
-            author = "No lookup. Author should be at #{creator.uri}" if(author == '')
-            author
-          else
-            creator
-          end
-        end
+#                @record.dcns::creator.collect do |creator|
+#                  if(creator.is_a?(TaliaCore::ActiveSource))
+#                    author = ''
+#                    author_name = creator.hyper::author_name.first
+#                    author << author_name << ' ' if(author_name)
+#                    author_surname = creator.hyper::author_surname.first || ''
+#                    author << author_surname if(author_surname)
+#                    author = "No lookup. Author should be at #{creator.uri}" if(author == '')
+#                    author
+#                  else
+#                    creator
+#                  end
+
+        result = []
+        result << @record.predicate('dcns', 'creator').values
+        result << @record.predicate('hyper', 'editor').values
+        result.join(', ')
+
       end
       
       # Identifier for the resource

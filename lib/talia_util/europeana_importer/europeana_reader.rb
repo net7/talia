@@ -23,9 +23,35 @@ module TaliaUtil
         add N::RDF.type, (N::HYPER + type)
       end
 
+      def add_is_shown_by()
+        is_shown_by = from_element(:is_shown_by)
+
+        unless (is_shown_by == '' || is_shown_by.nil?)
+
+          if is_shown_by.match('facsimiles')
+            is_shown_by = is_shown_by + '.jpeg?size=thumb'
+          end
+
+          add  N::HYPER.isShownBy, is_shown_by
+        end
+      end
+
       # add a "Mapped property"
       def add_mapped(type, required = false)
-        add map_property(type.to_s), from_element(type), required
+
+        element_value = all_elements(type)
+        
+        case element_value.class.to_s
+        when "Array"
+          element_value.each do |value|
+            add map_property(type.to_s), value, required
+          end
+        when "String"
+          add map_property(type.to_s), element_value, required
+        else
+          raise "Type not supported"
+        end        
+        
       end
 
       # Gets the mapping from a xml element name to a property. This looks
@@ -39,7 +65,7 @@ module TaliaUtil
 
       # Get a source name
       def source_name
-        return N::LOCAL + "bibliographical_card/" + Digest::SHA1.hexdigest("Time.now.to_s")
+        return N::LOCAL + "bibliographical_card/" + Digest::SHA1.hexdigest(rand.to_s)
       end
 
     end
