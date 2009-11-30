@@ -10,7 +10,7 @@ module TaliaCore
         # These are the classes that are used
         #@active_classes = [ :book, :facsimile, :bibliographical_card ]
         @active_classes = [:bibliographical_card ]
-        @limit = 20
+        @limit = nil
       end
       
       def earliest
@@ -50,13 +50,19 @@ module TaliaCore
         
         return [] if(total == 0)
         
-        records = ActiveSource.find(:all, :conditions => token_conditions(token),
-          :limit => @limit,
-          :order => 'id asc'
-        )
+        if(@limit.nil?)
+          records = ActiveSource.find(:all, :conditions => token_conditions(token),
+            :order => 'id asc'
+          )
+	else
+          records = ActiveSource.find(:all, :conditions => token_conditions(token),
+            :limit => @limit,
+            :order => 'id asc'
+          )
+	end
         raise(OAI::ResumptionTokenException) unless(records)
         
-        if(@limit < total)
+        if(!@limit.nil? and @limit < total)
           wrap(records)
         else
           last_id = records.last.id
