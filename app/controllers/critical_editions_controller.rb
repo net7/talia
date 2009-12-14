@@ -186,7 +186,7 @@ class CriticalEditionsController < SimpleEditionController
       {:text => @chapter.dcns.title.first.to_s}
     ]
     set_custom_stylesheet ['tooltip']
-    set_user_stylesheet ['tei_style',]
+    set_user_stylesheet ['tei_style']
   end
   
   def prepare_for_part

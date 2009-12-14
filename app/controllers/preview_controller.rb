@@ -22,6 +22,8 @@ class PreviewController < ApplicationController
       edition = TaliaCore::Transcription.new()
     end
 
+    # the last parameter is set to true because this is a preview, it's needed
+    # in some transformation, to pass a parameter to the XSLT
     @output = edition.to_html(version, layer, xml, encoding, true)
     render :layout => false
       #:inline => output

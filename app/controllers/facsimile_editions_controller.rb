@@ -86,6 +86,7 @@ class FacsimileEditionsController < SimpleEditionController
     @page2 = TaliaCore::Page.find(page2)
 
     setup_vars_for_pages!
+    iip_backlink
 
     @page2_facsimile = facsimile_for(@page2)
     
@@ -104,7 +105,7 @@ class FacsimileEditionsController < SimpleEditionController
       format.html do
         @page = TaliaCore::Page.find(URI::decode(request.url))
         download_tool(@page)
-
+        iip_backlink
         setup_vars_for_pages!
         
         @page_title_suff = ", #{params[:page]}"
@@ -179,6 +180,11 @@ class FacsimileEditionsController < SimpleEditionController
   def download_tool(element)
     return unless(element)
     @tools << { :id => 'download', :text => 'download', :link => element.to_s + '.jpeg' }
+  end
+
+  # Activates link to IIP webpage
+  def iip_backlink
+    @tools << { :id => 'iip', :text => 'Powered By IIPImage', :link => 'http://www.muruca.org/index.php/what_is_it.html'}
   end
 
   # Activates pdf download button
