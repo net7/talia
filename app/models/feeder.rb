@@ -249,7 +249,7 @@ class Feeder
     version.add_element(REXML::Element.new("talia:version_type").add_text(content_version))
     version.add_element(REXML::Element.new("talia:version_layer").add_text(layer))
     version.add_element(REXML::Element.new("talia:preferred").add_text("true")) if preferred
-    t = REXML::Text.new(content) 
+    t = REXML::Text.new(sanitize_content(content))
     content_tag = version.add_element(REXML::Element.new(content_tag_name, nil, {:raw => :all}))
     content_tag.add(t)
     version
@@ -280,5 +280,9 @@ class Feeder
       content = contribution.to_html(content_version ) # calls the XSLT transformation for this version and this layer
       add_version(versions, content_version, "1", "talia:content", content, true)
     end
+  end
+
+  def sanitize_content(content)
+      content.gsub('&lt;', '').gsub('&gt;','')
   end
 end
