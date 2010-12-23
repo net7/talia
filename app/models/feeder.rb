@@ -193,7 +193,7 @@ class Feeder
           macrocontribution.add_element(REXML::Element.new("talia:search_key").add_text(AdvancedSearch.search_key(material.uri.to_s)))
         else
           position = '000000000000'
-          macrocontribution.add_element(REXML::Element.new("talia:search_key").add_text(AdvancedSearch.search_key(material.uri.to_s)
+          macrocontribution.add_element(REXML::Element.new("talia:search_key").add_text(AdvancedSearch.search_key(material.uri.to_s)))
         end
         node.add_element(REXML::Element.new("talia:position").add_text(position))
       end
