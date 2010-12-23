@@ -236,34 +236,34 @@ class AdvancedSearch
 
     # add book string and position
     if !material.book.nil?
-      result << "book"
+#      result << "book"
       result << material.book.position_for_search_key
-      result << material.book.uri.local_name
+#      result << material.book.uri.local_name
     end
     
     # add chapter string and position
     if !material.chapter.nil?
-      result << "chap"
+#      result << "chap"
       result << material.chapter.position_for_search_key
-      result << material.chapter.uri.local_name
+#      result << material.chapter.uri.local_name
     else
-      result << "chap"
+#      result << "chap"
       result << "000000"
-      result << ""
+#      result << ""
     end
 
     # add page or paragraph and position
     case material
     when TaliaCore::Page
-      result << "page"
+#     result << "page"
       result << material.position_for_search_key
-      result << material.uri.local_name
+#      result << material.uri.local_name
     when TaliaCore::Paragraph
-      result << "para"
+#      result << "para"
       result << material.position_for_search_key
-      result << material.uri.local_name
+#      result << material.uri.local_name
     else
-      result << '000000'
+      result << '000000000000'
     end
 
     return result.join(".")
