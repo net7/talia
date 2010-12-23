@@ -186,7 +186,7 @@ class Feeder
         node.add_element(REXML::Element.new("talia:title").add_text(material.dcns.title.first.to_s))
         case material
         when TaliaCore::Page
-          position =  material.position_for_searc5h_key
+          position =  material.position_for_search_key
           macrocontribution.add_element(REXML::Element.new("talia:search_key").add_text(AdvancedSearch.search_key(material.uri.to_s)))
         when TaliaCore::Paragraph
           position = material.position_for_search_key
