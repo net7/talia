@@ -85,7 +85,7 @@ module TaliaCore
 
     # return the position for search_key
     def position_for_search_key
-      ("000000" + self.hyper.position.to_s)[-6..-1]
+      ("000000" + self.hyper.position[0].to_s)[-6..-1]
     end
   end
 end
